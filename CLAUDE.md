@@ -27,13 +27,14 @@ src/
 │   ├── Navigation.vue         # Top navigation with mobile hamburger
 │   ├── PlayersOnline.vue      # Player count button
 │   ├── PlayersPanel.vue       # Slide-in players panel
+│   ├── GameMode.vue           # Game mode dashboard component
 │   ├── Leaderboards.vue       # Tabbed leaderboard system
 │   ├── LeaderboardGroup.vue   # Individual leaderboard with tabs
 │   ├── LbContainer.vue        # Leaderboard table container
 │   ├── Scores.vue            # Score display cards
 │   └── Footer.vue            # Site footer
 ├── views/                     # Route-level components
-│   ├── Home.vue              # Main landing page with integrated game mode
+│   ├── Home.vue              # Main landing page with conditional view rendering
 │   ├── GettingStarted.vue    # Setup instructions
 │   ├── Statistics.vue        # Leaderboards section
 │   ├── Community.vue         # Community links & content
@@ -41,7 +42,7 @@ src/
 │   └── Footer.vue           # Footer section
 ├── composables/
 │   ├── useAppData.ts         # API data fetching & polling
-│   └── useGameModePreference.ts # Game mode auto-start preference
+│   └── useFirstVisit.ts      # First visit detection for overlay
 ├── content/
 │   └── content.ts            # Static content for i18n readiness
 └── main.ts                   # App entry point with router
@@ -70,9 +71,9 @@ src/
 - Handles API failures gracefully with fallbacks
 
 ### Interactive Components
-- **Players Panel**: Slide-in sidebar with lock state (persisted in localStorage)
-- **Game Mode**: Full-screen overlay with statistics dashboard
-- **Auto Game Mode**: Optional preference to automatically start in game mode (clean URLs)
+- **Players Panel**: Slide-in sidebar with persistent state
+- **Game Mode**: Full-screen overlay with statistics dashboard (URL hash-based)
+- **First Visit Overlay**: Welcome overlay for new users arriving via deep links
 - **Hero Slideshow**: Auto-rotating slides with manual controls
 - **Leaderboard Tabs**: Multiple categories (High/Total scores, Player/Clan)
 - **FAQ Accordion**: Collapsible Q&A sections
@@ -109,10 +110,10 @@ src/
 - `/` - Main page with conditional game mode display
 
 **Clean URL Architecture:**
-- Always loads at `wicgate.com` (no `/gamemode` URLs)
-- Game mode is a view state within the home page
-- Auto game mode preference enables seamless power-user experience
-- Shared links always show main page first
+- Always loads at `wicgate.com` (no route-based URLs)
+- Game mode accessed via `#gamemode` hash for bookmarkable links
+- All sections accessible via hash navigation (#getting-started, #statistics, etc.)
+- Shared links maintain hash context for direct navigation
 
 The router uses dynamic base detection for GitHub Pages deployment.
 
@@ -205,23 +206,23 @@ npm run build       # Production build verification
 - Test breakpoint CSS variables
 - Check mobile-specific classes
 
-## ⚡ Auto Game Mode Feature
+## ⚡ Hash Navigation & State Management
 
-The website automatically remembers user preferences without requiring manual locks:
+The website uses clean hash-based navigation for bookmarkable sections:
 
 **How it works:**
-- **Players Panel**: Remembers open/closed state automatically
-- **Game Mode**: Entering game mode saves preference, exiting removes it
-- **Clean URLs**: Always `wicgate.com` - no complex toggle buttons needed
-- **Seamless Experience**: Returning users see their preferred view automatically
+- **Players Panel**: Remembers open/closed state automatically via localStorage
+- **Game Mode**: Accessed via `#gamemode` hash - fully bookmarkable without persistence
+- **Section Navigation**: All sections accessible via hash links (#getting-started, #statistics, etc.)
+- **First Visit Overlay**: Shows for new users arriving via deep links to provide context
 
 **localStorage Keys:**
-- `wicgate_panel_open='true'` - Panel open state (remembers automatically)
-- `wicgate_auto_gamemode='true'` - Game mode preference (set by usage patterns)
+- `wicgate_panel_open='true'` - Panel open state (automatic persistence)
+- `wicgate_visited='true'` - First visit tracking for overlay display
 
 **Implementation:**
-- `useGameModePreference.ts` - Simple preference detection
-- `Home.vue` - Automatic state management based on user actions
+- `useFirstVisit.ts` - First visit detection for overlay system  
+- `Home.vue` - Hash-based navigation and state management
 - `PlayersOnline.vue` - Automatic panel state persistence
 
 ## 📝 Contributing

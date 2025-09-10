@@ -7,15 +7,31 @@ const router = useRouter();
 
 function scrollTo(id: string) {
   const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+    // Update URL hash (except for hero section)
+    if (id !== 'hero') {
+      history.replaceState(null, '', `#${id}`);
+    } else {
+      // Clear hash for hero section
+      history.replaceState(null, '', window.location.pathname);
+    }
+  }
   mobileOpen.value = false;
 }
 
 function goHomeAndScroll(section: string) {
+  // If not on home page, navigate there first
   if (router.currentRoute.value.path !== '/') {
-    router.push('/').then(() => requestAnimationFrame(() => scrollTo(section)));
+    const targetPath = section === 'hero' ? '/' : `/#${section}`;
+    router.push(targetPath).then(() => requestAnimationFrame(() => scrollTo(section)));
   } else {
-    scrollTo(section);
+    // Check if we're in game mode - if so, trigger home mode first
+    const event = new CustomEvent('exitGameMode');
+    window.dispatchEvent(event);
+    
+    // Small delay to ensure we exit game mode before scrolling
+    setTimeout(() => scrollTo(section), 100);
   }
 }
 
