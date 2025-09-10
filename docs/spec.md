@@ -61,6 +61,7 @@ Wrapper: All main content inside `.site-wrapper#siteWrapper` which is horizontal
 - Two-column grid: Left = vertical list of numbered steps; Right = requirements card.
 - Collapses into single column (steps first) under 1024px.
 - Step block: circular number (40x40) + content block; each step has title + paragraph (and optionally embedded button).
+ - Step 2 MUST include a prominently styled primary button labeled “Download WICGATE” matching hero primary CTA style (`.btn.btn-p`). Button ID: `downloadClientBtn` for potential future analytics binding. The text preceding the button: "Get our lightweight client (15MB) that patches your game for our servers." A line break separates description and button.
 
 ### 2.7 Statistics Section
 - Contains a grid of leaderboard containers (cards). Each leaderboard card may include tabs (High Scores / Total Scores categories each have 5 role tabs: Overall, Infantry, Armor, Air, Support). Player leaderboard is a single table. Clan leaderboard placeholder with “Coming soon”.
@@ -156,6 +157,7 @@ Shadows: Card hover: `0 10px 25px rgba(0,0,0,0.4)` plus subtle internal glows de
 | Variant | Colors | Hover Behavior |
 |---------|--------|----------------|
 | Primary `.btn-p` | Gradient: `--mg` → `--mg-dark`; white text | Lightens start color, lifts (translateY(-2px)), stronger shadow |
+| Primary Download CTA | Same as `.btn-p`; appears in Hero and Step 2 of Getting Started. Ensure consistent padding (12px 24px) and spacing above via small top margin utility (e.g. `.mt-sm`). |
 | Discord `.btn-d` | Gradient: `--d` → darker blue | Lightens start color, similar elevation |
 | Generic base `.btn` | Transparent base w ripple pseudo-element | Ripple effect expands pseudo element on hover |
 

@@ -15,7 +15,8 @@ import { requirements, versions, steps } from '../content/content';
             <div class="step-num">{{ s.n }}</div>
             <div class="step-cont">
               <h4>{{ s.t }}</h4>
-              <p>{{ s.c }}</p>
+              <!-- Step 2 contains inline HTML (download button); use v-html for all for simplicity -->
+              <p v-html="s.c"></p>
             </div>
           </div>
         </div>
