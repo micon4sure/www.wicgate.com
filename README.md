@@ -38,19 +38,38 @@ npm run build
 Output goes to `dist/`.
 
 ## Deployment (GitHub Pages)
-This repo is configured for automatic deployment to GitHub Pages using the workflow at `.github/workflows/deploy.yml`.
+The site deploys automatically via `.github/workflows/deploy.yml` to:
 
-1. Ensure the repository name on GitHub is `www.wicgate.com` (or adjust the CNAME/workflow if different).
-2. In the repo settings under Pages, set Source to GitHub Actions.
-3. DNS: Point the `www` CNAME record to `micon4sure.github.io` (and optionally configure an apex redirect via your DNS provider).
-4. Push to `master` — the workflow builds and deploys the `dist` folder.
-5. HTTPS: After first deploy, enable Enforce HTTPS in Pages settings.
+Primary (GitHub Pages path): https://micon4sure.github.io/www.wicgate.com/
+Custom Domain (after DNS): https://www.wicgate.com/
 
-If you fork or rename:
-- Update `CNAME` file with the new domain (or remove it if none).
-- Adjust `echo "www.wicgate.com" > dist/CNAME` line in the workflow.
+### How it works
+- `vite.config.ts` sets `base: './'` so built asset URLs are relative, functioning in both locations.
+- Router base is chosen at runtime (`/www.wicgate.com/` if path contains that segment, otherwise `/`).
+- Workflow copies `index.html` to `404.html` for History API fallback on refresh/deep links.
+- `CNAME` is injected so GitHub Pages serves the custom domain when DNS is ready.
 
-To trigger a manual redeploy: use the Actions tab > Deploy to GitHub Pages > Run workflow.
+### Steps to finalize
+1. Confirm repo name is `www.wicgate.com` (matches deployed path used by detection logic).
+2. GitHub > Settings > Pages: Source = GitHub Actions.
+3. DNS: Set `www` CNAME → `micon4sure.github.io`.
+4. (Optional) Apex/root redirect handled at DNS provider (ALIAS/ANAME or redirect).
+5. After propagation, enable "Enforce HTTPS".
+
+### If you fork/rename
+Update:
+* `runtimeBase` logic in `src/main.ts` if repo folder changes.
+* The `CNAME` addition step or remove it if no custom domain.
+* Optionally set a different `base` in `vite.config.ts` if you prefer absolute paths.
+
+### Manual redeploy
+Use Actions tab → Deploy to GitHub Pages → Run workflow.
+
+### Local test of production build
+```powershell
+npm run build
+npx serve dist  # or any static server
+```
 
 ## Styling
 All global styles are consolidated in `src/assets/styles/base.css` (extracted from original monolith). Component-scoped additions are minimal to keep maintainability high. Autoprefixer provides vendor prefixes for better cross-browser support.
