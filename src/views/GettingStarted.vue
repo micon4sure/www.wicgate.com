@@ -2,11 +2,11 @@
 import { requirements, versions, steps } from '../content/content';
 </script>
 <template>
-  <section id="getting-started" class="gs-bg sec">
-    <div class="c">
-      <div class="tc mb6">
+  <section id="getting-started" class="gs-bg section">
+    <div class="container">
+      <div class="text-center mb-xl">
         <h2>Getting Started</h2>
-        <p style="font-size:1.125rem;color:var(--t2);max-width:600px;margin:0 auto">Join the battlefield in just a few
+        <p class="section-lead">Join the battlefield in just a few
           minutes with our streamlined setup</p>
       </div>
       <div class="inst-grid">
@@ -24,7 +24,7 @@ import { requirements, versions, steps } from '../content/content';
           <ul>
             <li v-for="r in requirements" :key="r">{{ r }}</li>
           </ul>
-          <h3 style="margin-top:30px" class="grad-text">Supported Versions</h3>
+          <h3 class="grad-text mt-lg">Supported Versions</h3>
           <ul>
             <li v-for="v in versions" :key="v">{{ v }}</li>
           </ul>

@@ -4,11 +4,11 @@ import { useAppData } from '../composables/useAppData';
 const { data } = useAppData();
 </script>
 <template>
-  <section id="statistics" class="sec">
-    <div class="c">
-      <div class="tc mb6">
+  <section id="statistics" class="section">
+    <div class="container">
+      <div class="text-center mb-xl">
         <h2>Statistics</h2>
-        <p style="font-size:1.125rem;color:var(--t2);max-width:600px;margin:0 auto">Rankings and leaderboards</p>
+        <p class="section-lead">Rankings and leaderboards</p>
       </div>
       <Leaderboards :data="data" />
     </div>

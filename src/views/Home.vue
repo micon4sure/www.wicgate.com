@@ -39,7 +39,7 @@ function togglePlayers() { panelRef.value?.toggle(); }
 
     <!-- Hero -->
     <section class="hero" id="hero">
-      <div class="hero-grid c">
+      <div class="hero-grid container">
         <div class="hero-content">
           <div class="hero-tag">The War Continues</div>
           <h1>World in Conflict<br>Lives Again</h1>
@@ -64,7 +64,7 @@ function togglePlayers() { panelRef.value?.toggle(); }
             <div class="slide-cont">
               <div class="icon-ph">{{ s.icon }}</div>
               <h3>{{ s.title }}</h3>
-              <p class="t2">{{ s.sub }}</p>
+              <p class="text-muted">{{ s.sub }}</p>
             </div>
           </div>
           <div class="slide-ind">

@@ -11,7 +11,7 @@ defineProps<{ title: string; entries?: LeaderboardEntry[]; best?: boolean }>();
     <table class="gm-stat-table">
       <tbody>
         <tr v-if="!entries || entries.length === 0">
-          <td colspan="3" style="text-align:center;color:var(--t3)">No data</td>
+          <td colspan="3" class="no-data">No data</td>
         </tr>
         <tr v-for="e in (entries || []).slice(0, 10)" :key="e.rank + (e.profileName || '')"
           :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''">

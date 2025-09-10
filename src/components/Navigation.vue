@@ -23,9 +23,9 @@ defineProps<{ showPlayersButton?: boolean }>();
 const emit = defineEmits<{ (e: 'toggle-players'): void }>();
 </script>
 <template>
-  <div class="hdr c fx fb fc">
-    <div class="fx fc">
-      <a class="logo grad-text" style="text-decoration:none;cursor:pointer" @click="goHomeAndScroll('hero')">WICGATE</a>
+  <div class="hdr container flex items-center justify-between">
+    <div class="flex items-center">
+      <a class="logo grad-text" @click="goHomeAndScroll('hero')">WICGATE</a>
       <div class="social" v-if="showPlayersButton">
         <button @click="emit('toggle-players')" class="players-btn">
           <div class="status-indicator" />

@@ -8,9 +8,9 @@ const { data, playerCount } = useAppData();
 const router = useRouter();
 </script>
 <template>
-  <div class="game-mode active" style="display:block">
+  <div class="game-mode active">
     <div class="gm-header">
-      <div class="gm-logo grad-text" style="cursor:pointer" @click="router.push('/')">WICGATE</div>
+      <div class="gm-logo grad-text clickable" @click="router.push('/')">WICGATE</div>
       <div class="gm-controls">
         <div class="gm-status">
           <div class="gm-status-dot" />

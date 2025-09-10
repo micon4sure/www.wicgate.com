@@ -5,11 +5,11 @@ const open = ref<string | null>(null);
 function toggle(q: string) { open.value = open.value === q ? null : q; }
 </script>
 <template>
-  <section id="faq" class="faq-bg sec">
-    <div class="c">
-      <div class="tc mb6">
+  <section id="faq" class="faq-bg section">
+    <div class="container">
+      <div class="text-center mb-xl">
         <h2>Frequently Asked Questions</h2>
-        <p style="font-size:1.125rem;color:var(--t2);max-width:600px;margin:0 auto">Common questions about WICGATE and
+        <p class="section-lead">Common questions about WICGATE and
           World in Conflict multiplayer</p>
       </div>
       <div class="faq-cont">

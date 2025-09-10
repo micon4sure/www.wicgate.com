@@ -13,16 +13,17 @@ function rows(list?: LeaderboardEntry[]) { return (list || []).slice(0, 10); }
 const ladder = computed(() => props.data.ladder || []);
 </script>
 <template>
-  <div class="g g2 mb4">
+  <div class="grid grid-2 mb-lg">
     <!-- High Scores -->
     <div class="lb-cont">
       <div class="lb-hdr">
         <h3>High Scores</h3>
-        <p class="sm t3" style="margin:5px 0 0 0">Best individual match performances</p>
+        <p class="leaderboard-subtitle text-sm text-dim">Best individual match performances</p>
       </div>
       <div class="tabs">
-        <button v-for="c in categories" :key="c" class="tab-btn" :class="{ active: highTab === c }" @click="highTab = c">{{
-          c[0].toUpperCase() + c.slice(1) }}</button>
+        <button v-for="c in categories" :key="c" class="tab-btn" :class="{ active: highTab === c }"
+          @click="highTab = c">{{
+            c[0].toUpperCase() + c.slice(1) }}</button>
       </div>
       <div v-for="c in categories" :key="'hc-' + c" class="tab-cont" :class="{ active: highTab === c }">
         <table class="lb-table">
@@ -35,7 +36,7 @@ const ladder = computed(() => props.data.ladder || []);
           </thead>
           <tbody>
             <tr v-if="rows(props.data[mapKey[c]]).length === 0">
-              <td colspan="3" class="t2">No data</td>
+              <td colspan="3" class="text-muted">No data</td>
             </tr>
             <tr v-for="e in rows(props.data[mapKey[c]])" :key="e.rank + (e.profileName || '')"
               :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''">
@@ -51,11 +52,12 @@ const ladder = computed(() => props.data.ladder || []);
     <div class="lb-cont">
       <div class="lb-hdr">
         <h3>Total Scores</h3>
-        <p class="sm t3" style="margin:5px 0 0 0">Cumulative career scores</p>
+        <p class="leaderboard-subtitle text-sm text-dim">Cumulative career scores</p>
       </div>
       <div class="tabs">
-        <button v-for="c in categories" :key="c" class="tab-btn" :class="{ active: totalTab === c }" @click="totalTab = c">{{
-          c[0].toUpperCase() + c.slice(1) }}</button>
+        <button v-for="c in categories" :key="c" class="tab-btn" :class="{ active: totalTab === c }"
+          @click="totalTab = c">{{
+            c[0].toUpperCase() + c.slice(1) }}</button>
       </div>
       <div v-for="c in categories" :key="'tc-' + c" class="tab-cont" :class="{ active: totalTab === c }">
         <table class="lb-table">
@@ -68,7 +70,7 @@ const ladder = computed(() => props.data.ladder || []);
           </thead>
           <tbody>
             <tr v-if="rows(props.data[mapTotalKey[c]]).length === 0">
-              <td colspan="3" class="t2">No data</td>
+              <td colspan="3" class="text-muted">No data</td>
             </tr>
             <tr v-for="e in rows(props.data[mapTotalKey[c]])" :key="e.rank + (e.profileName || '')"
               :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''">
@@ -95,7 +97,7 @@ const ladder = computed(() => props.data.ladder || []);
         </thead>
         <tbody>
           <tr v-if="ladder.length === 0">
-            <td colspan="3" class="t2">No data</td>
+            <td colspan="3" class="text-muted">No data</td>
           </tr>
           <tr v-for="e in rows(ladder)" :key="e.rank + (e.profileName || '')"
             :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''">
@@ -111,7 +113,7 @@ const ladder = computed(() => props.data.ladder || []);
       <div class="lb-hdr">
         <h3>Clan Leaderboard</h3>
       </div>
-      <div style="padding:20px;text-align:center;color:var(--t2)">Coming soon</div>
+      <div class="lb-placeholder">Coming soon</div>
     </div>
   </div>
 </template>

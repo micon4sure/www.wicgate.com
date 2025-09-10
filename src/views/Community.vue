@@ -2,14 +2,14 @@
 import { communityCards } from '../content/content';
 </script>
 <template>
-  <section id="community" class="com-hub sec">
-    <div class="c">
-      <div class="tc mb6">
+  <section id="community" class="com-hub section">
+    <div class="container">
+      <div class="text-center mb-xl">
         <h2>Community</h2>
-        <p style="font-size:1.125rem;color:var(--t2);max-width:600px;margin:0 auto">Join the conversation across all
+        <p class="section-lead">Join the conversation across all
           platforms</p>
       </div>
-      <div class="g g3 mb6">
+      <div class="grid grid-3 mb-xl">
         <div v-for="c in communityCards" :key="c.title" class="card com-card" :class="c.cls">
           <div class="com-card-color-bar" />
           <div class="card-icon">{{ c.icon }}</div>
