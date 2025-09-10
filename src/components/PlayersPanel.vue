@@ -27,10 +27,16 @@ defineExpose({ toggle, close });
 <template>
   <div class="p-panel" :class="{ active: open }">
     <div class="p-panel-hdr">
-      <h3><div class="p-panel-status" /><span class="p-panel-title">Players Online</span><span class="p-panel-logo grad-text">WICGATE</span></h3>
+      <h3>
+        <div class="p-panel-status" /><span class="p-panel-title">Players Online</span><span
+          class="p-panel-logo grad-text">WICGATE</span>
+      </h3>
       <div class="p-panel-controls">
-        <button class="ctrl-btn p-gamemode" title="Game Mode" @click="$router.push('/gamemode')">🎮<span class="lock-tooltip">Game Mode</span></button>
-        <button class="ctrl-btn p-lock" :class="{ locked }" @click="toggleLock" title="Lock panel open"><span>{{ locked ? '🔒' : '🔓' }}</span><span class="lock-tooltip">{{ locked ? 'Panel locked open' : 'Keep panel open' }}</span></button>
+        <button class="ctrl-btn p-gamemode" title="Game Mode" @click="$router.push('/gamemode')">🎮<span
+            class="lock-tooltip">Game Mode</span></button>
+        <button class="ctrl-btn p-lock" :class="{ locked }" @click="toggleLock" title="Lock panel open"><span>{{ locked
+          ? '🔒' : '🔓' }}</span><span class="lock-tooltip">{{ locked ? 'Panel locked open' : 'Keep panel open'
+            }}</span></button>
         <button class="ctrl-btn p-close" @click="close">×</button>
       </div>
     </div>

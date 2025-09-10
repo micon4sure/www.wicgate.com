@@ -20,7 +20,7 @@ function goHomeAndScroll(section: string) {
 }
 
 defineProps<{ showPlayersButton?: boolean }>();
-const emit = defineEmits<{ (e:'toggle-players'): void }>();
+const emit = defineEmits<{ (e: 'toggle-players'): void }>();
 </script>
 <template>
   <div class="hdr c fx fb fc">
@@ -29,7 +29,9 @@ const emit = defineEmits<{ (e:'toggle-players'): void }>();
       <div class="social" v-if="showPlayersButton">
         <button @click="emit('toggle-players')" class="players-btn">
           <div class="status-indicator" />
-          <span class="p-count" id="pCountHeader"><slot name="player-count">0</slot></span>
+          <span class="p-count" id="pCountHeader">
+            <slot name="player-count">0</slot>
+          </span>
           <span class="p-divider" />
           <span class="p-label-header">Players Online</span>
         </button>
@@ -45,5 +47,7 @@ const emit = defineEmits<{ (e:'toggle-players'): void }>();
   </div>
 </template>
 <style scoped>
-header{width:100%}
+header {
+  width: 100%
+}
 </style>

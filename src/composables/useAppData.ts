@@ -1,6 +1,6 @@
 import { ref, onMounted } from 'vue';
 
-export interface PlayerProfile { profileName?: string; serverId?: string|number }
+export interface PlayerProfile { profileName?: string; serverId?: string | number }
 export interface LeaderboardEntry { rank?: number; profileName?: string; shortName?: string; tagFormat?: string; high?: number }
 interface ApiData {
   profiles?: PlayerProfile[];

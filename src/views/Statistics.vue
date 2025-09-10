@@ -6,7 +6,10 @@ const { data } = useAppData();
 <template>
   <section id="statistics" class="sec">
     <div class="c">
-      <div class="tc mb6"><h2>Statistics</h2><p style="font-size:1.125rem;color:var(--t2);max-width:600px;margin:0 auto">Rankings and leaderboards</p></div>
+      <div class="tc mb6">
+        <h2>Statistics</h2>
+        <p style="font-size:1.125rem;color:var(--t2);max-width:600px;margin:0 auto">Rankings and leaderboards</p>
+      </div>
       <Leaderboards :data="data" />
     </div>
   </section>

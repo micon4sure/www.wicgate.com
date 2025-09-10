@@ -10,10 +10,11 @@ defineProps<{ title: string; entries?: LeaderboardEntry[]; best?: boolean }>();
     </div>
     <table class="gm-stat-table">
       <tbody>
-        <tr v-if="!entries || entries.length===0">
+        <tr v-if="!entries || entries.length === 0">
           <td colspan="3" style="text-align:center;color:var(--t3)">No data</td>
         </tr>
-        <tr v-for="e in (entries || []).slice(0,10)" :key="e.rank + (e.profileName||'')" :class="e.rank && e.rank<=3 ? 'rank-'+e.rank : ''">
+        <tr v-for="e in (entries || []).slice(0, 10)" :key="e.rank + (e.profileName || '')"
+          :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''">
           <td>{{ e.rank }}</td>
           <td>{{ e.profileName || e.shortName || e.tagFormat || 'Unknown' }}</td>
           <td>{{ e.high?.toLocaleString?.() }}</td>

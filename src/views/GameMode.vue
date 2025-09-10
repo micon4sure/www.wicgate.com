@@ -22,11 +22,15 @@ const router = useRouter();
     </div>
     <div class="gm-body">
       <div class="gm-players">
-        <div class="gm-players-header"><h3>Online Players</h3><div class="server-info">Across all servers</div></div>
+        <div class="gm-players-header">
+          <h3>Online Players</h3>
+          <div class="server-info">Across all servers</div>
+        </div>
         <div class="gm-players-list">
-          <div v-if="!data.profiles || data.profiles.length===0" class="p-empty">No players currently online</div>
+          <div v-if="!data.profiles || data.profiles.length === 0" class="p-empty">No players currently online</div>
           <div v-for="p in (data.profiles || [])" :key="p.profileName + String(p.serverId)" class="p-item">
-            <span class="p-dot" /><span class="p-name-text">{{ p.profileName || 'Unknown' }}</span><span class="p-server">Server {{ p.serverId || '?' }}</span>
+            <span class="p-dot" /><span class="p-name-text">{{ p.profileName || 'Unknown' }}</span><span
+              class="p-server">Server {{ p.serverId || '?' }}</span>
           </div>
         </div>
       </div>
