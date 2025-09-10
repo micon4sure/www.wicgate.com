@@ -3,8 +3,9 @@ import { computed, ref, watch, onMounted } from 'vue';
 import type { PlayerProfile } from '../composables/useAppData';
 
 const props = defineProps<{ players: PlayerProfile[] }>();
+const emit = defineEmits<{ enterGameMode: [] }>();
+
 const open = ref(false);
-const locked = ref(false);
 const scrollPos = ref(0);
 
 function applyClasses() {
@@ -14,12 +15,17 @@ function applyClasses() {
   else { wrapper.classList.remove('panel-open'); if (window.innerWidth <= 768) { document.body.classList.remove('panel-open-mobile'); window.scrollTo(0, scrollPos.value); } }
 }
 function toggle() { open.value = !open.value; applyClasses(); persist(); }
-function close() { open.value = false; applyClasses(); persist(); if (locked.value) toggleLock(); }
-function toggleLock() { locked.value = !locked.value; persist(); }
-function persist() { localStorage.setItem('wicgate_panel_state', JSON.stringify({ locked: locked.value, open: open.value })); }
+function close() { open.value = false; applyClasses(); persist(); }
+function persist() { localStorage.setItem('wicgate_panel_open', open.value ? 'true' : 'false'); }
 
 onMounted(() => {
-  try { const raw = localStorage.getItem('wicgate_panel_state'); if (raw) { const s = JSON.parse(raw); locked.value = !!s.locked; open.value = !!s.locked; applyClasses(); } } catch { }
+  try { 
+    const stored = localStorage.getItem('wicgate_panel_open');
+    if (stored === 'true') {
+      open.value = true;
+      applyClasses();
+    }
+  } catch { }
 });
 
 const count = computed(() => props.players?.length || 0);
@@ -35,11 +41,8 @@ defineExpose({ toggle, close });
           class="p-panel-logo grad-text">WICGATE</span>
       </h3>
       <div class="p-panel-controls">
-        <button class="ctrl-btn p-gamemode" title="Game Mode" @click="$router.push('/gamemode')">🎮<span
+        <button class="ctrl-btn p-gamemode" title="Game Mode" @click="emit('enterGameMode')">🎮<span
             class="lock-tooltip">Game Mode</span></button>
-        <button class="ctrl-btn p-lock" :class="{ locked }" @click="toggleLock" title="Lock panel open"><span>{{ locked
-          ? '🔒' : '🔓' }}</span><span class="lock-tooltip">{{ locked ? 'Panel locked open' : 'Keep panel open'
-            }}</span></button>
         <button class="ctrl-btn p-close" @click="close">×</button>
       </div>
     </div>

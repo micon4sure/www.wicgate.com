@@ -31,6 +31,7 @@ h4{font-size:1.125rem;margin-bottom:10px}
 .lb-placeholder{padding:20px;text-align:center;color:var(--t2)}
 .no-data{text-align:center;color:var(--t3)}
 .clickable{cursor:pointer}
+.mt-md{margin-top:20px}
 .mt-lg{margin-top:30px}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
 @keyframes syncPulse{0%,100%{opacity:1}50%{opacity:0.5}}
