@@ -56,7 +56,6 @@ const emit = defineEmits<{ (e: 'toggle-players'): void }>();
     <nav :class="{ 'mobile-open': mobileOpen }">
       <a @click.prevent="goHomeAndScroll('getting-started')">Getting Started</a>
       <a @click.prevent="goHomeAndScroll('statistics')">Statistics</a>
-      <a @click.prevent="goHomeAndScroll('events')">Events</a>
       <a @click.prevent="goHomeAndScroll('community')">Community</a>
       <a @click.prevent="goHomeAndScroll('faq')">FAQ</a>
     </nav>

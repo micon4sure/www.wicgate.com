@@ -6,7 +6,6 @@ import PlayersOnline from '../components/PlayersOnline.vue';
 import SiteFooter from '../components/Footer.vue';
 import GettingStarted from '../screens/GettingStarted.vue';
 import Statistics from '../screens/Statistics.vue';
-import Events from '../screens/Events.vue';
 import Community from '../screens/Community.vue';
 import FAQ from '../screens/FAQ.vue';
 import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
@@ -145,7 +144,6 @@ function scrollToGettingStarted() {
       <div id="screens">
         <GettingStarted />
         <Statistics />
-        <Events />
         <Community />
         <FAQ />
       </div>

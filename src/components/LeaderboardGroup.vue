@@ -31,6 +31,14 @@ function entriesFor(cat: string) {
   const key = props.keys[cat] || cat; // fallback: direct key
   return rows(props.data[key]);
 }
+function formatPlayerName(entry: LeaderboardEntry): string {
+  if (entry.tagFormat && entry.shortName && entry.profileName) {
+    return entry.tagFormat
+      .replace('C', entry.shortName)
+      .replace('P', entry.profileName);
+  }
+  return entry.profileName || entry.shortName || 'Unknown';
+}
 </script>
 <template>
   <div class="lb-cont">
@@ -60,12 +68,12 @@ function entriesFor(cat: string) {
             <tr v-if="entriesFor(c).length === 0">
               <td colspan="3" class="text-muted">No data</td>
             </tr>
-            <tr v-for="e in entriesFor(c)" :key="e.rank + (e.profileName || '')"
-              :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''">
-              <td class="rank-cell">
-                <RankInsignia :rank="e.rank" :size="22" />
+            <tr v-for="(e, index) in entriesFor(c)" :key="e.rank + (e.profileName || '')">
+              <td class="lb-position">{{ index + 1 }}</td>
+              <td class="player-cell">
+                <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px; margin-left: -30px;" />
+                {{ formatPlayerName(e) }}
               </td>
-              <td>{{ e.profileName || e.shortName || e.tagFormat || 'Unknown' }}</td>
               <td>{{ e.high?.toLocaleString?.() }}</td>
             </tr>
           </tbody>
@@ -85,12 +93,12 @@ function entriesFor(cat: string) {
           <tr v-if="entriesFor(active).length === 0">
             <td colspan="3" class="text-muted">No data</td>
           </tr>
-          <tr v-for="e in entriesFor(active)" :key="e.rank + (e.profileName || '')"
-            :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''">
-            <td class="rank-cell">
-              <RankInsignia :rank="e.rank" :size="22" />
+          <tr v-for="(e, index) in entriesFor(active)" :key="e.rank + (e.profileName || '')">
+            <td class="lb-position">{{ index + 1 }}</td>
+            <td class="player-cell">
+              <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px; margin-left: -30px;" />
+              {{ formatPlayerName(e) }}
             </td>
-            <td>{{ e.profileName || e.shortName || e.tagFormat || 'Unknown' }}</td>
             <td>{{ e.high?.toLocaleString?.() }}</td>
           </tr>
         </tbody>
