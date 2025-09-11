@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 
 interface Props {
   rank?: number | string | null
@@ -16,7 +16,12 @@ const rankNum = computed(() => {
 })
 
 const code = computed(() => String(rankNum.value).padStart(2, '0'))
-const src = computed(() => (errored.value ? `/rank-00.png` : `/rank-${code.value}.png`))
+// Base path for assets; provided by app (see main.ts). Fallback to '/'.
+const appBase = inject<string>('appBase', '/')
+const src = computed(() => {
+  const base = appBase.endsWith('/') ? appBase : appBase + '/'
+  return errored.value ? `${base}rank-00.png` : `${base}rank-${code.value}.png`
+})
 
 function onErr() {
   // Any failure falls back to 00

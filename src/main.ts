@@ -5,13 +5,12 @@ import Home from './views/Home.vue';
 import GameMode from './views/GameMode.vue';
 import './assets/styles/base.css';
 
-// Dynamic base: works for both custom domain root and GitHub Pages subdirectory.
-// If hosted at https://micon4sure.github.io/www.wicgate.com/ the pathname contains the repo segment.
-// On custom domain (CNAME) it will not.
-const runtimeBase = (() => {
-  const seg = '/www.wicgate.com/';
-  return window.location.pathname.startsWith(seg) ? seg : '/';
-})();
+// Router base derived from Vite's BASE_URL. When base is './' (our config),
+// normalizing against the current URL yields the correct mount path in all environments:
+// - Dev server: '/'
+// - Custom domain: '/'
+// - GitHub Pages under repo path: '/www.wicgate.com/'
+const runtimeBase = new URL(import.meta.env.BASE_URL, window.location.href).pathname;
 
 const router = createRouter({
   history: createWebHistory(runtimeBase),
@@ -31,4 +30,8 @@ const router = createRouter({
   }
 });
 
-createApp(App).use(router).mount('#app');
+const app = createApp(App);
+// Provide the app base so components can construct asset URLs that work under
+// both root (/) and GitHub Pages subpath (/www.wicgate.com/)
+app.provide('appBase', runtimeBase.endsWith('/') ? runtimeBase : runtimeBase + '/');
+app.use(router).mount('#app');
