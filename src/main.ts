@@ -2,7 +2,6 @@ import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import App from './App.vue';
 import Home from './views/Home.vue';
-import GameMode from './views/GameMode.vue';
 import './assets/styles/base.css';
 
 // Dynamic base: works for both custom domain root and GitHub Pages subdirectory.
@@ -16,8 +15,8 @@ const runtimeBase = (() => {
 const router = createRouter({
   history: createWebHistory(runtimeBase),
   routes: [
-    { path: '/', name: 'home', component: Home },
-    { path: '/gamemode', name: 'gamemode', component: GameMode }
+    { path: '/', name: 'home', component: Home }
+    // GameMode is now integrated into Home component
   ],
   scrollBehavior(to, _from, saved) {
     if (saved) return saved;
