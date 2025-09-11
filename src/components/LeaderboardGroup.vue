@@ -39,6 +39,12 @@ function formatPlayerName(entry: LeaderboardEntry): string {
   }
   return entry.profileName || entry.shortName || 'Unknown';
 }
+function formatClanTag(entry: LeaderboardEntry): string {
+  if (entry.tagFormat && entry.shortName) {
+    return entry.tagFormat.replace('C', entry.shortName).replace('P', '');
+  }
+  return '';
+}
 </script>
 <template>
   <div class="lb-cont">
@@ -68,13 +74,15 @@ function formatPlayerName(entry: LeaderboardEntry): string {
             <tr v-if="entriesFor(c).length === 0">
               <td colspan="3" class="text-muted">No data</td>
             </tr>
-            <tr v-for="(e, index) in entriesFor(c)" :key="e.rank + (e.profileName || '')">
-              <td class="lb-position">{{ index + 1 }}</td>
+            <tr v-for="(e, index) in entriesFor(c)" :key="e.rank + (e.profileName || '')" 
+                :class="index + 1 <= 3 ? 'rank-' + (index + 1) : ''">
+              <td class="lb-position" :class="index + 1 <= 3 ? 'rank-' + (index + 1) : ''">{{ index + 1 }}</td>
               <td class="player-cell">
                 <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px; margin-left: -30px;" />
-                {{ formatPlayerName(e) }}
+                <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
+                <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
               </td>
-              <td>{{ e.high?.toLocaleString?.() }}</td>
+              <td :style="index === 0 ? 'color: #ffd700 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #ffd700 !important;' : index === 1 ? 'color: #c0c0c0 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #c0c0c0 !important;' : index === 2 ? 'color: #cd7f32 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #cd7f32 !important;' : ''">{{ e.high?.toLocaleString?.() }}</td>
             </tr>
           </tbody>
         </table>
@@ -93,13 +101,15 @@ function formatPlayerName(entry: LeaderboardEntry): string {
           <tr v-if="entriesFor(active).length === 0">
             <td colspan="3" class="text-muted">No data</td>
           </tr>
-          <tr v-for="(e, index) in entriesFor(active)" :key="e.rank + (e.profileName || '')">
-            <td class="lb-position">{{ index + 1 }}</td>
+          <tr v-for="(e, index) in entriesFor(active)" :key="e.rank + (e.profileName || '')"
+              :class="index + 1 <= 3 ? 'rank-' + (index + 1) : ''">
+            <td class="lb-position" :class="index + 1 <= 3 ? 'rank-' + (index + 1) : ''">{{ index + 1 }}</td>
             <td class="player-cell">
               <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px; margin-left: -30px;" />
-              {{ formatPlayerName(e) }}
+              <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
+              <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
             </td>
-            <td>{{ e.high?.toLocaleString?.() }}</td>
+            <td :style="index === 0 ? 'color: #ffd700 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #ffd700 !important;' : index === 1 ? 'color: #c0c0c0 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #c0c0c0 !important;' : index === 2 ? 'color: #cd7f32 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #cd7f32 !important;' : ''">{{ e.high?.toLocaleString?.() }}</td>
           </tr>
         </tbody>
       </table>
@@ -111,4 +121,28 @@ function formatPlayerName(entry: LeaderboardEntry): string {
 </template>
 <style scoped>
 /* uses global styles */
+.clan-tag {
+  color: var(--t2);
+  margin-right: 4px;
+}
+
+.player-name {
+  color: var(--t);
+}
+
+/* Gold, Silver, Bronze styling for rank positions only */
+.lb-position.rank-1 {
+  color: #ffd700;
+  font-weight: 600;
+}
+
+.lb-position.rank-2 {
+  color: #c0c0c0;
+  font-weight: 600;
+}
+
+.lb-position.rank-3 {
+  color: #cd7f32;
+  font-weight: 600;
+}
 </style>
