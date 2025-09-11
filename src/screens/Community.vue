@@ -230,7 +230,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  cursor: pointer
+  cursor: pointer;
+  min-height: 44px;
+  padding: 10px 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .toggle input {
@@ -345,6 +348,53 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
 .expand-y-leave-to {
   max-height: 0;
   opacity: 0
+}
+
+/* Mobile responsive fixes for expanded videos */
+@media (max-width: 768px) {
+  .video-row .vid-card {
+    flex: 0 0 calc(50% - 10px) !important;
+  }
+  
+  .video-row.expanded .vid-card {
+    flex-basis: calc(50% - 10px) !important;
+  }
+  
+  .video-row.expanded .vid-thumb {
+    padding-bottom: 56.25% !important;
+  }
+  
+  .vid-hdr {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-row .vid-card {
+    flex: 0 0 100% !important;
+  }
+  
+  .video-row.expanded .vid-card {
+    flex-basis: 100% !important;
+  }
+  
+  .video-row {
+    flex-direction: column;
+  }
+  
+  .video-row.expanded .vid-thumb {
+    padding-bottom: 56.25% !important;
+  }
+  
+  .grid.grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .grid.grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
 }
 
 .expand-y-enter-active,

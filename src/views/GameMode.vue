@@ -80,7 +80,12 @@ function goHome() {
 <style scoped>
 /* Game mode responsive layout */
 .p-server-group { margin-bottom: 10px; }
-.p-server-h { font-size: 12px; color: var(--t2); letter-spacing: 0.02em; margin: 10px 0 6px; }
+.p-server-h { font-size: 14px; color: var(--t2); letter-spacing: 0.02em; margin: 10px 0 6px; font-weight: 600; }
+
+/* Make player names bigger on all screen sizes */
+.gm-players-list .p-item {
+  font-size: 16px;
+}
 .gm-stats-container {
   --gm-columns: repeat(2, 1fr);
 }
@@ -106,14 +111,33 @@ function goHome() {
 
 @media (max-width: 768px) {
   .gm-controls {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 10px;
+    justify-content: space-between;
+    align-items: center;
   }
 
+  /* Make players online button compact */
   .gm-status {
     order: 0;
-    width: 100%;
-    justify-content: center;
+    width: auto;
+    justify-content: flex-start;
+    padding: 4px 8px;
+    gap: 6px;
+    min-width: fit-content;
+  }
+  
+  .gm-status-count {
+    font-size: 14px;
+  }
+  
+  .gm-status-label {
+    display: none; /* Hide "Players Online" text to save space */
+  }
+  
+  .gm-status-dot {
+    width: 6px;
+    height: 6px;
   }
 
   .gm-body {
@@ -126,18 +150,26 @@ function goHome() {
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     flex: 0 0 auto;
-    max-height: 40vh;
+    min-height: 25vh;
+    max-height: 60vh; /* Allow expansion up to 60vh */
   }
 
   .gm-players-list {
-    max-height: 25vh;
+    min-height: 15vh;
+    max-height: 50vh; /* Dynamic expansion */
     padding: 8px;
   }
 
+  /* Make player names and server names bigger */
   .gm-players-list .p-item {
-    padding: 8px 12px;
+    padding: 10px 12px;
     margin-bottom: 4px;
-    font-size: 14px;
+    font-size: 16px; /* Increased from 14px */
+  }
+  
+  .p-server-h {
+    font-size: 14px !important; /* Increased from 12px */
+    font-weight: 600;
   }
 
   .gm-stats {
@@ -159,17 +191,25 @@ function goHome() {
 
 @media (max-width: 480px) {
   .gm-players {
-    max-height: 35vh;
+    min-height: 20vh;
+    max-height: 55vh; /* Allow expansion on small mobile too */
   }
 
   .gm-players-list {
-    max-height: 20vh;
+    min-height: 12vh;
+    max-height: 40vh; /* Dynamic expansion */
     padding: 6px;
   }
 
+  /* Keep player names big on small mobile too */
   .gm-players-list .p-item {
-    padding: 6px 10px;
-    font-size: 13px;
+    padding: 8px 10px;
+    font-size: 15px; /* Increased from 13px */
+  }
+  
+  .p-server-h {
+    font-size: 13px !important; /* Increased from default */
+    font-weight: 600;
   }
 
   .gm-players-header {
@@ -178,6 +218,20 @@ function goHome() {
 
   .gm-players-header h3 {
     font-size: 14px;
+  }
+  
+  /* Make status button even more compact on small mobile */
+  .gm-status {
+    padding: 3px 6px;
+  }
+  
+  .gm-status-count {
+    font-size: 13px;
+  }
+  
+  .gm-status-dot {
+    width: 5px;
+    height: 5px;
   }
 
   .gm-stats {
