@@ -498,9 +498,12 @@ footer{background:var(--bg);padding:40px 20px 20px;border-top:1px solid var(--bd
     padding-right: 20px;
   }
   
-  /* Hide players button on mobile to prevent logo being pushed right */
+  /* Show players button on mobile - simplified layout */
   .social {
-    display: none;
+    display: flex;
+    margin-left: 15px;
+    padding-left: 15px;
+    border-left: 1px solid var(--bd);
   }
   .logo { font-size: 20px; }
   
