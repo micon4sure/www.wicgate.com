@@ -1,4 +1,5 @@
 import axios from 'axios'
+import _ from 'lodash'
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 export interface Video {
@@ -64,19 +65,14 @@ export function useYoutube() {
   }
 
   // videos from all channels sorted by publishedAt desc (top 3)
-  const videosSorted = computed<Video[]>(() => {
-    const all: Video[] = []
-    for (const group of Object.values(videos.value)) {
-      all.push(...group.videos)
-    }
-    return all
-      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-      .slice(0, 3)
+  const videosSorted = computed(() => {
+    const all: Video[] = _.map(videos.value, (channel, channelId) => channel.videos).flat()
+    return all.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
   })
 
   return {
     videos,
-    ytVideosSorted: videosSorted,
+    videosSorted,
     formatDate,
     loading
   }
