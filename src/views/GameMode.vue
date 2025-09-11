@@ -15,14 +15,14 @@ function goHome() {
 <template>
   <div class="game-mode active">
     <div class="gm-header">
-  <div class="gm-logo grad-text clickable" @click="goHome">WICGATE</div>
+      <div class="gm-logo grad-text clickable" @click="goHome">WICGATE</div>
       <div class="gm-controls">
         <div class="gm-status">
           <div class="gm-status-dot" />
           <span class="gm-status-count">{{ playerCount }}</span>
           <span class="gm-status-label">Players Online</span>
         </div>
-  <button class="gm-exit" @click="goHome">Exit Game Mode</button>
+        <button class="gm-exit" @click="goHome">Exit Game Mode</button>
       </div>
     </div>
     <div class="gm-body">
@@ -64,11 +64,11 @@ function goHome() {
   .gm-stats-container {
     --gm-columns: 1fr;
   }
-  
+
   .gm-body {
     grid-template-columns: 300px 1fr;
   }
-  
+
   .gm-stats {
     grid-template-columns: 1fr;
   }
@@ -79,7 +79,7 @@ function goHome() {
     flex-wrap: wrap;
     gap: 10px;
   }
-  
+
   .gm-status {
     order: 0;
     width: 100%;
@@ -91,25 +91,25 @@ function goHome() {
     flex-direction: column;
     height: calc(100% - 60px);
   }
-  
+
   .gm-players {
     border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     flex: 0 0 auto;
     max-height: 40vh;
   }
-  
+
   .gm-players-list {
     max-height: 25vh;
     padding: 8px;
   }
-  
+
   .gm-players-list .p-item {
     padding: 8px 12px;
     margin-bottom: 4px;
     font-size: 14px;
   }
-  
+
   .gm-stats {
     flex: 1;
     grid-template-columns: 1fr;
@@ -117,11 +117,11 @@ function goHome() {
     padding: 15px;
     overflow-y: auto;
   }
-  
+
   .gm-stats-container :deep(.grid-2) {
     gap: 15px;
   }
-  
+
   .gm-stats-container :deep(.lb-cont) {
     margin-bottom: 0;
   }
@@ -131,42 +131,42 @@ function goHome() {
   .gm-players {
     max-height: 35vh;
   }
-  
+
   .gm-players-list {
     max-height: 20vh;
     padding: 6px;
   }
-  
+
   .gm-players-list .p-item {
     padding: 6px 10px;
     font-size: 13px;
   }
-  
+
   .gm-players-header {
     padding: 15px;
   }
-  
+
   .gm-players-header h3 {
     font-size: 14px;
   }
-  
+
   .gm-stats {
     padding: 10px;
   }
-  
+
   .gm-stats-container :deep(.lb-cont) {
     font-size: 14px;
   }
-  
+
   .gm-stats-container :deep(.lb-table) {
     font-size: 12px;
   }
-  
+
   .gm-stats-container :deep(.tabs) {
     flex-wrap: wrap;
     gap: 8px;
   }
-  
+
   .gm-stats-container :deep(.tab-btn) {
     font-size: 12px;
     padding: 6px 12px;

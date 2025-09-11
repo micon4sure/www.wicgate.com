@@ -62,7 +62,9 @@ function entriesFor(cat: string) {
             </tr>
             <tr v-for="e in entriesFor(c)" :key="e.rank + (e.profileName || '')"
               :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''">
-              <td class="rank-cell"><RankInsignia :rank="e.rank" :size="22" /></td>
+              <td class="rank-cell">
+                <RankInsignia :rank="e.rank" :size="22" />
+              </td>
               <td>{{ e.profileName || e.shortName || e.tagFormat || 'Unknown' }}</td>
               <td>{{ e.high?.toLocaleString?.() }}</td>
             </tr>
@@ -85,7 +87,9 @@ function entriesFor(cat: string) {
           </tr>
           <tr v-for="e in entriesFor(active)" :key="e.rank + (e.profileName || '')"
             :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''">
-            <td class="rank-cell"><RankInsignia :rank="e.rank" :size="22" /></td>
+            <td class="rank-cell">
+              <RankInsignia :rank="e.rank" :size="22" />
+            </td>
             <td>{{ e.profileName || e.shortName || e.tagFormat || 'Unknown' }}</td>
             <td>{{ e.high?.toLocaleString?.() }}</td>
           </tr>

@@ -25,18 +25,15 @@ function onErr() {
 </script>
 
 <template>
-  <img
-    :src="src"
-    :alt="`Rank ${rankNum}`"
-    :title="`Rank ${rankNum}`"
-    class="rank-insignia"
-    decoding="async"
-    @error="onErr"
-    :style="{ height: `${size}px` }"
-  />
-  
+  <img :src="src" :alt="`Rank ${rankNum}`" :title="`Rank ${rankNum}`" class="rank-insignia" decoding="async"
+    @error="onErr" :style="{ height: `${size}px` }" />
+
 </template>
 
 <style scoped>
-.rank-insignia { display: inline-block; vertical-align: middle; image-rendering: auto; }
+.rank-insignia {
+  display: inline-block;
+  vertical-align: middle;
+  image-rendering: auto;
+}
 </style>

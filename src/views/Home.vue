@@ -37,16 +37,8 @@ onMounted(() => {
 
   const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
 
-  // If legacy link '#gamemode' is used, redirect to new route
-  if (hash === 'gamemode') {
-    router.replace('/game-mode');
-    return;
-  }
-
   // Set current section for first visit overlay
-  if (hash === 'gamemode') {
-    currentSection.value = 'gamemode';
-  } else if (hash) {
+  if (hash) {
     currentSection.value = hash;
   }
 
@@ -168,6 +160,26 @@ function scrollToGettingStarted() {
   <FirstVisitOverlay v-if="showFirstVisitOverlay" :current-section="currentSection" @go-home="handleGoHome"
     @continue="handleContinue" @close="dismissOverlay" />
 </template>
-<style scoped>
-/* Home page specific styles can be added here if needed */
+<style lang="scss">
+// Section stacking and subtle alternating tints within the #screens container
+#screens {
+  >* {
+    padding: 48px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+
+    // Even-indexed screens (2, 4, ...): warm/red tint
+    &:nth-child(even) {
+      background: linear-gradient(180deg,
+          rgba(255, 200, 200, 0.02),
+          rgba(255, 180, 180, 0.1));
+    }
+
+    // Odd-indexed screens (3, 5, ...): cool/blue tint
+    &:nth-child(odd) {
+      background: linear-gradient(180deg,
+          rgba(200, 220, 255, 0.02),
+          rgba(180, 200, 255, 0.2));
+    }
+  }
+}
 </style>
