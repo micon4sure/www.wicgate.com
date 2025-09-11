@@ -10,6 +10,10 @@ interface ApiData {
   lb_highair?: LeaderboardEntry[];
   lb_highsup?: LeaderboardEntry[];
   lb_total?: LeaderboardEntry[];
+  lb_totinf?: LeaderboardEntry[];
+  lb_totarm?: LeaderboardEntry[];
+  lb_totair?: LeaderboardEntry[];
+  lb_totsup?: LeaderboardEntry[];
   ladder?: LeaderboardEntry[];
   [k: string]: any;
 }

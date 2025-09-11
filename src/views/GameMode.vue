@@ -1,23 +1,28 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
 import { useAppData } from '../composables/useAppData';
-import Leaderboards from './Leaderboards.vue';
-import SiteFooter from './Footer.vue';
+import Leaderboards from '../components/Leaderboards.vue';
+import SiteFooter from '../components/Footer.vue';
 
+const router = useRouter();
 const { data, playerCount } = useAppData();
-const emit = defineEmits<{ exitGameMode: [] }>();
+
+function goHome() {
+  router.push('/');
+}
 </script>
 
 <template>
   <div class="game-mode active">
     <div class="gm-header">
-      <div class="gm-logo grad-text clickable" @click="emit('exitGameMode')">WICGATE</div>
+  <div class="gm-logo grad-text clickable" @click="goHome">WICGATE</div>
       <div class="gm-controls">
         <div class="gm-status">
           <div class="gm-status-dot" />
           <span class="gm-status-count">{{ playerCount }}</span>
           <span class="gm-status-label">Players Online</span>
         </div>
-        <button class="gm-exit" @click="emit('exitGameMode')">Exit Game Mode</button>
+  <button class="gm-exit" @click="goHome">Exit Game Mode</button>
       </div>
     </div>
     <div class="gm-body">

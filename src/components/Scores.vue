@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { LeaderboardEntry } from '../composables/useAppData';
+import RankInsignia from './RankInsignia.vue';
 defineProps<{ title: string; entries?: LeaderboardEntry[]; best?: boolean }>();
 </script>
 <template>
@@ -15,7 +16,7 @@ defineProps<{ title: string; entries?: LeaderboardEntry[]; best?: boolean }>();
         </tr>
         <tr v-for="e in (entries || []).slice(0, 10)" :key="e.rank + (e.profileName || '')"
           :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''">
-          <td>{{ e.rank }}</td>
+          <td><RankInsignia :rank="e.rank" :size="18" /></td>
           <td>{{ e.profileName || e.shortName || e.tagFormat || 'Unknown' }}</td>
           <td>{{ e.high?.toLocaleString?.() }}</td>
         </tr>

@@ -8,7 +8,7 @@ const props = defineProps<{ data: Record<string, LeaderboardEntry[] | undefined>
 // Shared categories for high/total breakdown
 const categories = ['overall', 'infantry', 'armor', 'air', 'support'];
 const highKeys: Record<string, string> = { overall: 'lb_high', infantry: 'lb_highinf', armor: 'lb_higharm', air: 'lb_highair', support: 'lb_highsup' };
-const totalKeys: Record<string, string> = { overall: 'lb_total', infantry: 'lb_totalinf', armor: 'lb_totalarm', air: 'lb_totalair', support: 'lb_totalsup' };
+const totalKeys: Record<string, string> = { overall: 'lb_total', infantry: 'lb_totinf', armor: 'lb_totarm', air: 'lb_totair', support: 'lb_totsup' };
 const ladderData = computed(() => ({ ladder: props.data.ladder || [] }));
 </script>
 <template>

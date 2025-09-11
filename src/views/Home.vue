@@ -4,12 +4,11 @@ import { useRouter } from 'vue-router';
 import Navigation from '../components/Navigation.vue';
 import PlayersOnline from '../components/PlayersOnline.vue';
 import SiteFooter from '../components/Footer.vue';
-import GettingStarted from './GettingStarted.vue';
-import Statistics from './Statistics.vue';
-import Events from './Events.vue';
-import Community from './Community.vue';
-import FAQ from './FAQ.vue';
-import GameMode from '../components/GameMode.vue';
+import GettingStarted from '../screens/GettingStarted.vue';
+import Statistics from '../screens/Statistics.vue';
+import Events from '../screens/Events.vue';
+import Community from '../screens/Community.vue';
+import FAQ from '../screens/FAQ.vue';
 import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
 import { useAppData } from '../composables/useAppData';
 import { useFirstVisit } from '../composables/useFirstVisit';
@@ -18,7 +17,6 @@ const { data, playerCount } = useAppData();
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
 const router = useRouter();
 const panelRef = ref<InstanceType<typeof PlayersOnline> | null>(null);
-const showGameMode = ref(false);
 const currentSection = ref<string | undefined>();
 
 interface Slide { icon: string; title: string; sub: string }
@@ -39,6 +37,12 @@ onMounted(() => {
 
   const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
 
+  // If legacy link '#gamemode' is used, redirect to new route
+  if (hash === 'gamemode') {
+    router.replace('/game-mode');
+    return;
+  }
+
   // Set current section for first visit overlay
   if (hash === 'gamemode') {
     currentSection.value = 'gamemode';
@@ -50,29 +54,18 @@ onMounted(() => {
   initFirstVisitCheck(!!hash);
 
   // Only enter modes if not showing first visit overlay
-  if (!showFirstVisitOverlay.value) {
-    // Handle initial hash in URL
-    if (hash) {
-      if (hash === 'gamemode') {
-        showGameMode.value = true;
-      } else {
-        const element = document.getElementById(hash);
-        if (element) {
-          setTimeout(() => {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
-        }
-      }
+  if (!showFirstVisitOverlay.value && hash) {
+    const element = document.getElementById(hash);
+    if (element) {
+      setTimeout(() => {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     }
   }
-
-  // Listen for navigation-triggered game mode exit
-  window.addEventListener('exitGameMode', exitGameMode);
 });
 
 onBeforeUnmount(() => {
   clearInterval(int);
-  window.removeEventListener('exitGameMode', exitGameMode);
 });
 
 function togglePlayers() { panelRef.value?.toggle(); }
@@ -82,7 +75,6 @@ function handleGoHome() {
   dismissOverlay();
   // Clear any hash and show home page
   history.replaceState(null, '', window.location.pathname);
-  showGameMode.value = false;
   currentSection.value = undefined;
   // Scroll to top smoothly
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -92,9 +84,7 @@ function handleContinue() {
   dismissOverlay();
   const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
 
-  if (hash === 'gamemode') {
-    showGameMode.value = true;
-  } else if (hash) {
+  if (hash) {
     const element = document.getElementById(hash);
     if (element) {
       setTimeout(() => {
@@ -104,41 +94,19 @@ function handleContinue() {
   }
 }
 function enterGameMode() {
-  showGameMode.value = true;
-  // Update URL hash
-  history.replaceState(null, '', '#gamemode');
-}
-function exitGameMode() {
-  showGameMode.value = false;
-  // Clear hash from URL
-  history.replaceState(null, '', window.location.pathname);
+  router.push('/game-mode');
 }
 function scrollToGettingStarted() {
-  // If in game mode, exit first
-  if (showGameMode.value) {
-    exitGameMode();
-    // Wait for next tick to ensure DOM is updated
-    setTimeout(() => {
-      const element = document.getElementById('getting-started');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-        history.replaceState(null, '', '#getting-started');
-      }
-    }, 100);
-  } else {
-    // Already on home page, just scroll
-    const element = document.getElementById('getting-started');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      history.replaceState(null, '', '#getting-started');
-    }
+  const element = document.getElementById('getting-started');
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+    history.replaceState(null, '', '#getting-started');
   }
 }
 </script>
 <template>
   <div class="site-wrapper" id="siteWrapper">
-    <!-- Normal Home Content -->
-    <div v-if="!showGameMode">
+    <div>
       <header>
         <Navigation :show-players-button="true" @toggle-players="togglePlayers">
           <template #player-count>{{ playerCount }}</template>
@@ -191,9 +159,6 @@ function scrollToGettingStarted() {
       </div>
       <SiteFooter />
     </div>
-
-    <!-- Game Mode Content -->
-    <GameMode v-else @exit-game-mode="exitGameMode" />
   </div>
 
   <!-- Players Panel -->
