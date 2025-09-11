@@ -223,6 +223,10 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
 .vid-card:hover .play-over{opacity:1}
 .vid-info{padding:12px}
 .vid-meta{font-size:.8rem;color:var(--t3)}
+/* Skeletons */
+.skeleton{background:var(--s2);border:1px solid var(--bd);border-radius:12px;animation:pulse 2s ease-in-out infinite}
+.skeleton-line{height:10px;background:linear-gradient(90deg,var(--s1) 0%,var(--s2) 50%,var(--s1) 100%);background-size:200% 100%;animation:loading 1.5s linear infinite;border-radius:4px}
+@keyframes loading{0%{background-position:0 0}100%{background-position:-200% 0}}
 
 /* Playlists */
 .pl-card{cursor:pointer;position:relative;overflow:hidden}
