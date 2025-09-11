@@ -669,3 +669,9 @@ footer{background:var(--bg);padding:40px 20px 20px;border-top:1px solid var(--bd
     margin: 15px 0;
   }
 }
+
+
+/* Fixed header scroll offset - guarantees precise positioning */
+#getting-started, #statistics, #community, #faq {
+  scroll-margin-top: 70px;
+}
