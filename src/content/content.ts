@@ -9,9 +9,9 @@ export const steps = [
 ];
 export interface CommunityCard { cls: string; title: string; members: string; online: string; desc: string; link: string; action: string; icon: string; stat1: string; stat2: string }
 export const communityCards: CommunityCard[] = [
-  { cls: 'discord', title: 'Discord Server', members: '287', online: '42', desc: 'Main community hub with voice channels, matchmaking, tournaments, and tech support.', link: 'https://discord.gg/WnxwfMTyBe', action: 'Join Server', icon: '💬', stat1: 'Members', stat2: 'Online Now' },
-  { cls: 'youtube', title: 'YouTube Channel', members: '1.2K', online: '156', desc: 'Tutorials, tournament VODs, gameplay highlights, and strategy guides.', link: 'https://youtube.com/@wicgate', action: 'Watch Videos', icon: '▶', stat1: 'Subscribers', stat2: 'Videos' },
-  { cls: 'twitch', title: 'Twitch Streams', members: '3', online: '89', desc: 'Watch live gameplay, tournaments, and community events.', link: 'https://twitch.tv/directory/game/World%20in%20Conflict', action: 'View Streams', icon: '📺', stat1: 'Live Now', stat2: 'Viewers' }
+  { cls: 'discord', title: 'Discord Server', members: '287', online: '42', desc: 'Main community hub with voice channels, matchmaking, tournaments, and tech support.', link: 'https://discord.gg/WnxwfMTyBe', action: 'Join Server', icon: 'fa-brands fa-discord', stat1: 'Members', stat2: 'Online Now' },
+  { cls: 'youtube', title: 'YouTube Channel', members: '1.2K', online: '156', desc: 'Tutorials, tournament VODs, gameplay highlights, and strategy guides.', link: 'https://youtube.com/@wicgate', action: 'Watch Videos', icon: 'fa-brands fa-youtube', stat1: 'Subscribers', stat2: 'Videos' },
+  { cls: 'twitch', title: 'Twitch Streams', members: '3', online: '89', desc: 'Watch live gameplay, tournaments, and community events.', link: 'https://twitch.tv/directory/game/World%20in%20Conflict', action: 'View Streams', icon: 'fa-brands fa-twitch', stat1: 'Live Now', stat2: 'Viewers' }
 ];
 export interface FaqItem { q: string; a: string }
 export interface FaqCategory { cat: string; items: FaqItem[] }

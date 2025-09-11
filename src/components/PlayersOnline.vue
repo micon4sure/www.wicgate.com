@@ -2,7 +2,7 @@
 import { computed, ref, watch, onMounted } from 'vue';
 import type { PlayerProfile } from '../composables/useAppData';
 import type { ServerEntry } from '../api-types';
-import { colorize, displayName, groupPlayersByServer } from '../utils/playerDisplay';
+import { colorize as sharedColorize, displayName, groupPlayersByServer } from '../utils/playerDisplay';
 
 const props = defineProps<{ players: PlayerProfile[]; servers?: ServerEntry[] }>();
 const emit = defineEmits<{ enterGameMode: [] }>();
@@ -74,7 +74,7 @@ defineExpose({ toggle, close });
           class="p-panel-logo grad-text">WICGATE</span>
       </h3>
       <div class="p-panel-controls">
-        <button class="ctrl-btn p-gamemode" title="Game Mode" @click="emit('enterGameMode')">🎮<span
+    <button class="ctrl-btn p-gamemode" title="Game Mode" @click="emit('enterGameMode')"><i class="fa-solid fa-gamepad" aria-hidden="true"></i><span
             class="lock-tooltip">Game Mode</span></button>
         <button class="ctrl-btn p-close" @click="close">×</button>
       </div>

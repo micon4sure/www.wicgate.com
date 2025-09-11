@@ -8,6 +8,26 @@ import { colorize, displayName, groupPlayersByServer } from '../utils/playerDisp
 
 const router = useRouter();
 const { data, playerCount } = useAppData();
+// Shape leaderboards prop to expected Record<string, LeaderboardEntry[] | undefined>
+const leaderboardData = computed(() => ({
+  lb_high: data.value.lb_high,
+  lb_highinf: data.value.lb_highinf,
+  lb_higharm: data.value.lb_higharm,
+  lb_highair: data.value.lb_highair,
+  lb_highsup: data.value.lb_highsup,
+  lb_total: data.value.lb_total,
+  lb_totinf: data.value.lb_totinf,
+  lb_totarm: data.value.lb_totarm,
+  lb_totair: data.value.lb_totair,
+  lb_totsup: data.value.lb_totsup,
+  ladder: data.value.ladder?.map((l, idx) => ({
+    rank: l.rank != null ? l.rank : idx + 1,
+    high: l.high,
+    profileName: l.profileName,
+    shortName: l.shortName,
+    tagFormat: l.tagFormat,
+  })),
+}));
 const gmGroups = computed(() => groupPlayersByServer(data.value.profiles || [], data.value.servers || []));
 
 function goHome() {
@@ -25,7 +45,7 @@ function goHome() {
           <span class="gm-status-count">{{ playerCount }}</span>
           <span class="gm-status-label">Players Online</span>
         </div>
-        <button class="gm-exit" @click="goHome">Exit Game Mode</button>
+  <button class="gm-exit" @click="goHome"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Exit Game Mode</button>
       </div>
     </div>
     <div class="gm-body">
@@ -49,7 +69,7 @@ function goHome() {
       </div>
       <div class="gm-stats">
         <div class="gm-stats-container">
-          <Leaderboards :data="data" />
+          <Leaderboards :data="leaderboardData" />
         </div>
       </div>
     </div>

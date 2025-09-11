@@ -28,7 +28,7 @@ function getSectionDisplayName(section?: string) {
     <div class="overlay-backdrop" @click="emit('close')"></div>
     <div class="overlay-card">
       <div class="overlay-header">
-        <h2>👋 Welcome to WiCGate!</h2>
+  <h2><i class="fa-solid fa-hand-wave" aria-hidden="true"></i> Welcome to WiCGate!</h2>
         <button class="overlay-close" @click="emit('close')" title="Close">×</button>
       </div>
       
@@ -46,7 +46,7 @@ function getSectionDisplayName(section?: string) {
         
         <div class="overlay-actions">
           <button class="btn btn-p" @click="emit('goHome')">
-            🏠 Take me to the homepage
+            <i class="fa-solid fa-house" aria-hidden="true"></i> Take me to the homepage
           </button>
           <button class="btn btn-secondary" @click="emit('continue')">
             {{ currentSection ? 'Continue to ' + getSectionDisplayName(currentSection) : 'Continue browsing' }}

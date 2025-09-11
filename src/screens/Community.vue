@@ -53,7 +53,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
       <div class="grid grid-3 mb-xl">
         <div v-for="c in communityCards" :key="c.title" class="card com-card" :class="c.cls">
           <div class="com-card-color-bar" />
-          <div class="card-icon">{{ c.icon }}</div>
+          <div class="card-icon"><i :class="c.icon" aria-hidden="true"></i></div>
           <h3>{{ c.title }}</h3>
           <div class="card-stats">
             <div>
@@ -66,7 +66,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
             </div>
           </div>
           <p class="card-desc">{{ c.desc }}</p>
-          <a :href="c.link" target="_blank" class="card-act">{{ c.action }} <span>→</span></a>
+          <a :href="c.link" target="_blank" class="card-act">{{ c.action }} <span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></a>
         </div>
       </div>
 
@@ -90,7 +90,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
               <div class="evt-hero-content">
                 <h4 class="evt-hero-title">{{ e.name }}</h4>
                 <p class="evt-hero-desc">{{ e.description }}</p>
-                <div v-if="e.link" class="evt-hero-link">Open details →</div>
+                <div v-if="e.link" class="evt-hero-link">Open details <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
               </div>
             </div>
           </component>
@@ -112,13 +112,13 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
             <div class="evt-cover" :style="{ backgroundImage: e.coverUrl ? 'url(' + e.coverUrl + ')' : undefined }">
               <div class="evt-badge">
                 <span class="evt-date">{{ formatDate(e.start) }}</span>
-                <span class="evt-count">⏳ {{ getCountdown(e.start) }}</span>
+                <span class="evt-count"><i class="fa-regular fa-hourglass-half" aria-hidden="true"></i> {{ getCountdown(e.start) }}</span>
               </div>
             </div>
             <div class="evt-info">
               <h4 class="evt-title">{{ e.name }}</h4>
               <p class="evt-desc text-muted">{{ e.description }}</p>
-              <div class="evt-link" v-if="e.link">Open details →</div>
+              <div class="evt-link" v-if="e.link">Open details <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
             </div>
           </component>
         </div>
@@ -132,14 +132,14 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
         <div class="vid-hdr">
           <h3>Live Streams</h3>
           <a href="https://twitch.tv/directory/game/World%20in%20Conflict" target="_blank" class="card-act">Browse
-            Twitch →</a>
+            Twitch <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
         <div class="grid grid-2" style="gap:30px">
           <div v-for="u in twitchUsernames" :key="u" class="card" style="padding:0;overflow:hidden">
             <TwitchEmbed :channel="u" muted />
             <div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center">
               <strong style="font-size:.9rem">{{ u }}</strong>
-              <a :href="`https://twitch.tv/${u}`" target="_blank" class="card-act" style="font-size:.75rem">Open →</a>
+              <a :href="`https://twitch.tv/${u}`" target="_blank" class="card-act" style="font-size:.75rem">Open <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
             </div>
           </div>
         </div>
@@ -170,10 +170,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
           <!-- Single row that animates from 3 to 6 items -->
           <div class="vid-row-wrap">
             <TransitionGroup name="vids" tag="div" class="video-row" :class="{ expanded }">
-              <div v-for="v in (expanded ? top6NYTVideos : top3NYTVideos)" :key="v" class="card vid-card">
+              <div v-for="v in (expanded ? top6NYTVideos : top3NYTVideos)" :key="v.id || v.videoUrl" class="card vid-card">
                 <a :href="v.videoUrl" target="_blank" style="text-decoration:none;color:inherit;display:block">
                   <div class="vid-thumb" :style="{ backgroundImage: 'url(' + v.thumbnailUrl + ')' }">
-                    <div class="play-over">▶</div>
+                    <div class="play-over"><i class="fa-solid fa-play" aria-hidden="true"></i></div>
                   </div>
                   <div class="vid-info">
                     <h4 class="vid-title" :class="{ small: expanded }">{{ v.title }}</h4>
@@ -197,13 +197,13 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
                 <div class="vid-hdr" style="margin-top:10px">
                   <h4 style="margin:0">{{ ch.channelTitle }}</h4>
                   <a :href="`https://www.youtube.com/channel/${ch.channelId}`" target="_blank"
-                    class="card-act text-sm">Open Channel →</a>
+                    class="card-act text-sm">Open Channel <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
                 </div>
                 <div class="grid grid-3">
                   <div v-for="v in ch.videos" :key="v.id" class="card vid-card">
                     <a :href="v.videoUrl" target="_blank" style="text-decoration:none;color:inherit;display:block">
                       <div class="vid-thumb" :style="{ backgroundImage: 'url(' + v.thumbnailUrl + ')' }">
-                        <div class="play-over">▶</div>
+                        <div class="play-over"><i class="fa-solid fa-play" aria-hidden="true"></i></div>
                       </div>
                       <div class="vid-info">
                         <h4 class="vid-title small">{{ v.title }}</h4>

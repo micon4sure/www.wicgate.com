@@ -32,11 +32,12 @@ defineExpose({ toggle, close });
           class="p-panel-logo grad-text">WICGATE</span>
       </h3>
       <div class="p-panel-controls">
-        <button class="ctrl-btn p-gamemode" title="Game Mode" @click="$router.push('/gamemode')">🎮<span
+    <button class="ctrl-btn p-gamemode" title="Game Mode" @click="$router.push('/gamemode')"><i class="fa-solid fa-gamepad" aria-hidden="true"></i><span
             class="lock-tooltip">Game Mode</span></button>
-        <button class="ctrl-btn p-lock" :class="{ locked }" @click="toggleLock" title="Lock panel open"><span>{{ locked
-          ? '🔒' : '🔓' }}</span><span class="lock-tooltip">{{ locked ? 'Panel locked open' : 'Keep panel open'
-            }}</span></button>
+        <button class="ctrl-btn p-lock" :class="{ locked }" @click="toggleLock" title="Lock panel open">
+          <span><i :class="locked ? 'fa-solid fa-lock' : 'fa-solid fa-unlock'" aria-hidden="true"></i></span>
+          <span class="lock-tooltip">{{ locked ? 'Panel locked open' : 'Keep panel open' }}</span>
+        </button>
         <button class="ctrl-btn p-close" @click="close">×</button>
       </div>
     </div>

@@ -19,12 +19,13 @@ const panelRef = ref<InstanceType<typeof PlayersOnline> | null>(null);
 const currentSection = ref<string | undefined>();
 
 interface Slide { icon: string; title: string; sub: string }
+// Using Font Awesome icon class names instead of emoji
 const slides: Slide[] = [
-  { icon: '💥', title: 'Massive Multiplayer Battles', sub: '16-player combined arms warfare' },
-  { icon: '🚁', title: 'Air Superiority', sub: 'Command attack helicopters and air strikes' },
-  { icon: '🛡️', title: 'Armored Divisions', sub: 'Lead heavy armor in breakthrough operations' },
-  { icon: '🎯', title: 'Tactical Support', sub: 'Artillery, repair, and strategic coordination' },
-  { icon: '🏆', title: 'Competitive Tournaments', sub: 'Weekly events and seasonal championships' }
+  { icon: 'fa-solid fa-explosion', title: 'Massive Multiplayer Battles', sub: '16-player combined arms warfare' },
+  { icon: 'fa-solid fa-helicopter', title: 'Air Superiority', sub: 'Command attack helicopters and air strikes' },
+  { icon: 'fa-solid fa-shield-halved', title: 'Armored Divisions', sub: 'Lead heavy armor in breakthrough operations' },
+  { icon: 'fa-solid fa-bullseye', title: 'Tactical Support', sub: 'Artillery, repair, and strategic coordination' },
+  { icon: 'fa-solid fa-trophy', title: 'Competitive Tournaments', sub: 'Weekly events and seasonal championships' }
 ];
 const curSlide = ref(0);
 let int: any;
@@ -114,7 +115,7 @@ function scrollToGettingStarted() {
               code.
             </p>
             <div class="hero-acts">
-              <a href="#getting-started" class="btn btn-p" @click.prevent="scrollToGettingStarted">↓
+              <a href="#getting-started" class="btn btn-p" @click.prevent="scrollToGettingStarted"><i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
                 Get WIC LIVE</a>
               <a href="https://discord.gg/WnxwfMTyBe" target="_blank" class="btn btn-d">
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
@@ -128,7 +129,7 @@ function scrollToGettingStarted() {
           <div class="hero-vis">
             <div v-for="(s, i) in slides" :key="s.title" class="h-slide" :class="{ active: i === curSlide }">
               <div class="slide-cont">
-                <div class="icon-ph">{{ s.icon }}</div>
+                <div class="icon-ph"><i :class="s.icon" aria-hidden="true"></i></div>
                 <h3>{{ s.title }}</h3>
                 <p class="text-muted">{{ s.sub }}</p>
               </div>
