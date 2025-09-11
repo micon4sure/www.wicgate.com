@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAppData } from '../composables/useAppData';
 import Leaderboards from '../components/Leaderboards.vue';
 import SiteFooter from '../components/Footer.vue';
+import { colorize, displayName, groupPlayersByServer } from '../utils/playerDisplay';
 
 const router = useRouter();
 const { data, playerCount } = useAppData();
+const gmGroups = computed(() => groupPlayersByServer(data.value.profiles || [], data.value.servers || []));
 
 function goHome() {
   router.push('/');
@@ -33,10 +36,15 @@ function goHome() {
         </div>
         <div class="gm-players-list">
           <div v-if="!data.profiles || data.profiles.length === 0" class="p-empty">No players currently online</div>
-          <div v-for="p in (data.profiles || [])" :key="p.profileName + String(p.serverId)" class="p-item">
-            <span class="p-dot" /><span class="p-name-text">{{ p.profileName || 'Unknown' }}</span><span
-              class="p-server">Server {{ p.serverId || '?' }}</span>
-          </div>
+          <template v-else>
+            <div v-for="g in gmGroups" :key="g.serverId" class="p-server-group">
+              <div class="p-server-h" v-html="colorize(g.serverName)"></div>
+              <div v-for="p in g.players" :key="(p.profileName || 'Unknown') + String(p.serverId)" class="p-item">
+                <span class="p-dot" />
+                <span class="p-name-text" v-html="colorize(displayName(p))"></span>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
       <div class="gm-stats">
@@ -51,6 +59,8 @@ function goHome() {
 
 <style scoped>
 /* Game mode responsive layout */
+.p-server-group { margin-bottom: 10px; }
+.p-server-h { font-size: 12px; color: var(--t2); letter-spacing: 0.02em; margin: 10px 0 6px; }
 .gm-stats-container {
   --gm-columns: repeat(2, 1fr);
 }

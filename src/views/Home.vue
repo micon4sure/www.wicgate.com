@@ -152,7 +152,7 @@ function scrollToGettingStarted() {
   </div>
 
   <!-- Players Panel -->
-  <PlayersOnline ref="panelRef" :players="data.profiles || []" @enter-game-mode="enterGameMode" />
+  <PlayersOnline ref="panelRef" :players="data.profiles || []" :servers="data.servers || []" @enter-game-mode="enterGameMode" />
 
   <!-- First Visit Overlay -->
   <FirstVisitOverlay v-if="showFirstVisitOverlay" :current-section="currentSection" @go-home="handleGoHome"
