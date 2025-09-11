@@ -16,7 +16,6 @@ const router = createRouter({
   history: createWebHistory(runtimeBase),
   routes: [
     { path: '/', name: 'home', component: Home }
-    // GameMode is now integrated into Home component
   ],
   scrollBehavior(to, _from, saved) {
     if (saved) return saved;

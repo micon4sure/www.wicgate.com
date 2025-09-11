@@ -6,6 +6,7 @@ import PlayersOnline from '../components/PlayersOnline.vue';
 import SiteFooter from '../components/Footer.vue';
 import GettingStarted from './GettingStarted.vue';
 import Statistics from './Statistics.vue';
+import Events from './Events.vue';
 import Community from './Community.vue';
 import FAQ from './FAQ.vue';
 import GameMode from '../components/GameMode.vue';
@@ -33,11 +34,11 @@ let int: any;
 function changeSlide(i: number) { curSlide.value = i; resetInterval(); }
 function resetInterval() { clearInterval(int); int = setInterval(() => { curSlide.value = (curSlide.value + 1) % slides.length; }, 6000); }
 
-onMounted(() => { 
+onMounted(() => {
   resetInterval();
-  
+
   const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
-  
+
   // Set current section for first visit overlay
   if (hash === 'gamemode') {
     currentSection.value = 'gamemode';
@@ -90,7 +91,7 @@ function handleGoHome() {
 function handleContinue() {
   dismissOverlay();
   const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
-  
+
   if (hash === 'gamemode') {
     showGameMode.value = true;
   } else if (hash) {
@@ -102,12 +103,12 @@ function handleContinue() {
     }
   }
 }
-function enterGameMode() { 
+function enterGameMode() {
   showGameMode.value = true;
   // Update URL hash
   history.replaceState(null, '', '#gamemode');
 }
-function exitGameMode() { 
+function exitGameMode() {
   showGameMode.value = false;
   // Clear hash from URL
   history.replaceState(null, '', window.location.pathname);
@@ -154,8 +155,7 @@ function scrollToGettingStarted() {
               code.
             </p>
             <div class="hero-acts">
-              <a href="#getting-started" class="btn btn-p"
-                @click.prevent="scrollToGettingStarted">↓
+              <a href="#getting-started" class="btn btn-p" @click.prevent="scrollToGettingStarted">↓
                 Get WIC LIVE</a>
               <a href="https://discord.gg/WnxwfMTyBe" target="_blank" class="btn btn-d">
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
@@ -182,28 +182,26 @@ function scrollToGettingStarted() {
         </div>
       </section>
 
-      <GettingStarted />
-      <Statistics />
-      <Community />
-      <FAQ />
+      <div id="screens">
+        <GettingStarted />
+        <Statistics />
+        <Events />
+        <Community />
+        <FAQ />
+      </div>
       <SiteFooter />
     </div>
 
     <!-- Game Mode Content -->
     <GameMode v-else @exit-game-mode="exitGameMode" />
   </div>
-  
+
   <!-- Players Panel -->
   <PlayersOnline ref="panelRef" :players="data.profiles || []" @enter-game-mode="enterGameMode" />
-  
+
   <!-- First Visit Overlay -->
-  <FirstVisitOverlay 
-    v-if="showFirstVisitOverlay" 
-    :current-section="currentSection"
-    @go-home="handleGoHome"
-    @continue="handleContinue" 
-    @close="dismissOverlay"
-  />
+  <FirstVisitOverlay v-if="showFirstVisitOverlay" :current-section="currentSection" @go-home="handleGoHome"
+    @continue="handleContinue" @close="dismissOverlay" />
 </template>
 <style scoped>
 /* Home page specific styles can be added here if needed */

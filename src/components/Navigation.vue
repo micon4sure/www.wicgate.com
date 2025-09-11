@@ -29,7 +29,7 @@ function goHomeAndScroll(section: string) {
     // Check if we're in game mode - if so, trigger home mode first
     const event = new CustomEvent('exitGameMode');
     window.dispatchEvent(event);
-    
+
     // Small delay to ensure we exit game mode before scrolling
     setTimeout(() => scrollTo(section), 100);
   }
@@ -56,6 +56,7 @@ const emit = defineEmits<{ (e: 'toggle-players'): void }>();
     <nav :class="{ 'mobile-open': mobileOpen }">
       <a @click.prevent="goHomeAndScroll('getting-started')">Getting Started</a>
       <a @click.prevent="goHomeAndScroll('statistics')">Statistics</a>
+      <a @click.prevent="goHomeAndScroll('events')">Events</a>
       <a @click.prevent="goHomeAndScroll('community')">Community</a>
       <a @click.prevent="goHomeAndScroll('faq')">FAQ</a>
     </nav>
