@@ -194,7 +194,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
           <Transition name="expand-y">
             <div v-if="expanded" class="by-channel mt-lg">
               <div v-for="ch in channelsList" :key="ch.channelId" class="mb-lg">
-                <div class="vid-hdr" style="margin-top:10px">
+                <div class="vid-hdr channel-header" style="margin-top:10px">
                   <h4 style="margin:0">{{ ch.channelTitle }}</h4>
                   <a :href="`https://www.youtube.com/channel/${ch.channelId}`" target="_blank"
                     class="card-act text-sm">Open Channel <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
@@ -554,4 +554,32 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
 .skeleton .evt-cover {
   background: rgba(255, 255, 255, 0.06)
 }
+
+.channel-header {
+  background: var(--s2);
+  border-left: 4px solid var(--mg);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 18px;
+  margin-bottom: 18px !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.channel-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(85, 107, 47, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.channel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 </style>
