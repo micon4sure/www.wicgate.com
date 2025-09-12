@@ -77,53 +77,55 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
           <p class="section-lead" style="margin: 0; font-size: 0.9rem;">Tournaments, community nights, and special operations</p>
         </div>
         
-        <!-- Ongoing Events (Hero) -->
-        <div v-if="!eventsLoading && ongoingEvents.length" class="evt-heroes mb-lg">
-          <component v-for="e in ongoingEvents" :key="'hero-' + e.id" :is="e.link ? 'a' : 'div'" :href="e.link"
-            target="_blank" class="card evt-hero">
-            <div class="evt-hero-cover" :style="{ backgroundImage: e.coverUrl ? 'url(' + e.coverUrl + ')' : undefined }">
-              <div class="evt-hero-overlay" />
-              <div class="evt-hero-badges">
-                <span class="live-badge">LIVE NOW</span>
-                <span class="evt-start">Started: {{ formatDate(e.start) }}</span>
+        <!-- Combined Events Layout -->
+        <div v-if="eventsLoading" class="events-container">
+          <div class="events-grid">
+            <div v-for="n in 3" :key="'s' + n" class="event-card skeleton">
+              <div class="event-status skeleton-line" style="width:80px;height:20px;border-radius:10px"></div>
+              <div class="event-content">
+                <div class="skeleton-line" style="width:70%;margin-bottom:8px" />
+                <div class="skeleton-line" style="width:50%" />
               </div>
-              <div class="evt-hero-content">
-                <h4 class="evt-hero-title">{{ e.name }}</h4>
-                <p class="evt-hero-desc">{{ e.description }}</p>
-                <div v-if="e.link" class="evt-hero-link">Open details <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
-              </div>
-            </div>
-          </component>
-        </div>
-
-        <!-- Upcoming Events Grid -->
-        <div v-if="eventsLoading" class="grid grid-3">
-          <div v-for="n in 3" :key="'s' + n" class="card evt-card skeleton">
-            <div class="evt-cover" />
-            <div class="evt-info">
-              <div class="skeleton-line" style="width:70%" />
-              <div class="skeleton-line" style="width:50%;margin-top:6px" />
             </div>
           </div>
         </div>
-        <div v-else-if="upcomingEvents.length" class="grid grid-3">
-          <component v-for="e in upcomingEvents" :key="e.id" :is="e.link ? 'a' : 'div'" :href="e.link" target="_blank"
-            class="card evt-card">
-            <div class="evt-cover" :style="{ backgroundImage: e.coverUrl ? 'url(' + e.coverUrl + ')' : undefined }">
-              <div class="evt-badge">
-                <span class="evt-date">{{ formatDate(e.start) }}</span>
-                <span class="evt-count"><i class="fa-regular fa-hourglass-half" aria-hidden="true"></i> {{ getCountdown(e.start) }}</span>
+        <div v-else-if="events.length" class="events-container">
+          <div class="events-grid">
+            <component v-for="e in events" :key="e.id" :is="e.link ? 'a' : 'div'" :href="e.link" target="_blank" class="event-card">
+              <div class="event-image" v-if="e.coverUrl" :style="{ backgroundImage: 'url(' + e.coverUrl + ')' }">
+                <div class="event-image-overlay"></div>
+                <div v-if="new Date(e.start).getTime() <= Date.now()" class="event-status live">
+                  <span class="status-text">LIVE NOW</span>
+                </div>
+                <div v-else class="event-status">
+                  <span class="status-text">{{ getCountdown(e.start) }}</span>
+                </div>
               </div>
-            </div>
-            <div class="evt-info">
-              <h4 class="evt-title">{{ e.name }}</h4>
-              <p class="evt-desc text-muted">{{ e.description }}</p>
-              <div class="evt-link" v-if="e.link">Open details <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
-            </div>
-          </component>
+              <div class="event-content" :class="{ 'no-image': !e.coverUrl }">
+                <div v-if="!e.coverUrl && new Date(e.start).getTime() <= Date.now()" class="event-status live">
+                  <span class="status-text">LIVE NOW</span>
+                </div>
+                <div v-else-if="!e.coverUrl" class="event-status">
+                  <span class="status-text">{{ getCountdown(e.start) }}</span>
+                </div>
+                <h4 class="event-title">{{ e.name }}</h4>
+                <p class="event-desc">{{ e.description }}</p>
+                <div class="event-meta">
+                  <span class="event-date">
+                    <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                    {{ formatDate(e.start) }}
+                  </span>
+                  <span v-if="e.link" class="event-link-icon">
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+            </component>
+          </div>
         </div>
-        <div v-else-if="!eventsLoading && upcomingEvents.length === 0 && ongoingEvents.length === 0" class="text-muted text-center" style="padding: 20px;">
-          No events scheduled at the moment
+        <div v-else-if="!eventsLoading" class="events-empty">
+          <i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i>
+          <p>No events scheduled at the moment</p>
         </div>
       </div>
 
@@ -408,151 +410,163 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
   opacity: 1
 }
 
-/* Events Styles */
-.evt-heroes {
-  display: flex;
-  flex-direction: column;
+/* Events Styles - New Clean Design */
+.events-container {
+  margin-top: 20px;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
 
-.evt-hero {
+.event-card {
+  background: var(--grad-card);
+  border: 1px solid var(--bd);
+  border-radius: 8px;
   padding: 0;
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit
-}
-
-.evt-hero-cover {
-  position: relative;
-  background: linear-gradient(135deg, rgba(0, 0, 0, .25), rgba(0, 0, 0, .5));
-  background-size: cover;
-  background-position: center;
-  min-height: 280px
-}
-
-.evt-hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, .1) 0%, rgba(0, 0, 0, .55) 60%, rgba(0, 0, 0, .75) 100%)
-}
-
-.evt-hero-badges {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  display: flex;
-  gap: 10px;
-  z-index: 2
-}
-
-.live-badge {
-  background: #e53935;
-  color: #fff;
-  font-weight: 700;
-  font-size: .8rem;
-  padding: 6px 10px;
-  border-radius: 999px;
-  letter-spacing: .02em;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, .35)
-}
-
-.evt-start {
-  background: rgba(0, 0, 0, .5);
-  color: #fff;
-  font-size: .8rem;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, .15)
-}
-
-.evt-hero-content {
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 16px;
-  z-index: 2;
-  max-width: 900px
-}
-
-.evt-hero-title {
-  margin: 0 0 8px;
-  font-size: clamp(1.4rem, 2.8vw, 1.8rem);
-  line-height: 1.15
-}
-
-.evt-hero-desc {
-  margin: 0 0 10px;
-  font-size: clamp(.9rem, 1.4vw, 1rem);
-  color: var(--t2)
-}
-
-.evt-hero-link {
-  font-size: .9rem;
-  color: #fff;
-  opacity: .9
-}
-
-.evt-card {
-  padding: 0;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
   text-decoration: none;
   color: inherit;
+  transition: var(--tr);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.evt-cover {
+.event-card:hover {
+  border-color: rgba(85, 107, 47, 0.3);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
+}
+
+.event-image {
   position: relative;
-  background: linear-gradient(135deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .4));
+  height: 220px;
   background-size: cover;
   background-position: center;
-  padding-bottom: 48%;
-}
-
-.evt-badge {
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
+  background-color: var(--s2);
   display: flex;
-  gap: 8px;
-  background: rgba(0, 0, 0, .55);
-  border: 1px solid rgba(255, 255, 255, .15);
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 12px;
+}
+
+.event-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+.event-status {
+  position: relative;
+  z-index: 2;
+  padding: 4px 12px;
   border-radius: 999px;
-  padding: 6px 10px;
-  font-size: .8rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(124, 179, 66, 0.9);
+  color: #fff;
+  border: 1px solid rgba(124, 179, 66, 0.3);
+  backdrop-filter: blur(4px);
 }
 
-.evt-date {
-  color: #fff
+.event-status.live {
+  background: rgba(229, 57, 53, 0.9);
+  color: #fff;
+  border-color: rgba(229, 57, 53, 0.3);
 }
 
-.evt-count {
+.event-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+.event-content.no-image {
+  gap: 12px;
+}
+
+.event-content.no-image .event-status {
+  align-self: flex-start;
+  background: rgba(124, 179, 66, 0.1);
+  color: var(--g);
+  border: 1px solid rgba(124, 179, 66, 0.2);
+  backdrop-filter: none;
+}
+
+.event-content.no-image .event-status.live {
+  background: rgba(229, 57, 53, 0.1);
+  color: #e53935;
+  border-color: rgba(229, 57, 53, 0.3);
+}
+
+.event-title {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  color: var(--t);
+}
+
+.event-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--t2);
+  flex: 1;
+}
+
+.event-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--bd);
+}
+
+.event-date {
+  font-size: 0.8rem;
+  color: var(--t3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.event-link-icon {
   color: var(--mg);
-  font-weight: 600
+  font-size: 0.8rem;
 }
 
-.evt-info {
-  padding: 14px 16px 16px
+.events-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--t3);
 }
 
-.evt-title {
-  margin: 0 0 6px;
-  font-size: 1.05rem;
-  line-height: 1.35
+.events-empty i {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  opacity: 0.5;
 }
 
-.evt-desc {
-  margin: 0 0 8px;
-  font-size: .92rem
+.events-empty p {
+  margin: 0;
+  font-size: 0.9rem;
 }
 
-.evt-link {
-  font-size: .85rem;
-  color: var(--t2)
-}
-
-.skeleton .evt-cover {
-  background: rgba(255, 255, 255, 0.06)
+@media (max-width: 768px) {
+  .events-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .event-card {
+    padding: 14px;
+  }
 }
 
 .channel-header {
