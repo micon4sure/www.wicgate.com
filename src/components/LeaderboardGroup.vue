@@ -122,8 +122,7 @@ function formatClanTag(entry: LeaderboardEntry): string {
 <style scoped>
 /* uses global styles */
 .clan-tag {
-  color: var(--t2);
-  margin-right: 4px;
+  color: #b3b3b3;
 }
 
 .player-name {
