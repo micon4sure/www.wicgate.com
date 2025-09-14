@@ -54,18 +54,24 @@ body:not(.players-online) .status-indicator:not(.always-animate){opacity:0.9;ani
 .grad-text{background:var(--grad-main);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(var(--shadow-glow))}
 .btn{padding:12px 24px;font-size:15px;font-weight:600;border:none;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:var(--tr);position:relative;overflow:hidden;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 .btn::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,0.1);border-radius:50%;transform:translate(-50%,-50%);transition:width .6s,height .6s}
-.btn:hover::after{width:300%;height:300%}
+@media (hover: hover) {
+  .btn:hover::after{width:300%;height:300%}
+}
 @media (hover: none) and (pointer: coarse) {
   .btn:focus{outline:none}
   .btn:focus::after{width:0;height:0}
 }
 .btn-p{background:linear-gradient(135deg,var(--mg) 0%,var(--mg-dark) 100%);color:#fff;box-shadow:0 4px 15px rgba(85,107,47,0.3)}
-.btn-p:hover{background:linear-gradient(135deg,#6b8e3f 0%,var(--mg) 100%);box-shadow:0 10px 30px rgba(85,107,47,0.4),0 0 20px rgba(85,107,47,0.2);transform:translateY(-2px)}
+@media (hover: hover) {
+  .btn-p:hover{background:linear-gradient(135deg,#6b8e3f 0%,var(--mg) 100%);box-shadow:0 10px 30px rgba(85,107,47,0.4),0 0 20px rgba(85,107,47,0.2);transform:translateY(-2px)}
+}
 @media (hover: none) and (pointer: coarse) {
   .btn-p:focus{background:linear-gradient(135deg,var(--mg) 0%,var(--mg-dark) 100%);box-shadow:0 4px 15px rgba(85,107,47,0.3);transform:none}
 }
 .btn-d{background:linear-gradient(135deg,var(--d) 0%,#4752c4 100%);color:#fff;box-shadow:0 4px 15px rgba(88,101,242,0.3)}
-.btn-d:hover{background:linear-gradient(135deg,#6b7ff3 0%,var(--d) 100%);box-shadow:0 10px 30px rgba(88,101,242,0.4),0 0 20px rgba(88,101,242,0.2);transform:translateY(-2px)}
+@media (hover: hover) {
+  .btn-d:hover{background:linear-gradient(135deg,#6b7ff3 0%,var(--d) 100%);box-shadow:0 10px 30px rgba(88,101,242,0.4),0 0 20px rgba(88,101,242,0.2);transform:translateY(-2px)}
+}
 @media (hover: none) and (pointer: coarse) {
   .btn-d:focus{background:linear-gradient(135deg,var(--d) 0%,#4752c4 100%);box-shadow:0 4px 15px rgba(88,101,242,0.3);transform:none}
 }
@@ -100,8 +106,13 @@ nav a:hover::after{width:100%}
 .h-slide.active{opacity:1;z-index:2;pointer-events:auto}
 .slide-cont{text-align:center;padding:40px}
 .icon-ph{width:60px;height:60px;margin:0 auto 20px;background:linear-gradient(135deg,var(--o) 0%,#b38a5e 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;box-shadow:0 4px 20px rgba(212,165,116,0.3);animation:var(--anim-pulse);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
-.slide-arrow{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border:none;border-radius:50%;background:rgba(0,0,0,0.5);color:#fff;font-size:18px;cursor:pointer;transition:var(--tr);z-index:10;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
-.slide-arrow:hover{background:rgba(85,107,47,0.7);color:#fff;transform:translateY(-50%) scale(1.1);box-shadow:0 0 15px rgba(85,107,47,0.3)}
+.slide-arrow{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border:none;border-radius:50%;background:rgba(0,0,0,0.5);color:#fff;font-size:18px;cursor:pointer;transition:var(--tr);z-index:10;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+@media (hover: hover) {
+  .slide-arrow:hover{background:rgba(85,107,47,0.7);color:#fff;transform:translateY(-50%) scale(1.1);box-shadow:0 0 15px rgba(85,107,47,0.3)}
+}
+@media (hover: none) and (pointer: coarse) {
+  .slide-arrow:focus{outline:none}
+}
 .slide-arrow-prev{left:20px}
 .slide-arrow-next{right:20px}
 /* Players Panel */
