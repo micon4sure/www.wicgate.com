@@ -5,19 +5,12 @@ import { useYoutube, type Video } from '../composables/useYoutube'
 import { useEvents } from '../composables/useEvents'
 import TwitchEmbed from '../components/TwitchEmbed.vue'
 
-// Keep both grouped videos and top-3 from composable
+// Get videos data from composable
 const { videos: videosByChannel, videosSorted: ytVideosSorted, loading: ytVidsLoading } = useYoutube()
 
 // Events integration
 const { events, isLoading: eventsLoading, formatDate, getCountdown } = useEvents()
 
-// Split events into ongoing (big hero) and upcoming (grid)
-const ongoingEvents = computed(() =>
-  events.value.filter(e => new Date(e.start).getTime() <= Date.now())
-)
-const upcomingEvents = computed(() =>
-  events.value.filter(e => new Date(e.start).getTime() > Date.now())
-)
 
 // UI state: expanded toggle (persist to localStorage)
 const EXPAND_KEY = 'community_videos_expanded'
@@ -26,7 +19,6 @@ const expanded = ref(stored === '1')
 
 watch(expanded, (val) => localStorage.setItem(EXPAND_KEY, val ? '1' : '0'))
 
-const top3NYTVideos = computed(() => ytVideosSorted.value.slice(0, 3))
 const top6NYTVideos = computed(() => ytVideosSorted.value.slice(0, 6))
 
 // Flatten grouped channels into an array for v-for and sort by channel title
@@ -169,16 +161,16 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
         </div>
 
         <div v-else>
-          <!-- Single row that animates from 3 to 6 items -->
-          <div class="vid-row-wrap">
-            <TransitionGroup name="vids" tag="div" class="video-row" :class="{ expanded }">
-              <div v-for="v in (expanded ? top6NYTVideos : top3NYTVideos)" :key="v.id || v.videoUrl" class="card vid-card">
-                <a :href="v.videoUrl" target="_blank" style="text-decoration:none;color:inherit;display:block">
+          <!-- Always show 6 latest videos -->
+          <div class="latest-videos-section">
+            <div class="videos-grid">
+              <div v-for="v in top6NYTVideos" :key="v.id || v.videoUrl" class="card vid-card">
+                <a :href="v.videoUrl" target="_blank" class="vid-link">
                   <div class="vid-thumb" :style="{ backgroundImage: 'url(' + v.thumbnailUrl + ')' }">
                     <div class="play-over"><i class="fa-solid fa-play" aria-hidden="true"></i></div>
                   </div>
                   <div class="vid-info">
-                    <h4 class="vid-title" :class="{ small: expanded }">{{ v.title }}</h4>
+                    <h4 class="vid-title">{{ v.title }}</h4>
                     <div class="vid-meta">
                       <span v-if="v.author">{{ v.author }}</span>
                       <span v-if="v.views != null"> • {{ v.views.toLocaleString() }} views</span>
@@ -187,28 +179,30 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
                   </div>
                 </a>
               </div>
-            </TransitionGroup>
+            </div>
           </div>
 
-          <div v-if="ytVideosSorted.length === 0" class="text-muted">No videos available </div>
-
-          <!-- By Channel slides down when expanded -->
+          <!-- Channel sections slide down when expanded -->
           <Transition name="expand-y">
-            <div v-if="expanded" class="by-channel mt-lg">
-              <div v-for="ch in channelsList" :key="ch.channelId" class="mb-lg">
-                <div class="vid-hdr channel-header" style="margin-top:10px">
-                  <h4 style="margin:0">{{ ch.channelTitle }}</h4>
-                  <a :href="`https://www.youtube.com/channel/${ch.channelId}`" target="_blank"
-                    class="card-act text-sm">Open Channel <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+            <div v-if="expanded" class="by-channel">
+              <div class="section-divider">
+                <h4 class="section-title">By Content Creator</h4>
+              </div>
+              <div v-for="ch in channelsList" :key="ch.channelId" class="channel-section">
+                <div class="channel-header">
+                  <h4 class="channel-title">{{ ch.channelTitle }}</h4>
+                  <a :href="`https://www.youtube.com/channel/${ch.channelId}`" target="_blank" class="channel-link">
+                    Open Channel <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                  </a>
                 </div>
-                <div class="grid grid-3">
+                <div class="videos-grid">
                   <div v-for="v in ch.videos" :key="v.id" class="card vid-card">
-                    <a :href="v.videoUrl" target="_blank" style="text-decoration:none;color:inherit;display:block">
+                    <a :href="v.videoUrl" target="_blank" class="vid-link">
                       <div class="vid-thumb" :style="{ backgroundImage: 'url(' + v.thumbnailUrl + ')' }">
                         <div class="play-over"><i class="fa-solid fa-play" aria-hidden="true"></i></div>
                       </div>
                       <div class="vid-info">
-                        <h4 class="vid-title small">{{ v.title }}</h4>
+                        <h4 class="vid-title">{{ v.title }}</h4>
                         <div class="vid-meta">
                           <span v-if="v.views != null">{{ v.views.toLocaleString() }} views</span>
                           <span v-if="v.publishedAt"> • {{ new Date(v.publishedAt).toLocaleDateString() }}</span>
@@ -220,6 +214,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
               </div>
             </div>
           </Transition>
+
+          <div v-if="ytVideosSorted.length === 0" class="text-muted">No videos available</div>
         </div>
       </div>
     </div>
@@ -282,133 +278,192 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
   user-select: none
 }
 
-/* Compact video cards when expanded */
-.vid-card .vid-title {
+/* Responsive video grid */
+.videos-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Latest videos section */
+.latest-videos-section {
+  margin-bottom: 20px;
+}
+
+/* Latest videos section should match channel sections exactly */
+@media (min-width: 1024px) {
+  .latest-videos-section .videos-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Video card styles */
+.vid-card {
+  transition: var(--tr);
+}
+
+.vid-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.vid-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.vid-thumb {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  background-size: cover;
+  background-position: center;
+  background-color: var(--s2);
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+}
+
+.vid-info {
+  padding: 12px 16px;
+}
+
+.vid-title {
   margin: 0 0 6px;
   font-size: 0.95rem;
-  line-height: 1.4
+  line-height: 1.4;
+  color: var(--t);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.vid-card .vid-title.small {
-  margin: 0 0 4px;
-  font-size: 0.88rem;
-  line-height: 1.35
+.vid-meta {
+  font-size: 0.8rem;
+  color: var(--t3);
 }
 
-/* One-row, animated layout (3 -> 9) */
-.vid-row-wrap {
-  overflow: hidden
+/* Section divider styling */
+.section-divider {
+  margin: 30px 0 24px 0;
+  text-align: center;
 }
 
-.video-row {
+.section-divider .section-title {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  color: var(--t);
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--mg);
+  display: inline-block;
+}
+
+/* Channel sections */
+.by-channel {
   display: flex;
-  gap: 20px;
-  transition: height .3s ease
+  flex-direction: column;
+  gap: 24px;
 }
 
-.video-row .vid-card {
-  flex: 0 0 calc((100% / 3) - 13px);
-  /* start as 3 items */
-  transition: flex-basis .35s cubic-bezier(0.4, 0, 0.2, 1), transform .3s ease, box-shadow .3s ease
+.channel-section {
+  background: var(--s2);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.video-row.expanded .vid-card {
-  flex-basis: calc((100% / 6) - 18px);
+.channel-header {
+  background: linear-gradient(90deg, rgba(85, 107, 47, 0.1) 0%, transparent 60%);
+  border-left: 4px solid var(--mg);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.video-row .vid-thumb {
-  padding-bottom: 56.25%;
-  transition: padding-bottom .35s cubic-bezier(0.4, 0, 0.2, 1)
+.channel-title {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--t);
 }
 
-.video-row.expanded .vid-thumb {
-  padding-bottom: 42%
+.channel-link {
+  font-size: 0.85rem;
+  color: var(--mg);
+  text-decoration: none;
+  transition: var(--tr);
 }
 
-/* TransitionGroup item animations */
-.vids-enter-from {
-  opacity: 0;
-  transform: translateY(10px)
+.channel-link:hover {
+  color: var(--g);
 }
 
-.vids-enter-active {
-  transition: opacity .25s ease, transform .25s ease
+.channel-section .videos-grid {
+  padding: 16px 20px 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-.vids-leave-to {
-  opacity: 0;
-  transform: translateY(-10px)
+/* Force 3 columns for channel sections on larger screens */
+@media (min-width: 1024px) {
+  .channel-section .videos-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.vids-leave-active {
-  transition: opacity .2s ease, transform .2s ease;
-  position: absolute
-}
-
-/* Slide-down expand transition for by-channel section */
+/* Slide-down expand transition */
 .expand-y-enter-from,
 .expand-y-leave-to {
   max-height: 0;
-  opacity: 0
-}
-
-/* Mobile responsive fixes for expanded videos */
-@media (max-width: 768px) {
-  .video-row .vid-card {
-    flex: 0 0 calc(50% - 10px) !important;
-  }
-  
-  .video-row.expanded .vid-card {
-    flex-basis: calc(50% - 10px) !important;
-  }
-  
-  .video-row.expanded .vid-thumb {
-    padding-bottom: 56.25% !important;
-  }
-  
-  .vid-hdr {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .video-row .vid-card {
-    flex: 0 0 100% !important;
-  }
-  
-  .video-row.expanded .vid-card {
-    flex-basis: 100% !important;
-  }
-  
-  .video-row {
-    flex-direction: column;
-  }
-  
-  .video-row.expanded .vid-thumb {
-    padding-bottom: 56.25% !important;
-  }
-  
-  .grid.grid-3 {
-    grid-template-columns: 1fr !important;
-  }
-  
-  .grid.grid-2 {
-    grid-template-columns: 1fr !important;
-    gap: 15px !important;
-  }
+  opacity: 0;
 }
 
 .expand-y-enter-active,
 .expand-y-leave-active {
-  transition: max-height .35s ease, opacity .35s ease
+  transition: max-height 0.4s ease, opacity 0.4s ease;
 }
 
 .expand-y-enter-to,
 .expand-y-leave-from {
-  max-height: 2000px;
-  opacity: 1
+  max-height: 3000px;
+  opacity: 1;
 }
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .videos-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+
+  .channel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .channel-section .videos-grid {
+    padding: 12px 16px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .videos-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .vid-hdr {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .by-channel {
+    gap: 16px;
+  }
+}
+
 
 /* Events Styles - New Clean Design */
 .events-container {
@@ -569,31 +624,5 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
   }
 }
 
-.channel-header {
-  background: var(--s2);
-  border-left: 4px solid var(--mg);
-  border-radius: 0 6px 6px 0;
-  padding: 14px 18px;
-  margin-bottom: 18px !important;
-  position: relative;
-  overflow: hidden;
-}
-
-.channel-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, rgba(85, 107, 47, 0.08) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-.channel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 </style>
