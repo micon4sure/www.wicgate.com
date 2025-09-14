@@ -302,9 +302,15 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
   transition: var(--tr);
 }
 
-.vid-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card);
+@media (hover: hover) {
+  .vid-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+  }
+}
+
+.vid-card:active {
+  transform: scale(0.98);
 }
 
 .vid-link {
@@ -396,8 +402,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
   transition: var(--tr);
 }
 
-.channel-link:hover {
-  color: var(--g);
+@media (hover: hover) {
+  .channel-link:hover {
+    color: var(--g);
+  }
 }
 
 .channel-section .videos-grid {
@@ -489,10 +497,17 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
   overflow: hidden;
 }
 
-.event-card:hover {
-  border-color: rgba(85, 107, 47, 0.3);
-  box-shadow: var(--shadow-card);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .event-card:hover {
+    border-color: rgba(85, 107, 47, 0.3);
+    box-shadow: var(--shadow-card);
+    transform: translateY(-2px);
+  }
+}
+
+.event-card:active {
+  transform: scale(0.98);
+  border-color: rgba(85, 107, 47, 0.2);
 }
 
 .event-image {

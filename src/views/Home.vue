@@ -34,6 +34,34 @@ function nextSlide() { curSlide.value = (curSlide.value + 1) % slides.length; re
 function prevSlide() { curSlide.value = (curSlide.value - 1 + slides.length) % slides.length; resetInterval(); }
 function resetInterval() { clearInterval(int); int = setInterval(() => { curSlide.value = (curSlide.value + 1) % slides.length; }, 6000); }
 
+// Touch/swipe handling
+const touchStartX = ref(0);
+const touchEndX = ref(0);
+const minSwipeDistance = 50;
+
+function handleTouchStart(e: TouchEvent) {
+  touchStartX.value = e.touches[0].clientX;
+}
+
+function handleTouchEnd(e: TouchEvent) {
+  touchEndX.value = e.changedTouches[0].clientX;
+  handleSwipe();
+}
+
+function handleSwipe() {
+  const swipeDistance = touchEndX.value - touchStartX.value;
+
+  if (Math.abs(swipeDistance) > minSwipeDistance) {
+    if (swipeDistance > 0) {
+      // Swiped right - go to previous slide
+      prevSlide();
+    } else {
+      // Swiped left - go to next slide
+      nextSlide();
+    }
+  }
+}
+
 onMounted(() => {
   resetInterval();
 
@@ -128,7 +156,7 @@ function scrollToGettingStarted() {
               </a>
             </div>
           </div>
-          <div class="hero-vis">
+          <div class="hero-vis" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
             <div v-for="(s, i) in slides" :key="s.title" class="h-slide" :class="{ active: i === curSlide }">
               <div class="slide-cont">
                 <div class="icon-ph"><i :class="s.icon" aria-hidden="true"></i></div>
