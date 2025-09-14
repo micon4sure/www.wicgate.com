@@ -2,10 +2,10 @@
 export const requirements = ['World in Conflict (Steam/Retail)', 'Windows 7/8/10/11 (64-bit)', '2GB RAM minimum', 'Broadband internet', '8GB free disk space'];
 export const versions = ['Steam version', 'Retail DVD', 'Complete Edition', 'Soviet Assault (optional)'];
 export const steps = [
-  { n: 1, t: 'Install World in Conflict', c: 'Install from GOG, Steam, UPlay or retail DVD. If you do not already own a copy of WiC, we recommend buying one from GOG.' },
+  { n: 1, t: 'Install World in Conflict', c: 'Install from GOG, Steam, UPlay or retail DVD. If you do not already own a copy of World in Conflict, we recommend buying one from GOG.' },
   { n: 2, t: 'Download WIC LIVE', c: 'WIC LIVE updates your game for our servers, allows you to install community maps and installs quality of life fixes that allow you to play the game on modern systems. <br><a href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe" class="btn btn-p mt-md" id="downloadClientBtn">Download WIC LIVE</a>' },
-  { n: 3, t: 'Install & Run WIC LIVE', c: 'Find and click the "INSTALL UPDATE" button in WIC LIVE' },
-  { n: 4, t: 'Create Account & Play', c: 'Launch the game and create an account. From the main menu, click "Multiplayer" -> "Online" and then "Create Account" in the bottom center of the screen. Then, join us in multiplayer!' }
+  { n: 3, t: 'Install & Run WIC LIVE', c: 'After installation process has finished, find and click the "INSTALL UPDATE" button in WIC LIVE.' },
+  { n: 4, t: 'Create Account & Play', c: 'Launch the game and create an account. From the main menu, click <strong>Multiplayer</strong> -> <strong>Online</strong> and then <strong>Create Account</strong> in the bottom center of the screen. Then, join us in multiplayer!' }
 ];
 export interface CommunityCard { cls: string; title: string; members: string; online: string; desc: string; link: string; action: string; icon: string; stat1: string; stat2: string }
 export const communityCards: CommunityCard[] = [

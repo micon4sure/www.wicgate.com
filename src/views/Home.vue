@@ -100,13 +100,13 @@ function scrollToGettingStarted() {
 </script>
 <template>
   <div class="site-wrapper" id="siteWrapper">
-    <div>
-      <header>
-        <Navigation :show-players-button="true" @toggle-players="togglePlayers">
-          <template #player-count>{{ playerCount }}</template>
-        </Navigation>
-      </header>
+    <header>
+      <Navigation :show-players-button="true" @toggle-players="togglePlayers">
+        <template #player-count>{{ playerCount }}</template>
+      </Navigation>
+    </header>
 
+    <div class="main-content">
       <!-- Hero -->
       <section class="hero" id="hero">
         <div class="hero-grid container">
