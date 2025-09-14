@@ -30,6 +30,8 @@ const slides: Slide[] = [
 const curSlide = ref(0);
 let int: any;
 function changeSlide(i: number) { curSlide.value = i; resetInterval(); }
+function nextSlide() { curSlide.value = (curSlide.value + 1) % slides.length; resetInterval(); }
+function prevSlide() { curSlide.value = (curSlide.value - 1 + slides.length) % slides.length; resetInterval(); }
 function resetInterval() { clearInterval(int); int = setInterval(() => { curSlide.value = (curSlide.value + 1) % slides.length; }, 6000); }
 
 onMounted(() => {
@@ -134,10 +136,13 @@ function scrollToGettingStarted() {
                 <p class="text-muted">{{ s.sub }}</p>
               </div>
             </div>
-            <div class="slide-ind">
-              <div v-for="(s, i) in slides" :key="s.title + 'dot'" class="s-dot" :class="{ active: i === curSlide }"
-                @click="changeSlide(i)" />
-            </div>
+            <!-- Navigation arrows -->
+            <button class="slide-arrow slide-arrow-prev" @click="prevSlide" aria-label="Previous slide">
+              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <button class="slide-arrow slide-arrow-next" @click="nextSlide" aria-label="Next slide">
+              <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </button>
           </div>
         </div>
       </section>
