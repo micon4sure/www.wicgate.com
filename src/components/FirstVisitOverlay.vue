@@ -127,8 +127,16 @@ function getSectionDisplayName(section?: string) {
   line-height: 1;
 }
 
-.overlay-close:hover {
-  background: rgba(255, 255, 255, 0.1);
+@media (hover: hover) {
+  .overlay-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--t);
+  }
+}
+
+.overlay-close:active {
+  transform: scale(0.9);
+  background: rgba(255, 0, 0, 0.15);
   color: var(--t);
 }
 

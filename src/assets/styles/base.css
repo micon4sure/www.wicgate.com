@@ -52,7 +52,9 @@ body:not(.players-online) .status-indicator:not(.always-animate){opacity:0.9;ani
 .card{background:var(--grad-card);border-radius:12px;border:1px solid var(--bd);overflow:hidden;transition:var(--tr);position:relative}
 @media (hover: hover) {
   .card-hover:hover{border-color:rgba(255,255,255,0.1);transform:translateY(-2px);box-shadow:var(--shadow-card)}
+  .card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,0.3)}
 }
+.card:active{transform:scale(0.98);box-shadow:0 8px 20px rgba(0,0,0,0.4);border:2px solid rgba(145,70,255,0.3)}
 .grad-text{background:var(--grad-main);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(var(--shadow-glow))}
 .btn{padding:12px 24px;font-size:15px;font-weight:600;border:none;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:var(--tr);position:relative;overflow:hidden;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 .btn::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,0.1);border-radius:50%;transform:translate(-50%,-50%);transition:width .6s,height .6s}
@@ -63,6 +65,7 @@ body:not(.players-online) .status-indicator:not(.always-animate){opacity:0.9;ani
   .btn:focus{outline:none}
   .btn:focus::after{width:0;height:0}
 }
+.btn:active{transform:scale(0.96);transition:transform .1s}
 .btn-p{background:linear-gradient(135deg,var(--mg) 0%,var(--mg-dark) 100%);color:#fff;box-shadow:0 4px 15px rgba(85,107,47,0.3)}
 @media (hover: hover) {
   .btn-p:hover{background:linear-gradient(135deg,#6b8e3f 0%,var(--mg) 100%);box-shadow:0 10px 30px rgba(85,107,47,0.4),0 0 20px rgba(85,107,47,0.2);transform:translateY(-2px)}
@@ -70,6 +73,7 @@ body:not(.players-online) .status-indicator:not(.always-animate){opacity:0.9;ani
 @media (hover: none) and (pointer: coarse) {
   .btn-p:focus{background:linear-gradient(135deg,var(--mg) 0%,var(--mg-dark) 100%);box-shadow:0 4px 15px rgba(85,107,47,0.3);transform:none}
 }
+.btn-p:active{box-shadow:0 8px 25px rgba(85,107,47,0.5),inset 0 2px 4px rgba(0,0,0,0.2)}
 .btn-d{background:linear-gradient(135deg,var(--d) 0%,#4752c4 100%);color:#fff;box-shadow:0 4px 15px rgba(88,101,242,0.3)}
 @media (hover: hover) {
   .btn-d:hover{background:linear-gradient(135deg,#6b7ff3 0%,var(--d) 100%);box-shadow:0 10px 30px rgba(88,101,242,0.4),0 0 20px rgba(88,101,242,0.2);transform:translateY(-2px)}
@@ -77,6 +81,7 @@ body:not(.players-online) .status-indicator:not(.always-animate){opacity:0.9;ani
 @media (hover: none) and (pointer: coarse) {
   .btn-d:focus{background:linear-gradient(135deg,var(--d) 0%,#4752c4 100%);box-shadow:0 4px 15px rgba(88,101,242,0.3);transform:none}
 }
+.btn-d:active{box-shadow:0 8px 25px rgba(88,101,242,0.5),inset 0 2px 4px rgba(0,0,0,0.2)}
 header{background:rgba(15,15,15,0.95);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);position:fixed;width:100%;top:0;z-index:1000;border-bottom:1px solid rgba(255,255,255,0.1);box-shadow:0 2px 20px rgba(0,0,0,0.5)}
 .hdr{height:70px}
 .logo{font-size:24px;font-weight:900;text-decoration:none;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
@@ -95,6 +100,7 @@ nav a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;
 @media (hover: none) and (pointer: coarse) {
   .players-btn:focus{outline:none;background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.08)}
 }
+.players-btn:active{transform:scale(0.96);background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15)}
 .players-btn .p-count{font-weight:600;font-size:15px;color:var(--t)}
 .players-btn .p-divider{width:1px;height:16px;background:rgba(255,255,255,0.1);margin:0 2px}
 .players-btn .p-label-header{font-size:13px;color:var(--t2);font-weight:400}
@@ -136,6 +142,7 @@ body:not(.players-online) .p-panel-status{opacity:0.9;animation:none}
 @media (hover: none) and (pointer: coarse) {
   .ctrl-btn:focus{outline:none}
 }
+.ctrl-btn:active{transform:scale(0.9);background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.25)}
 .p-lock{color:var(--t3);font-size:16px}
 @media (hover: hover) {
   .p-lock:hover{background:rgba(124,179,66,0.1);border-color:rgba(124,179,66,0.3);color:var(--t)}
@@ -146,10 +153,12 @@ body:not(.players-online) .p-panel-status{opacity:0.9;animation:none}
 @media (hover: hover) {
   .p-gamemode:hover{background:rgba(212,165,116,0.1);border-color:rgba(212,165,116,0.3);color:var(--o)}
 }
+.p-gamemode:active{background:rgba(212,165,116,0.2);border-color:rgba(212,165,116,0.4);color:var(--o)}
 .p-close{color:var(--t);font-size:20px;font-weight:300}
 @media (hover: hover) {
   .p-close:hover{background:rgba(255,0,0,0.15);border-color:rgba(255,0,0,0.3);color:var(--t);transform:scale(1.1)}
 }
+.p-close:active{background:rgba(255,0,0,0.25);border-color:rgba(255,0,0,0.5);color:var(--t)}
 .lock-tooltip{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:6px 12px;font-size:12px;color:var(--t2);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;margin-bottom:5px;z-index:1000}
 @media (hover: hover) {
   .ctrl-btn:hover .lock-tooltip{opacity:1}
@@ -184,10 +193,13 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
 .gm-status-count{font-size:16px;font-weight:600;color:var(--t);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 .gm-status-label{font-size:13px;color:var(--t2);margin-left:5px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 .gm-exit{padding:8px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--t2);cursor:pointer;transition:all .2s;font-size:14px;font-weight:500;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
-.gm-exit:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:var(--t)}
+@media (hover: hover) {
+  .gm-exit:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:var(--t)}
+}
 @media (hover: none) and (pointer: coarse) {
   .gm-exit:focus{outline:none;background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);color:var(--t2)}
 }
+.gm-exit:active{transform:scale(0.95);background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.2);color:var(--t)}
 .gm-body{height:calc(100% - 60px);display:grid;grid-template-columns:350px 1fr;overflow:hidden}
 .gm-players{background:rgba(20,20,20,0.6);border-right:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column}
 .gm-players-header{padding:20px;background:var(--grad-dark);border-bottom:1px solid rgba(255,255,255,0.08)}
@@ -230,6 +242,7 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
 @media (hover: none) and (pointer: coarse) {
   .tab-btn:focus{outline:none}
 }
+.tab-btn:active{transform:scale(0.97);background:rgba(85,107,47,0.15)}
 @media (hover: hover) {
   .tab-btn:hover{background:linear-gradient(135deg,rgba(85,107,47,0.15) 0%,rgba(232,220,196,0.15) 100%);color:var(--t);box-shadow:inset 0 -2px 0 rgba(85,107,47,0.6);font-weight:550}
 }
@@ -363,6 +376,7 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
 @media (hover: hover) {
   .card-act:hover{gap:12px}
 }
+.card-act:active{transform:scale(0.97);color:var(--mg)}
 
 /* Videos */
 .vid-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
@@ -370,14 +384,14 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
 @media (hover: hover) {
   .vid-card:hover{box-shadow:0 8px 20px rgba(0,0,0,0.3);transform:translateY(-2px)}
 }
-.vid-card:active{transform:scale(0.98);box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.vid-card:active{transform:scale(0.95);box-shadow:0 8px 20px rgba(0,0,0,0.4);border:2px solid rgba(255,0,0,0.3)}
 .vid-thumb{position:relative;padding-bottom:56.25%;background:var(--s2);overflow:hidden;background-size:cover;background-position:center}
 .vid-dur{position:absolute;bottom:8px;right:8px;padding:2px 6px;background:rgba(0,0,0,0.8);color:#fff;border-radius:4px;font-size:.75rem;font-weight:500}
 .play-over{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:rgba(255,0,0,0.9);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
 @media (hover: hover) {
   .vid-card:hover .play-over{opacity:1}
 }
-.vid-card:active .play-over{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
+.vid-card:active .play-over{opacity:1;transform:translate(-50%,-50%) scale(1.3);background:rgba(255,50,50,1);box-shadow:0 0 20px rgba(255,0,0,0.6)}
 .vid-info{padding:12px}
 .vid-meta{font-size:.8rem;color:var(--t3)}
 
@@ -464,14 +478,14 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
 @media (hover: hover) {
   .pl-card:hover{box-shadow:0 8px 20px rgba(0,0,0,0.3);transform:translateY(-2px)}
 }
-.pl-card:active{transform:scale(0.98);box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.pl-card:active{transform:scale(0.95);box-shadow:0 8px 20px rgba(0,0,0,0.4);border:2px solid rgba(255,0,0,0.3)}
 .pl-thumb{position:relative;height:140px;overflow:hidden;background:var(--s2)}
 .pl-over{position:absolute;top:10px;right:10px;padding:6px 10px;background:rgba(0,0,0,0.8);color:#fff;border-radius:4px;display:flex;align-items:center;gap:6px;font-size:.85rem}
 .pl-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);padding:10px 18px;background:rgba(255,0,0,0.9);color:#fff;border-radius:6px;font-weight:600;font-size:.9rem;gap:8px;display:flex;align-items:center;opacity:0;transition:opacity .3s}
 @media (hover: hover) {
   .pl-card:hover .pl-play{opacity:1}
 }
-.pl-card:active .pl-play{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
+.pl-card:active .pl-play{opacity:1;transform:translate(-50%,-50%) scale(1.3);background:rgba(255,50,50,1);box-shadow:0 0 20px rgba(255,0,0,0.6)}
 .pl-info{padding:20px}
 
 /* Streams */
@@ -705,7 +719,7 @@ footer{background:var(--bg);padding:40px 20px 20px;border-top:1px solid var(--bd
   /* Leaderboard specific */
   .lb-hdr { padding: 15px; }
   .lb-hdr h3 { font-size: 1.2rem; }
-  .tabs { flex-wrap: wrap; gap: 5px; }
+  .tabs { flex-wrap: wrap; gap: 0 !important; }
   .tab-btn { font-size: 12px; padding: 8px 12px; }
   
   /* Player cells in leaderboards */
