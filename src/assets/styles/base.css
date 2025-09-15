@@ -54,10 +54,11 @@ body:not(.players-online) .status-indicator:not(.always-animate){opacity:0.9;ani
   .card-hover:hover{border-color:rgba(255,255,255,0.1);transform:translateY(-2px);box-shadow:var(--shadow-card)}
   .card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,0.3)}
 }
-.card:active{transform:scale(0.98);box-shadow:0 8px 20px rgba(0,0,0,0.4);border:2px solid rgba(145,70,255,0.3)}
+.card:active{animation:cardTap .2s ease-out;box-shadow:0 8px 20px rgba(0,0,0,0.4);border:2px solid rgba(145,70,255,0.3)}
+@keyframes cardTap{0%{transform:scale(1)}10%{transform:scale(0.98)}90%{transform:scale(0.98)}100%{transform:scale(1)}}
 .grad-text{background:var(--grad-main);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(var(--shadow-glow))}
 .btn{padding:12px 24px;font-size:15px;font-weight:600;border:none;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:var(--tr);position:relative;overflow:hidden;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
-.btn::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,0.1);border-radius:50%;transform:translate(-50%,-50%);transition:width .6s,height .6s}
+.btn::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,0.1);border-radius:50%;transform:translate(-50%,-50%);transition:width .6s,height .6s;pointer-events:none}
 @media (hover: hover) {
   .btn:hover::after{width:300%;height:300%}
 }
@@ -65,8 +66,8 @@ body:not(.players-online) .status-indicator:not(.always-animate){opacity:0.9;ani
   .btn:focus{outline:none}
   .btn:focus::after{width:0;height:0}
 }
-.btn:active{transform:scale(0.96);transition:transform .05s ease-out;animation:btnTap .15s ease-out}
-@keyframes btnTap{0%{transform:scale(0.96)}50%{transform:scale(0.96)}100%{transform:scale(1)}}
+.btn:active{animation:btnTap .2s ease-out}
+@keyframes btnTap{0%{transform:scale(1)}10%{transform:scale(0.96)}90%{transform:scale(0.96)}100%{transform:scale(1)}}
 .btn-p{background:linear-gradient(135deg,var(--mg) 0%,var(--mg-dark) 100%);color:#fff;box-shadow:0 4px 15px rgba(85,107,47,0.3)}
 @media (hover: hover) {
   .btn-p:hover{background:linear-gradient(135deg,#6b8e3f 0%,var(--mg) 100%);box-shadow:0 10px 30px rgba(85,107,47,0.4),0 0 20px rgba(85,107,47,0.2);transform:translateY(-2px)}
@@ -90,7 +91,7 @@ header{background:rgba(15,15,15,0.95);-webkit-backdrop-filter:blur(20px);backdro
 .logo{font-size:24px;font-weight:900;text-decoration:none;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 nav{display:flex;gap:35px;align-items:center}
 nav a{color:var(--t2);text-decoration:none;font-weight:500;transition:color .3s;font-size:15px;position:relative;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
-nav a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--grad-main);transition:width .3s}
+nav a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--grad-main);transition:width .3s;pointer-events:none}
 @media (hover: hover) {
   nav a:hover{color:var(--t)}
   nav a:hover::after{width:100%}
@@ -103,7 +104,8 @@ nav a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;
 @media (hover: none) and (pointer: coarse) {
   .players-btn:focus{outline:none;background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.08)}
 }
-.players-btn:active{transform:scale(0.96);background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15)}
+.players-btn:active{animation:playersBtnTap .2s ease-out;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15)}
+@keyframes playersBtnTap{0%{transform:scale(1)}10%{transform:scale(0.96)}90%{transform:scale(0.96)}100%{transform:scale(1)}}
 .players-btn .p-count{font-weight:600;font-size:15px;color:var(--t)}
 .players-btn .p-divider{width:1px;height:16px;background:rgba(255,255,255,0.1);margin:0 2px}
 .players-btn .p-label-header{font-size:13px;color:var(--t2);font-weight:400}
@@ -125,6 +127,8 @@ nav a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;
 @media (hover: hover) {
   .slide-arrow:hover{background:rgba(85,107,47,0.7);color:#fff;transform:translateY(-50%) scale(1.1);box-shadow:0 0 15px rgba(85,107,47,0.3)}
 }
+.slide-arrow:active{animation:slideArrowTap .2s ease-out;background:rgba(85,107,47,0.8)}
+@keyframes slideArrowTap{0%{transform:translateY(-50%) scale(1)}10%{transform:translateY(-50%) scale(0.9)}90%{transform:translateY(-50%) scale(0.9)}100%{transform:translateY(-50%) scale(1)}}
 @media (hover: none) and (pointer: coarse) {
   .slide-arrow:focus{outline:none}
 }
@@ -145,13 +149,14 @@ body:not(.players-online) .p-panel-status{opacity:0.9;animation:none}
 @media (hover: none) and (pointer: coarse) {
   .ctrl-btn:focus{outline:none}
 }
-.ctrl-btn:active{transform:scale(0.9);background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.25)}
+.ctrl-btn:active{animation:ctrlBtnTap .2s ease-out;background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.25)}
+@keyframes ctrlBtnTap{0%{transform:scale(1)}10%{transform:scale(0.9)}90%{transform:scale(0.9)}100%{transform:scale(1)}}
 .p-lock{color:var(--t3);font-size:16px}
 @media (hover: hover) {
   .p-lock:hover{background:rgba(124,179,66,0.1);border-color:rgba(124,179,66,0.3);color:var(--t)}
 }
 .p-lock.locked{background:rgba(124,179,66,0.15);border-color:rgba(124,179,66,0.4);color:var(--g);box-shadow:0 0 10px rgba(124,179,66,0.2)}
-.p-lock.locked::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(124,179,66,0.2) 0%,transparent 70%);animation:var(--anim-pulse)}
+.p-lock.locked::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(124,179,66,0.2) 0%,transparent 70%);animation:var(--anim-pulse);pointer-events:none}
 .p-gamemode{color:var(--t2);font-size:16px}
 @media (hover: hover) {
   .p-gamemode:hover{background:rgba(212,165,116,0.1);border-color:rgba(212,165,116,0.3);color:var(--o)}
@@ -161,7 +166,8 @@ body:not(.players-online) .p-panel-status{opacity:0.9;animation:none}
 @media (hover: hover) {
   .p-close:hover{background:rgba(255,0,0,0.15);border-color:rgba(255,0,0,0.3);color:var(--t);transform:scale(1.1)}
 }
-.p-close:active{background:rgba(255,0,0,0.25);border-color:rgba(255,0,0,0.5);color:var(--t)}
+.p-close:active{background:rgba(255,0,0,0.25);border-color:rgba(255,0,0,0.5);color:var(--t);animation:pCloseTap .2s ease-out}
+@keyframes pCloseTap{0%{transform:scale(1)}10%{transform:scale(0.9)}90%{transform:scale(0.9)}100%{transform:scale(1)}}
 .lock-tooltip{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:6px 12px;font-size:12px;color:var(--t2);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;margin-bottom:5px;z-index:1000}
 @media (hover: hover) {
   .ctrl-btn:hover .lock-tooltip{opacity:1}
@@ -233,13 +239,13 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
 
 /* Leaderboards */
 .lb-cont{background:linear-gradient(135deg,rgba(85,107,47,0.08) 0%,rgba(26,26,26,0.98) 25%,rgba(26,26,26,0.98) 75%,rgba(232,220,196,0.08) 100%);border-radius:12px;border:1px solid rgba(255,255,255,0.12);overflow:hidden;transition:var(--tr);position:relative;box-shadow:0 0 8px rgba(85,107,47,0.05),0 0 16px rgba(232,220,196,0.03),0 8px 32px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.1),inset 0 -1px 0 rgba(255,255,255,0.02);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
-.lb-cont::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(85,107,47,0.4) 25%,rgba(255,255,255,0.6) 50%,rgba(232,220,196,0.4) 75%,transparent 100%);z-index:4}
+.lb-cont::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(85,107,47,0.4) 25%,rgba(255,255,255,0.6) 50%,rgba(232,220,196,0.4) 75%,transparent 100%);z-index:4;pointer-events:none}
 @media (hover: hover) {
   .lb-cont:hover{border-color:rgba(255,255,255,0.18);box-shadow:0 0 12px rgba(85,107,47,0.08),0 0 24px rgba(232,220,196,0.05),0 12px 40px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.15),inset 0 -1px 0 rgba(255,255,255,0.03)}
 }
 .lb-hdr{padding:20px;background:var(--grad-dark);border-bottom:1px solid rgba(255,255,255,0.12);position:relative;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.lb-hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.15) 25%,rgba(255,255,255,0.25) 50%,rgba(255,255,255,0.15) 75%,transparent 100%);z-index:2}
-.lb-hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,var(--mg) 30%,var(--sw) 70%,transparent 100%);opacity:0.7;animation:scoreShine 8s linear infinite;z-index:1}
+.lb-hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.15) 25%,rgba(255,255,255,0.25) 50%,rgba(255,255,255,0.15) 75%,transparent 100%);z-index:2;pointer-events:none}
+.lb-hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,var(--mg) 30%,var(--sw) 70%,transparent 100%);opacity:0.7;animation:scoreShine 8s linear infinite;z-index:1;pointer-events:none}
 .tabs{display:flex;background:var(--s2);border-bottom:1px solid var(--bd);position:relative}
 .tab-btn{flex:1;padding:12px;background:transparent;border:none;color:var(--t2);cursor:pointer;font-weight:500;font-size:.9rem;transition:var(--tr);position:relative;-webkit-tap-highlight-color:transparent}
 @media (hover: none) and (pointer: coarse) {
@@ -250,7 +256,7 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
   .tab-btn:hover{background:linear-gradient(135deg,rgba(85,107,47,0.15) 0%,rgba(232,220,196,0.15) 100%);color:var(--t);box-shadow:inset 0 -2px 0 rgba(85,107,47,0.6);font-weight:550}
 }
 .tab-btn.active{background:linear-gradient(135deg,rgba(85,107,47,0.08) 0%,rgba(232,220,196,0.08) 100%);color:var(--t);font-weight:600;text-shadow:0 0 10px rgba(85,107,47,0.2)}
-.tab-btn.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--grad-main);box-shadow:0 0 10px rgba(85,107,47,0.3),0 0 15px rgba(232,220,196,0.2)}
+.tab-btn.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--grad-main);box-shadow:0 0 10px rgba(85,107,47,0.3),0 0 15px rgba(232,220,196,0.2);pointer-events:none}
 .tab-cont{display:none}
 .tab-cont.active{display:block}
 .lb-table{width:100%;border-collapse:collapse}
@@ -276,7 +282,7 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
 .step-cont code{background:var(--bg);padding:2px 6px;border-radius:4px;color:var(--o);font-family:monospace}
 .req ul{list-style:none}
 .req ul li{padding:8px 0 8px 20px;color:var(--t2);position:relative}
-.req ul li::before{content:"•";position:absolute;left:0;background:var(--grad-main);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 5px rgba(85,107,47,0.3));font-weight:bold}
+.req ul li::before{content:"•";position:absolute;left:0;background:var(--grad-main);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 5px rgba(85,107,47,0.3));font-weight:bold;pointer-events:none}
 .inst-steps{display:flex;flex-direction:column;gap:20px}
 
 /* Getting Started Mobile Responsive Fixes */
@@ -365,7 +371,8 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
   .com-card:hover .card-icon{transform:rotate(360deg)}
 }
 .com-card:active{transform:scale(0.98);border-color:rgba(255,255,255,0.12)}
-.com-card:active .card-icon{transform:scale(1.1)}
+.com-card:active .card-icon{animation:cardIconTap .2s ease-out;transition:none}
+@keyframes cardIconTap{0%{transform:scale(1)}10%{transform:scale(1.1)}90%{transform:scale(1.1)}100%{transform:scale(1)}}
 .card-icon{width:50px;height:50px;display:flex;align-items:center;justify-content:center;border-radius:12px;margin-bottom:20px;font-size:24px;color:#fff;transition:transform .3s;position:relative;z-index:10}
 .com-card.discord .card-icon{background:linear-gradient(135deg,var(--d) 0%,#4752c4 100%);box-shadow:0 4px 15px rgba(88,101,242,0.3)}
 .com-card.youtube .card-icon{background:linear-gradient(135deg,#ff0000 0%,#cc0000 100%);box-shadow:0 4px 15px rgba(255,0,0,0.3)}
@@ -394,7 +401,8 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
 @media (hover: hover) {
   .vid-card:hover .play-over{opacity:1}
 }
-.vid-card:active .play-over{opacity:1;transform:translate(-50%,-50%) scale(1.3);background:rgba(255,50,50,1);box-shadow:0 0 20px rgba(255,0,0,0.6)}
+.vid-card:active .play-over{opacity:1;animation:playBtnScale .2s ease-out;background:rgba(255,50,50,1);box-shadow:0 0 20px rgba(255,0,0,0.6);transition:none}
+@keyframes playBtnScale{0%{transform:translate(-50%,-50%) scale(1)}10%{transform:translate(-50%,-50%) scale(1.3)}90%{transform:translate(-50%,-50%) scale(1.3)}100%{transform:translate(-50%,-50%) scale(1)}}
 .vid-info{padding:12px}
 .vid-meta{font-size:.8rem;color:var(--t3)}
 
@@ -488,7 +496,8 @@ body.players-online .gm-status-dot{animation:syncPulse 2s ease-in-out infinite}
 @media (hover: hover) {
   .pl-card:hover .pl-play{opacity:1}
 }
-.pl-card:active .pl-play{opacity:1;transform:translate(-50%,-50%) scale(1.3);background:rgba(255,50,50,1);box-shadow:0 0 20px rgba(255,0,0,0.6)}
+.pl-card:active .pl-play{opacity:1;animation:playlistBtnScale .2s ease-out;background:rgba(255,50,50,1);box-shadow:0 0 20px rgba(255,0,0,0.6);transition:none}
+@keyframes playlistBtnScale{0%{transform:translate(-50%,-50%) scale(1)}10%{transform:translate(-50%,-50%) scale(1.3)}90%{transform:translate(-50%,-50%) scale(1.3)}100%{transform:translate(-50%,-50%) scale(1)}}
 .pl-info{padding:20px}
 
 /* Streams */
