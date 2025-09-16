@@ -9,6 +9,13 @@ export default defineConfig({
   base: './',
   plugins: [vue()],
   server: { port: 5173 },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler' // Fix Sass legacy JS API deprecation warning
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
