@@ -1,0 +1,31 @@
+/* Modular CSS Architecture - Main import file */
+
+/* Core foundation styles */
+@import './modules/variables.css';
+@import './modules/reset.css';
+@import './modules/typography.css';
+@import './modules/layout.css';
+@import './modules/animations.css';
+@import './modules/buttons.css';
+@import './modules/utilities.css';
+
+/* Component modules */
+@import './modules/components/players-panel.css';
+@import './modules/components/game-mode.css';
+
+/* Responsive design system */
+@import './modules/responsive.css';
+
+/* TODO: Continue extracting remaining components from base.css */
+/* The following need to be extracted in future iterations:
+   - Leaderboards component styles
+   - Navigation component styles
+   - Getting Started section styles
+   - Community section styles
+   - FAQ accordion styles
+   - Footer component styles
+   - Video/media components
+   - Mobile responsive overrides
+
+   For now, we'll still load the original base.css alongside this modular approach
+   to ensure no styles are lost during the transition. */

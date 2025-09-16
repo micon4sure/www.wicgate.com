@@ -1,0 +1,82 @@
+/* Layout utilities and grid systems */
+
+/* Container and spacing */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  padding: 80px 20px;
+}
+
+/* Flexbox utilities */
+.flex {
+  display: flex;
+}
+.items-center {
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+
+/* Grid systems */
+.grid {
+  display: grid;
+  gap: 30px;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Gap utilities */
+.gap-sm {
+  gap: 10px;
+}
+.gap-md {
+  gap: 20px;
+}
+
+/* Margin utilities */
+.mb-lg {
+  margin-bottom: 40px;
+}
+.mb-xl {
+  margin-bottom: 60px;
+}
+.mt-md {
+  margin-top: 20px;
+}
+.mt-lg {
+  margin-top: 30px;
+}
+
+/* Interaction utilities */
+.clickable {
+  cursor: pointer;
+}
+
+/* Site wrapper and main content layout */
+.site-wrapper {
+  min-height: 100vh;
+  position: relative;
+}
+
+.main-content {
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.site-wrapper.panel-open .main-content {
+  margin-left: var(--panel-width);
+}
+
+.site-wrapper.no-transition .main-content {
+  transition: none !important;
+}

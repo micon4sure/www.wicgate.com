@@ -14,8 +14,11 @@ defineProps<{ title: string; entries?: LeaderboardEntry[]; best?: boolean }>();
         <tr v-if="!entries || entries.length === 0">
           <td colspan="3" class="no-data">No data</td>
         </tr>
-        <tr v-for="e in (entries || []).slice(0, 10)" :key="e.rank + (e.profileName || '')"
-          :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''">
+        <tr
+          v-for="e in (entries || []).slice(0, 10)"
+          :key="e.rank + (e.profileName || '')"
+          :class="e.rank && e.rank <= 3 ? 'rank-' + e.rank : ''"
+        >
           <td>
             <RankInsignia :rank="e.rank" :size="18" />
           </td>

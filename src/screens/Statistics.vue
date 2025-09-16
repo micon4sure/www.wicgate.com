@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import Leaderboards from '../components/Leaderboards.vue';
-import { useAppData } from '../composables/useAppData';
-const { data } = useAppData();
+import { useAppDataStore } from '../stores/appDataStore';
+const store = useAppDataStore();
+const { data } = store;
+
+// Statistics is used as a component, store should already be initialized
+// but check just in case
+if (!store.isInitialized.value) {
+  store.init();
+}
 </script>
 <template>
   <section id="statistics" class="section">
@@ -20,7 +27,7 @@ const { data } = useAppData();
     grid-template-columns: 1fr;
     gap: 15px;
   }
-  
+
   .container :deep(.lb-cont) {
     margin-bottom: 0;
   }
@@ -34,12 +41,12 @@ const { data } = useAppData();
   .container :deep(.lb-table) {
     font-size: 12px;
   }
-  
+
   .container :deep(.lb-table th) {
     padding: 8px;
     font-size: 11px;
   }
-  
+
   .container :deep(.lb-table td) {
     padding: 8px;
     font-size: 12px;
@@ -54,7 +61,7 @@ const { data } = useAppData();
     font-size: 12px;
     padding: 6px 12px;
   }
-  
+
   .container :deep(.player-cell) {
     display: flex;
     align-items: center;

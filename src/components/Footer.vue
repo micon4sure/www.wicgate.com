@@ -3,8 +3,10 @@ const year = new Date().getFullYear();
 </script>
 <template>
   <footer>
-    <div><span class="status-dot status-indicator always-animate" /> WICGATE Servers Online • © {{ year }} WICGATE
-      Community • Not affiliated with Ubisoft or Massive Entertainment</div>
+    <div>
+      <span class="status-dot status-indicator always-animate" /> WICGATE Servers Online • ©
+      {{ year }} WICGATE Community • Not affiliated with Ubisoft or Massive Entertainment
+    </div>
   </footer>
 </template>
 <style scoped>
@@ -14,7 +16,7 @@ footer {
   border-top: 1px solid var(--bd);
   text-align: center;
   color: var(--t3);
-  font-size: 0.9rem
+  font-size: 0.9rem;
 }
 
 .status-dot {
@@ -23,6 +25,6 @@ footer {
   border-radius: 50%;
   display: inline-block;
   margin-right: 5px;
-  background: var(--g)
+  background: var(--g);
 }
 </style>

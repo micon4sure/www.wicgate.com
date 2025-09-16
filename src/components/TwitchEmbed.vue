@@ -2,13 +2,20 @@
 import { ref, onMounted } from 'vue';
 const props = defineProps<{ channel: string; muted?: boolean }>();
 const host = ref('');
-onMounted(() => { host.value = window.location.hostname; });
+onMounted(() => {
+  host.value = window.location.hostname;
+});
 </script>
 <template>
   <div class="twitch-embed">
-    <iframe v-if="host"
+    <iframe
+      v-if="host"
       :src="`https://player.twitch.tv/?channel=${props.channel}&parent=${host}&muted=${props.muted !== false}`"
-      allowfullscreen loading="lazy" title="Twitch stream" referrerpolicy="strict-origin-when-cross-origin" />
+      allowfullscreen
+      loading="lazy"
+      title="Twitch stream"
+      referrerpolicy="strict-origin-when-cross-origin"
+    />
     <div v-else class="twitch-embed-loading text-muted">Loading…</div>
   </div>
 </template>
@@ -20,7 +27,7 @@ onMounted(() => { host.value = window.location.hostname; });
   background: var(--s2);
   border: 1px solid var(--bd);
   border-radius: 12px;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .twitch-embed iframe {
@@ -28,7 +35,7 @@ onMounted(() => { host.value = window.location.hostname; });
   inset: 0;
   width: 100%;
   height: 100%;
-  border: 0
+  border: 0;
 }
 
 .twitch-embed-loading {
@@ -37,6 +44,6 @@ onMounted(() => { host.value = window.location.hostname; });
   justify-content: center;
   position: absolute;
   inset: 0;
-  font-size: .85rem
+  font-size: 0.85rem;
 }
 </style>

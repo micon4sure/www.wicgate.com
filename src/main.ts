@@ -17,7 +17,7 @@ const router = createRouter({
   history: createWebHistory(runtimeBase),
   routes: [
     { path: '/', name: 'home', component: Home },
-    { path: '/game-mode', name: 'game-mode', component: GameMode }
+    { path: '/game-mode', name: 'game-mode', component: GameMode },
   ],
   scrollBehavior(to, _from, saved) {
     if (saved) return saved;
@@ -28,7 +28,7 @@ const router = createRouter({
       }
     }
     return { top: 0 };
-  }
+  },
 });
 
 const app = createApp(App);

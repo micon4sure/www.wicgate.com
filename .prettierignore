@@ -1,0 +1,15 @@
+# Ignore artifacts
+dist/
+node_modules/
+coverage/
+
+# Ignore auto-generated files
+*.min.js
+*.min.css
+
+# Ignore lock files
+package-lock.json
+yarn.lock
+
+# Ignore build outputs
+.vite/

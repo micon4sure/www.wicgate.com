@@ -1,8 +1,26 @@
 /// <reference types="vite/client" />
 
+/* Vue 3 + TypeScript module declarations */
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue';
+  const component: DefineComponent<{}, {}, any>;
+  export default component;
+}
+
+/* Express types for API definitions (frontend doesn't actually use Express) */
+declare module 'express' {
+  export interface Request {
+    [key: string]: any;
+  }
+  export interface Response<T = any> {
+    [key: string]: any;
+  }
+}
+
 interface ImportMetaEnv {
   readonly VITE_API_BASE?: string;
 }
+
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }

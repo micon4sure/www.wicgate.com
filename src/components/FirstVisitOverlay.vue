@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
-const props = defineProps<{
+defineProps<{
   currentSection?: string;
 }>();
 
@@ -12,13 +10,19 @@ const emit = defineEmits<{
 }>();
 
 function getSectionDisplayName(section?: string) {
-  switch(section) {
-    case 'getting-started': return 'Getting Started';
-    case 'statistics': return 'Statistics';
-    case 'community': return 'Community';
-    case 'faq': return 'FAQ';
-    case 'gamemode': return 'Game Mode Dashboard';
-    default: return 'a specific section';
+  switch (section) {
+    case 'getting-started':
+      return 'Getting Started';
+    case 'statistics':
+      return 'Statistics';
+    case 'community':
+      return 'Community';
+    case 'faq':
+      return 'FAQ';
+    case 'gamemode':
+      return 'Game Mode Dashboard';
+    default:
+      return 'a specific section';
   }
 }
 </script>
@@ -28,34 +32,40 @@ function getSectionDisplayName(section?: string) {
     <div class="overlay-backdrop" @click="emit('close')"></div>
     <div class="overlay-card">
       <div class="overlay-header">
-  <h2><i class="fa-solid fa-hand-wave" aria-hidden="true"></i> Welcome to WiCGate!</h2>
-        <button class="overlay-close" @click="emit('close')" title="Close">×</button>
+        <h2><i class="fa-solid fa-hand-wave" aria-hidden="true"></i> Welcome to WiCGate!</h2>
+        <button class="overlay-close" title="Close" @click="emit('close')">×</button>
       </div>
-      
+
       <div class="overlay-content">
         <p class="overlay-intro">
-          It looks like this is your first time visiting WiCGate - the community-driven multiplayer platform for World in Conflict.
+          It looks like this is your first time visiting WiCGate - the community-driven multiplayer
+          platform for World in Conflict.
         </p>
-        
+
         <div v-if="currentSection" class="overlay-section-info">
           <p>
-            You've been directed to <strong>{{ getSectionDisplayName(currentSection) }}</strong>. 
-            Would you like to start from the beginning to learn what WiCGate is about?
+            You've been directed to <strong>{{ getSectionDisplayName(currentSection) }}</strong
+            >. Would you like to start from the beginning to learn what WiCGate is about?
           </p>
         </div>
-        
+
         <div class="overlay-actions">
           <button class="btn btn-p" @click="emit('goHome')">
             <i class="fa-solid fa-house" aria-hidden="true"></i> Take me to the homepage
           </button>
           <button class="btn btn-secondary" @click="emit('continue')">
-            {{ currentSection ? 'Continue to ' + getSectionDisplayName(currentSection) : 'Continue browsing' }}
+            {{
+              currentSection
+                ? 'Continue to ' + getSectionDisplayName(currentSection)
+                : 'Continue browsing'
+            }}
           </button>
         </div>
-        
+
         <div class="overlay-footer">
           <p class="overlay-subtitle">
-            WiCGate brings World in Conflict multiplayer back to life with official Massgate server code.
+            WiCGate brings World in Conflict multiplayer back to life with official Massgate server
+            code.
           </p>
         </div>
       </div>
@@ -218,16 +228,16 @@ function getSectionDisplayName(section?: string) {
     margin: 10px;
     max-width: none;
   }
-  
+
   .overlay-header,
   .overlay-content {
     padding: 20px;
   }
-  
+
   .overlay-actions {
     flex-direction: column;
   }
-  
+
   .overlay-actions .btn,
   .btn-secondary {
     width: 100%;
@@ -239,7 +249,7 @@ function getSectionDisplayName(section?: string) {
   .overlay-content {
     padding: 16px;
   }
-  
+
   .overlay-header h2 {
     font-size: 1.3rem;
   }

@@ -1,0 +1,74 @@
+/* Typography and text styles */
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+h4 {
+  font-size: 1.125rem;
+  margin-bottom: 10px;
+}
+
+/* Text utilities */
+.text-center {
+  text-align: center;
+}
+.text-muted {
+  color: var(--t2);
+}
+.text-dim {
+  color: var(--t3);
+}
+.text-sm {
+  font-size: 0.85rem;
+}
+.text-xs {
+  font-size: 0.75rem;
+}
+
+/* Gradient text effect */
+.grad-text {
+  background: var(--grad-main);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(var(--shadow-glow));
+}
+
+/* Semantic text styles */
+.section-lead {
+  font-size: 1.125rem;
+  color: var(--t2);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.leaderboard-subtitle {
+  margin: 5px 0 0 0;
+}
+
+.lb-placeholder {
+  padding: 20px;
+  text-align: center;
+  color: var(--t2);
+}
+
+.no-data {
+  text-align: center;
+  color: var(--t3);
+}

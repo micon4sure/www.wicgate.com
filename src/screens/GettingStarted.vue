@@ -6,8 +6,9 @@ import { requirements, versions, steps } from '../content/content';
     <div class="container">
       <div class="text-center mb-xl">
         <h2>Getting Started</h2>
-        <p class="section-lead">Join the battlefield in just a few
-          minutes with our streamlined setup</p>
+        <p class="section-lead">
+          Join the battlefield in just a few minutes with our streamlined setup
+        </p>
       </div>
       <div class="inst-grid">
         <div class="inst-steps">

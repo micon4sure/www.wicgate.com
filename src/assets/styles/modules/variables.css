@@ -1,0 +1,46 @@
+/* CSS Custom Properties - Colors, spacing, and design tokens */
+
+:root {
+  /* Brand Colors */
+  --mg: #556b2f; /* Primary olive green */
+  --mg-dark: #3d4f22; /* Darker olive */
+  --sw: #e8dcc4; /* Light warm accent */
+  --sw-light: #f5ede2; /* Lighter warm accent */
+  --o: #d4a574; /* Secondary highlight */
+
+  /* Background Colors */
+  --bg: #0f0f0f; /* Page background */
+  --s1: #1a1a1a; /* Card background 1 */
+  --s2: #252525; /* Card background 2 */
+
+  /* Text Colors */
+  --t: #fff; /* Primary text */
+  --t2: #a3a3a3; /* Secondary text */
+  --t3: #737373; /* Tertiary text */
+
+  /* Accent Colors */
+  --g: #7cb342; /* Online/success indicator */
+  --d: #5865f2; /* Discord blue */
+
+  /* Border & Effects */
+  --bd: rgba(255, 255, 255, 0.05);
+
+  /* Transitions */
+  --tr: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Panel Dimensions */
+  --panel-width: 340px;
+
+  /* Gradients */
+  --grad-main: linear-gradient(135deg, var(--mg), var(--sw));
+  --grad-card: linear-gradient(135deg, var(--s1) 0%, rgba(26, 26, 26, 0.95) 100%);
+  --grad-dark: linear-gradient(135deg, var(--s2) 0%, rgba(37, 37, 37, 0.95) 100%);
+  --grad-panel: linear-gradient(135deg, rgba(15, 15, 15, 0.98) 0%, rgba(20, 20, 20, 0.98) 100%);
+
+  /* Shadows */
+  --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 10px rgba(85, 107, 47, 0.3);
+
+  /* Animations */
+  --anim-pulse: pulse 2s ease-in-out infinite;
+}

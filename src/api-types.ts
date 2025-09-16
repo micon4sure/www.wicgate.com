@@ -82,17 +82,31 @@ export interface DiscordEvent {
 // base url is https://www.wicgate.com so data endpoint is https://www.wicgate.com/api/data
 
 // Endpoint: GET /api/data
-export type DataEndpointHandler = (req: Request, res: Response<DataResponse>) => Promise<void> | void;
+export type DataEndpointHandler = (
+  req: Request,
+  res: Response<DataResponse>
+) => Promise<void> | void;
 
 // Endpoint: GET /api/online
-export type OnlineEndpointHandler = (req: Request, res: Response<OnlineResponse>) => Promise<void> | void;
+export type OnlineEndpointHandler = (
+  req: Request,
+  res: Response<OnlineResponse>
+) => Promise<void> | void;
 
 // Endpoint: GET /api/leaderboard/all
-export type LeaderboardAllHandler = (req: Request, res: Response<LeaderboardAllResponse>) => Promise<void> | void;
+export type LeaderboardAllHandler = (
+  req: Request,
+  res: Response<LeaderboardAllResponse>
+) => Promise<void> | void;
 
 // Endpoint: GET /api/leaderboard/ladder
-export type LeaderboardLadderHandler = (req: Request, res: Response<LeaderboardLadderResponse>) => Promise<void> | void;
+export type LeaderboardLadderHandler = (
+  req: Request,
+  res: Response<LeaderboardLadderResponse>
+) => Promise<void> | void;
 
 // Endpoint: GET /api/events
-export type DiscordEndpointHandler = (req: Request, res: Response<DiscordEvent[]>) => Promise<void> | void;
-
+export type DiscordEndpointHandler = (
+  req: Request,
+  res: Response<DiscordEvent[]>
+) => Promise<void> | void;

@@ -53,7 +53,7 @@ export function groupPlayersByServer(
     if (!map.has(sid)) map.set(sid, { serverId: sid, serverName: sname, players: [] });
     map.get(sid)!.players.push(p);
   }
-  for (const g of map.values()) g.players.sort((a, b) => displayName(a).localeCompare(displayName(b)));
+  for (const g of map.values())
+    g.players.sort((a, b) => displayName(a).localeCompare(displayName(b)));
   return Array.from(map.values()).sort((a, b) => a.serverName.localeCompare(b.serverName));
 }
-

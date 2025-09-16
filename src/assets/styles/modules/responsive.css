@@ -1,0 +1,188 @@
+/* Responsive Design System */
+
+/* Mobile-first approach with optimized breakpoints */
+
+/* Tablet Landscape (1024px and below) */
+@media (max-width: 1024px) {
+  /* Layout optimizations */
+  .hero-grid,
+  .g2,
+  .g3,
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-vis {
+    height: 400px;
+  }
+
+  .container {
+    padding: 15px 20px;
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  .hero {
+    min-height: 70vh;
+  }
+
+  .grid {
+    gap: 20px;
+  }
+
+  /* Optimize slide controls for tablet */
+  .slide-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .slide-arrow-prev {
+    left: 15px;
+  }
+
+  .slide-arrow-next {
+    right: 15px;
+  }
+}
+
+/* Mobile (768px and below) */
+@media (max-width: 768px) {
+  :root {
+    --panel-width: 100vw;
+  }
+
+  /* Enhanced mobile navigation */
+  .mobile-nav-toggle {
+    display: block;
+  }
+
+  /* Mobile-optimized spacing */
+  .container {
+    padding: 12px 16px;
+  }
+
+  .section {
+    padding: 40px 0;
+  }
+
+  /* Mobile-first animations - reduced motion for performance */
+  @media (prefers-reduced-motion: reduce) {
+    .slide-arrow,
+    .card,
+    .btn {
+      transition: none;
+    }
+
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Touch optimizations */
+  .btn,
+  .card,
+  .slide-arrow {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+    touch-action: manipulation;
+  }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+  .container {
+    padding: 10px 12px;
+  }
+
+  .section {
+    padding: 30px 0;
+  }
+
+  /* Smaller touch targets for tiny screens */
+  .slide-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  /* Optimize text sizes for small screens */
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* High DPI displays - optimize for crisp rendering */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper borders on high DPI */
+  .card,
+  .btn,
+  .p-panel {
+    border-width: 0.5px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  /* Already optimized for dark mode - this ensures compatibility */
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* Landscape orientation optimizations */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero {
+    min-height: 90vh;
+  }
+
+  .hero-vis {
+    height: 300px;
+  }
+}
+
+/* Print styles - hide interactive elements */
+@media print {
+  .slide-arrow,
+  .btn,
+  .p-panel,
+  .game-mode {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
+
+/* Motion sensitivity - respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Keep essential status indicators but reduce motion */
+  .status-indicator,
+  .p-panel-status,
+  .gm-status-dot,
+  .p-dot {
+    animation: none !important;
+  }
+}

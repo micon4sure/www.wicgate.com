@@ -1,36 +1,41 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import { communityCards } from '../content/content'
-import { useYoutube, type Video } from '../composables/useYoutube'
-import { useEvents } from '../composables/useEvents'
-import TwitchEmbed from '../components/TwitchEmbed.vue'
+import { ref, computed, watch } from 'vue';
+import { communityCards } from '../content/content';
+import { useYoutube } from '../composables/useYoutube';
+import { useEvents } from '../composables/useEvents';
+import TwitchEmbed from '../components/TwitchEmbed.vue';
 
 // Get videos data from composable
-const { videos: videosByChannel, videosSorted: ytVideosSorted, loading: ytVidsLoading } = useYoutube()
+const {
+  videos: videosByChannel,
+  videosSorted: ytVideosSorted,
+  loading: ytVidsLoading,
+} = useYoutube();
 
 // Events integration
-const { events, isLoading: eventsLoading, formatDate, getCountdown } = useEvents()
-
+const { events, isLoading: eventsLoading, formatDate, getCountdown } = useEvents();
 
 // UI state: expanded toggle (persist to localStorage)
-const EXPAND_KEY = 'community_videos_expanded'
-const stored = typeof window !== 'undefined' ? window.localStorage.getItem(EXPAND_KEY) : null
-const expanded = ref(stored === '1')
+const EXPAND_KEY = 'community_videos_expanded';
+const stored = typeof window !== 'undefined' ? window.localStorage.getItem(EXPAND_KEY) : null;
+const expanded = ref(stored === '1');
 
-watch(expanded, (val) => localStorage.setItem(EXPAND_KEY, val ? '1' : '0'))
+watch(expanded, (val) => localStorage.setItem(EXPAND_KEY, val ? '1' : '0'));
 
-const top6NYTVideos = computed(() => ytVideosSorted.value.slice(0, 6))
+const top6NYTVideos = computed(() => ytVideosSorted.value.slice(0, 6));
 
 // Flatten grouped channels into an array for v-for and sort by channel title
 const channelsList = computed(() => {
-  return Object.entries(videosByChannel.value).map(([channelId, group]) => ({
-    channelId,
-    channelTitle: group.channelTitle || 'Unknown Channel',
-    videos: group.videos.slice(0, 6)
-  })).sort((a, b) => a.channelTitle.localeCompare(b.channelTitle))
-})
+  return Object.entries(videosByChannel.value)
+    .map(([channelId, group]) => ({
+      channelId,
+      channelTitle: group.channelTitle || 'Unknown Channel',
+      videos: group.videos.slice(0, 6),
+    }))
+    .sort((a, b) => a.channelTitle.localeCompare(b.channelTitle));
+});
 
-const twitchUsernames = ['kickapoo149', 'pontertwitch']
+const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 </script>
 
 <template>
@@ -38,8 +43,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
     <div class="container">
       <div class="text-center mb-xl">
         <h2>Community</h2>
-        <p class="section-lead">Join the conversation across all
-          platforms</p>
+        <p class="section-lead">Join the conversation across all platforms</p>
       </div>
 
       <div class="grid grid-3 mb-xl">
@@ -58,7 +62,9 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
             </div>
           </div>
           <p class="card-desc">{{ c.desc }}</p>
-          <a :href="c.link" target="_blank" class="card-act">{{ c.action }} <span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></a>
+          <a :href="c.link" target="_blank" class="card-act"
+            >{{ c.action }} <span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span
+          ></a>
         </div>
       </div>
 
@@ -66,25 +72,41 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
       <div class="mb-xl">
         <div class="vid-hdr">
           <h3>Events</h3>
-          <p class="section-lead" style="margin: 0; font-size: 0.9rem;">Tournaments, community nights, and special operations</p>
+          <p class="section-lead" style="margin: 0; font-size: 0.9rem">
+            Tournaments, community nights, and special operations
+          </p>
         </div>
-        
+
         <!-- Combined Events Layout -->
         <div v-if="eventsLoading" class="events-container">
           <div class="events-grid">
             <div v-for="n in 3" :key="'s' + n" class="event-card skeleton">
-              <div class="event-status skeleton-line" style="width:80px;height:20px;border-radius:10px"></div>
+              <div
+                class="event-status skeleton-line"
+                style="width: 80px; height: 20px; border-radius: 10px"
+              ></div>
               <div class="event-content">
-                <div class="skeleton-line" style="width:70%;margin-bottom:8px" />
-                <div class="skeleton-line" style="width:50%" />
+                <div class="skeleton-line" style="width: 70%; margin-bottom: 8px" />
+                <div class="skeleton-line" style="width: 50%" />
               </div>
             </div>
           </div>
         </div>
         <div v-else-if="events.length" class="events-container">
           <div class="events-grid">
-            <component v-for="e in events" :key="e.id" :is="e.link ? 'a' : 'div'" :href="e.link" target="_blank" class="event-card">
-              <div class="event-image" v-if="e.coverUrl" :style="{ backgroundImage: 'url(' + e.coverUrl + ')' }">
+            <component
+              :is="e.link ? 'a' : 'div'"
+              v-for="e in events"
+              :key="e.id"
+              :href="e.link"
+              target="_blank"
+              class="event-card"
+            >
+              <div
+                v-if="e.coverUrl"
+                class="event-image"
+                :style="{ backgroundImage: 'url(' + e.coverUrl + ')' }"
+              >
                 <div class="event-image-overlay"></div>
                 <div v-if="new Date(e.start).getTime() <= Date.now()" class="event-status live">
                   <span class="status-text">LIVE NOW</span>
@@ -94,7 +116,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
                 </div>
               </div>
               <div class="event-content" :class="{ 'no-image': !e.coverUrl }">
-                <div v-if="!e.coverUrl && new Date(e.start).getTime() <= Date.now()" class="event-status live">
+                <div
+                  v-if="!e.coverUrl && new Date(e.start).getTime() <= Date.now()"
+                  class="event-status live"
+                >
                   <span class="status-text">LIVE NOW</span>
                 </div>
                 <div v-else-if="!e.coverUrl" class="event-status">
@@ -125,15 +150,37 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
       <div class="mb-xl">
         <div class="vid-hdr">
           <h3>Live Streams</h3>
-          <a href="https://twitch.tv/directory/game/World%20in%20Conflict" target="_blank" class="card-act">Browse
-            Twitch <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          <a
+            href="https://twitch.tv/directory/game/World%20in%20Conflict"
+            target="_blank"
+            class="card-act"
+            >Browse Twitch <i class="fa-solid fa-arrow-right" aria-hidden="true"></i
+          ></a>
         </div>
-        <div class="grid grid-2" style="gap:30px">
-          <div v-for="u in twitchUsernames" :key="u" class="card" style="padding:0;overflow:hidden">
+        <div class="grid grid-2" style="gap: 30px">
+          <div
+            v-for="u in twitchUsernames"
+            :key="u"
+            class="card"
+            style="padding: 0; overflow: hidden"
+          >
             <TwitchEmbed :channel="u" muted />
-            <div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center">
-              <strong style="font-size:.9rem">{{ u }}</strong>
-              <a :href="`https://twitch.tv/${u}`" target="_blank" class="card-act" style="font-size:.75rem">Open <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+            <div
+              style="
+                padding: 12px 16px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <strong style="font-size: 0.9rem">{{ u }}</strong>
+              <a
+                :href="`https://twitch.tv/${u}`"
+                target="_blank"
+                class="card-act"
+                style="font-size: 0.75rem"
+                >Open <i class="fa-solid fa-arrow-right" aria-hidden="true"></i
+              ></a>
             </div>
           </div>
         </div>
@@ -144,7 +191,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
         <div class="vid-hdr">
           <h3>Latest Videos</h3>
           <label class="toggle">
-            <input type="checkbox" v-model="expanded" />
+            <input v-model="expanded" type="checkbox" />
             <span class="slider"></span>
             <span class="lbl">Expand</span>
           </label>
@@ -154,8 +201,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
           <div v-for="n in 3" :key="n" class="card vid-card skeleton">
             <div class="vid-thumb" />
             <div class="vid-info">
-              <div class="skeleton-line" style="width:80%"></div>
-              <div class="skeleton-line" style="width:60%;margin-top:6px"></div>
+              <div class="skeleton-line" style="width: 80%"></div>
+              <div class="skeleton-line" style="width: 60%; margin-top: 6px"></div>
             </div>
           </div>
         </div>
@@ -166,7 +213,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
             <div class="videos-grid">
               <div v-for="v in top6NYTVideos" :key="v.id || v.videoUrl" class="card vid-card">
                 <a :href="v.videoUrl" target="_blank" class="vid-link">
-                  <div class="vid-thumb" :style="{ backgroundImage: 'url(' + v.thumbnailUrl + ')' }">
+                  <div
+                    class="vid-thumb"
+                    :style="{ backgroundImage: 'url(' + v.thumbnailUrl + ')' }"
+                  >
                     <div class="play-over"><i class="fa-solid fa-play" aria-hidden="true"></i></div>
                   </div>
                   <div class="vid-info">
@@ -174,7 +224,9 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
                     <div class="vid-meta">
                       <span v-if="v.author">{{ v.author }}</span>
                       <span v-if="v.views != null"> • {{ v.views.toLocaleString() }} views</span>
-                      <span v-if="v.publishedAt"> • {{ new Date(v.publishedAt).toLocaleDateString() }}</span>
+                      <span v-if="v.publishedAt">
+                        • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
+                      >
                     </div>
                   </div>
                 </a>
@@ -191,21 +243,32 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
               <div v-for="ch in channelsList" :key="ch.channelId" class="channel-section">
                 <div class="channel-header">
                   <h4 class="channel-title">{{ ch.channelTitle }}</h4>
-                  <a :href="`https://www.youtube.com/channel/${ch.channelId}`" target="_blank" class="channel-link">
+                  <a
+                    :href="`https://www.youtube.com/channel/${ch.channelId}`"
+                    target="_blank"
+                    class="channel-link"
+                  >
                     Open Channel <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                   </a>
                 </div>
                 <div class="videos-grid">
                   <div v-for="v in ch.videos" :key="v.id" class="card vid-card">
                     <a :href="v.videoUrl" target="_blank" class="vid-link">
-                      <div class="vid-thumb" :style="{ backgroundImage: 'url(' + v.thumbnailUrl + ')' }">
-                        <div class="play-over"><i class="fa-solid fa-play" aria-hidden="true"></i></div>
+                      <div
+                        class="vid-thumb"
+                        :style="{ backgroundImage: 'url(' + v.thumbnailUrl + ')' }"
+                      >
+                        <div class="play-over">
+                          <i class="fa-solid fa-play" aria-hidden="true"></i>
+                        </div>
                       </div>
                       <div class="vid-info">
                         <h4 class="vid-title">{{ v.title }}</h4>
                         <div class="vid-meta">
                           <span v-if="v.views != null">{{ v.views.toLocaleString() }} views</span>
-                          <span v-if="v.publishedAt"> • {{ new Date(v.publishedAt).toLocaleDateString() }}</span>
+                          <span v-if="v.publishedAt">
+                            • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
+                          >
                         </div>
                       </div>
                     </a>
@@ -235,7 +298,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
 }
 
 .toggle input {
-  display: none
+  display: none;
 }
 
 .toggle .slider {
@@ -246,7 +309,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-  transition: var(--tr)
+  transition: var(--tr);
 }
 
 .toggle .slider::after {
@@ -259,23 +322,23 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
   border-radius: 50%;
   background: #999;
   transition: var(--tr);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4)
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
-.toggle input:checked+.slider {
+.toggle input:checked + .slider {
   background: linear-gradient(135deg, var(--mg) 0%, var(--mg-dark) 100%);
-  border-color: rgba(124, 179, 66, 0.5)
+  border-color: rgba(124, 179, 66, 0.5);
 }
 
-.toggle input:checked+.slider::after {
+.toggle input:checked + .slider::after {
   left: 22px;
-  background: #fff
+  background: #fff;
 }
 
 .toggle .lbl {
-  font-size: .9rem;
+  font-size: 0.9rem;
   color: var(--t2);
-  user-select: none
+  user-select: none;
 }
 
 /* Responsive video grid */
@@ -429,7 +492,9 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
 
 .expand-y-enter-active,
 .expand-y-leave-active {
-  transition: max-height 0.4s ease, opacity 0.4s ease;
+  transition:
+    max-height 0.4s ease,
+    opacity 0.4s ease;
 }
 
 .expand-y-enter-to,
@@ -471,7 +536,6 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
     gap: 16px;
   }
 }
-
 
 /* Events Styles - New Clean Design */
 .events-container {
@@ -633,11 +697,9 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch']
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
+
   .event-card {
     padding: 14px;
   }
 }
-
-
 </style>

@@ -7,7 +7,7 @@ export function useFirstVisit() {
 
   function checkFirstVisit(): boolean {
     if (typeof window === 'undefined') return false;
-    
+
     const hasVisited = localStorage.getItem(FIRST_VISIT_KEY);
     return !hasVisited;
   }
@@ -42,6 +42,6 @@ export function useFirstVisit() {
     markAsVisited,
     shouldShowOverlay,
     initFirstVisitCheck,
-    dismissOverlay
+    dismissOverlay,
   };
 }

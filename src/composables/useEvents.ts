@@ -1,89 +1,89 @@
-import axios from 'axios'
-import _ from 'lodash'
-import { ref, onMounted, onUnmounted } from 'vue'
+import axios from 'axios';
+import _ from 'lodash';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 export interface Event {
-  id: number | string
-  name: string
-  start: string
-  description: string
-  link?: string
-  coverUrl?: string
+  id: number | string;
+  name: string;
+  start: string;
+  description: string;
+  link?: string;
+  coverUrl?: string;
 }
 
 const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 
 export function useEvents() {
-  const events = ref<Event[]>([])
-  const now = ref(new Date())
-  const isLoading = ref(true)
-  let timer: number
+  const events = ref<Event[]>([]);
+  const now = ref(new Date());
+  const isLoading = ref(true);
+  let timer: number;
 
   onMounted(async () => {
     try {
-      const url = API + '/events'
-      const response = await axios.get<Event[]>(url)
-      events.value = _.orderBy(response.data, ['date'], ['asc'])
+      const url = API + '/events';
+      const response = await axios.get<Event[]>(url);
+      events.value = _.orderBy(response.data, ['date'], ['asc']);
       events.value.push({
         id: 23,
         name: 'Test event that started 5min ago',
         start: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
         description: 'Stay tuned for updates!',
         link: 'https://www.wicgate.com/events',
-        coverUrl: 'https://www.wicgate.com/hero-0.png'
-      })
+        coverUrl: 'https://www.wicgate.com/hero-0.png',
+      });
       events.value.push({
         id: 42,
         name: 'Test event that will start in 5min',
         start: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
         description: 'Stay tuned for updates!',
         link: 'https://www.wicgate.com/events',
-        coverUrl: 'https://www.wicgate.com/hero-1.png'
-      })
-      isLoading.value = false
-      console.log(`Fetched ${events.value.length} events from ${url}`)
+        coverUrl: 'https://www.wicgate.com/hero-1.png',
+      });
+      isLoading.value = false;
+      console.log(`Fetched ${events.value.length} events from ${url}`);
     } catch (err: any) {
-      console.error('Failed to fetch events:', err.message, err)
+      console.error('Failed to fetch events:', err.message, err);
     }
 
     timer = window.setInterval(() => {
-      now.value = new Date()
-    }, 1000)
-  })
+      now.value = new Date();
+    }, 1000);
+  });
 
   onUnmounted(() => {
-    clearInterval(timer)
-  })
+    clearInterval(timer);
+  });
 
   function formatDate(raw: string): string {
-    return new Date(raw).toLocaleString()
+    return new Date(raw).toLocaleString();
   }
 
   function getCountdown(raw: string): string {
-    const target = new Date(raw).getTime()
-    const diff = target - now.value.getTime()
+    const target = new Date(raw).getTime();
+    const diff = target - now.value.getTime();
     if (diff <= 0) {
-      return 'Event ongoing'
+      return 'Event ongoing';
     }
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
-    const minutes = Math.floor((diff / (1000 * 60)) % 60)
-    const seconds = Math.floor((diff / 1000) % 60)
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
 
-    const parts: string[] = []
+    const parts: string[] = [];
     if (days) {
-      parts.push(`${days}d`)
+      parts.push(`${days}d`);
     }
-    parts.push(`${String(hours).padStart(2, '0')}h`)
-    parts.push(`${String(minutes).padStart(2, '0')}m`)
-    parts.push(`${String(seconds).padStart(2, '0')}s`)
-    return parts.join(' ')
+    parts.push(`${String(hours).padStart(2, '0')}h`);
+    parts.push(`${String(minutes).padStart(2, '0')}m`);
+    parts.push(`${String(seconds).padStart(2, '0')}s`);
+    return parts.join(' ');
   }
 
   return {
     events,
     formatDate,
     getCountdown,
-    isLoading
-  }
+    isLoading,
+  };
 }

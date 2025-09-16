@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAppData } from '../composables/useAppData';
+import { useAppDataStore } from '../stores/appDataStore';
 import Leaderboards from '../components/Leaderboards.vue';
 import SiteFooter from '../components/Footer.vue';
 import { colorize, displayName, groupPlayersByServer } from '../utils/playerDisplay';
 
 const router = useRouter();
-const { data, playerCount } = useAppData();
+const store = useAppDataStore();
+const { data, playerCount } = store;
+
+// Initialize store if needed (GameMode can be accessed directly)
+if (!store.isInitialized.value) {
+  store.init();
+}
 // Shape leaderboards prop to expected Record<string, LeaderboardEntry[] | undefined>
 const leaderboardData = computed(() => ({
   lb_high: data.value.lb_high,
@@ -28,7 +34,9 @@ const leaderboardData = computed(() => ({
     tagFormat: l.tagFormat,
   })),
 }));
-const gmGroups = computed(() => groupPlayersByServer(data.value.profiles || [], data.value.servers || []));
+const gmGroups = computed(() =>
+  groupPlayersByServer(data.value.profiles || [], data.value.servers || [])
+);
 
 function goHome() {
   router.push('/');
@@ -45,7 +53,9 @@ function goHome() {
           <span class="gm-status-count">{{ playerCount }}</span>
           <span class="gm-status-label">Players Online</span>
         </div>
-  <button class="gm-exit" @click="goHome"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Exit Game Mode</button>
+        <button class="gm-exit" @click="goHome">
+          <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Exit Game Mode
+        </button>
       </div>
     </div>
     <div class="gm-body">
@@ -55,11 +65,17 @@ function goHome() {
           <div class="server-info">Across all servers</div>
         </div>
         <div class="gm-players-list">
-          <div v-if="!data.profiles || data.profiles.length === 0" class="p-empty">No players currently online</div>
+          <div v-if="!data.profiles || data.profiles.length === 0" class="p-empty">
+            No players currently online
+          </div>
           <template v-else>
             <div v-for="g in gmGroups" :key="g.serverId" class="p-server-group">
               <div class="p-server-h" v-html="colorize(g.serverName)"></div>
-              <div v-for="p in g.players" :key="(p.profileName || 'Unknown') + String(p.serverId)" class="p-item">
+              <div
+                v-for="p in g.players"
+                :key="(p.profileName || 'Unknown') + String(p.serverId)"
+                class="p-item"
+              >
                 <span class="p-dot" />
                 <span class="p-name-text" v-html="colorize(displayName(p))"></span>
               </div>
@@ -79,8 +95,16 @@ function goHome() {
 
 <style scoped>
 /* Game mode responsive layout */
-.p-server-group { margin-bottom: 10px; }
-.p-server-h { font-size: 14px; color: var(--t2); letter-spacing: 0.02em; margin: 10px 0 6px; font-weight: 600; }
+.p-server-group {
+  margin-bottom: 10px;
+}
+.p-server-h {
+  font-size: 14px;
+  color: var(--t2);
+  letter-spacing: 0.02em;
+  margin: 10px 0 6px;
+  font-weight: 600;
+}
 
 /* Make player names bigger on all screen sizes */
 .gm-players-list .p-item {
@@ -126,15 +150,15 @@ function goHome() {
     gap: 6px;
     min-width: fit-content;
   }
-  
+
   .gm-status-count {
     font-size: 14px;
   }
-  
+
   .gm-status-label {
     display: none; /* Hide "Players Online" text to save space */
   }
-  
+
   .gm-status-dot {
     width: 6px;
     height: 6px;
@@ -166,7 +190,7 @@ function goHome() {
     margin-bottom: 4px;
     font-size: 16px; /* Increased from 14px */
   }
-  
+
   .p-server-h {
     font-size: 14px !important; /* Increased from 12px */
     font-weight: 600;
@@ -206,7 +230,7 @@ function goHome() {
     padding: 8px 10px;
     font-size: 15px; /* Increased from 13px */
   }
-  
+
   .p-server-h {
     font-size: 13px !important; /* Increased from default */
     font-weight: 600;
@@ -219,16 +243,16 @@ function goHome() {
   .gm-players-header h3 {
     font-size: 14px;
   }
-  
+
   /* Make status button even more compact on small mobile */
   .gm-status {
     padding: 3px 6px;
   }
-  
+
   .gm-status-count {
     font-size: 13px;
   }
-  
+
   .gm-status-dot {
     width: 5px;
     height: 5px;
