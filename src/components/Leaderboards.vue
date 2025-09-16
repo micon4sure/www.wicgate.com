@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { LeaderboardEntry } from '../composables/useAppData';
+import type { LeaderboardEntry } from '../api-types';
 import { computed } from 'vue';
 import LeaderboardGroup from './LeaderboardGroup.vue';
 

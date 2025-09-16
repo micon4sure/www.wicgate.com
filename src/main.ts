@@ -4,7 +4,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import './assets/styles/base-new.css';
 import App from './App.vue';
 import Home from './views/Home.vue';
-import GameMode from './views/GameMode.vue';
 
 // Router base derived from Vite's BASE_URL. When base is './' (our config),
 // normalizing against the current URL yields the correct mount path in all environments:
@@ -17,7 +16,11 @@ const router = createRouter({
   history: createWebHistory(runtimeBase),
   routes: [
     { path: '/', name: 'home', component: Home },
-    { path: '/game-mode', name: 'game-mode', component: GameMode },
+    {
+      path: '/game-mode',
+      name: 'game-mode',
+      component: () => import('./views/GameMode.vue'),
+    },
   ],
   scrollBehavior(to, _from, saved) {
     if (saved) return saved;

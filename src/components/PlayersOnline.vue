@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch, onMounted } from 'vue';
-import type { PlayerProfile } from '../composables/useAppData';
+import type { OnlineProfile as PlayerProfile } from '../api-types';
 import type { ServerEntry } from '../api-types';
 import { colorize, displayName, groupPlayersByServer } from '../utils/playerDisplay';
 

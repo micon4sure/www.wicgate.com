@@ -1,6 +1,7 @@
 import axios from 'axios';
-import _ from 'lodash';
+import { map } from 'lodash';
 import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { formatDate } from '../utils';
 
 export interface Video {
   id: string;
@@ -60,13 +61,9 @@ export function useYoutube() {
     clearInterval(timer);
   });
 
-  function formatDate(raw: string): string {
-    return new Date(raw).toLocaleString();
-  }
-
   // videos from all channels sorted by publishedAt desc (top 3)
   const videosSorted = computed(() => {
-    const all: Video[] = _.map(videos.value, (channel) => channel.videos).flat();
+    const all: Video[] = map(videos.value, (channel) => channel.videos).flat();
     return all.sort(
       (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );

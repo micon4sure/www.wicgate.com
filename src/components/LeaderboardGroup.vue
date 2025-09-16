@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import type { LeaderboardEntry } from '../composables/useAppData';
+import type { LeaderboardEntry } from '../api-types';
 import RankInsignia from './RankInsignia.vue';
 
 interface Props {

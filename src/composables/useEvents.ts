@@ -1,5 +1,5 @@
 import axios from 'axios';
-import _ from 'lodash';
+import { orderBy } from 'lodash';
 import { ref, onMounted, onUnmounted } from 'vue';
 
 export interface Event {
@@ -23,7 +23,7 @@ export function useEvents() {
     try {
       const url = API + '/events';
       const response = await axios.get<Event[]>(url);
-      events.value = _.orderBy(response.data, ['date'], ['asc']);
+      events.value = orderBy(response.data, ['date'], ['asc']);
       events.value.push({
         id: 23,
         name: 'Test event that started 5min ago',

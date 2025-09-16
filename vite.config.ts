@@ -33,7 +33,6 @@ export default defineConfig({
         // Optimize chunk splitting for better caching
         manualChunks: {
           vendor: ['vue', 'vue-router'],
-          fontawesome: ['@fortawesome/fontawesome-free'],
           lodash: ['lodash'],
         },
         // Optimize asset naming for caching
@@ -57,6 +56,5 @@ export default defineConfig({
   // Performance optimizations
   optimizeDeps: {
     include: ['vue', 'vue-router', 'lodash'],
-    exclude: ['@fortawesome/fontawesome-free'],
   },
 });
