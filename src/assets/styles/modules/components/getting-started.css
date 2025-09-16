@@ -1,0 +1,175 @@
+/* Getting Started Component Styles */
+
+.gs-bg {
+  background: var(--grad-card);
+}
+
+.inst-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.req {
+  background: var(--s2);
+  border-radius: 12px;
+  border: 1px solid var(--bd);
+  overflow: hidden;
+  position: relative;
+  padding: 25px;
+}
+
+.inst-step {
+  background: var(--grad-dark);
+  border-radius: 12px;
+  border: 1px solid var(--bd);
+  overflow: hidden;
+  position: relative;
+  padding: 25px;
+  display: flex;
+  gap: 25px;
+}
+
+.step-num {
+  width: 40px;
+  height: 40px;
+  background: var(--mg);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(85, 107, 47, 0.3);
+}
+
+.step-cont p {
+  color: var(--t2);
+  margin-bottom: 15px;
+}
+
+.step-cont code {
+  background: var(--bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--o);
+  font-family: monospace;
+}
+
+.req ul {
+  list-style: none;
+}
+
+.req ul li {
+  padding: 8px 0 8px 20px;
+  color: var(--t2);
+  position: relative;
+}
+
+.req ul li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  background: var(--grad-main);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 5px rgba(85, 107, 47, 0.3));
+  font-weight: bold;
+  pointer-events: none;
+}
+
+.inst-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Getting Started Mobile Responsive Fixes */
+@media (max-width: 1024px) {
+  .inst-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .inst-step {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .req {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .inst-grid {
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .inst-step {
+    padding: 20px 15px;
+    gap: 15px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .step-num {
+    align-self: center;
+    margin-bottom: 10px;
+  }
+
+  .req {
+    padding: 20px 15px;
+  }
+
+  .req h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .inst-grid {
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .inst-step {
+    padding: 15px;
+    gap: 12px;
+  }
+
+  .step-num {
+    width: 35px;
+    height: 35px;
+    font-size: 1.1rem;
+  }
+
+  .step-cont h4 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .step-cont p {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .req {
+    padding: 15px;
+  }
+
+  .req h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  .req ul li {
+    padding: 6px 0 6px 18px;
+    font-size: 14px;
+  }
+}

@@ -12,20 +12,15 @@
 /* Component modules */
 @import './modules/components/players-panel.css';
 @import './modules/components/game-mode.css';
+@import './modules/components/navigation.css';
+@import './modules/components/hero.css';
+@import './modules/components/leaderboards.css';
+@import './modules/components/getting-started.css';
+@import './modules/components/community.css';
+@import './modules/components/videos.css';
+@import './modules/components/faq.css';
+@import './modules/components/footer.css';
+@import './modules/components/toggle.css';
 
 /* Responsive design system */
 @import './modules/responsive.css';
-
-/* TODO: Continue extracting remaining components from base.css */
-/* The following need to be extracted in future iterations:
-   - Leaderboards component styles
-   - Navigation component styles
-   - Getting Started section styles
-   - Community section styles
-   - FAQ accordion styles
-   - Footer component styles
-   - Video/media components
-   - Mobile responsive overrides
-
-   For now, we'll still load the original base.css alongside this modular approach
-   to ensure no styles are lost during the transition. */

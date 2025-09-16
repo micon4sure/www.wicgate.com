@@ -12,7 +12,8 @@ declare module 'express' {
   export interface Request {
     [key: string]: any;
   }
-  export interface Response<T = any> {
+  export interface Response<ResBody = any> {
+    json(_body: ResBody): void;
     [key: string]: any;
   }
 }
@@ -21,6 +22,7 @@ interface ImportMetaEnv {
   readonly VITE_API_BASE?: string;
 }
 
+// Global augmentation for Vite environment variables
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }

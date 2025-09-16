@@ -113,20 +113,6 @@ body:not(.players-online) .p-panel-status {
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-@keyframes ctrlBtnTap {
-  0% {
-    transform: scale(1);
-  }
-  10% {
-    transform: scale(0.9);
-  }
-  90% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 
 .p-lock {
   color: var(--t3);
@@ -198,20 +184,6 @@ body:not(.players-online) .p-panel-status {
   animation: pCloseTap 0.2s ease-out;
 }
 
-@keyframes pCloseTap {
-  0% {
-    transform: scale(1);
-  }
-  10% {
-    transform: scale(0.9);
-  }
-  90% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 
 .lock-tooltip {
   position: absolute;

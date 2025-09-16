@@ -1,0 +1,55 @@
+/* Toggle Switch Component Styles */
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  min-height: 44px;
+  padding: 10px 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toggle input {
+  display: none;
+}
+
+.toggle .slider {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: var(--tr);
+}
+
+.toggle .slider::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #999;
+  transition: var(--tr);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.toggle input:checked + .slider {
+  background: linear-gradient(135deg, var(--mg) 0%, var(--mg-dark) 100%);
+  border-color: rgba(124, 179, 66, 0.5);
+}
+
+.toggle input:checked + .slider::after {
+  left: 22px;
+  background: #fff;
+}
+
+.toggle .lbl {
+  font-size: 0.9rem;
+  color: var(--t2);
+  user-select: none;
+}

@@ -1,12 +1,15 @@
 /* Utility Classes */
 
-/* Semantic helpers */
-.section-lead {
-  font-size: 1.125rem;
-  color: var(--t2);
-  max-width: 600px;
-  margin: 0 auto;
+/* Text utilities */
+.grad-text {
+  background: var(--grad-main);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(var(--shadow-glow));
 }
+
+/* Semantic helpers */
 
 .leaderboard-subtitle {
   margin: 5px 0 0 0;
@@ -59,23 +62,6 @@ body:not(.players-online) .status-indicator:not(.always-animate) {
   animation: syncPulse 2s ease-in-out infinite !important;
 }
 
-/* Site layout utilities */
-.site-wrapper {
-  min-height: 100vh;
-  position: relative;
-}
-
-.main-content {
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.site-wrapper.panel-open .main-content {
-  margin-left: var(--panel-width);
-}
-
-.site-wrapper.no-transition .main-content {
-  transition: none !important;
-}
 
 /* Card system */
 .card {
@@ -107,11 +93,3 @@ body:not(.players-online) .status-indicator:not(.always-animate) {
   border: 2px solid rgba(145, 70, 255, 0.3);
 }
 
-/* Mobile body classes */
-body.panel-open-mobile {
-  overflow: hidden !important;
-  position: fixed !important;
-  width: 100% !important;
-  height: 100vh !important;
-  touch-action: none !important;
-}

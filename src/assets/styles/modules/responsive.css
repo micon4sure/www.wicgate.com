@@ -1,10 +1,9 @@
 /* Responsive Design System */
 
-/* Mobile-first approach with optimized breakpoints */
+/* Mobile-first approach with complete breakpoint system */
 
-/* Tablet Landscape (1024px and below) */
+/* Tablet breakpoint */
 @media (max-width: 1024px) {
-  /* Layout optimizations */
   .hero-grid,
   .g2,
   .g3,
@@ -33,7 +32,7 @@
     gap: 20px;
   }
 
-  /* Optimize slide controls for tablet */
+  /* Scale down hero arrows for tablet */
   .slide-arrow {
     width: 40px;
     height: 40px;
@@ -47,124 +46,614 @@
   .slide-arrow-next {
     right: 15px;
   }
+
+  /* Videos responsive - tablet */
+  .vid-hdr {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .vid-hdr h3 {
+    margin: 0;
+  }
 }
 
-/* Mobile (768px and below) */
+/* Mobile landscape */
 @media (max-width: 768px) {
   :root {
     --panel-width: 100vw;
   }
 
-  /* Enhanced mobile navigation */
-  .mobile-nav-toggle {
+  /* Navigation */
+  nav {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(15, 15, 15, 0.98);
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    border-bottom: 1px solid var(--bd);
+    z-index: 999;
+  }
+
+  nav.mobile-open {
+    display: flex;
+  }
+
+  .mob-menu {
     display: block;
   }
 
-  /* Mobile-optimized spacing */
-  .container {
-    padding: 12px 16px;
+  /* Header - Fix mobile layout */
+  .hdr {
+    padding: 15px 0;
   }
 
-  .section {
-    padding: 40px 0;
+  .hdr.container {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
-  /* Mobile-first animations - reduced motion for performance */
-  @media (prefers-reduced-motion: reduce) {
-    .slide-arrow,
-    .card,
-    .btn {
-      transition: none;
-    }
-
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
+  /* Show players button on mobile - simplified layout */
+  .social {
+    display: flex;
+    margin-left: 15px;
+    padding-left: 15px;
+    border-left: 1px solid var(--bd);
   }
 
-  /* Touch optimizations */
-  .btn,
-  .card,
-  .slide-arrow {
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
-    touch-action: manipulation;
-  }
-}
-
-/* Small Mobile (480px and below) */
-@media (max-width: 480px) {
-  .container {
-    padding: 10px 12px;
+  .logo {
+    font-size: 20px;
   }
 
-  .section {
-    padding: 30px 0;
+  /* Hero section */
+  .hero {
+    min-height: 60vh;
+    padding: 110px 0 40px 0;
+    text-align: center;
   }
 
-  /* Smaller touch targets for tiny screens */
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 40px 20px;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    margin: 20px auto;
+    max-width: 90%;
+  }
+
+  .hero-acts {
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+  }
+
+  .hero-vis {
+    height: 380px;
+    margin-top: 20px;
+  }
+
+  .hero-tag {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+
+  /* Scale down hero arrows for mobile */
   .slide-arrow {
     width: 36px;
     height: 36px;
     font-size: 14px;
   }
 
-  /* Optimize text sizes for small screens */
-  h1 {
-    font-size: 1.8rem;
+  .slide-arrow-prev {
+    left: 12px;
   }
 
-  h2 {
-    font-size: 1.4rem;
+  .slide-arrow-next {
+    right: 12px;
   }
 
-  h3 {
-    font-size: 1.2rem;
+  /* Buttons */
+  .btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+
+  .players-btn {
+    padding: 8px 12px !important;
+  }
+
+  .players-btn .p-label-header,
+  .players-btn .p-divider {
+    display: none;
+  }
+
+  .players-btn .p-count {
+    font-size: 14px !important;
+  }
+
+  /* Layout */
+  .container {
+    padding: 20px 20px;
+    max-width: 100%;
+  }
+
+  .section {
+    padding: 50px 0;
+  }
+
+  .section h2 {
+    font-size: 2rem;
+  }
+
+  .section-lead {
+    font-size: 1rem;
+  }
+
+  /* Cards */
+  .card {
+    margin-bottom: 20px;
+  }
+
+  .com-card {
+    padding: 20px;
+  }
+
+  /* Toggle responsive adjustments */
+  .toggle .lbl {
+    display: none;
+  }
+
+  /* Videos responsive - mobile landscape */
+  .vid-hdr {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .vid-hdr h3 {
+    font-size: 1.3rem;
+  }
+
+  .vid-info {
+    padding: 10px;
+  }
+
+  .vid-meta {
+    font-size: 0.75rem;
+  }
+
+  .play-over {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  /* Panels - Mobile overlay mode */
+  .main-content {
+    transition: none;
+  }
+
+  .site-wrapper.panel-open .main-content {
+    margin-left: 0;
+  }
+
+  /* Grids */
+  .grid {
+    gap: 15px;
+  }
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tables */
+  .lb-table {
+    font-size: 14px;
+  }
+
+  .lb-table th,
+  .lb-table td {
+    padding: 8px;
+  }
+
+  /* Spacing */
+  .mb-xl {
+    margin-bottom: 40px;
+  }
+
+  .mb-lg {
+    margin-bottom: 30px;
   }
 }
 
-/* High DPI displays - optimize for crisp rendering */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  /* Sharper borders on high DPI */
-  .card,
-  .btn,
-  .p-panel {
-    border-width: 0.5px;
+/* Mobile portrait */
+@media (max-width: 480px) {
+  /* Typography */
+  .hero h1 {
+    font-size: 2rem;
   }
-}
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  /* Already optimized for dark mode - this ensures compatibility */
-  :root {
-    color-scheme: dark;
+  .hero p {
+    font-size: 0.9rem;
   }
-}
 
-/* Landscape orientation optimizations */
-@media (orientation: landscape) and (max-height: 500px) {
+  .section h2 {
+    font-size: 1.75rem;
+  }
+
+  .section-lead {
+    font-size: 0.9rem;
+  }
+
+  /* Layout */
+  .container {
+    padding: 15px 20px;
+  }
+
+  .section {
+    padding: 40px 0;
+  }
+
   .hero {
-    min-height: 90vh;
+    min-height: 50vh;
+    padding: 100px 0 30px 0;
   }
 
   .hero-vis {
-    height: 300px;
+    height: 320px;
+    margin-top: 15px;
+  }
+
+  /* Even smaller arrows for small mobile */
+  .slide-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .slide-arrow-prev {
+    left: 10px;
+  }
+
+  .slide-arrow-next {
+    right: 10px;
+  }
+
+  /* Navigation */
+  .hdr {
+    padding: 12px 0;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  nav {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  nav a {
+    padding: 12px 0;
+    font-size: 16px;
+  }
+
+  /* Buttons */
+  .btn {
+    font-size: 15px;
+    padding: 10px 16px;
+  }
+
+  .players-btn {
+    padding: 8px 12px !important;
+  }
+
+  /* Grids */
+  .grid {
+    gap: 12px;
+  }
+
+  /* Cards */
+  .card {
+    padding: 15px;
+  }
+
+  .com-card {
+    padding: 15px;
+  }
+
+  .com-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .card-desc {
+    font-size: 0.85rem;
+  }
+
+  /* Toggle responsive adjustments for small mobile */
+  .toggle .slider {
+    width: 40px;
+    height: 22px;
+  }
+
+  .toggle .slider::after {
+    width: 18px;
+    height: 18px;
+  }
+
+  .toggle input:checked + .slider::after {
+    left: 20px;
+  }
+
+  /* Videos responsive - mobile portrait */
+  .vid-hdr {
+    margin-bottom: 15px;
+  }
+
+  .vid-hdr h3 {
+    font-size: 1.2rem;
+  }
+
+  .vid-info {
+    padding: 8px;
+  }
+
+  .vid-info h4 {
+    font-size: 0.9rem;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .vid-meta {
+    font-size: 0.7rem;
+  }
+
+  .play-over {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+
+  /* Tables */
+  .lb-table {
+    font-size: 12px;
+  }
+
+  .lb-table th,
+  .lb-table td {
+    padding: 6px;
+  }
+
+  .lb-table th {
+    font-size: 11px;
+  }
+
+  /* Leaderboard specific */
+  .lb-hdr {
+    padding: 15px;
+  }
+
+  .lb-hdr h3 {
+    font-size: 1.2rem;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    gap: 0 !important;
+  }
+
+  .tab-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  /* Player cells in leaderboards */
+  .player-cell {
+    font-size: 12px;
+  }
+
+  .clan-tag {
+    font-size: 11px;
+  }
+
+  /* Spacing */
+  .mb-xl {
+    margin-bottom: 30px;
+  }
+
+  .mb-lg {
+    margin-bottom: 20px;
   }
 }
 
-/* Print styles - hide interactive elements */
-@media print {
-  .slide-arrow,
-  .btn,
-  .p-panel,
-  .game-mode {
-    display: none !important;
+/* Small mobile devices */
+@media (max-width: 360px) {
+  .hero h1 {
+    font-size: 1.75rem;
   }
 
-  .main-content {
-    margin-left: 0 !important;
+  .container {
+    padding: 12px 20px;
   }
+
+  .section {
+    padding: 30px 0;
+  }
+
+  .grid {
+    gap: 10px;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .lb-table {
+    font-size: 11px;
+  }
+
+  .lb-table th,
+  .lb-table td {
+    padding: 4px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+  /* Touch-friendly interactions */
+  .tab-btn {
+    min-height: 44px;
+  }
+
+  .btn {
+    min-height: 44px;
+  }
+
+  .mob-menu {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent text selection on interactive elements */
+  .tab-btn,
+  .btn,
+  .mob-menu {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Optimize scrolling performance */
+  .lb-table {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+  }
+
+  /* Hero section mobile adjustments */
+  .hero-tag {
+    font-size: 0.8rem;
+  }
+
+  .slide-cont {
+    padding: 20px;
+  }
+
+  .icon-ph {
+    font-size: 2rem;
+  }
+
+  /* Event cards mobile optimization */
+  .evt-card {
+    margin-bottom: 15px;
+  }
+
+  .evt-cover {
+    padding-bottom: 45%;
+  }
+
+  /* Video cards mobile */
+  .vid-card {
+    margin-bottom: 15px;
+  }
+
+  .vid-thumb {
+    padding-bottom: 56.25%;
+  }
+
+  /* FAQ mobile */
+  .faq-q {
+    padding: 15px 20px;
+  }
+
+  .faq-a p {
+    padding: 0 20px 15px;
+  }
+
+  /* Community cards mobile */
+  .com-card .card-icon {
+    font-size: 2rem;
+  }
+
+  .com-card .stat-val {
+    font-size: 1.2rem;
+  }
+
+  .com-card .stat-lbl {
+    font-size: 0.75rem;
+  }
+}
+
+/* Portrait mobile specific */
+@media (max-width: 480px) and (orientation: portrait) {
+  .hero-vis {
+    height: 280px;
+  }
+
+  .hero-acts {
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  /* Smallest arrows for portrait mobile */
+  .slide-arrow {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+
+  .slide-arrow-prev {
+    left: 8px;
+  }
+
+  .slide-arrow-next {
+    right: 8px;
+  }
+
+  /* Optimize vertical space usage */
+  .section {
+    padding: 35px 0;
+  }
+
+  .hero {
+    padding: 90px 0 25px 0;
+  }
+
+  /* Community grid adjustments */
+  .com-card .card-stats {
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 15px 0;
+  }
+}
+
+/* Fixed header scroll offset - guarantees precise positioning */
+#getting-started,
+#statistics,
+#community,
+#faq {
+  scroll-margin-top: 70px;
 }
 
 /* Motion sensitivity - respect user preferences */
@@ -179,10 +668,7 @@
   }
 
   /* Keep essential status indicators but reduce motion */
-  .status-indicator,
-  .p-panel-status,
-  .gm-status-dot,
-  .p-dot {
+  .status-indicator {
     animation: none !important;
   }
 }

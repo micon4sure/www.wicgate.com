@@ -41,14 +41,6 @@ h4 {
   font-size: 0.75rem;
 }
 
-/* Gradient text effect */
-.grad-text {
-  background: var(--grad-main);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(var(--shadow-glow));
-}
 
 /* Semantic text styles */
 .section-lead {

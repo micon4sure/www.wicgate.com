@@ -83,30 +83,30 @@ export interface DiscordEvent {
 
 // Endpoint: GET /api/data
 export type DataEndpointHandler = (
-  req: Request,
-  res: Response<DataResponse>
+  _req: Request,
+  _res: Response<DataResponse>
 ) => Promise<void> | void;
 
 // Endpoint: GET /api/online
 export type OnlineEndpointHandler = (
-  req: Request,
-  res: Response<OnlineResponse>
+  _req: Request,
+  _res: Response<OnlineResponse>
 ) => Promise<void> | void;
 
 // Endpoint: GET /api/leaderboard/all
 export type LeaderboardAllHandler = (
-  req: Request,
-  res: Response<LeaderboardAllResponse>
+  _req: Request,
+  _res: Response<LeaderboardAllResponse>
 ) => Promise<void> | void;
 
 // Endpoint: GET /api/leaderboard/ladder
 export type LeaderboardLadderHandler = (
-  req: Request,
-  res: Response<LeaderboardLadderResponse>
+  _req: Request,
+  _res: Response<LeaderboardLadderResponse>
 ) => Promise<void> | void;
 
 // Endpoint: GET /api/events
 export type DiscordEndpointHandler = (
-  req: Request,
-  res: Response<DiscordEvent[]>
+  _req: Request,
+  _res: Response<DiscordEvent[]>
 ) => Promise<void> | void;

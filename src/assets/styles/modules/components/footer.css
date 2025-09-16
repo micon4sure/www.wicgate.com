@@ -1,0 +1,19 @@
+/* Footer Component Styles */
+
+footer {
+  background: var(--bg);
+  padding: 40px 20px 20px;
+  border-top: 1px solid var(--bd);
+  text-align: center;
+  color: var(--t3);
+  font-size: 0.9rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+  background: var(--g);
+}
