@@ -40,14 +40,16 @@ export function useYoutube() {
             parsed[channelId] = group;
           }
         } catch (e) {
-          console.warn(`Failed to parse feed for channel ${channelId}:`, e);
+          if (import.meta.env.DEV)
+            console.warn(`Failed to parse feed for channel ${channelId}:`, e);
         }
       }
 
       videos.value = parsed;
-      console.log(`Fetched and parsed ${Object.keys(parsed).length} channels from ${url}`);
+      if (import.meta.env.DEV)
+        console.log(`Fetched and parsed ${Object.keys(parsed).length} channels from ${url}`);
     } catch (err: any) {
-      console.error('Failed to fetch events:', err?.message ?? err);
+      if (import.meta.env.DEV) console.error('Failed to fetch events:', err?.message ?? err);
     } finally {
       loading.value = false;
     }

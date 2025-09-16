@@ -41,9 +41,9 @@ export function useEvents() {
         coverUrl: 'https://www.wicgate.com/hero-1.png',
       });
       isLoading.value = false;
-      console.log(`Fetched ${events.value.length} events from ${url}`);
+      if (import.meta.env.DEV) console.log(`Fetched ${events.value.length} events from ${url}`);
     } catch (err: any) {
-      console.error('Failed to fetch events:', err.message, err);
+      if (import.meta.env.DEV) console.error('Failed to fetch events:', err.message, err);
     }
 
     timer = window.setInterval(() => {

@@ -77,7 +77,7 @@ function goHome() {
                 class="p-item"
               >
                 <span class="p-dot" />
-                <span class="p-name-text" v-html="colorize(displayName(p))"></span>
+                <span class="p-name-text">{{ displayName(p) }}</span>
               </div>
             </div>
           </template>
