@@ -7,6 +7,7 @@ import SiteFooter from '../components/Footer.vue';
 import GettingStarted from '../screens/GettingStarted.vue';
 import Statistics from '../screens/Statistics.vue';
 import Community from '../screens/Community.vue';
+import About from '../screens/About.vue';
 import FAQ from '../screens/FAQ.vue';
 import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
 import { useAppDataStore } from '../stores/appDataStore';
@@ -231,6 +232,7 @@ function scrollToGettingStarted() {
         <GettingStarted />
         <Statistics />
         <Community />
+        <About />
         <FAQ />
       </div>
       <SiteFooter />

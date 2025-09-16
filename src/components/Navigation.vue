@@ -57,6 +57,7 @@ const emit = defineEmits<{ 'toggle-players': [] }>();
       <a @click.prevent="goHomeAndScroll('getting-started')">Getting Started</a>
       <a @click.prevent="goHomeAndScroll('statistics')">Statistics</a>
       <a @click.prevent="goHomeAndScroll('community')">Community</a>
+      <a @click.prevent="goHomeAndScroll('about')">About</a>
       <a @click.prevent="goHomeAndScroll('faq')">FAQ</a>
     </nav>
     <button class="mob-menu" @click="mobileOpen = !mobileOpen">☰</button>

@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import './assets/styles/base-new.css';
+import './assets/styles/base.css';
 import App from './App.vue';
 import Home from './views/Home.vue';
 

@@ -60,12 +60,8 @@
   }
 }
 
-/* Mobile landscape */
-@media (max-width: 768px) {
-  :root {
-    --panel-width: 100vw;
-  }
-
+/* Navigation breakpoint - accommodate 5 nav links */
+@media (max-width: 950px) {
   /* Navigation */
   nav {
     display: none;
@@ -109,6 +105,13 @@
 
   .logo {
     font-size: 20px;
+  }
+}
+
+/* Mobile landscape */
+@media (max-width: 768px) {
+  :root {
+    --panel-width: 100vw;
   }
 
   /* Hero section */
@@ -652,6 +655,7 @@
 #getting-started,
 #statistics,
 #community,
+#about,
 #faq {
   scroll-margin-top: 70px;
 }
