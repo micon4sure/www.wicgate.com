@@ -5,9 +5,7 @@ import {
   steps,
   dedicatedServerSteps,
   networkPorts,
-  dedicatedServerDownloads,
   manualInstallSteps,
-  manualInstallDownloads,
   manualInstallWarning
 } from '../content/content';
 </script>
@@ -56,16 +54,9 @@ import {
         <div class="server-setup mb-xl">
           <h3 class="grad-text text-center mb-lg">Dedicated Server Setup</h3>
           <p class="text-center mb-lg text-muted">
-            To host your own dedicated server, download the necessary files below:
+            To host your own dedicated server, follow these steps:
           </p>
 
-          <div class="download-grid mb-lg">
-            <div v-for="download in dedicatedServerDownloads" :key="download.title" class="download-card">
-              <h4>{{ download.title }}</h4>
-              <p>{{ download.description }}</p>
-              <a :href="download.url" class="btn btn-p">Download</a>
-            </div>
-          </div>
 
           <div class="inst-grid">
             <div class="inst-steps">
@@ -105,13 +96,6 @@ import {
             </div>
           </div>
 
-          <div class="download-grid mb-lg">
-            <div v-for="download in manualInstallDownloads" :key="download.title" class="download-card">
-              <h4>{{ download.title }}</h4>
-              <p>{{ download.description }}</p>
-              <a :href="download.url" class="btn btn-p">Download</a>
-            </div>
-          </div>
 
           <div class="inst-steps">
             <div v-for="step in manualInstallSteps" :key="step.n" class="inst-step">

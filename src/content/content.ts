@@ -255,17 +255,12 @@ export interface NetworkPort {
   description?: string;
 }
 
-export interface AdvancedDownload {
-  title: string;
-  url: string;
-  description?: string;
-}
 
 export const dedicatedServerSteps: DedicatedServerStep[] = [
   {
     n: 1,
     t: 'Download Server Files',
-    c: 'Download both the WICGATE Dedicated Server package and the Hosts file from the links below.',
+    c: 'Download the WICGATE Dedicated Server package. Choose Match Mode for casual servers or Ranked Edition for public ranked servers (requires CD key from Discord).<br><a href="#" class="btn btn-p mt-md">Download Match Mode Server</a><br><a href="#" class="btn btn-p mt-md">Download Ranked Server</a>',
   },
   {
     n: 2,
@@ -275,7 +270,7 @@ export const dedicatedServerSteps: DedicatedServerStep[] = [
   {
     n: 3,
     t: 'Install Hosts File',
-    c: 'Copy the downloaded <span class="text-bold">hosts</span> file to <span class="text-bold">C:\\Windows\\System32\\drivers\\etc</span> (requires administrator rights).',
+    c: 'Copy the downloaded <span class="text-bold">hosts</span> file to <span class="text-bold">C:\\Windows\\System32\\drivers\\etc</span> (requires administrator rights).<br><a href="#" class="btn btn-p mt-md">Download Hosts File</a>',
   },
   {
     n: 4,
@@ -297,29 +292,12 @@ export const networkPorts: NetworkPort[] = [
   { port: '22996', protocol: 'UDP' },
 ];
 
-export const dedicatedServerDownloads: AdvancedDownload[] = [
-  {
-    title: 'WICGATE Dedicated Server (Match Mode Edition)',
-    url: '#', // Replace with actual URL
-    description: 'Complete server package for hosting dedicated games',
-  },
-  {
-    title: 'Hosts File',
-    url: '#', // Replace with actual URL
-    description: 'Required for server connectivity',
-  },
-  {
-    title: 'WICGATE Dedicated Server (Ranked Edition)',
-    url: '#', // Replace with actual URL
-    description: 'For public ranked servers (requires CD key from Discord moderators)',
-  },
-];
 
 export const manualInstallSteps: DedicatedServerStep[] = [
   {
     n: 1,
     t: 'Download Components',
-    c: 'Download the Standalone Multiplayer Update and Hosts file from the links below.',
+    c: 'Download the Standalone Multiplayer Update and Hosts file required for manual installation.<br><a href="#" class="btn btn-p mt-md">Download Standalone Update</a><br><a href="#" class="btn btn-p mt-md">Download Hosts File</a>',
   },
   {
     n: 2,
@@ -334,27 +312,10 @@ export const manualInstallSteps: DedicatedServerStep[] = [
   {
     n: 4,
     t: 'Optional: Community Maps',
-    c: 'Download additional community maps from the Community Maps Collection link below.',
+    c: 'Download additional community maps created by the community to expand your gameplay experience.<br><a href="#" class="btn btn-p mt-md">Download Community Maps</a>',
   },
 ];
 
-export const manualInstallDownloads: AdvancedDownload[] = [
-  {
-    title: 'Standalone Multiplayer Update',
-    url: '#', // Replace with actual URL
-    description: 'Core multiplayer files for manual installation',
-  },
-  {
-    title: 'Hosts File',
-    url: '#', // Replace with actual URL
-    description: 'Required for server connectivity',
-  },
-  {
-    title: 'Community Maps Collection',
-    url: '#', // Replace with actual URL
-    description: 'Additional maps created by the community',
-  },
-];
 
 
 export const manualInstallWarning = {
