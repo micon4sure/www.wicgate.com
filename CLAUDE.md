@@ -1,6 +1,6 @@
 # CLAUDE.md - WiCGate Gaming Platform
 
-**What this is:** Vue 3 + TypeScript single-page application for World in Conflict gaming community. Features real-time player tracking, leaderboards, Discord events, and community integration.
+**What this is:** Vue 3 + TypeScript single-page application for World in Conflict gaming community. Features real-time player tracking, leaderboards, Discord events, community integration, and comprehensive project information.
 
 ## 🔧 Development Setup
 
@@ -19,13 +19,20 @@ npm run build        # Build for production (1.76s)
 npm run preview      # Preview production build
 ```
 
-## 🏗️ What Was Done (Modularization Work)
+## 🏗️ What Was Done (Modularization & Enhancement Work)
 
 ### CSS Modularization
 - **Before:** Single 2783-line `base.css` file (hard to maintain)
-- **After:** 19 organized CSS modules in `src/assets/styles/modules/`
-- **Active file:** `base-new.css` imports all modules in correct order
+- **After:** 20 organized CSS modules in `src/assets/styles/modules/`
+- **Active file:** `base.css` imports all modules in correct order
+- **Legacy file:** `base-old.css` (original monolithic CSS, no longer used)
 - **Result:** Zero style duplications, organized by purpose (variables, typography, components, etc.)
+
+### Recent Feature Additions
+- **About Section:** Complete project information with mission, story, team, and values
+- **Enhanced Navigation:** 5-section navigation with optimized responsive breakpoints
+- **Content Management:** Centralized content structure with team member profiles and project values
+- **CSS Architecture:** Self-contained modular components following established patterns
 
 ### JavaScript Optimization
 - **Route Splitting:** GameMode page loads on-demand (2.45kB separate chunk)
@@ -40,21 +47,26 @@ npm run preview      # Preview production build
 
 ### Development Improvements
 - **Sass Modern API:** Fixed deprecation warning by configuring Vite to use `modern-compiler` API
+- **Responsive Design:** Enhanced navigation breakpoints (950px) to accommodate expanded navigation
 
 ## 📁 Project Structure
 
 ```
 src/
 ├── assets/styles/
-│   ├── base-new.css              # ACTIVE: imports all 19 CSS modules
+│   ├── base.css                  # ACTIVE: imports all 20 CSS modules
+│   ├── base-old.css              # LEGACY: original monolithic CSS
 │   └── modules/                  # CSS modules (variables, components, etc.)
-├── components/                   # 17 Vue components (Navigation, PlayersOnline, etc.)
-├── views/                       # Pages: Home.vue, GameMode.vue (code-split)
-├── composables/                 # API integration: useEvents, useYoutube, useFirstVisit
-├── utils/                       # Shared functions: playerDisplay, date formatting
-├── stores/                      # State management: appDataStore.ts
-├── api-types.ts                 # TypeScript interfaces for API responses
-└── main.ts                      # App entry: router setup, code splitting
+│       └── components/           # Component-specific styles (about.css, navigation.css, etc.)
+├── components/                   # 10 utility components (Navigation, PlayersOnline, etc.)
+├── screens/                      # 5 section components (GettingStarted, Community, About, etc.)
+├── views/                        # 2 main pages: Home.vue, GameMode.vue (code-split)
+├── composables/                  # API integration: useEvents, useYoutube, useFirstVisit
+├── utils/                        # Shared functions: playerDisplay, date formatting
+├── stores/                       # State management: appDataStore.ts
+├── content/                      # Static content: FAQ, About section data, requirements
+├── api-types.ts                  # TypeScript interfaces for API responses
+└── main.ts                       # App entry: router setup, code splitting
 ```
 
 ## 🛠️ Tech Stack
@@ -66,7 +78,7 @@ src/
 - Vite 5.2.0 (build tool)
 
 **Styling:**
-- Modular CSS architecture (19 modules)
+- Modular CSS architecture (20 modules)
 - Sass 1.92.1 for preprocessing
 - Font Awesome 6.5.2 for icons
 - Mobile-first responsive design
@@ -88,6 +100,14 @@ Production build creates optimized chunks:
 
 ## 🌟 Key Features
 
+**Site Sections:**
+1. **Hero/Home** - Player counts, featured content, call-to-action
+2. **Getting Started** - Installation guide, requirements, step-by-step setup
+3. **Statistics** - Live leaderboards, player rankings, game statistics
+4. **Community** - Discord, YouTube, Twitch integration with live data
+5. **About** - Project mission, team information, development approach, values
+6. **FAQ** - Comprehensive troubleshooting and information
+
 **Real-time Gaming Data:**
 - Live player counts with 60-second polling
 - Interactive leaderboards (multiple categories)
@@ -100,11 +120,18 @@ Production build creates optimized chunks:
 - Twitch stream embeds
 - FAQ system with search
 
+**Project Information:**
+- Mission statement and development story
+- Team member profiles and roles
+- Project values and technical approach
+- Community contribution guidelines
+
 **User Experience:**
-- Mobile-first responsive design
+- Mobile-first responsive design (navigation collapses at 950px)
 - Touch-optimized interactions
 - Persistent panel state (localStorage)
 - Smooth animations and transitions
+- Proper scroll positioning for all sections
 
 ## 🔒 Security Features
 
@@ -132,10 +159,40 @@ VITE_API_BASE=https://your-api-domain.com/api
 **Production Ready** - All features working, security audited, performance optimized.
 
 - Zero lint errors, TypeScript strict mode
-- All original functionality preserved
+- All original functionality preserved + About section added
 - Security vulnerabilities resolved
 - Build time: 1.76 seconds
 - Bundle size optimized with code splitting
+- Enhanced navigation with proper responsive design
+- Comprehensive project documentation
+
+## 📚 Content Management
+
+**About Section Content** (`src/content/content.ts`):
+- `aboutProject`: Mission, story, and technical approach
+- `teamMembers`: Team profiles with roles and descriptions
+- `projectValues`: Core principles (Authentic Experience, Community Driven, Fair Competition, Open Source Spirit)
+
+**Navigation Structure:**
+1. Getting Started → Installation and setup
+2. Statistics → Live player data and leaderboards
+3. Community → Discord, YouTube, Twitch integration
+4. About → Project information and team
+5. FAQ → Troubleshooting and support
+
+## 🎨 CSS Architecture
+
+**Modular System** (20 modules):
+- **Core:** variables.css, reset.css, typography.css, layout.css
+- **Components:** navigation.css, hero.css, about.css, community.css, etc.
+- **Utilities:** buttons.css, utilities.css, animations.css
+- **Responsive:** responsive.css with mobile-first breakpoints
+
+**Component Pattern:**
+- Each section has dedicated CSS module
+- No cross-section dependencies
+- Self-contained styling per component
+- Consistent responsive design patterns
 
 ## 🐛 Troubleshooting
 
@@ -152,10 +209,28 @@ npm audit
 ```
 
 **Common Issues:**
-- If styles look wrong: Verify `base-new.css` is imported in `main.ts`
+- If styles look wrong: Verify `base.css` is imported in `main.ts`
 - If GameMode won't load: Check router code splitting in `main.ts:22`
 - If API fails: Check `VITE_API_BASE` environment variable
+- If navigation clips: Responsive breakpoint set to 950px for 5 nav items
 - **Sass deprecation warning:** If you see "The legacy JS API is deprecated", this is already fixed in `vite.config.ts` with `api: 'modern-compiler'`
 
+## 📈 Recent Development History
+
+**Latest Enhancements:**
+- ✅ About section implementation with mission, story, team, and values
+- ✅ Navigation expanded to 5 sections with optimized responsive breakpoints
+- ✅ CSS architecture improvements (20 modular files, proper component isolation)
+- ✅ Content management system for team and project information
+- ✅ Enhanced scroll positioning and mobile navigation
+- ✅ FAQ cleanup to eliminate redundancy with About section
+
+**Architecture Principles Applied:**
+- Modular CSS with component-specific files
+- Self-contained components with no cross-dependencies
+- Mobile-first responsive design
+- Proper semantic structure and accessibility
+- Performance optimization with code splitting
+
 ---
-*Vue 3 SPA with complete modular architecture and enterprise security*
+*Vue 3 SPA with complete modular architecture, comprehensive project information, and enterprise security*

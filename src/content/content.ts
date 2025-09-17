@@ -31,7 +31,7 @@ export const steps = [
   {
     n: 4,
     t: 'Create Account & Play',
-    c: 'Launch the game and create an account. From the main menu, click <strong>Multiplayer</strong> -> <strong>Online</strong> and then <strong>Create Account</strong> in the bottom center of the screen. Then, join us in multiplayer!',
+    c: 'Launch the game and create an account. From the main menu, click <span class="text-bold">Multiplayer</span> -> <span class="text-bold">Online</span> and then <span class="text-bold">Create Account</span> in the bottom center of the screen. Then, join us in multiplayer!',
   },
 ];
 export interface CommunityCard {
@@ -241,3 +241,123 @@ export const projectValues = [
     icon: 'fa-solid fa-code',
   },
 ];
+
+// Advanced Setup Options
+export interface DedicatedServerStep {
+  n: number;
+  t: string;
+  c: string;
+}
+
+export interface NetworkPort {
+  port: string;
+  protocol: string;
+  description?: string;
+}
+
+export interface AdvancedDownload {
+  title: string;
+  url: string;
+  description?: string;
+}
+
+export const dedicatedServerSteps: DedicatedServerStep[] = [
+  {
+    n: 1,
+    t: 'Download Server Files',
+    c: 'Download both the WICGATE Dedicated Server package and the Hosts file from the links below.',
+  },
+  {
+    n: 2,
+    t: 'Extract Server Package',
+    c: 'Extract <span class="text-bold">MatchMode.zip</span> to your chosen directory.',
+  },
+  {
+    n: 3,
+    t: 'Install Hosts File',
+    c: 'Copy the downloaded <span class="text-bold">hosts</span> file to <span class="text-bold">C:\\Windows\\System32\\drivers\\etc</span> (requires administrator rights).',
+  },
+  {
+    n: 4,
+    t: 'Configure Server',
+    c: 'Open <span class="text-bold">wic_ds.ini</span>, adjust settings as needed, and save the file.',
+  },
+  {
+    n: 5,
+    t: 'Launch Server',
+    c: 'Start the server by running <span class="text-bold">wic_ds_wrapper.exe</span>.',
+  },
+];
+
+export const networkPorts: NetworkPort[] = [
+  { port: '3004', protocol: 'TCP' },
+  { port: '48000-49000', protocol: 'TCP & UDP' },
+  { port: '52999', protocol: 'TCP & UDP', description: 'VoIP; if hosting multiple servers, open adjacent ports (52998, 52997, etc.)' },
+  { port: '22993', protocol: 'UDP' },
+  { port: '22996', protocol: 'UDP' },
+];
+
+export const dedicatedServerDownloads: AdvancedDownload[] = [
+  {
+    title: 'WICGATE Dedicated Server (Match Mode Edition)',
+    url: '#', // Replace with actual URL
+    description: 'Complete server package for hosting dedicated games',
+  },
+  {
+    title: 'Hosts File',
+    url: '#', // Replace with actual URL
+    description: 'Required for server connectivity',
+  },
+  {
+    title: 'WICGATE Dedicated Server (Ranked Edition)',
+    url: '#', // Replace with actual URL
+    description: 'For public ranked servers (requires CD key from Discord moderators)',
+  },
+];
+
+export const manualInstallSteps: DedicatedServerStep[] = [
+  {
+    n: 1,
+    t: 'Download Components',
+    c: 'Download the Standalone Multiplayer Update and Hosts file from the links below.',
+  },
+  {
+    n: 2,
+    t: 'Install Update',
+    c: 'Run the Standalone Multiplayer Update installer and follow the installation process.',
+  },
+  {
+    n: 3,
+    t: 'Install Hosts File',
+    c: 'Copy the downloaded <span class="text-bold">hosts</span> file to <span class="text-bold">C:\\Windows\\System32\\drivers\\etc</span> (requires administrator rights).',
+  },
+  {
+    n: 4,
+    t: 'Optional: Community Maps',
+    c: 'Download additional community maps from the Community Maps Collection link below.',
+  },
+];
+
+export const manualInstallDownloads: AdvancedDownload[] = [
+  {
+    title: 'Standalone Multiplayer Update',
+    url: '#', // Replace with actual URL
+    description: 'Core multiplayer files for manual installation',
+  },
+  {
+    title: 'Hosts File',
+    url: '#', // Replace with actual URL
+    description: 'Required for server connectivity',
+  },
+  {
+    title: 'Community Maps Collection',
+    url: '#', // Replace with actual URL
+    description: 'Additional maps created by the community',
+  },
+];
+
+
+export const manualInstallWarning = {
+  title: 'Important Notice',
+  message: 'This installation method is unsupported and provided "as-is". For a streamlined experience, we recommend using the WIC LIVE installer above.',
+};
