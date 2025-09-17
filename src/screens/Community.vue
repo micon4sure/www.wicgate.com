@@ -241,14 +241,16 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                 <h4 class="section-title">By Content Creator</h4>
               </div>
               <div v-for="ch in channelsList" :key="ch.channelId" class="channel-section">
-                <div class="channel-header">
-                  <h4 class="channel-title">{{ ch.channelTitle }}</h4>
+                <div class="channel-badge-container">
                   <a
                     :href="`https://www.youtube.com/channel/${ch.channelId}`"
                     target="_blank"
-                    class="channel-link"
+                    class="channel-badge"
                   >
-                    Open Channel <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    <h4 class="channel-name">{{ ch.channelTitle }}</h4>
+                    <div class="channel-badge-icon">
+                      <i class="fa-solid fa-external-link" aria-hidden="true"></i>
+                    </div>
                   </a>
                 </div>
                 <div class="videos-grid">
@@ -381,43 +383,82 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 }
 
 .channel-section {
-  background: var(--s2);
-  border-radius: 8px;
+  margin-bottom: 32px;
+}
+
+.channel-badge-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.channel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
   overflow: hidden;
 }
 
-.channel-header {
-  background: linear-gradient(90deg, rgba(85, 107, 47, 0.1) 0%, transparent 60%);
-  border-left: 4px solid var(--mg);
-  padding: 16px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
+.channel-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.channel-title {
+.channel-name {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--t);
+  letter-spacing: 0.025em;
 }
 
-.channel-link {
+.channel-badge-icon {
   font-size: 0.85rem;
-  color: var(--mg);
-  text-decoration: none;
-  transition: var(--tr);
+  color: var(--t3);
+  transition: all 0.3s ease;
 }
 
 @media (hover: hover) {
-  .channel-link:hover {
-    color: var(--g);
+  .channel-badge:hover {
+    transform: translateY(-2px) scale(1.02);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .channel-badge:hover::before {
+    opacity: 1;
+  }
+
+  .channel-badge:hover .channel-name {
+    color: #fff;
+  }
+
+  .channel-badge:hover .channel-badge-icon {
+    color: var(--t);
+    transform: translateX(2px);
   }
 }
 
+.channel-badge:active {
+  transform: translateY(-1px) scale(1.01);
+}
+
 .channel-section .videos-grid {
-  padding: 16px 20px 20px;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 

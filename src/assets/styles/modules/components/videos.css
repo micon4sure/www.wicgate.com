@@ -2,9 +2,27 @@
 
 .vid-hdr {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  position: relative;
+  min-height: 40px;
+}
+
+.vid-hdr h3 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--t);
+  white-space: nowrap;
+}
+
+.vid-hdr > *:not(h3) {
+  margin-left: auto;
+  position: relative;
+  z-index: 2;
 }
 
 .vid-card {
