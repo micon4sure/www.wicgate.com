@@ -155,39 +155,29 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
       <div class="mb-xl">
         <div class="vid-hdr">
           <h3>Live Streams</h3>
-          <a
-            href="https://twitch.tv/directory/game/World%20in%20Conflict"
-            target="_blank"
-            class="card-act"
-            >Browse Twitch <i class="fa-solid fa-arrow-right" aria-hidden="true"></i
-          ></a>
         </div>
         <div class="grid grid-2" style="gap: 30px">
-          <div
+          <a
             v-for="u in twitchUsernames"
             :key="u"
+            :href="`https://twitch.tv/${u}`"
+            target="_blank"
             class="card"
-            style="padding: 0; overflow: hidden"
+            style="padding: 0; overflow: hidden; text-decoration: none; color: inherit"
+            :aria-label="`Watch ${u} live on Twitch`"
           >
             <TwitchEmbed :channel="u" muted />
             <div
               style="
                 padding: 12px 16px;
                 display: flex;
-                justify-content: space-between;
+                justify-content: center;
                 align-items: center;
               "
             >
               <strong style="font-size: 0.9rem">{{ u }}</strong>
-              <a
-                :href="`https://twitch.tv/${u}`"
-                target="_blank"
-                class="card-act"
-                style="font-size: 0.75rem"
-                >Open <i class="fa-solid fa-arrow-right" aria-hidden="true"></i
-              ></a>
             </div>
-          </div>
+          </a>
         </div>
       </div>
 
