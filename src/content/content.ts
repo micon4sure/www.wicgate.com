@@ -255,7 +255,6 @@ export interface NetworkPort {
   description?: string;
 }
 
-
 export const dedicatedServerSteps: DedicatedServerStep[] = [
   {
     n: 1,
@@ -287,11 +286,14 @@ export const dedicatedServerSteps: DedicatedServerStep[] = [
 export const networkPorts: NetworkPort[] = [
   { port: '3004', protocol: 'TCP' },
   { port: '48000-49000', protocol: 'TCP & UDP' },
-  { port: '52999', protocol: 'TCP & UDP', description: 'VoIP; if hosting multiple servers, open adjacent ports (52998, 52997, etc.)' },
+  {
+    port: '52999',
+    protocol: 'TCP & UDP',
+    description: 'VoIP; if hosting multiple servers, open adjacent ports (52998, 52997, etc.)',
+  },
   { port: '22993', protocol: 'UDP' },
   { port: '22996', protocol: 'UDP' },
 ];
-
 
 export const manualInstallSteps: DedicatedServerStep[] = [
   {
@@ -316,9 +318,8 @@ export const manualInstallSteps: DedicatedServerStep[] = [
   },
 ];
 
-
-
 export const manualInstallWarning = {
   title: 'Important Notice',
-  message: 'This installation method is unsupported and provided "as-is". For a streamlined experience, we recommend using the WIC LIVE installer above.',
+  message:
+    'This installation method is unsupported and provided "as-is". For a streamlined experience, we recommend using the WIC LIVE installer above.',
 };

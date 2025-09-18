@@ -47,7 +47,15 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
       </div>
 
       <div class="grid grid-3 mb-xl">
-        <div v-for="c in communityCards" :key="c.title" class="card com-card" :class="c.cls">
+        <a
+          v-for="c in communityCards"
+          :key="c.title"
+          :href="c.link"
+          target="_blank"
+          class="card com-card"
+          :class="c.cls"
+          :aria-label="`${c.action} - ${c.title}: ${c.desc}`"
+        >
           <div class="com-card-color-bar" />
           <div class="card-icon"><i :class="c.icon" aria-hidden="true"></i></div>
           <h3>{{ c.title }}</h3>
@@ -62,10 +70,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
             </div>
           </div>
           <p class="card-desc">{{ c.desc }}</p>
-          <a :href="c.link" target="_blank" class="card-act"
-            >{{ c.action }} <span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span
-          ></a>
-        </div>
+        </a>
       </div>
 
       <!-- Events Section -->

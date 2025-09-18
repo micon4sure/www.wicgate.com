@@ -6,7 +6,7 @@ import {
   dedicatedServerSteps,
   networkPorts,
   manualInstallSteps,
-  manualInstallWarning
+  manualInstallWarning,
 } from '../content/content';
 </script>
 <template>
@@ -57,7 +57,6 @@ import {
             To host your own dedicated server, follow these steps:
           </p>
 
-
           <div class="inst-grid">
             <div class="inst-steps">
               <div v-for="step in dedicatedServerSteps" :key="step.n" class="inst-step">
@@ -70,7 +69,9 @@ import {
             </div>
             <div class="server-config">
               <h3 class="grad-text">Network Configuration</h3>
-              <p class="mb-md">Ensure your router forwards the following ports to the machine running the server:</p>
+              <p class="mb-md">
+                Ensure your router forwards the following ports to the machine running the server:
+              </p>
               <div class="port-list">
                 <div v-for="port in networkPorts" :key="port.port" class="port-item">
                   <span class="port-number">{{ port.port }}</span>
@@ -95,7 +96,6 @@ import {
               <p>{{ manualInstallWarning.message }}</p>
             </div>
           </div>
-
 
           <div class="inst-steps">
             <div v-for="step in manualInstallSteps" :key="step.n" class="inst-step">

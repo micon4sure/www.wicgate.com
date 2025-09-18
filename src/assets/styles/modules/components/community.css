@@ -128,26 +128,8 @@
   z-index: 10;
 }
 
-.card-act {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--t);
+/* Card link styling */
+.com-card {
   text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: var(--tr);
-  position: relative;
-  z-index: 10;
-}
-
-@media (hover: hover) {
-  .card-act:hover {
-    gap: 12px;
-  }
-}
-
-.card-act:active {
-  transform: scale(0.97);
-  color: var(--mg);
+  color: inherit;
 }
