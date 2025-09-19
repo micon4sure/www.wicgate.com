@@ -1,0 +1,159 @@
+/* Navigation Component Styles */
+
+header {
+  background: rgba(15, 15, 15, 0.95);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hdr {
+  height: 70px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+nav {
+  display: flex;
+  gap: 35px;
+  align-items: center;
+}
+
+nav a {
+  color: var(--t2);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+  font-size: 15px;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--grad-main);
+  transition: width 0.3s;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  nav a:hover {
+    color: var(--t);
+  }
+  nav a:hover::after {
+    width: 100%;
+  }
+}
+
+.social {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-left: 25px;
+  padding-left: 25px;
+  border-left: 1px solid var(--bd);
+}
+
+.players-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--t);
+  font-size: 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .players-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .players-btn:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.players-btn:active {
+  animation: playersBtnTap 0.2s ease-out;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+
+.players-btn .p-count {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--t);
+}
+
+.players-btn .p-divider {
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 2px;
+}
+
+.players-btn .p-label-header {
+  font-size: 13px;
+  color: var(--t2);
+  font-weight: 400;
+}
+
+.mob-menu {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--t);
+  font-size: 24px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .mob-menu:focus {
+    outline: none;
+  }
+}

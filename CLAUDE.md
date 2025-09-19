@@ -1,13 +1,13 @@
 # CLAUDE.md - WiCGate Gaming Platform
 
-**What this is:** Vue 3 + TypeScript single-page application for World in Conflict gaming community. Features real-time player tracking, leaderboards, Discord events, community integration, and comprehensive project information.
+**What this is:** Vue 3 + TypeScript single-page application for World in Conflict gaming community featuring authentic Massgate-inspired military design. Real-time player tracking, structured leaderboards, Discord events, community integration, and comprehensive military-themed interface.
 
 ## 🔧 Development Setup
 
 ```bash
 # Install and run
 npm install
-npm run dev          # Development server (localhost:5173)
+npm run dev          # Development server (localhost:5175)
 
 # Code quality (run these before commits)
 npm run lint         # Check for errors
@@ -19,54 +19,92 @@ npm run build        # Build for production (1.76s)
 npm run preview      # Preview production build
 ```
 
-## 🏗️ What Was Done (Modularization & Enhancement Work)
+## 🎨 Visual Design & Theme
 
-### CSS Modularization
+### Massgate-Inspired Military Aesthetic
+**Complete visual redesign** implementing authentic original Massgate military design language:
+
+- **Theme Transformation:** From modern green cards → Military orange/amber structured layouts
+- **Color Scheme:** Authentic orange (`#e67e22`) and amber (`#f39c12`) matching original Massgate
+- **Typography:** Military-style fonts (Rajdhani, Oswald) with structured hierarchy
+- **Layout Pattern:** Sharp, structured military interfaces vs modern rounded cards
+- **Navigation:** Tab-style orange navigation system matching original Massgate design
+
+### Military Typography System
+**Google Fonts Integration:**
+- **Primary:** Rajdhani (500-700 weights) for body text and structured data
+- **Headers:** Oswald (400-700 weights) for military authority and commands
+- **Data Display:** Monospace (Courier New) for player names, scores, and military codes
+- **Text Classes:** `.text-command`, `.text-tactical`, `.military-data`, `.rank-display`
+
+### Color System Implementation
+**Military Orange/Amber Palette:**
+```css
+--mg: #e67e22;        /* Primary orange (Massgate tabs) */
+--mg-dark: #d35400;   /* Darker amber for depth */
+--sw: #f39c12;        /* Warm amber accent */
+--sw-light: #f8c471;  /* Lighter amber highlights */
+```
+
+**RGB Implementations:**
+- Shadows & Glows: `rgba(230, 126, 34, *)` throughout all components
+- Button effects: Orange gradients with military authority
+- Table borders: Structured amber accent lines
+
+## 🏗️ What Was Done (Military Redesign & Architecture)
+
+### Comprehensive Visual Transformation
+- **Navigation:** Modern navigation → Military tab-style system with clip-path styling
+- **Leaderboards:** Card layouts → Structured military tables with rank authority
+- **Buttons:** Modern rounded → Sharp military command buttons with borders
+- **Typography:** System fonts → Military font hierarchy (Rajdhani/Oswald)
+- **Colors:** Green theme → Authentic Massgate orange/amber throughout
+
+### Component Architecture Redesign
+- **Tab Navigation:** Authentic Massgate-style orange tabs with hover states
+- **Military Tables:** Structured borders, rank highlighting, amber accents
+- **Command Buttons:** Sharp rectangular design with military gradients
+- **Data Display:** Monospace military formatting for stats and names
+- **Structured Containers:** Sharp borders replacing modern card aesthetics
+
+### CSS Modularization (Enhanced)
 - **Before:** Single 2783-line `base.css` file (hard to maintain)
-- **After:** 20 organized CSS modules in `src/assets/styles/modules/`
-- **Active file:** `base.css` imports all modules in correct order
-- **Legacy file:** `base-old.css` (original monolithic CSS, no longer used)
-- **Result:** Zero style duplications, organized by purpose (variables, typography, components, etc.)
+- **After:** 20+ organized CSS modules with military-themed components
+- **Enhanced Files:** `typography.css` (military fonts), `navigation.css` (tab system), `leaderboards.css` (structured tables), `buttons.css` (military styling)
+- **Result:** Authentic military design with maintainable modular architecture
 
-### Recent Feature Additions
-- **About Section:** Complete project information with mission, story, team, and values
-- **Enhanced Navigation:** 5-section navigation with optimized responsive breakpoints
-- **Content Management:** Centralized content structure with team member profiles and project values
-- **CSS Architecture:** Self-contained modular components following established patterns
-
-### JavaScript Optimization
-- **Route Splitting:** GameMode page loads on-demand (2.45kB separate chunk)
-- **Tree Shaking:** Lodash imports only needed functions (`orderBy`, `map`)
-- **Centralized Utils:** Common functions moved to `src/utils/index.ts`
-- **Removed Redundant:** Deleted unnecessary `useAppData.ts` file
-
-### Security Hardening
-- **XSS Prevention:** Player names render as plain text (no HTML injection)
-- **Dependencies:** Updated axios 1.11.0 → 1.12.2 (fixes DoS vulnerability)
-- **Production Logging:** Console statements only show in development
-
-### Development Improvements
-- **Sass Modern API:** Fixed deprecation warning by configuring Vite to use `modern-compiler` API
-- **Responsive Design:** Enhanced navigation breakpoints (950px) to accommodate expanded navigation
+### Recent Major Updates
+- **Military Visual Redesign:** Complete transformation to Massgate-inspired design
+- **Typography System:** Google Fonts integration with military hierarchy
+- **Navigation Redesign:** Tab-style military navigation with orange theming
+- **Component Overhaul:** Leaderboards, buttons, and UI elements redesigned
+- **Color Implementation:** Orange/amber theme replacing green throughout
 
 ## 📁 Project Structure
 
 ```
 src/
 ├── assets/styles/
-│   ├── base.css                  # ACTIVE: imports all 20 CSS modules
+│   ├── base.css                  # ACTIVE: imports all military-themed modules
 │   ├── base-old.css              # LEGACY: original monolithic CSS
-│   └── modules/                  # CSS modules (variables, components, etc.)
-│       └── components/           # Component-specific styles (about.css, navigation.css, etc.)
-├── components/                   # 10 utility components (Navigation, PlayersOnline, etc.)
-├── screens/                      # 5 section components (GettingStarted, Community, About, etc.)
-├── views/                        # 2 main pages: Home.vue, GameMode.vue (code-split)
-├── composables/                  # API integration: useEvents, useYoutube, useFirstVisit
-├── utils/                        # Shared functions: playerDisplay, date formatting
-├── stores/                       # State management: appDataStore.ts
-├── content/                      # Static content: FAQ, About section data, requirements
-├── api-types.ts                  # TypeScript interfaces for API responses
-└── main.ts                       # App entry: router setup, code splitting
+│   └── modules/                  # Military-themed CSS modules
+│       ├── variables.css         # Orange/amber military color system
+│       ├── typography.css        # Military fonts (Rajdhani/Oswald)
+│       ├── buttons.css           # Military command button system
+│       └── components/           # Military-styled components
+│           ├── navigation.css    # Tab-style military navigation
+│           ├── leaderboards.css  # Structured military tables
+│           ├── hero.css          # Military-themed hero section
+│           └── [other components] # All with military styling
+├── components/                   # Vue components with military theming
+├── screens/                      # Section components with military design
+├── views/                        # Main pages with military aesthetics
+├── composables/                  # API integration (unchanged)
+├── utils/                        # Shared functions (unchanged)
+├── stores/                       # State management (unchanged)
+├── content/                      # Static content (unchanged)
+├── api-types.ts                  # TypeScript interfaces (unchanged)
+└── main.ts                       # App entry with military theme
 ```
 
 ## 🛠️ Tech Stack
@@ -77,11 +115,12 @@ src/
 - Vue Router 4.3.0 (with code splitting)
 - Vite 5.2.0 (build tool)
 
-**Styling:**
-- Modular CSS architecture (20 modules)
+**Military-Themed Styling:**
+- Modular CSS architecture (20+ modules) with military design
+- Google Fonts: Rajdhani + Oswald for military typography
 - Sass 1.92.1 for preprocessing
 - Font Awesome 6.5.2 for icons
-- Mobile-first responsive design
+- Mobile-first responsive design maintaining military aesthetics
 
 **Data & API:**
 - Axios 1.12.2 for HTTP requests
@@ -89,64 +128,92 @@ src/
 - API endpoint: `https://www.wicgate.com/api`
 - Environment variable: `VITE_API_BASE`
 
+## 🎖️ Military UI Components
+
+### Tab-Style Navigation
+**Authentic Massgate Design:**
+- Orange tab system with clip-path styling
+- Active state: Bold orange background with amber borders
+- Hover effects: Military-style elevation and glow
+- Mobile: Collapsible military-themed mobile menu
+- Typography: Oswald font with uppercase military styling
+
+### Structured Military Tables
+**Leaderboard System:**
+- Sharp rectangular containers with orange borders
+- Structured table format (vs modern cards)
+- Military rank highlighting (gold/silver/bronze with glow effects)
+- Monospace player names and clan tags
+- Amber accent lines and military typography
+
+### Command Button System
+**Military Authority Design:**
+- Sharp rectangular buttons (no border radius)
+- Orange gradient backgrounds with military borders
+- Button variants: Primary, Secondary, Outline, Danger
+- Typography: Oswald font with uppercase military styling
+- Active states: Military-style depression effects
+
+### Military Data Display
+**Structured Information:**
+- Monospace fonts for stats, names, and codes
+- Orange highlights for important data
+- Military-style rank insignia integration
+- Structured borders and amber accent lines
+- Authority-based typography hierarchy
+
 ## 📦 Build Output
 
 Production build creates optimized chunks:
 - **vendor-[hash].js** (91.48kB): Vue, Vue Router
-- **index-[hash].js** (79.47kB): Main application code
+- **index-[hash].js** (79.47kB): Main application code with military theming
 - **lodash-[hash].js** (70.48kB): Utility functions
-- **GameMode-[hash].js** (2.45kB): Dashboard page (loaded on-demand)
-- **index-[hash].css** (115.17kB): All styles combined
+- **GameMode-[hash].js** (2.45kB): Dashboard page with military styling
+- **index-[hash].css** (115.17kB): All military-themed styles combined
 
 ## 🌟 Key Features
 
-**Site Sections:**
-1. **Hero/Home** - Player counts, featured content, call-to-action
-2. **Getting Started** - Installation guide, requirements, step-by-step setup
-3. **Statistics** - Live leaderboards, player rankings, game statistics
-4. **Community** - Discord, YouTube, Twitch integration with live data
-5. **About** - Project mission, team information, development approach, values
-6. **FAQ** - Comprehensive troubleshooting and information
+**Military-Themed Site Sections:**
+1. **Hero/Home** - Military typography, orange theming, structured layout
+2. **Getting Started** - Military button styling, amber accents
+3. **Statistics** - Structured military tables, rank authority display
+4. **Community** - Military-themed integration panels
+5. **About** - Military typography and structured information display
+6. **FAQ** - Military-styled content organization
 
-**Real-time Gaming Data:**
-- Live player counts with 60-second polling
-- Interactive leaderboards (multiple categories)
-- Server status and player grouping
-- Game Mode dashboard (full-screen overlay)
+**Military-Styled Gaming Data:**
+- Live player counts with military display formatting
+- Structured military leaderboard tables (not cards)
+- Military rank highlighting with authority-based styling
+- Game Mode dashboard with military aesthetics
 
-**Community Integration:**
-- Discord events with countdown timers
-- YouTube video feeds
-- Twitch stream embeds
-- FAQ system with search
+**Authentic Military Design Elements:**
+- Tab-style navigation matching original Massgate
+- Orange/amber color scheme throughout
+- Military typography hierarchy (command, tactical, data)
+- Structured borders and sharp geometric design
+- Authority-based visual hierarchy
 
-**Project Information:**
-- Mission statement and development story
-- Team member profiles and roles
-- Project values and technical approach
-- Community contribution guidelines
-
-**User Experience:**
-- Mobile-first responsive design (navigation collapses at 950px)
-- Touch-optimized interactions
-- Persistent panel state (localStorage)
-- Smooth animations and transitions
-- Proper scroll positioning for all sections
+**Preserved Modern Functionality:**
+- Mobile-first responsive design with military theming
+- Touch-optimized interactions maintaining military aesthetics
+- Smooth animations with military-style transitions
+- All original features with enhanced military presentation
 
 ## 🔒 Security Features
 
 - **XSS Protection:** User input (player names) rendered safely as plain text
-- **Server Names:** Admin-controlled content can use colorization
+- **Server Names:** Admin-controlled content with military styling
 - **Secure Dependencies:** All packages updated to patch vulnerabilities
 - **Production Safety:** Debug information removed from production builds
 
 ## 🚀 Deployment
 
 **GitHub Pages Ready:**
-- Automatic deployment on push to master
+- Automatic deployment with military theme
 - Supports both custom domain and GitHub Pages subpath
 - SPA routing with fallback handling
-- Optimized asset caching with hash-based filenames
+- Optimized military-themed asset caching
 
 **Environment Setup:**
 ```bash
@@ -156,43 +223,77 @@ VITE_API_BASE=https://your-api-domain.com/api
 
 ## ✅ Current Status
 
-**Production Ready** - All features working, security audited, performance optimized.
+**Production Ready** - Military-themed design complete, all features working, performance optimized.
 
 - Zero lint errors, TypeScript strict mode
-- All original functionality preserved + About section added
+- Complete Massgate-inspired military visual design
+- All original functionality preserved with enhanced presentation
 - Security vulnerabilities resolved
-- Build time: 1.76 seconds
-- Bundle size optimized with code splitting
-- Enhanced navigation with proper responsive design
-- Comprehensive project documentation
+- Military theme responsive across all devices
+- Authentic orange/amber color scheme throughout
 
 ## 📚 Content Management
 
-**About Section Content** (`src/content/content.ts`):
-- `aboutProject`: Mission, story, and technical approach
-- `teamMembers`: Team profiles with roles and descriptions
-- `projectValues`: Core principles (Authentic Experience, Community Driven, Fair Competition, Open Source Spirit)
+**Military-Themed Content Structure:**
+- `aboutProject`: Mission with military typography
+- `teamMembers`: Team profiles with military styling
+- `projectValues`: Core principles with structured military presentation
+- All content enhanced with military design language
 
-**Navigation Structure:**
-1. Getting Started → Installation and setup
-2. Statistics → Live player data and leaderboards
-3. Community → Discord, YouTube, Twitch integration
-4. About → Project information and team
-5. FAQ → Troubleshooting and support
+**Military Navigation Structure:**
+1. Getting Started → Installation with military button styling
+2. Statistics → Military-structured leaderboard tables
+3. Community → Military-themed integration panels
+4. About → Project information with military typography
+5. FAQ → Military-styled troubleshooting
 
-## 🎨 CSS Architecture
+## 🎨 Military CSS Architecture
 
-**Modular System** (20 modules):
-- **Core:** variables.css, reset.css, typography.css, layout.css
-- **Components:** navigation.css, hero.css, about.css, community.css, etc.
-- **Utilities:** buttons.css, utilities.css, animations.css
-- **Responsive:** responsive.css with mobile-first breakpoints
+### Enhanced Modular System (20+ modules)
+**Core Military Modules:**
+- **variables.css:** Orange/amber military color system
+- **reset.css:** Base setup with military font integration
+- **typography.css:** Military font hierarchy (Rajdhani/Oswald)
+- **buttons.css:** Military command button system
+- **layout.css:** Structured military layout patterns
 
-**Component Pattern:**
-- Each section has dedicated CSS module
-- No cross-section dependencies
-- Self-contained styling per component
-- Consistent responsive design patterns
+**Military Component Modules:**
+- **navigation.css:** Tab-style military navigation system
+- **leaderboards.css:** Structured military table design
+- **hero.css:** Military-themed hero section
+- **about.css:** Military typography and layout
+- **community.css:** Military-styled integration panels
+
+**Military Design Patterns:**
+- Sharp geometric design (no border radius)
+- Orange/amber accent system throughout
+- Military typography hierarchy
+- Structured borders and authority-based layouts
+- Authentic Massgate design language
+
+## 🔧 Military Theme Implementation
+
+### Google Fonts Integration
+**Font Loading** (`index.html`):
+```html
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+```
+
+### Military Color System
+**CSS Variables** (`variables.css`):
+```css
+--mg: #e67e22;        /* Primary orange (Massgate) */
+--mg-dark: #d35400;   /* Darker amber */
+--sw: #f39c12;        /* Warm amber accent */
+--sw-light: #f8c471;  /* Lighter amber */
+```
+
+### Typography Hierarchy
+**Military Font Usage:**
+- **Headers:** Oswald for military authority
+- **Body:** Rajdhani for structured readability
+- **Data:** Courier New for military precision
+- **All text:** Uppercase transforms where appropriate
 
 ## 🐛 Troubleshooting
 
@@ -209,28 +310,70 @@ npm audit
 ```
 
 **Common Issues:**
-- If styles look wrong: Verify `base.css` is imported in `main.ts`
-- If GameMode won't load: Check router code splitting in `main.ts:22`
-- If API fails: Check `VITE_API_BASE` environment variable
-- If navigation clips: Responsive breakpoint set to 950px for 5 nav items
-- **Sass deprecation warning:** If you see "The legacy JS API is deprecated", this is already fixed in `vite.config.ts` with `api: 'modern-compiler'`
+- **Military theme not loading:** Verify Google Fonts connection and CSS imports
+- **Orange colors not showing:** Check CSS variable definitions in `variables.css`
+- **Military fonts not displaying:** Ensure Google Fonts are loaded in `index.html`
+- **Navigation tabs broken:** Check clip-path support and tab styling
+- **Table styling issues:** Verify military table CSS in `leaderboards.css`
+- **Button styling broken:** Check military button system in `buttons.css`
+
+**Design-Specific Issues:**
+- **Mobile military theme:** All military styling is responsive-first
+- **Tab navigation mobile:** Collapses to military-themed mobile menu
+- **Color contrast:** Orange/amber theme maintains accessibility standards
+- **Font loading:** Military fonts fallback to system fonts gracefully
 
 ## 📈 Recent Development History
 
-**Latest Enhancements:**
+**Major Military Redesign (Latest):**
+- ✅ **Complete visual transformation** to authentic Massgate military design
+- ✅ **Military typography system** with Google Fonts (Rajdhani/Oswald)
+- ✅ **Tab-style navigation** matching original Massgate with orange theming
+- ✅ **Structured military tables** replacing modern card layouts
+- ✅ **Military button system** with command-style authority design
+- ✅ **Orange/amber color scheme** throughout all components
+- ✅ **Preserved responsiveness** with military aesthetics on all devices
+
+**Previous Enhancements:**
 - ✅ About section implementation with mission, story, team, and values
 - ✅ Navigation expanded to 5 sections with optimized responsive breakpoints
 - ✅ CSS architecture improvements (20 modular files, proper component isolation)
 - ✅ Content management system for team and project information
 - ✅ Enhanced scroll positioning and mobile navigation
-- ✅ FAQ cleanup to eliminate redundancy with About section
+- ✅ Security hardening and performance optimization
 
-**Architecture Principles Applied:**
-- Modular CSS with component-specific files
-- Self-contained components with no cross-dependencies
-- Mobile-first responsive design
-- Proper semantic structure and accessibility
-- Performance optimization with code splitting
+**Military Design Principles Applied:**
+- Authentic Massgate visual language recreation
+- Military typography hierarchy and authority
+- Structured geometric design (sharp, not rounded)
+- Orange/amber military color psychology
+- Command-style interface design
+- Mobile-first responsive military aesthetics
+
+## 🎖️ Visual Identity
+
+### Design Philosophy
+**Authentic Military Aesthetic:**
+- Recreates original Massgate design language with modern implementation
+- Orange/amber color scheme matching original World in Conflict branding
+- Military typography conveying authority and structure
+- Sharp geometric design reflecting military precision
+- Command-style interface elements for gaming authority
+
+### Military Color Psychology
+**Orange/Amber Significance:**
+- **Command Authority:** Orange conveys leadership and action
+- **Military Heritage:** Matches World in Conflict's military aesthetic
+- **Gaming Intensity:** Energetic colors for competitive gaming
+- **Brand Authenticity:** Faithful to original Massgate visual identity
+
+### Balance of Authenticity & Usability
+**Modern Standards Maintained:**
+- Mobile-first responsive design within military aesthetics
+- Accessibility standards met with proper color contrast
+- Touch-friendly interactions with military styling
+- Modern CSS techniques for performance
+- Semantic structure preserved with military presentation
 
 ---
-*Vue 3 SPA with complete modular architecture, comprehensive project information, and enterprise security*
+*Vue 3 SPA with authentic Massgate military design, complete modular architecture, and enterprise-grade functionality*

@@ -43,7 +43,7 @@
   font-weight: 700;
   font-size: 1.2rem;
   flex-shrink: 0;
-  box-shadow: 0 4px 15px rgba(85, 107, 47, 0.3);
+  box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
 }
 
 .step-cont p {
@@ -71,7 +71,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 5px rgba(85, 107, 47, 0.3));
+  filter: drop-shadow(0 0 5px rgba(230, 126, 34, 0.3));
   font-weight: bold;
   pointer-events: none;
 }

@@ -2,11 +2,11 @@
 
 :root {
   /* Brand Colors */
-  --mg: #e67e22; /* Primary orange/amber */
-  --mg-dark: #d35400; /* Darker amber */
-  --sw: #f39c12; /* Warm amber accent */
-  --sw-light: #f8c471; /* Lighter amber accent */
-  --o: #e67e22; /* Secondary highlight (consistent with primary) */
+  --mg: #556b2f; /* Primary olive green */
+  --mg-dark: #3d4f22; /* Darker olive */
+  --sw: #e8dcc4; /* Light warm accent */
+  --sw-light: #f5ede2; /* Lighter warm accent */
+  --o: #d4a574; /* Secondary highlight */
 
   /* Background Colors */
   --bg: #0f0f0f; /* Page background */
@@ -39,7 +39,7 @@
 
   /* Shadows */
   --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 10px rgba(230, 126, 34, 0.3);
+  --shadow-glow: 0 0 10px rgba(85, 107, 47, 0.3);
 
   /* Animations */
   --anim-pulse: pulse 2s ease-in-out infinite;

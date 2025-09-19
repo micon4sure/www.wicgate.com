@@ -1,0 +1,185 @@
+/* Button styles and variations */
+
+.btn {
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--tr);
+  position: relative;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Button ripple effect */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.6s,
+    height 0.6s;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .btn:hover::after {
+    width: 300%;
+    height: 300%;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .btn:focus {
+    outline: none;
+  }
+  .btn:focus::after {
+    width: 0;
+    height: 0;
+  }
+}
+
+.btn:active {
+  animation: btnTap 0.2s ease-out;
+}
+
+/* Primary button (olive green) */
+.btn-p {
+  background: linear-gradient(135deg, var(--mg) 0%, var(--mg-dark) 100%);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+}
+
+@media (hover: hover) {
+  .btn-p:hover {
+    background: linear-gradient(135deg, #f39c12 0%, var(--mg) 100%);
+    box-shadow:
+      0 10px 30px rgba(230, 126, 34, 0.4),
+      0 0 20px rgba(230, 126, 34, 0.2);
+    transform: translateY(-2px);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .btn-p:focus {
+    background: linear-gradient(135deg, var(--mg) 0%, var(--mg-dark) 100%);
+    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+    transform: none;
+  }
+}
+
+.btn-p:active {
+  box-shadow:
+    0 8px 25px rgba(230, 126, 34, 0.5),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: btnTapP 0.2s ease-out;
+}
+
+/* Discord button (blue) */
+.btn-d {
+  background: linear-gradient(135deg, var(--d) 0%, #4752c4 100%);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+}
+
+@media (hover: hover) {
+  .btn-d:hover {
+    background: linear-gradient(135deg, #6b7ff3 0%, var(--d) 100%);
+    box-shadow:
+      0 10px 30px rgba(88, 101, 242, 0.4),
+      0 0 20px rgba(88, 101, 242, 0.2);
+    transform: translateY(-2px);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .btn-d:focus {
+    background: linear-gradient(135deg, var(--d) 0%, #4752c4 100%);
+    box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+    transform: none;
+  }
+}
+
+.btn-d:active {
+  box-shadow:
+    0 8px 25px rgba(88, 101, 242, 0.5),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: btnTapD 0.2s ease-out;
+}
+
+/* Players button in header */
+.players-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--t);
+  font-size: 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .players-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .players-btn:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.players-btn:active {
+  animation: playersBtnTap 0.2s ease-out;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.players-btn .p-count {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--t);
+}
+
+.players-btn .p-divider {
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 2px;
+}
+
+.players-btn .p-label-header {
+  font-size: 13px;
+  color: var(--t2);
+  font-weight: 400;
+}

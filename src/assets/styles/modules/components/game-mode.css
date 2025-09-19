@@ -239,7 +239,7 @@ body.players-online .gm-status-dot {
 
 @media (hover: hover) {
   .gm-stat-table tr:hover {
-    background: rgba(85, 107, 47, 0.15) !important;
+    background: rgba(230, 126, 34, 0.15) !important;
   }
 }
 

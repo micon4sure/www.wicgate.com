@@ -1,70 +1,252 @@
-/* Typography and text styles */
+/* Military-inspired Typography System - Massgate Style */
 
+/* Base font setup */
+* {
+  font-family: 'Rajdhani', 'Oswald', 'Impact', system-ui, -apple-system, sans-serif;
+}
+
+/* Military-style headers with enhanced authority */
 h1 {
+  font-family: 'Oswald', 'Impact', sans-serif;
   font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.1;
   margin-bottom: 24px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(230, 126, 34, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 h2 {
+  font-family: 'Oswald', 'Impact', sans-serif;
   font-size: clamp(2rem, 4vw, 2.5rem);
-  font-weight: 800;
+  font-weight: 600;
   margin-bottom: 20px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 h3 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--sw);
 }
 
 h4 {
-  font-size: 1.125rem;
-  margin-bottom: 10px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
-/* Text utilities */
+h5 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--mg);
+}
+
+/* Body text with military structure */
+p {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* Military data display (monospace for stats) */
+.military-data,
+.player-name,
+.score-display,
+.rank-display {
+  font-family: 'Courier New', 'Monaco', monospace;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Enhanced text utilities */
 .text-center {
   text-align: center;
 }
+
 .text-muted {
   color: var(--t2);
+  font-weight: 400;
 }
+
 .text-dim {
   color: var(--t3);
+  font-weight: 300;
 }
+
 .text-sm {
-  font-size: 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
+
 .text-xs {
   font-size: 0.75rem;
+  font-weight: 500;
 }
+
 .text-bold {
   font-weight: 700;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Oswald', sans-serif;
 }
 
+.text-military {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
-/* Semantic text styles */
-.section-lead {
-  font-size: 1.125rem;
-  color: var(--t2);
-  max-width: 600px;
-  margin: 0 auto;
+/* Military-style emphasis */
+.text-command {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--mg);
+  text-shadow: 0 0 10px rgba(230, 126, 34, 0.4);
+}
+
+.text-tactical {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  color: var(--sw);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Navigation typography */
+.nav-text {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Table headers with military authority */
+.table-header {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--mg);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Leaderboard specific typography */
+.leaderboard-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--mg);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 .leaderboard-subtitle {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
   margin: 5px 0 0 0;
+  color: var(--t2);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Rank styling */
+.rank-number {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  color: var(--sw);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* Player display */
+.player-display {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Section styling */
+.section-lead {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--t2);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Placeholder and empty states */
+.lb-placeholder,
+.no-data {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+  text-align: center;
+  color: var(--t3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .lb-placeholder {
   padding: 20px;
-  text-align: center;
-  color: var(--t2);
 }
 
-.no-data {
-  text-align: center;
+/* Button text styling */
+.btn-text {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Status indicators */
+.status-online {
+  color: var(--g);
+  font-weight: 600;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(124, 179, 66, 0.4);
+}
+
+.status-offline {
   color: var(--t3);
+  font-weight: 500;
+  font-family: 'Rajdhani', sans-serif;
+  text-transform: uppercase;
+}
+
+/* Combat/score emphasis */
+.score-highlight {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  color: var(--mg);
+  text-shadow: 0 0 10px rgba(230, 126, 34, 0.4);
+}
+
+/* Military acronyms and codes */
+.military-code {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  background: rgba(230, 126, 34, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--sw);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
