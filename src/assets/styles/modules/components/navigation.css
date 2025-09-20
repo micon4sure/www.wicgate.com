@@ -1,15 +1,15 @@
 /* Military-style Tab Navigation - Massgate Inspired */
 
 header {
-  background: linear-gradient(180deg, rgba(20, 34, 43, 0.98) 0%, rgba(10, 18, 24, 0.98) 100%);
-  border-bottom: 3px solid var(--divider-strong);
+  background: linear-gradient(180deg, rgba(var(--graphite-light-rgb), 0.95) 0%, rgba(var(--graphite-dark-rgb), 0.98) 100%);
+  border-bottom: 3px solid rgba(var(--graphite-rgb), 0.85);
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
   box-shadow: 
     0 2px 24px rgba(0, 0, 0, 0.75),
-    0 0 36px rgba(var(--mg-rgb), 0.2);
+    0 0 36px rgba(var(--graphite-rgb), 0.35);
 }
 
 .hdr {
@@ -73,8 +73,8 @@ nav a {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: linear-gradient(180deg, rgba(35, 52, 64, 0.82) 0%, rgba(18, 31, 40, 0.82) 100%);
-  border: 1px solid var(--divider-soft);
+  background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.92) 100%);
+  border: 1px solid rgba(var(--graphite-dark-rgb), 0.6);
   border-bottom: none;
   margin-right: 2px;
   transition: var(--tr);
@@ -99,7 +99,7 @@ nav a {
 @media (hover: hover) {
   nav a:hover {
     color: #0b141a;
-    background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.78) 100%);
+    background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.88) 0%, rgba(var(--sw-rgb), 0.7) 100%);
     border-color: rgba(var(--sw-rgb), 0.85);
     box-shadow: 
       0 0 18px rgba(var(--sw-rgb), 0.45),
@@ -112,7 +112,7 @@ nav a {
 /* Active tab styling */
 nav a.active {
   color: #0b141a;
-  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.98) 0%, rgba(var(--sw-rgb), 0.8) 100%);
+  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.98) 0%, rgba(var(--sw-rgb), 0.82) 100%);
   border-color: rgba(var(--sw-rgb), 0.9);
   font-weight: 600;
   box-shadow: 
@@ -246,8 +246,8 @@ nav a.active::before {
 /* Mobile menu button */
 .mob-menu {
   display: none;
-  background: linear-gradient(135deg, var(--mg) 0%, var(--mg-dark) 100%);
-  border: 2px solid var(--sw);
+  background: linear-gradient(135deg, rgba(var(--graphite-rgb), 0.95) 0%, rgba(var(--graphite-dark-rgb), 0.95) 100%);
+  border: 2px solid rgba(var(--sw-rgb), 0.85);
   color: var(--t);
   text-shadow: 0 0 8px rgba(var(--sw-rgb), 0.35);
   font-size: 20px;
@@ -265,8 +265,8 @@ nav a.active::before {
 
 @media (hover: hover) {
   .mob-menu:hover {
-    background: linear-gradient(135deg, var(--sw) 0%, var(--mg) 100%);
-    box-shadow: 0 0 18px rgba(var(--sw-rgb), 0.4);
+    background: linear-gradient(135deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.75) 100%);
+    box-shadow: 0 0 18px rgba(var(--sw-rgb), 0.5);
     color: #0b141a;
   }
 }

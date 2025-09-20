@@ -9,12 +9,18 @@
   --sw-light: #f8a85e; /* Lighter accent highlight */
   --o: #f37c2b; /* Legacy alias for accent */
   --dl: #ee3d32; /* High-alert download red */
+  --graphite: #1a1d21; /* Graphite navigation base */
+  --graphite-dark: #111417; /* Deep graphite */
+  --graphite-light: #24292e; /* Lighter graphite */
 
   /* RGB helpers */
   --mg-rgb: 31, 47, 59;
   --mg-dark-rgb: 16, 26, 34;
   --sw-rgb: 243, 124, 43;
   --dl-rgb: 238, 61, 50;
+  --graphite-rgb: 26, 29, 33;
+  --graphite-dark-rgb: 17, 20, 23;
+  --graphite-light-rgb: 36, 41, 46;
 
   /* Background Colors */
   --bg: #091118; /* Deep graphite backdrop */
