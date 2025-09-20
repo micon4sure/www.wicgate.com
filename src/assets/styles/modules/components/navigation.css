@@ -1,15 +1,15 @@
 /* Military-style Tab Navigation - Massgate Inspired */
 
 header {
-  background: linear-gradient(180deg, rgba(15, 15, 15, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
-  border-bottom: 3px solid var(--mg);
+  background: linear-gradient(180deg, rgba(20, 34, 43, 0.98) 0%, rgba(10, 18, 24, 0.98) 100%);
+  border-bottom: 3px solid var(--divider-strong);
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
   box-shadow: 
-    0 2px 20px rgba(0, 0, 0, 0.8),
-    0 0 40px rgba(230, 126, 34, 0.1);
+    0 2px 24px rgba(0, 0, 0, 0.75),
+    0 0 36px rgba(var(--mg-rgb), 0.2);
 }
 
 .hdr {
@@ -24,10 +24,10 @@ header {
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
-  color: var(--mg);
+  color: var(--sw);
   text-shadow: 
-    0 0 15px rgba(230, 126, 34, 0.5),
-    0 2px 4px rgba(0, 0, 0, 0.8);
+    0 0 18px rgba(var(--sw-rgb), 0.55),
+    0 2px 6px rgba(0, 0, 0, 0.9);
   text-transform: uppercase;
   letter-spacing: 2px;
   -webkit-user-select: none;
@@ -41,8 +41,8 @@ header {
   .logo:hover {
     color: var(--sw);
     text-shadow: 
-      0 0 20px rgba(243, 156, 18, 0.6),
-      0 2px 4px rgba(0, 0, 0, 0.8);
+      0 0 20px rgba(var(--sw-rgb), 0.65),
+      0 2px 4px rgba(0, 0, 0, 0.9);
   }
 }
 
@@ -73,8 +73,8 @@ nav a {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: linear-gradient(180deg, rgba(25, 25, 25, 0.8) 0%, rgba(15, 15, 15, 0.8) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(35, 52, 64, 0.82) 0%, rgba(18, 31, 40, 0.82) 100%);
+  border: 1px solid var(--divider-soft);
   border-bottom: none;
   margin-right: 2px;
   transition: var(--tr);
@@ -98,12 +98,12 @@ nav a {
 /* Active/hover state for tabs */
 @media (hover: hover) {
   nav a:hover {
-    color: var(--t);
-    background: linear-gradient(180deg, var(--mg) 0%, var(--mg-dark) 100%);
-    border-color: var(--sw);
+    color: #0b141a;
+    background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.78) 100%);
+    border-color: rgba(var(--sw-rgb), 0.85);
     box-shadow: 
-      0 0 15px rgba(230, 126, 34, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      0 0 18px rgba(var(--sw-rgb), 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
     transform: translateY(-2px);
     z-index: 10;
   }
@@ -111,14 +111,14 @@ nav a {
 
 /* Active tab styling */
 nav a.active {
-  color: #000;
-  background: linear-gradient(180deg, var(--sw) 0%, var(--mg) 100%);
-  border-color: var(--sw);
+  color: #0b141a;
+  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.98) 0%, rgba(var(--sw-rgb), 0.8) 100%);
+  border-color: rgba(var(--sw-rgb), 0.9);
   font-weight: 600;
   box-shadow: 
-    0 0 20px rgba(230, 126, 34, 0.5),
+    0 0 24px rgba(var(--sw-rgb), 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: none;
   z-index: 15;
 }
 
@@ -130,20 +130,20 @@ nav a::before {
   left: 0;
   right: 0;
   height: 3px;
-  background: var(--mg);
+  background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.9) 0%, rgba(var(--sw-rgb), 0.6) 100%);
   opacity: 0;
   transition: var(--tr);
 }
 
 @media (hover: hover) {
   nav a:hover::before {
-    opacity: 1;
+    opacity: 0.5;
   }
 }
 
 nav a.active::before {
   opacity: 1;
-  background: var(--sw);
+  background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.65) 100%);
 }
 
 /* Players button with military styling */
@@ -153,8 +153,8 @@ nav a.active::before {
   gap: 8px;
   padding: 10px 16px;
   border-radius: 4px;
-  background: linear-gradient(135deg, rgba(230, 126, 34, 0.15) 0%, rgba(211, 84, 0, 0.15) 100%);
-  border: 2px solid var(--mg);
+  background: linear-gradient(135deg, rgba(var(--mg-rgb), 0.25) 0%, rgba(var(--mg-dark-rgb), 0.25) 100%);
+  border: 2px solid var(--divider-strong);
   color: var(--t);
   font-family: 'Rajdhani', sans-serif;
   font-size: 14px;
@@ -170,16 +170,20 @@ nav a.active::before {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   margin-left: 20px;
+  box-shadow:
+    0 0 12px rgba(var(--mg-rgb), 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 @media (hover: hover) {
   .players-btn:hover {
-    background: linear-gradient(135deg, rgba(230, 126, 34, 0.25) 0%, rgba(211, 84, 0, 0.25) 100%);
-    border-color: var(--sw);
+    background: linear-gradient(135deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.7) 100%);
+    border-color: rgba(var(--sw-rgb), 0.85);
     box-shadow: 
-      0 0 15px rgba(230, 126, 34, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      0 0 20px rgba(var(--sw-rgb), 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
     transform: translateY(-1px);
+    color: #0b141a;
   }
 }
 
@@ -192,7 +196,7 @@ nav a.active::before {
 .players-btn:active {
   transform: translateY(0);
   box-shadow: 
-    0 0 10px rgba(230, 126, 34, 0.4),
+    0 0 12px rgba(var(--sw-rgb), 0.4),
     inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -261,7 +265,7 @@ nav a.active::before {
 @media (hover: hover) {
   .mob-menu:hover {
     background: linear-gradient(135deg, var(--sw) 0%, var(--mg) 100%);
-    box-shadow: 0 0 15px rgba(230, 126, 34, 0.4);
+    box-shadow: 0 0 15px rgba(var(--mg-rgb), 0.4);
   }
 }
 

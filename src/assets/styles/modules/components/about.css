@@ -33,8 +33,8 @@
 
 .story-content,
 .approach-content {
-  background: var(--grad-card);
-  border: 1px solid var(--bd);
+  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  border: 1px solid var(--divider-strong);
   
   padding: 28px;
 }
@@ -59,8 +59,8 @@
 }
 
 .value-card {
-  background: var(--grad-card);
-  border: 1px solid var(--bd);
+  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  border: 1px solid var(--divider-strong);
   
   overflow: hidden;
   position: relative;
@@ -71,14 +71,17 @@
 .value-icon {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, var(--mg) 0%, var(--sw) 100%);
-  
+  background: linear-gradient(135deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.75) 100%);
+  border: 1px solid rgba(var(--sw-rgb), 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
   font-size: 1.5rem;
-  color: white;
+  color: #0b141a;
+  box-shadow:
+    0 6px 20px rgba(var(--sw-rgb), 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .value-card h4 {
@@ -99,8 +102,8 @@
 }
 
 .team-card {
-  background: var(--grad-card);
-  border: 1px solid var(--bd);
+  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  border: 1px solid var(--divider-strong);
   
   overflow: hidden;
   position: relative;
@@ -116,7 +119,7 @@
 
 .team-role {
   font-size: 0.9rem;
-  color: var(--mg);
+  color: var(--sw);
   font-weight: 600;
   margin-bottom: 16px;
   text-transform: uppercase;
@@ -134,7 +137,7 @@
 }
 
 .text-link {
-  color: var(--mg);
+  color: var(--sw);
   text-decoration: none;
   transition: var(--tr);
 }
@@ -224,19 +227,19 @@
 .approach-content,
 .value-card,
 .team-card {
-  background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
-  border: 2px solid var(--mg);
+  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  border: 1px solid var(--divider-strong);
   box-shadow: 
-    0 0 20px rgba(230, 126, 34, 0.2),
+    0 0 20px rgba(var(--mg-rgb), 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .value-card {
-  border-top: 3px solid var(--sw);
+  border-top: 3px solid rgba(var(--sw-rgb), 0.8);
 }
 
 .team-card {
-  border-left: 3px solid var(--mg);
+  border-left: 3px solid rgba(var(--sw-rgb), 0.6);
 }
 
 /* Military accent lines */
@@ -248,21 +251,21 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--mg) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(var(--sw-rgb), 0.7) 50%, transparent 100%);
 }
 
 /* Enhanced Military Value Icons */
 .value-icon {
-  background: linear-gradient(180deg, var(--mg) 0%, var(--mg-dark) 100%);
-  border: 2px solid var(--sw);
+  background: linear-gradient(135deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.75) 100%);
+  border: 1px solid rgba(var(--sw-rgb), 0.8);
   box-shadow: 
-    0 4px 15px rgba(230, 126, 34, 0.4),
+    0 6px 20px rgba(var(--sw-rgb), 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  color: #000;
+  color: #0b141a;
   font-weight: 700;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: none;
 }
 
 .value-icon i {
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }

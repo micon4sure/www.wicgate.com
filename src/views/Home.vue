@@ -187,7 +187,10 @@ function scrollToGettingStarted() {
               the real Massgate code.
             </p>
             <div class="hero-acts">
-              <a href="#getting-started" class="btn btn-p" @click.prevent="scrollToGettingStarted"
+              <a
+                href="#getting-started"
+                class="btn btn-download"
+                @click.prevent="scrollToGettingStarted"
                 ><i class="fa-solid fa-arrow-down" aria-hidden="true"></i> Get WIC LIVE</a
               >
               <a href="https://discord.gg/WnxwfMTyBe" target="_blank" class="btn btn-d">
@@ -261,16 +264,24 @@ function scrollToGettingStarted() {
 #screens {
   > * {
     padding: 48px 0;
-    border-top: 2px solid rgba(230, 126, 34, 0.1);
+    border-top: 2px solid rgba(var(--mg-rgb), 0.1);
 
     // Even-indexed screens: subtle orange military tint
     &:nth-child(even) {
-      background: linear-gradient(180deg, rgba(230, 126, 34, 0.02) 0%, rgba(15, 15, 15, 0.95) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(var(--mg-rgb), 0.02) 0%,
+        rgba(15, 15, 15, 0.95) 100%
+      );
     }
 
-    // Odd-indexed screens: subtle amber military tint
+    // Odd-indexed screens: subtle accent tint
     &:nth-child(odd) {
-      background: linear-gradient(180deg, rgba(248, 196, 113, 0.02) 0%, rgba(10, 10, 10, 0.95) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(var(--sw-rgb), 0.06) 0%,
+        rgba(10, 16, 21, 0.96) 100%
+      );
     }
   }
 }

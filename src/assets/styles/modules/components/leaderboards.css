@@ -1,22 +1,22 @@
 /* Military-style Leaderboards - Massgate Inspired */
 
 .lb-cont {
-  background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
-  border: 2px solid var(--mg);
+  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(8, 14, 18, 0.98) 100%);
+  border: 1px solid var(--divider-strong);
   border-radius: 0;
   overflow: hidden;
   transition: var(--tr);
   position: relative;
   box-shadow: 
-    0 0 20px rgba(230, 126, 34, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-bottom: 20px;
+    0 12px 30px rgba(4, 9, 14, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  margin-bottom: 24px;
 }
 
 .lb-hdr {
   padding: 15px 20px;
-  background: linear-gradient(180deg, var(--mg) 0%, var(--mg-dark) 100%);
-  border-bottom: 2px solid var(--sw);
+  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.96) 0%, rgba(168, 70, 24, 0.92) 100%);
+  border-bottom: 3px solid rgba(var(--sw-rgb), 0.75);
   position: relative;
 }
 
@@ -24,18 +24,18 @@
   font-family: 'Oswald', sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
-  color: #000;
+  color: #0b141a;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 0;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.2);
 }
 
 .leaderboard-subtitle {
   font-family: 'Rajdhani', sans-serif;
   font-weight: 500;
   margin: 5px 0 0 0;
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(11, 20, 26, 0.8);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-size: 0.85rem;
@@ -43,16 +43,16 @@
 
 .tabs {
   display: flex;
-  background: linear-gradient(180deg, rgba(25, 25, 25, 0.9) 0%, rgba(15, 15, 15, 0.9) 100%);
-  border-bottom: 2px solid var(--mg);
+  background: linear-gradient(180deg, rgba(29, 46, 58, 0.92) 0%, rgba(14, 23, 30, 0.92) 100%);
+  border-bottom: 2px solid var(--divider-strong);
   position: relative;
 }
 
 .tab-btn {
   flex: 1;
   padding: 12px 16px;
-  background: linear-gradient(180deg, rgba(40, 40, 40, 0.8) 0%, rgba(25, 25, 25, 0.8) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(39, 60, 76, 0.85) 0%, rgba(22, 34, 44, 0.85) 100%);
+  border: 1px solid var(--divider-soft);
   border-bottom: none;
   color: var(--t2);
   cursor: pointer;
@@ -67,18 +67,19 @@
 }
 
 .tab-btn:hover {
-  background: linear-gradient(180deg, rgba(230, 126, 34, 0.3) 0%, rgba(211, 84, 0, 0.3) 100%);
+  background: linear-gradient(180deg, rgba(53, 79, 98, 0.9) 0%, rgba(28, 44, 56, 0.9) 100%);
   color: var(--t);
-  border-color: var(--mg);
+  border-color: var(--divider-strong);
   transform: translateY(-1px);
 }
 
 .tab-btn.active {
-  background: linear-gradient(180deg, var(--mg) 0%, var(--mg-dark) 100%);
-  color: #000;
+  background: linear-gradient(180deg, rgba(58, 88, 110, 0.95) 0%, rgba(28, 42, 53, 0.95) 100%);
+  color: var(--t);
   font-weight: 600;
-  border-color: var(--sw);
+  border-color: rgba(var(--sw-rgb), 0.75);
   z-index: 10;
+  box-shadow: 0 0 18px rgba(var(--sw-rgb), 0.25);
 }
 
 .tab-cont {
@@ -97,8 +98,8 @@
 }
 
 .lb-table th {
-  background: linear-gradient(180deg, rgba(40, 40, 40, 0.95) 0%, rgba(25, 25, 25, 0.95) 100%);
-  color: var(--mg);
+  background: linear-gradient(180deg, rgba(31, 47, 59, 0.92) 0%, rgba(16, 26, 34, 0.95) 100%);
+  color: var(--sw);
   padding: 12px;
   text-align: left;
   font-family: 'Oswald', sans-serif;
@@ -106,47 +107,47 @@
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  border: 1px solid var(--mg);
-  border-bottom: 2px solid var(--mg);
+  border: 1px solid var(--divider-soft);
+  border-bottom: 2px solid rgba(var(--sw-rgb), 0.4);
   vertical-align: baseline;
   line-height: 1.4;
 }
 
 .lb-table th:first-child {
-  border-left: 1px solid var(--mg); /* Consistent borders for alignment */
+  border-left: 1px solid var(--divider-soft); /* Consistent borders for alignment */
 }
 
 .lb-table th:last-child {
-  border-right: 1px solid var(--mg); /* Consistent borders for alignment */
+  border-right: 1px solid var(--divider-soft); /* Consistent borders for alignment */
 }
 
 .lb-table td {
   padding: 12px;
   color: var(--t);
-  border-bottom: 1px solid rgba(230, 126, 34, 0.3);
-  border-left: 1px solid rgba(230, 126, 34, 0.1);
+  border-bottom: 1px solid rgba(var(--mg-rgb), 0.25);
+  border-left: 1px solid rgba(var(--mg-rgb), 0.12);
   transition: all 0.2s;
   font-weight: 500;
-  background: linear-gradient(90deg, rgba(15, 15, 15, 0.7) 0%, rgba(20, 20, 20, 0.7) 100%);
+  background: linear-gradient(90deg, rgba(16, 26, 34, 0.75) 0%, rgba(9, 16, 21, 0.85) 100%);
   vertical-align: baseline;
   line-height: 1.4;
 }
 
 .lb-table td:first-child {
-  border-left: 1px solid rgba(230, 126, 34, 0.1);
+  border-left: 1px solid rgba(var(--mg-rgb), 0.12);
 }
 
 .lb-table td:last-child {
-  border-right: 1px solid rgba(230, 126, 34, 0.1);
+  border-right: 1px solid rgba(var(--mg-rgb), 0.12);
 }
 
 .lb-table tbody tr:nth-child(even) td {
-  background: linear-gradient(90deg, rgba(25, 25, 25, 0.6) 0%, rgba(30, 30, 30, 0.6) 100%);
+  background: linear-gradient(90deg, rgba(24, 38, 48, 0.78) 0%, rgba(14, 24, 31, 0.88) 100%);
 }
 
 .lb-table tbody tr:hover td {
-  background: linear-gradient(90deg, rgba(230, 126, 34, 0.15) 0%, rgba(211, 84, 0, 0.15) 100%) !important;
-  border-color: rgba(230, 126, 34, 0.4);
+  background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.18) 0%, rgba(var(--sw-rgb), 0.12) 100%) !important;
+  border-color: rgba(var(--sw-rgb), 0.4);
   color: var(--t);
 }
 
@@ -177,7 +178,7 @@
 .clan-tag {
   /* Plain text styling only - like in-game */
   font-family: 'Courier New', monospace;
-  color: var(--mg);
+  color: var(--sw);
   font-weight: 600;
   font-size: 0.8rem;
   text-transform: none; /* Preserve original clan tag case */

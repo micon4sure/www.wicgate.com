@@ -21,7 +21,7 @@ export const steps = [
   {
     n: 2,
     t: 'Download WIC LIVE',
-    c: 'WIC LIVE updates your game for our servers, allows you to install community maps and installs quality of life fixes that allow you to play the game on modern systems. <br><a href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe" class="btn btn-p mt-md" id="downloadClientBtn">Download WIC LIVE</a>',
+    c: 'WIC LIVE updates your game for our servers, allows you to install community maps and installs quality of life fixes that allow you to play the game on modern systems. <br><a href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe" class="btn btn-download mt-md" id="downloadClientBtn">Download WIC LIVE</a>',
   },
   {
     n: 3,
@@ -259,7 +259,7 @@ export const dedicatedServerSteps: DedicatedServerStep[] = [
   {
     n: 1,
     t: 'Download Server Files',
-    c: 'Download the WICGATE Dedicated Server package. Choose Match Mode for casual servers or Ranked Edition for public ranked servers (requires CD key from Discord).<br><a href="#" class="btn btn-p mt-md">Download Match Mode Server</a><br><a href="#" class="btn btn-p mt-md">Download Ranked Server</a>',
+    c: 'Download the WICGATE Dedicated Server package. Choose Match Mode for casual servers or Ranked Edition for public ranked servers (requires CD key from Discord).<br><a href="#" class="btn btn-download mt-md">Download Match Mode Server</a><br><a href="#" class="btn btn-download mt-md">Download Ranked Server</a>',
   },
   {
     n: 2,
@@ -269,7 +269,7 @@ export const dedicatedServerSteps: DedicatedServerStep[] = [
   {
     n: 3,
     t: 'Install Hosts File',
-    c: 'Copy the downloaded <span class="text-bold">hosts</span> file to <span class="text-bold">C:\\Windows\\System32\\drivers\\etc</span> (requires administrator rights).<br><a href="#" class="btn btn-p mt-md">Download Hosts File</a>',
+    c: 'Copy the downloaded <span class="text-bold">hosts</span> file to <span class="text-bold">C:\\Windows\\System32\\drivers\\etc</span> (requires administrator rights).<br><a href="#" class="btn btn-download mt-md">Download Hosts File</a>',
   },
   {
     n: 4,
@@ -299,7 +299,7 @@ export const manualInstallSteps: DedicatedServerStep[] = [
   {
     n: 1,
     t: 'Download Components',
-    c: 'Download the Standalone Multiplayer Update and Hosts file required for manual installation.<br><a href="#" class="btn btn-p mt-md">Download Standalone Update</a><br><a href="#" class="btn btn-p mt-md">Download Hosts File</a>',
+    c: 'Download the Standalone Multiplayer Update and Hosts file required for manual installation.<br><a href="#" class="btn btn-download mt-md">Download Standalone Update</a><br><a href="#" class="btn btn-download mt-md">Download Hosts File</a>',
   },
   {
     n: 2,
@@ -314,7 +314,7 @@ export const manualInstallSteps: DedicatedServerStep[] = [
   {
     n: 4,
     t: 'Optional: Community Maps',
-    c: 'Download additional community maps created by the community to expand your gameplay experience.<br><a href="#" class="btn btn-p mt-md">Download Community Maps</a>',
+    c: 'Download additional community maps created by the community to expand your gameplay experience.<br><a href="#" class="btn btn-download mt-md">Download Community Maps</a>',
   },
 ];
 

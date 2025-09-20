@@ -41,7 +41,7 @@ const emit = defineEmits<{ 'toggle-players': [] }>();
 <template>
   <div class="hdr container flex items-center justify-between">
     <div class="flex items-center">
-      <a class="logo grad-text" @click="goHomeAndScroll('hero')">WICGATE</a>
+      <a class="logo" @click="goHomeAndScroll('hero')">WICGATE</a>
       <div v-if="showPlayersButton" class="social">
         <button class="players-btn" @click="emit('toggle-players')">
           <div class="status-indicator" />

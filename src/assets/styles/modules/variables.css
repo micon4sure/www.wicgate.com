@@ -1,29 +1,40 @@
 /* CSS Custom Properties - Colors, spacing, and design tokens */
 
 :root {
-  /* Brand Colors */
-  --mg: #e67e22; /* Primary orange/amber */
-  --mg-dark: #d35400; /* Darker amber */
-  --sw: #f39c12; /* Warm amber accent */
-  --sw-light: #f8c471; /* Lighter amber accent */
-  --o: #e67e22; /* Secondary highlight (consistent with primary) */
+  /* Structural palette */
+  --mg: #1f2f3b; /* Primary steel tone */
+  --mg-dark: #101a22; /* Deep steel */
+  --mg-muted: #344654; /* Mid steel accent */
+  --sw: #f37c2b; /* Massgate orange accent */
+  --sw-light: #f8a85e; /* Lighter accent highlight */
+  --o: #f37c2b; /* Legacy alias for accent */
+  --dl: #ee3d32; /* High-alert download red */
+
+  /* RGB helpers */
+  --mg-rgb: 31, 47, 59;
+  --mg-dark-rgb: 16, 26, 34;
+  --sw-rgb: 243, 124, 43;
+  --dl-rgb: 238, 61, 50;
 
   /* Background Colors */
-  --bg: #0f0f0f; /* Page background */
-  --s1: #1a1a1a; /* Card background 1 */
-  --s2: #252525; /* Card background 2 */
+  --bg: #091118; /* Deep graphite backdrop */
+  --s1: #12202a; /* Primary panel surface */
+  --s2: #182a36; /* Secondary surface */
+  --surface-alt: #1f313d; /* Alternating striping surface */
 
   /* Text Colors */
-  --t: #fff; /* Primary text */
-  --t2: #a3a3a3; /* Secondary text */
-  --t3: #737373; /* Tertiary text */
+  --t: #f3f6f8; /* Primary text */
+  --t2: #a7b7c3; /* Secondary text */
+  --t3: #6c7a85; /* Tertiary text */
 
   /* Accent Colors */
   --g: #7cb342; /* Online/success indicator */
-  --d: #5865f2; /* Discord blue */
+  --d: #4f7bd7; /* Discord blue */
 
   /* Border & Effects */
-  --bd: rgba(255, 255, 255, 0.05);
+  --bd: rgba(68, 117, 146, 0.25);
+  --divider-strong: rgba(68, 117, 146, 0.7);
+  --divider-soft: rgba(68, 117, 146, 0.35);
 
   /* Transitions */
   --tr: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -32,14 +43,14 @@
   --panel-width: 340px;
 
   /* Gradients */
-  --grad-main: linear-gradient(135deg, var(--mg), var(--sw));
-  --grad-card: linear-gradient(135deg, var(--s1) 0%, rgba(26, 26, 26, 0.95) 100%);
-  --grad-dark: linear-gradient(135deg, var(--s2) 0%, rgba(37, 37, 37, 0.95) 100%);
-  --grad-panel: linear-gradient(135deg, rgba(15, 15, 15, 0.98) 0%, rgba(20, 20, 20, 0.98) 100%);
+  --grad-main: linear-gradient(135deg, rgba(30, 52, 66, 0.95) 0%, rgba(11, 21, 27, 0.98) 100%);
+  --grad-card: linear-gradient(135deg, rgba(20, 36, 47, 0.95) 0%, rgba(12, 21, 27, 0.98) 100%);
+  --grad-dark: linear-gradient(135deg, rgba(14, 28, 36, 0.96) 0%, rgba(7, 15, 20, 0.98) 100%);
+  --grad-panel: linear-gradient(135deg, rgba(12, 22, 28, 0.98) 0%, rgba(22, 36, 46, 0.98) 100%);
 
   /* Shadows */
-  --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 10px rgba(230, 126, 34, 0.3);
+  --shadow-card: 0 18px 38px rgba(5, 10, 15, 0.6);
+  --shadow-glow: 0 0 18px rgba(68, 117, 146, 0.35);
 
   /* Animations */
   --anim-pulse: pulse 2s ease-in-out infinite;

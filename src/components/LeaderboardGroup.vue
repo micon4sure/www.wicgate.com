@@ -87,11 +87,7 @@ function formatClanTag(entry: LeaderboardEntry): string {
                 {{ index + 1 }}
               </td>
               <td class="player-cell">
-                <RankInsignia
-                  :rank="e.rank"
-                  :size="22"
-                  style="margin-right: 8px;"
-                />
+                <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px" />
                 <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
                 <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
               </td>
@@ -135,11 +131,7 @@ function formatClanTag(entry: LeaderboardEntry): string {
               {{ index + 1 }}
             </td>
             <td class="player-cell">
-              <RankInsignia
-                :rank="e.rank"
-                :size="22"
-                style="margin-right: 8px;"
-              />
+              <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px" />
               <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
               <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
             </td>

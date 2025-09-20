@@ -157,27 +157,27 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
         </div>
         <div class="live-streams-container">
           <div class="grid grid-2" style="gap: 30px">
-          <a
-            v-for="u in twitchUsernames"
-            :key="u"
-            :href="`https://twitch.tv/${u}`"
-            target="_blank"
-            class="card"
-            style="padding: 0; overflow: hidden; text-decoration: none; color: inherit"
-            :aria-label="`Watch ${u} live on Twitch`"
-          >
-            <TwitchEmbed :channel="u" muted />
-            <div
-              style="
-                padding: 12px 16px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              "
+            <a
+              v-for="u in twitchUsernames"
+              :key="u"
+              :href="`https://twitch.tv/${u}`"
+              target="_blank"
+              class="card"
+              style="padding: 0; overflow: hidden; text-decoration: none; color: inherit"
+              :aria-label="`Watch ${u} live on Twitch`"
             >
-              <strong style="font-size: 0.9rem">{{ u }}</strong>
-            </div>
-          </a>
+              <TwitchEmbed :channel="u" muted />
+              <div
+                style="
+                  padding: 12px 16px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <strong style="font-size: 0.9rem">{{ u }}</strong>
+              </div>
+            </a>
           </div>
         </div>
       </div>
@@ -371,7 +371,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   font-size: 1.1rem;
   color: var(--t);
   padding-bottom: 8px;
-  border-bottom: 2px solid var(--mg);
+  border-bottom: 2px solid var(--divider-strong);
   display: inline-block;
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
@@ -404,13 +404,17 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   padding: 16px 28px;
   min-width: 280px;
   max-width: 400px;
-  background: linear-gradient(180deg, var(--mg) 0%, var(--mg-dark) 100%);
-  border: 2px solid var(--sw);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--mg-rgb), 0.88) 0%,
+    rgba(var(--mg-dark-rgb), 0.95) 100%
+  );
+  border: 1px solid var(--divider-strong);
   border-radius: 0;
   text-decoration: none;
-  color: #000;
+  color: var(--t);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 20px rgba(230, 126, 34, 0.3);
+  box-shadow: 0 0 20px rgba(var(--mg-rgb), 0.3);
   position: relative;
   overflow: hidden;
   font-family: 'Oswald', sans-serif;
@@ -429,7 +433,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   margin: 0;
   font-size: 1.2rem;
   font-weight: 700;
-  color: #000;
+  color: var(--t);
   letter-spacing: 0.5px;
   text-transform: uppercase;
   text-align: center;
@@ -441,7 +445,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 .channel-badge-icon {
   font-size: 0.9rem;
-  color: rgba(0, 0, 0, 0.7);
+  color: rgba(243, 246, 248, 0.7);
   transition: all 0.3s ease;
   flex-shrink: 0;
 }
@@ -449,9 +453,9 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 @media (hover: hover) {
   .channel-badge:hover {
     transform: translateY(-3px) scale(1.05);
-    background: linear-gradient(180deg, var(--sw) 0%, var(--mg) 100%);
-    border-color: var(--mg-dark);
-    box-shadow: 0 0 35px rgba(230, 126, 34, 0.5);
+    background: linear-gradient(180deg, rgba(58, 88, 110, 0.95) 0%, rgba(30, 48, 61, 0.95) 100%);
+    border-color: rgba(var(--sw-rgb), 0.75);
+    box-shadow: 0 0 35px rgba(var(--sw-rgb), 0.3);
   }
 
   .channel-badge:hover::before {
@@ -459,11 +463,11 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   }
 
   .channel-badge:hover .channel-name {
-    color: #000;
+    color: #0b141a;
   }
 
   .channel-badge:hover .channel-badge-icon {
-    color: #000;
+    color: #0b141a;
     transform: translateX(3px);
   }
 }
@@ -549,8 +553,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 }
 
 .event-card {
-  background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
-  border: 2px solid var(--mg);
+  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  border: 1px solid var(--divider-strong);
   border-radius: 0;
   padding: 0;
   text-decoration: none;
@@ -559,20 +563,20 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(230, 126, 34, 0.2);
+  box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
 }
 
 @media (hover: hover) {
   .event-card:hover {
-    border-color: var(--sw);
-    box-shadow: 0 0 30px rgba(230, 126, 34, 0.4);
+    border-color: rgba(var(--sw-rgb), 0.75);
+    box-shadow: 0 0 30px rgba(var(--sw-rgb), 0.32);
     transform: translateY(-2px);
   }
 }
 
 .event-card:active {
   transform: scale(0.98);
-  border-color: var(--mg-dark);
+  border-color: rgba(var(--sw-rgb), 0.55);
 }
 
 .event-image {
@@ -585,7 +589,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   align-items: flex-start;
   justify-content: flex-end;
   padding: 12px;
-  border-bottom: 2px solid var(--mg);
+  border-bottom: 1px solid var(--divider-strong);
 }
 
 .event-image-overlay {
@@ -602,9 +606,9 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.8px;
-  background: var(--mg);
-  color: #000;
-  border: 1px solid var(--sw);
+  background: linear-gradient(180deg, rgba(54, 81, 104, 0.9) 0%, rgba(28, 44, 56, 0.9) 100%);
+  color: var(--t);
+  border: 1px solid rgba(var(--sw-rgb), 0.5);
   text-transform: uppercase;
   font-family: 'Oswald', sans-serif;
 }
@@ -631,9 +635,9 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 .event-content.no-image .event-status {
   align-self: flex-start;
-  background: var(--mg);
-  color: #000;
-  border: 1px solid var(--sw);
+  background: linear-gradient(180deg, rgba(54, 81, 104, 0.9) 0%, rgba(28, 44, 56, 0.9) 100%);
+  color: var(--t);
+  border: 1px solid rgba(var(--sw-rgb), 0.5);
 }
 
 .event-content.no-image .event-status.live {
@@ -669,7 +673,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   align-items: center;
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid var(--mg);
+  border-top: 1px solid var(--divider-soft);
 }
 
 .event-date {
@@ -683,7 +687,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 }
 
 .event-link-icon {
-  color: var(--mg);
+  color: rgba(var(--sw-rgb), 0.75);
   font-size: 0.8rem;
 }
 
@@ -691,15 +695,15 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   text-align: center;
   padding: 40px 20px;
   color: var(--t3);
-  border: 1px solid rgba(230, 126, 34, 0.2);
-  background: rgba(15, 15, 15, 0.5);
+  border: 1px solid var(--divider-soft);
+  background: linear-gradient(180deg, rgba(18, 30, 39, 0.85) 0%, rgba(9, 15, 20, 0.9) 100%);
 }
 
 .events-empty i {
   font-size: 2.5rem;
   margin-bottom: 16px;
-  color: var(--mg);
-  opacity: 0.7;
+  color: rgba(var(--sw-rgb), 0.7);
+  opacity: 0.85;
 }
 
 .events-empty p {
@@ -722,29 +726,29 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 /* Live Streams Military Styling */
 .live-streams-container .card {
-  background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
-  border: 2px solid var(--mg);
+  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  border: 1px solid var(--divider-strong);
   border-radius: 0;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(230, 126, 34, 0.2);
+  box-shadow: 0 12px 26px rgba(4, 9, 14, 0.5);
   transition: var(--tr);
 }
 
 @media (hover: hover) {
   .live-streams-container .card:hover {
-    border-color: var(--sw);
-    box-shadow: 0 0 30px rgba(230, 126, 34, 0.4);
+    border-color: rgba(var(--sw-rgb), 0.75);
+    box-shadow: 0 0 30px rgba(var(--sw-rgb), 0.28);
     transform: translateY(-2px);
   }
 }
 
 .live-streams-container .card > div:last-child {
-  border-top: 1px solid var(--mg);
+  border-top: 1px solid var(--divider-soft);
   padding: 12px 16px;
 }
 
 .live-streams-container .card strong {
-  color: var(--mg);
+  color: var(--sw);
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
   text-transform: uppercase;
@@ -753,7 +757,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 /* Military Animation */
 @keyframes militaryPulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(229, 57, 53, 0.6);
   }
   50% {

@@ -32,6 +32,10 @@
 .gm-logo {
   font-size: 22px;
   font-weight: 900;
+  color: var(--sw);
+  text-shadow:
+    0 0 16px rgba(var(--sw-rgb), 0.45),
+    0 2px 4px rgba(0, 0, 0, 0.85);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -239,7 +243,7 @@ body.players-online .gm-status-dot {
 
 @media (hover: hover) {
   .gm-stat-table tr:hover {
-    background: rgba(230, 126, 34, 0.15) !important;
+    background: rgba(var(--mg-rgb), 0.15) !important;
   }
 }
 
