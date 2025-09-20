@@ -7,13 +7,14 @@
 ## Visual Identity
 - **Palette:**
   - Steel blues (`--mg`, `--mg-dark`) as the structural base.
+  - Graphite nav band (`--graphite`, `--graphite-dark`, `--graphite-light`) framing the header/tabs.
   - Massgate orange (`--sw`) for primary accents and headings.
-  - Download red (`--dl`) reserved for high-attention CTAs (e.g., WIC LIVE download buttons).
+  - Download red (`--dl`) reserved for high-attention CTAs (e.g., WIC LIVE download buttons) and leaderboard headers.
 - **Typography:** Oswald (headers), Rajdhani (body), Courier New (data). Managed in `src/assets/styles/modules/typography.css`.
 - **Global tokens:** Defined in `src/assets/styles/modules/variables.css`.
 
 ## Key UI Sections & Styles
-- **Navigation (`src/components/Navigation.vue` + `styles/modules/components/navigation.css`):** Fixed tab header with orange highlight states. Logo now rendered via `.logo` rule for clarity.
+- **Navigation (`src/components/Navigation.vue` + `styles/modules/components/navigation.css`):** Graphite bar with orange hover/active tabs, scroll-aware highlighting via an observer in `Home.vue`, lightened mobile toggle, `.logo` handles wordmark styling.
 - **Hero (`styles/modules/components/hero.css`):** Dual CTA (download + Discord) with cinematic slideshow.
 - **Getting Started (`src/screens/GettingStarted.vue` + `styles/modules/components/getting-started.css`):**
   - Step cards with orange number plaques.
@@ -21,7 +22,7 @@
 - **Community (`src/screens/Community.vue` + related styles):** Channel badges, video cards, download CTAs (red), live stream cards.
 - **About (`styles/modules/components/about.css`):** Steel panels with orange icon tiles and headers.
 - **FAQ (`styles/modules/components/faq.css`):** Accordion with orange category headers and contrast-checked answers.
-- **Leaderboards (`styles/modules/components/leaderboards.css`, `src/components/Leaderboards.vue`):** Steel tables, orange headers, alternating row gradients.
+- **Leaderboards (`styles/modules/components/leaderboards.css`, `src/components/Leaderboards.vue`):** Steel tables with red header band, orange tab highlights on hover/active, alternating row gradients.
 
 ## Content & Data
 - Static rich text, download links, and onboarding steps live in `src/content/content.ts`.
