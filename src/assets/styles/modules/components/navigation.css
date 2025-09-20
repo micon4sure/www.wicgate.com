@@ -248,7 +248,8 @@ nav a.active::before {
   display: none;
   background: linear-gradient(135deg, var(--mg) 0%, var(--mg-dark) 100%);
   border: 2px solid var(--sw);
-  color: #000;
+  color: var(--t);
+  text-shadow: 0 0 8px rgba(var(--sw-rgb), 0.35);
   font-size: 20px;
   font-weight: 700;
   padding: 8px 12px;
@@ -265,13 +266,15 @@ nav a.active::before {
 @media (hover: hover) {
   .mob-menu:hover {
     background: linear-gradient(135deg, var(--sw) 0%, var(--mg) 100%);
-    box-shadow: 0 0 15px rgba(var(--mg-rgb), 0.4);
+    box-shadow: 0 0 18px rgba(var(--sw-rgb), 0.4);
+    color: #0b141a;
   }
 }
 
 @media (hover: none) and (pointer: coarse) {
   .mob-menu:focus {
     outline: none;
+    color: #0b141a;
   }
 }
 

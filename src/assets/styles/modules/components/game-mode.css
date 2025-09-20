@@ -6,7 +6,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #0f0f0f 0%, #141414 50%, #0f0f0f 100%);
+  background: linear-gradient(135deg, rgba(18, 30, 39, 0.98) 0%, rgba(9, 15, 20, 0.98) 100%);
   z-index: 2000;
   display: none;
   animation: fadeIn 0.3s ease;
@@ -19,8 +19,8 @@
 
 .gm-header {
   height: 60px;
-  background: rgba(15, 15, 15, 0.98);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  border-bottom: 1px solid var(--divider-strong);
   padding: 0 20px;
   display: flex;
   align-items: center;
@@ -52,10 +52,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 6px 14px;
+  background: linear-gradient(180deg, rgba(var(--mg-rgb), 0.22) 0%, rgba(var(--mg-dark-rgb), 0.35) 100%);
+  border-radius: 4px;
+  border: 1px solid var(--divider-soft);
 }
 
 .gm-status-dot {
@@ -81,7 +81,7 @@ body.players-online .gm-status-dot {
 
 .gm-status-label {
   font-size: 13px;
-  color: var(--t2);
+  color: var(--t);
   margin-left: 5px;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -90,11 +90,11 @@ body.players-online .gm-status-dot {
 }
 
 .gm-exit {
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: var(--t2);
+  padding: 8px 18px;
+  background: linear-gradient(180deg, rgba(var(--dl-rgb), 0.95) 0%, rgba(var(--dl-rgb), 0.75) 100%);
+  border: 1px solid rgba(var(--dl-rgb), 0.9);
+  border-radius: 4px;
+  color: #fff;
   cursor: pointer;
   transition: all 0.2s;
   font-size: 14px;
@@ -108,26 +108,26 @@ body.players-online .gm-status-dot {
 
 @media (hover: hover) {
   .gm-exit:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.15);
-    color: var(--t);
+    background: linear-gradient(180deg, rgba(var(--dl-rgb), 1) 0%, rgba(var(--dl-rgb), 0.82) 100%);
+    border-color: rgba(var(--dl-rgb), 0.95);
+    color: #fff;
   }
 }
 
 @media (hover: none) and (pointer: coarse) {
   .gm-exit:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
-    color: var(--t2);
+    background: linear-gradient(180deg, rgba(var(--dl-rgb), 0.85) 0%, rgba(var(--dl-rgb), 0.65) 100%);
+    border-color: rgba(var(--dl-rgb), 0.8);
+    color: #fff;
   }
 }
 
 .gm-exit:active {
   transform: scale(0.95);
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: var(--t);
+  background: linear-gradient(180deg, rgba(var(--dl-rgb), 0.78) 0%, rgba(var(--dl-rgb), 0.6) 100%);
+  border-color: rgba(var(--dl-rgb), 0.75);
+  color: #fff;
 }
 
 .gm-body {
@@ -138,28 +138,30 @@ body.players-online .gm-status-dot {
 }
 
 .gm-players {
-  background: rgba(20, 20, 20, 0.6);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(15, 24, 31, 0.94) 0%, rgba(9, 15, 20, 0.98) 100%);
+  border-right: 1px solid var(--divider-strong);
   display: flex;
   flex-direction: column;
 }
 
 .gm-players-header {
   padding: 20px;
-  background: var(--grad-dark);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(var(--mg-rgb), 0.25) 0%, rgba(var(--mg-dark-rgb), 0.4) 100%);
+  border-bottom: 1px solid var(--divider-strong);
 }
 
 .gm-players-header h3 {
   font-size: 16px;
   font-weight: 600;
   margin: 0 0 8px 0;
-  color: var(--t);
+  color: var(--sw);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .gm-players-header .server-info {
   font-size: 12px;
-  color: var(--t3);
+  color: var(--t2);
 }
 
 .gm-players-list {
@@ -170,13 +172,15 @@ body.players-online .gm-status-dot {
 
 .gm-players-list .p-item {
   padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(var(--mg-rgb), 0.18);
+  border: 1px solid rgba(var(--mg-rgb), 0.25);
   margin-bottom: 6px;
 }
 
 @media (hover: hover) {
   .gm-players-list .p-item:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(var(--sw-rgb), 0.18);
+    border-color: rgba(var(--sw-rgb), 0.35);
   }
 }
 
@@ -190,16 +194,16 @@ body.players-online .gm-status-dot {
 }
 
 .gm-stat-card {
-  background: var(--grad-card);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  border-radius: 0;
+  border: 1px solid var(--divider-strong);
   overflow: hidden;
 }
 
 .gm-stat-header {
   padding: 15px 20px;
-  background: var(--grad-dark);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(var(--mg-rgb), 0.25) 0%, rgba(var(--mg-dark-rgb), 0.38) 100%);
+  border-bottom: 1px solid var(--divider-strong);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -209,15 +213,17 @@ body.players-online .gm-status-dot {
   font-size: 14px;
   font-weight: 600;
   margin: 0;
-  color: var(--t);
+  color: var(--sw);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .gm-stat-header .stat-type {
   font-size: 11px;
   padding: 3px 8px;
-  background: rgba(124, 179, 66, 0.1);
-  border: 1px solid rgba(124, 179, 66, 0.2);
-  border-radius: 4px;
+  background: rgba(var(--sw-rgb), 0.12);
+  border: 1px solid rgba(var(--sw-rgb), 0.3);
+  border-radius: 2px;
   color: var(--g);
   font-weight: 500;
 }
@@ -229,32 +235,32 @@ body.players-online .gm-status-dot {
 }
 
 .gm-stat-table tr {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--divider-soft);
   transition: background 0.2s;
 }
 
 .gm-stat-table tr:nth-child(even) {
-  background: rgba(45, 45, 45, 0.35);
+  background: rgba(var(--mg-rgb), 0.22);
 }
 
 .gm-stat-table tr:nth-child(odd) {
-  background: rgba(15, 15, 15, 0.25);
+  background: rgba(var(--mg-dark-rgb), 0.3);
 }
 
 @media (hover: hover) {
   .gm-stat-table tr:hover {
-    background: rgba(var(--mg-rgb), 0.15) !important;
+    background: rgba(var(--sw-rgb), 0.18) !important;
   }
 }
 
 .gm-stat-table td {
   padding: 10px 15px;
-  color: var(--t2);
+  color: var(--t);
 }
 
 .gm-stat-table td:first-child {
   font-weight: 600;
-  color: var(--t);
+  color: var(--sw);
 }
 
 .gm-stat-table .rank-1 td:first-child {
