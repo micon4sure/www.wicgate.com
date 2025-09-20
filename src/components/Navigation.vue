@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, toRef } from 'vue';
 import { useRouter } from 'vue-router';
 
 const mobileOpen = ref(false);
 const router = useRouter();
+
+const props = defineProps<{ showPlayersButton?: boolean; activeSection?: string | undefined }>();
+const showPlayersButton = toRef(props, 'showPlayersButton');
+const activeSection = toRef(props, 'activeSection');
+
+const emit = defineEmits<{ 'toggle-players': []; navigate: [string | undefined] }>();
+
+const isActive = (section: string) => activeSection.value === section;
 
 function scrollTo(id: string) {
   const el = document.getElementById(id);
@@ -17,10 +25,12 @@ function scrollTo(id: string) {
       history.replaceState(null, '', window.location.pathname);
     }
   }
+  emit('navigate', id !== 'hero' ? id : undefined);
   mobileOpen.value = false;
 }
 
 function goHomeAndScroll(section: string) {
+  emit('navigate', section !== 'hero' ? section : undefined);
   // If not on home page, navigate there first
   if (router.currentRoute.value.path !== '/') {
     const targetPath = section === 'hero' ? '/' : `/#${section}`;
@@ -34,9 +44,6 @@ function goHomeAndScroll(section: string) {
     setTimeout(() => scrollTo(section), 100);
   }
 }
-
-defineProps<{ showPlayersButton?: boolean }>();
-const emit = defineEmits<{ 'toggle-players': [] }>();
 </script>
 <template>
   <div class="hdr container flex items-center justify-between">
@@ -54,11 +61,19 @@ const emit = defineEmits<{ 'toggle-players': [] }>();
       </div>
     </div>
     <nav :class="{ 'mobile-open': mobileOpen }">
-      <a @click.prevent="goHomeAndScroll('getting-started')">Getting Started</a>
-      <a @click.prevent="goHomeAndScroll('statistics')">Statistics</a>
-      <a @click.prevent="goHomeAndScroll('community')">Community</a>
-      <a @click.prevent="goHomeAndScroll('about')">About</a>
-      <a @click.prevent="goHomeAndScroll('faq')">FAQ</a>
+      <a
+        :class="{ active: isActive('getting-started') }"
+        @click.prevent="goHomeAndScroll('getting-started')"
+        >Getting Started</a
+      >
+      <a :class="{ active: isActive('statistics') }" @click.prevent="goHomeAndScroll('statistics')"
+        >Statistics</a
+      >
+      <a :class="{ active: isActive('community') }" @click.prevent="goHomeAndScroll('community')"
+        >Community</a
+      >
+      <a :class="{ active: isActive('about') }" @click.prevent="goHomeAndScroll('about')">About</a>
+      <a :class="{ active: isActive('faq') }" @click.prevent="goHomeAndScroll('faq')">FAQ</a>
     </nav>
     <button class="mob-menu" @click="mobileOpen = !mobileOpen">☰</button>
   </div>

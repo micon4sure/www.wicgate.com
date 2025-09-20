@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import Navigation from '../components/Navigation.vue';
 import PlayersOnline from '../components/PlayersOnline.vue';
@@ -19,6 +19,44 @@ const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstV
 const router = useRouter();
 const panelRef = ref<InstanceType<typeof PlayersOnline> | null>(null);
 const currentSection = ref<string | undefined>();
+const SECTION_IDS = ['hero', 'getting-started', 'statistics', 'community', 'about', 'faq'];
+let sectionElements: HTMLElement[] = [];
+let scrollListenerAttached = false;
+
+function setCurrentSection(id?: string | null) {
+  const normalized = id && id !== 'hero' ? id : undefined;
+  if (currentSection.value !== normalized) {
+    currentSection.value = normalized;
+  }
+}
+
+function collectSectionElements() {
+  sectionElements = SECTION_IDS.map((id) => document.getElementById(id)).filter(
+    Boolean
+  ) as HTMLElement[];
+}
+
+function updateActiveSection() {
+  if (!sectionElements.length) return;
+
+  const scrollY = window.scrollY || window.pageYOffset;
+  const offset = 160; // account for fixed header height
+
+  for (const el of sectionElements) {
+    const rect = el.getBoundingClientRect();
+    const top = rect.top + scrollY;
+    const bottom = top + rect.height;
+
+    if (scrollY + offset >= top && scrollY + offset < bottom) {
+      setCurrentSection(el.id);
+      return;
+    }
+  }
+
+  if (scrollY < 120) {
+    setCurrentSection('hero');
+  }
+}
 
 interface Slide {
   icon: string;
@@ -107,9 +145,7 @@ onMounted(() => {
   const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
 
   // Set current section for first visit overlay
-  if (hash) {
-    currentSection.value = hash;
-  }
+  setCurrentSection(hash);
 
   // Check for first visit and show overlay if needed
   initFirstVisitCheck(!!hash);
@@ -123,10 +159,25 @@ onMounted(() => {
       }, 100);
     }
   }
+
+  nextTick(() => {
+    collectSectionElements();
+    if (!scrollListenerAttached) {
+      window.addEventListener('scroll', updateActiveSection, { passive: true });
+      window.addEventListener('resize', updateActiveSection);
+      scrollListenerAttached = true;
+    }
+    updateActiveSection();
+  });
 });
 
 onBeforeUnmount(() => {
   clearInterval(int);
+  if (scrollListenerAttached) {
+    window.removeEventListener('scroll', updateActiveSection);
+    window.removeEventListener('resize', updateActiveSection);
+    scrollListenerAttached = false;
+  }
 });
 
 function togglePlayers() {
@@ -138,7 +189,7 @@ function handleGoHome() {
   dismissOverlay();
   // Clear any hash and show home page
   history.replaceState(null, '', window.location.pathname);
-  currentSection.value = undefined;
+  setCurrentSection(undefined);
   // Scroll to top smoothly
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -148,6 +199,7 @@ function handleContinue() {
   const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
 
   if (hash) {
+    setCurrentSection(hash);
     const element = document.getElementById(hash);
     if (element) {
       setTimeout(() => {
@@ -164,13 +216,23 @@ function scrollToGettingStarted() {
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
     history.replaceState(null, '', '#getting-started');
+    setCurrentSection('getting-started');
   }
+}
+
+function handleNavNavigate(section?: string) {
+  setCurrentSection(section);
 }
 </script>
 <template>
   <div id="siteWrapper" class="site-wrapper">
     <header>
-      <Navigation :show-players-button="true" @toggle-players="togglePlayers">
+      <Navigation
+        :show-players-button="true"
+        :active-section="currentSection"
+        @toggle-players="togglePlayers"
+        @navigate="handleNavNavigate"
+      >
         <template #player-count>{{ playerCount }}</template>
       </Navigation>
     </header>
