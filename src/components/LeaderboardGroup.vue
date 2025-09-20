@@ -90,19 +90,19 @@ function formatClanTag(entry: LeaderboardEntry): string {
                 <RankInsignia
                   :rank="e.rank"
                   :size="22"
-                  style="margin-right: 8px; margin-left: -30px"
+                  style="margin-right: 8px;"
                 />
                 <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
                 <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
               </td>
               <td
-                :style="
+                :class="
                   index === 0
-                    ? 'color: #ffd700 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #ffd700 !important;'
+                    ? 'rank-score-gold'
                     : index === 1
-                      ? 'color: #c0c0c0 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #c0c0c0 !important;'
+                      ? 'rank-score-silver'
                       : index === 2
-                        ? 'color: #cd7f32 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #cd7f32 !important;'
+                        ? 'rank-score-bronze'
                         : ''
                 "
               >
@@ -138,19 +138,19 @@ function formatClanTag(entry: LeaderboardEntry): string {
               <RankInsignia
                 :rank="e.rank"
                 :size="22"
-                style="margin-right: 8px; margin-left: -30px"
+                style="margin-right: 8px;"
               />
               <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
               <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
             </td>
             <td
-              :style="
+              :class="
                 index === 0
-                  ? 'color: #ffd700 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #ffd700 !important;'
+                  ? 'rank-score-gold'
                   : index === 1
-                    ? 'color: #c0c0c0 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #c0c0c0 !important;'
+                    ? 'rank-score-silver'
                     : index === 2
-                      ? 'color: #cd7f32 !important; font-weight: 600; background: none !important; -webkit-text-fill-color: #cd7f32 !important;'
+                      ? 'rank-score-bronze'
                       : ''
               "
             >

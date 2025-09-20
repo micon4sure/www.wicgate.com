@@ -56,7 +56,6 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
           :class="c.cls"
           :aria-label="`${c.action} - ${c.title}: ${c.desc}`"
         >
-          <div class="com-card-color-bar" />
           <div class="card-icon"><i :class="c.icon" aria-hidden="true"></i></div>
           <h3>{{ c.title }}</h3>
           <div class="card-stats">
@@ -88,7 +87,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
             <div v-for="n in 3" :key="'s' + n" class="event-card skeleton">
               <div
                 class="event-status skeleton-line"
-                style="width: 80px; height: 20px; border-radius: 10px"
+                style="width: 80px; height: 20px; border-radius: 0"
               ></div>
               <div class="event-content">
                 <div class="skeleton-line" style="width: 70%; margin-bottom: 8px" />
@@ -156,7 +155,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
         <div class="vid-hdr">
           <h3>Live Streams</h3>
         </div>
-        <div class="grid grid-2" style="gap: 30px">
+        <div class="live-streams-container">
+          <div class="grid grid-2" style="gap: 30px">
           <a
             v-for="u in twitchUsernames"
             :key="u"
@@ -178,6 +178,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
               <strong style="font-size: 0.9rem">{{ u }}</strong>
             </div>
           </a>
+          </div>
         </div>
       </div>
 
@@ -331,7 +332,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   background-size: cover;
   background-position: center;
   background-color: var(--s2);
-  border-radius: 6px 6px 0 0;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -348,11 +349,15 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
 }
 
 .vid-meta {
   font-size: 0.8rem;
   color: var(--t3);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
 }
 
 /* Section divider styling */
@@ -368,6 +373,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   padding-bottom: 8px;
   border-bottom: 2px solid var(--mg);
   display: inline-block;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Channel sections */
@@ -390,18 +399,21 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 .channel-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 28px;
+  min-width: 280px;
+  max-width: 400px;
+  background: linear-gradient(180deg, var(--mg) 0%, var(--mg-dark) 100%);
+  border: 2px solid var(--sw);
+  border-radius: 0;
   text-decoration: none;
-  color: inherit;
+  color: #000;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 20px rgba(230, 126, 34, 0.3);
   position: relative;
   overflow: hidden;
+  font-family: 'Oswald', sans-serif;
 }
 
 .channel-badge::before {
@@ -415,24 +427,31 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 .channel-name {
   margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--t);
-  letter-spacing: 0.025em;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
 }
 
 .channel-badge-icon {
-  font-size: 0.85rem;
-  color: var(--t3);
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.7);
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 @media (hover: hover) {
   .channel-badge:hover {
-    transform: translateY(-2px) scale(1.02);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transform: translateY(-3px) scale(1.05);
+    background: linear-gradient(180deg, var(--sw) 0%, var(--mg) 100%);
+    border-color: var(--mg-dark);
+    box-shadow: 0 0 35px rgba(230, 126, 34, 0.5);
   }
 
   .channel-badge:hover::before {
@@ -440,17 +459,17 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   }
 
   .channel-badge:hover .channel-name {
-    color: #fff;
+    color: #000;
   }
 
   .channel-badge:hover .channel-badge-icon {
-    color: var(--t);
-    transform: translateX(2px);
+    color: #000;
+    transform: translateX(3px);
   }
 }
 
 .channel-badge:active {
-  transform: translateY(-1px) scale(1.01);
+  transform: translateY(-1px) scale(1.02);
 }
 
 .channel-section .videos-grid {
@@ -530,9 +549,9 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 }
 
 .event-card {
-  background: var(--grad-card);
-  border: 1px solid var(--bd);
-  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
+  border: 2px solid var(--mg);
+  border-radius: 0;
   padding: 0;
   text-decoration: none;
   color: inherit;
@@ -540,19 +559,20 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: 0 0 20px rgba(230, 126, 34, 0.2);
 }
 
 @media (hover: hover) {
   .event-card:hover {
-    border-color: rgba(85, 107, 47, 0.3);
-    box-shadow: var(--shadow-card);
+    border-color: var(--sw);
+    box-shadow: 0 0 30px rgba(230, 126, 34, 0.4);
     transform: translateY(-2px);
   }
 }
 
 .event-card:active {
   transform: scale(0.98);
-  border-color: rgba(85, 107, 47, 0.2);
+  border-color: var(--mg-dark);
 }
 
 .event-image {
@@ -565,6 +585,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   align-items: flex-start;
   justify-content: flex-end;
   padding: 12px;
+  border-bottom: 2px solid var(--mg);
 }
 
 .event-image-overlay {
@@ -576,21 +597,24 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 .event-status {
   position: relative;
   z-index: 2;
-  padding: 4px 12px;
-  border-radius: 999px;
+  padding: 6px 16px;
+  border-radius: 0;
   font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  background: rgba(124, 179, 66, 0.9);
-  color: #fff;
-  border: 1px solid rgba(124, 179, 66, 0.3);
-  backdrop-filter: blur(4px);
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  background: var(--mg);
+  color: #000;
+  border: 1px solid var(--sw);
+  text-transform: uppercase;
+  font-family: 'Oswald', sans-serif;
 }
 
 .event-status.live {
-  background: rgba(229, 57, 53, 0.9);
+  background: #e53935;
   color: #fff;
-  border-color: rgba(229, 57, 53, 0.3);
+  border-color: #ff5722;
+  box-shadow: 0 0 20px rgba(229, 57, 53, 0.6);
+  animation: militaryPulse 2s ease-in-out infinite;
 }
 
 .event-content {
@@ -607,16 +631,15 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 .event-content.no-image .event-status {
   align-self: flex-start;
-  background: rgba(124, 179, 66, 0.1);
-  color: var(--g);
-  border: 1px solid rgba(124, 179, 66, 0.2);
-  backdrop-filter: none;
+  background: var(--mg);
+  color: #000;
+  border: 1px solid var(--sw);
 }
 
 .event-content.no-image .event-status.live {
-  background: rgba(229, 57, 53, 0.1);
-  color: #e53935;
-  border-color: rgba(229, 57, 53, 0.3);
+  background: #e53935;
+  color: #fff;
+  border-color: #ff5722;
 }
 
 .event-title {
@@ -624,6 +647,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   font-size: 1.1rem;
   line-height: 1.3;
   color: var(--t);
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .event-desc {
@@ -632,15 +659,17 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   line-height: 1.4;
   color: var(--t2);
   flex: 1;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
 }
 
 .event-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid var(--bd);
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--mg);
 }
 
 .event-date {
@@ -648,7 +677,9 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   color: var(--t3);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
 }
 
 .event-link-icon {
@@ -660,17 +691,22 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   text-align: center;
   padding: 40px 20px;
   color: var(--t3);
+  border: 1px solid rgba(230, 126, 34, 0.2);
+  background: rgba(15, 15, 15, 0.5);
 }
 
 .events-empty i {
-  font-size: 2rem;
-  margin-bottom: 12px;
-  opacity: 0.5;
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  color: var(--mg);
+  opacity: 0.7;
 }
 
 .events-empty p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {
@@ -681,6 +717,47 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
   .event-card {
     padding: 14px;
+  }
+}
+
+/* Live Streams Military Styling */
+.live-streams-container .card {
+  background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
+  border: 2px solid var(--mg);
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(230, 126, 34, 0.2);
+  transition: var(--tr);
+}
+
+@media (hover: hover) {
+  .live-streams-container .card:hover {
+    border-color: var(--sw);
+    box-shadow: 0 0 30px rgba(230, 126, 34, 0.4);
+    transform: translateY(-2px);
+  }
+}
+
+.live-streams-container .card > div:last-child {
+  border-top: 1px solid var(--mg);
+  padding: 12px 16px;
+}
+
+.live-streams-container .card strong {
+  color: var(--mg);
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Military Animation */
+@keyframes militaryPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(229, 57, 53, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(229, 57, 53, 0.9);
   }
 }
 </style>

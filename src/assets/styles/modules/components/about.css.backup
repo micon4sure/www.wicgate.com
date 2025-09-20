@@ -35,7 +35,7 @@
 .approach-content {
   background: var(--grad-card);
   border: 1px solid var(--bd);
-  
+  border-radius: 12px;
   padding: 28px;
 }
 
@@ -61,7 +61,7 @@
 .value-card {
   background: var(--grad-card);
   border: 1px solid var(--bd);
-  
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
   text-align: center;
@@ -71,8 +71,8 @@
 .value-icon {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, var(--mg) 0%, var(--sw) 100%);
-  
+  background: linear-gradient(135deg, var(--mg) 0%, var(--g) 100%);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,7 +101,7 @@
 .team-card {
   background: var(--grad-card);
   border: 1px solid var(--bd);
-  
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
   text-align: center;
@@ -141,7 +141,7 @@
 
 @media (hover: hover) {
   .text-link:hover {
-    color: var(--sw);
+    color: var(--g);
     text-decoration: underline;
   }
 }
@@ -194,75 +194,3 @@
   }
 }
 
-
-/* Military Typography for About Section */
-.mission-content h3,
-.story-content h3,
-.approach-content h3,
-.value-card h4,
-.team-card h4 {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.about-mission h2,
-.about-values h3 {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-}
-
-.team-role {
-  font-family: 'Oswald', sans-serif;
-}
-
-/* Military Container Styling */
-.story-content,
-.approach-content,
-.value-card,
-.team-card {
-  background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
-  border: 2px solid var(--mg);
-  box-shadow: 
-    0 0 20px rgba(230, 126, 34, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.value-card {
-  border-top: 3px solid var(--sw);
-}
-
-.team-card {
-  border-left: 3px solid var(--mg);
-}
-
-/* Military accent lines */
-.story-content::after,
-.approach-content::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--mg) 50%, transparent 100%);
-}
-
-/* Enhanced Military Value Icons */
-.value-icon {
-  background: linear-gradient(180deg, var(--mg) 0%, var(--mg-dark) 100%);
-  border: 2px solid var(--sw);
-  box-shadow: 
-    0 4px 15px rgba(230, 126, 34, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  color: #000;
-  font-weight: 700;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.value-icon i {
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
-}

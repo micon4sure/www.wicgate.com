@@ -181,7 +181,7 @@ function scrollToGettingStarted() {
         <div class="hero-grid container">
           <div class="hero-content">
             <div class="hero-tag">The War Continues</div>
-            <h1>World in Conflict<br />Lives Again</h1>
+            <h1 class="military-title">World in Conflict<br />Lives Again</h1>
             <p>
               Join our community in epic Cold War battles. Fully restored multiplayer servers with
               the real Massgate code.
@@ -257,21 +257,31 @@ function scrollToGettingStarted() {
   />
 </template>
 <style lang="scss">
-// Section stacking and subtle alternating tints within the #screens container
+// Section stacking with military-themed subtle variations
 #screens {
   > * {
     padding: 48px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.02);
+    border-top: 2px solid rgba(230, 126, 34, 0.1);
 
-    // Even-indexed screens (2, 4, ...): warm/red tint
+    // Even-indexed screens: subtle orange military tint
     &:nth-child(even) {
-      background: linear-gradient(180deg, rgba(255, 200, 200, 0.02), rgba(255, 180, 180, 0.1));
+      background: linear-gradient(180deg, rgba(230, 126, 34, 0.02) 0%, rgba(15, 15, 15, 0.95) 100%);
     }
 
-    // Odd-indexed screens (3, 5, ...): cool/blue tint
+    // Odd-indexed screens: subtle amber military tint
     &:nth-child(odd) {
-      background: linear-gradient(180deg, rgba(200, 220, 255, 0.02), rgba(180, 200, 255, 0.2));
+      background: linear-gradient(180deg, rgba(248, 196, 113, 0.02) 0%, rgba(10, 10, 10, 0.95) 100%);
     }
   }
+}
+
+// Military typography for hero content
+.military-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--t);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 </style>

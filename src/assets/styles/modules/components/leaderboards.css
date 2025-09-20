@@ -99,7 +99,7 @@
 .lb-table th {
   background: linear-gradient(180deg, rgba(40, 40, 40, 0.95) 0%, rgba(25, 25, 25, 0.95) 100%);
   color: var(--mg);
-  padding: 15px 20px;
+  padding: 12px;
   text-align: left;
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
@@ -108,29 +108,36 @@
   letter-spacing: 1px;
   border: 1px solid var(--mg);
   border-bottom: 2px solid var(--mg);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  vertical-align: baseline;
+  line-height: 1.4;
 }
 
 .lb-table th:first-child {
-  border-left: none;
+  border-left: 1px solid var(--mg); /* Consistent borders for alignment */
 }
 
 .lb-table th:last-child {
-  border-right: none;
+  border-right: 1px solid var(--mg); /* Consistent borders for alignment */
 }
 
 .lb-table td {
-  padding: 12px 20px;
+  padding: 12px;
   color: var(--t);
-  border-bottom: 1px solid rgba(230, 126, 34, 0.2);
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(230, 126, 34, 0.3);
+  border-left: 1px solid rgba(230, 126, 34, 0.1);
   transition: all 0.2s;
   font-weight: 500;
   background: linear-gradient(90deg, rgba(15, 15, 15, 0.7) 0%, rgba(20, 20, 20, 0.7) 100%);
+  vertical-align: baseline;
+  line-height: 1.4;
 }
 
 .lb-table td:first-child {
-  border-left: none;
+  border-left: 1px solid rgba(230, 126, 34, 0.1);
+}
+
+.lb-table td:last-child {
+  border-right: 1px solid rgba(230, 126, 34, 0.1);
 }
 
 .lb-table tbody tr:nth-child(even) td {
@@ -152,24 +159,35 @@
 }
 
 .player-cell {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  padding-left: 12px;
   position: relative;
-  padding-left: 40px;
+  line-height: 1.4;
+  vertical-align: baseline;
+}
+
+/* Control rank insignia alignment in table context */
+.player-cell .rank-insignia {
+  display: inline-block;
+  vertical-align: baseline;
+  margin-right: 8px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .clan-tag {
+  /* Plain text styling only - like in-game */
   font-family: 'Courier New', monospace;
   color: var(--mg);
   font-weight: 600;
-  background: rgba(230, 126, 34, 0.15);
-  padding: 2px 6px;
-  border-radius: 3px;
   font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border: 1px solid rgba(230, 126, 34, 0.3);
+  text-transform: none; /* Preserve original clan tag case */
+  letter-spacing: 0.3px;
+  /* Inline display with proper baseline alignment */
+  display: inline;
+  vertical-align: baseline;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
 }
 
 .player-name {
@@ -177,6 +195,15 @@
   color: var(--t);
   font-weight: 600;
   letter-spacing: 0.3px;
+  display: inline;
+  vertical-align: baseline;
+  line-height: inherit;
+  margin: 0;
+}
+
+/* Add spacing between clan tag and player name */
+.clan-tag + .player-name {
+  margin-left: 4px;
 }
 
 .lb-table td:last-child {
@@ -244,7 +271,7 @@
   
   .lb-table th,
   .lb-table td {
-    padding: 10px 15px;
+    padding: 10px;
   }
   
   .lb-table th {
@@ -257,7 +284,10 @@
   
   .clan-tag {
     font-size: 0.7rem;
-    padding: 1px 4px;
+  }
+
+  .clan-tag + .player-name {
+    margin-left: 3px;
   }
 }
 
@@ -273,12 +303,11 @@
   
   .lb-table th,
   .lb-table td {
-    padding: 8px 12px;
+    padding: 8px;
   }
   
   .player-cell {
     padding-left: 25px;
-    gap: 6px;
   }
   
   .lb-position {
@@ -297,4 +326,35 @@
   .rank-3 .lb-position {
     font-size: 1rem;
   }
+}
+
+/* Rank score cell styling - replaces problematic inline styles */
+.rank-score-gold {
+  color: #ffd700;
+  font-weight: 600;
+  font-family: 'Oswald', sans-serif;
+  text-align: right;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.rank-score-silver {
+  color: #c0c0c0;
+  font-weight: 600;
+  font-family: 'Oswald', sans-serif;
+  text-align: right;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(192, 192, 192, 0.5);
+}
+
+.rank-score-bronze {
+  color: #cd7f32;
+  font-weight: 600;
+  font-family: 'Oswald', sans-serif;
+  text-align: right;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(205, 127, 50, 0.5);
 }

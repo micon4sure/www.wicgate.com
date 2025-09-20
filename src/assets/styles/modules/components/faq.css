@@ -1,4 +1,24 @@
-/* FAQ Component Styles */
+/* FAQ Component Styles - Military Theme */
+
+/* Military Typography */
+.faq-cat h3 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.faq-q h4 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.faq-a p {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+}
 
 .faq-bg {
   background: var(--s1);
@@ -18,14 +38,15 @@
   font-size: 1.5rem;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 2px solid;
-  border-image: linear-gradient(90deg, var(--mg) 20%, var(--sw) 80%) 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .faq-item {
-  background: var(--s2);
-  border-radius: 12px;
-  border: 1px solid var(--bd);
+  background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
   overflow: hidden;
   margin-bottom: 15px;
   position: relative;
@@ -38,11 +59,37 @@
   align-items: center;
   cursor: pointer;
   transition: var(--tr);
+  position: relative;
+}
+
+.faq-q.active {
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.faq-q::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.faq-q.active::before {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 @media (hover: hover) {
   .faq-q:not(.active):hover {
     background: rgba(255, 255, 255, 0.02);
+  }
+
+  .faq-item:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -60,10 +107,13 @@
 }
 
 .faq-q .chev {
-  color: var(--t3);
-  transition: transform 0.3s;
+  color: var(--mg);
+  transition: transform 0.3s, color 0.3s;
   flex-shrink: 0;
   margin-left: 15px;
+  font-weight: 600;
+  font-size: 1rem;
+  opacity: 0.8;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -72,6 +122,8 @@
 
 .faq-q.active .chev {
   transform: rotate(180deg);
+  color: var(--sw);
+  opacity: 1;
 }
 
 .faq-a {
@@ -84,10 +136,20 @@
   max-height: 500px;
 }
 
+.faq-a {
+  /* No border - let natural spacing handle separation */
+}
+
 .faq-a p {
-  padding: 0 25px 20px;
+  padding: 20px 25px;
   color: var(--t2);
   line-height: 1.7;
+  position: relative;
+}
+
+.faq-a p::before {
+  /* Remove orange vertical line for cleaner appearance */
+  display: none;
 }
 
 /* FAQ Mobile Responsive Fixes */
@@ -114,8 +176,13 @@
   }
 
   .faq-a p {
-    padding: 0 20px 15px;
+    padding: 15px 20px;
     font-size: 14px;
+  }
+
+  .faq-a p::before {
+    /* Remove orange vertical line for mobile */
+    display: none;
   }
 }
 
@@ -152,8 +219,13 @@
   }
 
   .faq-a p {
-    padding: 0 15px 12px;
+    padding: 12px 15px;
     font-size: 13px;
     line-height: 1.6;
+  }
+
+  .faq-a p::before {
+    /* Remove orange vertical line for small mobile */
+    display: none;
   }
 }
