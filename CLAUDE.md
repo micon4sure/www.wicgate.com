@@ -24,8 +24,8 @@ npm run preview      # Preview production build
 ### Massgate-Inspired Military Aesthetic
 **Complete visual redesign** implementing authentic original Massgate military design language:
 
-- **Theme Transformation:** From modern green cards → Military orange/amber structured layouts
-- **Color Scheme:** Authentic orange (`#e67e22`) and amber (`#f39c12`) matching original Massgate
+- **Theme Transformation:** From modern green cards → Steel-blue chassis with Massgate accents
+- **Color Scheme:** Steel base (`#1f2f3b`) with Massgate orange (`#f37c2b`) highlights and alert red (`#ee3d32`) reserved for downloads
 - **Typography:** Military-style fonts (Rajdhani, Oswald) with structured hierarchy
 - **Layout Pattern:** Sharp, structured military interfaces vs modern rounded cards
 - **Navigation:** Tab-style orange navigation system matching original Massgate design
@@ -38,18 +38,20 @@ npm run preview      # Preview production build
 - **Text Classes:** `.text-command`, `.text-tactical`, `.military-data`, `.rank-display`
 
 ### Color System Implementation
-**Military Orange/Amber Palette:**
+**Steel + Massgate Accent Palette:**
 ```css
---mg: #e67e22;        /* Primary orange (Massgate tabs) */
---mg-dark: #d35400;   /* Darker amber for depth */
---sw: #f39c12;        /* Warm amber accent */
---sw-light: #f8c471;  /* Lighter amber highlights */
+--mg: #1f2f3b;        /* Primary steel tone */
+--mg-dark: #101a22;   /* Deep steel */
+--mg-muted: #344654;  /* Mid-tone accent */
+--sw: #f37c2b;        /* Massgate orange */
+--sw-light: #f8a85e;  /* Lighter orange highlight */
+--dl: #ee3d32;        /* High-alert download red */
 ```
 
 **RGB Implementations:**
-- Shadows & Glows: `rgba(230, 126, 34, *)` throughout all components
-- Button effects: Orange gradients with military authority
-- Table borders: Structured amber accent lines
+- Shadows & Glows: Steel cores with orange/red glows (`rgba(var(--sw-rgb)...)` / `rgba(var(--dl-rgb)...)`)
+- Button effects: Orange primaries plus red download variants
+- Table borders: Structured steel/amber accent lines
 
 ## 🏗️ What Was Done (Military Redesign & Architecture)
 
@@ -78,7 +80,8 @@ npm run preview      # Preview production build
 - **Typography System:** Google Fonts integration with military hierarchy
 - **Navigation Redesign:** Tab-style military navigation with orange theming
 - **Component Overhaul:** Leaderboards, buttons, and UI elements redesigned
-- **Color Implementation:** Orange/amber theme replacing green throughout
+- **Color Implementation:** Steel base with orange accents and red download CTAs
+- **Contrast Enhancements (2024):** Revised headings, cards, and warnings for readability on dark steel panels
 
 ## 📁 Project Structure
 
@@ -154,6 +157,7 @@ src/
 - Sharp rectangular buttons (no border radius)
 - Orange gradient backgrounds with military borders
 - Button variants: Primary, Secondary, Outline, Danger
+- Dedicated red `.btn-download` variant for critical CTAs (WIC LIVE, server packages)
 - Typography: Oswald font with uppercase military styling
 - Active states: Military-style depression effects
 
@@ -252,6 +256,12 @@ VITE_API_BASE=https://your-api-domain.com/api
 4. About → Project information with military typography
 5. FAQ → Military-styled troubleshooting
 
+## 🗂️ Agent Notes
+
+- `AGENTS.md` contains a condensed field guide (stack, palette tokens, major sections) for future assistants.
+- Use `.btn-download` when introducing new download CTAs so the red alert styling stays consistent.
+- Prefer solid-color headers over `grad-text` when contrast is an issue on steel backgrounds.
+
 ## 🎨 Military CSS Architecture
 
 ### Enhanced Modular System (20+ modules)
@@ -287,10 +297,12 @@ VITE_API_BASE=https://your-api-domain.com/api
 ### Military Color System
 **CSS Variables** (`variables.css`):
 ```css
---mg: #e67e22;        /* Primary orange (Massgate) */
---mg-dark: #d35400;   /* Darker amber */
---sw: #f39c12;        /* Warm amber accent */
---sw-light: #f8c471;  /* Lighter amber */
+--mg: #1f2f3b;        /* Primary steel tone */
+--mg-dark: #101a22;   /* Deep steel */
+--mg-muted: #344654;  /* Mid-tone steel */
+--sw: #f37c2b;        /* Massgate orange */
+--sw-light: #f8a85e;  /* Lighter orange */
+--dl: #ee3d32;        /* Download alert red */
 ```
 
 ### Typography Hierarchy
