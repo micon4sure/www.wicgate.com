@@ -8,7 +8,7 @@
   --sw: #f37c2b; /* Massgate orange accent */
   --sw-light: #f8a85e; /* Lighter accent highlight */
   --o: #f37c2b; /* Legacy alias for accent */
-  --dl: #ee3d32; /* High-alert download red */
+  --dl: #8b1d14; /* Deep Soviet red accent */
   --graphite: #1a1d21; /* Graphite navigation base */
   --graphite-dark: #111417; /* Deep graphite */
   --graphite-light: #24292e; /* Lighter graphite */
@@ -17,7 +17,7 @@
   --mg-rgb: 31, 47, 59;
   --mg-dark-rgb: 16, 26, 34;
   --sw-rgb: 243, 124, 43;
-  --dl-rgb: 238, 61, 50;
+  --dl-rgb: 139, 29, 20;
   --graphite-rgb: 26, 29, 33;
   --graphite-dark-rgb: 17, 20, 23;
   --graphite-light-rgb: 36, 41, 46;
@@ -55,8 +55,8 @@
   --grad-panel: linear-gradient(135deg, rgba(12, 22, 28, 0.98) 0%, rgba(22, 36, 46, 0.98) 100%);
 
   /* Shadows */
-  --shadow-card: 0 18px 38px rgba(5, 10, 15, 0.6);
-  --shadow-glow: 0 0 18px rgba(68, 117, 146, 0.35);
+  --shadow-card: 0 12px 24px rgba(5, 10, 15, 0.45);
+  --shadow-glow: 0 0 8px rgba(68, 117, 146, 0.25);
 
   /* Animations */
   --anim-pulse: pulse 2s ease-in-out infinite;

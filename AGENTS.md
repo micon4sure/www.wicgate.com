@@ -9,7 +9,7 @@
   - Steel blues (`--mg`, `--mg-dark`) as the structural base.
   - Graphite nav band (`--graphite`, `--graphite-dark`, `--graphite-light`) framing the header/tabs.
   - Massgate orange (`--sw`) for primary accents and headings.
-  - Download red (`--dl`) reserved for high-attention CTAs (e.g., WIC LIVE download buttons) and leaderboard headers.
+  - Deep Soviet red (`--dl`) reserved for high-attention CTAs (e.g., WIC LIVE download buttons) and leaderboard headers.
 - **Typography:** Oswald (headers), Rajdhani (body), Courier New (data). Managed in `src/assets/styles/modules/typography.css`.
 - **Global tokens:** Defined in `src/assets/styles/modules/variables.css`.
 
