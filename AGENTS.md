@@ -14,7 +14,7 @@
 - **Global tokens:** Defined in `src/assets/styles/modules/variables.css`.
 
 ## Key UI Sections & Styles
-- **Navigation (`src/components/Navigation.vue` + `styles/modules/components/navigation.css`):** Graphite bar with orange hover/active tabs, scroll-aware highlighting via an observer in `Home.vue`, lightened mobile toggle, `.logo` handles wordmark styling.
+- **Navigation (`src/components/Navigation.vue` + `styles/modules/components/navigation.css`):** Graphite bar with orange default labels that flip to light/graphite plates on hover/active (Massgate style), scroll-aware highlighting via `Home.vue`, lightened mobile toggle, `.logo` handles wordmark styling.
 - **Hero (`styles/modules/components/hero.css`):** Dual CTA (download + Discord) with cinematic slideshow.
 - **Getting Started (`src/screens/GettingStarted.vue` + `styles/modules/components/getting-started.css`):**
   - Step cards with orange number plaques.
