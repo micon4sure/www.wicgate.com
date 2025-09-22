@@ -43,6 +43,20 @@ function formatClanTag(entry: LeaderboardEntry): string {
   }
   return '';
 }
+
+function podiumTextClass(index: number): string {
+  if (index === 0) return 'podium-gold';
+  if (index === 1) return 'podium-silver';
+  if (index === 2) return 'podium-bronze';
+  return '';
+}
+
+function podiumScoreClass(index: number): string {
+  if (index === 0) return 'rank-score-gold';
+  if (index === 1) return 'rank-score-silver';
+  if (index === 2) return 'rank-score-bronze';
+  return '';
+}
 </script>
 <template>
   <div class="lb-cont">
@@ -67,6 +81,11 @@ function formatClanTag(entry: LeaderboardEntry): string {
     <template v-if="categories.length > 0">
       <div v-for="c in categories" :key="c" class="tab-cont" :class="{ active: active === c }">
         <table class="lb-table">
+          <colgroup>
+            <col class="col-rank" />
+            <col class="col-player" />
+            <col class="col-score" />
+          </colgroup>
           <thead>
             <tr>
               <th>Rank</th>
@@ -89,18 +108,10 @@ function formatClanTag(entry: LeaderboardEntry): string {
               <td class="player-cell">
                 <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px" />
                 <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
-                <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
+                <span class="player-name" :class="podiumTextClass(index)">{{ e.profileName || 'Unknown' }}</span>
               </td>
               <td
-                :class="
-                  index === 0
-                    ? 'rank-score-gold'
-                    : index === 1
-                      ? 'rank-score-silver'
-                      : index === 2
-                        ? 'rank-score-bronze'
-                        : ''
-                "
+                :class="[podiumScoreClass(index), podiumTextClass(index)]"
               >
                 {{ e.high?.toLocaleString?.() }}
               </td>
@@ -111,6 +122,11 @@ function formatClanTag(entry: LeaderboardEntry): string {
     </template>
     <template v-else>
       <table class="lb-table">
+        <colgroup>
+          <col class="col-rank" />
+          <col class="col-player" />
+          <col class="col-score" />
+        </colgroup>
         <thead>
           <tr>
             <th>Rank</th>
@@ -133,18 +149,10 @@ function formatClanTag(entry: LeaderboardEntry): string {
             <td class="player-cell">
               <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px" />
               <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
-              <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
+              <span class="player-name" :class="podiumTextClass(index)">{{ e.profileName || 'Unknown' }}</span>
             </td>
             <td
-              :class="
-                index === 0
-                  ? 'rank-score-gold'
-                  : index === 1
-                    ? 'rank-score-silver'
-                    : index === 2
-                      ? 'rank-score-bronze'
-                      : ''
-              "
+              :class="[podiumScoreClass(index), podiumTextClass(index)]"
             >
               {{ e.high?.toLocaleString?.() }}
             </td>
@@ -167,6 +175,18 @@ function formatClanTag(entry: LeaderboardEntry): string {
   color: var(--t);
 }
 
+.podium-gold {
+  color: #ffd700;
+}
+
+.podium-silver {
+  color: #c0c0c0;
+}
+
+.podium-bronze {
+  color: #cd7f32;
+}
+
 /* Gold, Silver, Bronze styling for rank positions only */
 .lb-position.rank-1 {
   color: #ffd700;
@@ -183,3 +203,4 @@ function formatClanTag(entry: LeaderboardEntry): string {
   font-weight: 600;
 }
 </style>
+
