@@ -43,3 +43,9 @@
 - When adding new sections, create dedicated CSS modules under `assets/styles/modules/components` and import through `base.css`.
 - For new download CTAs, switch to `.btn btn-download` to stay consistent.
 - Document major visual adjustments in `AGENTS.md` so future agents retain historical context.
+## Recent Updates (2025-09-23)
+- Leaderboard tables now share an explicit <colgroup> with fixed rank/score widths plus responsive tweaks, while podium cells reuse shared classes so only the text adopts gold/silver/bronze tones.
+- Hover styling on leaderboard rows no longer forces color: var(--t), which keeps podium scores tinted correctly during highlight.
+- Players Online panel extracted scroll-lock helpers, re-applies them on viewport resize, and cleans up on unmount to prevent ody.panel-open-mobile from freezing page scroll.
+- Ran 
+pm run lint -- --fix to normalize formatting; expect LF-preferred formatting even on Windows checkouts.

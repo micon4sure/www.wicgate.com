@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch, onMounted } from 'vue';
+import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import type { OnlineProfile as PlayerProfile } from '../api-types';
 import type { ServerEntry } from '../api-types';
 import { colorize, displayName, groupPlayersByServer } from '../utils/playerDisplay';
@@ -10,23 +10,43 @@ const emit = defineEmits<{ enterGameMode: [] }>();
 const open = ref(false);
 const scrollPos = ref(0);
 
+function lockBodyScroll() {
+  if (document.body.classList.contains('panel-open-mobile')) return;
+
+  scrollPos.value = window.pageYOffset;
+  document.body.classList.add('panel-open-mobile');
+}
+
+function unlockBodyScroll() {
+  if (!document.body.classList.contains('panel-open-mobile')) return;
+
+  document.body.classList.remove('panel-open-mobile');
+  window.scrollTo(0, scrollPos.value);
+}
+
 function applyClasses() {
   const wrapper = document.getElementById('siteWrapper');
   if (!wrapper) return;
+
+  const isMobile = window.innerWidth <= 768;
+
   if (open.value) {
     wrapper.classList.add('panel-open');
-    if (window.innerWidth <= 768) {
-      scrollPos.value = window.pageYOffset;
-      document.body.classList.add('panel-open-mobile');
+    if (isMobile) {
+      lockBodyScroll();
+    } else {
+      unlockBodyScroll();
     }
   } else {
     wrapper.classList.remove('panel-open');
-    if (window.innerWidth <= 768) {
-      document.body.classList.remove('panel-open-mobile');
-      window.scrollTo(0, scrollPos.value);
-    }
+    unlockBodyScroll();
   }
 }
+
+function handleResize() {
+  applyClasses();
+}
+
 function toggle() {
   open.value = !open.value;
   applyClasses();
@@ -42,6 +62,9 @@ function persist() {
 }
 
 onMounted(() => {
+  window.addEventListener('resize', handleResize, { passive: true });
+  handleResize();
+
   try {
     const stored = localStorage.getItem('wicgate_panel_open');
     if (stored === 'true') {
@@ -51,6 +74,13 @@ onMounted(() => {
   } catch {
     // Ignore localStorage errors (private browsing, etc.)
   }
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize);
+  const wrapper = document.getElementById('siteWrapper');
+  if (wrapper) wrapper.classList.remove('panel-open');
+  unlockBodyScroll();
 });
 
 const count = computed(() => props.players?.length || 0);
