@@ -9,6 +9,7 @@ const emit = defineEmits<{ enterGameMode: [] }>();
 
 const open = ref(false);
 const scrollPos = ref(0);
+const PANEL_OFFSET_VAR = '--players-panel-offset';
 
 function lockBodyScroll() {
   if (document.body.classList.contains('panel-open-mobile')) return;
@@ -24,6 +25,16 @@ function unlockBodyScroll() {
   window.scrollTo(0, scrollPos.value);
 }
 
+function updatePanelOffset() {
+  const header = document.querySelector<HTMLElement>('header');
+  if (!header) {
+    document.documentElement.style.removeProperty(PANEL_OFFSET_VAR);
+    return;
+  }
+
+  const { bottom } = header.getBoundingClientRect();
+  document.documentElement.style.setProperty(PANEL_OFFSET_VAR, `${bottom}px`);
+}
 function applyClasses() {
   const wrapper = document.getElementById('siteWrapper');
   if (!wrapper) return;
@@ -44,6 +55,7 @@ function applyClasses() {
 }
 
 function handleResize() {
+  updatePanelOffset();
   applyClasses();
 }
 
@@ -78,6 +90,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize);
+  document.documentElement.style.removeProperty(PANEL_OFFSET_VAR);
   const wrapper = document.getElementById('siteWrapper');
   if (wrapper) wrapper.classList.remove('panel-open');
   unlockBodyScroll();
