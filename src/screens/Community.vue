@@ -233,8 +233,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
           <!-- Channel sections slide down when expanded -->
           <Transition name="expand-y">
             <div v-if="expanded" class="by-channel">
-              <div class="section-divider">
-                <h4 class="section-title">By Content Creator</h4>
+              <div class="vid-hdr by-channel-hdr">
+                <h3>By Content Creator</h3>
               </div>
               <div v-for="ch in channelsList" :key="ch.channelId" class="channel-section">
                 <div class="channel-badge-container">
@@ -360,26 +360,11 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   font-weight: 500;
 }
 
-/* Section divider styling */
-.section-divider {
-  margin: 30px 0 24px 0;
-  text-align: center;
-}
-
-.section-divider .section-title {
-  margin: 0 0 16px;
-  font-size: 1.1rem;
-  color: var(--t);
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--divider-strong);
-  display: inline-block;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
 /* Channel sections */
+.by-channel-hdr {
+  margin-top: 30px;
+}
+
 .by-channel {
   display: flex;
   flex-direction: column;

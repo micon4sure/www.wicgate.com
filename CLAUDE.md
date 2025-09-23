@@ -45,6 +45,7 @@ npm run preview      # preview production build
 - Clan tags now use Massgate orange token; top-three player names revert to neutral text while ranks/scores retain medal colors.
 - Removed direct color literals across navigation, hero, community, getting-started, about, leaderboard, FAQ, game-mode, videos, responsive helpers.
 - Updated AGENTS.md to document token usage and historical adjustments.
+- Community "By Content Creator" block now uses the shared `.vid-hdr` header treatment with a spacing helper so it matches Live Streams/Latest Videos tabs.
 
 ## Content & Data
 - **Static content:** `src/content/content.ts` holds hero copy, onboarding steps, community links.
@@ -112,3 +113,4 @@ src/
 
 ---
 *This document is the quick-reference guide for future agents/maintainers so they can ramp fast and stay aligned with the Massgate design system.*
+
