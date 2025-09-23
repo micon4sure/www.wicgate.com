@@ -12,7 +12,7 @@ export function displayName(p: PlayerProfile): string {
 
 // HTML-based colorizer compatible with <#hex>... </> markers
 export function colorize(name: string): string {
-  let out = '<span style="color:#ddd">';
+  let out = '<span style="color:var(--player-neutral)">';
   let last = 0;
   let open = false;
   const regex = /<#([\da-f]{3,6})>|<\/>/gi;

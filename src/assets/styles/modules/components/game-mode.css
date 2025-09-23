@@ -6,7 +6,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(18, 30, 39, 0.98) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(135deg, rgba(var(--panel-main-rgb), 0.98) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   z-index: 2000;
   display: none;
   animation: fadeIn 0.3s ease;
@@ -19,7 +19,7 @@
 
 .gm-header {
   height: 60px;
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border-bottom: 1px solid var(--divider-strong);
   padding: 0 20px;
   display: flex;
@@ -138,7 +138,7 @@ body.players-online .gm-status-dot {
 }
 
 .gm-players {
-  background: linear-gradient(180deg, rgba(15, 24, 31, 0.94) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(15, 24, 31, 0.94) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border-right: 1px solid var(--divider-strong);
   display: flex;
   flex-direction: column;
@@ -194,7 +194,7 @@ body.players-online .gm-status-dot {
 }
 
 .gm-stat-card {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border-radius: 0;
   border: 1px solid var(--divider-strong);
   overflow: hidden;
@@ -264,16 +264,16 @@ body.players-online .gm-status-dot {
 }
 
 .gm-stat-table .rank-1 td:first-child {
-  color: #ffd700;
+  color: var(--medal-gold);
   text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
 }
 
 .gm-stat-table .rank-2 td:first-child {
-  color: #c0c0c0;
+  color: var(--medal-silver);
   text-shadow: 0 0 8px rgba(192, 192, 192, 0.3);
 }
 
 .gm-stat-table .rank-3 td:first-child {
-  color: #cd7f32;
+  color: var(--medal-bronze);
   text-shadow: 0 0 8px rgba(205, 127, 50, 0.3);
 }

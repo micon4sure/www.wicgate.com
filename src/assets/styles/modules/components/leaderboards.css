@@ -1,7 +1,7 @@
 /* Military-style Leaderboards - Massgate Inspired */
 
 .lb-cont {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(8, 14, 18, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-shadow-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   border-radius: 0;
   overflow: hidden;
@@ -68,14 +68,14 @@
 
 .tab-btn:hover {
   background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.85) 0%, rgba(var(--sw-rgb), 0.68) 100%);
-  color: #0b141a;
+  color: var(--ink);
   border-color: rgba(var(--sw-rgb), 0.75);
   transform: translateY(-1px);
 }
 
 .tab-btn.active {
   background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.98) 0%, rgba(var(--sw-rgb), 0.8) 100%);
-  color: #0b141a;
+  color: var(--ink);
   font-weight: 600;
   border-color: rgba(var(--sw-rgb), 0.95);
   z-index: 10;
@@ -112,7 +112,7 @@
 }
 
 .lb-table th {
-  background: linear-gradient(180deg, rgba(31, 47, 59, 0.92) 0%, rgba(16, 26, 34, 0.95) 100%);
+  background: linear-gradient(180deg, rgba(var(--mg-rgb), 0.92) 0%, rgba(var(--mg-dark-rgb), 0.95) 100%);
   color: var(--sw);
   padding: 12px;
   text-align: left;
@@ -230,19 +230,19 @@
 }
 
 .rank-1 .lb-position {
-  color: #ffd700;
+  color: var(--medal-gold);
   text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.8);
   font-size: 1.2rem;
 }
 
 .rank-2 .lb-position {
-  color: #c0c0c0;
+  color: var(--medal-silver);
   text-shadow: 0 0 15px rgba(192, 192, 192, 0.8), 0 2px 4px rgba(0, 0, 0, 0.8);
   font-size: 1.15rem;
 }
 
 .rank-3 .lb-position {
-  color: #cd7f32;
+  color: var(--medal-bronze);
   text-shadow: 0 0 15px rgba(205, 127, 50, 0.8), 0 2px 4px rgba(0, 0, 0, 0.8);
   font-size: 1.1rem;
 }
@@ -350,7 +350,7 @@
 
 /* Rank score cell styling - replaces problematic inline styles */
 .rank-score-gold {
-  color: #ffd700;
+  color: var(--medal-gold);
   font-weight: 600;
   font-family: 'Oswald', sans-serif;
   text-align: right;
@@ -360,7 +360,7 @@
 }
 
 .rank-score-silver {
-  color: #c0c0c0;
+  color: var(--medal-silver);
   font-weight: 600;
   font-family: 'Oswald', sans-serif;
   text-align: right;
@@ -370,7 +370,7 @@
 }
 
 .rank-score-bronze {
-  color: #cd7f32;
+  color: var(--medal-bronze);
   font-weight: 600;
   font-family: 'Oswald', sans-serif;
   text-align: right;

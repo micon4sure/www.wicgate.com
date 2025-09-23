@@ -168,7 +168,7 @@ function podiumScoreClass(index: number): string {
 <style scoped>
 /* uses global styles */
 .clan-tag {
-  color: #b3b3b3;
+  color: var(--clan-tag);
 }
 
 .player-name {
@@ -176,30 +176,30 @@ function podiumScoreClass(index: number): string {
 }
 
 .podium-gold {
-  color: #ffd700;
+  color: var(--medal-gold);
 }
 
 .podium-silver {
-  color: #c0c0c0;
+  color: var(--medal-silver);
 }
 
 .podium-bronze {
-  color: #cd7f32;
+  color: var(--medal-bronze);
 }
 
 /* Gold, Silver, Bronze styling for rank positions only */
 .lb-position.rank-1 {
-  color: #ffd700;
+  color: var(--medal-gold);
   font-weight: 600;
 }
 
 .lb-position.rank-2 {
-  color: #c0c0c0;
+  color: var(--medal-silver);
   font-weight: 600;
 }
 
 .lb-position.rank-3 {
-  color: #cd7f32;
+  color: var(--medal-bronze);
   font-weight: 600;
 }
 </style>

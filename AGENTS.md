@@ -47,5 +47,13 @@
 - Leaderboard tables now share an explicit <colgroup> with fixed rank/score widths plus responsive tweaks, while podium cells reuse shared classes so only the text adopts gold/silver/bronze tones.
 - Hover styling on leaderboard rows no longer forces color: var(--t), which keeps podium scores tinted correctly during highlight.
 - Players Online panel extracted scroll-lock helpers, re-applies them on viewport resize, and cleans up on unmount to prevent ody.panel-open-mobile from freezing page scroll.
-- Ran 
-pm run lint -- --fix to normalize formatting; expect LF-preferred formatting even on Windows checkouts.
+- Ran `npm run lint -- --fix` to normalize formatting; expect LF-preferred formatting even on Windows checkouts.
+## Recent Updates (2025-09-24)
+- Expanded `variables.css` with rgb helpers plus brand/medal and hover panel tokens so components can drop hard-coded hex values.
+- Replaced direct colour literals across navigation, hero, community (including live streams), getting started, about, leaderboards, FAQ, game-mode, videos, and button styles with the shared tokens.
+- Updated `LeaderboardGroup.vue` and `playerDisplay.ts` to use the new clan/player token colours so scoreboard styling stays consistent with CSS.
+- Removed the unused `temp_variables.css` palette stub; keep `base-old.css` bookmarked as legacy-only.
+
+
+
+

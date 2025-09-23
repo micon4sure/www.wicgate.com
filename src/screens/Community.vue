@@ -453,7 +453,11 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 @media (hover: hover) {
   .channel-badge:hover {
     transform: translateY(-3px) scale(1.05);
-    background: linear-gradient(180deg, rgba(58, 88, 110, 0.95) 0%, rgba(30, 48, 61, 0.95) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(var(--panel-hover-rgb), 0.95) 0%,
+      rgba(var(--panel-hover-dark-rgb), 0.95) 100%
+    );
     border-color: rgba(var(--sw-rgb), 0.75);
     box-shadow: 0 0 35px rgba(var(--sw-rgb), 0.3);
   }
@@ -463,11 +467,11 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   }
 
   .channel-badge:hover .channel-name {
-    color: #0b141a;
+    color: var(--ink);
   }
 
   .channel-badge:hover .channel-badge-icon {
-    color: #0b141a;
+    color: var(--ink);
     transform: translateX(3px);
   }
 }
@@ -553,7 +557,11 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 }
 
 .event-card {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--panel-main-rgb), 0.96) 0%,
+    rgba(var(--panel-dark-rgb), 0.98) 100%
+  );
   border: 1px solid var(--divider-strong);
   border-radius: 0;
   padding: 0;
@@ -606,7 +614,11 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.8px;
-  background: linear-gradient(180deg, rgba(54, 81, 104, 0.9) 0%, rgba(28, 44, 56, 0.9) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--panel-slate-rgb), 0.9) 0%,
+    rgba(var(--panel-slate-dark-rgb), 0.9) 100%
+  );
   color: var(--t);
   border: 1px solid rgba(var(--sw-rgb), 0.5);
   text-transform: uppercase;
@@ -614,10 +626,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 }
 
 .event-status.live {
-  background: #e53935;
+  background: var(--brand-youtube);
   color: #fff;
-  border-color: #ff5722;
-  box-shadow: 0 0 20px rgba(229, 57, 53, 0.6);
+  border-color: var(--brand-youtube-bright);
+  box-shadow: 0 0 20px rgba(var(--brand-youtube-rgb), 0.6);
   animation: militaryPulse 2s ease-in-out infinite;
 }
 
@@ -635,15 +647,19 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 .event-content.no-image .event-status {
   align-self: flex-start;
-  background: linear-gradient(180deg, rgba(54, 81, 104, 0.9) 0%, rgba(28, 44, 56, 0.9) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--panel-slate-rgb), 0.9) 0%,
+    rgba(var(--panel-slate-dark-rgb), 0.9) 100%
+  );
   color: var(--t);
   border: 1px solid rgba(var(--sw-rgb), 0.5);
 }
 
 .event-content.no-image .event-status.live {
-  background: #e53935;
+  background: var(--brand-youtube);
   color: #fff;
-  border-color: #ff5722;
+  border-color: var(--brand-youtube-bright);
 }
 
 .event-title {
@@ -696,7 +712,11 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   padding: 40px 20px;
   color: var(--t3);
   border: 1px solid var(--divider-soft);
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.85) 0%, rgba(9, 15, 20, 0.9) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--panel-main-rgb), 0.85) 0%,
+    rgba(var(--panel-dark-rgb), 0.9) 100%
+  );
 }
 
 .events-empty i {
@@ -726,7 +746,11 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 /* Live Streams Military Styling */
 .live-streams-container .card {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--panel-main-rgb), 0.96) 0%,
+    rgba(var(--panel-dark-rgb), 0.98) 100%
+  );
   border: 1px solid var(--divider-strong);
   border-radius: 0;
   overflow: hidden;
@@ -759,10 +783,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 @keyframes militaryPulse {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(229, 57, 53, 0.6);
+    box-shadow: 0 0 20px rgba(var(--brand-youtube-rgb), 0.6);
   }
   50% {
-    box-shadow: 0 0 30px rgba(229, 57, 53, 0.9);
+    box-shadow: 0 0 30px rgba(var(--brand-youtube-rgb), 0.9);
   }
 }
 </style>

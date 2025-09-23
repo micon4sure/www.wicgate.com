@@ -42,7 +42,11 @@
 }
 
 .faq-item {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.94) 0%, rgba(9, 15, 20, 0.96) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--panel-main-rgb), 0.94) 0%,
+    rgba(var(--panel-dark-rgb), 0.96) 100%
+  );
   border: 1px solid var(--divider-soft);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.3),
@@ -84,7 +88,11 @@
 
 @media (hover: hover) {
   .faq-q:not(.active):hover {
-    background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.08) 0%, rgba(var(--sw-rgb), 0.02) 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(var(--sw-rgb), 0.08) 0%,
+      rgba(var(--sw-rgb), 0.02) 100%
+    );
     color: var(--t);
   }
 
@@ -109,7 +117,9 @@
 
 .faq-q .chev {
   color: var(--t2);
-  transition: transform 0.3s, color 0.3s;
+  transition:
+    transform 0.3s,
+    color 0.3s;
   flex-shrink: 0;
   margin-left: 15px;
   font-weight: 600;

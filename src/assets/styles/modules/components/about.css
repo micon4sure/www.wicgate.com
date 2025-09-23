@@ -33,7 +33,7 @@
 
 .story-content,
 .approach-content {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   
   padding: 28px;
@@ -59,7 +59,7 @@
 }
 
 .value-card {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   
   overflow: hidden;
@@ -78,7 +78,7 @@
   justify-content: center;
   margin: 0 auto 20px;
   font-size: 1.5rem;
-  color: #0b141a;
+  color: var(--ink);
   box-shadow:
     0 6px 20px rgba(var(--sw-rgb), 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -102,7 +102,7 @@
 }
 
 .team-card {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   
   overflow: hidden;
@@ -227,7 +227,7 @@
 .approach-content,
 .value-card,
 .team-card {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   box-shadow: 
     0 0 20px rgba(var(--mg-rgb), 0.2),
@@ -261,7 +261,7 @@
   box-shadow: 
     0 6px 20px rgba(var(--sw-rgb), 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  color: #0b141a;
+  color: var(--ink);
   font-weight: 700;
   text-shadow: none;
 }

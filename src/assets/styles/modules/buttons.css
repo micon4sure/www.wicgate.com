@@ -94,30 +94,30 @@
 
 /* Discord button (military blue variant) */
 .btn-d {
-  background: linear-gradient(180deg, var(--d) 0%, #4752c4 100%);
-  border-color: #6b7ff3;
+  background: linear-gradient(180deg, var(--d) 0%, var(--d-dark) 100%);
+  border-color: var(--d-light);
   color: #fff;
   box-shadow: 
-    0 4px 15px rgba(88, 101, 242, 0.4),
+    0 4px 15px rgba(var(--d-light-rgb), 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 @media (hover: hover) {
   .btn-d:hover {
-    background: linear-gradient(180deg, #6b7ff3 0%, var(--d) 100%);
-    border-color: #8a95f5;
+    background: linear-gradient(180deg, var(--d-light) 0%, var(--d) 100%);
+    border-color: color-mix(in srgb, var(--d-light) 70%, white 30%);
     box-shadow:
-      0 6px 20px rgba(88, 101, 242, 0.5),
-      0 0 25px rgba(107, 127, 243, 0.3),
+      0 6px 20px rgba(var(--d-light-rgb), 0.5),
+      0 0 25px rgba(var(--d-light-rgb), 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
   }
 }
 
 .btn-d:active {
-  background: linear-gradient(180deg, #4752c4 0%, #3c4399 100%);
+  background: linear-gradient(180deg, var(--d-dark) 0%, var(--d-darker) 100%);
   box-shadow:
-    0 2px 10px rgba(88, 101, 242, 0.6),
+    0 2px 10px rgba(var(--d-light-rgb), 0.6),
     inset 0 2px 4px rgba(0, 0, 0, 0.3);
   transform: translateY(0);
 }
@@ -199,30 +199,30 @@
 
 /* Danger/warning button */
 .btn-danger {
-  background: linear-gradient(180deg, #dc3545 0%, #c82333 100%);
-  border-color: #f86470;
+  background: linear-gradient(180deg, rgba(var(--dl-light-rgb), 0.95) 0%, rgba(var(--dl-mid-rgb), 0.95) 100%);
+  border-color: rgba(var(--dl-light-rgb), 0.8);
   color: #fff;
   box-shadow: 
-    0 4px 15px rgba(220, 53, 69, 0.4),
+    0 4px 15px rgba(var(--dl-light-rgb), 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 @media (hover: hover) {
   .btn-danger:hover {
-    background: linear-gradient(180deg, #e74c3c 0%, #dc3545 100%);
-    border-color: #f8a5aa;
+    background: linear-gradient(180deg, rgba(var(--dl-light-rgb), 1) 0%, rgba(var(--dl-mid-rgb), 0.92) 100%);
+    border-color: rgba(var(--dl-light-rgb), 0.9);
     box-shadow:
-      0 6px 20px rgba(220, 53, 69, 0.5),
-      0 0 25px rgba(231, 76, 60, 0.3),
+      0 6px 20px rgba(var(--dl-light-rgb), 0.5),
+      0 0 25px rgba(var(--dl-light-rgb), 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
   }
 }
 
 .btn-danger:active {
-  background: linear-gradient(180deg, #c82333 0%, #a71e2a 100%);
+  background: linear-gradient(180deg, rgba(var(--dl-mid-rgb), 0.95) 0%, rgba(var(--dl-dark-rgb), 0.95) 100%);
   box-shadow:
-    0 2px 10px rgba(220, 53, 69, 0.6),
+    0 2px 10px rgba(var(--dl-light-rgb), 0.6),
     inset 0 2px 4px rgba(0, 0, 0, 0.3);
   transform: translateY(0);
 }

@@ -1,7 +1,11 @@
 /* COMMUNITY COMPONENT - COMPREHENSIVE MILITARY THEME */
 
 .com-hub {
-  background: linear-gradient(135deg, rgba(var(--mg-rgb), 0.05) 0%, rgba(15, 15, 15, 0.95) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--mg-rgb), 0.05) 0%,
+    rgba(var(--night-rgb), 0.95) 100%
+  );
   padding: 20px 0;
 }
 
@@ -27,7 +31,11 @@
 /* MILITARY COMMUNITY CARDS - BASED ON ABOUT SECTION DESIGN */
 .com-card {
   /* Military container base (same as About section) */
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--panel-main-rgb), 0.96) 0%,
+    rgba(var(--panel-dark-rgb), 0.98) 100%
+  );
   border: 1px solid var(--divider-strong); /* Default fallback */
   border-radius: 0; /* Sharp, squared military design */
   box-shadow:
@@ -48,23 +56,23 @@
   border: 2px solid var(--d); /* Discord blue border */
   border-top: 3px solid var(--d);
   box-shadow:
-    0 0 20px rgba(88, 101, 242, 0.2),
+    0 0 20px rgba(var(--d-light-rgb), 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .com-card.youtube {
-  border: 2px solid #ff0000; /* YouTube red border */
-  border-top: 3px solid #ff0000;
+  border: 2px solid var(--brand-youtube-peak); /* YouTube red border */
+  border-top: 3px solid var(--brand-youtube-peak);
   box-shadow:
-    0 0 20px rgba(255, 0, 0, 0.2),
+    0 0 20px rgba(var(--brand-youtube-peak-rgb), 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .com-card.twitch {
-  border: 2px solid #9146ff; /* Twitch purple border */
-  border-top: 3px solid #9146ff;
+  border: 2px solid var(--brand-twitch); /* Twitch purple border */
+  border-top: 3px solid var(--brand-twitch);
   box-shadow:
-    0 0 20px rgba(145, 70, 255, 0.2),
+    0 0 20px rgba(var(--brand-twitch-rgb), 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
@@ -89,7 +97,6 @@
   border-color: var(--mg-dark);
 }
 
-
 /* MILITARY CARD ICONS - BASED ON ABOUT SECTION VALUE-ICON */
 .card-icon {
   width: 60px;
@@ -105,7 +112,7 @@
   justify-content: center;
   margin: 0 auto 20px;
   font-size: 1.5rem;
-  color: #0b141a;
+  color: var(--ink);
   font-weight: 700;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   transition: var(--tr);
@@ -117,20 +124,20 @@
 
 /* Platform-specific icon backgrounds */
 .com-card.discord .card-icon {
-  background: linear-gradient(180deg, var(--d) 0%, #4752c4 100%);
+  background: linear-gradient(180deg, var(--d) 0%, var(--d-dark) 100%);
   border-color: var(--d);
   color: #fff;
 }
 
 .com-card.youtube .card-icon {
-  background: linear-gradient(180deg, #ff0000 0%, #cc0000 100%);
-  border-color: #ff0000;
+  background: linear-gradient(180deg, var(--brand-youtube-peak) 0%, var(--brand-youtube) 100%);
+  border-color: var(--brand-youtube-peak);
   color: #fff;
 }
 
 .com-card.twitch .card-icon {
-  background: linear-gradient(180deg, #9146ff 0%, #7333d8 100%);
-  border-color: #9146ff;
+  background: linear-gradient(180deg, var(--brand-twitch) 0%, var(--brand-twitch-dark) 100%);
+  border-color: var(--brand-twitch);
   color: #fff;
 }
 
@@ -179,7 +186,6 @@
   font-weight: 400;
 }
 
-
 /* Military card content styling */
 .card-icon,
 .com-card h3,
@@ -195,7 +201,13 @@
   margin-bottom: 24px;
   position: relative;
   min-height: 50px;
-  background: linear-gradient(90deg, transparent 0%, rgba(var(--mg-rgb), 0.1) 20%, rgba(var(--mg-rgb), 0.1) 80%, transparent 100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--mg-rgb), 0.1) 20%,
+    rgba(var(--mg-rgb), 0.1) 80%,
+    transparent 100%
+  );
   border: 1px solid rgba(var(--mg-rgb), 0.2);
   border-radius: 0;
   padding: 0 20px;
@@ -255,7 +267,11 @@
 }
 
 .event-card {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--panel-main-rgb), 0.96) 0%,
+    rgba(var(--panel-dark-rgb), 0.98) 100%
+  );
   border: 1px solid var(--divider-strong);
   border-radius: 0;
   padding: 0;
@@ -308,7 +324,11 @@
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.8px;
-  background: linear-gradient(180deg, rgba(54, 81, 104, 0.9) 0%, rgba(28, 44, 56, 0.9) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--surface-alt-rgb), 0.9) 0%,
+    rgba(var(--s2-rgb), 0.9) 100%
+  );
   color: var(--t);
   border: 1px solid rgba(var(--sw-rgb), 0.5);
   text-transform: uppercase;
@@ -316,10 +336,10 @@
 }
 
 .event-status.live {
-  background: #e53935;
+  background: var(--brand-youtube);
   color: #fff;
-  border-color: #ff5722;
-  box-shadow: 0 0 20px rgba(229, 57, 53, 0.6);
+  border-color: var(--brand-youtube-bright);
+  box-shadow: 0 0 20px rgba(var(--brand-youtube-rgb), 0.6);
   animation: militaryPulse 2s ease-in-out infinite;
 }
 
@@ -338,15 +358,19 @@
 
 .event-content.no-image .event-status {
   align-self: flex-start;
-  background: linear-gradient(180deg, rgba(54, 81, 104, 0.9) 0%, rgba(28, 44, 56, 0.9) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--surface-alt-rgb), 0.9) 0%,
+    rgba(var(--s2-rgb), 0.9) 100%
+  );
   color: var(--t);
   border: 1px solid rgba(var(--sw-rgb), 0.5);
 }
 
 .event-content.no-image .event-status.live {
-  background: #e53935;
+  background: var(--brand-youtube);
   color: #fff;
-  border-color: #ff5722;
+  border-color: var(--brand-youtube-bright);
 }
 
 .event-title {
@@ -398,7 +422,11 @@
   padding: 40px 20px;
   color: var(--t3);
   border: 1px solid var(--divider-soft);
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.85) 0%, rgba(9, 15, 20, 0.9) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--panel-main-rgb), 0.85) 0%,
+    rgba(var(--panel-dark-rgb), 0.9) 100%
+  );
 }
 
 .events-empty i {
@@ -421,7 +449,11 @@
   position: relative;
   overflow: hidden;
   transition: var(--tr);
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--panel-main-rgb), 0.96) 0%,
+    rgba(var(--panel-dark-rgb), 0.98) 100%
+  );
   border: 1px solid var(--divider-strong);
   border-radius: 0;
   box-shadow: 0 10px 24px rgba(4, 9, 14, 0.45);
@@ -535,7 +567,11 @@
   align-items: center;
   gap: 10px;
   padding: 16px 28px;
-  background: linear-gradient(180deg, rgba(var(--mg-rgb), 0.88) 0%, rgba(var(--mg-dark-rgb), 0.95) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--mg-rgb), 0.88) 0%,
+    rgba(var(--mg-dark-rgb), 0.95) 100%
+  );
   border: 1px solid var(--divider-strong);
   border-radius: 0;
   text-decoration: none;
@@ -574,7 +610,11 @@
 @media (hover: hover) {
   .channel-badge:hover {
     transform: translateY(-3px) scale(1.05);
-    background: linear-gradient(180deg, rgba(58, 88, 110, 0.95) 0%, rgba(30, 48, 61, 0.95) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(var(--panel-hover-rgb), 0.95) 0%,
+      rgba(var(--panel-hover-dark-rgb), 0.95) 100%
+    );
     border-color: rgba(var(--sw-rgb), 0.75);
     box-shadow: 0 0 35px rgba(var(--sw-rgb), 0.3);
   }
@@ -584,11 +624,11 @@
   }
 
   .channel-badge:hover .channel-name {
-    color: #0b141a;
+    color: var(--ink);
   }
 
   .channel-badge:hover .channel-badge-icon {
-    color: #0b141a;
+    color: var(--ink);
     transform: translateX(3px);
   }
 }
@@ -599,7 +639,11 @@
 
 /* LIVE STREAMS MILITARY STYLING */
 .live-streams-container .card {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--panel-main-rgb), 0.96) 0%,
+    rgba(var(--panel-dark-rgb), 0.98) 100%
+  );
   border: 1px solid var(--divider-strong);
   border-radius: 0;
   overflow: hidden;
@@ -632,11 +676,12 @@
 
 /* MILITARY ANIMATIONS */
 @keyframes militaryPulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(229, 57, 53, 0.6);
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(var(--brand-youtube-rgb), 0.6);
   }
   50% {
-    box-shadow: 0 0 30px rgba(229, 57, 53, 0.9);
+    box-shadow: 0 0 30px rgba(var(--brand-youtube-rgb), 0.9);
   }
 }
 
@@ -658,7 +703,12 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #ff0000 50%, transparent 100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--brand-youtube-peak) 50%,
+    transparent 100%
+  );
 }
 
 .com-card.twitch::after {
@@ -668,7 +718,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #9146ff 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, var(--brand-twitch) 50%, transparent 100%);
 }
 
 /* RESPONSIVE MILITARY ADJUSTMENTS */
@@ -747,7 +797,7 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  background: #11181f;
+  background: var(--s1);
   border-color: rgba(var(--sw-rgb), 0.75);
 }
 
@@ -770,13 +820,18 @@ input:checked + .slider:before {
 
 /* SKELETON LOADER MILITARY STYLING */
 .skeleton {
-  background: rgba(15, 15, 15, 0.8);
+  background: rgba(var(--night-rgb), 0.8);
   border: 1px solid rgba(var(--mg-rgb), 0.2);
   border-radius: 0;
 }
 
 .skeleton-line {
-  background: linear-gradient(90deg, rgba(var(--mg-rgb), 0.1) 0%, rgba(var(--mg-rgb), 0.2) 50%, rgba(var(--mg-rgb), 0.1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--mg-rgb), 0.1) 0%,
+    rgba(var(--mg-rgb), 0.2) 50%,
+    rgba(var(--mg-rgb), 0.1) 100%
+  );
   background-size: 200% 100%;
   border-radius: 0;
 }
@@ -788,6 +843,6 @@ input:checked + .slider:before {
   font-weight: 500;
   text-align: center;
   padding: 20px;
-  background: rgba(15, 15, 15, 0.5);
+  background: rgba(var(--night-rgb), 0.5);
   border: 1px solid rgba(var(--mg-rgb), 0.1);
 }

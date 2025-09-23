@@ -174,7 +174,7 @@ nav a.active::before {
       0 0 20px rgba(var(--sw-rgb), 0.5),
       inset 0 1px 0 rgba(255, 255, 255, 0.18);
     transform: translateY(-1px);
-    color: #0b141a;
+    color: var(--ink);
   }
 }
 
@@ -258,14 +258,14 @@ nav a.active::before {
   .mob-menu:hover {
     background: linear-gradient(135deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.75) 100%);
     box-shadow: 0 0 18px rgba(var(--sw-rgb), 0.5);
-    color: #0b141a;
+    color: var(--ink);
   }
 }
 
 @media (hover: none) and (pointer: coarse) {
   .mob-menu:focus {
     outline: none;
-    color: #0b141a;
+    color: var(--ink);
   }
 }
 
@@ -390,7 +390,7 @@ nav a.active::before {
     top: 60px;
     left: 0;
     right: 0;
-    background: linear-gradient(180deg, rgba(15, 15, 15, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
+    background: linear-gradient(180deg, rgba(var(--night-rgb), 0.98) 0%, rgba(var(--night-dark-rgb), 0.98) 100%);
     flex-direction: column;
     border-top: 2px solid var(--mg);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);

@@ -40,7 +40,7 @@
 }
 
 .req {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   border-left: 3px solid rgba(var(--sw-rgb), 0.7);
   box-shadow:
@@ -65,7 +65,7 @@
 }
 
 .inst-step {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   border-left: 3px solid rgba(var(--sw-rgb), 0.7);
   box-shadow:
@@ -82,7 +82,7 @@
   width: 50px;
   height: 50px;
   background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.96) 0%, rgba(var(--sw-rgb), 0.75) 100%);
-  color: #0b141a;
+  color: var(--ink);
   border: 2px solid rgba(var(--sw-rgb), 0.85);
   display: flex;
   align-items: center;
@@ -219,7 +219,7 @@
 
 /* Advanced Setup Sections */
 .advanced-section {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   box-shadow:
     0 0 20px rgba(var(--mg-rgb), 0.2),
@@ -261,7 +261,7 @@
 
 /* Server Configuration Sidebar */
 .server-config {
-  background: linear-gradient(180deg, rgba(18, 30, 39, 0.96) 0%, rgba(9, 15, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   border-left: 3px solid rgba(var(--sw-rgb), 0.7);
   box-shadow:
