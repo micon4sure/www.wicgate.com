@@ -60,53 +60,8 @@
   }
 }
 
-/* Navigation breakpoint - accommodate 5 nav links */
-@media (max-width: 950px) {
-  /* Navigation */
-  nav {
-    display: none;
-    position: fixed;
-    top: 70px;
-    left: 0;
-    right: 0;
-    background: rgba(15, 15, 15, 0.98);
-    flex-direction: column;
-    padding: 20px;
-    gap: 20px;
-    border-bottom: 1px solid var(--bd);
-    z-index: 999;
-  }
-
-  nav.mobile-open {
-    display: flex;
-  }
-
-  .mob-menu {
-    display: block;
-  }
-
-  /* Header - Fix mobile layout */
-  .hdr {
-    padding: 15px 0;
-  }
-
-  .hdr.container {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  /* Show players button on mobile - simplified layout */
-  .social {
-    display: flex;
-    margin-left: 15px;
-    padding-left: 15px;
-    border-left: 1px solid var(--bd);
-  }
-
-  .logo {
-    font-size: 20px;
-  }
-}
+/* Navigation styles moved to navigation.css for better organization */
+/* This breakpoint removed to avoid conflicts with unified mobile navigation */
 
 /* Mobile landscape */
 @media (max-width: 768px) {
@@ -177,18 +132,7 @@
     padding: 12px 20px;
   }
 
-  .players-btn {
-    padding: 8px 12px !important;
-  }
-
-  .players-btn .p-label-header,
-  .players-btn .p-divider {
-    display: none;
-  }
-
-  .players-btn .p-count {
-    font-size: 14px !important;
-  }
+  /* Players button styles moved to navigation.css */
 
   /* Layout */
   .container {
@@ -339,24 +283,7 @@
     right: 10px;
   }
 
-  /* Navigation */
-  .hdr {
-    padding: 12px 0;
-  }
-
-  .logo {
-    font-size: 20px;
-  }
-
-  nav {
-    padding: 15px;
-    gap: 15px;
-  }
-
-  nav a {
-    padding: 12px 0;
-    font-size: 16px;
-  }
+  /* Navigation styles moved to navigation.css */
 
   /* Buttons */
   .btn {
@@ -364,9 +291,7 @@
     padding: 10px 16px;
   }
 
-  .players-btn {
-    padding: 8px 12px !important;
-  }
+  /* Players button styles moved to navigation.css */
 
   /* Grids */
   .grid {
