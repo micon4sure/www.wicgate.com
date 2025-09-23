@@ -62,10 +62,6 @@ if (!store.isInitialized.value) {
     padding: 6px 12px;
   }
 
-  .container :deep(.player-cell) {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
+  /* Player cell alignment now handled by leaderboards.css globally */
 }
 </style>

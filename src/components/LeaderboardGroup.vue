@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 import type { LeaderboardEntry } from '../api-types';
 import RankInsignia from './RankInsignia.vue';
 
@@ -57,6 +57,34 @@ function podiumScoreClass(index: number): string {
   if (index === 2) return 'rank-score-bronze';
   return '';
 }
+
+// Responsive RankInsignia sizing
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
+
+const rankInsigniaSize = computed(() => {
+  if (windowWidth.value <= 360) return 16;
+  if (windowWidth.value <= 480) return 18;
+  if (windowWidth.value <= 768) return 20;
+  if (windowWidth.value <= 1024) return 22;
+  return 24;
+});
+
+function updateWindowWidth() {
+  windowWidth.value = window.innerWidth;
+}
+
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    window.addEventListener('resize', updateWindowWidth);
+    updateWindowWidth();
+  }
+});
+
+onUnmounted(() => {
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', updateWindowWidth);
+  }
+});
 </script>
 <template>
   <div class="lb-cont">
@@ -106,9 +134,11 @@ function podiumScoreClass(index: number): string {
                 {{ index + 1 }}
               </td>
               <td class="player-cell">
-                <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px" />
-                <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
-                <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
+                <div class="player-cell-content">
+                  <RankInsignia :rank="e.rank" :size="rankInsigniaSize" />
+                  <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
+                  <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
+                </div>
               </td>
               <td :class="[podiumScoreClass(index), podiumTextClass(index)]">
                 {{ e.high?.toLocaleString?.() }}
@@ -145,9 +175,11 @@ function podiumScoreClass(index: number): string {
               {{ index + 1 }}
             </td>
             <td class="player-cell">
-              <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px" />
-              <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
-              <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
+              <div class="player-cell-content">
+                <RankInsignia :rank="e.rank" :size="rankInsigniaSize" />
+                <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
+                <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
+              </div>
             </td>
             <td :class="[podiumScoreClass(index), podiumTextClass(index)]">
               {{ e.high?.toLocaleString?.() }}
