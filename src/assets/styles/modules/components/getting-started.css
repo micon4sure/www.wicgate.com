@@ -102,8 +102,6 @@
   margin-bottom: 15px;
 }
 
-
-
 .req ul {
   list-style: none;
 }
@@ -219,13 +217,7 @@
 
 /* Advanced Setup Sections */
 .advanced-section {
-  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
-  border: 1px solid var(--divider-strong);
-  box-shadow:
-    0 0 20px rgba(var(--mg-rgb), 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  padding: 40px;
-  margin-top: 40px;
+  margin-top: 60px;
   color: var(--t);
 }
 
@@ -257,7 +249,6 @@
 .manual-install {
   position: relative;
 }
-
 
 /* Server Configuration Sidebar */
 .server-config {
@@ -317,7 +308,6 @@
   flex: 1;
 }
 
-
 /* Warning Box */
 .warning-box {
   background: linear-gradient(180deg, rgba(var(--dl-rgb), 0.12) 0%, rgba(var(--dl-rgb), 0.08) 100%);
@@ -356,20 +346,8 @@
 }
 
 /* Advanced Setup Responsive */
-@media (max-width: 1024px) {
-  .advanced-section {
-    padding: 30px 20px;
-  }
-
-
-}
 
 @media (max-width: 768px) {
-  .advanced-section {
-    padding: 20px 15px;
-    margin-top: 30px;
-  }
-
   .server-config {
     padding: 20px;
     margin-top: 20px;
@@ -397,11 +375,6 @@
 }
 
 @media (max-width: 480px) {
-  .advanced-section {
-    padding: 15px;
-  }
-
-
   .server-config {
     padding: 16px;
   }
