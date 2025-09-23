@@ -113,7 +113,7 @@
 
 .lb-table th {
   background: linear-gradient(180deg, rgba(var(--mg-rgb), 0.92) 0%, rgba(var(--mg-dark-rgb), 0.95) 100%);
-  color: var(--sw);
+  color: var(--t);
   padding: 12px;
   text-align: left;
   font-family: 'Oswald', sans-serif;

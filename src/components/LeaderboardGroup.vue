@@ -108,9 +108,7 @@ function podiumScoreClass(index: number): string {
               <td class="player-cell">
                 <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px" />
                 <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
-                <span class="player-name" :class="podiumTextClass(index)">{{
-                  e.profileName || 'Unknown'
-                }}</span>
+                <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
               </td>
               <td :class="[podiumScoreClass(index), podiumTextClass(index)]">
                 {{ e.high?.toLocaleString?.() }}
@@ -149,9 +147,7 @@ function podiumScoreClass(index: number): string {
             <td class="player-cell">
               <RankInsignia :rank="e.rank" :size="22" style="margin-right: 8px" />
               <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
-              <span class="player-name" :class="podiumTextClass(index)">{{
-                e.profileName || 'Unknown'
-              }}</span>
+              <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
             </td>
             <td :class="[podiumScoreClass(index), podiumTextClass(index)]">
               {{ e.high?.toLocaleString?.() }}
@@ -168,7 +164,7 @@ function podiumScoreClass(index: number): string {
 <style scoped>
 /* uses global styles */
 .clan-tag {
-  color: var(--clan-tag);
+  color: var(--sw);
 }
 
 .player-name {
