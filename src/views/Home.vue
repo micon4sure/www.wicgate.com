@@ -243,7 +243,7 @@ function handleNavNavigate(section?: string) {
         <div class="hero-grid container">
           <div class="hero-content">
             <div class="hero-tag">The War Continues</div>
-            <h1 class="military-title">World in Conflict<br />Lives Again</h1>
+            <h1 class="military-title">World in Conflict<br />Is Live Again</h1>
             <p>
               Join our community in epic Cold War battles. Fully restored multiplayer servers with
               the real Massgate code.
