@@ -114,3 +114,4 @@ src/
 ---
 *This document is the quick-reference guide for future agents/maintainers so they can ramp fast and stay aligned with the Massgate design system.*
 
+- Updated By Content Creator badges to use orange hover fill with dark text/icons for clarity.

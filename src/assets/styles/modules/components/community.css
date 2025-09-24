@@ -567,11 +567,7 @@
   align-items: center;
   gap: 10px;
   padding: 16px 28px;
-  background: linear-gradient(
-    180deg,
-    rgba(var(--mg-rgb), 0.88) 0%,
-    rgba(var(--mg-dark-rgb), 0.95) 100%
-  );
+  background: linear-gradient(180deg, rgba(var(--panel-main-rgb), 0.96) 0%, rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   border-radius: 0;
   text-decoration: none;
@@ -582,6 +578,7 @@
   overflow: hidden;
   font-family: 'Oswald', sans-serif;
 }
+
 
 .channel-badge::before {
   content: '';
@@ -609,15 +606,15 @@
 
 @media (hover: hover) {
   .channel-badge:hover {
+    background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.75) 100%) !important;
+    border-color: rgba(var(--sw-rgb), 0.75) !important;
+    color: var(--ink);
+    box-shadow:
+      0 6px 24px rgba(var(--sw-rgb), 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
     transform: translateY(-3px) scale(1.05);
-    background: linear-gradient(
-      180deg,
-      rgba(var(--panel-hover-rgb), 0.95) 0%,
-      rgba(var(--panel-hover-dark-rgb), 0.95) 100%
-    );
-    border-color: rgba(var(--sw-rgb), 0.75);
-    box-shadow: 0 0 35px rgba(var(--sw-rgb), 0.3);
   }
+
 
   .channel-badge:hover::before {
     opacity: 1;
@@ -752,9 +749,6 @@
     font-size: 1.2rem;
   }
 
-  .channel-badge {
-    padding: 12px 20px;
-  }
 
   .channel-name {
     font-size: 1rem;

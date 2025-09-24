@@ -60,3 +60,4 @@
 ## Recent Updates (2025-09-25)
 - Community "By Content Creator" header now reuses the shared `.vid-hdr` Massgate banner, keeping it visually aligned with Live Streams and Latest Videos. Added `.by-channel-hdr` helper in `Community.vue` to preserve spacing when the channels list expands.
 
+- Community channel badges now flip to a full Massgate orange fill on hover while keeping text/icons dark, improving readability in the By Content Creator list.
