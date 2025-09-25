@@ -394,7 +394,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   );
   border: 1px solid var(--divider-strong);
   border-radius: 0;
-  padding: 16px 24px;
+  padding: 12px 24px;
   text-decoration: none;
   color: inherit;
   transition: var(--tr);
@@ -402,7 +402,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
-  min-height: 80px;
+  min-height: 50px;
   min-width: 250px;
   max-width: 350px;
   width: 100%;
@@ -442,7 +442,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
-  color: var(--t);
+  color: var(--t2);
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -503,8 +503,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   }
 
   .creator-card {
-    padding: 14px 20px;
-    min-height: 70px;
+    padding: 10px 20px;
+    min-height: 45px;
     min-width: 220px;
     max-width: 300px;
   }
@@ -534,8 +534,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   }
 
   .creator-card {
-    padding: 12px 16px;
-    min-height: 60px;
+    padding: 8px 16px;
+    min-height: 40px;
     min-width: unset;
     max-width: unset;
     width: 100%;
