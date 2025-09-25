@@ -5,11 +5,13 @@ import { useRouter } from 'vue-router';
 const mobileOpen = ref(false);
 const router = useRouter();
 
-const props = defineProps<{ showPlayersButton?: boolean; activeSection?: string | undefined }>();
-const showPlayersButton = toRef(props, 'showPlayersButton');
+const props = defineProps<{ activeSection?: string | undefined }>();
 const activeSection = toRef(props, 'activeSection');
 
-const emit = defineEmits<{ 'toggle-players': []; navigate: [string | undefined] }>();
+const emit = defineEmits<{ navigate: [string | undefined] }>();
+
+// Track window width for resize handling
+const lastWindowWidth = ref(window.innerWidth);
 
 const isActive = (section: string) => activeSection.value === section;
 
@@ -53,29 +55,102 @@ function handleEscapeKey(event: KeyboardEvent) {
   }
 }
 
+// Handle window resize for scroll position recalculation
+function handleWindowResize() {
+  const currentWidth = window.innerWidth;
+  const widthDifference = Math.abs(currentWidth - lastWindowWidth.value);
+
+  // Only recalculate if there's a significant width change (breakpoint crossing)
+  if (widthDifference > 100) {
+    lastWindowWidth.value = currentWidth;
+
+    // If user is currently viewing a section (not hero), re-scroll to maintain position
+    if (activeSection.value) {
+      // Small delay to ensure CSS has updated after resize
+      setTimeout(() => {
+        const contentAnchor = document.getElementById(`${activeSection.value}-content`);
+        const sectionElement = document.getElementById(activeSection.value!);
+        const element = contentAnchor || sectionElement;
+
+        if (element) {
+          element.scrollIntoView({ block: 'start' });
+          const headerHeight = getDynamicHeaderHeight();
+          const currentScroll = window.scrollY || window.pageYOffset;
+          window.scrollTo({
+            top: currentScroll - headerHeight,
+            behavior: 'auto',
+          });
+        }
+      }, 150);
+    }
+  }
+}
+
 onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
   document.addEventListener('keydown', handleEscapeKey);
+  window.addEventListener('resize', handleWindowResize);
 });
 
 onUnmounted(() => {
   document.removeEventListener('click', handleOutsideClick);
   document.removeEventListener('keydown', handleEscapeKey);
+  window.removeEventListener('resize', handleWindowResize);
   document.body.style.overflow = ''; // Clean up body scroll lock
 });
 
-function scrollTo(id: string) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' });
-    // Update URL hash (except for hero section)
-    if (id !== 'hero') {
-      history.replaceState(null, '', `#${id}`);
-    } else {
-      // Clear hash for hero section
-      history.replaceState(null, '', window.location.pathname);
-    }
+// Dynamic header measurement - eliminates all guesswork
+function getDynamicHeaderHeight() {
+  const banner = document.querySelector('.header-banner');
+  const nav = document.querySelector('header');
+
+  if (!banner || !nav) {
+    // Fallback if elements not found
+    return 200;
   }
+
+  const bannerHeight = banner.getBoundingClientRect().height;
+  const navHeight = nav.getBoundingClientRect().height;
+
+  // Add small buffer for mobile viewport issues
+  const isMobile = window.innerWidth <= 768;
+  const buffer = isMobile ? 20 : 5;
+
+  return Math.ceil(bannerHeight + navHeight + buffer);
+}
+
+function scrollTo(id: string) {
+  if (id === 'hero') {
+    // For hero, scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    history.replaceState(null, '', window.location.pathname);
+  } else {
+    // Pixel-perfect positioning with dynamic measurement - zero guesswork
+    const sectionElement = document.getElementById(id);
+
+    if (sectionElement) {
+      // Measure actual header height at scroll time
+      const headerBanner = document.querySelector('.header-banner');
+      const nav = document.querySelector('header');
+      const actualHeaderHeight = (headerBanner?.offsetHeight || 0) + (nav?.offsetHeight || 0);
+
+      // Get section's exact position
+      const sectionRect = sectionElement.getBoundingClientRect();
+      const sectionTop = sectionRect.top + window.scrollY;
+
+      // Calculate pixel-perfect scroll position
+      const targetY = sectionTop - actualHeaderHeight;
+
+      // Scroll to exact position
+      window.scrollTo({
+        top: Math.max(0, targetY),
+        behavior: 'smooth',
+      });
+    }
+
+    history.replaceState(null, '', `#${id}`);
+  }
+
   emit('navigate', id !== 'hero' ? id : undefined);
   closeMobileMenu();
 }
@@ -99,21 +174,14 @@ function goHomeAndScroll(section: string) {
 <template>
   <!-- Header content within container -->
   <div class="hdr container flex items-center justify-between">
-    <div class="flex items-center">
-      <a class="logo" @click="goHomeAndScroll('hero')">WICGATE</a>
-      <div v-if="showPlayersButton" class="social">
-        <button class="players-btn" @click="emit('toggle-players')">
-          <span id="pCountHeader" class="p-count">
-            <slot name="player-count">0</slot>
-          </span>
-          <span class="p-divider" />
-          <span class="p-label-header">Players Online</span>
-        </button>
-      </div>
-    </div>
-
     <!-- Desktop navigation (stays in container) -->
     <nav class="desktop-nav">
+      <a
+        :class="{ active: !activeSection }"
+        class="home-btn"
+        @click.prevent="goHomeAndScroll('hero')"
+        >Home</a
+      >
       <a
         :class="{ active: isActive('getting-started') }"
         @click.prevent="goHomeAndScroll('getting-started')"
@@ -154,6 +222,12 @@ function goHomeAndScroll(section: string) {
     <Transition name="mobile-nav">
       <nav v-if="mobileOpen" class="mobile-nav">
         <div class="mobile-nav-content">
+          <a
+            :class="{ active: !activeSection }"
+            class="home-btn"
+            @click.prevent="goHomeAndScroll('hero')"
+            >Home</a
+          >
           <a
             :class="{ active: isActive('getting-started') }"
             @click.prevent="goHomeAndScroll('getting-started')"

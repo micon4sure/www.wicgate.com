@@ -10,6 +10,7 @@
 @import './modules/utilities.css';
 
 /* Component modules */
+@import './modules/components/banner.css';
 @import './modules/components/players-panel.css';
 @import './modules/components/game-mode.css';
 @import './modules/components/navigation.css';

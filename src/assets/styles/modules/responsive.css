@@ -72,7 +72,6 @@
   /* Hero section */
   .hero {
     min-height: 60vh;
-    padding: 110px 0 40px 0;
     text-align: center;
   }
 
@@ -260,7 +259,6 @@
 
   .hero {
     min-height: 50vh;
-    padding: 100px 0 30px 0;
   }
 
   .hero-vis {
@@ -564,9 +562,7 @@
     padding: 35px 0;
   }
 
-  .hero {
-    padding: 90px 0 25px 0;
-  }
+  /* Hero padding managed by hero.css for precise header offset calculations */
 
   /* Community grid adjustments */
   .com-card .card-stats {
@@ -576,14 +572,7 @@
   }
 }
 
-/* Fixed header scroll offset - guarantees precise positioning */
-#getting-started,
-#statistics,
-#community,
-#about,
-#faq {
-  scroll-margin-top: 70px;
-}
+/* Scroll positioning handled by dynamic JavaScript calculation for pixel-perfect precision */
 
 /* Motion sensitivity - respect user preferences */
 @media (prefers-reduced-motion: reduce) {

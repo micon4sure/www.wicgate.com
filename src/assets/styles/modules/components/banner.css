@@ -1,0 +1,334 @@
+/* Header Banner Component - Massgate Inspired */
+
+.header-banner {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1001; /* Above navigation */
+  height: 140px;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--graphite-dark-rgb), 0.98) 0%,
+    rgba(var(--graphite-rgb), 0.95) 100%
+  );
+}
+
+.banner-background {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Placeholder background - military themed gradients */
+.banner-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    /* Subtle tank silhouettes pattern */
+    radial-gradient(ellipse 150px 40px at 25% 70%, rgba(var(--mg-rgb), 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse 120px 35px at 75% 60%, rgba(var(--mg-muted-rgb), 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse 180px 45px at 50% 80%, rgba(var(--graphite-light-rgb), 0.4) 0%, transparent 50%),
+    /* Underwater/atmospheric effect */
+    linear-gradient(
+      135deg,
+      rgba(var(--graphite-dark-rgb), 0.9) 0%,
+      rgba(var(--mg-rgb), 0.7) 25%,
+      rgba(var(--graphite-rgb), 0.8) 50%,
+      rgba(var(--mg-dark-rgb), 0.9) 100%
+    ),
+    /* Subtle texture overlay */
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(var(--sw-rgb), 0.03) 20%,
+      transparent 40%,
+      rgba(var(--sw-rgb), 0.02) 60%,
+      transparent 80%,
+      rgba(var(--sw-rgb), 0.03) 100%
+    );
+
+  /* Add some texture with pseudo-elements */
+}
+
+.banner-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(var(--graphite-light-rgb), 0.1) 2px,
+      rgba(var(--graphite-light-rgb), 0.1) 4px
+    );
+  opacity: 0.3;
+}
+
+/* Banner content container */
+.banner-content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+/* WiCGate logo in banner - similar to Massgate positioning */
+.banner-logo {
+  font-family: 'Oswald', 'Impact', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--sw);
+  text-shadow:
+    0 0 24px rgba(var(--sw-rgb), 0.65),
+    0 3px 8px rgba(0, 0, 0, 0.9),
+    0 0 48px rgba(var(--sw-rgb), 0.35);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  user-select: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+}
+
+.banner-logo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--sw) 0%, var(--sw-light) 100%);
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 0 8px rgba(var(--sw-rgb), 0.6);
+}
+
+@media (hover: hover) {
+  .banner-logo:hover {
+    color: var(--sw-light);
+    text-shadow:
+      0 0 28px rgba(var(--sw-rgb), 0.75),
+      0 3px 6px rgba(0, 0, 0, 0.9),
+      0 0 56px rgba(var(--sw-rgb), 0.45);
+    transform: scale(1.02);
+  }
+
+  .banner-logo:hover::after {
+    width: 100%;
+  }
+}
+
+/* Players button in banner - adapted from navigation */
+.players-btn-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+  height: 48px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(var(--mg-rgb), 0.9) 0%, rgba(var(--mg-dark-rgb), 1.0) 50%, rgba(var(--mg-rgb), 0.85) 100%);
+  border: 2px solid rgba(var(--mg-rgb), 0.95);
+  color: var(--t);
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  transform-origin: center;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    0 0 20px rgba(var(--mg-rgb), 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+@media (hover: hover) {
+  .players-btn-banner:hover {
+    background: linear-gradient(135deg, rgba(var(--sw-rgb), 0.88) 0%, rgba(var(--sw-rgb), 0.92) 50%, rgba(var(--sw-rgb), 0.78) 100%);
+    border-color: rgba(var(--sw-rgb), 0.8);
+    transform: scale(1.03) translateY(-2px);
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.35),
+      0 0 18px rgba(var(--sw-rgb), 0.3),
+      inset 0 2px 0 rgba(255, 255, 255, 0.18),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+    color: var(--ink);
+  }
+
+  .players-btn-banner:hover .p-count {
+    color: var(--ink);
+  }
+
+  .players-btn-banner:hover .p-divider {
+    background: var(--ink);
+  }
+
+  .players-btn-banner:hover .p-label {
+    color: var(--ink);
+  }
+}
+
+.players-btn-banner .p-count {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--t2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.players-btn-banner .p-divider {
+  width: 2px;
+  height: 14px;
+  background: var(--t2);
+  margin: 0 3px;
+}
+
+.players-btn-banner .p-label {
+  font-size: 11px;
+  color: var(--t2);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Military-style edge highlights */
+.header-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--sw-rgb), 0.4) 20%,
+    rgba(var(--sw-rgb), 0.6) 50%,
+    rgba(var(--sw-rgb), 0.4) 80%,
+    transparent 100%
+  );
+  z-index: 3;
+}
+
+.header-banner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--graphite-dark-rgb), 0.8) 0%,
+    rgba(var(--mg-rgb), 0.9) 50%,
+    rgba(var(--graphite-dark-rgb), 0.8) 100%
+  );
+  z-index: 3;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+  .banner-logo {
+    font-size: 32px;
+    letter-spacing: 2px;
+  }
+
+  .players-btn-banner {
+    padding: 0 20px;
+    height: 44px;
+    font-size: 13px;
+  }
+
+  .players-btn-banner .p-count {
+    font-size: 14px;
+  }
+
+  .players-btn-banner .p-label {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .header-banner {
+    height: 100px;
+  }
+
+  .banner-logo {
+    font-size: 28px;
+    letter-spacing: 1.5px;
+  }
+
+  .players-btn-banner {
+    padding: 0 16px;
+    height: 40px;
+    font-size: 12px;
+  }
+
+  .players-btn-banner .p-count {
+    font-size: 13px;
+  }
+
+  .players-btn-banner .p-label {
+    font-size: 9px;
+  }
+
+  .players-btn-banner .p-divider {
+    height: 12px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .header-banner {
+    height: 80px;
+  }
+
+  .banner-logo {
+    font-size: 24px;
+    letter-spacing: 1px;
+  }
+
+  .players-btn-banner {
+    padding: 0 12px;
+    height: 36px;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .players-btn-banner .p-count {
+    font-size: 12px;
+  }
+
+  .players-btn-banner .p-label {
+    display: none; /* Hide "Players Online" text on mobile */
+  }
+
+  .players-btn-banner .p-divider {
+    display: none; /* Hide divider when label is hidden */
+  }
+
+  /* Adjust placeholder gradients for mobile */
+  .banner-placeholder {
+    background:
+      radial-gradient(ellipse 100px 30px at 30% 70%, rgba(var(--mg-rgb), 0.3) 0%, transparent 50%),
+      radial-gradient(ellipse 80px 25px at 70% 60%, rgba(var(--mg-muted-rgb), 0.25) 0%, transparent 50%),
+      linear-gradient(
+        135deg,
+        rgba(var(--graphite-dark-rgb), 0.9) 0%,
+        rgba(var(--mg-rgb), 0.7) 50%,
+        rgba(var(--graphite-rgb), 0.8) 100%
+      );
+  }
+}

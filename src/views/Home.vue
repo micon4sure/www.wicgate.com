@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
+import HeaderBanner from '../components/HeaderBanner.vue';
 import Navigation from '../components/Navigation.vue';
 import PlayersOnline from '../components/PlayersOnline.vue';
 import SiteFooter from '../components/Footer.vue';
@@ -30,6 +31,26 @@ function setCurrentSection(id?: string | null) {
   }
 }
 
+// Dynamic header measurement - eliminates all guesswork
+function getDynamicHeaderHeight() {
+  const banner = document.querySelector('.header-banner');
+  const nav = document.querySelector('header');
+
+  if (!banner || !nav) {
+    // Fallback if elements not found
+    return 200;
+  }
+
+  const bannerHeight = banner.getBoundingClientRect().height;
+  const navHeight = nav.getBoundingClientRect().height;
+
+  // Add small buffer for mobile viewport issues
+  const isMobile = window.innerWidth <= 768;
+  const buffer = isMobile ? 20 : 5;
+
+  return Math.ceil(bannerHeight + navHeight + buffer);
+}
+
 function collectSectionElements() {
   sectionElements = SECTION_IDS.map((id) => document.getElementById(id)).filter(
     Boolean
@@ -40,7 +61,7 @@ function updateActiveSection() {
   if (!sectionElements.length) return;
 
   const scrollY = window.scrollY || window.pageYOffset;
-  const offset = 160; // account for fixed header height
+  const offset = getDynamicHeaderHeight(); // dynamic header height measurement
 
   for (const el of sectionElements) {
     const rect = el.getBoundingClientRect();
@@ -53,7 +74,8 @@ function updateActiveSection() {
     }
   }
 
-  if (scrollY < 120) {
+  // Use responsive offset for hero section threshold too
+  if (scrollY < offset - 40) {
     setCurrentSection('hero');
   }
 }
@@ -155,7 +177,23 @@ onMounted(() => {
     const element = document.getElementById(hash);
     if (element) {
       setTimeout(() => {
-        element.scrollIntoView({ behavior: 'smooth' });
+        // Pixel-perfect positioning with dynamic measurement - zero guesswork
+        const sectionElement = document.getElementById(hash);
+
+        if (sectionElement) {
+          const headerBanner = document.querySelector('.header-banner');
+          const nav = document.querySelector('header');
+          const actualHeaderHeight = (headerBanner?.offsetHeight || 0) + (nav?.offsetHeight || 0);
+
+          const sectionRect = sectionElement.getBoundingClientRect();
+          const sectionTop = sectionRect.top + window.scrollY;
+          const targetY = sectionTop - actualHeaderHeight;
+
+          window.scrollTo({
+            top: Math.max(0, targetY),
+            behavior: 'smooth',
+          });
+        }
       }, 100);
     }
   }
@@ -203,7 +241,23 @@ function handleContinue() {
     const element = document.getElementById(hash);
     if (element) {
       setTimeout(() => {
-        element.scrollIntoView({ behavior: 'smooth' });
+        // Pixel-perfect positioning with dynamic measurement - zero guesswork
+        const sectionElement = document.getElementById(hash);
+
+        if (sectionElement) {
+          const headerBanner = document.querySelector('.header-banner');
+          const nav = document.querySelector('header');
+          const actualHeaderHeight = (headerBanner?.offsetHeight || 0) + (nav?.offsetHeight || 0);
+
+          const sectionRect = sectionElement.getBoundingClientRect();
+          const sectionTop = sectionRect.top + window.scrollY;
+          const targetY = sectionTop - actualHeaderHeight;
+
+          window.scrollTo({
+            top: Math.max(0, targetY),
+            behavior: 'smooth',
+          });
+        }
       }, 100);
     }
   }
@@ -212,9 +266,27 @@ function enterGameMode() {
   router.push('/game-mode');
 }
 function scrollToGettingStarted() {
-  const element = document.getElementById('getting-started');
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' });
+  const sectionElement = document.getElementById('getting-started');
+
+  if (sectionElement) {
+    // Pixel-perfect positioning with dynamic measurement - zero guesswork
+    const headerBanner = document.querySelector('.header-banner');
+    const nav = document.querySelector('header');
+    const actualHeaderHeight = (headerBanner?.offsetHeight || 0) + (nav?.offsetHeight || 0);
+
+    // Get section's exact position
+    const sectionRect = sectionElement.getBoundingClientRect();
+    const sectionTop = sectionRect.top + window.scrollY;
+
+    // Calculate pixel-perfect scroll position
+    const targetY = sectionTop - actualHeaderHeight;
+
+    // Scroll to exact position
+    window.scrollTo({
+      top: Math.max(0, targetY),
+      behavior: 'smooth',
+    });
+
     history.replaceState(null, '', '#getting-started');
     setCurrentSection('getting-started');
   }
@@ -223,18 +295,27 @@ function scrollToGettingStarted() {
 function handleNavNavigate(section?: string) {
   setCurrentSection(section);
 }
+
+function handleBannerNavigateHome() {
+  // Clear any hash and show home page
+  history.replaceState(null, '', window.location.pathname);
+  setCurrentSection(undefined);
+  // Scroll to top smoothly
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 </script>
 <template>
   <div id="siteWrapper" class="site-wrapper">
+    <!-- Header Banner - Above Navigation -->
+    <HeaderBanner
+      :show-players-button="true"
+      :player-count="playerCount"
+      @navigate-home="handleBannerNavigateHome"
+      @toggle-players="togglePlayers"
+    />
+
     <header>
-      <Navigation
-        :show-players-button="true"
-        :active-section="currentSection"
-        @toggle-players="togglePlayers"
-        @navigate="handleNavNavigate"
-      >
-        <template #player-count>{{ playerCount }}</template>
-      </Navigation>
+      <Navigation :active-section="currentSection" @navigate="handleNavNavigate" />
     </header>
 
     <div class="main-content">

@@ -8,7 +8,7 @@
     linear-gradient(180deg, rgba(14, 24, 31, 0.9) 0%, rgba(8, 14, 18, 0.98) 100%);
   display: flex;
   align-items: center;
-  padding-top: 80px;
+  padding-top: 223px; /* 140px banner + 80px navigation + 3px border */
 }
 
 .hero-grid {
@@ -177,7 +177,38 @@
   right: 20px;
 }
 
-/* Responsive breakpoints for hero carousel */
+/* Responsive breakpoints for hero section and carousel */
+
+/* Adjust hero padding - EXACT header heights including 3px navigation border + mobile buffers */
+@media screen and (max-width: 1024px) {
+  .hero {
+    padding-top: 218px; /* 140px banner + 70px navigation + 3px border + 5px buffer */
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .hero {
+    padding-top: 183px; /* 100px banner + 70px navigation + 3px border + 10px buffer */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .hero {
+    padding-top: 188px; /* 100px banner + 65px navigation + 3px border + 20px buffer */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .hero {
+    padding-top: 173px; /* 80px banner + 65px navigation + 3px border + 25px buffer */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero {
+    padding-top: 173px; /* 80px banner + 60px navigation + 3px border + 30px buffer */
+  }
+}
 
 /* Tablet styles */
 @media (max-width: 768px) {
