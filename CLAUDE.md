@@ -8,7 +8,7 @@
 ## Development Quickstart
 ```bash
 npm install          # install dependencies
-npm run dev          # start dev server (http://localhost:5173, may use 5175+ if port busy)
+npm run dev          # start dev server (http://localhost:5175, may increment if port busy)
 npm run lint         # lint with ESLint + Prettier rules
 npm run lint:fix     # auto-fix lint violations
 npm run build        # production build (outputs to dist/)
@@ -35,22 +35,25 @@ npm run preview      # preview production build
   - Platform/brand tokens – YouTube/Twitch variants, medal colors, panel RGB helpers.
 - **Typography:** `typography.css` registers Oswald (headers), Rajdhani (body), Courier New (data), plus scoped utility classes.
 - **Component modules:**
-  - `navigation.css` (14KB+) – mobile-first responsive nav with full-screen overlay, token-based gradients.
+  - `navigation.css` (18KB+) – modernized rectangular nav tabs, pill-shaped players button, enhanced hover effects with multi-layer shadows.
   - `leaderboards.css` (12KB+) – enhanced tables with responsive typography, medal/rank styling, podium classes.
-  - `community.css` (18KB+) – Events integration, creator badge system, video grids, Twitch embeds.
+  - `community.css` (18KB+) – Events integration, creator badge system with consistent hover states, video grids, Twitch embeds.
   - `hero.css`, `getting-started.css`, `videos.css`, `about.css`, `faq.css`, `buttons.css`, `game-mode.css`, `players-panel.css`, `toggle.css` – each screen/component has its own file.
 - **Legacy CSS:** `base-old.css` retained for history; do not edit.
 
 ## Recent Changes (September 2025)
+- **Navigation Modernization:** Complete redesign with rectangular tabs, enhanced hover effects, and professional shadow systems.
+- **Interactive Elements Unification:** Consistent orange hover backgrounds with dark text across nav, players button, and creator badges.
+- **Players Button Redesign:** Chunky 52px pill-shaped design optimized for clickability, removing green status indicator clutter.
+- **Enhanced Hover Effects:** Scale transforms (1.02x-1.03x) with smooth cubic-bezier transitions and refined glow effects.
 - **Major Architecture:** Single-page app structure with section-based navigation instead of multi-page routing.
 - **Mobile Navigation Overhaul:** Full-screen mobile nav with smooth animations and enhanced UX.
 - **Events System Integration:** Discord-connected events with countdown timers and military-themed status indicators.
-- **Content Creator Redesign:** Mobile-friendly compact creator badges in individual sections, eliminating expansion issues.
+- **Content Creator Redesign:** Mobile-friendly compact creator badges with matching navigation hover behavior.
 - **First Visit Experience:** Welcome overlay system for new users with guided onboarding.
 - **Live Streaming Integration:** Embedded Twitch streams in Community section with `TwitchEmbed.vue`.
 - **Enhanced Responsive Design:** Improved mobile breakpoints, typography scaling, and touch interactions.
-- **Expanded Token Library:** hover/plate/panel brand RGB helpers, medals, platform colors with consistent usage.
-- **Component Enhancements:** Enhanced leaderboards, refined navigation, improved video management.
+- **Color Consistency Improvements:** Standardized text colors (var(--t2) inactive, var(--ink) hover) across all interactive elements.
 
 ## Content & Data
 - **Static content:** `src/content/content.ts` holds hero copy, onboarding steps, community cards, requirements.
@@ -63,9 +66,13 @@ npm run preview      # preview production build
 
 ## UX/Design Guidelines
 - Always consume design tokens and component variables for colors, borders, shadows.
+- **Interactive Element Standards:** Orange backgrounds (var(--sw-rgb)) with dark text (var(--ink)) on hover for all clickable elements.
+- **Hover Effects:** Use scale transforms (1.02x nav, 1.03x players) + translateY(-2px) with cubic-bezier(0.25, 0.8, 0.25, 1) transitions.
+- **Shadow System:** Multi-layer shadows with proper depth: outer shadows for elevation, inner highlights for premium feel.
+- **Text Color Rules:** var(--t2) for inactive states, var(--ink) for hover/active states across all components.
 - Reserve `btn-download` (red) for highest-priority CTAs; `btn-p` (orange) for standard primary actions.
 - Maintain adequate contrast (WCAG AA) – headings `var(--t)` on dark surfaces, supporting copy `var(--t2)`/`var(--t3)`.
-- Preserve sharp, geometric Massgate aesthetic (avoid rounded corners unless specified).
+- **Glow Effects:** Refined brightness levels - keep glow opacity around 0.3-0.4 for subtle professional appearance.
 - Keep responsive breakpoints aligned with existing nav/hero strategies (1200, 1100, 1000, 900, 850, 800px etc.).
 
 ## Project Structure Snapshot
@@ -125,8 +132,38 @@ src/
 - Build validation through `npm run build` (Vite, outputs hashed bundles to `dist/`).
 - No dedicated unit/e2e suites today; manual QA focused on responsive behavior and API integration.
 
+## Navigation Component Details
+
+### Modern Navigation System
+- **Desktop Navigation:** Rectangular tabs with 3px top border-radius, enhanced shadow systems, and scale hover effects
+- **Players Button:** Independent 52px pill-shaped design (border-radius: 26px) optimized for mobile and desktop interaction
+- **Hover Standards:** Orange gradient backgrounds with dark text (var(--ink)) and consistent scale transforms
+- **Animation System:** Cubic-bezier(0.25, 0.8, 0.25, 1) transitions with multi-layer shadow effects
+
+### Technical Implementation
+```css
+/* Navigation Tab Pattern */
+transform: scale(1.02) translateY(-2px);
+box-shadow:
+  0 4px 16px rgba(0, 0, 0, 0.3),
+  0 0 24px rgba(var(--sw-rgb), 0.4),
+  inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+/* Players Button Pattern */
+height: 52px;
+border-radius: 26px;
+transform: scale(1.03) translateY(-2px);
+```
+
+### Color Consistency Rules
+- **Inactive State:** All text uses `var(--t2)` (neutral text color)
+- **Hover State:** All text and dividers use `var(--ink)` (dark contrast color)
+- **Background Hover:** Orange gradient `rgba(var(--sw-rgb), 0.85-0.68)` range
+- **Glow Effects:** Limited to 0.3-0.4 opacity for professional appearance
+
 ## Contribution Reminders
 - Work from feature branches; keep commits scoped.
+- **Follow Navigation Patterns:** Use established hover effects and color rules for new interactive elements.
 - When adding styles, create or extend the appropriate module under `assets/styles/modules/components/` and import via `base.css`.
 - Document major visual or content changes in `AGENTS.md` + `CLAUDE.md` for future maintainers.
 - Avoid editing `base-old.css`; use it only for historical reference.
@@ -135,12 +172,16 @@ src/
 *This document is the quick-reference guide for future agents/maintainers so they can ramp fast and stay aligned with the Massgate design system.*
 
 ## New Features & Components
+- **Modern Navigation System:** Rectangular tabs with enhanced hover effects, professional shadow systems, and consistent interaction patterns.
+- **Optimized Players Button:** Independent 52px pill-shaped design with superior clickability and clean visual presentation.
+- **Unified Interactive Design:** Consistent orange hover backgrounds with dark text across all clickable elements (nav, players, creators).
+- **Enhanced Visual Feedback:** Scale transforms, refined glow effects, and smooth cubic-bezier transitions throughout the interface.
 - **Events System:** Real-time Discord event integration with countdown timers and status tracking.
 - **First Visit Experience:** Guided overlay for new users with smart section navigation.
 - **Live Streaming:** Embedded Twitch streams with automatic status detection.
 - **Enhanced Mobile Navigation:** Full-screen mobile nav with smooth slide animations.
-- **Creator Badge System:** Individual content creator sections with mobile-optimized compact badges.
-- **Responsive Improvements:** Enhanced breakpoints, typography scaling, and touch interactions.
+- **Creator Badge System:** Individual content creator sections with mobile-optimized compact badges matching nav hover behavior.
+- **Color Consistency Standards:** Standardized text colors and divider elements following unified design patterns.
 
 ---
-*This document reflects the current state of WiCGATE as of September 2025. Major architectural changes include single-page structure, mobile-first design, and integrated community features.*
+*This document reflects the current state of WiCGATE as of September 2025. Major enhancements include modernized navigation with rectangular tabs, unified interactive design language, optimized players button, and comprehensive hover effect standardization across all components.*
