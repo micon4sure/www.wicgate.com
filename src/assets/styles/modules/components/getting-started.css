@@ -382,3 +382,21 @@
     padding: 6px 0;
   }
 }
+
+/* Advanced Setup Section Hyperlink Styling */
+.advanced-section a[href] {
+  color: var(--sw);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: var(--tr);
+}
+
+.advanced-section a[href]:hover {
+  color: var(--sw-light);
+  text-decoration-color: var(--sw-light);
+}
+
+.advanced-section a[href]:active {
+  color: rgba(var(--sw-rgb), 0.8);
+}

@@ -49,11 +49,14 @@ npm run preview      # preview production build
 - **Major Architecture:** Single-page app structure with section-based navigation instead of multi-page routing.
 - **Mobile Navigation Overhaul:** Full-screen mobile nav with smooth animations and enhanced UX.
 - **Events System Integration:** Discord-connected events with countdown timers and military-themed status indicators.
-- **Content Creator Redesign:** Mobile-friendly compact creator badges with matching navigation hover behavior.
+- **Content Creator Redesign:** Ultra-compact creator badges (50px desktop, 45px tablet, 40px mobile) with optimized padding, standardized inactive text colors, and matching navigation hover behavior.
 - **First Visit Experience:** Welcome overlay system for new users with guided onboarding.
 - **Live Streaming Integration:** Embedded Twitch streams in Community section with `TwitchEmbed.vue`.
 - **Enhanced Responsive Design:** Improved mobile breakpoints, typography scaling, and touch interactions.
 - **Color Consistency Improvements:** Standardized text colors (var(--t2) inactive, var(--ink) hover) across all interactive elements.
+- **Advanced Setup UX Optimization:** Replaced inappropriate download buttons with contextual hyperlinks for file downloads, implementing professional massgate orange styling with hover effects and modern underlines.
+- **Content Creator Badge Refinement:** Further optimized badge dimensions (50px→45px→40px across breakpoints) with reduced padding and standardized inactive text colors for ultra-clean presentation.
+- **Enhanced Discord Integration:** Direct Discord server hyperlinks in setup flows for seamless CD key support access.
 
 ## Content & Data
 - **Static content:** `src/content/content.ts` holds hero copy, onboarding steps, community cards, requirements.
@@ -70,7 +73,8 @@ npm run preview      # preview production build
 - **Hover Effects:** Use scale transforms (1.02x nav, 1.03x players) + translateY(-2px) with cubic-bezier(0.25, 0.8, 0.25, 1) transitions.
 - **Shadow System:** Multi-layer shadows with proper depth: outer shadows for elevation, inner highlights for premium feel.
 - **Text Color Rules:** var(--t2) for inactive states, var(--ink) for hover/active states across all components.
-- Reserve `btn-download` (red) for highest-priority CTAs; `btn-p` (orange) for standard primary actions.
+- **Download Button Hierarchy:** Reserve `btn-download` (red) exclusively for executable program downloads (WIC LIVE); use contextual hyperlinks for file/ZIP downloads. Use `btn-p` (orange) for standard primary actions.
+- **Hyperlink Standards:** Advanced Setup sections use massgate orange (`var(--sw)`) with `var(--sw-light)` hover states, modern underline styling (3px offset, 1px thickness), and `target="_blank"` for external links.
 - Maintain adequate contrast (WCAG AA) – headings `var(--t)` on dark surfaces, supporting copy `var(--t2)`/`var(--t3)`.
 - **Glow Effects:** Refined brightness levels - keep glow opacity around 0.3-0.4 for subtle professional appearance.
 - Keep responsive breakpoints aligned with existing nav/hero strategies (1200, 1100, 1000, 900, 850, 800px etc.).
@@ -180,8 +184,9 @@ transform: scale(1.03) translateY(-2px);
 - **First Visit Experience:** Guided overlay for new users with smart section navigation.
 - **Live Streaming:** Embedded Twitch streams with automatic status detection.
 - **Enhanced Mobile Navigation:** Full-screen mobile nav with smooth slide animations.
-- **Creator Badge System:** Individual content creator sections with mobile-optimized compact badges matching nav hover behavior.
+- **Ultra-Compact Creator Badge System:** Significantly refined creator badges with 37% height reduction across breakpoints, optimized padding, and standardized var(--t2) inactive text colors for professional presentation.
 - **Color Consistency Standards:** Standardized text colors and divider elements following unified design patterns.
+- **Advanced Setup Hyperlink System:** Professional massgate orange hyperlinks replacing download buttons for file downloads, with integrated Discord server access and modern underline styling.
 
 ---
 *This document reflects the current state of WiCGATE as of September 2025. Major enhancements include modernized navigation with rectangular tabs, unified interactive design language, optimized players button, and comprehensive hover effect standardization across all components.*
