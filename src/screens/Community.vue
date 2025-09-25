@@ -410,9 +410,18 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 @media (hover: hover) {
   .creator-card:hover {
+    background: linear-gradient(
+      180deg,
+      rgba(var(--sw-rgb), 0.85) 0%,
+      rgba(var(--sw-rgb), 0.68) 100%
+    );
     border-color: rgba(var(--sw-rgb), 0.75);
     box-shadow: 0 0 30px rgba(var(--sw-rgb), 0.32);
     transform: translateY(-2px);
+  }
+
+  .creator-card:hover .creator-name {
+    color: var(--ink);
   }
 }
 
@@ -454,7 +463,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 @media (hover: hover) {
   .creator-card:hover .creator-badge-icon {
-    color: rgba(var(--sw-rgb), 0.75);
+    color: var(--ink);
     transform: translateX(3px);
   }
 }

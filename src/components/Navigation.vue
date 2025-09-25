@@ -103,7 +103,6 @@ function goHomeAndScroll(section: string) {
       <a class="logo" @click="goHomeAndScroll('hero')">WICGATE</a>
       <div v-if="showPlayersButton" class="social">
         <button class="players-btn" @click="emit('toggle-players')">
-          <div class="status-indicator" />
           <span id="pCountHeader" class="p-count">
             <slot name="player-count">0</slot>
           </span>
