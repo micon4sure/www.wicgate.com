@@ -8,7 +8,7 @@
 ## Development Quickstart
 ```bash
 npm install          # install dependencies
-npm run dev          # start dev server (http://localhost:5175)
+npm run dev          # start dev server (http://localhost:5173, may use 5175+ if port busy)
 npm run lint         # lint with ESLint + Prettier rules
 npm run lint:fix     # auto-fix lint violations
 npm run build        # production build (outputs to dist/)
@@ -18,12 +18,13 @@ npm run preview      # preview production build
 - **Formatting:** Prettier via ESLint – ensure no CRLF when committing.
 
 ## Architectural Notes
-- **Entry point:** `src/main.ts` wires Vue, router, Pinia, global CSS modules.
-- **Routing:** `src/router` handles SPA views (`Home`, `GettingStarted`, `Community`, `Statistics`, `About`, `FAQ`).
-- **State:** `src/stores` contains Pinia stores (notably `useAppDataStore` for leaderboards/player counts, and utility stores for UI state).
-- **Data layer:** API bindings under `src/api` and `src/stores` fetch Massgate services; mock content kept in `src/content`.
-- **Components:** `src/components` hosts shared widgets (navigation, hero, leaderboards, panels). Larger layouts live under `src/screens`.
-- **Styling system:** modular CSS under `src/assets/styles/modules`, composed via `base.css`; each screen/component has a dedicated module.
+- **Entry point:** `src/main.ts` wires Vue, router, global CSS modules, and creates the app.
+- **Routing:** Simple 2-route setup: `/` (Home with all sections) and `/game-mode` (standalone page). No separate routes for sections.
+- **Single-page architecture:** `Home.vue` imports all screens (`GettingStarted`, `Community`, `Statistics`, `About`, `FAQ`) as components rendered in sequence.
+- **State:** `src/stores/appDataStore.ts` manages player data, leaderboards, servers via composable patterns.
+- **Data layer:** API integration via composables (`useYoutube`, `useEvents`) and direct fetch in stores; static content in `src/content`.
+- **Components:** `src/components` hosts reusable widgets (navigation, leaderboards, overlays). Screen components in `src/screens`.
+- **Styling system:** Modular CSS under `src/assets/styles/modules`, composed via `base.css`; each screen/component has dedicated module.
 
 ## Styling & Design System
 - **Tokens:** All colors, gradients, shadows, and transitions defined in `src/assets/styles/modules/variables.css`. New work should *only* reference tokens (no hard-coded hex values).
@@ -34,22 +35,30 @@ npm run preview      # preview production build
   - Platform/brand tokens – YouTube/Twitch variants, medal colors, panel RGB helpers.
 - **Typography:** `typography.css` registers Oswald (headers), Rajdhani (body), Courier New (data), plus scoped utility classes.
 - **Component modules:**
-  - `navigation.css` – top nav, responsive breakpoints, token-based gradients.
-  - `leaderboards.css` – tables with medal/rank styling, shared podium classes, new clan-tag + player styling.
-  - `hero.css`, `getting-started.css`, `community.css`, `videos.css`, `about.css`, `faq.css`, `buttons.css`, `game-mode.css`, etc. – each screen/component has its own file.
-- **Legacy CSS:** `base-old.css` retained for history; do not edit. `temp_variables.css` removed.
+  - `navigation.css` (14KB+) – mobile-first responsive nav with full-screen overlay, token-based gradients.
+  - `leaderboards.css` (12KB+) – enhanced tables with responsive typography, medal/rank styling, podium classes.
+  - `community.css` (18KB+) – Events integration, creator badge system, video grids, Twitch embeds.
+  - `hero.css`, `getting-started.css`, `videos.css`, `about.css`, `faq.css`, `buttons.css`, `game-mode.css`, `players-panel.css`, `toggle.css` – each screen/component has its own file.
+- **Legacy CSS:** `base-old.css` retained for history; do not edit.
 
 ## Recent Changes (September 2025)
-- Expanded token library (hover/plate/panel brand RGB helpers, medals, platform colors).
-- Converted navigation and leaderboard tabs to shared palette tokens for consistent inactive + hover states.
-- Clan tags now use Massgate orange token; top-three player names revert to neutral text while ranks/scores retain medal colors.
-- Removed direct color literals across navigation, hero, community, getting-started, about, leaderboard, FAQ, game-mode, videos, responsive helpers.
-- Updated AGENTS.md to document token usage and historical adjustments.
-- Community "By Content Creator" block now uses the shared `.vid-hdr` header treatment with a spacing helper so it matches Live Streams/Latest Videos tabs.
+- **Major Architecture:** Single-page app structure with section-based navigation instead of multi-page routing.
+- **Mobile Navigation Overhaul:** Full-screen mobile nav with smooth animations and enhanced UX.
+- **Events System Integration:** Discord-connected events with countdown timers and military-themed status indicators.
+- **Content Creator Redesign:** Mobile-friendly compact creator badges in individual sections, eliminating expansion issues.
+- **First Visit Experience:** Welcome overlay system for new users with guided onboarding.
+- **Live Streaming Integration:** Embedded Twitch streams in Community section with `TwitchEmbed.vue`.
+- **Enhanced Responsive Design:** Improved mobile breakpoints, typography scaling, and touch interactions.
+- **Expanded Token Library:** hover/plate/panel brand RGB helpers, medals, platform colors with consistent usage.
+- **Component Enhancements:** Enhanced leaderboards, refined navigation, improved video management.
 
 ## Content & Data
-- **Static content:** `src/content/content.ts` holds hero copy, onboarding steps, community links.
-- **Live data:** `useAppDataStore` orchestrates API fetches for players online, leaderboards, server lists. Supporting utilities in `src/utils` (e.g. `playerDisplay.ts` for clan tag formatting/color parsing).
+- **Static content:** `src/content/content.ts` holds hero copy, onboarding steps, community cards, requirements.
+- **Live data:** `useAppDataStore` orchestrates API fetches for players online, leaderboards, server lists with 60s refresh cycle.
+- **Composables:**
+  - `useYoutube.ts` – Multi-channel YouTube video fetching and parsing from Atom feeds.
+  - `useEvents.ts` – Discord events integration with real-time countdown and status management.
+  - `useFirstVisit.ts` – First-time visitor detection and overlay management.
 - **Utilities:** `src/utils/playerDisplay.ts` contains formatter/colorizer for massgate-style names (uses tokens for fallback color).
 
 ## UX/Design Guidelines
@@ -66,17 +75,27 @@ src/
 ├─ router/
 ├─ stores/
 ├─ components/
-│  ├─ Navigation.vue
-│  ├─ LeaderboardGroup.vue
-│  ├─ RankInsignia.vue
+│  ├─ Navigation.vue          # Mobile-first responsive nav
+│  ├─ LeaderboardGroup.vue    # Enhanced leaderboard tables
+│  ├─ PlayersOnline.vue       # Side panel for live players
+│  ├─ FirstVisitOverlay.vue   # Welcome overlay for new users
+│  ├─ TwitchEmbed.vue         # Live stream integration
+│  ├─ RankInsignia.vue        # Player rank badges
+│  ├─ Footer.vue
 │  └─ …
-├─ screens/
-│  ├─ Home.vue
-│  ├─ GettingStarted.vue
-│  ├─ Community.vue
-│  ├─ Statistics.vue
-│  ├─ About.vue
-│  └─ FAQ.vue
+├─ screens/                     # Section components (not separate pages)
+│  ├─ GettingStarted.vue       # Onboarding section with download flow
+│  ├─ Community.vue            # Events, videos, live streams, creator badges
+│  ├─ Statistics.vue           # Leaderboards and player data
+│  ├─ About.vue                # Project information
+│  └─ FAQ.vue                  # Frequently asked questions
+├─ views/                       # Actual routed pages
+│  ├─ Home.vue                 # Main page containing all sections
+│  └─ GameMode.vue             # Standalone game mode page
+├─ composables/
+│  ├─ useYoutube.ts            # Multi-channel video fetching
+│  ├─ useEvents.ts             # Discord events integration
+│  └─ useFirstVisit.ts          # First-time visitor management
 ├─ assets/
 │  └─ styles/
 │     ├─ base.css
@@ -90,12 +109,13 @@ src/
 │           ├─ leaderboards.css
 │           ├─ hero.css
 │           ├─ community.css
-│           ├─ getting-started.css
-│           ├─ videos.css
-│           ├─ about.css
-│           ├─ faq.css
-│           ├─ game-mode.css
-│           └─ …
+│           ├─ getting-started.css      # Onboarding section styling
+│           ├─ videos.css               # Video component styles
+│           ├─ about.css                # About section styling
+│           ├─ faq.css                  # FAQ section styling
+│           ├─ game-mode.css            # Game mode page styling
+│           ├─ players-panel.css        # Side panel for online players
+│           └─ toggle.css               # Toggle switch components
 └─ content/
    └─ content.ts
 ```
@@ -114,4 +134,13 @@ src/
 ---
 *This document is the quick-reference guide for future agents/maintainers so they can ramp fast and stay aligned with the Massgate design system.*
 
-- Updated By Content Creator badges to use orange hover fill with dark text/icons for clarity.
+## New Features & Components
+- **Events System:** Real-time Discord event integration with countdown timers and status tracking.
+- **First Visit Experience:** Guided overlay for new users with smart section navigation.
+- **Live Streaming:** Embedded Twitch streams with automatic status detection.
+- **Enhanced Mobile Navigation:** Full-screen mobile nav with smooth slide animations.
+- **Creator Badge System:** Individual content creator sections with mobile-optimized compact badges.
+- **Responsive Improvements:** Enhanced breakpoints, typography scaling, and touch interactions.
+
+---
+*This document reflects the current state of WiCGATE as of September 2025. Major architectural changes include single-page structure, mobile-first design, and integrated community features.*

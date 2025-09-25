@@ -236,16 +236,20 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
               <div class="vid-hdr by-channel-hdr">
                 <h3>By Content Creator</h3>
               </div>
+              <!-- Individual Creator Sections -->
               <div v-for="ch in channelsList" :key="ch.channelId" class="channel-section">
-                <div class="channel-badge-container">
+                <div class="creator-card-container">
                   <a
                     :href="`https://www.youtube.com/channel/${ch.channelId}`"
                     target="_blank"
-                    class="channel-badge"
+                    class="card creator-card"
+                    :aria-label="`View ${ch.channelTitle} YouTube channel`"
                   >
-                    <h4 class="channel-name">{{ ch.channelTitle }}</h4>
-                    <div class="channel-badge-icon">
-                      <i class="fa-solid fa-external-link" aria-hidden="true"></i>
+                    <div class="creator-info">
+                      <h4 class="creator-name">{{ ch.channelTitle }}</h4>
+                      <div class="creator-badge-icon">
+                        <i class="fa-solid fa-external-link" aria-hidden="true"></i>
+                      </div>
                     </div>
                   </a>
                 </div>
@@ -371,56 +375,69 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   gap: 24px;
 }
 
+/* Individual Creator Sections */
 .channel-section {
   margin-bottom: 32px;
 }
 
-.channel-badge-container {
+.creator-card-container {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
-.channel-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 16px 28px;
-  min-width: 280px;
-  max-width: 400px;
+.creator-card {
   background: linear-gradient(
     180deg,
-    rgba(var(--mg-rgb), 0.88) 0%,
-    rgba(var(--mg-dark-rgb), 0.95) 100%
+    rgba(var(--panel-main-rgb), 0.96) 0%,
+    rgba(var(--panel-dark-rgb), 0.98) 100%
   );
   border: 1px solid var(--divider-strong);
   border-radius: 0;
+  padding: 16px 24px;
   text-decoration: none;
-  color: var(--t);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 20px rgba(var(--mg-rgb), 0.3);
-  position: relative;
+  color: inherit;
+  transition: var(--tr);
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  font-family: 'Oswald', sans-serif;
+  box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
+  min-height: 80px;
+  min-width: 250px;
+  max-width: 350px;
+  width: 100%;
 }
 
-.channel-badge::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+@media (hover: hover) {
+  .creator-card:hover {
+    border-color: rgba(var(--sw-rgb), 0.75);
+    box-shadow: 0 0 30px rgba(var(--sw-rgb), 0.32);
+    transform: translateY(-2px);
+  }
 }
 
-.channel-name {
+.creator-card:active {
+  transform: scale(0.98);
+  border-color: rgba(var(--sw-rgb), 0.55);
+}
+
+.creator-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.creator-name {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--t);
-  letter-spacing: 0.5px;
+  font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
@@ -428,48 +445,21 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   flex: 1;
 }
 
-.channel-badge-icon {
+.creator-badge-icon {
   font-size: 0.9rem;
-  color: rgba(243, 246, 248, 0.7);
+  color: rgba(var(--sw-rgb), 0.75);
   transition: all 0.3s ease;
   flex-shrink: 0;
 }
 
 @media (hover: hover) {
-  .channel-badge:hover {
-    transform: translateY(-3px) scale(1.05);
-    background: linear-gradient(
-      180deg,
-      rgba(var(--panel-hover-rgb), 0.95) 0%,
-      rgba(var(--panel-hover-dark-rgb), 0.95) 100%
-    );
-    border-color: rgba(var(--sw-rgb), 0.75);
-    box-shadow: 0 0 35px rgba(var(--sw-rgb), 0.3);
-  }
-
-  .channel-badge:hover::before {
-    opacity: 1;
-  }
-
-  .channel-badge:hover .channel-name {
-    color: var(--ink);
-  }
-
-  .channel-badge:hover .channel-badge-icon {
-    color: var(--ink);
+  .creator-card:hover .creator-badge-icon {
+    color: rgba(var(--sw-rgb), 0.75);
     transform: translateX(3px);
   }
 }
 
-.channel-badge:active {
-  transform: translateY(-1px) scale(1.02);
-}
-
-.channel-section .videos-grid {
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-/* Force 3 columns for channel sections on larger screens */
+/* Force 3 columns for channel videos on larger screens */
 @media (min-width: 1024px) {
   .channel-section .videos-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -503,14 +493,19 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
     gap: 16px;
   }
 
-  .channel-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+  .creator-card {
+    padding: 14px 20px;
+    min-height: 70px;
+    min-width: 220px;
+    max-width: 300px;
   }
 
-  .channel-section .videos-grid {
-    padding: 12px 16px 16px;
+  .creator-name {
+    font-size: 0.9rem;
+  }
+
+  .channel-section {
+    margin-bottom: 28px;
   }
 }
 
@@ -527,6 +522,30 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
   .by-channel {
     gap: 16px;
+  }
+
+  .creator-card {
+    padding: 12px 16px;
+    min-height: 60px;
+    min-width: unset;
+    max-width: unset;
+    width: 100%;
+  }
+
+  .creator-name {
+    font-size: 0.85rem;
+  }
+
+  .creator-badge-icon {
+    font-size: 0.75rem;
+  }
+
+  .channel-section {
+    margin-bottom: 24px;
+  }
+
+  .creator-card-container {
+    margin-bottom: 16px;
   }
 }
 
