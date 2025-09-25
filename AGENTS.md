@@ -52,7 +52,7 @@
 - Expanded `variables.css` with rgb helpers plus brand/medal and hover panel tokens so components can drop hard-coded hex values.
 - Replaced direct colour literals across navigation, hero, community (including live streams), getting started, about, leaderboards, FAQ, game-mode, videos, and button styles with the shared tokens.
 - Updated `LeaderboardGroup.vue` and `playerDisplay.ts` to use the new clan/player token colours so scoreboard styling stays consistent with CSS.
-- Removed the unused `temp_variables.css` palette stub; keep `base-old.css` bookmarked as legacy-only.
+- Removed the unused `temp_variables.css` palette stub and cleaned up legacy files.
 
 
 

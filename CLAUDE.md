@@ -39,7 +39,6 @@ npm run preview      # preview production build
   - `leaderboards.css` (12KB+) – enhanced tables with responsive typography, medal/rank styling, podium classes.
   - `community.css` (18KB+) – Events integration, creator badge system with consistent hover states, video grids, Twitch embeds.
   - `hero.css`, `getting-started.css`, `videos.css`, `about.css`, `faq.css`, `buttons.css`, `game-mode.css`, `players-panel.css`, `toggle.css` – each screen/component has its own file.
-- **Legacy CSS:** `base-old.css` retained for history; do not edit.
 
 ## Recent Changes (September 2025)
 - **Navigation Modernization:** Complete redesign with rectangular tabs, enhanced hover effects, and professional shadow systems.
@@ -170,7 +169,6 @@ transform: scale(1.03) translateY(-2px);
 - **Follow Navigation Patterns:** Use established hover effects and color rules for new interactive elements.
 - When adding styles, create or extend the appropriate module under `assets/styles/modules/components/` and import via `base.css`.
 - Document major visual or content changes in `AGENTS.md` + `CLAUDE.md` for future maintainers.
-- Avoid editing `base-old.css`; use it only for historical reference.
 
 ---
 *This document is the quick-reference guide for future agents/maintainers so they can ramp fast and stay aligned with the Massgate design system.*

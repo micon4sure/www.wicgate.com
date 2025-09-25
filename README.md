@@ -1,6 +1,6 @@
 # WICGATE Vue 3 (TypeScript)
 
-Reimplementation of the original monolith `monolith.html` as a structured Vue 3 + TypeScript SPA with router and modular components while preserving 1:1 visual fidelity.
+Reimplementation of the original monolithic prototype as a structured Vue 3 + TypeScript SPA with router and modular components while preserving 1:1 visual fidelity.
 
 ## Tech Stack
 

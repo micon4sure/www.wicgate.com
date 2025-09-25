@@ -461,7 +461,7 @@ Game Mode (fullscreen):
 
 ## 15. File Reference (Prototype Source)
 
-Original prototype file: `monolith.html` (contains inline styles + JS). This spec extracts only structure & behavior necessary for clean rebuild.
+Original prototype was a monolithic HTML file (now removed) that contained inline styles and JS. This spec extracts only structure & behavior necessary for the Vue 3 rebuild.
 
 ---
 
