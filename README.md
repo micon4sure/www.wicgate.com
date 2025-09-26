@@ -16,7 +16,7 @@ Reimplementation of the original monolithic prototype as a structured Vue 3 + Ty
 
 ## Key Components
 
-- `Navigation.vue` Top nav / hero navigation
+- `Navigation.vue` Top nav / hero navigation with **pixel-perfect dynamic scroll positioning**
 - `PlayersOnline.vue` Slide-in players panel (persisted lock state in `localStorage`)
 - `Leaderboards.vue` Tabbed leaderboards (High / Total / Player / Clan placeholder)
 - `Scores.vue` Reusable scoreboard card used in Game Mode

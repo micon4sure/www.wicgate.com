@@ -14,7 +14,7 @@
 - **Global tokens:** Defined in `src/assets/styles/modules/variables.css`.
 
 ## Key UI Sections & Styles
-- **Navigation (`src/components/Navigation.vue` + `styles/modules/components/navigation.css`):** Graphite bar with orange default labels that flip to light/graphite plates on hover/active (Massgate style), scroll-aware highlighting via `Home.vue`, lightened mobile toggle, `.logo` handles wordmark styling.
+- **Navigation (`src/components/Navigation.vue` + `styles/modules/components/navigation.css`):** Graphite bar with orange default labels that flip to light/graphite plates on hover/active (Massgate style), **pixel-perfect dynamic scroll positioning** with real-time header measurement eliminating all hardcoded calculations, lightened mobile toggle, `.logo` handles wordmark styling.
 - **Hero (`styles/modules/components/hero.css`):** Dual CTA (download + Discord) with cinematic slideshow.
 - **Getting Started (`src/screens/GettingStarted.vue` + `styles/modules/components/getting-started.css`):**
   - Step cards with orange number plaques.
@@ -61,3 +61,9 @@
 - Community "By Content Creator" header now reuses the shared `.vid-hdr` Massgate banner, keeping it visually aligned with Live Streams and Latest Videos. Added `.by-channel-hdr` helper in `Community.vue` to preserve spacing when the channels list expands.
 
 - Community channel badges now flip to a full Massgate orange fill on hover while keeping text/icons dark, improving readability in the By Content Creator list.
+
+## Recent Updates (2025-09-26)
+- **🚀 Pixel-Perfect Navigation Revolution:** Complete elimination of all hardcoded scroll calculations in favor of dynamic header measurement system. Navigation links now provide exact section positioning across all breakpoints without manual guesswork.
+- **Dynamic Measurement Architecture:** Implemented real-time `offsetHeight` measurement of header banner and navigation elements, replacing ~40 lines of hardcoded CSS `scroll-margin-top` rules.
+- **Responsive Adaptation:** Automatic buffer calculations for mobile viewport quirks, ensuring precision across desktop, tablet, and mobile devices.
+- **Performance Optimization:** Added passive scroll listeners, debounced resize handling, and proper memory cleanup for smooth navigation experience.
