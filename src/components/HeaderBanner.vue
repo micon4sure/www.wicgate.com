@@ -11,13 +11,8 @@ const showPlayersButton = toRef(props, 'showPlayersButton');
 const playerCount = toRef(props, 'playerCount');
 
 const emit = defineEmits<{
-  'navigate-home': [];
   'toggle-players': [];
 }>();
-
-function goHome() {
-  emit('navigate-home');
-}
 
 function togglePlayers() {
   emit('toggle-players');
@@ -32,7 +27,10 @@ function togglePlayers() {
 
       <!-- Logo and players button positioned in banner -->
       <div class="banner-content container">
-        <a class="banner-logo" @click="goHome">WICGATE</a>
+        <div class="banner-logo">
+          <div class="logo-main">WICGATE</div>
+          <div class="logo-subtitle">Community Hosted Multiplayer</div>
+        </div>
 
         <!-- Players button on right side -->
         <div v-if="showPlayersButton" class="banner-players">

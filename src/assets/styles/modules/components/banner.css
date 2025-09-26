@@ -82,13 +82,21 @@
   z-index: 2;
 }
 
-/* WiCGate logo in banner - similar to Massgate positioning */
+/* WiCGate logo in banner - two-line structure */
 .banner-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  user-select: none;
+  position: relative;
+}
+
+/* Main logo text - WICGATE */
+.logo-main {
   font-family: 'Oswald', 'Impact', sans-serif;
   font-size: 36px;
   font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
   color: var(--sw);
   text-shadow:
     0 0 24px rgba(var(--sw-rgb), 0.65),
@@ -96,36 +104,20 @@
     0 0 48px rgba(var(--sw-rgb), 0.35);
   text-transform: uppercase;
   letter-spacing: 3px;
-  user-select: none;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  position: relative;
+  line-height: 1;
 }
 
-.banner-logo::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--sw) 0%, var(--sw-light) 100%);
-  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 0 8px rgba(var(--sw-rgb), 0.6);
-}
-
-@media (hover: hover) {
-  .banner-logo:hover {
-    color: var(--sw-light);
-    text-shadow:
-      0 0 28px rgba(var(--sw-rgb), 0.75),
-      0 3px 6px rgba(0, 0, 0, 0.9),
-      0 0 56px rgba(var(--sw-rgb), 0.45);
-    transform: scale(1.02);
-  }
-
-  .banner-logo:hover::after {
-    width: 100%;
-  }
+/* Subtitle text - Community Hosted Multiplayer */
+.logo-subtitle {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--t2);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  line-height: 1;
+  margin-top: -2px;
 }
 
 /* Players button in banner - adapted from navigation */
@@ -180,6 +172,30 @@
   .players-btn-banner:hover .p-label {
     color: var(--ink);
   }
+}
+
+.players-btn-banner:active {
+  background: linear-gradient(135deg, rgba(var(--sw-rgb), 0.85) 0%, rgba(var(--sw-rgb), 0.88) 50%, rgba(var(--sw-rgb), 0.75) 100%);
+  border-color: rgba(var(--sw-rgb), 0.9);
+  transform: scale(0.98) translateY(0px);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    0 0 12px rgba(var(--sw-rgb), 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+  color: var(--ink);
+}
+
+.players-btn-banner:active .p-count {
+  color: var(--ink);
+}
+
+.players-btn-banner:active .p-divider {
+  background: var(--ink);
+}
+
+.players-btn-banner:active .p-label {
+  color: var(--ink);
 }
 
 .players-btn-banner .p-count {
@@ -241,9 +257,14 @@
 
 /* Responsive Design */
 @media screen and (max-width: 1200px) {
-  .banner-logo {
+  .logo-main {
     font-size: 32px;
     letter-spacing: 2px;
+  }
+
+  .logo-subtitle {
+    font-size: 12px;
+    letter-spacing: 1.3px;
   }
 
   .players-btn-banner {
@@ -266,9 +287,14 @@
     height: 100px;
   }
 
-  .banner-logo {
+  .logo-main {
     font-size: 28px;
     letter-spacing: 1.5px;
+  }
+
+  .logo-subtitle {
+    font-size: 11px;
+    letter-spacing: 1.2px;
   }
 
   .players-btn-banner {
@@ -295,8 +321,13 @@
     height: 80px;
   }
 
-  .banner-logo {
+  .logo-main {
     font-size: 24px;
+    letter-spacing: 1px;
+  }
+
+  .logo-subtitle {
+    font-size: 10px;
     letter-spacing: 1px;
   }
 

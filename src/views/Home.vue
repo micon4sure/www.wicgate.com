@@ -295,14 +295,6 @@ function scrollToGettingStarted() {
 function handleNavNavigate(section?: string) {
   setCurrentSection(section);
 }
-
-function handleBannerNavigateHome() {
-  // Clear any hash and show home page
-  history.replaceState(null, '', window.location.pathname);
-  setCurrentSection(undefined);
-  // Scroll to top smoothly
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 </script>
 <template>
   <div id="siteWrapper" class="site-wrapper">
@@ -310,7 +302,6 @@ function handleBannerNavigateHome() {
     <HeaderBanner
       :show-players-button="true"
       :player-count="playerCount"
-      @navigate-home="handleBannerNavigateHome"
       @toggle-players="togglePlayers"
     />
 
