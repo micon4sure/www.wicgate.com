@@ -3,12 +3,12 @@
 .hero {
   min-height: 100vh;
   background:
-    radial-gradient(ellipse at top, rgba(var(--sw-rgb), 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at bottom, rgba(60, 96, 120, 0.22) 0%, transparent 50%),
-    linear-gradient(180deg, rgba(14, 24, 31, 0.9) 0%, rgba(8, 14, 18, 0.98) 100%);
+    radial-gradient(ellipse at top, rgba(var(--sw-rgb), 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom, rgba(var(--mg-rgb), 0.15) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(var(--bg-rgb), 0.96) 0%, rgba(var(--graphite-dark-rgb), 0.98) 100%);
   display: flex;
   align-items: center;
-  padding-top: 223px; /* 140px banner + 80px navigation + 3px border */
+  padding-top: 83px; /* 80px navigation + 3px border */
 }
 
 .hero-grid {
@@ -50,7 +50,7 @@
   position: relative;
   height: 600px;
   border-radius: 0;
-  background: linear-gradient(180deg, rgba(18, 31, 40, 0.96) 0%, rgba(9, 16, 21, 0.96) 100%);
+  background: linear-gradient(180deg, rgba(var(--s1-rgb), 0.96) 0%, rgba(var(--graphite-dark-rgb), 0.96) 100%);
   border: 2px solid var(--divider-strong);
   box-shadow:
     0 0 26px rgba(var(--mg-rgb), 0.32),
@@ -65,7 +65,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, rgba(15, 15, 15, 0.9) 0%, rgba(10, 10, 10, 0.9) 100%);
+  background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.95) 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -182,31 +182,31 @@
 /* Adjust hero padding - EXACT header heights including 3px navigation border + mobile buffers */
 @media screen and (max-width: 1024px) {
   .hero {
-    padding-top: 218px; /* 140px banner + 70px navigation + 3px border + 5px buffer */
+    padding-top: 78px; /* 70px navigation + 3px border + 5px buffer */
   }
 }
 
 @media screen and (max-width: 900px) {
   .hero {
-    padding-top: 183px; /* 100px banner + 70px navigation + 3px border + 10px buffer */
+    padding-top: 83px; /* 70px navigation + 3px border + 10px buffer */
   }
 }
 
 @media screen and (max-width: 768px) {
   .hero {
-    padding-top: 188px; /* 100px banner + 65px navigation + 3px border + 20px buffer */
+    padding-top: 88px; /* 65px navigation + 3px border + 20px buffer */
   }
 }
 
 @media screen and (max-width: 600px) {
   .hero {
-    padding-top: 173px; /* 80px banner + 65px navigation + 3px border + 25px buffer */
+    padding-top: 93px; /* 65px navigation + 3px border + 25px buffer */
   }
 }
 
 @media screen and (max-width: 480px) {
   .hero {
-    padding-top: 173px; /* 80px banner + 60px navigation + 3px border + 30px buffer */
+    padding-top: 93px; /* 60px navigation + 3px border + 30px buffer */
   }
 }
 

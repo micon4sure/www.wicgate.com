@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { communityCards } from '../content/content';
 import { useYoutube } from '../composables/useYoutube';
 import { useEvents } from '../composables/useEvents';
 import TwitchEmbed from '../components/TwitchEmbed.vue';
@@ -44,32 +43,22 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
       <div class="text-center mb-xl">
         <h2>Community</h2>
         <p class="section-lead">Join the conversation across all platforms</p>
-      </div>
 
-      <div class="grid grid-3 mb-xl">
-        <a
-          v-for="c in communityCards"
-          :key="c.title"
-          :href="c.link"
-          target="_blank"
-          class="card com-card"
-          :class="c.cls"
-          :aria-label="`${c.action} - ${c.title}: ${c.desc}`"
-        >
-          <div class="card-icon"><i :class="c.icon" aria-hidden="true"></i></div>
-          <h3>{{ c.title }}</h3>
-          <div class="card-stats">
-            <div>
-              <div class="stat-val">{{ c.members }}</div>
-              <div class="stat-lbl">{{ c.stat1 }}</div>
-            </div>
-            <div>
-              <div class="stat-val">{{ c.online }}</div>
-              <div class="stat-lbl">{{ c.stat2 }}</div>
-            </div>
-          </div>
-          <p class="card-desc">{{ c.desc }}</p>
-        </a>
+        <!-- Simple community links -->
+        <div class="community-links">
+          <a href="https://discord.gg/WnxwfMTyBe" target="_blank" class="community-link discord">
+            <i class="fa-brands fa-discord" aria-hidden="true"></i>
+            Join Discord (287 members)
+          </a>
+          <a href="https://youtube.com/@wicgate" target="_blank" class="community-link youtube">
+            <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+            Watch Videos (1.2K subs)
+          </a>
+          <a href="https://twitch.tv/directory/game/World%20in%20Conflict" target="_blank" class="community-link twitch">
+            <i class="fa-brands fa-twitch" aria-hidden="true"></i>
+            Live Streams
+          </a>
+        </div>
       </div>
 
       <!-- Events Section -->

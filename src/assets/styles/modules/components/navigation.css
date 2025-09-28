@@ -5,9 +5,9 @@ header {
   border-bottom: 3px solid rgba(var(--graphite-rgb), 0.85);
   position: fixed;
   width: 100%;
-  top: 140px; /* Position below banner */
+  top: 0; /* Position at top of page */
   z-index: 1000;
-  box-shadow: 
+  box-shadow:
     0 2px 24px rgba(0, 0, 0, 0.75),
     0 0 36px rgba(var(--graphite-rgb), 0.35);
 }
@@ -15,6 +15,106 @@ header {
 .hdr {
   height: 80px;
   padding: 0 20px;
+}
+
+/* WICGATE Logo in Navigation */
+.nav-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 200px;
+}
+
+.logo-main {
+  font-family: 'Oswald', 'Impact', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--sw);
+  text-shadow:
+    0 0 18px rgba(var(--sw-rgb), 0.55),
+    0 2px 6px rgba(0, 0, 0, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  user-select: none;
+  transition: var(--tr);
+  line-height: 1;
+}
+
+.logo-subtitle {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--t3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+  line-height: 1;
+}
+
+/* Players Button in Navigation */
+.nav-players {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.players-btn-nav {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.95) 100%);
+  border: 1px solid rgba(var(--sw-rgb), 0.3);
+  border-radius: 26px;
+  height: 52px;
+  padding: 0 20px;
+  color: var(--t2);
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.players-btn-nav:hover {
+  color: var(--ink);
+  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.85) 0%, rgba(var(--sw-rgb), 0.68) 100%);
+  border-color: rgba(var(--sw-rgb), 0.75);
+  transform: scale(1.03) translateY(-2px);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    0 0 24px rgba(var(--sw-rgb), 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.p-count {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--sw);
+}
+
+.players-btn-nav:hover .p-count {
+  color: var(--ink);
+}
+
+.p-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(var(--t2-rgb), 0.4);
+  margin: 0 12px;
+}
+
+.players-btn-nav:hover .p-divider {
+  background: rgba(var(--ink-rgb), 0.4);
+}
+
+.p-label {
+  font-size: 12px;
 }
 
 /* Military-style logo */
@@ -76,7 +176,7 @@ header {
   background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.92) 100%);
   border: 1px solid rgba(var(--graphite-dark-rgb), 0.6);
   border-bottom: none;
-  border-radius: 3px 3px 0 0;
+  border-radius: 1px 1px 0 0;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   user-select: none;
   flex: 1 1 auto;
@@ -228,7 +328,7 @@ header {
 
 .mobile-nav-content {
   position: absolute;
-  top: 210px; /* 140px banner + 70px nav */
+  top: 80px; /* 80px nav only */
   left: 0;
   width: 100vw;
   background: linear-gradient(180deg, rgba(var(--night-rgb), 0.98) 0%, rgba(var(--night-dark-rgb), 0.98) 100%);
@@ -240,7 +340,7 @@ header {
   display: flex;
   flex-direction: column;
   padding: 0;
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 80px);
 }
 
 /* Vue transition for mobile nav */
@@ -377,18 +477,7 @@ header {
   }
 }
 
-/* Header positioning for banner responsive heights */
-@media screen and (max-width: 900px) {
-  header {
-    top: 100px; /* Below smaller banner */
-  }
-}
-
-@media screen and (max-width: 600px) {
-  header {
-    top: 80px; /* Below mobile banner */
-  }
-}
+/* Header positioning removed - banner no longer exists, header stays at top: 0 */
 
 /* Responsive breakpoints for desktop/mobile navigation */
 
@@ -421,8 +510,8 @@ header {
 
   /* Mobile navigation content positioning */
   .mobile-nav-content {
-    top: 170px; /* 100px banner + 70px nav */
-    min-height: calc(100vh - 170px);
+    top: 70px; /* 70px nav only */
+    min-height: calc(100vh - 70px);
   }
 }
 
@@ -433,9 +522,42 @@ header {
     padding: 0 18px;
   }
 
+  /* Mobile logo styles */
+  .nav-logo {
+    min-width: 160px;
+  }
+
+  .logo-main {
+    font-size: 20px;
+  }
+
+  .logo-subtitle {
+    font-size: 10px;
+  }
+
+  /* Mobile players button */
+  .players-btn-nav {
+    height: 44px;
+    padding: 0 16px;
+    font-size: 12px;
+  }
+
+  .p-count {
+    font-size: 14px;
+  }
+
+  .p-label {
+    font-size: 11px;
+  }
+
+  /* Show players button on tablet landscape */
+  .nav-players {
+    display: flex;
+  }
+
   .mobile-nav-content {
-    top: 165px; /* 100px banner + 65px nav */
-    min-height: calc(100vh - 165px);
+    top: 65px; /* Just nav height now */
+    min-height: calc(100vh - 65px);
   }
 
   .mobile-nav a {
@@ -453,8 +575,17 @@ header {
 
 /* Mobile landscape */
 @media (max-width: 600px) {
-  .logo {
-    font-size: 22px;
+  .logo-main {
+    font-size: 18px;
+  }
+
+  .logo-subtitle {
+    font-size: 9px;
+  }
+
+  /* Hide players button on smaller screens */
+  .nav-players {
+    display: none;
   }
 
   .mobile-nav a {
@@ -476,13 +607,21 @@ header {
     padding: 0 16px;
   }
 
-  .logo {
-    font-size: 20px;
+  .nav-logo {
+    min-width: 140px;
+  }
+
+  .logo-main {
+    font-size: 16px;
+  }
+
+  .logo-subtitle {
+    font-size: 8px;
   }
 
   .mobile-nav-content {
-    top: 140px; /* 80px banner + 60px nav */
-    min-height: calc(100vh - 140px);
+    top: 60px; /* Just nav height now */
+    min-height: calc(100vh - 60px);
   }
 
   .mobile-nav a {

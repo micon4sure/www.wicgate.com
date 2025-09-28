@@ -5,15 +5,28 @@ import { useRouter } from 'vue-router';
 const mobileOpen = ref(false);
 const router = useRouter();
 
-const props = defineProps<{ activeSection?: string | undefined }>();
+const props = defineProps<{
+  activeSection?: string | undefined;
+  playerCount?: number;
+  showPlayersButton?: boolean;
+}>();
 const activeSection = toRef(props, 'activeSection');
+const playerCount = toRef(props, 'playerCount');
+const showPlayersButton = toRef(props, 'showPlayersButton');
 
-const emit = defineEmits<{ navigate: [string | undefined] }>();
+const emit = defineEmits<{
+  navigate: [string | undefined];
+  'toggle-players': [];
+}>();
 
 // Track window width for resize handling
 const lastWindowWidth = ref(window.innerWidth);
 
 const isActive = (section: string) => activeSection.value === section;
+
+function togglePlayers() {
+  emit('toggle-players');
+}
 
 // Enhanced mobile menu functionality
 function toggleMobileMenu() {
@@ -99,24 +112,22 @@ onUnmounted(() => {
   document.body.style.overflow = ''; // Clean up body scroll lock
 });
 
-// Dynamic header measurement - eliminates all guesswork
+// Dynamic header measurement - only navigation bar now
 function getDynamicHeaderHeight() {
-  const banner = document.querySelector('.header-banner');
   const nav = document.querySelector('header');
 
-  if (!banner || !nav) {
-    // Fallback if elements not found
-    return 200;
+  if (!nav) {
+    // Fallback if nav not found
+    return 80;
   }
 
-  const bannerHeight = banner.getBoundingClientRect().height;
   const navHeight = nav.getBoundingClientRect().height;
 
   // Add small buffer for mobile viewport issues
   const isMobile = window.innerWidth <= 768;
-  const buffer = isMobile ? 20 : 5;
+  const buffer = isMobile ? 10 : 5;
 
-  return Math.ceil(bannerHeight + navHeight + buffer);
+  return Math.ceil(navHeight + buffer);
 }
 
 function scrollTo(id: string) {
@@ -129,10 +140,9 @@ function scrollTo(id: string) {
     const sectionElement = document.getElementById(id);
 
     if (sectionElement) {
-      // Measure actual header height at scroll time
-      const headerBanner = document.querySelector('.header-banner');
+      // Measure actual header height at scroll time (nav only now)
       const nav = document.querySelector('header');
-      const actualHeaderHeight = (headerBanner?.offsetHeight || 0) + (nav?.offsetHeight || 0);
+      const actualHeaderHeight = nav?.offsetHeight || 0;
 
       // Get section's exact position
       const sectionRect = sectionElement.getBoundingClientRect();
@@ -174,7 +184,13 @@ function goHomeAndScroll(section: string) {
 <template>
   <!-- Header content within container -->
   <div class="hdr container flex items-center justify-between">
-    <!-- Desktop navigation (stays in container) -->
+    <!-- Logo on left side -->
+    <div class="nav-logo">
+      <div class="logo-main">WICGATE</div>
+      <div class="logo-subtitle">Community Hosted Multiplayer</div>
+    </div>
+
+    <!-- Desktop navigation (center) -->
     <nav class="desktop-nav">
       <a
         :class="{ active: !activeSection }"
@@ -196,6 +212,15 @@ function goHomeAndScroll(section: string) {
       <a :class="{ active: isActive('about') }" @click.prevent="goHomeAndScroll('about')">About</a>
       <a :class="{ active: isActive('faq') }" @click.prevent="goHomeAndScroll('faq')">FAQ</a>
     </nav>
+
+    <!-- Players button on right side -->
+    <div v-if="showPlayersButton" class="nav-players">
+      <button class="players-btn-nav" @click="togglePlayers">
+        <span class="p-count">{{ playerCount || 0 }}</span>
+        <span class="p-divider" />
+        <span class="p-label">Players Online</span>
+      </button>
+    </div>
 
     <!-- Enhanced hamburger menu button -->
     <button

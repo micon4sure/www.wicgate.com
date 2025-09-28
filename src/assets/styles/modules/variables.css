@@ -9,9 +9,9 @@
   --sw-light: #f8a85e; /* Lighter accent highlight */
   --o: #f37c2b; /* Legacy alias for accent */
   --dl: #8b1d14; /* Deep Soviet red accent */
-  --graphite: #1a1d21; /* Graphite navigation base */
-  --graphite-dark: #111417; /* Deep graphite */
-  --graphite-light: #24292e; /* Lighter graphite */
+  --graphite: #0f1215; /* Darker graphite navigation base */
+  --graphite-dark: #08090b; /* Even deeper graphite */
+  --graphite-light: #1a1e22; /* Darker lighter graphite */
   --ink: #0b141a; /* Deepest charcoal ink */
 
   /* RGB helpers */
@@ -21,19 +21,19 @@
   --sw-rgb: 243, 124, 43;
   --sw-light-rgb: 248, 168, 94;
   --dl-rgb: 139, 29, 20;
-  --graphite-rgb: 26, 29, 33;
-  --graphite-dark-rgb: 17, 20, 23;
-  --graphite-light-rgb: 36, 41, 46;
+  --graphite-rgb: 15, 18, 21;
+  --graphite-dark-rgb: 8, 9, 11;
+  --graphite-light-rgb: 26, 30, 34;
   --ink-rgb: 11, 20, 26;
 
-  /* Background colors */
-  --bg: #091118; /* Deep graphite backdrop */
-  --s1: #12202a; /* Primary panel surface */
-  --s2: #182a36; /* Secondary surface */
+  /* Background colors - Darker massgate-inspired theme */
+  --bg: #050a0f; /* Even deeper military backdrop */
+  --s1: #0e1a22; /* Darker primary panel surface */
+  --s2: #14222a; /* Darker secondary surface */
   --surface-alt: #1f313d; /* Alternating striping surface */
-  --bg-rgb: 9, 17, 24;
-  --s1-rgb: 18, 32, 42;
-  --s2-rgb: 24, 42, 54;
+  --bg-rgb: 5, 10, 15;
+  --s1-rgb: 14, 26, 34;
+  --s2-rgb: 20, 34, 42;
   --surface-alt-rgb: 31, 49, 61;
   --panel-main-rgb: 18, 30, 39;
   --panel-dark-rgb: 9, 15, 20;
@@ -111,8 +111,8 @@
   --divider-strong: rgba(68, 117, 146, 0.7);
   --divider-soft: rgba(68, 117, 146, 0.35);
 
-  /* Transitions */
-  --tr: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Transitions - Consistent across all components */
+  --tr: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
   /* Panel dimensions */
   --panel-width: 340px;

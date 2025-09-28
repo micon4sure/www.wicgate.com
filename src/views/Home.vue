@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
-import HeaderBanner from '../components/HeaderBanner.vue';
 import Navigation from '../components/Navigation.vue';
 import PlayersOnline from '../components/PlayersOnline.vue';
 import SiteFooter from '../components/Footer.vue';
@@ -31,24 +30,22 @@ function setCurrentSection(id?: string | null) {
   }
 }
 
-// Dynamic header measurement - eliminates all guesswork
+// Dynamic header measurement - only navigation bar now
 function getDynamicHeaderHeight() {
-  const banner = document.querySelector('.header-banner');
   const nav = document.querySelector('header');
 
-  if (!banner || !nav) {
-    // Fallback if elements not found
-    return 200;
+  if (!nav) {
+    // Fallback if nav not found
+    return 80;
   }
 
-  const bannerHeight = banner.getBoundingClientRect().height;
   const navHeight = nav.getBoundingClientRect().height;
 
   // Add small buffer for mobile viewport issues
   const isMobile = window.innerWidth <= 768;
-  const buffer = isMobile ? 20 : 5;
+  const buffer = isMobile ? 10 : 5;
 
-  return Math.ceil(bannerHeight + navHeight + buffer);
+  return Math.ceil(navHeight + buffer);
 }
 
 function collectSectionElements() {
@@ -181,9 +178,8 @@ onMounted(() => {
         const sectionElement = document.getElementById(hash);
 
         if (sectionElement) {
-          const headerBanner = document.querySelector('.header-banner');
           const nav = document.querySelector('header');
-          const actualHeaderHeight = (headerBanner?.offsetHeight || 0) + (nav?.offsetHeight || 0);
+          const actualHeaderHeight = nav?.offsetHeight || 0;
 
           const sectionRect = sectionElement.getBoundingClientRect();
           const sectionTop = sectionRect.top + window.scrollY;
@@ -245,9 +241,8 @@ function handleContinue() {
         const sectionElement = document.getElementById(hash);
 
         if (sectionElement) {
-          const headerBanner = document.querySelector('.header-banner');
           const nav = document.querySelector('header');
-          const actualHeaderHeight = (headerBanner?.offsetHeight || 0) + (nav?.offsetHeight || 0);
+          const actualHeaderHeight = nav?.offsetHeight || 0;
 
           const sectionRect = sectionElement.getBoundingClientRect();
           const sectionTop = sectionRect.top + window.scrollY;
@@ -270,9 +265,8 @@ function scrollToGettingStarted() {
 
   if (sectionElement) {
     // Pixel-perfect positioning with dynamic measurement - zero guesswork
-    const headerBanner = document.querySelector('.header-banner');
     const nav = document.querySelector('header');
-    const actualHeaderHeight = (headerBanner?.offsetHeight || 0) + (nav?.offsetHeight || 0);
+    const actualHeaderHeight = nav?.offsetHeight || 0;
 
     // Get section's exact position
     const sectionRect = sectionElement.getBoundingClientRect();
@@ -298,15 +292,14 @@ function handleNavNavigate(section?: string) {
 </script>
 <template>
   <div id="siteWrapper" class="site-wrapper">
-    <!-- Header Banner - Above Navigation -->
-    <HeaderBanner
-      :show-players-button="true"
-      :player-count="playerCount"
-      @toggle-players="togglePlayers"
-    />
-
     <header>
-      <Navigation :active-section="currentSection" @navigate="handleNavNavigate" />
+      <Navigation
+        :active-section="currentSection"
+        :show-players-button="true"
+        :player-count="playerCount"
+        @navigate="handleNavNavigate"
+        @toggle-players="togglePlayers"
+      />
     </header>
 
     <div class="main-content">
