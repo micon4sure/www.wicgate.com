@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { map } from 'lodash';
+import lodash from 'lodash';
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { formatDate } from '../utils';
+
+const { map } = lodash;
 
 export interface Video {
   id: string;
@@ -25,6 +27,12 @@ export function useYoutube() {
   let timer: number;
 
   onMounted(async () => {
+    // Skip data fetching during SSG build
+    if (import.meta.env.SSR) {
+      loading.value = false;
+      return;
+    }
+
     try {
       const url = API + '/videos';
       // API returns: Record<channelId, atomXmlString>
@@ -49,14 +57,17 @@ export function useYoutube() {
       if (import.meta.env.DEV)
         console.log(`Fetched and parsed ${Object.keys(parsed).length} channels from ${url}`);
     } catch (err: any) {
-      if (import.meta.env.DEV) console.error('Failed to fetch events:', err?.message ?? err);
+      if (import.meta.env.DEV) console.error('Failed to fetch videos:', err?.message ?? err);
     } finally {
       loading.value = false;
     }
 
-    timer = window.setInterval(() => {
-      now.value = new Date();
-    }, 1000);
+    // Only set timer in browser context
+    if (typeof window !== 'undefined') {
+      timer = window.setInterval(() => {
+        now.value = new Date();
+      }, 1000);
+    }
   });
 
   onUnmounted(() => {

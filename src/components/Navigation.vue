@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>();
 
 // Track window width for resize handling
-const lastWindowWidth = ref(window.innerWidth);
+const lastWindowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1920);
 
 const isActive = (section: string) => activeSection.value === section;
 
@@ -130,55 +130,19 @@ function getDynamicHeaderHeight() {
   return Math.ceil(navHeight + buffer);
 }
 
-function scrollTo(id: string) {
-  if (id === 'hero') {
-    // For hero, scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    history.replaceState(null, '', window.location.pathname);
-  } else {
-    // Pixel-perfect positioning with dynamic measurement - zero guesswork
-    const sectionElement = document.getElementById(id);
-
-    if (sectionElement) {
-      // Measure actual header height at scroll time (nav only now)
-      const nav = document.querySelector('header');
-      const actualHeaderHeight = nav?.offsetHeight || 0;
-
-      // Get section's exact position
-      const sectionRect = sectionElement.getBoundingClientRect();
-      const sectionTop = sectionRect.top + window.scrollY;
-
-      // Calculate pixel-perfect scroll position
-      const targetY = sectionTop - actualHeaderHeight;
-
-      // Scroll to exact position
-      window.scrollTo({
-        top: Math.max(0, targetY),
-        behavior: 'smooth',
-      });
-    }
-
-    history.replaceState(null, '', `#${id}`);
-  }
-
-  emit('navigate', id !== 'hero' ? id : undefined);
+function handleNavigation(section: string) {
+  emit('navigate', section !== 'hero' ? section : undefined);
   closeMobileMenu();
+
+  // Check if we're in game mode - if so, trigger home mode first
+  const event = new CustomEvent('exitGameMode');
+  window.dispatchEvent(event);
 }
 
-function goHomeAndScroll(section: string) {
-  emit('navigate', section !== 'hero' ? section : undefined);
-  // If not on home page, navigate there first
-  if (router.currentRoute.value.path !== '/') {
-    const targetPath = section === 'hero' ? '/' : `/#${section}`;
-    router.push(targetPath).then(() => requestAnimationFrame(() => scrollTo(section)));
-  } else {
-    // Check if we're in game mode - if so, trigger home mode first
-    const event = new CustomEvent('exitGameMode');
-    window.dispatchEvent(event);
-
-    // Small delay to ensure we exit game mode before scrolling
-    setTimeout(() => scrollTo(section), 100);
-  }
+// Get route path for section
+function getRoutePath(section: string): string {
+  if (section === 'hero') return '/';
+  return `/${section}`;
 }
 </script>
 <template>
@@ -192,25 +156,43 @@ function goHomeAndScroll(section: string) {
 
     <!-- Desktop navigation (center) -->
     <nav class="desktop-nav">
-      <a
+      <router-link
+        :to="getRoutePath('hero')"
         :class="{ active: !activeSection }"
         class="home-btn"
-        @click.prevent="goHomeAndScroll('hero')"
-        >Home</a
+        @click="handleNavigation('hero')"
+        >Home</router-link
       >
-      <a
+      <router-link
+        :to="getRoutePath('getting-started')"
         :class="{ active: isActive('getting-started') }"
-        @click.prevent="goHomeAndScroll('getting-started')"
-        >Getting Started</a
+        @click="handleNavigation('getting-started')"
+        >Getting Started</router-link
       >
-      <a :class="{ active: isActive('statistics') }" @click.prevent="goHomeAndScroll('statistics')"
-        >Statistics</a
+      <router-link
+        :to="getRoutePath('statistics')"
+        :class="{ active: isActive('statistics') }"
+        @click="handleNavigation('statistics')"
+        >Statistics</router-link
       >
-      <a :class="{ active: isActive('community') }" @click.prevent="goHomeAndScroll('community')"
-        >Community</a
+      <router-link
+        :to="getRoutePath('community')"
+        :class="{ active: isActive('community') }"
+        @click="handleNavigation('community')"
+        >Community</router-link
       >
-      <a :class="{ active: isActive('about') }" @click.prevent="goHomeAndScroll('about')">About</a>
-      <a :class="{ active: isActive('faq') }" @click.prevent="goHomeAndScroll('faq')">FAQ</a>
+      <router-link
+        :to="getRoutePath('about')"
+        :class="{ active: isActive('about') }"
+        @click="handleNavigation('about')"
+        >About</router-link
+      >
+      <router-link
+        :to="getRoutePath('faq')"
+        :class="{ active: isActive('faq') }"
+        @click="handleNavigation('faq')"
+        >FAQ</router-link
+      >
     </nav>
 
     <!-- Players button on right side -->
@@ -247,31 +229,43 @@ function goHomeAndScroll(section: string) {
     <Transition name="mobile-nav">
       <nav v-if="mobileOpen" class="mobile-nav">
         <div class="mobile-nav-content">
-          <a
+          <router-link
+            :to="getRoutePath('hero')"
             :class="{ active: !activeSection }"
             class="home-btn"
-            @click.prevent="goHomeAndScroll('hero')"
-            >Home</a
+            @click="handleNavigation('hero')"
+            >Home</router-link
           >
-          <a
+          <router-link
+            :to="getRoutePath('getting-started')"
             :class="{ active: isActive('getting-started') }"
-            @click.prevent="goHomeAndScroll('getting-started')"
-            >Getting Started</a
+            @click="handleNavigation('getting-started')"
+            >Getting Started</router-link
           >
-          <a
+          <router-link
+            :to="getRoutePath('statistics')"
             :class="{ active: isActive('statistics') }"
-            @click.prevent="goHomeAndScroll('statistics')"
-            >Statistics</a
+            @click="handleNavigation('statistics')"
+            >Statistics</router-link
           >
-          <a
+          <router-link
+            :to="getRoutePath('community')"
             :class="{ active: isActive('community') }"
-            @click.prevent="goHomeAndScroll('community')"
-            >Community</a
+            @click="handleNavigation('community')"
+            >Community</router-link
           >
-          <a :class="{ active: isActive('about') }" @click.prevent="goHomeAndScroll('about')"
-            >About</a
+          <router-link
+            :to="getRoutePath('about')"
+            :class="{ active: isActive('about') }"
+            @click="handleNavigation('about')"
+            >About</router-link
           >
-          <a :class="{ active: isActive('faq') }" @click.prevent="goHomeAndScroll('faq')">FAQ</a>
+          <router-link
+            :to="getRoutePath('faq')"
+            :class="{ active: isActive('faq') }"
+            @click="handleNavigation('faq')"
+            >FAQ</router-link
+          >
         </div>
       </nav>
     </Transition>

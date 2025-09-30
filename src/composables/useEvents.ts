@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { orderBy } from 'lodash';
+import lodash from 'lodash';
 import { ref, onMounted, onUnmounted } from 'vue';
+
+const { orderBy } = lodash;
 
 export interface Event {
   id: number | string;
@@ -20,35 +22,50 @@ export function useEvents() {
   let timer: number;
 
   onMounted(async () => {
+    // Skip data fetching during SSG build
+    if (import.meta.env.SSR) {
+      isLoading.value = false;
+      return;
+    }
+
     try {
       const url = API + '/events';
       const response = await axios.get<Event[]>(url);
       events.value = orderBy(response.data, ['date'], ['asc']);
-      events.value.push({
-        id: 23,
-        name: 'Test event that started 5min ago',
-        start: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
-        description: 'Stay tuned for updates!',
-        link: 'https://www.wicgate.com/events',
-        coverUrl: 'https://www.wicgate.com/hero-0.png',
-      });
-      events.value.push({
-        id: 42,
-        name: 'Test event that will start in 5min',
-        start: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
-        description: 'Stay tuned for updates!',
-        link: 'https://www.wicgate.com/events',
-        coverUrl: 'https://www.wicgate.com/hero-1.png',
-      });
+
+      // ONLY add test events in development, never in production
+      if (import.meta.env.DEV) {
+        events.value.push({
+          id: 23,
+          name: 'Test event that started 5min ago',
+          start: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
+          description: 'Stay tuned for updates!',
+          link: 'https://www.wicgate.com/events',
+          coverUrl: 'https://www.wicgate.com/hero-0.png',
+        });
+        events.value.push({
+          id: 42,
+          name: 'Test event that will start in 5min',
+          start: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
+          description: 'Stay tuned for updates!',
+          link: 'https://www.wicgate.com/events',
+          coverUrl: 'https://www.wicgate.com/hero-1.png',
+        });
+      }
+
       isLoading.value = false;
       if (import.meta.env.DEV) console.log(`Fetched ${events.value.length} events from ${url}`);
     } catch (err: any) {
       if (import.meta.env.DEV) console.error('Failed to fetch events:', err.message, err);
+      isLoading.value = false;
     }
 
-    timer = window.setInterval(() => {
-      now.value = new Date();
-    }, 1000);
+    // Only set timer in browser context
+    if (typeof window !== 'undefined') {
+      timer = window.setInterval(() => {
+        now.value = new Date();
+      }, 1000);
+    }
   });
 
   onUnmounted(() => {

@@ -18,12 +18,12 @@ npm run preview      # preview production build
 - **Formatting:** Prettier via ESLint – ensure no CRLF when committing.
 
 ## Architectural Notes
-- **Entry point:** `src/main.ts` wires Vue, router, global CSS modules, and creates the app.
-- **Routing:** Simple 2-route setup: `/` (Home with all sections) and `/game-mode` (standalone page). No separate routes for sections.
-- **Single-page architecture:** `Home.vue` imports all screens (`GettingStarted`, `Community`, `Statistics`, `About`, `FAQ`) as components rendered in sequence.
-- **State:** `src/stores/appDataStore.ts` manages player data, leaderboards, servers via composable patterns.
-- **Data layer:** API integration via composables (`useYoutube`, `useEvents`) and direct fetch in stores; static content in `src/content`.
-- **Components:** `src/components` hosts reusable widgets (navigation, leaderboards, overlays). Screen components in `src/screens`.
+- **Entry point:** `src/main.ts` uses ViteSSG for Static Site Generation with client-side hydration.
+- **Routing:** Path-based routing with 7 pre-rendered routes: `/`, `/getting-started`, `/statistics`, `/community`, `/about`, `/faq`, `/game-mode`. Each section gets its own SEO-friendly URL.
+- **Hybrid architecture:** SSG for SEO (conditional rendering per route) + SPA for UX (all sections render client-side for smooth scrolling).
+- **State:** `src/stores/appDataStore.ts` manages player data, leaderboards, servers via composable patterns with SSR guards.
+- **Data layer:** API integration via composables (`useYoutube`, `useEvents`) with SSR-safe execution; static content in `src/content`.
+- **Components:** `src/components` hosts reusable widgets (navigation, leaderboards, overlays, skeletons). Screen components in `src/screens`.
 - **Styling system:** Modular CSS under `src/assets/styles/modules`, composed via `base.css`; each screen/component has dedicated module.
 
 ## Technical Architecture - Navigation System
@@ -77,6 +77,122 @@ function getDynamicHeaderHeight() {
 - **Debounced Resize**: Prevents excessive recalculation during window resize
 - **Memory Management**: Clean event listener removal on component unmount
 
+## SEO Architecture - Static Site Generation (SSG)
+
+### Overview
+The website implements a sophisticated **hybrid rendering strategy** that provides unique, SEO-optimized content to search engines while delivering a seamless single-page experience to users.
+
+### The Dual-Rendering System
+
+**Build Time (SSG - For Search Engines):**
+```typescript
+// During npm run build, each route pre-renders unique HTML
+function shouldRenderSection(sectionId: string): boolean {
+  if (!isSSR) return true; // Client: render all
+  if (!targetSection.value) return true; // Homepage: render all
+  return targetSection.value === sectionId; // Section route: only target
+}
+```
+
+**Runtime (SPA - For Users):**
+- JavaScript hydrates the page
+- All sections render regardless of route
+- Smooth scroll animations between sections
+- No page reloads when navigating
+
+### Build Output
+```bash
+npm run build → Generates 7 unique HTML files:
+
+dist/index.html              35.59 KB  # All 6 sections for homepage
+dist/getting-started.html    10.74 KB  # Only Getting Started section
+dist/statistics.html          6.99 KB  # Only Statistics section
+dist/community.html          12.60 KB  # Only Community section
+dist/about.html               8.27 KB  # Only About section
+dist/faq.html                12.39 KB  # Only FAQ section
+dist/game-mode.html          11.37 KB  # Game mode standalone page
+```
+
+### SEO Benefits
+✅ **Unique Content Per URL:** Each route serves different HTML with unique file sizes
+✅ **No Duplicate Content:** Google indexes 7 separate pages with focused content
+✅ **Fast Initial Load:** Pre-rendered HTML loads instantly
+✅ **Progressive Enhancement:** Content visible without JavaScript
+✅ **Semantic Skeleton Loaders:** SEO-friendly placeholders with descriptive text
+
+### Key Implementation Files
+
+**Core SSG Setup:**
+- `package.json` - Build script uses `vite-ssg build`
+- `vite.config.ts` - SSG options with route pre-rendering configuration
+- `src/main.ts` - ViteSSG initialization with scrollBehavior handling
+- `src/router/routes.ts` - Route definitions with comprehensive SEO metadata
+
+**SSR Guards (prevent server-side execution):**
+- `src/stores/appDataStore.ts` - API calls gated with `import.meta.env.SSR`
+- `src/composables/useYoutube.ts` - SSR-safe with lodash CommonJS fix
+- `src/composables/useEvents.ts` - SSR-safe, test events gated to DEV only
+- `src/components/Navigation.vue` - Window references wrapped in SSR checks
+
+**Conditional Rendering:**
+- `src/views/Home.vue` - `shouldRenderSection()` logic + route watcher for scroll
+- Template uses `v-if="shouldRenderSection('section-id')"` for each section
+
+**Skeleton Components (progressive enhancement):**
+- `src/components/skeletons/LeaderboardSkeleton.vue` - Statistics placeholder
+- `src/components/skeletons/EventsSkeleton.vue` - Community events placeholder
+- `src/components/skeletons/VideosSkeleton.vue` - Video content placeholder
+- All include `<noscript>` fallbacks with descriptive SEO text
+
+**Deployment:**
+- `public/_redirects` - SPA fallback for Netlify/Vercel (`/* /index.html 200`)
+- `index.html` - Enhanced meta tags for social sharing
+
+### How It Solves Duplicate Content
+
+**❌ Hash-based routing problem (before SSG):**
+```
+wicgate.com/          → Serves index.html (36KB, all sections)
+wicgate.com/#statistics → Serves index.html (36KB, all sections) ← DUPLICATE
+wicgate.com/#community  → Serves index.html (36KB, all sections) ← DUPLICATE
+```
+Google sees identical content at all URLs = duplicate content penalty.
+
+**✅ Path-based SSG solution (current):**
+```
+wicgate.com/          → Serves index.html (36KB, all sections)
+wicgate.com/statistics → Serves statistics.html (7KB, stats only) ← UNIQUE
+wicgate.com/community  → Serves community.html (13KB, community only) ← UNIQUE
+```
+Google sees different content at each URL = proper indexing.
+
+### User Experience Flow
+
+1. **User visits `/statistics`:**
+   - Server sends `statistics.html` (7KB, only statistics section)
+   - User sees skeleton loader with SEO text
+   - JavaScript loads and hydrates
+   - `isSSR` becomes `false`, all sections render
+   - User can now scroll smoothly to any section
+
+2. **User clicks "Community" nav link:**
+   - Vue Router intercepts click (prevents page reload)
+   - Route changes to `/community`
+   - Route watcher triggers smooth scroll animation
+   - Scrolls from current position to Community section
+   - URL updates without page refresh
+
+3. **Search Engine crawls `/statistics`:**
+   - Receives pre-rendered `statistics.html`
+   - No JavaScript execution needed
+   - Sees only Statistics content with proper meta tags
+   - Indexes as unique page focused on player rankings
+
+### Progressive Enhancement Philosophy
+- **Base Layer (no JS):** Readable content for crawlers + accessibility
+- **Enhanced Layer (with JS):** Full UX with animations + live data
+- **Not Cloaking:** Same content, different loading strategy (Google-approved)
+
 ## Styling & Design System
 - **Tokens:** All colors, gradients, shadows, and transitions defined in `src/assets/styles/modules/variables.css`. New work should *only* reference tokens (no hard-coded hex values).
 - **Palette highlights:**
@@ -92,7 +208,8 @@ function getDynamicHeaderHeight() {
   - `hero.css`, `getting-started.css`, `videos.css`, `about.css`, `faq.css`, `buttons.css`, `game-mode.css`, `players-panel.css`, `toggle.css` – each screen/component has its own file.
 
 ## Recent Changes (September 2025)
-- **🚀 Pixel-Perfect Navigation Revolution (Latest):** Complete elimination of hardcoded scroll calculations in favor of dynamic header measurement system. Navigation links now scroll to exact pixel positions with zero manual guesswork, automatically adapting across all screen sizes. Implemented real-time `offsetHeight` measurement replacing ~40 lines of hardcoded CSS `scroll-margin-top` rules.
+- **🔍 SEO Revolution with SSG Implementation (Latest):** Complete migration to Static Site Generation (SSG) using vite-ssg for industry-standard SEO optimization. Path-based routing (`/statistics`, `/community`) replaces hash-based navigation, generating 7 unique pre-rendered HTML files. Hybrid rendering strategy: conditional sections for crawlers (unique content per URL), full sections for users (seamless scrolling). Implements progressive enhancement with skeleton loaders, SSR guards across stores/composables, and Vue Router integration with scroll preservation. Eliminates duplicate content issues while maintaining beautiful single-page UX.
+- **🚀 Pixel-Perfect Navigation Revolution:** Complete elimination of hardcoded scroll calculations in favor of dynamic header measurement system. Navigation links now scroll to exact pixel positions with zero manual guesswork, automatically adapting across all screen sizes. Implemented real-time `offsetHeight` measurement replacing ~40 lines of hardcoded CSS `scroll-margin-top` rules.
 - **Navigation Modernization:** Complete redesign with rectangular tabs, enhanced hover effects, and professional shadow systems.
 - **Interactive Elements Unification:** Consistent orange hover backgrounds with dark text across nav, players button, and creator badges.
 - **Players Button Redesign:** Chunky 52px pill-shaped design optimized for clickability, removing green status indicator clutter.
@@ -265,11 +382,13 @@ transform: scale(1.03) translateY(-2px);
 *This document is the quick-reference guide for future agents/maintainers so they can ramp fast and stay aligned with the Massgate design system.*
 
 ## New Features & Components
+- **🔍 SEO-Optimized Static Site Generation:** Hybrid SSG/SPA architecture using vite-ssg. Pre-renders 7 unique HTML files at build time for search engines, hydrates to full single-page experience for users. Eliminates duplicate content issues with path-based routing while preserving seamless long-scroll UX.
 - **Pixel-Perfect Navigation System:** Revolutionary dynamic header measurement eliminates all hardcoded scroll calculations, providing exact section positioning across all breakpoints.
 - **Modern Navigation Design:** Rectangular tabs with enhanced hover effects, professional shadow systems, and consistent interaction patterns.
 - **Optimized Players Button:** Independent 52px pill-shaped design with superior clickability and clean visual presentation.
 - **Unified Interactive Design:** Consistent orange hover backgrounds with dark text across all clickable elements (nav, players, creators).
 - **Enhanced Visual Feedback:** Scale transforms, refined glow effects, and smooth cubic-bezier transitions throughout the interface.
+- **Progressive Enhancement with Skeletons:** SEO-friendly skeleton loaders with semantic HTML and noscript fallbacks for accessibility.
 - **Events System:** Real-time Discord event integration with countdown timers and status tracking.
 - **First Visit Experience:** Guided overlay for new users with smart section navigation.
 - **Live Streaming:** Embedded Twitch streams with automatic status detection.
@@ -279,4 +398,4 @@ transform: scale(1.03) translateY(-2px);
 - **Advanced Setup Hyperlink System:** Professional massgate orange hyperlinks replacing download buttons for file downloads, with integrated Discord server access and modern underline styling.
 
 ---
-*This document reflects the current state of WiCGATE as of September 2025. Major enhancements include pixel-perfect navigation with dynamic measurement system, modernized design with rectangular tabs, unified interactive design language, optimized players button, and comprehensive hover effect standardization across all components.*
+*This document reflects the current state of WiCGATE as of September 2025. Major enhancements include SEO-optimized SSG architecture, pixel-perfect navigation with dynamic measurement system, modernized design with rectangular tabs, unified interactive design language, optimized players button, and comprehensive hover effect standardization across all components.*

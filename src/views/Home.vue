@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, onBeforeUnmount, nextTick, computed, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { useHead } from '@vueuse/head';
 import Navigation from '../components/Navigation.vue';
 import PlayersOnline from '../components/PlayersOnline.vue';
 import SiteFooter from '../components/Footer.vue';
@@ -14,14 +15,101 @@ import { useAppDataStore } from '../stores/appDataStore';
 import { useFirstVisit } from '../composables/useFirstVisit';
 
 const store = useAppDataStore();
-const { data, playerCount } = store;
+const { data, playerCount, loading } = store;
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
 const router = useRouter();
+const route = useRoute();
 const panelRef = ref<InstanceType<typeof PlayersOnline> | null>(null);
 const currentSection = ref<string | undefined>();
 const SECTION_IDS = ['hero', 'getting-started', 'statistics', 'community', 'about', 'faq'];
 let sectionElements: HTMLElement[] = [];
 let scrollListenerAttached = false;
+
+// SSG conditional rendering
+const isSSR = import.meta.env.SSR;
+const targetSection = computed(() => route.meta.section as string | undefined);
+
+// Determine which sections to render based on SSR vs CSR
+function shouldRenderSection(sectionId: string): boolean {
+  // Client-side: always render all sections for smooth long-scroll
+  if (!isSSR) return true;
+
+  // Server-side/build-time rendering
+  if (!targetSection.value) {
+    // Homepage: render all sections
+    return true;
+  }
+
+  // Specific section page: render only that section for SEO
+  return targetSection.value === sectionId;
+}
+
+// Dynamic meta tags based on route
+useHead({
+  title: () => (route.meta.title as string) || 'WICGATE - World in Conflict Multiplayer Revival',
+  meta: [
+    {
+      name: 'description',
+      content:
+        () => (route.meta.description as string) ||
+        'Play World in Conflict online with restored multiplayer servers.',
+    },
+    {
+      name: 'keywords',
+      content:
+        () => (route.meta.keywords as string) ||
+        'world in conflict, wic multiplayer, massgate',
+    },
+    // Open Graph
+    {
+      property: 'og:title',
+      content: () => (route.meta.title as string) || 'WICGATE',
+    },
+    {
+      property: 'og:description',
+      content:
+        () => (route.meta.description as string) ||
+        'Play World in Conflict online with restored multiplayer servers.',
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
+      property: 'og:url',
+      content: () => `https://wicgate.com${route.path}`,
+    },
+    {
+      property: 'og:image',
+      content: () => (route.meta.ogImage as string) || 'https://wicgate.com/og-default.jpg',
+    },
+    // Twitter Card
+    {
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
+      name: 'twitter:title',
+      content: () => (route.meta.title as string) || 'WICGATE',
+    },
+    {
+      name: 'twitter:description',
+      content:
+        () => (route.meta.description as string) ||
+        'Play World in Conflict online with restored multiplayer servers.',
+    },
+    {
+      name: 'twitter:image',
+      content: () => (route.meta.ogImage as string) || 'https://wicgate.com/og-default.jpg',
+    },
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: () => `https://wicgate.com${route.path}`,
+    },
+  ],
+});
 
 function setCurrentSection(id?: string | null) {
   const normalized = id && id !== 'hero' ? id : undefined;
@@ -156,15 +244,20 @@ function handleSwipe() {
 }
 
 onMounted(() => {
+  // Skip client-side initialization during SSG
+  if (isSSR) return;
+
   // Initialize store data
   store.init();
 
   resetInterval();
 
+  // Determine initial section from route
+  const sectionFromRoute = targetSection.value;
   const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
 
   // Set current section for first visit overlay
-  setCurrentSection(hash);
+  setCurrentSection(sectionFromRoute || hash);
 
   // Check for first visit and show overlay if needed
   initFirstVisitCheck(!!hash);
@@ -289,6 +382,51 @@ function scrollToGettingStarted() {
 function handleNavNavigate(section?: string) {
   setCurrentSection(section);
 }
+
+// Scroll to section when route changes
+function scrollToSection(sectionId: string) {
+  if (sectionId === 'hero') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  // Wait for all sections to render on client-side
+  nextTick(() => {
+    const sectionElement = document.getElementById(sectionId);
+
+    if (sectionElement) {
+      const nav = document.querySelector('header');
+      const actualHeaderHeight = nav?.offsetHeight || 0;
+
+      const sectionRect = sectionElement.getBoundingClientRect();
+      const sectionTop = sectionRect.top + window.scrollY;
+      const targetY = sectionTop - actualHeaderHeight;
+
+      window.scrollTo({
+        top: Math.max(0, targetY),
+        behavior: 'smooth',
+      });
+    }
+  });
+}
+
+// Watch for route changes and scroll to the target section
+watch(
+  () => route.meta.section,
+  (newSection) => {
+    if (isSSR) return;
+
+    if (newSection) {
+      setCurrentSection(newSection as string);
+      // Small delay to ensure DOM is ready after route change
+      setTimeout(() => scrollToSection(newSection as string), 50);
+    } else {
+      // Homepage - scroll to top
+      setCurrentSection(undefined);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+);
 </script>
 <template>
   <div id="siteWrapper" class="site-wrapper">
@@ -303,8 +441,8 @@ function handleNavNavigate(section?: string) {
     </header>
 
     <div class="main-content">
-      <!-- Hero -->
-      <section id="hero" class="hero">
+      <!-- Hero - only rendered on homepage -->
+      <section v-if="shouldRenderSection('hero')" id="hero" class="hero">
         <div class="hero-grid container">
           <div class="hero-content">
             <div class="hero-tag">The War Continues</div>
@@ -359,11 +497,11 @@ function handleNavNavigate(section?: string) {
       </section>
 
       <div id="screens">
-        <GettingStarted />
-        <Statistics />
-        <Community />
-        <About />
-        <FAQ />
+        <GettingStarted v-if="shouldRenderSection('getting-started')" />
+        <Statistics v-if="shouldRenderSection('statistics')" :data="data" :loading="loading" />
+        <Community v-if="shouldRenderSection('community')" />
+        <About v-if="shouldRenderSection('about')" />
+        <FAQ v-if="shouldRenderSection('faq')" />
       </div>
       <SiteFooter />
     </div>

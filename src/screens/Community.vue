@@ -3,6 +3,11 @@ import { ref, computed, watch } from 'vue';
 import { useYoutube } from '../composables/useYoutube';
 import { useEvents } from '../composables/useEvents';
 import TwitchEmbed from '../components/TwitchEmbed.vue';
+import EventsSkeleton from '../components/skeletons/EventsSkeleton.vue';
+import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
+
+// SSR detection
+const isSSR = import.meta.env.SSR;
 
 // Get videos data from composable
 const {
@@ -19,7 +24,11 @@ const EXPAND_KEY = 'community_videos_expanded';
 const stored = typeof window !== 'undefined' ? window.localStorage.getItem(EXPAND_KEY) : null;
 const expanded = ref(stored === '1');
 
-watch(expanded, (val) => localStorage.setItem(EXPAND_KEY, val ? '1' : '0'));
+watch(expanded, (val) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(EXPAND_KEY, val ? '1' : '0');
+  }
+});
 
 const top6NYTVideos = computed(() => ytVideosSorted.value.slice(0, 6));
 
@@ -71,20 +80,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
         </div>
 
         <!-- Combined Events Layout -->
-        <div v-if="eventsLoading" class="events-container">
-          <div class="events-grid">
-            <div v-for="n in 3" :key="'s' + n" class="event-card skeleton">
-              <div
-                class="event-status skeleton-line"
-                style="width: 80px; height: 20px; border-radius: 0"
-              ></div>
-              <div class="event-content">
-                <div class="skeleton-line" style="width: 70%; margin-bottom: 8px" />
-                <div class="skeleton-line" style="width: 50%" />
-              </div>
-            </div>
-          </div>
-        </div>
+        <EventsSkeleton v-if="isSSR || eventsLoading" />
         <div v-else-if="events.length" class="events-container">
           <div class="events-grid">
             <component
@@ -182,15 +178,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
           </label>
         </div>
 
-        <div v-if="ytVidsLoading" class="grid grid-3">
-          <div v-for="n in 3" :key="n" class="card vid-card skeleton">
-            <div class="vid-thumb" />
-            <div class="vid-info">
-              <div class="skeleton-line" style="width: 80%"></div>
-              <div class="skeleton-line" style="width: 60%; margin-top: 6px"></div>
-            </div>
-          </div>
-        </div>
+        <VideosSkeleton v-if="isSSR || ytVidsLoading" />
 
         <div v-else>
           <!-- Always show 6 latest videos -->

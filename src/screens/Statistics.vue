@@ -1,14 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import Leaderboards from '../components/Leaderboards.vue';
-import { useAppDataStore } from '../stores/appDataStore';
-const store = useAppDataStore();
-const { data } = store;
+import LeaderboardSkeleton from '../components/skeletons/LeaderboardSkeleton.vue';
 
-// Statistics is used as a component, store should already be initialized
-// but check just in case
-if (!store.isInitialized.value) {
-  store.init();
-}
+const props = defineProps<{
+  data: any;
+  loading: boolean;
+}>();
+
+// During SSG build or while loading, show placeholder
+const isSSR = import.meta.env.SSR;
+const showPlaceholder = computed(() => isSSR || props.loading);
 </script>
 <template>
   <section id="statistics" class="section">
@@ -17,7 +19,12 @@ if (!store.isInitialized.value) {
         <h2>Statistics</h2>
         <p class="section-lead">Rankings and leaderboards</p>
       </div>
-      <Leaderboards :data="data" />
+
+      <!-- SSG/Loading: Render skeleton placeholder -->
+      <LeaderboardSkeleton v-if="showPlaceholder" />
+
+      <!-- Runtime: Render live data -->
+      <Leaderboards v-else :data="data" />
     </div>
   </section>
 </template>

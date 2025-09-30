@@ -323,3 +323,61 @@ export const manualInstallWarning = {
   message:
     'This installation method is unsupported and provided "as-is". For a streamlined experience, we recommend using the WIC LIVE installer above.',
 };
+
+// SEO Metadata for sections (used for SSG meta tags)
+export interface SectionMeta {
+  id: string;
+  title: string;
+  description: string;
+  keywords: string;
+}
+
+export const sectionMeta: Record<string, SectionMeta> = {
+  home: {
+    id: 'home',
+    title: 'WICGATE - World in Conflict Multiplayer Revival',
+    description:
+      'Play World in Conflict online with restored multiplayer servers. Join our active community in epic Cold War battles using the real Massgate code.',
+    keywords:
+      'world in conflict, wic multiplayer, massgate, wic online, world in conflict servers, wic revival',
+  },
+  'getting-started': {
+    id: 'getting-started',
+    title: 'Getting Started - Download & Install WiC Multiplayer',
+    description:
+      'Download and install World in Conflict multiplayer in minutes. Step-by-step guide to join WICGATE community servers.',
+    keywords:
+      'world in conflict download, wic install, wic multiplayer setup, wic live, how to play world in conflict online',
+  },
+  statistics: {
+    id: 'statistics',
+    title: 'Player Statistics & Leaderboards - WiC Rankings',
+    description:
+      'View World in Conflict player rankings, competitive leaderboards, and match statistics across all game modes.',
+    keywords:
+      'wic leaderboards, world in conflict rankings, wic stats, world in conflict player stats',
+  },
+  community: {
+    id: 'community',
+    title: 'Community & Events - Discord, Tournaments & Videos',
+    description:
+      'Join the World in Conflict community on Discord, watch tournaments on YouTube and Twitch, and participate in events.',
+    keywords:
+      'wic discord, world in conflict community, wic tournaments, wic youtube, wic twitch',
+  },
+  about: {
+    id: 'about',
+    title: 'About WICGATE - Official Massgate Server Revival',
+    description:
+      'Learn about the community-driven initiative to preserve World in Conflict multiplayer using official Massgate source code.',
+    keywords: 'massgate, wic revival, world in conflict servers, massgate source code',
+  },
+  faq: {
+    id: 'faq',
+    title: 'FAQ - Help & Troubleshooting',
+    description:
+      'Frequently asked questions about installing, troubleshooting, and playing World in Conflict on WICGATE servers.',
+    keywords:
+      'wic help, world in conflict troubleshooting, wic faq, wic crashes, world in conflict support',
+  },
+};

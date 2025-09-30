@@ -14,6 +14,9 @@ let intervalId: number | undefined;
 const isInitialized = ref(false);
 
 async function fetchData() {
+  // Never fetch during SSG build
+  if (import.meta.env.SSR) return;
+
   // allow overlapping calls to be coalesced by the browser; we just guard UI state
   if (loading.value) {
     return;
@@ -34,10 +37,17 @@ async function fetchData() {
 }
 
 function init() {
+  // Never initialize during SSG build
+  if (import.meta.env.SSR) return;
   if (isInitialized.value) return;
+
   isInitialized.value = true;
   fetchData();
-  intervalId = window.setInterval(fetchData, 60000);
+
+  // Only set interval if window is available (browser context)
+  if (typeof window !== 'undefined') {
+    intervalId = window.setInterval(fetchData, 60000);
+  }
 }
 
 function stop() {

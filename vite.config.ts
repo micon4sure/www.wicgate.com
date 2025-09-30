@@ -9,6 +9,17 @@ export default defineConfig({
   base: './',
   plugins: [vue()],
   server: { port: 5173 },
+  ssgOptions: {
+    script: 'async',
+    formatting: 'minify',
+    crittersOptions: {
+      reduceInlineStyles: false,
+    },
+    // Pre-render all routes automatically
+    includedRoutes(paths) {
+      return paths;
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {
@@ -37,11 +48,6 @@ export default defineConfig({
     // Optimize rollup configuration
     rollupOptions: {
       output: {
-        // Optimize chunk splitting for better caching
-        manualChunks: {
-          vendor: ['vue', 'vue-router'],
-          lodash: ['lodash'],
-        },
         // Optimize asset naming for caching
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',
