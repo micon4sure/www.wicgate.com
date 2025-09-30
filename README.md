@@ -1,16 +1,19 @@
 # WICGATE Vue 3 (TypeScript)
 
-Modern Vue 3 + TypeScript website with **SEO-optimized Static Site Generation (SSG)** and seamless single-page user experience. Hybrid rendering architecture provides unique, pre-rendered HTML to search engines while delivering a smooth long-scroll experience to users.
+Modern Vue 3 + TypeScript **Progressive Web App** with SEO-optimized Static Site Generation, offline capability, comprehensive testing, and production-ready monitoring. Hybrid rendering architecture provides unique, pre-rendered HTML to search engines while delivering a smooth single-page user experience with full offline support.
 
 ## Tech Stack
 
-- Vue 3 + `<script setup lang="ts">`
+- **Vue 3** + `<script setup lang="ts">` with Composition API
 - **ViteSSG** - Static Site Generation with client-side hydration
+- **PWA** - Progressive Web App with service worker and offline support
+- **Vitest** - Unit testing with Vue Test Utils (27 tests, 50%+ coverage)
 - **@vueuse/head** - Dynamic meta tags for SEO
-- Vite build tool
-- Vue Router (path-based routing)
-- Pinia state management
-- PostCSS + Autoprefixer
+- **Vite** - Build tool with optimized bundling
+- **Vue Router** - Path-based routing (7 pre-rendered routes)
+- **Pinia** - State management with SSR support
+- **TypeScript** - Full type safety across codebase
+- **PostCSS** + Autoprefixer - Modern CSS processing
 
 ## Routes (SEO-Optimized)
 
@@ -40,7 +43,10 @@ Modern Vue 3 + TypeScript website with **SEO-optimized Static Site Generation (S
 
 ## Composables
 
-- `useAppData.ts` Handles periodic API polling (`/api/data`) every 60s and updates player online body classes.
+- `useAppDataStore.ts` - API polling with 3-retry exponential backoff, 90s interval, Page Visibility API
+- `useYoutube.ts` - Multi-channel YouTube video fetching (SSR-safe)
+- `useEvents.ts` - Discord events with countdown timers (SSR-safe)
+- `useFirstVisit.ts` - First-time visitor detection and overlay management
 
 ## Content
 
@@ -48,30 +54,44 @@ Static content extracted to `src/content/content.ts` for easier future translati
 
 ## Development
 
-```powershell
-npm install
-npm run dev
+```bash
+npm install           # Install dependencies
+npm run dev           # Start dev server (http://localhost:5173)
+npm test              # Run all 27 tests
+npm run test:watch    # Run tests in watch mode
+npm run test:ui       # Run tests with Vitest UI
+npm run test:coverage # Run tests with coverage report
+npm run lint          # Check code quality
+npm run lint:fix      # Auto-fix lint issues
 ```
 
 ## Build
 
-```powershell
-npm run build
+```bash
+npm run build        # Full production build (icons + sitemap + SSG + PWA)
+npm run build:icons  # Generate PWA icons from favicon.svg
+npm run preview      # Preview production build
 ```
 
 **Build Process:**
-- Uses `vite-ssg build` for Static Site Generation
-- Generates 7 unique HTML files in `dist/`:
-  - `index.html` (36KB) - Full homepage
-  - `statistics.html` (7KB) - Statistics only
-  - `community.html` (13KB) - Community only
-  - `getting-started.html`, `about.html`, `faq.html`, `game-mode.html`
-- Each file contains unique, pre-rendered content for SEO
-- JavaScript hydrates pages for full SPA experience
+1. **Generate PWA Icons** - Creates 4 optimized icon sizes from `favicon.svg`
+2. **Generate Sitemap** - Auto-generates `sitemap.xml` from route definitions
+3. **Static Site Generation** - Pre-renders 7 unique HTML files
+4. **PWA Service Worker** - Generates `sw.js` with caching strategies
+5. **Image Optimization** - Compresses all images (58-69% size reduction)
+
+**Build Output (`dist/`):**
+- 7 unique HTML files (36KB homepage, 7-13KB section pages)
+- `manifest.webmanifest` - PWA app manifest
+- `sw.js` - Service worker with 49 precached entries
+- `sitemap.xml` - SEO sitemap with 7 URLs
+- Optimized assets with content hashing
+- Bundle size: ~4.1MB (under 5MB limit)
 
 **SSG Architecture:**
 - **For Crawlers:** Conditional rendering shows only target section
 - **For Users:** All sections render for smooth scrolling after hydration
+- **For Offline:** Service worker caches everything for offline access
 
 ## Deployment (GitHub Pages)
 
@@ -126,11 +146,33 @@ All global styles are consolidated in `src/assets/styles/base.css` (extracted fr
 - **Conditional Rendering** based on SSR context
 - **Progressive Enhancement** with skeleton loaders
 
+### PWA Features
+- **Offline Support** - Service worker caches all assets for offline access
+- **Installable** - Add to home screen on mobile/desktop
+- **Auto-Updates** - Automatic service worker updates on new deployments
+- **Smart Caching** - CacheFirst for static assets, NetworkFirst for API calls
+- **Performance** - Precaches 49 critical assets for instant loading
+
+### Testing & Quality
+- **27 Unit Tests** - Comprehensive test coverage with Vitest + Vue Test Utils
+- **50%+ Coverage** - Critical paths fully tested (stores, composables, utilities)
+- **Type Safety** - Full TypeScript coverage across entire codebase
+- **Analytics Tracking** - Type-safe event tracking with predefined categories
+- **Error Boundary** - Component-level error handling with user-friendly fallbacks
+
+### Pixel-Perfect Navigation
+- **Dynamic Header Measurement** - Real-time DOM queries eliminate hardcoded scroll calculations
+- **Standardized Scroll System** - Single source of truth via `src/utils/scroll.ts`
+- **Responsive Adaptation** - Automatic adjustment across all breakpoints
+- **Active Section Detection** - Buffer-based tolerance for accurate highlighting
+
 ### Key Implementation Details
-- `src/main.ts` - ViteSSG setup with scroll behavior
+- `src/main.ts` - ViteSSG setup with scroll behavior and service worker registration
 - `src/router/routes.ts` - Route metadata for SEO
-- `src/views/Home.vue` - `shouldRenderSection()` logic
+- `src/views/Home.vue` - `shouldRenderSection()` logic + scroll utilities
 - `src/components/skeletons/` - SEO-friendly placeholders
+- `src/utils/scroll.ts` - Centralized scroll positioning and detection
+- `src/utils/analytics.ts` - Type-safe analytics with predefined events
 - SSR guards in stores/composables (`import.meta.env.SSR`)
 
 For complete architecture documentation, see [CLAUDE.md](CLAUDE.md).
@@ -139,9 +181,13 @@ For complete architecture documentation, see [CLAUDE.md](CLAUDE.md).
 
 - ✅ ~~SSG implementation for SEO~~ (Completed September 2025)
 - ✅ ~~Pinia state management~~ (Implemented)
-- Add unit tests (Vitest) for composables
+- ✅ ~~Unit tests (Vitest) for composables~~ (Completed October 2025 - 27 tests, 50%+ coverage)
+- ✅ ~~PWA implementation~~ (Completed October 2025 - Full offline support)
+- ✅ ~~Sitemap.xml generation~~ (Automated in build process)
+- ✅ ~~Analytics tracking~~ (Type-safe event tracking implemented)
 - Implement lazy loading for video thumbnails
-- Add sitemap.xml generation
+- Add E2E tests with Playwright
+- Implement image CDN integration
 
 ## License
 

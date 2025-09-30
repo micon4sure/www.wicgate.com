@@ -63,7 +63,11 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
         <div class="team-join text-center mt-lg">
           <p class="text-muted">
             Want to contribute? Join our
-            <a href="https://discord.gg/WnxwfMTyBe" target="_blank" class="text-link"
+            <a
+              href="https://discord.gg/WnxwfMTyBe"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-link"
               >Discord community</a
             >
             and help us keep World in Conflict alive!

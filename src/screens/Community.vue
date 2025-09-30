@@ -55,15 +55,30 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
         <!-- Simple community links -->
         <div class="community-links">
-          <a href="https://discord.gg/WnxwfMTyBe" target="_blank" class="community-link discord">
+          <a
+            href="https://discord.gg/WnxwfMTyBe"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="community-link discord"
+          >
             <i class="fa-brands fa-discord" aria-hidden="true"></i>
             Join Discord (287 members)
           </a>
-          <a href="https://youtube.com/@wicgate" target="_blank" class="community-link youtube">
+          <a
+            href="https://youtube.com/@wicgate"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="community-link youtube"
+          >
             <i class="fa-brands fa-youtube" aria-hidden="true"></i>
             Watch Videos (1.2K subs)
           </a>
-          <a href="https://twitch.tv/directory/game/World%20in%20Conflict" target="_blank" class="community-link twitch">
+          <a
+            href="https://twitch.tv/directory/game/World%20in%20Conflict"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="community-link twitch"
+          >
             <i class="fa-brands fa-twitch" aria-hidden="true"></i>
             Live Streams
           </a>
@@ -185,11 +200,13 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
           <div class="latest-videos-section">
             <div class="videos-grid">
               <div v-for="v in top6NYTVideos" :key="v.id || v.videoUrl" class="card vid-card">
-                <a :href="v.videoUrl" target="_blank" class="vid-link">
-                  <div
-                    class="vid-thumb"
-                    :style="{ backgroundImage: 'url(' + v.thumbnailUrl + ')' }"
-                  >
+                <a :href="v.videoUrl" target="_blank" class="vid-link" rel="noopener noreferrer">
+                  <div class="vid-thumb">
+                    <img
+                      :src="v.thumbnailUrl"
+                      :alt="`${v.title} - ${v.author || 'WiCGATE'} video thumbnail`"
+                      loading="lazy"
+                    />
                     <div class="play-over"><i class="fa-solid fa-play" aria-hidden="true"></i></div>
                   </div>
                   <div class="vid-info">
@@ -232,11 +249,18 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                 </div>
                 <div class="videos-grid">
                   <div v-for="v in ch.videos" :key="v.id" class="card vid-card">
-                    <a :href="v.videoUrl" target="_blank" class="vid-link">
-                      <div
-                        class="vid-thumb"
-                        :style="{ backgroundImage: 'url(' + v.thumbnailUrl + ')' }"
-                      >
+                    <a
+                      :href="v.videoUrl"
+                      target="_blank"
+                      class="vid-link"
+                      rel="noopener noreferrer"
+                    >
+                      <div class="vid-thumb">
+                        <img
+                          :src="v.thumbnailUrl"
+                          :alt="`${v.title} - ${ch.channelTitle} video thumbnail`"
+                          loading="lazy"
+                        />
                         <div class="play-over">
                           <i class="fa-solid fa-play" aria-hidden="true"></i>
                         </div>

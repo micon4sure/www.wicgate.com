@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import './assets/styles/base.css';
 import App from './App.vue';
 import { routes } from './router/routes';
+import { registerSW } from 'virtual:pwa-register';
 
 // Router base derived from Vite's BASE_URL. When base is './' (our config),
 // normalizing against the current URL yields the correct mount path in all environments:
@@ -14,6 +15,35 @@ const getRuntimeBase = () => {
   if (typeof window === 'undefined') return '/'; // SSR build
   return new URL(import.meta.env.BASE_URL, window.location.href).pathname;
 };
+
+// Register PWA service worker (client-side only)
+if (typeof window !== 'undefined') {
+  registerSW({
+    immediate: true,
+    onNeedRefresh() {
+      // When new content is available, refresh automatically
+      // Alternatively, you could show a toast notification asking user to refresh
+      if (import.meta.env.DEV) {
+        console.log('[PWA] New content available, refreshing...');
+      }
+    },
+    onOfflineReady() {
+      if (import.meta.env.DEV) {
+        console.log('[PWA] App ready to work offline');
+      }
+    },
+    onRegistered(registration) {
+      if (import.meta.env.DEV) {
+        console.log('[PWA] Service worker registered:', registration);
+      }
+    },
+    onRegisterError(error) {
+      if (import.meta.env.DEV) {
+        console.error('[PWA] Service worker registration error:', error);
+      }
+    },
+  });
+}
 
 // Export for SSG
 export const createApp = ViteSSG(

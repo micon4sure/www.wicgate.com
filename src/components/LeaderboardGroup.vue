@@ -2,6 +2,7 @@
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 import type { LeaderboardEntry } from '../api-types';
 import RankInsignia from './RankInsignia.vue';
+import { AnalyticsEvents } from '../utils/analytics';
 
 interface Props {
   title: string;
@@ -99,7 +100,12 @@ onUnmounted(() => {
         :key="c"
         class="tab-btn"
         :class="{ active: active === c }"
-        @click="active = c"
+        @click="
+          () => {
+            active = c;
+            AnalyticsEvents.leaderboardTabSwitch(c);
+          }
+        "
       >
         {{ c[0].toUpperCase() + c.slice(1) }}
       </button>

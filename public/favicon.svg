@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#0a0a0a"/>
+
+  <!-- Steel border frame (Massgate aesthetic) -->
+  <rect x="20" y="20" width="472" height="472" fill="none" stroke="#4a5568" stroke-width="8" opacity="0.6"/>
+  <rect x="30" y="30" width="452" height="452" fill="none" stroke="#2d3748" stroke-width="4" opacity="0.4"/>
+
+  <!-- Orange accent corners (SW orange) -->
+  <line x1="20" y1="20" x2="80" y2="20" stroke="#ff6b00" stroke-width="6" opacity="0.8"/>
+  <line x1="20" y1="20" x2="20" y2="80" stroke="#ff6b00" stroke-width="6" opacity="0.8"/>
+  <line x1="432" y1="20" x2="492" y2="20" stroke="#ff6b00" stroke-width="6" opacity="0.8"/>
+  <line x1="492" y1="20" x2="492" y2="80" stroke="#ff6b00" stroke-width="6" opacity="0.8"/>
+  <line x1="20" y1="432" x2="80" y2="432" stroke="#ff6b00" stroke-width="6" opacity="0.8"/>
+  <line x1="20" y1="432" x2="20" y2="492" stroke="#ff6b00" stroke-width="6" opacity="0.8"/>
+  <line x1="432" y1="492" x2="492" y2="492" stroke="#ff6b00" stroke-width="6" opacity="0.8"/>
+  <line x1="492" y1="432" x2="492" y2="492" stroke="#ff6b00" stroke-width="6" opacity="0.8"/>
+
+  <!-- WIC text (military stencil style) -->
+  <text x="256" y="220" font-family="Arial, sans-serif" font-size="140" font-weight="900" fill="#e2e8f0" text-anchor="middle" letter-spacing="8">WIC</text>
+
+  <!-- GATE text with orange accent -->
+  <text x="256" y="340" font-family="Arial, sans-serif" font-size="100" font-weight="700" fill="#ff6b00" text-anchor="middle" letter-spacing="10">GATE</text>
+
+  <!-- Subtitle -->
+  <text x="256" y="400" font-family="Arial, sans-serif" font-size="28" font-weight="500" fill="#718096" text-anchor="middle" letter-spacing="4">MULTIPLAYER</text>
+
+  <!-- Tactical crosshair accent (top) -->
+  <circle cx="256" cy="100" r="12" fill="none" stroke="#ff6b00" stroke-width="3" opacity="0.6"/>
+  <line x1="244" y1="100" x2="268" y2="100" stroke="#ff6b00" stroke-width="2" opacity="0.6"/>
+  <line x1="256" y1="88" x2="256" y2="112" stroke="#ff6b00" stroke-width="2" opacity="0.6"/>
+</svg>

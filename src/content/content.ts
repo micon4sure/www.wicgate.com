@@ -362,8 +362,7 @@ export const sectionMeta: Record<string, SectionMeta> = {
     title: 'Community & Events - Discord, Tournaments & Videos',
     description:
       'Join the World in Conflict community on Discord, watch tournaments on YouTube and Twitch, and participate in events.',
-    keywords:
-      'wic discord, world in conflict community, wic tournaments, wic youtube, wic twitch',
+    keywords: 'wic discord, world in conflict community, wic tournaments, wic youtube, wic twitch',
   },
   about: {
     id: 'about',

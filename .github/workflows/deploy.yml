@@ -28,10 +28,31 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm i
+        run: npm ci
+
+      - name: Lint check
+        run: npm run lint
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Run tests
+        run: npm test
 
       - name: Build
         run: npm run build
+
+      - name: Check bundle size
+        run: |
+          BUNDLE_SIZE=$(du -sb dist | cut -f1)
+          MAX_SIZE=$((5 * 1024 * 1024))
+          echo "Bundle size: $(($BUNDLE_SIZE / 1024 / 1024))MB"
+          if [ $BUNDLE_SIZE -gt $MAX_SIZE ]; then
+            echo "❌ Bundle size exceeds 5MB limit!"
+            exit 1
+          else
+            echo "✓ Bundle size within limit"
+          fi
 
       - name: Create SPA fallback (404.html)
         run: cp dist/index.html dist/404.html

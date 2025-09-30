@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, toRef, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { getDynamicHeaderHeight } from '../utils/scroll';
+import { AnalyticsEvents } from '../utils/analytics';
 
 const mobileOpen = ref(false);
 const router = useRouter();
@@ -25,6 +27,7 @@ const lastWindowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 
 const isActive = (section: string) => activeSection.value === section;
 
 function togglePlayers() {
+  AnalyticsEvents.playersButtonClick(playerCount.value || 0);
   emit('toggle-players');
 }
 
@@ -112,25 +115,12 @@ onUnmounted(() => {
   document.body.style.overflow = ''; // Clean up body scroll lock
 });
 
-// Dynamic header measurement - only navigation bar now
-function getDynamicHeaderHeight() {
-  const nav = document.querySelector('header');
-
-  if (!nav) {
-    // Fallback if nav not found
-    return 80;
-  }
-
-  const navHeight = nav.getBoundingClientRect().height;
-
-  // Add small buffer for mobile viewport issues
-  const isMobile = window.innerWidth <= 768;
-  const buffer = isMobile ? 10 : 5;
-
-  return Math.ceil(navHeight + buffer);
-}
+// Dynamic header measurement imported from utils/scroll.ts
+// (Removed duplicate code - now using shared utility)
 
 function handleNavigation(section: string) {
+  const sectionName = section === 'hero' ? 'Home' : section;
+  AnalyticsEvents.sectionView(sectionName);
   emit('navigate', section !== 'hero' ? section : undefined);
   closeMobileMenu();
 

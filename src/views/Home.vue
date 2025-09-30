@@ -13,6 +13,9 @@ import FAQ from '../screens/FAQ.vue';
 import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useFirstVisit } from '../composables/useFirstVisit';
+import { getHeaderHeightWithBuffer, scrollToSection as scrollToSectionUtil } from '../utils/scroll';
+import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/structuredData';
+import { initWebVitals } from '../utils/performance';
 
 const store = useAppDataStore();
 const { data, playerCount, loading } = store;
@@ -50,15 +53,14 @@ useHead({
   meta: [
     {
       name: 'description',
-      content:
-        () => (route.meta.description as string) ||
+      content: () =>
+        (route.meta.description as string) ||
         'Play World in Conflict online with restored multiplayer servers.',
     },
     {
       name: 'keywords',
-      content:
-        () => (route.meta.keywords as string) ||
-        'world in conflict, wic multiplayer, massgate',
+      content: () =>
+        (route.meta.keywords as string) || 'world in conflict, wic multiplayer, massgate',
     },
     // Open Graph
     {
@@ -67,8 +69,8 @@ useHead({
     },
     {
       property: 'og:description',
-      content:
-        () => (route.meta.description as string) ||
+      content: () =>
+        (route.meta.description as string) ||
         'Play World in Conflict online with restored multiplayer servers.',
     },
     {
@@ -94,8 +96,8 @@ useHead({
     },
     {
       name: 'twitter:description',
-      content:
-        () => (route.meta.description as string) ||
+      content: () =>
+        (route.meta.description as string) ||
         'Play World in Conflict online with restored multiplayer servers.',
     },
     {
@@ -109,6 +111,22 @@ useHead({
       href: () => `https://wicgate.com${route.path}`,
     },
   ],
+  script: [
+    // Organization schema for all pages
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify(generateOrganizationSchema()),
+    },
+    // WebSite schema for homepage only
+    ...(!targetSection.value
+      ? [
+          {
+            type: 'application/ld+json',
+            children: JSON.stringify(generateWebSiteSchema()),
+          },
+        ]
+      : []),
+  ],
 });
 
 function setCurrentSection(id?: string | null) {
@@ -118,23 +136,8 @@ function setCurrentSection(id?: string | null) {
   }
 }
 
-// Dynamic header measurement - only navigation bar now
-function getDynamicHeaderHeight() {
-  const nav = document.querySelector('header');
-
-  if (!nav) {
-    // Fallback if nav not found
-    return 80;
-  }
-
-  const navHeight = nav.getBoundingClientRect().height;
-
-  // Add small buffer for mobile viewport issues
-  const isMobile = window.innerWidth <= 768;
-  const buffer = isMobile ? 10 : 5;
-
-  return Math.ceil(navHeight + buffer);
-}
+// Dynamic header measurement imported from utils/scroll.ts
+// (Removed duplicate code - now using shared utility)
 
 function collectSectionElements() {
   sectionElements = SECTION_IDS.map((id) => document.getElementById(id)).filter(
@@ -146,7 +149,8 @@ function updateActiveSection() {
   if (!sectionElements.length) return;
 
   const scrollY = window.scrollY || window.pageYOffset;
-  const offset = getDynamicHeaderHeight(); // dynamic header height measurement
+  // Use buffer for detection tolerance (allows slight scroll past before switching)
+  const offset = getHeaderHeightWithBuffer();
 
   for (const el of sectionElements) {
     const rect = el.getBoundingClientRect();
@@ -247,6 +251,9 @@ onMounted(() => {
   // Skip client-side initialization during SSG
   if (isSSR) return;
 
+  // Initialize performance monitoring
+  initWebVitals();
+
   // Initialize store data
   store.init();
 
@@ -267,22 +274,8 @@ onMounted(() => {
     const element = document.getElementById(hash);
     if (element) {
       setTimeout(() => {
-        // Pixel-perfect positioning with dynamic measurement - zero guesswork
-        const sectionElement = document.getElementById(hash);
-
-        if (sectionElement) {
-          const nav = document.querySelector('header');
-          const actualHeaderHeight = nav?.offsetHeight || 0;
-
-          const sectionRect = sectionElement.getBoundingClientRect();
-          const sectionTop = sectionRect.top + window.scrollY;
-          const targetY = sectionTop - actualHeaderHeight;
-
-          window.scrollTo({
-            top: Math.max(0, targetY),
-            behavior: 'smooth',
-          });
-        }
+        // Use the shared scroll utility to ensure consistency with active section detection
+        scrollToSectionUtil(hash, 'smooth');
       }, 100);
     }
   }
@@ -330,22 +323,8 @@ function handleContinue() {
     const element = document.getElementById(hash);
     if (element) {
       setTimeout(() => {
-        // Pixel-perfect positioning with dynamic measurement - zero guesswork
-        const sectionElement = document.getElementById(hash);
-
-        if (sectionElement) {
-          const nav = document.querySelector('header');
-          const actualHeaderHeight = nav?.offsetHeight || 0;
-
-          const sectionRect = sectionElement.getBoundingClientRect();
-          const sectionTop = sectionRect.top + window.scrollY;
-          const targetY = sectionTop - actualHeaderHeight;
-
-          window.scrollTo({
-            top: Math.max(0, targetY),
-            behavior: 'smooth',
-          });
-        }
+        // Use the shared scroll utility to ensure consistency with active section detection
+        scrollToSectionUtil(hash, 'smooth');
       }, 100);
     }
   }
@@ -354,59 +333,20 @@ function enterGameMode() {
   router.push('/game-mode');
 }
 function scrollToGettingStarted() {
-  const sectionElement = document.getElementById('getting-started');
-
-  if (sectionElement) {
-    // Pixel-perfect positioning with dynamic measurement - zero guesswork
-    const nav = document.querySelector('header');
-    const actualHeaderHeight = nav?.offsetHeight || 0;
-
-    // Get section's exact position
-    const sectionRect = sectionElement.getBoundingClientRect();
-    const sectionTop = sectionRect.top + window.scrollY;
-
-    // Calculate pixel-perfect scroll position
-    const targetY = sectionTop - actualHeaderHeight;
-
-    // Scroll to exact position
-    window.scrollTo({
-      top: Math.max(0, targetY),
-      behavior: 'smooth',
-    });
-
-    history.replaceState(null, '', '#getting-started');
-    setCurrentSection('getting-started');
-  }
+  scrollToSectionUtil('getting-started');
+  history.replaceState(null, '', '#getting-started');
+  setCurrentSection('getting-started');
 }
 
 function handleNavNavigate(section?: string) {
   setCurrentSection(section);
 }
 
-// Scroll to section when route changes
+// Scroll to section when route changes (wraps utility for nextTick)
 function scrollToSection(sectionId: string) {
-  if (sectionId === 'hero') {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    return;
-  }
-
   // Wait for all sections to render on client-side
   nextTick(() => {
-    const sectionElement = document.getElementById(sectionId);
-
-    if (sectionElement) {
-      const nav = document.querySelector('header');
-      const actualHeaderHeight = nav?.offsetHeight || 0;
-
-      const sectionRect = sectionElement.getBoundingClientRect();
-      const sectionTop = sectionRect.top + window.scrollY;
-      const targetY = sectionTop - actualHeaderHeight;
-
-      window.scrollTo({
-        top: Math.max(0, targetY),
-        behavior: 'smooth',
-      });
-    }
+    scrollToSectionUtil(sectionId);
   });
 }
 
@@ -458,7 +398,12 @@ watch(
                 @click.prevent="scrollToGettingStarted"
                 ><i class="fa-solid fa-arrow-down" aria-hidden="true"></i> Get WIC LIVE</a
               >
-              <a href="https://discord.gg/WnxwfMTyBe" target="_blank" class="btn btn-d">
+              <a
+                href="https://discord.gg/WnxwfMTyBe"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-d"
+              >
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
                   <path
                     d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"
