@@ -36,8 +36,8 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit
 
-      - name: Run tests
-        run: npm test
+      - name: Run tests (thorough mode with real timers)
+        run: npm run test:thorough
 
       - name: Build
         run: npm run build

@@ -7,21 +7,23 @@
 
 ## Development Quickstart
 ```bash
-npm install          # install dependencies
+npm install          # install dependencies (or: bun install)
 npm run dev          # start dev server (http://localhost:5173)
 npm run lint         # lint with ESLint + Prettier rules
 npm run lint:fix     # auto-fix lint violations
 npm run build        # production build (icons + sitemap + SSG + PWA)
 npm run build:icons  # generate PWA icons from favicon.svg
 npm run preview      # preview production build
-npm test             # run all tests (27 tests across scroll utils and store)
+npm test             # run all tests - FAST MODE (~0.7s with fake timers)
+npm run test:thorough # run all tests - THOROUGH MODE (~14s with real timers, for CI)
 npm run test:watch   # run tests in watch mode
 npm run test:ui      # run tests with Vitest UI
 npm run test:coverage # run tests with coverage report
 ```
+- **Package Manager:** npm (standard) or Bun (22% faster). Both work perfectly - see "Bun vs npm for Testing" section below.
 - **Editor:** VS Code with Volar/Vetur recommended for Vue 3.
 - **Formatting:** Prettier via ESLint – ensure no CRLF when committing.
-- **Testing:** Vitest with Vue Test Utils for component and utility testing.
+- **Testing:** Vitest with Vue Test Utils for component and utility testing. Uses hybrid timing strategy for performance.
 
 ## Architectural Notes
 - **Entry point:** `src/main.ts` uses ViteSSG for Static Site Generation with client-side hydration. PWA service worker registered for offline capability.
@@ -31,7 +33,7 @@ npm run test:coverage # run tests with coverage report
 - **Data layer:** API integration via composables (`useYoutube`, `useEvents`) with SSR-safe execution; static content in `src/content`.
 - **Components:** `src/components` hosts reusable widgets (navigation, leaderboards, overlays, skeletons). Screen components in `src/screens`.
 - **Styling system:** Modular CSS under `src/assets/styles/modules`, composed via `base.css`; each screen/component has dedicated module.
-- **Testing:** Comprehensive test suite with 27 tests covering scroll utilities (11 tests) and data store (15 tests) with 50%+ coverage.
+- **Testing:** Comprehensive test suite with 27 tests covering scroll utilities (12 tests) and data store (15 tests) with 50%+ coverage. Hybrid timing strategy: fast mode (~0.7s) for dev, thorough mode (~14s) for CI.
 
 ## Technical Architecture - Navigation System
 
@@ -363,9 +365,93 @@ src/
 ```
 
 ## Testing & Quality
-- Primary checks via `npm run lint` (ESLint + Prettier integration).
-- Build validation through `npm run build` (Vite, outputs hashed bundles to `dist/`).
-- No dedicated unit/e2e suites today; manual QA focused on responsive behavior and API integration.
+
+### Test Suite Overview
+- **27 comprehensive tests** covering scroll utilities (12 tests) and data store (15 tests)
+- **50%+ code coverage** with coverage thresholds enforced
+- **Test frameworks:** Vitest + Vue Test Utils + happy-dom for fast DOM simulation
+- **Quality gates:** ESLint, Prettier, TypeScript strict mode
+- **Package managers:** Compatible with both npm and Bun (Bun is 22% faster)
+
+### Bun vs npm for Testing
+
+**Both package managers work perfectly - choose based on your preference:**
+
+**npm (Standard - Works Everywhere):**
+```bash
+npm test              # Fast mode: ~0.7s
+npm run test:thorough # Thorough mode: ~14s
+# Use npm if you want maximum compatibility and stability
+```
+
+**Bun (Optional - 22% Faster):**
+```bash
+bun run test          # Fast mode: ~0.57s (22% faster!)
+bun run test:thorough # Thorough mode: ~14.8s
+# Use Bun if you want faster test execution
+```
+
+**⚠️ IMPORTANT Bun Gotcha:**
+```bash
+bun test  # ❌ DON'T DO THIS - uses Bun's native test runner
+```
+
+**Why `bun test` fails:**
+- `bun test` invokes Bun's **built-in test runner** (not Vitest)
+- Results in "document is not defined" errors and 54 failures
+- **Always use `bun run test`** to execute the package.json script correctly
+- `bun run` works with all scripts: `bun run dev`, `bun run build`, etc.
+
+### Hybrid Timing Strategy (Performance Optimization)
+The test suite uses **environment-aware timing** to balance speed and thoroughness:
+
+#### Fast Mode (Default - Local Development)
+```bash
+npm test  # Completes in ~0.7s
+```
+- **Fake timers** via `vi.useFakeTimers()` for instant test execution
+- Retry tests simulate 7 seconds of delays in ~20ms
+- **21x faster** than real timing
+- Perfect for TDD workflow and rapid iteration
+
+#### Thorough Mode (CI/Production Validation)
+```bash
+npm run test:thorough  # Completes in ~14s
+```
+- **Real timers** validate actual retry delays (1s, 2s, 4s exponential backoff)
+- Ensures timing-dependent code behaves correctly
+- Automatically used in GitHub Actions CI workflows
+- Catches timing bugs that fake timers might miss
+
+#### Implementation Details
+- **Environment variable:** `TEST_REAL_TIMERS=true` switches to real timers
+- **Cross-platform:** Uses `cross-env` package for Windows/Mac/Linux compatibility
+- **Retry tests:** API failure scenarios test exponential backoff logic
+- **CI integration:** Both `deploy.yml` and `pr-checks.yml` use thorough mode
+- **Zero logic compromise:** Both modes test identical assertions and behavior
+
+### Test Commands
+```bash
+npm test              # Fast mode with fake timers (~0.7s)
+npm run test:thorough # Thorough mode with real timers (~14s)
+npm run test:watch    # Watch mode for TDD
+npm run test:ui       # Vitest UI for debugging
+npm run test:coverage # Coverage report with thresholds
+
+# Bun commands (22% faster than npm):
+bun run test          # Fast mode (~0.57s)
+bun run test:thorough # Thorough mode (~14.8s)
+
+# IMPORTANT: Use "bun run test" not "bun test"
+# "bun test" invokes Bun's native test runner (incompatible with our setup)
+# "bun run test" executes the package.json script using Vitest correctly
+```
+
+### Quality Checks
+- **Linting:** `npm run lint` - ESLint + Prettier (zero errors enforced)
+- **Type checking:** `npx tsc --noEmit` - TypeScript strict mode
+- **Build validation:** `npm run build` - Vite production build with bundle size limits (<5MB)
+- **CI/CD:** Automated checks on all PRs and deployments
 
 ## Navigation Component Details
 

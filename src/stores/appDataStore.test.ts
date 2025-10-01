@@ -1,6 +1,11 @@
 /**
  * Tests for appDataStore
  * Validates API data fetching, SSR guards, and polling behavior
+ *
+ * Retry tests use hybrid timing strategy:
+ * - Local dev: Fake timers for speed (~20ms per test)
+ * - CI: Real timers for thorough validation (~7s per test)
+ * Set TEST_REAL_TIMERS=true to force real timing behavior
  */
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
@@ -106,6 +111,13 @@ describe('appDataStore', () => {
     });
 
     it('should handle fetch errors after retries', async () => {
+      // Hybrid timing: fake timers in dev (fast), real timers in CI (thorough)
+      const useRealTimers = process.env.TEST_REAL_TIMERS === 'true';
+
+      if (!useRealTimers) {
+        vi.useFakeTimers();
+      }
+
       // Mock failure for all retry attempts (4 total: initial + 3 retries)
       mockFetch
         .mockResolvedValueOnce({ ok: false, statusText: 'Internal Server Error' })
@@ -113,14 +125,32 @@ describe('appDataStore', () => {
         .mockResolvedValueOnce({ ok: false, statusText: 'Internal Server Error' })
         .mockResolvedValueOnce({ ok: false, statusText: 'Internal Server Error' });
 
-      await store.fetchData();
+      const fetchPromise = store.fetchData();
+
+      // Fast-forward through retry delays (1s + 2s + 4s = 7s total)
+      if (!useRealTimers) {
+        await vi.advanceTimersByTimeAsync(7000);
+      }
+
+      await fetchPromise;
 
       expect(store.error.value).toBe('Internal Server Error');
       expect(store.loading.value).toBe(false);
       expect(mockFetch).toHaveBeenCalledTimes(4); // Initial + 3 retries
+
+      if (!useRealTimers) {
+        vi.useRealTimers();
+      }
     });
 
     it('should handle network errors after retries', async () => {
+      // Hybrid timing: fake timers in dev (fast), real timers in CI (thorough)
+      const useRealTimers = process.env.TEST_REAL_TIMERS === 'true';
+
+      if (!useRealTimers) {
+        vi.useFakeTimers();
+      }
+
       // Mock failure for all retry attempts
       mockFetch
         .mockRejectedValueOnce(new Error('Network failure'))
@@ -128,11 +158,22 @@ describe('appDataStore', () => {
         .mockRejectedValueOnce(new Error('Network failure'))
         .mockRejectedValueOnce(new Error('Network failure'));
 
-      await store.fetchData();
+      const fetchPromise = store.fetchData();
+
+      // Fast-forward through retry delays (1s + 2s + 4s = 7s total)
+      if (!useRealTimers) {
+        await vi.advanceTimersByTimeAsync(7000);
+      }
+
+      await fetchPromise;
 
       expect(store.error.value).toBe('Network failure');
       expect(store.loading.value).toBe(false);
       expect(mockFetch).toHaveBeenCalledTimes(4); // Initial + 3 retries
+
+      if (!useRealTimers) {
+        vi.useRealTimers();
+      }
     });
 
     it('should not fetch if already loading', async () => {

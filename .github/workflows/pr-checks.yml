@@ -28,8 +28,8 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit
 
-      - name: Run tests with coverage
-        run: npm run test:coverage
+      - name: Run tests with coverage (thorough mode with real timers)
+        run: npx cross-env TEST_REAL_TIMERS=true npm run test:coverage
 
       - name: Build verification
         run: npm run build
