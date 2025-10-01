@@ -267,15 +267,24 @@ onMounted(() => {
   setCurrentSection(sectionFromRoute || hash);
 
   // Check for first visit and show overlay if needed
-  initFirstVisitCheck(!!hash);
+  initFirstVisitCheck(!!(hash || sectionFromRoute));
 
-  // Only enter modes if not showing first visit overlay
-  if (!showFirstVisitOverlay.value && hash) {
-    const element = document.getElementById(hash);
-    if (element) {
+  // Only scroll if not showing first visit overlay
+  if (!showFirstVisitOverlay.value) {
+    // Handle hash-based navigation (legacy support)
+    if (hash) {
+      const element = document.getElementById(hash);
+      if (element) {
+        setTimeout(() => {
+          // Use the shared scroll utility to ensure consistency with active section detection
+          scrollToSectionUtil(hash, 'smooth');
+        }, 100);
+      }
+    }
+    // Handle direct sublink access (e.g., /statistics, /community)
+    else if (sectionFromRoute) {
       setTimeout(() => {
-        // Use the shared scroll utility to ensure consistency with active section detection
-        scrollToSectionUtil(hash, 'smooth');
+        scrollToSectionUtil(sectionFromRoute, 'smooth');
       }, 100);
     }
   }

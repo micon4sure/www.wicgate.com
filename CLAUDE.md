@@ -187,11 +187,12 @@ Google sees different content at each URL = proper indexing.
 
 ### User Experience Flow
 
-1. **User visits `/statistics`:**
+1. **User visits `/statistics` directly (browser address bar):**
    - Server sends `statistics.html` (7KB, only statistics section)
    - User sees skeleton loader with SEO text
    - JavaScript loads and hydrates
-   - `isSSR` becomes `false`, all sections render
+   - `isSSR` becomes `false`, all sections render client-side
+   - **Auto-scroll to section:** `onMounted()` detects `route.meta.section` and scrolls to statistics
    - User can now scroll smoothly to any section
 
 2. **User clicks "Community" nav link:**
@@ -207,9 +208,41 @@ Google sees different content at each URL = proper indexing.
    - Sees only Statistics content with proper meta tags
    - Indexes as unique page focused on player rankings
 
+### Direct Sublink Navigation Implementation
+
+**Problem Solved (October 2025):**
+Direct URL access to sublinks (e.g., typing `/statistics` in browser) would load the route but not scroll to the section, leaving users at the top of the homepage.
+
+**Solution:** Enhanced `onMounted()` in [src/views/Home.vue:262-290](src/views/Home.vue#L262-290) to handle both hash-based and path-based navigation:
+
+```typescript
+// Determine initial section from route metadata
+const sectionFromRoute = targetSection.value; // From route.meta.section
+const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
+
+// Only scroll if not showing first visit overlay
+if (!showFirstVisitOverlay.value) {
+  // Handle legacy hash navigation (#statistics)
+  if (hash) {
+    setTimeout(() => scrollToSectionUtil(hash, 'smooth'), 100);
+  }
+  // Handle direct sublink navigation (/statistics)
+  else if (sectionFromRoute) {
+    setTimeout(() => scrollToSectionUtil(sectionFromRoute, 'smooth'), 100);
+  }
+}
+```
+
+**Key Points:**
+- **Crawlers unaffected:** They receive pre-rendered HTML without JavaScript execution
+- **Users enhanced:** JavaScript auto-scrolls to target section after hydration
+- **Dual navigation support:** Handles both `/statistics` (modern) and `/#statistics` (legacy)
+- **First visit integration:** Respects overlay state, only scrolls when appropriate
+- **Route watcher preserved:** In-app navigation continues using existing watcher (lines 354-369)
+
 ### Progressive Enhancement Philosophy
 - **Base Layer (no JS):** Readable content for crawlers + accessibility
-- **Enhanced Layer (with JS):** Full UX with animations + live data
+- **Enhanced Layer (with JS):** Full UX with animations + live data + auto-scroll to sections
 - **Not Cloaking:** Same content, different loading strategy (Google-approved)
 
 ## Styling & Design System
