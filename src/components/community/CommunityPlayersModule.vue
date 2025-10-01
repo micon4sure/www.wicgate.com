@@ -81,11 +81,9 @@ const lastUpdatedLabel = computed(() => {
 }
 
 .summary-card {
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-main-rgb), 0.96) 0%,
-    rgba(var(--panel-dark-rgb), 0.98) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(var(--panel-main-rgb), 0.96) 0%,
+      rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   border-left: 3px solid rgba(var(--sw-rgb), 0.7);
   box-shadow:

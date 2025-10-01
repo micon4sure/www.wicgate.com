@@ -26,19 +26,9 @@ const hasEvents = computed(() => !showSkeleton.value && events.value.length > 0)
     <template v-else>
       <div v-if="hasEvents" class="events-container">
         <div class="events-grid">
-          <component
-            :is="event.link ? 'a' : 'div'"
-            v-for="event in events"
-            :key="event.id"
-            :href="event.link"
-            target="_blank"
-            class="event-card"
-          >
-            <div
-              v-if="event.coverUrl"
-              class="event-image"
-              :style="{ backgroundImage: `url(${event.coverUrl})` }"
-            >
+          <component :is="event.link ? 'a' : 'div'" v-for="event in events" :key="event.id" :href="event.link"
+            target="_blank" class="event-card">
+            <div v-if="event.coverUrl" class="event-image" :style="{ backgroundImage: `url(${event.coverUrl})` }">
               <div class="event-image-overlay"></div>
               <div v-if="new Date(event.start).getTime() <= Date.now()" class="event-status live">
                 <span class="status-text">LIVE NOW</span>
@@ -48,10 +38,7 @@ const hasEvents = computed(() => !showSkeleton.value && events.value.length > 0)
               </div>
             </div>
             <div class="event-content" :class="{ 'no-image': !event.coverUrl }">
-              <div
-                v-if="!event.coverUrl && new Date(event.start).getTime() <= Date.now()"
-                class="event-status live"
-              >
+              <div v-if="!event.coverUrl && new Date(event.start).getTime() <= Date.now()" class="event-status live">
                 <span class="status-text">LIVE NOW</span>
               </div>
               <div v-else-if="!event.coverUrl" class="event-status">

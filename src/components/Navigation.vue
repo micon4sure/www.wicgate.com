@@ -148,19 +148,10 @@ function getRoutePath(section: string): string {
 
     <!-- Desktop navigation (center) -->
     <nav class="desktop-nav">
-      <router-link
-        :to="getRoutePath('hero')"
-        :class="{ active: isHomeRoute }"
-        class="home-btn"
-        @click="handleNavigation('hero')"
-        >Home</router-link
-      >
-      <router-link
-        :to="getRoutePath('community')"
-        :class="{ active: isCommunityRoute }"
-        @click="handleNavigation('community')"
-        >Community</router-link
-      >
+      <router-link :to="getRoutePath('hero')" :class="{ active: isHomeRoute }" class="home-btn"
+        @click="handleNavigation('hero')">Home</router-link>
+      <router-link :to="getRoutePath('community')" :class="{ active: isCommunityRoute }"
+        @click="handleNavigation('community')">Community</router-link>
     </nav>
 
     <!-- Players button on right side -->
@@ -173,13 +164,8 @@ function getRoutePath(section: string): string {
     </div>
 
     <!-- Enhanced hamburger menu button -->
-    <button
-      class="mob-menu"
-      :class="{ active: mobileOpen }"
-      aria-label="Toggle mobile menu"
-      aria-expanded="mobileOpen"
-      @click="toggleMobileMenu"
-    >
+    <button class="mob-menu" :class="{ active: mobileOpen }" aria-label="Toggle mobile menu" aria-expanded="mobileOpen"
+      @click="toggleMobileMenu">
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
@@ -203,19 +189,10 @@ function getRoutePath(section: string): string {
     <Transition name="mobile-nav">
       <nav v-if="mobileOpen" class="mobile-nav">
         <div class="mobile-nav-content">
-          <router-link
-            :to="getRoutePath('hero')"
-            :class="{ active: isHomeRoute }"
-            class="home-btn"
-            @click="handleNavigation('hero')"
-            >Home</router-link
-          >
-          <router-link
-            :to="getRoutePath('community')"
-            :class="{ active: isCommunityRoute }"
-            @click="handleNavigation('community')"
-            >Community</router-link
-          >
+          <router-link :to="getRoutePath('hero')" :class="{ active: isHomeRoute }" class="home-btn"
+            @click="handleNavigation('hero')">Home</router-link>
+          <router-link :to="getRoutePath('community')" :class="{ active: isCommunityRoute }"
+            @click="handleNavigation('community')">Community</router-link>
         </div>
       </nav>
     </Transition>

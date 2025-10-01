@@ -298,22 +298,13 @@ useHead({
 <template>
   <div id="siteWrapper" class="site-wrapper">
     <header>
-      <Navigation
-        :active-section="currentSection"
-        :player-count="playerCount"
-        :show-players-button="true"
-        @navigate="handleNavNavigate"
-        @toggle-players="togglePlayers"
-      >
+      <Navigation :active-section="currentSection" :player-count="playerCount" :show-players-button="true"
+        @navigate="handleNavNavigate" @toggle-players="togglePlayers">
         <template #subnav>
           <nav class="home-subnav" aria-label="Community sections">
-            <button
-              v-for="module in visibleModules"
-              :key="module.id"
-              :class="['home-subnav__item', { active: currentSection === module.id }]"
-              type="button"
-              @click="navigateToSection(module.id)"
-            >
+            <button v-for="module in visibleModules" :key="module.id"
+              :class="['home-subnav__item', { active: currentSection === module.id }]" type="button"
+              @click="navigateToSection(module.id)">
               {{ module.label }}
             </button>
           </nav>
@@ -332,30 +323,18 @@ useHead({
           </div>
 
           <div class="community-links">
-            <a
-              href="https://discord.gg/WnxwfMTyBe"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="community-link discord"
-            >
+            <a href="https://discord.gg/WnxwfMTyBe" target="_blank" rel="noopener noreferrer"
+              class="community-link discord">
               <i class="fa-brands fa-discord" aria-hidden="true"></i>
               Join Discord (287 members)
             </a>
-            <a
-              href="https://youtube.com/@wicgate"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="community-link youtube"
-            >
+            <a href="https://youtube.com/@wicgate" target="_blank" rel="noopener noreferrer"
+              class="community-link youtube">
               <i class="fa-brands fa-youtube" aria-hidden="true"></i>
               Watch Videos (1.2K subs)
             </a>
-            <a
-              href="https://twitch.tv/directory/game/World%20in%20Conflict"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="community-link twitch"
-            >
+            <a href="https://twitch.tv/directory/game/World%20in%20Conflict" target="_blank" rel="noopener noreferrer"
+              class="community-link twitch">
               <i class="fa-brands fa-twitch" aria-hidden="true"></i>
               Live Streams
             </a>
@@ -371,28 +350,16 @@ useHead({
                 <ul>
                   <li v-for="module in modules" :key="module.id">
                     <label>
-                      <input
-                        type="checkbox"
-                        :checked="module.enabled"
-                        @change="toggleModule(module.id)"
-                      />
+                      <input type="checkbox" :checked="module.enabled" @change="toggleModule(module.id)" />
                       <span>{{ module.label }}</span>
                     </label>
                     <div class="module-control-buttons">
-                      <button
-                        class="ctrl"
-                        type="button"
-                        :disabled="modules[0].id === module.id"
-                        @click="moveModule(module.id, 'up')"
-                      >
+                      <button class="ctrl" type="button" :disabled="modules[0].id === module.id"
+                        @click="moveModule(module.id, 'up')">
                         <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
                       </button>
-                      <button
-                        class="ctrl"
-                        type="button"
-                        :disabled="modules[modules.length - 1].id === module.id"
-                        @click="moveModule(module.id, 'down')"
-                      >
+                      <button class="ctrl" type="button" :disabled="modules[modules.length - 1].id === module.id"
+                        @click="moveModule(module.id, 'down')">
                         <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
                       </button>
                     </div>
@@ -406,14 +373,8 @@ useHead({
           </div>
 
           <TransitionGroup name="module-fade" tag="div" class="community-modules">
-            <component
-              :is="moduleComponentMap[module.id]"
-              v-for="module in visibleModules"
-              :key="module.id"
-              v-bind="moduleProps[module.id]"
-              class="module-wrapper"
-              @open-panel="togglePlayers"
-            />
+            <component :is="moduleComponentMap[module.id]" v-for="module in visibleModules" :key="module.id"
+              v-bind="moduleProps[module.id]" class="module-wrapper" @open-panel="togglePlayers" />
           </TransitionGroup>
         </div>
       </section>
@@ -422,12 +383,8 @@ useHead({
     </main>
   </div>
 
-  <PlayersOnline
-    ref="panelRef"
-    :players="store.data.value.profiles || []"
-    :servers="store.data.value.servers || []"
-    @enter-game-mode="enterGameMode"
-  />
+  <PlayersOnline ref="panelRef" :players="store.data.value.profiles || []" :servers="store.data.value.servers || []"
+    @enter-game-mode="enterGameMode" />
 </template>
 <style scoped>
 .community-main {
@@ -443,11 +400,9 @@ useHead({
 .module-controls-panel {
   margin-top: 20px;
   padding: 24px;
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-main-rgb), 0.94) 0%,
-    rgba(var(--panel-dark-rgb), 0.98) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(var(--panel-main-rgb), 0.94) 0%,
+      rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   border-left: 3px solid rgba(var(--sw-rgb), 0.7);
   box-shadow:

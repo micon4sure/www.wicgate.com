@@ -271,22 +271,13 @@ function enterGameMode() {
 <template>
   <div id="siteWrapper" class="site-wrapper">
     <header>
-      <Navigation
-        :active-section="currentSection === 'hero' ? undefined : currentSection"
-        :player-count="playerCount"
-        :show-players-button="true"
-        @navigate="handleNavNavigate"
-        @toggle-players="togglePlayers"
-      >
+      <Navigation :active-section="currentSection === 'hero' ? undefined : currentSection" :player-count="playerCount"
+        :show-players-button="true" @navigate="handleNavNavigate" @toggle-players="togglePlayers">
         <template #subnav>
           <nav class="home-subnav" aria-label="Home sections">
-            <button
-              v-for="item in homeSubnav"
-              :key="item.id"
-              :class="['home-subnav__item', { active: currentSection === item.id }]"
-              type="button"
-              @click="navigateToSection(item.id)"
-            >
+            <button v-for="item in homeSubnav" :key="item.id"
+              :class="['home-subnav__item', { active: currentSection === item.id }]" type="button"
+              @click="navigateToSection(item.id)">
               {{ item.label }}
             </button>
           </nav>
@@ -325,13 +316,8 @@ function enterGameMode() {
                 <h3>{{ card.title }}</h3>
               </div>
               <p class="cta-description">{{ card.description }}</p>
-              <a
-                :href="card.href"
-                class="cta-button"
-                :class="card.buttonClass"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a :href="card.href" class="cta-button" :class="card.buttonClass" target="_blank"
+                rel="noopener noreferrer">
                 {{ card.buttonLabel }}
               </a>
               <p class="cta-footnote">{{ card.footnote }}</p>
@@ -346,20 +332,11 @@ function enterGameMode() {
     </main>
   </div>
 
-  <PlayersOnline
-    ref="panelRef"
-    :players="data.profiles || []"
-    :servers="data.servers || []"
-    @enter-game-mode="enterGameMode"
-  />
+  <PlayersOnline ref="panelRef" :players="data.profiles || []" :servers="data.servers || []"
+    @enter-game-mode="enterGameMode" />
 
-  <FirstVisitOverlay
-    v-if="showFirstVisitOverlay"
-    :current-section="currentSection"
-    @go-home="handleGoHome"
-    @continue="handleContinue"
-    @close="dismissOverlay"
-  />
+  <FirstVisitOverlay v-if="showFirstVisitOverlay" :current-section="currentSection" @go-home="handleGoHome"
+    @continue="handleContinue" @close="dismissOverlay" />
 </template>
 
 <style lang="scss">
@@ -420,11 +397,9 @@ function enterGameMode() {
   grid-template-columns: auto 1fr;
   gap: 1rem;
   align-items: flex-start;
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-main-rgb), 0.96) 0%,
-    rgba(var(--panel-dark-rgb), 0.98) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(var(--panel-main-rgb), 0.96) 0%,
+      rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   border-left: 3px solid rgba(var(--sw-rgb), 0.7);
   padding: 20px;
@@ -471,11 +446,9 @@ function enterGameMode() {
 }
 
 .cta-card {
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-main-rgb), 0.96) 0%,
-    rgba(var(--panel-dark-rgb), 0.98) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(var(--panel-main-rgb), 0.96) 0%,
+      rgba(var(--panel-dark-rgb), 0.98) 100%);
   border: 1px solid var(--divider-strong);
   padding: 24px;
   box-shadow:

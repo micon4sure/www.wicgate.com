@@ -13,24 +13,32 @@ global.fetch = mockFetch as any;
 
 // Mock API response
 const mockApiResponse: DataResponse = {
+  servers: [{ serverId: 101, serverName: 'Test Server' }],
   profiles: [
     {
       profileId: 1,
-      onlineStatus: 1,
-      rankLevel: 10,
-      username: 'TestPlayer1',
-      totalScore: 5000,
+      serverId: 101,
+      profileName: 'TestPlayer1',
+      rank: 10,
     },
     {
       profileId: 2,
-      onlineStatus: 1,
-      rankLevel: 8,
-      username: 'TestPlayer2',
-      totalScore: 3000,
+      serverId: 101,
+      profileName: 'TestPlayer2',
+      rank: 8,
     },
   ],
-  servers: [],
-  leaderboards: {},
+  ladder: [],
+  lb_total: [],
+  lb_totinf: [],
+  lb_totarm: [],
+  lb_totair: [],
+  lb_totsup: [],
+  lb_high: [],
+  lb_highinf: [],
+  lb_higharm: [],
+  lb_highair: [],
+  lb_highsup: [],
 };
 
 describe('appDataStore', () => {

@@ -47,11 +47,8 @@ const channelsList = computed(() =>
           <div v-for="video in topVideos" :key="video.id || video.videoUrl" class="card vid-card">
             <a :href="video.videoUrl" target="_blank" class="vid-link" rel="noopener noreferrer">
               <div class="vid-thumb">
-                <img
-                  :src="video.thumbnailUrl"
-                  :alt="`${video.title} - ${video.author || 'WiCGATE'} video thumbnail`"
-                  loading="lazy"
-                />
+                <img :src="video.thumbnailUrl" :alt="`${video.title} - ${video.author || 'WiCGATE'} video thumbnail`"
+                  loading="lazy" />
                 <div class="play-over">
                   <i class="fa-solid fa-play" aria-hidden="true"></i>
                 </div>
@@ -61,11 +58,9 @@ const channelsList = computed(() =>
                 <div class="vid-meta">
                   <span v-if="video.author">{{ video.author }}</span>
                   <span v-if="video.views != null">
-                    • {{ video.views.toLocaleString() }} views</span
-                  >
+                    • {{ video.views.toLocaleString() }} views</span>
                   <span v-if="video.publishedAt">
-                    • {{ new Date(video.publishedAt).toLocaleDateString() }}</span
-                  >
+                    • {{ new Date(video.publishedAt).toLocaleDateString() }}</span>
                 </div>
               </div>
             </a>
@@ -80,12 +75,8 @@ const channelsList = computed(() =>
           </div>
           <div v-for="channel in channelsList" :key="channel.channelId" class="channel-section">
             <div class="creator-card-container">
-              <a
-                :href="`https://www.youtube.com/channel/${channel.channelId}`"
-                target="_blank"
-                class="card creator-card"
-                :aria-label="`View ${channel.channelTitle} YouTube channel`"
-              >
+              <a :href="`https://www.youtube.com/channel/${channel.channelId}`" target="_blank"
+                class="card creator-card" :aria-label="`View ${channel.channelTitle} YouTube channel`">
                 <div class="creator-info">
                   <h4 class="creator-name">{{ channel.channelTitle }}</h4>
                   <div class="creator-badge-icon">
@@ -96,18 +87,10 @@ const channelsList = computed(() =>
             </div>
             <div class="videos-grid">
               <div v-for="video in channel.videos" :key="video.id" class="card vid-card">
-                <a
-                  :href="video.videoUrl"
-                  target="_blank"
-                  class="vid-link"
-                  rel="noopener noreferrer"
-                >
+                <a :href="video.videoUrl" target="_blank" class="vid-link" rel="noopener noreferrer">
                   <div class="vid-thumb">
-                    <img
-                      :src="video.thumbnailUrl"
-                      :alt="`${video.title} - ${channel.channelTitle} video thumbnail`"
-                      loading="lazy"
-                    />
+                    <img :src="video.thumbnailUrl" :alt="`${video.title} - ${channel.channelTitle} video thumbnail`"
+                      loading="lazy" />
                     <div class="play-over">
                       <i class="fa-solid fa-play" aria-hidden="true"></i>
                     </div>
@@ -115,12 +98,9 @@ const channelsList = computed(() =>
                   <div class="vid-info">
                     <h4 class="vid-title">{{ video.title }}</h4>
                     <div class="vid-meta">
-                      <span v-if="video.views != null"
-                        >{{ video.views.toLocaleString() }} views</span
-                      >
+                      <span v-if="video.views != null">{{ video.views.toLocaleString() }} views</span>
                       <span v-if="video.publishedAt">
-                        • {{ new Date(video.publishedAt).toLocaleDateString() }}</span
-                      >
+                        • {{ new Date(video.publishedAt).toLocaleDateString() }}</span>
                     </div>
                   </div>
                 </a>

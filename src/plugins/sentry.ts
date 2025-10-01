@@ -4,14 +4,18 @@
  */
 
 import type { App } from 'vue';
+import type { Router } from 'vue-router';
 import * as Sentry from '@sentry/vue';
+import type { ErrorEvent as SentryErrorEvent, EventHint, StackFrame } from '@sentry/core';
 
-export function initSentry(app: App) {
+export function initSentry(app: App, router: Router) {
   // Only initialize in production with valid DSN
   const dsn = import.meta.env.VITE_SENTRY_DSN;
 
-  if (!import.meta.env.PROD || !dsn) {
-    console.log('[Sentry] Skipped (not production or DSN not configured)');
+  if (!import.meta.env.PROD || !dsn || typeof window === 'undefined') {
+    if (import.meta.env.DEV) {
+      console.log('[Sentry] Skipped (not production or DSN not configured)');
+    }
     return;
   }
 
@@ -30,21 +34,22 @@ export function initSentry(app: App) {
 
       // Integration configuration
       integrations: [
-        new Sentry.BrowserTracing({
-          routingInstrumentation: Sentry.vueRouterInstrumentation,
+        Sentry.browserTracingIntegration({
+          router,
+          routeLabel: 'name',
         }),
-        new Sentry.Replay({
+        Sentry.replayIntegration({
           maskAllText: false,
           blockAllMedia: false,
         }),
       ],
 
       // Filter out known issues
-      beforeSend(event, hint) {
+      beforeSend(event: SentryErrorEvent, hint: EventHint) {
         // Ignore errors from browser extensions
         if (
           event.exception?.values?.[0]?.stacktrace?.frames?.some(
-            (frame) =>
+            (frame: StackFrame) =>
               frame.filename?.includes('extension://') ||
               frame.filename?.includes('chrome-extension://')
           )
@@ -53,9 +58,11 @@ export function initSentry(app: App) {
         }
 
         // Ignore network errors (already handled by retry logic)
+        const original = hint.originalException;
         if (
-          hint.originalException instanceof TypeError &&
-          hint.originalException.message.includes('fetch')
+          original instanceof TypeError &&
+          typeof original.message === 'string' &&
+          original.message.includes('fetch')
         ) {
           return null;
         }
@@ -64,7 +71,9 @@ export function initSentry(app: App) {
       },
     });
 
-    console.log('[Sentry] Initialized successfully');
+    if (import.meta.env.DEV) {
+      console.log('[Sentry] Initialized successfully');
+    }
   } catch (error) {
     console.error('[Sentry] Failed to initialize:', error);
   }

@@ -13,15 +13,9 @@ withDefaults(defineProps<{ channels?: string[] }>(), {
     </div>
     <div class="live-streams-container">
       <div class="grid grid-2" style="gap: 30px">
-        <a
-          v-for="channel in channels"
-          :key="channel"
-          :href="`https://twitch.tv/${channel}`"
-          target="_blank"
-          class="card"
-          style="padding: 0; overflow: hidden; text-decoration: none; color: inherit"
-          :aria-label="`Watch ${channel} live on Twitch`"
-        >
+        <a v-for="channel in channels" :key="channel" :href="`https://twitch.tv/${channel}`" target="_blank"
+          class="card" style="padding: 0; overflow: hidden; text-decoration: none; color: inherit"
+          :aria-label="`Watch ${channel} live on Twitch`">
           <TwitchEmbed :channel="channel" muted />
           <div class="stream-card-footer">
             <strong>{{ channel }}</strong>
