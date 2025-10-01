@@ -20,15 +20,44 @@
 }
 
 .hero-tag {
-  font-size: 1.125rem;
+  font-size: 0.875rem;
   color: var(--sw);
-  font-family: "Oswald", sans-serif;
+  font-family: "Courier New", monospace;
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 4px;
   text-shadow: 0 0 18px rgba(var(--sw-rgb), 0.45);
   animation: fadeIn 1s ease-out;
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid rgba(var(--sw-rgb), 0.4);
+  background: rgba(var(--sw-rgb), 0.08);
+}
+
+/* Military title with hierarchy */
+.military-title {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.hero-subtitle {
+  display: block;
+  font-size: 2rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  color: var(--t2);
+  margin-top: 8px;
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: var(--t2);
+  font-weight: 400;
+  margin-bottom: 32px;
 }
 
 .hero-content p {
@@ -184,6 +213,18 @@
   .hero {
     padding-top: 78px; /* 70px navigation + 3px border + 5px buffer */
   }
+
+  .military-title {
+    font-size: 3rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.75rem;
+  }
+
+  .hero-description {
+    font-size: 1.125rem;
+  }
 }
 
 @media screen and (max-width: 900px) {
@@ -212,6 +253,24 @@
 
 /* Tablet styles */
 @media (max-width: 768px) {
+  .military-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.5rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-tag {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    letter-spacing: 3px;
+  }
+
   .hero-vis {
     height: 500px;
   }
@@ -245,6 +304,18 @@
 
 /* Mobile landscape */
 @media (max-width: 600px) {
+  .military-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+  }
+
   .hero-grid {
     grid-template-columns: 1fr;
     gap: 40px;
