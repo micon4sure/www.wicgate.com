@@ -19,7 +19,7 @@
 - **Getting Started (`src/screens/GettingStarted.vue` + `styles/modules/components/getting-started.css`):**
   - Step cards with orange number plaques.
   - Requirements sidebar uses solid orange headings; advanced setup block includes red warning styles.
-- **Community (`src/screens/Community.vue` + related styles):** Channel badges, video cards, download CTAs (red), live stream cards.
+- **Community (`src/views/Community.vue` + modular components under `src/components/community`):** Customizable dashboard with events, live streams, videos, players, and statistics modules; order/toggle state persists locally.
 - **About (`styles/modules/components/about.css`):** Steel panels with orange icon tiles and headers.
 - **FAQ (`styles/modules/components/faq.css`):** Accordion with orange category headers and contrast-checked answers.
 - **Leaderboards (`styles/modules/components/leaderboards.css`, `src/components/Leaderboards.vue`):** Steel tables with red header band, orange tab highlights on hover/active, alternating row gradients.

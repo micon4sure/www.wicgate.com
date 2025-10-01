@@ -44,7 +44,7 @@ onMounted(() => {
               <span class="chev">▼</span>
             </div>
             <div class="faq-a" :class="{ active: open === item.q }">
-              <p>{{ item.a }}</p>
+              <div class="faq-a__content" v-html="item.a"></div>
             </div>
           </div>
         </div>

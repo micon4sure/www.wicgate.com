@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, toRef, onMounted, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, toRef, onMounted, onUnmounted, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { getDynamicHeaderHeight } from '../utils/scroll';
 import { AnalyticsEvents } from '../utils/analytics';
 
 const mobileOpen = ref(false);
-const router = useRouter();
+const route = useRoute();
 
 const props = defineProps<{
   activeSection?: string | undefined;
@@ -21,10 +21,11 @@ const emit = defineEmits<{
   'toggle-players': [];
 }>();
 
+const isHomeRoute = computed(() => route.path === '/');
+const isCommunityRoute = computed(() => route.path.startsWith('/community'));
+
 // Track window width for resize handling
 const lastWindowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1920);
-
-const isActive = (section: string) => activeSection.value === section;
 
 function togglePlayers() {
   AnalyticsEvents.playersButtonClick(playerCount.value || 0);
@@ -132,7 +133,8 @@ function handleNavigation(section: string) {
 // Get route path for section
 function getRoutePath(section: string): string {
   if (section === 'hero') return '/';
-  return `/${section}`;
+  if (section === 'community') return '/community';
+  return '/';
 }
 </script>
 <template>
@@ -148,40 +150,16 @@ function getRoutePath(section: string): string {
     <nav class="desktop-nav">
       <router-link
         :to="getRoutePath('hero')"
-        :class="{ active: !activeSection }"
+        :class="{ active: isHomeRoute }"
         class="home-btn"
         @click="handleNavigation('hero')"
         >Home</router-link
       >
       <router-link
-        :to="getRoutePath('getting-started')"
-        :class="{ active: isActive('getting-started') }"
-        @click="handleNavigation('getting-started')"
-        >Getting Started</router-link
-      >
-      <router-link
-        :to="getRoutePath('statistics')"
-        :class="{ active: isActive('statistics') }"
-        @click="handleNavigation('statistics')"
-        >Statistics</router-link
-      >
-      <router-link
         :to="getRoutePath('community')"
-        :class="{ active: isActive('community') }"
+        :class="{ active: isCommunityRoute }"
         @click="handleNavigation('community')"
         >Community</router-link
-      >
-      <router-link
-        :to="getRoutePath('about')"
-        :class="{ active: isActive('about') }"
-        @click="handleNavigation('about')"
-        >About</router-link
-      >
-      <router-link
-        :to="getRoutePath('faq')"
-        :class="{ active: isActive('faq') }"
-        @click="handleNavigation('faq')"
-        >FAQ</router-link
       >
     </nav>
 
@@ -208,6 +186,12 @@ function getRoutePath(section: string): string {
     </button>
   </div>
 
+  <div v-if="$slots.subnav" class="subnav-wrapper">
+    <div class="container subnav-inner">
+      <slot name="subnav" />
+    </div>
+  </div>
+
   <!-- Mobile navigation (full-screen, outside container) -->
   <Teleport to="body">
     <!-- Mobile menu backdrop -->
@@ -221,40 +205,16 @@ function getRoutePath(section: string): string {
         <div class="mobile-nav-content">
           <router-link
             :to="getRoutePath('hero')"
-            :class="{ active: !activeSection }"
+            :class="{ active: isHomeRoute }"
             class="home-btn"
             @click="handleNavigation('hero')"
             >Home</router-link
           >
           <router-link
-            :to="getRoutePath('getting-started')"
-            :class="{ active: isActive('getting-started') }"
-            @click="handleNavigation('getting-started')"
-            >Getting Started</router-link
-          >
-          <router-link
-            :to="getRoutePath('statistics')"
-            :class="{ active: isActive('statistics') }"
-            @click="handleNavigation('statistics')"
-            >Statistics</router-link
-          >
-          <router-link
             :to="getRoutePath('community')"
-            :class="{ active: isActive('community') }"
+            :class="{ active: isCommunityRoute }"
             @click="handleNavigation('community')"
             >Community</router-link
-          >
-          <router-link
-            :to="getRoutePath('about')"
-            :class="{ active: isActive('about') }"
-            @click="handleNavigation('about')"
-            >About</router-link
-          >
-          <router-link
-            :to="getRoutePath('faq')"
-            :class="{ active: isActive('faq') }"
-            @click="handleNavigation('faq')"
-            >FAQ</router-link
           >
         </div>
       </nav>
