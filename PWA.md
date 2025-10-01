@@ -85,35 +85,107 @@ npm run build
 ```
 Includes icon generation, sitemap, and PWA service worker registration.
 
-## Testing PWA Installation
+## Development vs Production Mode
 
-### Desktop (Chrome/Edge)
+### Automatic Mode Detection
+The PWA configuration automatically adapts based on the environment:
+
+**Development Mode** (`bun run dev`):
+- ✅ Service worker enabled for testing
+- ✅ No file precaching (files served from memory)
+- ✅ No warnings about missing files
+- ✅ Runtime caching still works (fonts, images, API)
+
+**Production Mode** (`bun run build`):
+- ✅ Full file precaching (~49 entries, ~1.1 MB)
+- ✅ All assets cached for offline use
+- ✅ Optimized service worker bundle
+- ✅ Auto-generated manifest
+
+**How It Works**:
+```typescript
+// vite.config.ts automatically detects mode
+globPatterns: mode === 'development' ? [] : ['**/*.{js,css,html,ico,png,svg,woff2}']
+```
+
+No manual configuration needed! The build system handles everything automatically.
+
+## Testing PWA
+
+### Local Production Testing
+Test the full PWA experience before deployment:
+
+```bash
+# 1. Build production bundle
+bun run build
+
+# 2. Preview production build locally
+bun run preview
+
+# 3. Open http://localhost:4173/
+```
+
+### Verify PWA Features (Production Preview)
+
+**1. Service Worker Registration**
+```
+DevTools → Application → Service Workers
+```
+✅ Status: "activated and running"
+✅ Source: `sw.js`
+
+**2. Cache Storage**
+```
+DevTools → Application → Cache Storage → workbox-precache-v2-...
+```
+✅ Should show **49 cached entries** including:
+- All HTML pages (index, statistics, community, etc.)
+- All JS/CSS bundles
+- All images and fonts
+- PWA icons
+
+**3. Test Offline Mode**
+```
+DevTools → Network → Check "Offline" → Reload page
+```
+✅ Site should fully load from cache
+✅ All sections should work
+✅ Images should display
+
+**4. PWA Manifest**
+```
+DevTools → Application → Manifest
+```
+✅ Name: "WICGATE - World in Conflict Multiplayer"
+✅ Icons: 4 sizes (64x64, 192x192, 512x512, maskable)
+✅ Theme color: #1a1a1a
+
+**5. Lighthouse PWA Audit**
+```
+DevTools → Lighthouse → Select "Progressive Web App" → Run
+```
+✅ Target: 90+ PWA score
+✅ Passes: Installable, Works offline, PWA optimized
+
+### Desktop Installation (Chrome/Edge)
 1. Open the website in Chrome or Edge
 2. Look for the install icon in the address bar
 3. Click to install as desktop app
 4. App will open in standalone window
 
-### Mobile (iOS Safari)
+### Mobile Installation
+
+**iOS Safari**:
 1. Open the website in Safari
 2. Tap the Share button
 3. Select "Add to Home Screen"
 4. Icon will appear on home screen
 
-### Mobile (Android Chrome)
+**Android Chrome**:
 1. Open the website in Chrome
 2. Tap the menu (three dots)
 3. Select "Install app" or "Add to Home Screen"
 4. App will appear in app drawer
-
-## Offline Testing
-
-### Test Offline Functionality
-1. Open the website normally
-2. Wait for "App ready to work offline" console message
-3. Open DevTools → Application → Service Workers
-4. Check "Offline" checkbox
-5. Refresh the page - site should still work
-6. Navigate between sections - cached content loads
 
 ### Clear Cache (for testing)
 1. Open DevTools → Application → Storage
@@ -157,14 +229,27 @@ Includes icon generation, sitemap, and PWA service worker registration.
 
 ## Monitoring
 
-### Development Console
-When `NODE_ENV=development`, the PWA logs:
+### Development Console (`bun run dev`)
+The PWA plugin outputs:
+- `PWA v1.0.3` - Plugin version
+- `mode: generateSW` - Service worker generation mode
+- `precache: 1 entries (0.00 KiB)` - Minimal precaching (SW files only)
+- `files generated: dev-dist/sw.js` - Service worker files created
+- **No warnings** - Clean output with optimized dev config
+
+### Production Build (`bun run build`)
+The PWA plugin outputs:
+- `precache: 49 entries (1111.08 KiB)` - Full asset precaching
+- `files generated: dist/sw.js, dist/workbox-*.js` - Production bundles
+- All static assets cached for offline use
+
+### Runtime Logging
+Service worker logs to console in development:
 - `[PWA] Service worker registered` - Successful registration
 - `[PWA] App ready to work offline` - Cache ready
 - `[PWA] New content available, refreshing...` - Update detected
 
-### Production
-Service worker runs silently, automatically updating in background.
+Production service worker runs silently, automatically updating in background.
 
 ## Security Considerations
 

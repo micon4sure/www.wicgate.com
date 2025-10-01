@@ -43,7 +43,7 @@
 .status-indicator {
   width: 7px;
   height: 7px;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--g);
   opacity: 0.9;
   transition: opacity 0.3s ease;
@@ -66,7 +66,7 @@ body:not(.players-online) .status-indicator:not(.always-animate) {
 /* Card system */
 .card {
   background: var(--grad-card);
-  border-radius: 12px;
+  border-radius: 0;
   border: 1px solid var(--bd);
   overflow: hidden;
   transition: var(--tr);

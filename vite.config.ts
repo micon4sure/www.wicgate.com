@@ -8,7 +8,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 // For GitHub Pages under user/repo path we use relative asset paths.
 // base './' keeps asset links working both at https://micon4sure.github.io/www.wicgate.com/ and
 // at custom domain https://www.wicgate.com/ (once DNS + CNAME active) because paths are relative.
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   base: './',
   plugins: [
     vue(),
@@ -53,8 +53,9 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Cache strategies
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // Cache strategies - only precache files in production build
+        // In dev mode, files are served from memory, not disk, so skip precaching
+        globPatterns: mode === 'development' ? [] : ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -202,4 +203,4 @@ export default defineConfig({
   optimizeDeps: {
     include: ['vue', 'vue-router', 'lodash'],
   },
-});
+}));
