@@ -520,6 +520,40 @@ transform: scale(1.03) translateY(-2px);
 - **Background Hover:** Orange gradient `rgba(var(--sw-rgb), 0.85-0.68)` range
 - **Glow Effects:** Limited to 0.3-0.4 opacity for professional appearance
 
+## Known Issues
+
+### Development Server Vulnerability (Non-Critical)
+**CVE:** [GHSA-67mh-4wv8-2f99](https://github.com/advisories/GHSA-67mh-4wv8-2f99)
+**Component:** esbuild <=0.24.2 (bundled with Vite 5.4.20)
+**Severity:** Moderate (development only)
+
+**Impact:**
+- Affects local development server only (`npm run dev`)
+- Production builds completely unaffected
+- Vulnerability allows websites to proxy requests to localhost:5173 dev server
+- Requires attacker to have network access to developer's machine
+
+**Risk Assessment:**
+- 🟢 **Production:** Zero risk (dev server not used)
+- 🟡 **Development:** Low risk (requires local network access)
+- 🟠 **Public WiFi:** Medium risk (open network vulnerability)
+
+**Why Not Fixed:**
+- Fix requires Vite 7.x upgrade (breaking changes)
+- Risk of breaking SSG, PWA, and plugin compatibility
+- Vulnerability risk < breaking change risk for this project
+- Monitoring for Vite 5.x maintenance patch
+
+**Mitigation:**
+- Develop on trusted networks (home/office behind firewall)
+- Avoid public WiFi when running dev server
+- Use VPN on untrusted networks
+- Production deployments remain secure
+
+**Status:** Documented and monitored. Will upgrade to Vite 6/7 in planned migration.
+
+---
+
 ## Contribution Reminders
 - Work from feature branches; keep commits scoped.
 - **Follow Navigation Patterns:** Use established hover effects and color rules for new interactive elements.
