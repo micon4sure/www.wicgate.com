@@ -1,194 +1,275 @@
-# WICGATE Vue 3 (TypeScript)
+# WiCGATE Community Portal
 
-Modern Vue 3 + TypeScript **Progressive Web App** with SEO-optimized Static Site Generation, offline capability, comprehensive testing, and production-ready monitoring. Hybrid rendering architecture provides unique, pre-rendered HTML to search engines while delivering a smooth single-page user experience with full offline support.
+> Modern community portal for the World in Conflict revival initiative (WiCGATE/Massgate)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/your-badge-id/deploy-status)](https://app.netlify.com/sites/wicgate/deploys)
+
+## Overview
+
+WiCGATE delivers a Massgate-inspired experience for the World in Conflict revival, featuring live player statistics, onboarding guides, community events, and military-themed styling. Built as a Progressive Web App with SEO-optimized Static Site Generation for offline capability and search engine visibility.
+
+**Live Site:** [wicgate.com](https://wicgate.com)
 
 ## Tech Stack
 
-- **Vue 3** + `<script setup lang="ts">` with Composition API
-- **ViteSSG** - Static Site Generation with client-side hydration
-- **PWA** - Progressive Web App with service worker and offline support
-- **Vitest** - Unit testing with Vue Test Utils (27 tests, 50%+ coverage)
-- **@vueuse/head** - Dynamic meta tags for SEO
-- **Vite** - Build tool with optimized bundling
-- **Vue Router** - Path-based routing (7 pre-rendered routes)
-- **Pinia** - State management with SSR support
-- **TypeScript** - Full type safety across codebase
-- **PostCSS** + Autoprefixer - Modern CSS processing
+- **Framework:** Vue 3 + TypeScript (Composition API)
+- **Build System:** Vite with ViteSSG for Static Site Generation
+- **State Management:** Pinia with SSR support
+- **Routing:** Vue Router (path-based, 7 pre-rendered routes)
+- **Styling:** Modular CSS with design tokens
+- **PWA:** Service worker with offline capability
+- **Testing:** Vitest + Vue Test Utils (27 tests, 50%+ coverage)
+- **Analytics:** Custom type-safe event tracking
+- **CI/CD:** GitHub Actions + Netlify
+
+## Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server (http://localhost:5173)
+npm run dev
+
+# Run tests (fast mode ~0.7s)
+npm test
+
+# Production build
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+### Alternative: Using Bun (22% faster)
+
+```bash
+bun install
+bun run dev
+bun run test  # ~0.57s (22% faster than npm)
+```
+
+**⚠️ Important:** Use `bun run test`, NOT `bun test` (invokes Bun's native test runner instead of Vitest)
+
+## Available Commands
+
+```bash
+npm run dev              # Development server
+npm run build            # Production build (SSG + PWA + icons + sitemap)
+npm run build:icons      # Generate PWA icons from favicon.svg
+npm run preview          # Preview production build
+npm test                 # Tests - fast mode with fake timers (~0.7s)
+npm run test:thorough    # Tests - real timers for CI (~14s)
+npm run test:watch       # Tests in watch mode
+npm run test:ui          # Tests with Vitest UI
+npm run test:coverage    # Coverage report (50%+ threshold)
+npm run lint             # ESLint + Prettier
+npm run lint:fix         # Auto-fix linting issues
+```
 
 ## Routes (SEO-Optimized)
 
-**All routes pre-render unique HTML at build time:**
+All routes pre-render unique HTML at build time:
 
-- `/` - Homepage with all sections (Hero, Getting Started, Statistics, Community, About, FAQ)
-- `/getting-started` - Installation guide
-- `/statistics` - Player leaderboards and rankings
-- `/community` - Events, creators, videos, streams
-- `/about` - Project information
-- `/faq` - Frequently asked questions
-- `/game-mode` - Full-screen Game Mode statistics dashboard
+- `/` - Homepage with all sections (35.59 KB)
+- `/getting-started` - Installation guide (10.74 KB)
+- `/statistics` - Player leaderboards (6.99 KB)
+- `/community` - Events, creators, videos (12.60 KB)
+- `/about` - Project information (8.27 KB)
+- `/faq` - Frequently asked questions (12.39 KB)
+- `/game-mode` - Full-screen statistics dashboard (11.37 KB)
 
 **SEO Benefits:**
 - ✅ 7 unique HTML files (no duplicate content)
-- ✅ Each route has focused, indexable content
+- ✅ Focused, indexable content per route
 - ✅ Progressive enhancement with skeleton loaders
-- ✅ Dynamic meta tags per route
+- ✅ Dynamic meta tags and JSON-LD schemas
 
-## Key Components
+## Project Structure
 
-- `Navigation.vue` Top nav / hero navigation with **pixel-perfect dynamic scroll positioning**
-- `PlayersOnline.vue` Slide-in players panel (persisted lock state in `localStorage`)
-- `Leaderboards.vue` Tabbed leaderboards (High / Total / Player / Clan placeholder)
-- `Scores.vue` Reusable scoreboard card used in Game Mode
-- `Footer.vue` Site footer
-
-## Composables
-
-- `useAppDataStore.ts` - API polling with 3-retry exponential backoff, 90s interval, Page Visibility API
-- `useYoutube.ts` - Multi-channel YouTube video fetching (SSR-safe)
-- `useEvents.ts` - Discord events with countdown timers (SSR-safe)
-- `useFirstVisit.ts` - First-time visitor detection and overlay management
-
-## Content
-
-Static content extracted to `src/content/content.ts` for easier future translation / editing.
-
-## Development
-
-```bash
-npm install           # Install dependencies
-npm run dev           # Start dev server (http://localhost:5173)
-npm test              # Run all 27 tests
-npm run test:watch    # Run tests in watch mode
-npm run test:ui       # Run tests with Vitest UI
-npm run test:coverage # Run tests with coverage report
-npm run lint          # Check code quality
-npm run lint:fix      # Auto-fix lint issues
+```
+src/
+├── main.ts              # ViteSSG entry point + PWA registration
+├── router/              # Vue Router with SEO metadata
+├── stores/              # Pinia state management
+├── components/          # Reusable components
+│   ├── Navigation.vue   # Pixel-perfect scroll navigation
+│   ├── LeaderboardGroup.vue
+│   ├── PlayersOnline.vue
+│   ├── FirstVisitOverlay.vue
+│   └── skeletons/       # SEO-friendly loading states
+├── screens/             # Section components
+│   ├── GettingStarted.vue
+│   ├── Community.vue
+│   ├── Statistics.vue
+│   ├── About.vue
+│   └── FAQ.vue
+├── views/               # Routed pages
+│   ├── Home.vue         # Main SPA with all sections
+│   └── GameMode.vue     # Standalone game mode page
+├── composables/         # Composition functions
+│   ├── useYoutube.ts    # Multi-channel video fetching (SSR-safe)
+│   ├── useEvents.ts     # Discord events integration (SSR-safe)
+│   └── useFirstVisit.ts # First-time visitor detection
+├── utils/               # Utility functions
+│   ├── scroll.ts        # Dynamic navigation scroll system
+│   ├── analytics.ts     # Type-safe event tracking
+│   ├── performance.ts   # Web Vitals monitoring
+│   └── structuredData.ts # SEO JSON-LD schemas
+├── assets/
+│   └── styles/
+│       ├── base.css
+│       └── modules/     # Modular CSS with design tokens
+└── content/
+    └── content.ts       # Static content
 ```
 
-## Build
+## Key Features
 
-```bash
-npm run build        # Full production build (icons + sitemap + SSG + PWA)
-npm run build:icons  # Generate PWA icons from favicon.svg
-npm run preview      # Preview production build
-```
+### 📱 Progressive Web App (PWA)
+- Full offline capability with intelligent caching
+- Installable as desktop/mobile app
+- Auto-generated manifest with 4 icon sizes (64px, 192px, 512px, maskable)
+- Environment-aware precaching (dev: minimal, prod: ~49 entries)
+- Automatic background updates
 
-**Build Process:**
-1. **Generate PWA Icons** - Creates 4 optimized icon sizes from `favicon.svg`
+### 🔍 SEO-Optimized Architecture
+- Hybrid SSG/SPA: Pre-rendered HTML for crawlers, full SPA for users
+- 7 unique pre-rendered routes with focused content
+- Progressive enhancement with skeleton loaders
+- Eliminates duplicate content issues
+- JSON-LD structured data for rich search results
+
+### 🎯 Pixel-Perfect Navigation
+- Dynamic header measurement (zero hardcoded values)
+- Smooth scroll with exact positioning
+- Responsive across all breakpoints
+- Auto-scroll to sections on direct URL access
+- Active section detection with buffer tolerance
+
+### 📊 Analytics & Monitoring
+- Type-safe event tracking (15 predefined categories)
+- Core Web Vitals monitoring (CLS, FCP, INP, LCP, TTFB)
+- Error tracking with Sentry integration
+- SSR-safe execution
+- `navigator.sendBeacon()` for reliable delivery
+
+### 🧪 Comprehensive Testing
+- 27 tests covering scroll utilities (12) and data store (15)
+- Hybrid timing strategy (fast mode ~0.7s, thorough mode ~14s)
+- 50%+ coverage thresholds enforced
+- CI/CD integration via GitHub Actions
+- SSR-safe mocks and test utilities
+
+### 🎨 Design System
+- Military-themed Massgate aesthetic
+- Design tokens for all colors/shadows/transitions
+- Consistent hover effects and animations (scale transforms, cubic-bezier)
+- Responsive typography and layouts
+- Modular CSS architecture
+
+### 🔧 Robust Error Handling
+- 3-retry exponential backoff (1s, 2s, 4s) for API calls
+- 90s polling interval with Page Visibility API integration
+- ErrorBoundary component with user-friendly fallbacks
+- Comprehensive error analytics
+
+## Build Process
+
+Production build executes:
+
+1. **Generate PWA Icons** - Creates 4 optimized sizes from `favicon.svg`
 2. **Generate Sitemap** - Auto-generates `sitemap.xml` from route definitions
 3. **Static Site Generation** - Pre-renders 7 unique HTML files
 4. **PWA Service Worker** - Generates `sw.js` with caching strategies
-5. **Image Optimization** - Compresses all images (58-69% size reduction)
+5. **Asset Optimization** - Code splitting and content hashing
 
 **Build Output (`dist/`):**
 - 7 unique HTML files (36KB homepage, 7-13KB section pages)
 - `manifest.webmanifest` - PWA app manifest
-- `sw.js` - Service worker with 49 precached entries
+- `sw.js` - Service worker with precached entries
 - `sitemap.xml` - SEO sitemap with 7 URLs
 - Optimized assets with content hashing
-- Bundle size: ~4.1MB (under 5MB limit)
+- Total bundle: ~4.1MB (under 5MB limit)
 
-**SSG Architecture:**
-- **For Crawlers:** Conditional rendering shows only target section
-- **For Users:** All sections render for smooth scrolling after hydration
-- **For Offline:** Service worker caches everything for offline access
+## Documentation
 
-## Deployment (GitHub Pages)
+- **[Architecture Guide](docs/architecture.md)** - SSG, navigation, PWA, state management
+- **[Design System](docs/design-system.md)** - CSS tokens, patterns, components
+- **[Testing Guide](docs/testing.md)** - Test commands, strategies, CI/CD
+- **[Changelog](docs/changelog.md)** - Recent changes and feature history
+- **[Agent Instructions](CLAUDE.md)** - AI agent operational rules
 
-The site deploys automatically via `.github/workflows/deploy.yml` to:
+## Development Notes
 
-Primary (GitHub Pages path): https://micon4sure.github.io/www.wicgate.com/
-Custom Domain (after DNS): https://www.wicgate.com/
+### Editor Setup
+- **Recommended:** VS Code with Volar/Vetur for Vue 3
+- **Formatting:** Prettier via ESLint (no CRLF)
+- **Type Checking:** TypeScript strict mode
 
-### How it works
-
-- `vite.config.ts` sets `base: './'` so built asset URLs are relative, functioning in both locations.
-- Router base is chosen at runtime (`/www.wicgate.com/` if path contains that segment, otherwise `/`).
-- Workflow copies `index.html` to `404.html` for History API fallback on refresh/deep links.
-- `CNAME` is injected so GitHub Pages serves the custom domain when DNS is ready.
-
-### Steps to finalize
-
-1. Confirm repo name is `www.wicgate.com` (matches deployed path used by detection logic).
-2. GitHub > Settings > Pages: Source = GitHub Actions.
-3. DNS: Set `www` CNAME → `micon4sure.github.io`.
-4. (Optional) Apex/root redirect handled at DNS provider (ALIAS/ANAME or redirect).
-5. After propagation, enable "Enforce HTTPS".
-
-### If you fork/rename
-
-Update:
-
-- `runtimeBase` logic in `src/main.ts` if repo folder changes.
-- The `CNAME` addition step or remove it if no custom domain.
-- Optionally set a different `base` in `vite.config.ts` if you prefer absolute paths.
-
-### Manual redeploy
-
-Use Actions tab → Deploy to GitHub Pages → Run workflow.
-
-### Local test of production build
-
-```powershell
-npm run build
-npx serve dist  # or any static server
+### Environment Variables
+Create `.env` for local development:
+```env
+VITE_API_BASE_URL=https://api.wicgate.com
+VITE_ANALYTICS_ENDPOINT=https://analytics.example.com
 ```
 
-## Styling
+## Contributing
 
-All global styles are consolidated in `src/assets/styles/base.css` (extracted from original monolith). Component-scoped additions are minimal to keep maintainability high. Autoprefixer provides vendor prefixes for better cross-browser support.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes following the design system
+4. Run tests and linting (`npm test && npm run lint`)
+5. Commit with descriptive messages
+6. Push to your fork and submit a pull request
 
-## Architecture Highlights
+### Contribution Guidelines
+- Follow established design patterns (see [docs/design-system.md](docs/design-system.md))
+- Use design tokens (no hardcoded hex values)
+- Maintain test coverage (50%+ threshold)
+- Document architectural changes
+- Keep commits scoped and atomic
 
-### SSG + SPA Hybrid
-- **Static Site Generation** at build time for SEO
-- **Client-Side Hydration** for interactive UX
-- **Conditional Rendering** based on SSR context
-- **Progressive Enhancement** with skeleton loaders
+## Deployment
 
-### PWA Features
-- **Offline Support** - Service worker caches all assets for offline access
-- **Installable** - Add to home screen on mobile/desktop
-- **Auto-Updates** - Automatic service worker updates on new deployments
-- **Smart Caching** - CacheFirst for static assets, NetworkFirst for API calls
-- **Performance** - Precaches 49 critical assets for instant loading
+### GitHub Pages (Current)
 
-### Testing & Quality
-- **27 Unit Tests** - Comprehensive test coverage with Vitest + Vue Test Utils
-- **50%+ Coverage** - Critical paths fully tested (stores, composables, utilities)
-- **Type Safety** - Full TypeScript coverage across entire codebase
-- **Analytics Tracking** - Type-safe event tracking with predefined categories
-- **Error Boundary** - Component-level error handling with user-friendly fallbacks
+Auto-deploys via `.github/workflows/deploy.yml` to:
+- **Primary:** https://micon4sure.github.io/www.wicgate.com/
+- **Custom Domain:** https://www.wicgate.com/ (after DNS setup)
 
-### Pixel-Perfect Navigation
-- **Dynamic Header Measurement** - Real-time DOM queries eliminate hardcoded scroll calculations
-- **Standardized Scroll System** - Single source of truth via `src/utils/scroll.ts`
-- **Responsive Adaptation** - Automatic adjustment across all breakpoints
-- **Active Section Detection** - Buffer-based tolerance for accurate highlighting
+**Setup Steps:**
+1. Repo name must be `www.wicgate.com` (matches deployed path)
+2. GitHub > Settings > Pages: Source = GitHub Actions
+3. DNS: Set `www` CNAME → `micon4sure.github.io`
+4. After propagation, enable "Enforce HTTPS"
 
-### Key Implementation Details
-- `src/main.ts` - ViteSSG setup with scroll behavior and service worker registration
-- `src/router/routes.ts` - Route metadata for SEO
-- `src/views/Home.vue` - `shouldRenderSection()` logic + scroll utilities
-- `src/components/skeletons/` - SEO-friendly placeholders
-- `src/utils/scroll.ts` - Centralized scroll positioning and detection
-- `src/utils/analytics.ts` - Type-safe analytics with predefined events
-- SSR guards in stores/composables (`import.meta.env.SSR`)
+### Netlify (Alternative)
 
-For complete architecture documentation, see [CLAUDE.md](CLAUDE.md).
+Deploy to Netlify with:
+- **Build Command:** `npm run build`
+- **Publish Directory:** `dist`
+- **Redirects:** Configured in `public/_redirects`
 
-## Future Enhancements
+## Known Issues
 
-- ✅ ~~SSG implementation for SEO~~ (Completed September 2025)
-- ✅ ~~Pinia state management~~ (Implemented)
-- ✅ ~~Unit tests (Vitest) for composables~~ (Completed October 2025 - 27 tests, 50%+ coverage)
-- ✅ ~~PWA implementation~~ (Completed October 2025 - Full offline support)
-- ✅ ~~Sitemap.xml generation~~ (Automated in build process)
-- ✅ ~~Analytics tracking~~ (Type-safe event tracking implemented)
-- Implement lazy loading for video thumbnails
-- Add E2E tests with Playwright
-- Implement image CDN integration
+### Development Server Vulnerability (Non-Critical)
+- **CVE:** [GHSA-67mh-4wv8-2f99](https://github.com/advisories/GHSA-67mh-4wv8-2f99)
+- **Component:** esbuild ≤0.24.2 (bundled with Vite 5.4.20)
+- **Impact:** Development server only (production unaffected)
+- **Mitigation:** Use trusted networks, avoid public WiFi when developing
+- **Status:** Monitoring for Vite 5.x maintenance patch
 
 ## License
 
-Custom / Project-specific (add one if needed). Not affiliated with Ubisoft or Massive Entertainment.
+Custom / Project-specific. Not affiliated with Ubisoft or Massive Entertainment.
+
+## Support
+
+- **Issues:** [GitHub Issues](https://github.com/your-org/wicgate/issues)
+- **Discord:** [WiCGATE Community](https://discord.gg/wicgate)
+- **Documentation:** [docs/](docs/)
+
+---
+
+Built with ❤️ for the World in Conflict community

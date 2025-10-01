@@ -1,0 +1,39 @@
+# ⚠️ ARCHIVED FILE - DO NOT USE
+
+**Original File:** CLAUDE.md
+**Archived:** October 1, 2025
+**Reason:** Documentation reorganization - content migrated to proper structure
+
+## This File is OBSOLETE
+
+This is an archived copy of the original CLAUDE.md (590 lines) before the documentation reorganization.
+
+**DO NOT USE THIS FILE.** It is kept only for historical reference.
+
+## Use These Files Instead:
+
+### For AI Agents:
+- **[CLAUDE.md](CLAUDE.md)** - Operational rules (132 lines)
+
+### For Developers:
+- **[README.md](README.md)** - Project overview
+- **[docs/architecture.md](docs/architecture.md)** - Technical architecture
+- **[docs/design-system.md](docs/design-system.md)** - UI/UX patterns
+- **[docs/testing.md](docs/testing.md)** - Testing guide
+- **[docs/changelog.md](docs/changelog.md)** - Feature history
+
+## Migration Notes
+
+All content from this archived file has been:
+- ✅ Migrated to appropriate documentation files
+- ✅ Verified for completeness (see docs/VERIFICATION_COMPLETE.md)
+- ✅ Organized by topic with cross-references
+
+## Safe to Delete
+
+This archived file can be safely deleted after confirming the new structure works correctly.
+
+---
+
+**Status:** ARCHIVED - DO NOT USE
+**Date:** October 1, 2025

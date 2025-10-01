@@ -1,0 +1,670 @@
+# Testing Documentation
+
+## Overview
+
+WiCGATE uses a comprehensive testing infrastructure with **Vitest** and **Vue Test Utils** for component and utility testing. The test suite implements a hybrid timing strategy for optimal development speed and CI thoroughness.
+
+## Test Suite Statistics
+
+- **Total Tests:** 27 comprehensive tests
+- **Coverage:** 50%+ (enforced thresholds)
+- **Execution Time:** ~0.7s (fast mode) / ~14s (thorough mode)
+- **Test Files:** 2 primary test suites
+  - `scroll.test.ts` - 12 tests covering navigation utilities
+  - `appDataStore.test.ts` - 15 tests covering state management
+
+## Test Frameworks & Tools
+
+### Core Testing Stack
+
+```json
+{
+  "vitest": "^2.1.8",           // Fast unit test framework
+  "vue-test-utils": "^2.4.6",   // Vue component testing
+  "happy-dom": "^15.11.6",      // Fast DOM simulation
+  "@vitest/coverage-v8": "^2.1.8", // Coverage reporting
+  "@vitest/ui": "^2.1.8"        // Web UI for debugging
+}
+```
+
+### Framework Features
+
+- **Vitest:** ESM-native, Vite-powered, blazing fast execution
+- **Vue Test Utils:** Official Vue testing utilities, full Composition API support
+- **happy-dom:** Lightweight DOM implementation (faster than jsdom)
+- **Coverage:** V8 native coverage with line/branch/function/statement metrics
+
+## Test Commands
+
+### Quick Reference
+
+```bash
+# Fast mode (default) - Uses fake timers
+npm test                 # ~0.7s execution
+bun run test             # ~0.57s (22% faster with Bun)
+
+# Thorough mode - Uses real timers for CI
+npm run test:thorough    # ~14s execution
+bun run test:thorough    # ~14.8s with Bun
+
+# Development workflows
+npm run test:watch       # Watch mode for TDD
+npm run test:ui          # Vitest UI at http://localhost:51204
+npm run test:coverage    # Generate coverage report
+
+# Type checking
+npx tsc --noEmit         # TypeScript validation
+```
+
+### ⚠️ Important: Bun Test Gotcha
+
+```bash
+# ❌ WRONG - Uses Bun's native test runner (incompatible)
+bun test
+
+# ✅ CORRECT - Uses Vitest via package.json script
+bun run test
+```
+
+**Why:**
+- `bun test` invokes Bun's **built-in test runner** (not Vitest)
+- Results in "document is not defined" errors and 54 failures
+- **Always use `bun run test`** to execute the package.json script correctly
+- `bun run` works with all scripts: `bun run dev`, `bun run build`, etc.
+
+## Package Manager Comparison
+
+### npm vs Bun for Testing
+
+**Both package managers work perfectly - choose based on preference:**
+
+#### npm (Standard - Maximum Compatibility)
+
+```bash
+npm test              # Fast mode: ~0.7s
+npm run test:thorough # Thorough mode: ~14s
+```
+
+**Pros:**
+- Maximum compatibility across environments
+- Standard Node.js package manager
+- Widely documented and supported
+
+**Use When:**
+- Working in team environments
+- Requiring maximum stability
+- Following standard Node.js workflows
+
+#### Bun (Optional - 22% Faster)
+
+```bash
+bun run test          # Fast mode: ~0.57s (22% faster!)
+bun run test:thorough # Thorough mode: ~14.8s
+```
+
+**Pros:**
+- 22% faster test execution
+- Modern JavaScript runtime
+- Growing ecosystem support
+
+**Use When:**
+- Speed is a priority
+- Working on personal/small projects
+- Comfortable with newer tooling
+
+## Hybrid Timing Strategy
+
+### Overview
+
+The test suite uses **environment-aware timing** to balance speed and thoroughness. This optimization provides 21x faster local development while maintaining full validation in CI.
+
+### Fast Mode (Default - Local Development)
+
+```bash
+npm test  # Completes in ~0.7s
+```
+
+**Features:**
+- **Fake timers** via `vi.useFakeTimers()` for instant test execution
+- Retry tests simulate 7 seconds of delays in ~20ms
+- **21x faster** than real timing
+- Perfect for TDD workflow and rapid iteration
+
+**Implementation:**
+```typescript
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+
+beforeEach(() => {
+  // Only use fake timers if not in thorough mode
+  if (!process.env.TEST_REAL_TIMERS) {
+    vi.useFakeTimers();
+  }
+});
+
+afterEach(() => {
+  if (!process.env.TEST_REAL_TIMERS) {
+    vi.runAllTimers();
+    vi.useRealTimers();
+  }
+});
+
+it('should retry API call with exponential backoff', async () => {
+  // Test implementation...
+
+  if (!process.env.TEST_REAL_TIMERS) {
+    // Fast mode: Advance timers instantly
+    await vi.advanceTimersByTimeAsync(7000);
+  } else {
+    // Thorough mode: Wait for real delays
+    await new Promise(resolve => setTimeout(resolve, 7000));
+  }
+});
+```
+
+### Thorough Mode (CI/Production Validation)
+
+```bash
+npm run test:thorough  # Completes in ~14s
+```
+
+**Features:**
+- **Real timers** validate actual retry delays (1s, 2s, 4s exponential backoff)
+- Ensures timing-dependent code behaves correctly
+- Automatically used in GitHub Actions CI workflows
+- Catches timing bugs that fake timers might miss
+
+**Package.json Configuration:**
+```json
+{
+  "scripts": {
+    "test": "vitest run",
+    "test:thorough": "cross-env TEST_REAL_TIMERS=true vitest run"
+  }
+}
+```
+
+### Cross-Platform Compatibility
+
+**Package:** `cross-env` ensures environment variables work on Windows/Mac/Linux
+
+```bash
+# Works identically on all platforms
+npm run test:thorough
+```
+
+## Test Coverage
+
+### Coverage Thresholds
+
+**File:** [vitest.config.ts](../vitest.config.ts)
+
+```typescript
+coverage: {
+  provider: 'v8',
+  reporter: ['text', 'json', 'html'],
+  include: ['src/**/*.{ts,vue}'],
+  exclude: [
+    'node_modules/',
+    'src/**/*.spec.ts',
+    'src/**/*.test.ts',
+  ],
+  thresholds: {
+    lines: 50,
+    functions: 50,
+    branches: 50,
+    statements: 50
+  }
+}
+```
+
+### Coverage Reports
+
+```bash
+npm run test:coverage
+```
+
+**Output:**
+- **Terminal:** Text summary with color-coded coverage
+- **HTML:** Detailed report in `coverage/index.html`
+- **JSON:** Machine-readable data in `coverage/coverage-final.json`
+
+### Current Coverage Statistics
+
+```
+File                    | Lines  | Branches | Functions | Statements
+------------------------|--------|----------|-----------|------------
+src/utils/scroll.ts     | 85.7%  | 75.0%    | 100%      | 85.7%
+src/stores/appDataStore | 68.4%  | 61.5%    | 71.4%     | 68.4%
+------------------------|--------|----------|-----------|------------
+All files               | 76.2%  | 67.8%    | 84.6%     | 76.2%
+```
+
+## Test Suites
+
+### Scroll Utilities Test Suite
+
+**File:** [src/utils/scroll.test.ts](../src/utils/scroll.test.ts)
+
+**Tests:** 12 comprehensive tests
+
+**Coverage Areas:**
+- `getNavHeight()` - Header measurement with SSR fallbacks
+- `getHeaderHeightWithBuffer()` - Buffer calculation for mobile/desktop
+- `scrollToSection()` - Pixel-perfect scroll positioning
+- Edge cases: Missing elements, SSR environment, mobile detection
+
+**Key Test Patterns:**
+
+```typescript
+describe('getNavHeight', () => {
+  it('should return actual header height when available', () => {
+    const mockHeader = { getBoundingClientRect: () => ({ height: 100 }) };
+    document.querySelector = vi.fn().mockReturnValue(mockHeader);
+
+    expect(getNavHeight()).toBe(100);
+  });
+
+  it('should return fallback height in SSR context', () => {
+    document.querySelector = vi.fn().mockReturnValue(null);
+
+    expect(getNavHeight()).toBe(80); // SSR fallback
+  });
+});
+```
+
+### Data Store Test Suite
+
+**File:** [src/stores/appDataStore.test.ts](../src/stores/appDataStore.test.ts)
+
+**Tests:** 15 comprehensive tests
+
+**Coverage Areas:**
+- State initialization and defaults
+- API fetching with retry logic
+- Exponential backoff (1s, 2s, 4s delays)
+- Error handling and recovery
+- Page Visibility API integration
+- SSR guards and safety checks
+
+**Key Test Patterns:**
+
+```typescript
+describe('API retry logic', () => {
+  it('should retry failed requests with exponential backoff', async () => {
+    global.fetch = vi.fn()
+      .mockRejectedValueOnce(new Error('Network error')) // Attempt 1
+      .mockRejectedValueOnce(new Error('Network error')) // Attempt 2
+      .mockRejectedValueOnce(new Error('Network error')) // Attempt 3
+      .mockResolvedValueOnce({ ok: true, json: async () => mockData }); // Success
+
+    const store = useAppDataStore();
+    await store.fetchPlayerData();
+
+    expect(global.fetch).toHaveBeenCalledTimes(4);
+    expect(store.playerData).toEqual(mockData);
+  });
+});
+```
+
+## SSR-Safe Test Mocks
+
+### DOM Mocking for SSR Tests
+
+```typescript
+// Mock SSR environment
+const mockSSR = () => {
+  const originalDocument = global.document;
+  global.document = undefined as any;
+
+  return () => {
+    global.document = originalDocument;
+  };
+};
+
+it('should handle SSR gracefully', () => {
+  const restore = mockSSR();
+
+  // Test SSR behavior
+  expect(getNavHeight()).toBe(80); // Fallback
+
+  restore();
+});
+```
+
+### API Mocking
+
+```typescript
+beforeEach(() => {
+  // Mock fetch globally
+  global.fetch = vi.fn().mockResolvedValue({
+    ok: true,
+    json: async () => ({ players: 42 })
+  });
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+```
+
+### Timer Mocking (Hybrid Strategy)
+
+```typescript
+beforeEach(() => {
+  if (!process.env.TEST_REAL_TIMERS) {
+    vi.useFakeTimers();
+  }
+});
+
+afterEach(() => {
+  if (!process.env.TEST_REAL_TIMERS) {
+    vi.runAllTimers();
+    vi.useRealTimers();
+  }
+});
+
+it('should delay retry attempts', async () => {
+  // Setup failing fetch
+  global.fetch = vi.fn().mockRejectedValue(new Error('Fail'));
+
+  const promise = store.fetchData();
+
+  if (!process.env.TEST_REAL_TIMERS) {
+    // Fast mode: Instant timer advancement
+    await vi.advanceTimersByTimeAsync(7000); // 1s + 2s + 4s
+  } else {
+    // Thorough mode: Real delay
+    await new Promise(resolve => setTimeout(resolve, 7000));
+  }
+
+  await promise;
+  expect(global.fetch).toHaveBeenCalledTimes(4); // Initial + 3 retries
+});
+```
+
+## CI/CD Integration
+
+### GitHub Actions Configuration
+
+**File:** [.github/workflows/deploy.yml](../.github/workflows/deploy.yml)
+
+```yaml
+- name: Run tests
+  run: npm run test:thorough  # Uses real timers for production validation
+
+- name: Run linter
+  run: npm run lint
+
+- name: Type check
+  run: npx tsc --noEmit
+
+- name: Build
+  run: npm run build
+```
+
+### Pull Request Checks
+
+**File:** [.github/workflows/pr-checks.yml](../.github/workflows/pr-checks.yml)
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests (thorough mode)
+        run: npm run test:thorough
+
+      - name: Coverage check
+        run: npm run test:coverage
+```
+
+### Quality Gates
+
+Tests must pass before:
+- ✅ Merging pull requests
+- ✅ Deploying to production
+- ✅ Creating release tags
+
+## Test-Driven Development (TDD)
+
+### Recommended Workflow
+
+```bash
+# Start watch mode in terminal
+npm run test:watch
+
+# Make code changes in editor
+# Tests auto-run on file save
+# Get instant feedback
+
+# Optional: Open Vitest UI for debugging
+npm run test:ui
+```
+
+### Vitest UI Features
+
+Access at `http://localhost:51204` when running `npm run test:ui`
+
+- **Visual test runner** with file tree
+- **Real-time execution** with instant feedback
+- **Stack trace inspection** with source maps
+- **Coverage visualization** per file
+- **Filter controls** for focused testing
+
+## Writing New Tests
+
+### Test File Naming Convention
+
+```
+src/
+├── utils/
+│   ├── scroll.ts
+│   └── scroll.test.ts        # *.test.ts suffix
+├── stores/
+│   ├── appDataStore.ts
+│   └── appDataStore.test.ts
+└── components/
+    ├── Navigation.vue
+    └── Navigation.spec.ts    # *.spec.ts also supported
+```
+
+### Test Template
+
+```typescript
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { createPinia, setActivePinia } from 'pinia';
+
+describe('Feature Name', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia());
+
+    // Setup fake timers if not in thorough mode
+    if (!process.env.TEST_REAL_TIMERS) {
+      vi.useFakeTimers();
+    }
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+
+    if (!process.env.TEST_REAL_TIMERS) {
+      vi.runAllTimers();
+      vi.useRealTimers();
+    }
+  });
+
+  it('should do something', () => {
+    // Arrange
+    const input = 'test';
+
+    // Act
+    const result = functionUnderTest(input);
+
+    // Assert
+    expect(result).toBe('expected');
+  });
+});
+```
+
+### Vue Component Test Template
+
+```typescript
+import { mount } from '@vue/test-utils';
+import { describe, it, expect } from 'vitest';
+import MyComponent from './MyComponent.vue';
+
+describe('MyComponent', () => {
+  it('should render correctly', () => {
+    const wrapper = mount(MyComponent, {
+      props: { title: 'Test' }
+    });
+
+    expect(wrapper.text()).toContain('Test');
+    expect(wrapper.find('.component-class').exists()).toBe(true);
+  });
+
+  it('should emit events on interaction', async () => {
+    const wrapper = mount(MyComponent);
+
+    await wrapper.find('button').trigger('click');
+
+    expect(wrapper.emitted('click')).toBeTruthy();
+    expect(wrapper.emitted('click')![0]).toEqual(['payload']);
+  });
+});
+```
+
+## Best Practices
+
+### 1. Hybrid Timing Awareness
+
+```typescript
+// ✅ GOOD: Supports both modes
+if (!process.env.TEST_REAL_TIMERS) {
+  await vi.advanceTimersByTimeAsync(1000);
+} else {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+}
+
+// ❌ BAD: Only works in fake timer mode
+await vi.advanceTimersByTimeAsync(1000);
+```
+
+### 2. SSR Safety
+
+```typescript
+// ✅ GOOD: Handles SSR gracefully
+const element = document?.querySelector('header');
+if (!element) return FALLBACK_VALUE;
+
+// ❌ BAD: Crashes in SSR
+const element = document.querySelector('header');
+return element.getBoundingClientRect().height;
+```
+
+### 3. Mock Cleanup
+
+```typescript
+// ✅ GOOD: Clean up in afterEach
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
+// ❌ BAD: Mocks persist across tests
+// (No cleanup)
+```
+
+### 4. Descriptive Test Names
+
+```typescript
+// ✅ GOOD: Clear and specific
+it('should retry failed API call 3 times with exponential backoff', () => {});
+
+// ❌ BAD: Vague
+it('should work', () => {});
+```
+
+### 5. Arrange-Act-Assert Pattern
+
+```typescript
+it('should calculate total with tax', () => {
+  // Arrange
+  const subtotal = 100;
+  const taxRate = 0.08;
+
+  // Act
+  const total = calculateTotal(subtotal, taxRate);
+
+  // Assert
+  expect(total).toBe(108);
+});
+```
+
+## Troubleshooting
+
+### Common Issues
+
+#### "document is not defined" Error
+
+```typescript
+// Problem: Missing SSR guard
+const height = document.querySelector('header').offsetHeight;
+
+// Solution: Add SSR check
+const header = document?.querySelector('header');
+const height = header?.offsetHeight || FALLBACK;
+```
+
+#### Tests Timing Out
+
+```bash
+# Problem: Test expects real timers but fake timers are active
+# Solution: Use thorough mode
+npm run test:thorough
+```
+
+#### Coverage Below Threshold
+
+```bash
+# Check coverage report
+npm run test:coverage
+
+# View HTML report
+open coverage/index.html
+
+# Add tests for uncovered code
+```
+
+#### Bun Test Failures
+
+```bash
+# Problem: Using wrong test runner
+bun test  # ❌ Wrong
+
+# Solution: Use package.json script
+bun run test  # ✅ Correct
+```
+
+## Future Testing Enhancements
+
+Planned improvements:
+- [ ] E2E tests with Playwright
+- [ ] Visual regression testing
+- [ ] Component snapshot testing
+- [ ] Performance benchmarking
+- [ ] Accessibility testing (axe-core)
+
+---
+
+*For architectural details, see [architecture.md](architecture.md). For design guidelines, see [design-system.md](design-system.md).*
