@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ref, toRef, onMounted, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { getDynamicHeaderHeight } from '../utils/scroll';
 import { AnalyticsEvents } from '../utils/analytics';
 
 const mobileOpen = ref(false);
-const router = useRouter();
 
 const props = defineProps<{
   activeSection?: string | undefined;

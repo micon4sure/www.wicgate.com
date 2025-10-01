@@ -30,10 +30,8 @@ export function initSentry(app: App) {
 
       // Integration configuration
       integrations: [
-        new Sentry.BrowserTracing({
-          routingInstrumentation: Sentry.vueRouterInstrumentation,
-        }),
-        new Sentry.Replay({
+        Sentry.browserTracingIntegration(),
+        Sentry.replayIntegration({
           maskAllText: false,
           blockAllMedia: false,
         }),

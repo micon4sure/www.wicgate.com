@@ -1,3 +1,5 @@
+/// <reference types="vite-plugin-pwa/client" />
+
 import { ViteSSG } from 'vite-ssg';
 import { createHead } from '@vueuse/head';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -32,14 +34,14 @@ if (typeof window !== 'undefined') {
         console.log('[PWA] App ready to work offline');
       }
     },
-    onRegistered(registration) {
+    onRegistered(_registration: ServiceWorkerRegistration | undefined) {
       if (import.meta.env.DEV) {
-        console.log('[PWA] Service worker registered:', registration);
+        console.log('[PWA] Service worker registered');
       }
     },
-    onRegisterError(error) {
+    onRegisterError(_error: Error) {
       if (import.meta.env.DEV) {
-        console.error('[PWA] Service worker registration error:', error);
+        console.error('[PWA] Service worker registration error');
       }
     },
   });
@@ -77,7 +79,7 @@ export const createApp = ViteSSG(
       return { top: 0 };
     },
   },
-  ({ app, router, initialState }) => {
+  ({ app, initialState }) => {
     // Setup head management
     const head = createHead();
     app.use(head);
