@@ -50,10 +50,12 @@ function goHome() {
       <div class="gm-controls">
         <div class="gm-status">
           <span class="gm-status-count">{{ playerCount }}</span>
+          <span class="gm-status-divider" />
           <span class="gm-status-label">Players Online</span>
         </div>
-        <button class="gm-exit" @click="goHome">
-          <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Exit Game Mode
+        <button class="gm-btn-base gm-exit" @click="goHome">
+          <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+          Exit Game Mode
         </button>
       </div>
     </div>
@@ -144,9 +146,10 @@ function goHome() {
     order: 0;
     width: auto;
     justify-content: flex-start;
-    padding: 4px 8px;
+    padding: 0 12px;
     gap: 6px;
     min-width: fit-content;
+    height: 44px;
   }
 
   .gm-status-count {
@@ -157,9 +160,14 @@ function goHome() {
     display: none; /* Hide "Players Online" text to save space */
   }
 
-  .gm-status-dot {
-    width: 6px;
-    height: 6px;
+  .gm-status-divider {
+    display: none; /* Hide divider when label is hidden */
+  }
+
+  .gm-exit {
+    height: 44px;
+    padding: 0 14px;
+    font-size: 12px;
   }
 
   .gm-body {
@@ -244,16 +252,18 @@ function goHome() {
 
   /* Make status button even more compact on small mobile */
   .gm-status {
-    padding: 3px 6px;
+    padding: 0 10px;
+    height: 40px;
   }
 
   .gm-status-count {
     font-size: 13px;
   }
 
-  .gm-status-dot {
-    width: 5px;
-    height: 5px;
+  .gm-exit {
+    height: 40px;
+    padding: 0 12px;
+    font-size: 11px;
   }
 
   .gm-stats {

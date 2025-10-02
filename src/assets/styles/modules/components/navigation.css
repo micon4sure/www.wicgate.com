@@ -92,13 +92,25 @@ header {
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
+.players-btn-nav:active {
+  color: var(--ink);
+  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.8) 100%);
+  border-color: rgba(var(--sw-rgb), 0.9);
+  transform: scale(0.98) translateY(0px);
+  box-shadow:
+    0 1px 8px rgba(0, 0, 0, 0.5),
+    0 0 16px rgba(var(--sw-rgb), 0.6),
+    inset 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
 .p-count {
   font-weight: 700;
   font-size: 16px;
   color: var(--sw);
 }
 
-.players-btn-nav:hover .p-count {
+.players-btn-nav:hover .p-count,
+.players-btn-nav:active .p-count {
   color: var(--ink);
 }
 
@@ -109,7 +121,8 @@ header {
   margin: 0 12px;
 }
 
-.players-btn-nav:hover .p-divider {
+.players-btn-nav:hover .p-divider,
+.players-btn-nav:active .p-divider {
   background: rgba(var(--ink-rgb), 0.4);
 }
 

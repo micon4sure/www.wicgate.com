@@ -203,24 +203,36 @@ Typography automatically scales down on mobile breakpoints. See [typography.css]
 
 #### Players Button (Pill Design)
 ```css
-.players-button {
+.players-btn-nav {
   height: 52px;
-  border-radius: 26px; /* Perfect pill shape */
-  transition: var(--transition-base);
+  background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.95) 100%);
+  border: 1px solid rgba(var(--sw-rgb), 0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.players-button:hover {
+.players-btn-nav:hover {
   background: linear-gradient(180deg,
     rgba(var(--sw-rgb), 0.85) 0%,
     rgba(var(--sw-rgb), 0.68) 100%);
   transform: scale(1.03) translateY(-2px);
 }
+
+.players-btn-nav:active {
+  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.8) 100%);
+  transform: scale(0.98) translateY(0px);
+  box-shadow:
+    0 1px 8px rgba(0, 0, 0, 0.5),
+    0 0 16px rgba(var(--sw-rgb), 0.6),
+    inset 0 3px 6px rgba(0, 0, 0, 0.2);
+}
 ```
 
 **Key Features:**
-- Independent 52px pill shape (border-radius: 26px)
-- Slightly stronger scale (1.03x) for emphasis
-- Optimized for thumb/finger interaction
+- 52px height with rectangular navigation styling
+- Matches navigation tabs design (not pill-shaped)
+- Slightly stronger scale (1.03x) for emphasis on hover
+- Clear active/pressed state with scale(0.98) and inset shadow
+- Optimized for thumb/finger interaction on mobile
 
 #### Mobile Navigation
 ```css
@@ -273,6 +285,89 @@ Typography automatically scales down on mobile breakpoints. See [typography.css]
 ```
 
 **⚠️ Critical Rule:** Reserve `.btn-download` (red) EXCLUSIVELY for executable program downloads (e.g., WIC LIVE). Use `.btn-p` (orange) for standard actions.
+
+#### Game Mode Header Controls
+
+**File:** [src/assets/styles/modules/components/game-mode.css](../src/assets/styles/modules/components/game-mode.css)
+
+Game mode header includes a static status display and interactive exit button.
+
+**Players Online Status (Static Display):**
+```css
+.gm-status {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.95) 100%);
+  border: 1px solid rgba(var(--sw-rgb), 0.3);
+  /* No hover effects - static display */
+}
+```
+
+**Exit Button (Interactive):**
+```css
+.gm-btn-base {
+  background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.95) 100%);
+  border: 1px solid rgba(var(--sw-rgb), 0.3);
+  color: var(--t2);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.gm-btn-base:hover {
+  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.85) 0%, rgba(var(--sw-rgb), 0.68) 100%);
+  color: var(--ink);
+  transform: scale(1.03) translateY(-2px);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    0 0 24px rgba(var(--sw-rgb), 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.gm-btn-base:active {
+  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.8) 100%);
+  transform: scale(0.98) translateY(0px);
+  box-shadow:
+    0 1px 8px rgba(0, 0, 0, 0.5),
+    0 0 16px rgba(var(--sw-rgb), 0.6),
+    inset 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+```
+
+**Game Mode Header:**
+```css
+.gm-header {
+  background: linear-gradient(180deg, rgba(var(--graphite-light-rgb), 0.95) 0%, rgba(var(--graphite-dark-rgb), 0.98) 100%);
+  border-bottom: 3px solid rgba(var(--graphite-rgb), 0.85);
+  box-shadow:
+    0 2px 24px rgba(0, 0, 0, 0.75),
+    0 0 36px rgba(var(--graphite-rgb), 0.35);
+}
+```
+
+**Usage:**
+```html
+<!-- Players Online status - static display -->
+<div class="gm-status">
+  <span class="gm-status-count">{{ playerCount }}</span>
+  <span class="gm-status-divider" />
+  <span class="gm-status-label">Players Online</span>
+</div>
+
+<!-- Exit Game Mode button - interactive -->
+<button class="gm-btn-base gm-exit" @click="goHome">
+  <i class="fa-solid fa-right-from-bracket"></i>
+  Exit Game Mode
+</button>
+```
+
+**Key Features:**
+- Game mode header matches navigation's dark graphite background
+- `.gm-status` is a static display with no hover effects
+- `.gm-btn-base` provides interactive navigation-style hover and active states
+- Exit button uses orange gradient hover with `var(--ink)` text
+- Clear active/pressed state: scale(0.98), deeper inset shadow
+- Multi-layer shadows: elevation + glow + highlight on hover
+- Stronger tactile feedback on click/tap for better UX
+- Responsive heights: 52px desktop, 44px tablet, 40px mobile
 
 #### Hyperlink Standards
 ```css
