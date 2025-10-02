@@ -395,7 +395,9 @@ watch(
         <div class="hero-grid container">
           <div class="hero-content">
             <div class="hero-tag">THE WAR CONTINUES</div>
-            <h1 class="military-title">World in Conflict<br /><span class="hero-subtitle">is Live Again</span></h1>
+            <h1 class="military-title">
+              World in Conflict<br /><span class="hero-subtitle">is Live Again</span>
+            </h1>
             <p class="hero-description">
               Join our community in epic Cold War battles. Fully restored multiplayer servers with
               the real Massgate code.

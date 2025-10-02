@@ -79,7 +79,7 @@ export const createApp = ViteSSG(
       return { top: 0 };
     },
   },
-  ({ app, initialState }) => {
+  ({ app }) => {
     // Setup head management
     const head = createHead();
     app.use(head);
@@ -87,10 +87,5 @@ export const createApp = ViteSSG(
     // Provide the app base so components can construct asset URLs
     const runtimeBase = getRuntimeBase();
     app.provide('appBase', runtimeBase.endsWith('/') ? runtimeBase : runtimeBase + '/');
-
-    // Restore state on client-side
-    if (import.meta.env.SSR) {
-      initialState.pinia = {};
-    }
   }
 );
