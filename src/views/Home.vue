@@ -203,7 +203,7 @@ const slides: Slide[] = [
   },
 ];
 const curSlide = ref(0);
-let int: any;
+let int: number | undefined;
 function nextSlide() {
   curSlide.value = (curSlide.value + 1) % slides.length;
   resetInterval();

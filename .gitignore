@@ -3,6 +3,7 @@
 .env.production
 node_modules
 dist
+dev-dist
 coverage
 .vite-ssg-temp
 *.log
