@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🔄 **Navigation Scroll Fix** - Simplified resize handler to use centralized `scrollToSection()` utility (Oct 2)
 - 📖 **GUIDE.md Optimization** - Streamlined from 500 → 182 lines, essential patterns only (Oct 2)
 - 📋 **Documentation Restructure** - CLAUDE.md → pure preferences, GUIDE.md → detailed patterns (Oct 2)
 - 📘 **API Documentation** - Complete endpoint reference, data structures, integration patterns (Oct 2)
@@ -22,6 +23,60 @@
 ---
 
 ## October 2025
+
+### 🔄 Navigation Scroll Refactor - Code Consistency
+
+**Status:** Complete (October 2, 2025)
+
+**Problem:** Navigation.vue resize handler used a two-step scroll approach (scrollIntoView → manual offset adjustment) instead of the centralized `scrollToSection()` utility, creating code inconsistency.
+
+**Solution:** Refactored to use the same single-scroll pattern used throughout the codebase.
+
+**Changes:**
+- **Navigation.vue:3** - Updated import from `getDynamicHeaderHeight` to `scrollToSection`
+- **Navigation.vue:84-86** - Simplified resize handler from 13 lines to 3 lines
+- **components/README.md** - Updated documentation to reflect centralized scroll utility usage
+- **Eliminated deprecated function usage** - No longer uses `getDynamicHeaderHeight()`
+
+**Before (13 lines, two-step scroll):**
+```typescript
+const contentAnchor = document.getElementById(`${activeSection.value}-content`);
+const sectionElement = document.getElementById(activeSection.value!);
+const element = contentAnchor || sectionElement;
+
+if (element) {
+  element.scrollIntoView({ block: 'start' });
+  const headerHeight = getDynamicHeaderHeight();
+  const currentScroll = window.scrollY || window.pageYOffset;
+  window.scrollTo({
+    top: currentScroll - headerHeight,
+    behavior: 'auto',
+  });
+}
+```
+
+**After (3 lines, single-scroll):**
+```typescript
+if (activeSection.value) {
+  scrollToSection(activeSection.value, 'auto');
+}
+```
+
+**Benefits:**
+- ✅ Single source of truth for scroll calculations
+- ✅ Eliminates two-step scroll (scrollIntoView + adjustment)
+- ✅ Pixel-perfect positioning using `getNavHeight()` (exact height, no buffer)
+- ✅ Maintains all existing functionality (resize detection, 150ms delay)
+- ✅ Reduces code by 10 lines (-77% complexity)
+- ✅ Removes dependency on deprecated function
+
+**Impact:**
+- **Code size:** -10 lines
+- **Bundle size:** Negligible (removes unused code path)
+- **User experience:** Identical (one scroll operation vs. two)
+- **Maintainability:** Improved (single pattern across codebase)
+
+---
 
 ### 📖 GUIDE.md Optimization & Deep Dive Docs
 

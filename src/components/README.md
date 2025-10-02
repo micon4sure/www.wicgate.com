@@ -41,7 +41,7 @@ Main site navigation with desktop tabs and mobile hamburger menu.
 - Rectangular tab navigation on desktop
 - Full-screen mobile menu with smooth animations
 - Dynamic header height measurement
-- Scroll position preservation on resize
+- Scroll position preservation on resize using centralized `scrollToSection()` utility
 - Players online button integration
 
 **Usage:**
@@ -238,8 +238,10 @@ Frequently asked questions with accordion UI.
 ## Utility Functions
 
 ### Scroll Utilities (`src/utils/scroll.ts`)
-- `getDynamicHeaderHeight()` - Calculates header height
-- `scrollToSection(id, behavior)` - Smooth scroll to section
+- `getNavHeight()` - Gets exact navigation header height (no buffer)
+- `getHeaderHeightWithBuffer()` - Gets header height with detection tolerance buffer
+- `scrollToSection(id, behavior)` - Pixel-perfect scroll to section with header offset
+- `getDynamicHeaderHeight()` - **@deprecated** Use `getHeaderHeightWithBuffer()` instead
 
 ### Structured Data (`src/utils/structuredData.ts`)
 - `generateOrganizationSchema()` - Organization info

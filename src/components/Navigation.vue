@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, toRef, onMounted, onUnmounted } from 'vue';
-import { getDynamicHeaderHeight } from '../utils/scroll';
+import { scrollToSection } from '../utils/scroll';
 import { AnalyticsEvents } from '../utils/analytics';
 
 const mobileOpen = ref(false);
@@ -82,19 +82,7 @@ function handleWindowResize() {
     if (activeSection.value) {
       // Small delay to ensure CSS has updated after resize
       setTimeout(() => {
-        const contentAnchor = document.getElementById(`${activeSection.value}-content`);
-        const sectionElement = document.getElementById(activeSection.value!);
-        const element = contentAnchor || sectionElement;
-
-        if (element) {
-          element.scrollIntoView({ block: 'start' });
-          const headerHeight = getDynamicHeaderHeight();
-          const currentScroll = window.scrollY || window.pageYOffset;
-          window.scrollTo({
-            top: currentScroll - headerHeight,
-            behavior: 'auto',
-          });
-        }
+        scrollToSection(activeSection.value!, 'auto');
       }, 150);
     }
   }
