@@ -71,11 +71,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 48px;
+  width: 68px;
   height: 48px;
-  background: rgba(var(--brand-youtube-peak-rgb), 0.9);
+  background: rgba(255, 0, 0, 0.9);
   color: #fff;
-  border-radius: 0;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,8 +92,8 @@
 .vid-card:active .play-over {
   opacity: 1;
   animation: playBtnScale 0.2s ease-out;
-  background: rgba(var(--brand-youtube-peak-rgb), 1);
-  box-shadow: 0 0 20px rgba(var(--brand-youtube-peak-rgb), 0.6);
+  background: rgba(255, 0, 0, 1);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
   transition: none;
 }
 

@@ -297,6 +297,59 @@ Typography automatically scales down on mobile breakpoints. See [typography.css]
 
 **Pattern:** Massgate orange with hover underline, `target="_blank"` for external links.
 
+#### Video Play Button
+
+**Files:**
+- [src/assets/styles/modules/components/community.css](../src/assets/styles/modules/components/community.css) (lines 568-598)
+- [src/assets/styles/modules/components/videos.css](../src/assets/styles/modules/components/videos.css) (lines 69-98)
+
+**Design:** YouTube-style rounded rectangle play button for video thumbnails.
+
+```css
+.play-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 68px;
+  height: 48px;
+  background: rgba(255, 0, 0, 0.9);  /* YouTube red */
+  color: #fff;
+  border-radius: 10px;  /* Rounded corners */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+@media (hover: hover) {
+  .vid-card:hover .play-over {
+    opacity: 1;
+  }
+}
+
+.vid-card:active .play-over {
+  opacity: 1;
+  background: rgba(255, 0, 0, 1);
+  transform: translate(-50%, -50%) scale(0.95);
+}
+```
+
+**Key Features:**
+- **Shape:** 68px × 48px rounded rectangle (YouTube's 1.42:1 aspect ratio)
+- **Color:** YouTube red `rgba(255, 0, 0, 0.9)` - instantly recognizable
+- **Corners:** 10px border-radius for YouTube's signature rounded style
+- **Icon:** Default Font Awesome `fa-play` - no custom sizing needed
+- **Behavior:** Fades in on hover, scales down slightly on click
+- **Simple:** Fixed size, no responsive complexity
+
+**Why This Design:**
+- Matches YouTube's actual play button shape
+- Instantly recognizable to users
+- Clean, minimal implementation
+- Works well at all screen sizes without breakpoints
+
 ### Leaderboard Components
 
 **File:** [src/assets/styles/modules/components/leaderboards.css](../src/assets/styles/modules/components/leaderboards.css)
