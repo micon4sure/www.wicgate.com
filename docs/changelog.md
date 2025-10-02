@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎯 **Primary CTA Enhancement** - Dramatically improved download/Discord button interactivity (Oct 2)
 - 🏆 **Leaderboard Top 3 Styling** - Removed glow effects from podium colors (Oct 2)
 - 🎮 **Game Mode Header Buttons** - Revamped to match navigation's interactive design system (Oct 2)
 - ▶️ **YouTube Play Button** - Updated to match YouTube's rounded rectangle shape (Oct 2)
@@ -28,6 +29,77 @@
 ---
 
 ## October 2025
+
+### 🎯 Primary CTA Button Enhancement
+
+**Status:** Complete (October 2, 2025)
+
+**Problem:** Download and Discord buttons (primary CTAs) felt less interactive than navigation elements despite being the most important actions on the site. Hover effects used confusing bright white highlights instead of colored glows, and click feedback was too subtle.
+
+**Solution:** Dramatically enhanced all hover and active states with prominent scaling, colored glows, and deeper tactile feedback. Changed hero button text from "Get WIC LIVE" to clearer "INSTALL WICGATE".
+
+**Changes:**
+- **buttons.css:76-84** - `.btn-download:hover` enhanced with `scale(1.05)`, red glow (40px @ 0.5 opacity)
+- **buttons.css:87-92** - `.btn-download:active` enhanced with `scale(0.96)`, deeper inset (4px)
+- **buttons.css:106-114** - `.btn-d:hover` enhanced with `scale(1.05)`, blue glow (40px @ 0.55 opacity)
+- **buttons.css:117-122** - `.btn-d:active` enhanced with `scale(0.96)`, deeper inset (4px)
+- **buttons.css:211-218** - `.btn-danger:hover` enhanced with `scale(1.05)`, red glow (40px @ 0.55 opacity)
+- **buttons.css:222-227** - `.btn-danger:active` enhanced with `scale(0.96)`, deeper inset (4px)
+- **Home.vue:410** - Changed hero button text "Get WIC LIVE" → "INSTALL WICGATE"
+
+**Before:**
+```css
+.btn-download:hover {
+  box-shadow:
+    0 8px 20px rgba(var(--dl-rgb), 0.35),
+    0 0 18px rgba(var(--dl-rgb), 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16); /* Bright white highlight */
+  transform: translateY(-2px); /* No scaling */
+}
+
+.btn-download:active {
+  transform: translateY(1px) scale(0.98); /* Subtle press */
+  inset 0 2px 3px rgba(0, 0, 0, 0.25); /* Shallow inset */
+}
+```
+
+**After:**
+```css
+.btn-download:hover {
+  box-shadow:
+    0 12px 36px rgba(var(--dl-rgb), 0.6),
+    0 0 40px rgba(var(--dl-rgb), 0.5), /* Strong red glow */
+    inset 0 1px 0 rgba(255, 255, 255, 0.1); /* Subtle highlight */
+  transform: scale(1.05) translateY(-3px); /* Prominent lift */
+}
+
+.btn-download:active {
+  transform: scale(0.96) translateY(2px); /* Strong press-down */
+  inset 0 4px 8px rgba(0, 0, 0, 0.4); /* Deep tactile feedback */
+}
+```
+
+**Interactivity Comparison:**
+| Element | Hover Scale | Active Scale | Glow Spread | Effect Strength |
+|---------|-------------|--------------|-------------|-----------------|
+| Navigation tabs | 1.03x | 0.98x | 24px | Moderate |
+| **Download/Discord** | **1.05x** | **0.96x** | **40px** | **Maximum** ✓ |
+| Primary orange button | 1.00x | 0.98x | 24px | Moderate |
+
+**Impact:**
+- ✅ Download and Discord buttons now feel like the most interactive elements on the site
+- ✅ Clear colored glows (red/blue) instead of confusing white highlights
+- ✅ Dramatic 5% scale-up on hover for prominent lift
+- ✅ Strong 4% scale-down on click with deeper press (2px down, 4px inset shadow)
+- ✅ Appropriate emphasis for primary CTAs
+- ✅ Clearer hero button text: "INSTALL WICGATE" vs "Get WIC LIVE"
+
+**Visual Hierarchy Achieved:**
+1. **Primary CTAs (Download/Discord)** - Maximum interactivity (scale 1.05 → 0.96)
+2. **Navigation elements** - High interactivity (scale 1.03 → 0.98)
+3. **Secondary buttons** - Moderate interactivity (scale 1.00 → 0.98)
+
+---
 
 ### 🏆 Leaderboard Top 3 Styling Cleanup
 

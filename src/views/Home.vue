@@ -407,7 +407,7 @@ watch(
                 href="#getting-started"
                 class="btn btn-download"
                 @click.prevent="scrollToGettingStarted"
-                ><i class="fa-solid fa-arrow-down" aria-hidden="true"></i> Get WIC LIVE</a
+                ><i class="fa-solid fa-arrow-down" aria-hidden="true"></i> INSTALL WICGATE</a
               >
               <a
                 href="https://discord.gg/WnxwfMTyBe"
