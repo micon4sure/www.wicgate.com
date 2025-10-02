@@ -1,6 +1,189 @@
 # Changelog
 
+## Recent Changes - Quick Summary
+
+- 📖 **GUIDE.md Optimization** - Streamlined from 500 → 182 lines, essential patterns only (Oct 2)
+- 📋 **Documentation Restructure** - CLAUDE.md → pure preferences, GUIDE.md → detailed patterns (Oct 2)
+- 📘 **API Documentation** - Complete endpoint reference, data structures, integration patterns (Oct 2)
+- 📚 **Documentation Enhancement** - Fixed state management docs, added quick summaries, enhanced onboarding (Oct 2)
+- 📱 **PWA Implementation** - Full offline capability, installable app with service worker
+- 📊 **Analytics Integration** - 15 event categories, Web Vitals tracking
+- 🧪 **Testing Infrastructure** - 27 tests, hybrid timing (0.7s fast / 14s thorough)
+- ♻️ **Scroll System Refactor** - 3 focused functions, eliminated 40+ lines duplication
+- 🔧 **Enhanced Error Handling** - 3-retry exponential backoff, Page Visibility API
+- 🔍 **SEO Revolution** - 7 unique pre-rendered HTML files, path-based routing
+- 🚀 **Pixel-Perfect Navigation** - Dynamic measurement, zero hardcoded values
+- 🎨 **Navigation Modernization** - Rectangular tabs, multi-layer shadows
+- 🔵 **Interactive Elements Unification** - Consistent orange hover backgrounds
+- 🎯 **Players Button Redesign** - 52px pill-shaped, mobile-optimized
+- 🔗 **Advanced Setup UX** - Professional hyperlinks for file downloads
+- 👤 **Content Creator Redesign** - Ultra-compact badges (37% size reduction)
+
+---
+
 ## October 2025
+
+### 📖 GUIDE.md Optimization & Deep Dive Docs
+
+**Status:** Complete (October 2, 2025)
+
+**Problem:** GUIDE.md at 500 lines was too dense for quick onboarding, even as a "read once" guide.
+
+**Solution:** Streamlined GUIDE.md to essentials only, moved deep content to relevant docs.
+
+**Changes:**
+- **GUIDE.md** - Reduced from 500 → 182 lines (64% reduction)
+- **docs/troubleshooting.md** - NEW file with all troubleshooting scenarios
+- **docs/design-system.md** - Enhanced with "WHY" explanations and examples
+- **docs/architecture.md** - Enhanced with detailed SSR guard patterns
+
+**GUIDE.md (182 lines - Essentials Only):**
+- Documentation index
+- 8 essential patterns (minimal, with links to deep dives)
+- 2 critical gotchas (Composables, bun run test)
+- Common mistakes table
+- Key files reference
+- "When You're Stuck" quick links
+
+**docs/troubleshooting.md (NEW - ~300 lines):**
+- Build issues (SSR guards, module resolution)
+- Test failures (package manager, timing, coverage)
+- Styling issues (CSS modules, scroll positioning)
+- Type errors
+- Environment variables
+- Runtime errors
+- Performance issues
+- Git issues
+- Quick diagnostic commands
+
+**docs/design-system.md (Enhanced):**
+- Added "Why Design Tokens?" explanation
+- Added visual examples (wrong vs correct)
+
+**docs/architecture.md (Enhanced):**
+- Added "Why SSR Guards?" explanation
+- Added detailed code examples (wrong vs correct)
+- Added "Files Requiring Guards" list
+
+**Impact:**
+- **Lighter onboarding:** 182 lines vs 500 lines for first read
+- **Faster reference:** Jump to relevant deep dive doc instead of scrolling through 500 lines
+- **Better organization:** Troubleshooting separate from patterns
+- **Comprehensive help:** All error scenarios documented in one place
+
+**Files:**
+- GUIDE.md - Streamlined to essentials
+- docs/troubleshooting.md - Created (~300 lines)
+- docs/design-system.md - Enhanced (+20 lines)
+- docs/architecture.md - Enhanced (+40 lines)
+
+### 📋 Documentation Structure Optimization
+
+**Status:** Complete (October 2, 2025)
+
+**Problem:** CLAUDE.md was 133 lines mixing user preferences with detailed documentation, making it unclear what was "must do" vs "nice to know."
+
+**Solution:** Separated concerns into focused files with clear purposes.
+
+**Changes:**
+- **CLAUDE.md** - Reduced from 133 → 58 lines (pure user preferences/constraints)
+- **GUIDE.md** - NEW file with all detailed patterns, examples, and explanations
+- **AGENTS.md** - Updated to reference GUIDE.md as primary onboarding doc
+
+**CLAUDE.md (Pure Preferences - 58 lines):**
+- Commands agents need to know
+- 6 mandatory constraints (NEVER/ALWAYS rules)
+- Workflow preferences (when to update which docs)
+- Quality gates
+
+**GUIDE.md (Complete Agent Guide - ~500 lines):**
+- Detailed rules with WHY explanations
+- Code examples (wrong vs correct)
+- Troubleshooting guide
+- Common mistakes reference
+- Key files reference
+- State management pattern explanation
+- Package manager gotchas
+
+**Impact:**
+- **True purpose:** CLAUDE.md is now actual user preferences (like .eslintrc for AI)
+- **Better separation:** Preferences vs documentation clearly distinct
+- **Easier maintenance:** Change preferences without touching documentation
+- **Clearer onboarding:** GUIDE.md provides complete context for new agents
+- **Scalability:** Can expand documentation without bloating preferences
+
+**Files:**
+- CLAUDE.md - Rewritten as pure preferences
+- GUIDE.md - Created with all explanatory content
+- AGENTS.md - Updated Quick Links to prioritize GUIDE.md
+
+### 📘 WiCGATE API Documentation
+
+**Status:** Complete (October 2, 2025)
+
+**Features:**
+- Complete API reference documentation for all 5 endpoints
+- Comprehensive data structure documentation (7 types)
+- Request/response examples with real data
+- Integration patterns and best practices
+- Error handling and retry logic documentation
+- Caching strategy (client-side + PWA)
+- TypeScript type reference
+- Testing and mocking guidelines
+
+**API Endpoints Documented:**
+- `GET /api/data` - Complete dataset (servers, players, all leaderboards)
+- `GET /api/online` - Currently online servers and players
+- `GET /api/leaderboard/all` - All 10 leaderboard variants
+- `GET /api/leaderboard/ladder` - Player ladder rankings
+- `GET /api/events` - Discord community events
+
+**Data Structures Documented:**
+- ServerEntry - Active game servers
+- OnlineProfile - Currently online players with server info
+- LeaderboardEntry - Player leaderboard entries with clan tags
+- LadderEntry - Player ladder rankings
+- DiscordEvent - Community events with countdown timers
+
+**Impact:**
+- **Complete API reference** - Developers can integrate with WiCGATE API
+- **Clear integration patterns** - Examples show proper usage with retry logic
+- **Fixed environment variable** - Corrected VITE_API_BASE_URL → VITE_API_BASE
+- **Better discoverability** - API docs linked from architecture, CLAUDE.md, AGENTS.md
+- **Type safety documented** - TypeScript interfaces explained with context
+
+**Files:**
+- docs/api.md - Complete API documentation (~600 lines)
+- README.md - Fixed environment variable name
+- docs/architecture.md - Added API overview in Data Layer section
+- CLAUDE.md - Added API docs to Quick Links
+- AGENTS.md - Added API docs to Quick Links
+
+### 📚 Documentation Enhancement & Architecture Clarification
+
+**Status:** Complete (October 2, 2025)
+
+**Features:**
+- Added Quick Architecture Summary to docs/architecture.md for rapid onboarding
+- Fixed state management documentation (composable modules, NOT Pinia)
+- Enhanced Contributing guidelines in README.md
+- Added Quick Summary section to changelog for easy scanning
+- Added inline comments to README.md Project Structure
+- Comprehensive gap analysis comparing OLD_ARCHIVE vs current docs
+
+**Impact:**
+- **Accurate documentation** - State management pattern correctly documented
+- **Faster onboarding** - Quick summary helps new developers understand architecture in seconds
+- **Clear contribution workflow** - Explicit guidance on CLAUDE.md and AGENTS.md updates
+- **Better discoverability** - Enhanced project structure with descriptive comments
+- **Scannable changelog** - Quick summary with emoji markers for rapid navigation
+
+**Changes:**
+- docs/architecture.md - Added Quick Architecture Summary, updated State Management section
+- README.md - Fixed Pinia references, enhanced Contributing section, added component descriptions
+- CLAUDE.md - Updated stack reference (Composable Modules instead of Pinia)
+- AGENTS.md - Updated stack and file organization references
+- docs/changelog.md - Added Quick Summary section at top
 
 ### 📱 Progressive Web App (PWA) Implementation
 

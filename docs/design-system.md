@@ -12,6 +12,25 @@ WiCGATE uses a comprehensive design system inspired by the original Massgate mil
 
 **Critical Rule:** NEVER use hardcoded hex values. ALWAYS reference design tokens via `var(--token-name)`.
 
+**Why Design Tokens?**
+- **Visual Consistency:** All colors, spacing, and effects centralized in one file
+- **Theme Changes:** Update entire site by changing token values
+- **Maintainability:** No scattered hardcoded values across 50+ files
+- **Refactoring:** Change `--sw` from orange to blue → entire site updates instantly
+
+**Example:**
+```css
+/* ❌ WRONG - Hardcoded values scattered everywhere */
+.button { color: #ff6600; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
+.link { color: #ff6600; }
+.badge { background: #ff6600; }
+
+/* ✅ CORRECT - Design tokens centralized */
+.button { color: var(--sw); box-shadow: var(--shadow-md); }
+.link { color: var(--sw); }
+.badge { background: var(--sw); }
+```
+
 ### Color Palette
 
 #### Structure Colors (Steel/Graphite)

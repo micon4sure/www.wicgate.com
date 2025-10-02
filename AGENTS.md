@@ -1,16 +1,18 @@
 # AGENTS.md – AI Agent Operational Guide
 
-> **Purpose:** Quick-reference guide for AI agents working on WiCGATE. For detailed documentation, see [CLAUDE.md](CLAUDE.md) and [docs/](docs/).
+> **Purpose:** Quick-reference guide for AI agents working on WiCGATE. For detailed documentation, see [GUIDE.md](GUIDE.md) and [docs/](docs/).
 
 ---
 
 ## Quick Links
 
-- **[CLAUDE.md](CLAUDE.md)** - Complete agent operational rules
+- **[GUIDE.md](GUIDE.md)** - Complete agent guide with detailed patterns and examples
+- **[CLAUDE.md](CLAUDE.md)** - User preferences and mandatory constraints
 - **[README.md](README.md)** - Project overview and setup
 - **[docs/architecture.md](docs/architecture.md)** - Technical architecture
 - **[docs/design-system.md](docs/design-system.md)** - CSS tokens and UI patterns
 - **[docs/testing.md](docs/testing.md)** - Testing guide
+- **[docs/api.md](docs/api.md)** - API endpoints and data structures
 - **[docs/changelog.md](docs/changelog.md)** - Recent changes
 
 ---
@@ -19,7 +21,7 @@
 
 **WiCGATE** - Community portal for World in Conflict multiplayer revival
 
-- **Stack:** Vue 3 + TypeScript, Vite + ViteSSG, Pinia, Vue Router
+- **Stack:** Vue 3 + TypeScript, Vite + ViteSSG, Composable Modules, Vue Router
 - **Architecture:** Hybrid SSG/SPA with PWA support
 - **Purpose:** Massgate-inspired UI with live player data and community tools
 
@@ -130,7 +132,7 @@ All in [variables.css](src/assets/styles/modules/variables.css):
 src/
 ├── main.ts              # ViteSSG entry
 ├── router/              # Vue Router
-├── stores/              # Pinia
+├── stores/              # Composable state modules
 ├── components/          # Reusable widgets
 ├── screens/             # Section components
 ├── views/               # Routed pages

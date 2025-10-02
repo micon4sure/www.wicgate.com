@@ -14,7 +14,7 @@ WiCGATE delivers a Massgate-inspired experience for the World in Conflict reviva
 
 - **Framework:** Vue 3 + TypeScript (Composition API)
 - **Build System:** Vite with ViteSSG for Static Site Generation
-- **State Management:** Pinia with SSR support
+- **State Management:** Composable modules with reactive refs
 - **Routing:** Vue Router (path-based, 7 pre-rendered routes)
 - **Styling:** Modular CSS with design tokens
 - **PWA:** Service worker with offline capability
@@ -91,12 +91,13 @@ All routes pre-render unique HTML at build time:
 src/
 ├── main.ts              # ViteSSG entry point + PWA registration
 ├── router/              # Vue Router with SEO metadata
-├── stores/              # Pinia state management
+├── stores/              # Composable state modules
 ├── components/          # Reusable components
-│   ├── Navigation.vue   # Pixel-perfect scroll navigation
-│   ├── LeaderboardGroup.vue
-│   ├── PlayersOnline.vue
-│   ├── FirstVisitOverlay.vue
+│   ├── Navigation.vue   # Mobile-first responsive nav with pixel-perfect scrolling
+│   ├── LeaderboardGroup.vue  # Enhanced leaderboard tables with rank styling
+│   ├── PlayersOnline.vue     # Slide-in panel for live player list
+│   ├── FirstVisitOverlay.vue # Welcome overlay for new users
+│   ├── ErrorBoundary.vue     # Error handling with retry functionality
 │   └── skeletons/       # SEO-friendly loading states
 ├── screens/             # Section components
 │   ├── GettingStarted.vue
@@ -210,9 +211,12 @@ Production build executes:
 ### Environment Variables
 Create `.env` for local development:
 ```env
-VITE_API_BASE_URL=https://api.wicgate.com
+VITE_API_BASE=https://www.wicgate.com/api
 VITE_ANALYTICS_ENDPOINT=https://analytics.example.com
+VITE_SENTRY_DSN=
 ```
+
+See [.env.example](.env.example) for complete configuration options.
 
 ## Contributing
 
@@ -225,10 +229,13 @@ VITE_ANALYTICS_ENDPOINT=https://analytics.example.com
 
 ### Contribution Guidelines
 - Follow established design patterns (see [docs/design-system.md](docs/design-system.md))
+- **Follow navigation patterns** for new interactive elements (see [docs/design-system.md](docs/design-system.md#interactive-element-standards))
 - Use design tokens (no hardcoded hex values)
 - Maintain test coverage (50%+ threshold)
-- Document architectural changes
-- Keep commits scoped and atomic
+- Document architectural changes in relevant docs
+- **Document major changes** in both [CLAUDE.md](CLAUDE.md) (operational rules) and [AGENTS.md](AGENTS.md) (quick reference)
+- **Work from feature branches**; keep commits scoped and atomic
+- Add styles to `src/assets/styles/modules/components/*.css` and import via `base.css`
 
 ## Deployment
 

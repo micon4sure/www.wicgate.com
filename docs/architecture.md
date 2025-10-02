@@ -4,6 +4,17 @@
 
 WiCGATE implements a sophisticated **hybrid rendering architecture** that combines Static Site Generation (SSG) for SEO with Single Page Application (SPA) behavior for user experience.
 
+## Quick Architecture Summary
+
+- **Entry:** ViteSSG for Static Site Generation with client-side hydration
+- **Routing:** 7 pre-rendered routes (/, /getting-started, /statistics, /community, /about, /faq, /game-mode)
+- **Hybrid Strategy:** SSG for SEO (unique HTML per route) + SPA for UX (smooth scrolling, no page reloads)
+- **State Management:** Composable module pattern with reactive refs, 3-retry exponential backoff, 90s polling, Page Visibility API
+- **Data Layer:** API integration via composables (useYoutube, useEvents) with SSR-safe execution
+- **Components:** Reusable widgets in /components, screen sections in /screens, routed pages in /views
+- **Styling:** Modular CSS under /assets/styles/modules, design tokens in variables.css
+- **Testing:** 27 tests (12 scroll utilities, 15 data store), 50%+ coverage thresholds, hybrid timing strategy
+
 ## Core Architecture
 
 ### Entry Point
@@ -13,7 +24,7 @@ WiCGATE implements a sophisticated **hybrid rendering architecture** that combin
 - Uses ViteSSG for Static Site Generation with client-side hydration
 - Registers PWA service worker for offline capability
 - Configures Vue Router with custom scroll behavior
-- Initializes Pinia stores with SSR support
+- Initializes composable state modules with SSR support
 
 ### Routing System
 
@@ -167,6 +178,40 @@ if (!showFirstVisitOverlay.value) {
 - [src/composables/useEvents.ts](../src/composables/useEvents.ts) - SSR-safe, test events gated to DEV only
 - [src/components/Navigation.vue](../src/components/Navigation.vue) - Window references wrapped in SSR checks
 
+**Why SSR Guards?**
+ViteSSG pre-renders all routes at build time in a Node.js environment where `window`, `document`, and browser APIs don't exist. Without guards, the build crashes with `ReferenceError: document is not defined`.
+
+**Pattern Examples:**
+```typescript
+// ❌ WRONG - Crashes during SSG build
+export function useAppDataStore() {
+  const intervalId = window.setInterval(fetchData, 90000); // ReferenceError!
+}
+
+// ✅ CORRECT - SSR-safe with guard
+export function useAppDataStore() {
+  if (!import.meta.env.SSR) {
+    const intervalId = window.setInterval(fetchData, 90000);
+  }
+}
+
+// ✅ ALSO CORRECT - Guard entire function
+function init() {
+  if (import.meta.env.SSR) return; // Exit early during SSG
+
+  // All browser code here is safe
+  fetchData();
+  window.setInterval(fetchData, 90000);
+  document.addEventListener('visibilitychange', handleVisibility);
+}
+```
+
+**Files Requiring Guards:**
+- Any code using `window`, `document`, `localStorage`, `navigator`, `sessionStorage`
+- All stores with timers, intervals, or event listeners
+- All composables with browser API calls
+- Components with DOM manipulation
+
 **Conditional Rendering:**
 - [src/views/Home.vue](../src/views/Home.vue) - `shouldRenderSection()` logic + route watcher for scroll
 - Template uses `v-if="shouldRenderSection('section-id')"` for each section
@@ -255,30 +300,64 @@ export function scrollToSection(sectionId: string, behavior = 'smooth'): void {
 
 ## State Management
 
-### Pinia Store Architecture
+### Composable Module Architecture
 
 **File:** [src/stores/appDataStore.ts](../src/stores/appDataStore.ts)
+
+WiCGATE uses a **composable module pattern** with Vue 3's Composition API instead of Pinia for state management. This approach provides reactive state with module-level refs and computed values, offering simplicity and direct SSR compatibility.
+
+#### Pattern Overview
+
+```typescript
+// Module-level reactive state (shared across all component instances)
+const data = ref<Partial<DataResponse>>({});
+const loading = ref(false);
+const playerCount = computed(() => data.value.profiles?.length || 0);
+
+// Export composable function
+export function useAppDataStore() {
+  return { data, loading, playerCount, fetchData, init, stop };
+}
+```
+
+#### Key Features
 
 Manages player data, leaderboards, and server lists with:
 - **3-retry exponential backoff** (1s, 2s, 4s delays)
 - **90s polling interval** for live data updates
 - **Page Visibility API integration** (pauses when tab hidden)
 - **SSR guards** to prevent API calls during build
+- **Reactive refs/computed** for automatic component updates
+
+#### Retry Logic Implementation
 
 ```typescript
 // Retry logic with exponential backoff
-async function fetchWithRetry(url: string, retries = 3) {
-  for (let i = 0; i < retries; i++) {
-    try {
-      const response = await fetch(url);
-      if (response.ok) return await response.json();
-    } catch (error) {
-      if (i === retries - 1) throw error;
-      await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, i)));
+async function fetchDataWithRetry(retryCount = 0): Promise<void> {
+  try {
+    const r = await fetch(`${API}/data`, { cache: 'no-store' });
+    if (!r.ok) throw new Error(r.statusText);
+    const json: DataResponse = await r.json();
+    data.value = json;
+    error.value = null;
+  } catch (e: any) {
+    if (retryCount < MAX_RETRIES) {
+      const delay = RETRY_DELAYS[retryCount]; // [1000, 2000, 4000]
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      return fetchDataWithRetry(retryCount + 1);
     }
+    error.value = e?.message || 'Failed to load';
   }
 }
 ```
+
+#### Why Composables Instead of Pinia?
+
+- **Simplicity:** Direct reactive refs without store boilerplate
+- **SSR-Safe:** No special SSR configuration needed
+- **Lightweight:** Zero additional dependencies
+- **Sufficient:** Single data store doesn't require Pinia's complexity
+- **Type-Safe:** Full TypeScript support with explicit returns
 
 ## PWA Architecture
 
@@ -316,6 +395,23 @@ Generates from [public/favicon.svg](../public/favicon.svg):
 - `maskable-icon-512x512.png` - Adaptive icon
 
 ## Data Layer
+
+### API Overview
+
+WiCGATE consumes a read-only, public API for live game data. See **[API Documentation](api.md)** for complete endpoint reference, data structures, and integration patterns.
+
+**Base URL:** `https://www.wicgate.com/api`
+
+**Key Endpoints:**
+- `GET /api/data` - Complete dataset (servers, players, leaderboards)
+- `GET /api/events` - Discord community events
+- `GET /api/online` - Currently online players and servers
+
+**Client Features:**
+- 3-retry exponential backoff (1s, 2s, 4s)
+- 90-second polling interval
+- Page Visibility API integration (pauses when tab hidden)
+- PWA NetworkFirst caching (5-minute fallback)
 
 ### Composables
 
