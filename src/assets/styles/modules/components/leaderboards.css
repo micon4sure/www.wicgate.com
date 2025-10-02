@@ -250,7 +250,7 @@
 
 .rank-1 .lb-position {
   color: var(--medal-gold);
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   font-size: 1.2rem;
   line-height: 1.2;
   vertical-align: middle;
@@ -258,7 +258,7 @@
 
 .rank-2 .lb-position {
   color: var(--medal-silver);
-  text-shadow: 0 0 15px rgba(192, 192, 192, 0.8), 0 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   font-size: 1.15rem;
   line-height: 1.2;
   vertical-align: middle;
@@ -266,7 +266,7 @@
 
 .rank-3 .lb-position {
   color: var(--medal-bronze);
-  text-shadow: 0 0 15px rgba(205, 127, 50, 0.8), 0 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   font-size: 1.1rem;
   line-height: 1.2;
   vertical-align: middle;
@@ -574,7 +574,6 @@
   text-align: right;
   font-size: 1.05rem;
   letter-spacing: 0.5px;
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
   line-height: 1.2;
   vertical-align: middle;
 }
@@ -586,7 +585,6 @@
   text-align: right;
   font-size: 1.05rem;
   letter-spacing: 0.5px;
-  text-shadow: 0 0 8px rgba(192, 192, 192, 0.5);
   line-height: 1.2;
   vertical-align: middle;
 }
@@ -598,7 +596,6 @@
   text-align: right;
   font-size: 1.05rem;
   letter-spacing: 0.5px;
-  text-shadow: 0 0 8px rgba(205, 127, 50, 0.5);
   line-height: 1.2;
   vertical-align: middle;
 }

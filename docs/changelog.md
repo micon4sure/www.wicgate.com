@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🏆 **Leaderboard Top 3 Styling** - Removed glow effects from podium colors (Oct 2)
 - 🎮 **Game Mode Header Buttons** - Revamped to match navigation's interactive design system (Oct 2)
 - ▶️ **YouTube Play Button** - Updated to match YouTube's rounded rectangle shape (Oct 2)
 - 🎨 **Visual Design Cleanup** - Removed green status indicators, fixed Twitch embed styling (Oct 2)
@@ -27,6 +28,57 @@
 ---
 
 ## October 2025
+
+### 🏆 Leaderboard Top 3 Styling Cleanup
+
+**Status:** Complete (October 2, 2025)
+
+**Problem:** The top 3 leaderboard positions (gold, silver, bronze) had glow effects on both the rank numbers and scores that created visual distraction and reduced readability.
+
+**Solution:** Removed all glow effects while preserving the medal colors and subtle depth shadows.
+
+**Changes:**
+- **leaderboards.css:253** - Removed gold glow from rank 1 position (`text-shadow: 0 0 15px rgba(255, 215, 0, 0.8)`)
+- **leaderboards.css:261** - Removed silver glow from rank 2 position (`text-shadow: 0 0 15px rgba(192, 192, 192, 0.8)`)
+- **leaderboards.css:269** - Removed bronze glow from rank 3 position (`text-shadow: 0 0 15px rgba(205, 127, 50, 0.8)`)
+- **leaderboards.css:577** - Removed gold glow from rank 1 score (`text-shadow: 0 0 8px rgba(255, 215, 0, 0.5)`)
+- **leaderboards.css:589** - Removed silver glow from rank 2 score (`text-shadow: 0 0 8px rgba(192, 192, 192, 0.5)`)
+- **leaderboards.css:601** - Removed bronze glow from rank 3 score (`text-shadow: 0 0 8px rgba(205, 127, 50, 0.5)`)
+
+**Before:**
+```css
+.rank-1 .lb-position {
+  color: var(--medal-gold);
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.rank-score-gold {
+  color: var(--medal-gold);
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+```
+
+**After:**
+```css
+.rank-1 .lb-position {
+  color: var(--medal-gold);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);  /* Depth shadow only */
+}
+
+.rank-score-gold {
+  color: var(--medal-gold);
+  /* No text-shadow - clean color only */
+}
+```
+
+**Impact:**
+- ✅ Cleaner, more professional appearance
+- ✅ Better readability for rank numbers and scores
+- ✅ Medal colors (gold, silver, bronze) still clearly visible
+- ✅ Subtle depth shadows maintained on rank positions
+- ✅ Consistent with military-themed design aesthetic
+
+---
 
 ### 🎮 Game Mode Header Buttons Revamp
 
