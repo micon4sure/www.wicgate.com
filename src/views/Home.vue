@@ -33,6 +33,10 @@ const isFastScrolling = ref(false);
 let lastSectionChangeTime = 0;
 let fastScrollTimeout: number | undefined;
 
+// Programmatic scroll detection to prevent listener interference
+const isProgrammaticScrolling = ref(false);
+let programmaticScrollTimeout: number | undefined;
+
 // SSG conditional rendering
 const isSSR = import.meta.env.SSR;
 const targetSection = computed(() => route.meta.section as string | undefined);
@@ -172,6 +176,9 @@ function collectSectionElements() {
 
 function updateActiveSection() {
   if (!sectionElements.length) return;
+
+  // Skip during programmatic scrolling to prevent flash
+  if (isProgrammaticScrolling.value) return;
 
   const scrollY = window.scrollY || window.pageYOffset;
   // Use buffer for detection tolerance (allows slight scroll past before switching)
@@ -336,6 +343,10 @@ onBeforeUnmount(() => {
   if (fastScrollTimeout) {
     clearTimeout(fastScrollTimeout);
   }
+  // Clear programmatic scroll timeout
+  if (programmaticScrollTimeout) {
+    clearTimeout(programmaticScrollTimeout);
+  }
 });
 
 function togglePlayers() {
@@ -378,6 +389,17 @@ function scrollToGettingStarted() {
 
 function handleNavNavigate(section?: string) {
   setCurrentSection(section);
+
+  // Set flag for programmatic scroll on every nav click
+  // This handles both route changes AND same-route clicks (e.g., click FAQ while already on /faq)
+  isProgrammaticScrolling.value = true;
+
+  if (programmaticScrollTimeout) {
+    clearTimeout(programmaticScrollTimeout);
+  }
+  programmaticScrollTimeout = setTimeout(() => {
+    isProgrammaticScrolling.value = false;
+  }, 1500) as unknown as number;
 }
 
 // Scroll to section when route changes (wraps utility for nextTick)
@@ -396,12 +418,32 @@ watch(
 
     if (newSection) {
       setCurrentSection(newSection as string);
+
+      // Disable scroll listener during programmatic scroll
+      isProgrammaticScrolling.value = true;
+
       // Small delay to ensure DOM is ready after route change
       setTimeout(() => scrollToSection(newSection as string), 50);
+
+      // Re-enable scroll listener after smooth scroll completes
+      if (programmaticScrollTimeout) {
+        clearTimeout(programmaticScrollTimeout);
+      }
+      programmaticScrollTimeout = setTimeout(() => {
+        isProgrammaticScrolling.value = false;
+      }, 1500) as unknown as number; // Smooth scroll duration + buffer
     } else {
       // Homepage - scroll to top
       setCurrentSection(undefined);
+      isProgrammaticScrolling.value = true;
       window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (programmaticScrollTimeout) {
+        clearTimeout(programmaticScrollTimeout);
+      }
+      programmaticScrollTimeout = setTimeout(() => {
+        isProgrammaticScrolling.value = false;
+      }, 1000) as unknown as number;
     }
   }
 );

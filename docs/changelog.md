@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎨 **Navigation Flash Fix** - Disabled scroll listener during programmatic navigation to prevent highlight flash (Oct 2)
 - 🎨 **WICGATE Logo UX** - Made logos non-interactive in navigation and game mode (Oct 2)
 - 🎨 **Navigation Animation Polish** - Smart transition system prevents cascade flicker during fast scrolling (Oct 2)
 - 🎯 **Primary CTA Enhancement** - Dramatically improved download/Discord button interactivity (Oct 2)
@@ -31,6 +32,90 @@
 ---
 
 ## October 2025
+
+### 🎨 Navigation Flash Fix - Scroll Listener Interference
+
+**Status:** Complete (October 2, 2025)
+
+**Problem:** When clicking any navigation link, the currently highlighted link would briefly flash/regain its highlight during the scroll animation. Particularly noticeable when navigating to distant sections (e.g., Home → FAQ). The current section would:
+1. Lose its highlight on click
+2. Momentarily **regain** its highlight during scroll (FLASH!)
+3. Finally lose it as scroll reaches destination
+
+**Root Cause:** The scroll listener (`updateActiveSection()`) was running **during** programmatic navigation and interfering with the manual section update:
+
+```
+t=0ms:   Click FAQ → setCurrentSection('faq') → Home loses .active
+t=50ms:  Scroll starts (smooth animation to FAQ)
+t=100ms: DURING SCROLL: updateActiveSection() runs
+t=100ms: Scroll position still in Home section bounds
+t=100ms: updateActiveSection() detects: "Still in Home!"
+t=100ms: setCurrentSection('hero') → ⚡ FLASH - Home regains .active!
+t=500ms: Scroll continues, reaches FAQ section
+t=500ms: updateActiveSection() detects FAQ
+t=500ms: setCurrentSection('faq') → FAQ gets .active
+```
+
+The scroll listener was **fighting** with the manual navigation update, causing the momentary flash on the origin link.
+
+**Solution:** Added `isProgrammaticScrolling` flag that temporarily disables the scroll listener during programmatic navigation (1.5s timeout), then re-enables it for normal manual scrolling.
+
+**Changes:**
+- **Home.vue:37-38** - Added `isProgrammaticScrolling` ref and timeout
+- **Home.vue:181** - Skip `updateActiveSection()` when `isProgrammaticScrolling === true`
+- **Home.vue:347-349** - Clear programmatic scroll timeout on unmount
+- **Home.vue:390-403** - Set flag in `handleNavNavigate()` on EVERY nav click (handles same-route clicks)
+- **Home.vue:411-423** - Set flag during route-based navigation with 1500ms timeout
+- **Home.vue:427-435** - Set flag during homepage navigation with 1000ms timeout
+- **Navigation.vue:115-117** - Always call `scrollToSection()` in click handler to fix re-click issue
+
+**Before:**
+```
+Click FAQ from Home:
+→ setCurrentSection('faq') [Home loses highlight]
+→ Scroll starts
+→ updateActiveSection() runs during scroll
+→ Detects: still in Home bounds
+→ setCurrentSection('hero') ⚡ FLASH!
+→ Scroll continues
+→ Finally reaches FAQ
+```
+
+**After:**
+```
+Click FAQ from Home:
+→ setCurrentSection('faq') [Home loses highlight]
+→ isProgrammaticScrolling = true [Listener disabled]
+→ Scroll starts and completes
+→ updateActiveSection() SKIPPED during scroll
+→ After 1500ms: isProgrammaticScrolling = false [Listener re-enabled]
+→ No flash, clean transition
+```
+
+**Impact:**
+- ✅ Eliminated flash on current link during programmatic navigation
+- ✅ Scroll listener only runs during manual scrolling
+- ✅ Smooth, clean navigation with no visual artifacts
+- ✅ Preserves all existing functionality (manual scroll tracking still works)
+- ✅ More noticeable fix for long-distance navigation (Home ↔ FAQ)
+
+**Technical Details:**
+- Programmatic scroll timeout: 1500ms (covers smooth scroll duration + buffer)
+- Homepage scroll timeout: 1000ms (shorter distance)
+- Scroll listener remains active for manual wheel/trackpad scrolling
+- Debounced timeout prevents premature re-enable
+
+**Additional Fixes:**
+
+1. **Re-click scrolling:** Navigation click handler now always calls `scrollToSection()` to handle the case where user clicks FAQ, scrolls away manually, then clicks FAQ again (route stays `/faq` so watcher doesn't fire).
+
+2. **Same-route flag setting:** `handleNavNavigate()` now sets `isProgrammaticScrolling` flag on EVERY nav click, not just route changes. This prevents flash when clicking same-route links:
+   - Click FAQ from Home → route watcher sets flag ✅
+   - Click FAQ from /faq after scrolling away → `handleNavNavigate()` sets flag ✅
+
+   Without this, same-route clicks wouldn't disable the scroll listener, causing the flash to return.
+
+---
 
 ### 🎨 WICGATE Logo UX Improvement
 

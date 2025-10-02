@@ -298,6 +298,92 @@ export function scrollToSection(sectionId: string, behavior = 'smooth'): void {
 - **Debounced Resize**: Prevents excessive recalculation during window resize
 - **Memory Management**: Clean event listener removal on component unmount
 
+### Active Section Tracking & Programmatic Scroll Detection
+
+**Problem Solved (October 2025):**
+
+The navigation system must track which section is currently visible to highlight the corresponding nav link. However, this creates a conflict during programmatic navigation (clicking a nav link):
+
+**The Conflict:**
+1. User clicks FAQ link → `setCurrentSection('faq')` → Home loses `.active` class
+2. Smooth scroll animation starts (takes ~1-2 seconds)
+3. **DURING SCROLL:** Scroll listener runs → detects scroll position still in Home section
+4. Scroll listener calls `setCurrentSection('hero')` → Home **regains** `.active` class (FLASH!)
+5. Scroll completes → reaches FAQ → scroll listener calls `setCurrentSection('faq')`
+
+**Result:** The current section's highlight momentarily flashes during programmatic scrolling.
+
+#### Architecture Solution: Dual-Mode Scroll Tracking
+
+**File:** [src/views/Home.vue](../src/views/Home.vue)
+
+The system uses an `isProgrammaticScrolling` flag to distinguish between manual and programmatic scrolling:
+
+```typescript
+// Programmatic scroll detection to prevent listener interference
+const isProgrammaticScrolling = ref(false);
+let programmaticScrollTimeout: number | undefined;
+
+function updateActiveSection() {
+  if (!sectionElements.length) return;
+
+  // Skip during programmatic scrolling to prevent flash
+  if (isProgrammaticScrolling.value) return;
+
+  // ... rest of scroll detection logic
+}
+
+function handleNavNavigate(section?: string) {
+  setCurrentSection(section);
+
+  // Disable scroll listener during programmatic navigation
+  isProgrammaticScrolling.value = true;
+
+  if (programmaticScrollTimeout) {
+    clearTimeout(programmaticScrollTimeout);
+  }
+
+  // Re-enable after scroll completes (1500ms)
+  programmaticScrollTimeout = setTimeout(() => {
+    isProgrammaticScrolling.value = false;
+  }, 1500) as unknown as number;
+}
+```
+
+#### How It Works
+
+**Manual Scrolling (wheel/trackpad):**
+1. `isProgrammaticScrolling` = `false` (default)
+2. Scroll listener active → detects section changes → updates active link ✅
+
+**Programmatic Scrolling (clicking nav link):**
+1. `handleNavNavigate()` called → sets `isProgrammaticScrolling = true`
+2. `setCurrentSection()` sets destination as active
+3. Scroll animation starts
+4. Scroll listener **skipped** (flag is true) → no interference ✅
+5. After 1500ms → flag resets to `false` → listener re-enabled
+
+**Same-Route Click Handling:**
+1. Click FAQ from Home → route changes → route watcher sets flag ✅
+2. Click FAQ from /faq after scrolling → route doesn't change → `handleNavNavigate()` sets flag ✅
+
+Both scenarios covered by setting the flag in `handleNavNavigate()` which fires on **every** nav click.
+
+#### Timing Strategy
+
+- **Programmatic scroll timeout:** 1500ms (covers smooth scroll duration + buffer)
+- **Homepage scroll timeout:** 1000ms (shorter distance to top)
+- **Debounced:** Timeout clears and restarts on subsequent clicks
+- **No race conditions:** Flag always set before scroll, always cleared after completion
+
+#### Benefits
+
+- **No Flash:** Scroll listener disabled during programmatic navigation
+- **Preserves Manual Tracking:** Scroll listener still works for wheel/trackpad scrolling
+- **Handles All Cases:** Works for route changes AND same-route clicks
+- **Clean State Management:** Simple boolean flag, no complex state tracking
+- **Performance:** Minimal overhead, only affects programmatic scrolls
+
 ## State Management
 
 ### Composable Module Architecture
