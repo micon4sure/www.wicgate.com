@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎨 **Visual Design Cleanup** - Removed green status indicators, fixed Twitch embed styling (Oct 2)
 - 🔧 **Quick Fixes** - Added svgo dependency, improved .gitignore, fixed type safety in Home.vue (Oct 2)
 - 🔄 **Navigation Scroll Fix** - Simplified resize handler to use centralized `scrollToSection()` utility (Oct 2)
 - 📖 **GUIDE.md Optimization** - Streamlined from 500 → 182 lines, essential patterns only (Oct 2)
@@ -24,6 +25,60 @@
 ---
 
 ## October 2025
+
+### 🎨 Visual Design Cleanup - Status Indicators & Border Radius
+
+**Status:** Complete (October 2, 2025)
+
+**Problem:** Green square status indicators throughout the UI created visual clutter and inconsistent spacing. Twitch embeds had rounded corners (12px border-radius) that didn't match the site's rectangular military-themed design.
+
+**Solution:** Removed all green square status indicators and their associated spacing gaps. Changed Twitch embed styling to use sharp rectangular borders (border-radius: 0) consistent with the rest of the site.
+
+**Changes:**
+- **TwitchEmbed.vue:29** - Changed border-radius from 12px to 0 for rectangular design
+- **PlayersOnline.vue:118** - Removed `.p-panel-status` green square from panel header
+- **PlayersOnline.vue:142** - Removed `.p-dot` green squares from player list items
+- **GameMode.vue:52** - Removed `.gm-status-dot` green square from header status
+- **GameMode.vue:79** - Removed `.p-dot` green squares from player list items
+- **players-panel.css:47** - Removed `gap: 10px` from `.p-panel-hdr h3` (no longer needed)
+- **players-panel.css:249** - Removed `gap: 10px` from `.p-item` (no longer needed)
+- **game-mode.css:54** - Removed `gap: 8px` from `.gm-status` (no longer needed)
+
+**Before:**
+```html
+<!-- Players panel header -->
+<h3>
+  <div class="p-panel-status" /> <!-- ● green square -->
+  <span>Players Online</span>
+</h3>
+
+<!-- Player list item -->
+<div class="p-item">
+  <span class="p-dot" /> <!-- ● green dot -->
+  <span>PlayerName</span>
+</div>
+```
+
+**After:**
+```html
+<!-- Players panel header -->
+<h3>
+  <span>Players Online</span>
+</h3>
+
+<!-- Player list item -->
+<div class="p-item">
+  <span>PlayerName</span>
+</div>
+```
+
+**Impact:**
+- Cleaner, less cluttered UI across Players Online panel and Game Mode
+- Consistent rectangular design language throughout the site
+- Proper text alignment without leftover spacing gaps
+- Reduced DOM elements and CSS rules
+
+---
 
 ### 🔧 Quick Fixes - Build Optimization & Type Safety
 
