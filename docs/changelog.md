@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎯 **Advanced Setup Collapsible** - Made Advanced Setup Options collapsible by default for cleaner onboarding (Oct 3)
 - 🎯 **Getting Started Simplification** - Compressed 4 steps to 3, removed Requirements box, streamlined onboarding (Oct 3)
 - 🎨 **Navigation Flash Fix** - Disabled scroll listener during programmatic navigation to prevent highlight flash (Oct 2)
 - 🎨 **WICGATE Logo UX** - Made logos non-interactive in navigation and game mode (Oct 2)
@@ -33,6 +34,94 @@
 ---
 
 ## October 2025
+
+### 🎯 Advanced Setup Options Collapsible
+
+**Status:** Complete (October 3, 2025)
+
+**Problem:** The Advanced Setup Options section (Dedicated Server Setup and Manual Installation) was always visible, adding visual complexity to the Getting Started page despite being relevant only to a small subset of power users (~10% or less).
+
+**Solution:** Made Advanced Setup Options collapsible by default with a toggle switch, allowing regular users to focus on the streamlined 3-step installation while giving power users easy access to server hosting and manual installation guides.
+
+**Changes:**
+- **GettingStarted.vue:2** - Added `ref` and `watch` imports from Vue
+- **GettingStarted.vue:11-20** - Added reactive state management:
+  - `isAdvancedExpanded` ref (defaults to `false` - collapsed)
+  - localStorage persistence with key `advanced_setup_expanded`
+  - `watch()` to sync state changes to localStorage
+- **GettingStarted.vue:49-53** - Added toggle UI below section description:
+  - Reused existing `.toggle` component pattern from Community.vue
+  - Dynamic label: "Expand" when collapsed, "Collapse" when expanded
+  - Checkbox bound to `isAdvancedExpanded` state
+- **GettingStarted.vue:56, 114** - Wrapped both subsections in `v-if="isAdvancedExpanded"`:
+  - Dedicated Server Setup (5 steps + network configuration)
+  - Manual Installation (4 steps + warning box)
+
+**Before:**
+```
+┌─────────────────────────────────────┐
+│ Getting Started                     │
+│ ├─ Step 1: Get World in Conflict   │
+│ ├─ Step 2: Install & Run WIC LIVE  │
+│ └─ Step 3: Create Account & Play   │
+│                                     │
+│ Advanced Setup Options              │  ← Always visible
+│ ├─ Dedicated Server Setup           │     (clutters UI for
+│ │  ├─ 5 installation steps          │      90% of users)
+│ │  └─ Network port configuration    │
+│ └─ Manual Installation              │
+│    ├─ Warning box                   │
+│    └─ 4 manual steps                │
+└─────────────────────────────────────┘
+```
+
+**After:**
+```
+┌─────────────────────────────────────┐
+│ Getting Started                     │
+│ ├─ Step 1: Get World in Conflict   │
+│ ├─ Step 2: Install & Run WIC LIVE  │
+│ └─ Step 3: Create Account & Play   │
+│                                     │
+│ Advanced Setup Options              │
+│ └─ [Toggle: Expand] ⬜              │  ← Collapsed by default
+│    (Dedicated server & manual)      │     (cleaner for regular users)
+└─────────────────────────────────────┘
+
+After clicking Expand:
+┌─────────────────────────────────────┐
+│ Advanced Setup Options              │
+│ └─ [Toggle: Collapse] ☑             │  ← Expanded
+│    ├─ Dedicated Server Setup        │     (shows full content)
+│    │  ├─ 5 installation steps       │
+│    │  └─ Network port configuration │
+│    └─ Manual Installation           │
+│       ├─ Warning box                │
+│       └─ 4 manual steps             │
+└─────────────────────────────────────┘
+```
+
+**Impact:**
+- ✅ Cleaner default view for 90%+ of regular users
+- ✅ Reduces perceived complexity of Getting Started page
+- ✅ Advanced content still easily accessible (one click)
+- ✅ User preference persisted across sessions via localStorage
+- ✅ Consistent with existing Community.vue toggle pattern
+- ✅ No additional CSS needed (reuses `.toggle` component styles)
+- ✅ Progressive disclosure UX pattern (show complex options on demand)
+
+**User Experience:**
+- **Regular users:** See simplified Getting Started with just 3 main steps
+- **Power users:** Click "Expand" to access server hosting and manual installation
+- **Returning users:** Toggle state remembered via localStorage
+
+**Technical Details:**
+- Toggle pattern matches Community.vue implementation
+- SSR-safe localStorage check (`typeof window !== 'undefined'`)
+- Boolean stored as string ('1' = expanded, null/other = collapsed)
+- Reuses existing `.toggle`, `.slider`, and `.lbl` CSS classes
+
+---
 
 ### 🎯 Getting Started Simplification
 
