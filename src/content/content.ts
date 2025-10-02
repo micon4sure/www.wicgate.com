@@ -1,11 +1,4 @@
 // Static content extracted from original monolith for re-use across section components
-export const requirements = [
-  'World in Conflict (Steam/Retail)',
-  'Windows 7/8/10/11 (64-bit)',
-  '2GB RAM minimum',
-  'Broadband internet',
-  '8GB free disk space',
-];
 export const versions = [
   'Steam version',
   'Retail DVD',
@@ -15,21 +8,16 @@ export const versions = [
 export const steps = [
   {
     n: 1,
-    t: 'Install World in Conflict',
-    c: 'Install from GOG, Steam, UPlay or retail DVD. If you do not already own a copy of World in Conflict, we recommend buying one from GOG.',
+    t: 'Get World in Conflict',
+    c: 'Purchase from GOG, Steam, or UPlay, or use your retail DVD (Windows 7/8/10/11, 64-bit, 8GB disk space). We recommend GOG for the best experience.',
   },
   {
     n: 2,
-    t: 'Download WIC LIVE',
-    c: 'WIC LIVE updates your game for our servers, allows you to install community maps and installs quality of life fixes that allow you to play the game on modern systems. <br><a href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe" class="btn btn-download mt-md" id="downloadClientBtn">Download WIC LIVE</a>',
+    t: 'Install & Run WIC LIVE',
+    c: 'WIC LIVE updates your game for WICGATE servers, installs community maps, and adds quality of life fixes for modern systems. After installation, click the "INSTALL UPDATE" button. <br><a href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe" class="btn btn-download mt-md" id="downloadClientBtn">Download WIC LIVE</a>',
   },
   {
     n: 3,
-    t: 'Install & Run WIC LIVE',
-    c: 'After installation process has finished, find and click the "INSTALL UPDATE" button in WIC LIVE.',
-  },
-  {
-    n: 4,
     t: 'Create Account & Play',
     c: 'Launch the game and create an account. From the main menu, click <span class="text-bold">Multiplayer</span> -> <span class="text-bold">Online</span> and then <span class="text-bold">Create Account</span> in the bottom center of the screen. Then, join us in multiplayer!',
   },

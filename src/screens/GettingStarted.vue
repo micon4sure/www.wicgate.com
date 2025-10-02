@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import {
-  requirements,
-  versions,
   steps,
   dedicatedServerSteps,
   networkPorts,
@@ -18,26 +16,14 @@ import {
           Join the battlefield in just a few minutes with our streamlined setup
         </p>
       </div>
-      <div class="inst-grid">
-        <div class="inst-steps">
-          <div v-for="s in steps" :key="s.n" class="inst-step">
-            <div class="step-num">{{ s.n }}</div>
-            <div class="step-cont">
-              <h4>{{ s.t }}</h4>
-              <!-- Step 2 contains inline HTML (download button); use v-html for all for simplicity -->
-              <p v-html="s.c"></p>
-            </div>
+      <div class="inst-steps">
+        <div v-for="s in steps" :key="s.n" class="inst-step">
+          <div class="step-num">{{ s.n }}</div>
+          <div class="step-cont">
+            <h4>{{ s.t }}</h4>
+            <!-- Step 2 contains inline HTML (download button); use v-html for all for simplicity -->
+            <p v-html="s.c"></p>
           </div>
-        </div>
-        <div class="req">
-          <h3 class="grad-text">Requirements</h3>
-          <ul>
-            <li v-for="r in requirements" :key="r">{{ r }}</li>
-          </ul>
-          <h3 class="grad-text mt-lg">Supported Versions</h3>
-          <ul>
-            <li v-for="v in versions" :key="v">{{ v }}</li>
-          </ul>
         </div>
       </div>
 

@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎯 **Getting Started Simplification** - Compressed 4 steps to 3, removed Requirements box, streamlined onboarding (Oct 3)
 - 🎨 **Navigation Flash Fix** - Disabled scroll listener during programmatic navigation to prevent highlight flash (Oct 2)
 - 🎨 **WICGATE Logo UX** - Made logos non-interactive in navigation and game mode (Oct 2)
 - 🎨 **Navigation Animation Polish** - Smart transition system prevents cascade flicker during fast scrolling (Oct 2)
@@ -32,6 +33,63 @@
 ---
 
 ## October 2025
+
+### 🎯 Getting Started Simplification
+
+**Status:** Complete (October 3, 2025)
+
+**Problem:** The Getting Started section had 4 installation steps plus a separate Requirements box, creating visual complexity that made the onboarding flow feel longer and more daunting than necessary.
+
+**Solution:** Streamlined to 3 essential steps with requirements integrated inline, removing the bulky sidebar Requirements box entirely.
+
+**Changes:**
+- **content.ts:8-31** - Compressed 4 steps into 3:
+  - **Step 1**: "Get World in Conflict" - Integrated system requirements inline (Windows 7/8/10/11, 64-bit, 8GB disk space)
+  - **Step 2**: "Install & Run WIC LIVE" - Combined download, install, and run instructions into single step. Updated text from "our servers" → "WICGATE servers"
+  - **Step 3**: "Create Account & Play" - Unchanged
+- **content.ts:1-7** - Removed `requirements` export (no longer needed)
+- **GettingStarted.vue:1-10** - Removed `requirements` and `versions` imports
+- **GettingStarted.vue:19-28** - Removed grid layout wrapper, simplified to single-column steps
+- **GettingStarted.vue:31-36** - Removed Requirements box and Supported Versions box
+
+**Before:**
+```
+┌─────────────────┬──────────────┐
+│ Step 1          │ Requirements │
+│ Step 2          │ • WiC copy   │
+│ Step 3          │ • Windows    │
+│ Step 4          │ • 2GB RAM    │
+│                 │ • 8GB disk   │
+│                 │              │
+│                 │ Versions     │
+│                 │ • Steam      │
+│                 │ • Retail     │
+└─────────────────┴──────────────┘
+```
+
+**After:**
+```
+┌────────────────────────────────┐
+│ Step 1: Get WiC (reqs inline)  │
+│ Step 2: Install & Run WIC LIVE │
+│ Step 3: Create Account & Play  │
+└────────────────────────────────┘
+```
+
+**Impact:**
+- ✅ Cleaner, simpler onboarding experience
+- ✅ Reduced visual complexity by removing large sidebar box
+- ✅ Essential info still present (integrated inline in Step 1)
+- ✅ Faster comprehension - 3 steps instead of 4
+- ✅ Mobile-friendly single-column layout
+- ✅ More streamlined first impression
+
+**Content Updates:**
+- Step 1 now includes key requirements inline: "Windows 7/8/10/11, 64-bit, 8GB disk space"
+- Step 2 clarifies "WICGATE servers" instead of ambiguous "our servers"
+- Step 2 combines download + install + run instructions seamlessly
+
+---
 
 ### 🎨 Navigation Flash Fix - Scroll Listener Interference
 
