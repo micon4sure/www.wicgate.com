@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🔧 **Quick Fixes** - Added svgo dependency, improved .gitignore, fixed type safety in Home.vue (Oct 2)
 - 🔄 **Navigation Scroll Fix** - Simplified resize handler to use centralized `scrollToSection()` utility (Oct 2)
 - 📖 **GUIDE.md Optimization** - Streamlined from 500 → 182 lines, essential patterns only (Oct 2)
 - 📋 **Documentation Restructure** - CLAUDE.md → pure preferences, GUIDE.md → detailed patterns (Oct 2)
@@ -23,6 +24,66 @@
 ---
 
 ## October 2025
+
+### 🔧 Quick Fixes - Build Optimization & Type Safety
+
+**Status:** Complete (October 2, 2025)
+
+**Problem:** Code review identified three quick-win improvements: missing svgo dependency causing build warnings, dev artifacts tracked by git, and unsafe type usage.
+
+**Solution:** Installed missing dependency, updated .gitignore, and improved type safety.
+
+**Changes:**
+- **package.json** - Added svgo@^3.3.2 as devDependency
+- **.gitignore** - Added `dev-dist/` to ignore list (PWA dev artifacts)
+- **src/views/Home.vue:206** - Fixed carousel interval type from `any` to `number | undefined`
+
+**Before:**
+```
+🚨 [vite-plugin-image-optimizer] - errors during optimization:
+dist/favicon.svg   Cannot find package 'svgo' imported from ...
+```
+
+```typescript
+let int: any;  // ❌ No type safety
+```
+
+```bash
+$ git status
+modified: dev-dist/sw.js
+modified: dev-dist/sw.js.map
+```
+
+**After:**
+```
+✨ optimized images successfully:
+dist/favicon.svg  -48%   2.06 kB ⭢  1.09 kB
+```
+
+```typescript
+let int: number | undefined;  // ✅ Type-safe
+```
+
+```bash
+$ git status
+On branch master
+nothing to commit, working tree clean
+```
+
+**Benefits:**
+- ✅ SVG optimization working (favicon.svg reduced by 48%)
+- ✅ Cleaner git status (dev-dist/ no longer tracked)
+- ✅ Improved type safety for interval IDs
+- ✅ Consistent with TypeScript best practices
+- ✅ Zero functional changes (dev experience only)
+
+**Impact:**
+- **Build:** No more svgo warnings
+- **Developer UX:** Cleaner git workflow
+- **Type Safety:** Proper interval ID type checking
+- **Bundle Size:** favicon.svg optimized (-970 bytes)
+
+---
 
 ### 🔄 Navigation Scroll Refactor - Code Consistency
 
