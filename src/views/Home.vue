@@ -28,6 +28,11 @@ const SECTION_IDS = ['hero', 'getting-started', 'statistics', 'community', 'abou
 let sectionElements: HTMLElement[] = [];
 let scrollListenerAttached = false;
 
+// Fast scroll detection for smooth navigation animations
+const isFastScrolling = ref(false);
+let lastSectionChangeTime = 0;
+let fastScrollTimeout: number | undefined;
+
 // SSG conditional rendering
 const isSSR = import.meta.env.SSR;
 const targetSection = computed(() => route.meta.section as string | undefined);
@@ -132,6 +137,26 @@ useHead({
 function setCurrentSection(id?: string | null) {
   const normalized = id && id !== 'hero' ? id : undefined;
   if (currentSection.value !== normalized) {
+    // Detect fast scrolling (section changes within 150ms)
+    const now = Date.now();
+    const timeSinceLastChange = now - lastSectionChangeTime;
+
+    if (timeSinceLastChange < 150 && lastSectionChangeTime > 0) {
+      // Fast scrolling detected - disable transitions
+      isFastScrolling.value = true;
+
+      // Clear any existing timeout
+      if (fastScrollTimeout) {
+        clearTimeout(fastScrollTimeout);
+      }
+
+      // Re-enable transitions after scrolling settles (300ms)
+      fastScrollTimeout = setTimeout(() => {
+        isFastScrolling.value = false;
+      }, 300) as unknown as number;
+    }
+
+    lastSectionChangeTime = now;
     currentSection.value = normalized;
   }
 }
@@ -307,6 +332,10 @@ onBeforeUnmount(() => {
     window.removeEventListener('resize', updateActiveSection);
     scrollListenerAttached = false;
   }
+  // Clear fast scroll timeout
+  if (fastScrollTimeout) {
+    clearTimeout(fastScrollTimeout);
+  }
 });
 
 function togglePlayers() {
@@ -382,6 +411,7 @@ watch(
     <header>
       <Navigation
         :active-section="currentSection"
+        :is-fast-scrolling="isFastScrolling"
         :show-players-button="true"
         :player-count="playerCount"
         @navigate="handleNavNavigate"

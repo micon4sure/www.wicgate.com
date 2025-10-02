@@ -46,7 +46,7 @@ function goHome() {
 <template>
   <div class="game-mode active">
     <div class="gm-header">
-      <div class="gm-logo clickable" @click="goHome">WICGATE</div>
+      <div class="gm-logo">WICGATE</div>
       <div class="gm-controls">
         <div class="gm-status">
           <span class="gm-status-count">{{ playerCount }}</span>

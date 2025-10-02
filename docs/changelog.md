@@ -2,6 +2,8 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎨 **WICGATE Logo UX** - Made logos non-interactive in navigation and game mode (Oct 2)
+- 🎨 **Navigation Animation Polish** - Smart transition system prevents cascade flicker during fast scrolling (Oct 2)
 - 🎯 **Primary CTA Enhancement** - Dramatically improved download/Discord button interactivity (Oct 2)
 - 🏆 **Leaderboard Top 3 Styling** - Removed glow effects from podium colors (Oct 2)
 - 🎮 **Game Mode Header Buttons** - Revamped to match navigation's interactive design system (Oct 2)
@@ -29,6 +31,127 @@
 ---
 
 ## October 2025
+
+### 🎨 WICGATE Logo UX Improvement
+
+**Status:** Complete (October 2, 2025)
+
+**Problem:** The WICGATE logo appeared interactive with cursor pointer and click handlers in both navigation and game mode, creating confusion about its purpose. Logos should be visual branding elements, not navigation controls.
+
+**Solution:** Removed all interactive behaviors from logos while keeping the "Exit Game Mode" button for actual navigation.
+
+**Changes:**
+- **navigation.css:28-40** - Removed `cursor: pointer`, `text-decoration`, and `transition` from `.logo-main`
+- **GameMode.vue:49** - Removed `clickable` class and `@click="goHome"` handler from logo
+
+**Before:**
+```vue
+<!-- Game Mode -->
+<div class="gm-logo clickable" @click="goHome">WICGATE</div>
+
+<!-- CSS -->
+.logo-main {
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--tr);
+}
+```
+
+**After:**
+```vue
+<!-- Game Mode -->
+<div class="gm-logo">WICGATE</div>
+
+<!-- CSS -->
+.logo-main {
+  /* No cursor pointer, no transitions */
+}
+```
+
+**Impact:**
+- ✅ Logo is now purely visual branding element
+- ✅ No cursor pointer or hover effects on logos
+- ✅ Clear UX: Exit button for navigation, logo for branding
+- ✅ Consistent across navigation and game mode
+- ✅ Follows design best practices (logos ≠ buttons)
+
+---
+
+### 🎨 Navigation Animation Polish - Smart Fast Scroll Detection
+
+**Status:** Complete (October 2, 2025)
+
+**Problem:** When users clicked navigation links to jump between distant sections (e.g., Home → FAQ), the active state cascaded through all intermediate links too quickly. Each link's 300ms transition couldn't complete before the next section became active during the ~50-100ms section changes, creating a distracting flickering/trailing effect.
+
+**Solution:** Implemented intelligent scroll velocity detection that temporarily disables transitions during rapid section changes while preserving smooth animations for normal browsing.
+
+**Changes:**
+- **Home.vue:32-34** - Added fast scroll detection state (`isFastScrolling`, `lastSectionChangeTime`, `fastScrollTimeout`)
+- **Home.vue:137-162** - Enhanced `setCurrentSection()` with velocity detection (< 150ms = fast scroll)
+- **Home.vue:336-338** - Added cleanup for fast scroll timeout in `onBeforeUnmount()`
+- **Home.vue:414** - Pass `isFastScrolling` prop to Navigation component
+- **Navigation.vue:10,15** - Added `isFastScrolling` prop and ref
+- **Navigation.vue:136** - Added `fast-scroll` class binding to desktop navigation
+- **navigation.css:265-272** - CSS override to disable transitions during fast scrolling
+
+**How It Works:**
+
+1. **Velocity Detection:**
+   ```typescript
+   // If section changes within 150ms, it's a fast scroll
+   if (timeSinceLastChange < 150 && lastSectionChangeTime > 0) {
+     isFastScrolling.value = true;
+   }
+   ```
+
+2. **Transition Disabling:**
+   ```css
+   .desktop-nav.fast-scroll a {
+     transition: none !important; /* Instant state changes */
+   }
+   ```
+
+3. **Auto Re-enable:**
+   ```typescript
+   // After scroll settles (300ms), restore smooth transitions
+   setTimeout(() => {
+     isFastScrolling.value = false;
+   }, 300);
+   ```
+
+**Before:**
+```
+User clicks FAQ from Home
+↓
+Scrolls through: Home → Getting Started → Statistics → Community → About → FAQ
+Each transition: 300ms duration, but sections change every 50-100ms
+Result: Multiple links partially highlighted simultaneously (cascade flicker)
+```
+
+**After:**
+```
+User clicks FAQ from Home
+↓
+Fast scroll detected (< 150ms between section changes)
+Transitions disabled → Instant visual updates
+↓
+Scroll settles (300ms timeout)
+Transitions re-enabled → Smooth animations resume
+```
+
+**Impact:**
+- ✅ Fast navigation (click distant link) = instant clean visual updates, no flicker
+- ✅ Manual scrolling = smooth polished transitions preserved
+- ✅ Scroll speed unchanged - only visual transition behavior optimized
+- ✅ Better UX with clear active section tracking at all scroll speeds
+
+**Technical Details:**
+- Detection threshold: 150ms between section changes
+- Re-enable delay: 300ms after last section change
+- Works for both programmatic scrolls (click links) and manual scrolling
+- Debounced to handle continuous scrolling gracefully
+
+---
 
 ### 🎯 Primary CTA Button Enhancement
 

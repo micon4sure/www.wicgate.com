@@ -7,10 +7,12 @@ const mobileOpen = ref(false);
 
 const props = defineProps<{
   activeSection?: string | undefined;
+  isFastScrolling?: boolean;
   playerCount?: number;
   showPlayersButton?: boolean;
 }>();
 const activeSection = toRef(props, 'activeSection');
+const isFastScrolling = toRef(props, 'isFastScrolling');
 const playerCount = toRef(props, 'playerCount');
 const showPlayersButton = toRef(props, 'showPlayersButton');
 
@@ -131,7 +133,7 @@ function getRoutePath(section: string): string {
     </div>
 
     <!-- Desktop navigation (center) -->
-    <nav class="desktop-nav">
+    <nav class="desktop-nav" :class="{ 'fast-scroll': isFastScrolling }">
       <router-link
         :to="getRoutePath('hero')"
         :class="{ active: !activeSection }"
