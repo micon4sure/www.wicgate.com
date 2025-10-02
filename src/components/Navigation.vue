@@ -112,6 +112,10 @@ function handleNavigation(section: string) {
   emit('navigate', section !== 'hero' ? section : undefined);
   closeMobileMenu();
 
+  // Always scroll to section, even if already on that route
+  // This fixes the issue where clicking FAQ again after scrolling away doesn't work
+  scrollToSection(section === 'hero' ? 'hero' : section);
+
   // Check if we're in game mode - if so, trigger home mode first
   const event = new CustomEvent('exitGameMode');
   window.dispatchEvent(event);
