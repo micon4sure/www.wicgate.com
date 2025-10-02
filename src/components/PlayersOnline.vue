@@ -115,7 +115,6 @@ defineExpose({ toggle, close });
   <div class="p-panel" :class="{ active: open }">
     <div class="p-panel-hdr">
       <h3>
-        <div class="p-panel-status" />
         <span class="p-panel-title">Players Online</span
         ><span class="p-panel-logo grad-text">WICGATE</span>
       </h3>
@@ -139,7 +138,6 @@ defineExpose({ toggle, close });
             :key="(p.profileName || 'Unknown') + String(p.serverId)"
             class="p-item"
           >
-            <span class="p-dot" />
             <span class="p-name-text">{{ displayName(p) }}</span>
           </div>
         </div>

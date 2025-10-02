@@ -44,7 +44,6 @@
   color: var(--t);
   display: flex;
   align-items: center;
-  gap: 10px;
   margin: 0;
 }
 
@@ -246,7 +245,6 @@ body:not(.players-online) .p-panel-status {
 .p-item {
   display: flex;
   align-items: center;
-  gap: 10px;
   padding: 8px 12px;
   border-radius: 0;
   margin-bottom: 2px;

@@ -49,7 +49,6 @@ function goHome() {
       <div class="gm-logo clickable" @click="goHome">WICGATE</div>
       <div class="gm-controls">
         <div class="gm-status">
-          <div class="gm-status-dot" />
           <span class="gm-status-count">{{ playerCount }}</span>
           <span class="gm-status-label">Players Online</span>
         </div>
@@ -76,7 +75,6 @@ function goHome() {
                 :key="(p.profileName || 'Unknown') + String(p.serverId)"
                 class="p-item"
               >
-                <span class="p-dot" />
                 <span class="p-name-text">{{ displayName(p) }}</span>
               </div>
             </div>

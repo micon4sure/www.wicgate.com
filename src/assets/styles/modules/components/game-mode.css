@@ -51,7 +51,6 @@
 .gm-status {
   display: flex;
   align-items: center;
-  gap: 8px;
   padding: 6px 14px;
   background: linear-gradient(180deg, rgba(var(--mg-rgb), 0.22) 0%, rgba(var(--mg-dark-rgb), 0.35) 100%);
   border-radius: 0;

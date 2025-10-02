@@ -26,7 +26,7 @@ onMounted(() => {
   padding-bottom: 56.25%;
   background: var(--s2);
   border: 1px solid var(--bd);
-  border-radius: 12px;
+  border-radius: 0;
   overflow: hidden;
 }
 
