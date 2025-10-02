@@ -570,7 +570,9 @@ Pauses expensive operations when tab is hidden:
 
 ## Deployment Architecture
 
-### GitHub Pages Setup
+### Active Deployment: GitHub Pages
+
+**Live Site:** https://www.wicgate.com/
 
 **Workflow:** [.github/workflows/deploy.yml](../.github/workflows/deploy.yml)
 
@@ -578,29 +580,45 @@ Auto-deploys on:
 - Push to `master` branch
 - Manual workflow dispatch
 
-**Build Steps:**
-1. Checkout repository
-2. Setup Node.js
-3. Install dependencies
-4. Run production build
-5. Deploy to GitHub Pages
+**Complete Build Pipeline:**
+1. **Checkout** - Clone repository
+2. **Setup Node.js** - Install runtime (v20)
+3. **Install Dependencies** - `npm ci` for reproducible builds
+4. **Lint Check** - `npm run lint` ensures code quality
+5. **Type Check** - `npx tsc --noEmit` validates TypeScript
+6. **Test (Thorough)** - `npm run test:thorough` with real timers (27 tests)
+7. **Build** - `npm run build` generates 7 pre-rendered routes + PWA
+8. **Bundle Size Check** - Enforces 5MB limit (currently 4.1MB)
+9. **404 Fallback** - Copy `index.html` to `404.html` for SPA routing
+10. **CNAME Setup** - Add `www.wicgate.com` for custom domain
+11. **Deploy** - Publish to GitHub Pages
 
 **Deployment Targets:**
 - Primary: `https://micon4sure.github.io/www.wicgate.com/`
-- Custom domain: `https://www.wicgate.com/`
+- Custom Domain: `https://www.wicgate.com/` (via DNS CNAME)
 
-### Netlify Setup (Alternative)
+**Configuration:**
+- Repository: `www.wicgate.com` (matches GitHub Pages path)
+- Settings > Pages: Source = GitHub Actions
+- DNS: `www` CNAME → `micon4sure.github.io`
+- HTTPS: Enforced
+
+### Alternative Platforms (Not Currently Used)
+
+This project can also deploy to **Netlify** or **Vercel**:
 
 **Configuration:**
 - Build command: `npm run build`
 - Publish directory: `dist`
-- Redirects: Configured in `public/_redirects`
+- SPA routing: `public/_redirects` file
 
 **Redirects File:**
 ```
+# SPA fallback for client-side routing (Netlify/Vercel)
 /* /index.html 200
 ```
-Enables SPA fallback for client-side routing.
+
+**Note:** The `_redirects` file enables platform portability. GitHub Pages uses `404.html` instead (created during CI build).
 
 ## Performance Considerations
 

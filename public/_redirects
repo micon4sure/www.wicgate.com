@@ -1,4 +1,14 @@
-# Netlify/Vercel SPA fallback configuration
-# All routes should serve index.html for client-side routing
+# SPA Fallback Routing Configuration
+#
+# Purpose: Enables client-side routing for Vue Router (path-based navigation)
+# Platform Support: Works on Netlify, Vercel, and other platforms
+#
+# How it works:
+# - All unmatched routes (/*) redirect to /index.html with 200 status
+# - Vue Router then handles the route on the client side
+# - Maintains SSG benefits: crawlers see pre-rendered HTML, users get SPA experience
+#
+# Note: GitHub Pages (current deployment) uses 404.html instead
+# This file is retained for platform portability (if switching to Netlify/Vercel)
 
 /*    /index.html   200

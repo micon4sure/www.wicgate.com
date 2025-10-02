@@ -483,12 +483,9 @@ src/
 
 ```typescript
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { createPinia, setActivePinia } from 'pinia';
 
 describe('Feature Name', () => {
   beforeEach(() => {
-    setActivePinia(createPinia());
-
     // Setup fake timers if not in thorough mode
     if (!process.env.TEST_REAL_TIMERS) {
       vi.useFakeTimers();

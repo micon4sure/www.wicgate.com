@@ -2,7 +2,7 @@
 
 > Modern community portal for the World in Conflict revival initiative (WiCGATE/Massgate)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/your-badge-id/deploy-status)](https://app.netlify.com/sites/wicgate/deploys)
+[![Deploy Status](https://github.com/micon4sure/www.wicgate.com/actions/workflows/deploy.yml/badge.svg)](https://github.com/micon4sure/www.wicgate.com/actions/workflows/deploy.yml)
 
 ## Overview
 
@@ -239,24 +239,39 @@ See [.env.example](.env.example) for complete configuration options.
 
 ## Deployment
 
-### GitHub Pages (Current)
+### Active Deployment: GitHub Pages
 
-Auto-deploys via `.github/workflows/deploy.yml` to:
+**Live Site:** https://www.wicgate.com/
+
+Auto-deploys on every push to `master` via `.github/workflows/deploy.yml`
+
+**Deployment Workflow:**
+1. **Lint & Type Check** - Ensures code quality
+2. **Test (Thorough Mode)** - 27 tests with real timers
+3. **Build** - ViteSSG generates 7 pre-rendered HTML files
+4. **Bundle Size Check** - Enforces 5MB limit
+5. **Deploy** - Publishes to GitHub Pages with CNAME
+
+**URLs:**
 - **Primary:** https://micon4sure.github.io/www.wicgate.com/
-- **Custom Domain:** https://www.wicgate.com/ (after DNS setup)
+- **Custom Domain:** https://www.wicgate.com/ (via CNAME)
 
-**Setup Steps:**
-1. Repo name must be `www.wicgate.com` (matches deployed path)
-2. GitHub > Settings > Pages: Source = GitHub Actions
-3. DNS: Set `www` CNAME → `micon4sure.github.io`
-4. After propagation, enable "Enforce HTTPS"
+**Configuration:**
+- Repo: `www.wicgate.com` (matches deployed path)
+- Settings > Pages: Source = GitHub Actions
+- DNS: `www` CNAME → `micon4sure.github.io`
+- HTTPS: Enforced
 
-### Netlify (Alternative)
+### Alternative Platforms (Not Currently Used)
 
-Deploy to Netlify with:
+This project can also be deployed to **Netlify** or **Vercel** if needed:
+
+**Configuration:**
 - **Build Command:** `npm run build`
 - **Publish Directory:** `dist`
-- **Redirects:** Configured in `public/_redirects`
+- **SPA Routing:** `public/_redirects` supports both platforms
+
+**Note:** The `_redirects` file exists for platform portability and SSG/SPA fallback routing. GitHub Pages uses `404.html` instead (auto-generated during build).
 
 ## Known Issues
 
