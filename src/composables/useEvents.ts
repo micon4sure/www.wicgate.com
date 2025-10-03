@@ -29,7 +29,7 @@ export function useEvents() {
     }
 
     try {
-      const url = import.meta.env.DEV ? API + '/events-test' : API + '/events';
+      const url = API + (import.meta.env.MODE === 'production' ? '/events' : '/events-test');
       const response = await axios.get<Event[]>(url);
       events.value = orderBy(response.data, ['date'], ['asc']);
 

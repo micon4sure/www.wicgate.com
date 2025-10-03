@@ -336,7 +336,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 .vid-thumb {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  padding-bottom: 56.25%;
+  /* 16:9 aspect ratio */
   background-size: cover;
   background-position: center;
   background-color: var(--s2);
@@ -803,6 +804,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   100% {
     box-shadow: 0 0 20px rgba(var(--brand-youtube-rgb), 0.6);
   }
+
   50% {
     box-shadow: 0 0 30px rgba(var(--brand-youtube-rgb), 0.9);
   }

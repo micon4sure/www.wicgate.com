@@ -39,8 +39,8 @@ jobs:
       - name: Run tests (thorough mode with real timers)
         run: npm run test:thorough
 
-      - name: Build
-        run: npm run build
+      - name: Build (staging mode)
+        run: npm run build -- --mode staging
 
       - name: Check bundle size
         run: |

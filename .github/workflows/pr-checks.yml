@@ -31,8 +31,8 @@ jobs:
       - name: Run tests with coverage (thorough mode with real timers)
         run: npx cross-env TEST_REAL_TIMERS=true npm run test:coverage
 
-      - name: Build verification
-        run: npm run build
+      - name: Build verification (staging mode)
+        run: npm run build -- --mode staging
 
       - name: Check bundle size
         run: |
