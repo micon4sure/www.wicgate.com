@@ -496,6 +496,45 @@ npm run lint && npm test && npx tsc --noEmit
 
 ---
 
+## Known Issues
+
+### Development Server Vulnerability (Non-Critical)
+
+**CVE:** [GHSA-67mh-4wv8-2f99](https://github.com/advisories/GHSA-67mh-4wv8-2f99)
+
+**Component:** esbuild ≤0.24.2 (bundled with Vite 5.4.20)
+
+**Impact:**
+- Affects **development server only** (production builds unaffected)
+- Potential security risk when running `npm run dev` on untrusted networks
+- Does not affect deployed sites or production builds
+
+**Mitigation Strategies:**
+1. **Use trusted networks** when running development server
+2. **Avoid public WiFi** during development
+3. **Firewall protection** - Ensure dev server (port 5173) not exposed externally
+4. **Local development only** - Never expose dev server to internet
+
+**Status:**
+- Monitoring for Vite 5.x maintenance patch
+- Vite 6.x upgrade planned (breaking changes require testing)
+- Production builds remain secure and unaffected
+
+**Verification:**
+```bash
+# Check if dev server is exposed (should only show localhost)
+npm run dev
+# Output should show: http://localhost:5173
+# NOT: http://0.0.0.0:5173 or http://192.168.x.x:5173
+```
+
+**Additional Context:**
+- This vulnerability only affects the **build tooling**, not the application code
+- GitHub Actions CI/CD runs in isolated environment (unaffected)
+- Deployed sites use static HTML + optimized assets (no esbuild runtime)
+
+---
+
 ## Getting Help
 
 If issue persists:
@@ -509,4 +548,4 @@ If issue persists:
 
 ---
 
-*Last Updated: October 2, 2025*
+*Last Updated: October 3, 2025*

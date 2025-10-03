@@ -846,6 +846,263 @@ This project can also deploy to **Netlify** or **Vercel**:
 
 **Note:** The `_redirects` file enables platform portability. GitHub Pages uses `404.html` instead (created during CI build).
 
+## Routes & SEO
+
+All routes pre-render unique HTML at build time:
+
+| Route | Description | File Size |
+|-------|-------------|-----------|
+| `/` | Homepage with all sections | 36.22 KB |
+| `/getting-started` | Installation guide | 11.18 KB |
+| `/statistics` | Player leaderboards | 7.90 KB |
+| `/community` | Events, creators, videos | 13.59 KB |
+| `/about` | Project information | 9.20 KB |
+| `/faq` | Frequently asked questions | 13.30 KB |
+| `/game-mode` | Full-screen statistics dashboard | 12.34 KB |
+
+**SEO Benefits:**
+- ✅ 7 unique HTML files (no duplicate content)
+- ✅ Focused, indexable content per route
+- ✅ Progressive enhancement with skeleton loaders
+- ✅ Dynamic meta tags and JSON-LD schemas
+- ✅ Responsive to search engine requirements
+
+## Complete Project Structure
+
+```
+src/
+├── main.ts                    # ViteSSG entry point + PWA registration
+├── App.vue                    # Root component with error boundary
+├── router/
+│   ├── index.ts               # Router configuration with scroll behavior
+│   └── routes.ts              # Route definitions with SEO metadata
+├── stores/
+│   └── appDataStore.ts        # Composable state with 3-retry backoff
+├── components/
+│   ├── Navigation.vue         # Mobile-first responsive nav (pixel-perfect scrolling)
+│   ├── HeaderBanner.vue       # Professional logo design with players button
+│   ├── LeaderboardGroup.vue   # Enhanced leaderboard tables with rank styling
+│   ├── RankInsignia.vue       # Player rank badges
+│   ├── PlayersOnline.vue      # Slide-in panel for live player list
+│   ├── FirstVisitOverlay.vue  # Welcome overlay for new users
+│   ├── TwitchEmbed.vue        # Live stream integration
+│   ├── ErrorBoundary.vue      # Error handling with retry functionality
+│   ├── Footer.vue             # Site footer
+│   └── skeletons/             # SEO-friendly loading states
+│       ├── EventsSkeleton.vue
+│       ├── VideosSkeleton.vue
+│       └── LeaderboardSkeleton.vue
+├── screens/                   # Section components (used in Home.vue)
+│   ├── GettingStarted.vue     # Onboarding with WIC LIVE download, Advanced Setup (v-show)
+│   ├── Community.vue          # Events, videos, live streams, creator badges (v-show)
+│   ├── Statistics.vue         # Leaderboards and player data
+│   ├── About.vue              # Project information
+│   └── FAQ.vue                # Frequently asked questions
+├── views/                     # Routed pages
+│   ├── Home.vue               # Main SPA with all sections (SSR conditional rendering)
+│   └── GameMode.vue           # Standalone full-screen statistics dashboard
+├── composables/               # Composition functions
+│   ├── useYoutube.ts          # Multi-channel video fetching (SSR-safe, Atom feed parsing)
+│   ├── useEvents.ts           # Discord events integration (SSR-safe, real-time countdown)
+│   └── useFirstVisit.ts       # First-time visitor detection (localStorage)
+├── utils/                     # Utility functions
+│   ├── scroll.ts              # Dynamic navigation scroll system (3 focused functions)
+│   ├── playerDisplay.ts       # Massgate-style name formatting/colorizing
+│   ├── analytics.ts           # Type-safe event tracking (15 categories)
+│   ├── performance.ts         # Web Vitals monitoring (CLS, FCP, INP, LCP, TTFB)
+│   └── structuredData.ts      # SEO JSON-LD schemas
+├── assets/
+│   ├── logo.svg
+│   └── styles/
+│       ├── base.css           # Global styles + module imports
+│       └── modules/           # Modular CSS with design tokens
+│           ├── variables.css  # Design tokens (colors, shadows, transitions)
+│           ├── typography.css # Font families and utility classes
+│           ├── buttons.css    # Button hierarchy and styles
+│           ├── responsive.css # Responsive utilities
+│           └── components/    # Component-specific modules
+│               ├── navigation.css      # Nav with rectangular tabs
+│               ├── leaderboards.css    # Enhanced leaderboard tables
+│               ├── hero.css            # Hero section styling
+│               ├── community.css       # Events, videos, creators
+│               ├── getting-started.css # Onboarding (with v-show transitions)
+│               ├── videos.css          # Video components (with v-show transitions)
+│               ├── about.css           # About section
+│               ├── faq.css             # FAQ section
+│               ├── game-mode.css       # Game mode page
+│               ├── players-panel.css   # Side panel for online players
+│               └── toggle.css          # Toggle switch components
+└── content/
+    └── content.ts             # Static content (hero copy, steps, requirements)
+
+public/
+├── favicon.svg                # Source SVG for PWA icon generation
+├── pwa-64x64.png              # Auto-generated
+├── pwa-192x192.png            # Auto-generated
+├── pwa-512x512.png            # Auto-generated
+├── maskable-icon-512x512.png  # Auto-generated
+├── manifest.webmanifest       # Auto-generated by vite-plugin-pwa
+├── sitemap.xml                # Auto-generated by generate-sitemap.ts
+├── robots.txt                 # SEO crawler instructions
+└── _redirects                 # SPA routing for Netlify/Vercel
+
+scripts/
+├── generate-pwa-icons.ts      # Generates PWA icons from favicon.svg (4 sizes)
+└── generate-sitemap.ts        # Generates sitemap.xml from route definitions
+
+tests/
+├── stores/
+│   └── appDataStore.test.ts   # 15 tests (fetch, retry, error handling)
+└── utils/
+    └── scroll.test.ts         # 12 tests (scroll utilities)
+
+docs/
+├── architecture.md            # This file - SSG/SSR, routing, navigation, PWA
+├── design-system.md           # CSS tokens, patterns, components
+├── testing.md                 # Test commands, strategies, CI/CD
+├── api.md                     # API endpoints, data structures
+├── troubleshooting.md         # Common issues, solutions
+├── changelog.md               # Feature history
+└── spec.md                    # Technical specifications
+
+.github/
+└── workflows/
+    └── deploy.yml             # CI/CD pipeline (lint → test → build → deploy)
+
+Configuration Files:
+├── vite.config.ts             # Vite + ViteSSG + PWA configuration
+├── tsconfig.json              # TypeScript strict mode
+├── vitest.config.ts           # Test configuration (hybrid timing)
+├── eslint.config.js           # ESLint + Prettier integration
+└── package.json               # Dependencies and scripts
+```
+
+## Build Process Details
+
+The production build (`npm run build`) executes:
+
+### 1. Generate PWA Icons (`scripts/generate-pwa-icons.ts`)
+
+Creates 4 optimized PNG sizes from `public/favicon.svg`:
+- `pwa-64x64.png` (~1.8 KB)
+- `pwa-192x192.png` (~5.7 KB)
+- `pwa-512x512.png` (~18.9 KB)
+- `maskable-icon-512x512.png` (~18.9 KB)
+
+Uses `sharp` library for high-quality PNG conversion with transparent backgrounds.
+
+### 2. Generate Sitemap (`scripts/generate-sitemap.ts`)
+
+Auto-generates `public/sitemap.xml` from route definitions in `src/router/routes.ts`:
+- 7 URLs with priority and changefreq metadata
+- `lastmod` set to current date
+- Validates against sitemap.org schema
+
+### 3. Static Site Generation (ViteSSG)
+
+Pre-renders 7 unique HTML files:
+- Executes Vue components in Node.js environment
+- Applies route-specific meta tags
+- Includes JSON-LD structured data
+- Generates skeleton loaders for SEO
+
+**Conditional Rendering:**
+- Homepage (`/`): All sections rendered
+- Section routes (`/getting-started`, etc.): Only target section rendered
+- Client-side: All sections render for smooth scrolling
+
+### 4. PWA Service Worker (`vite-plugin-pwa`)
+
+Generates `dist/sw.js` with:
+- Precache manifest (~49 entries in production)
+- Cache-first strategy for static assets
+- Network-first for API calls
+- Automatic background updates
+- Clean-up of outdated caches
+
+### 5. Asset Optimization
+
+**Code Splitting:**
+- Route-based chunks (Home, GameMode, etc.)
+- Vendor chunk for npm dependencies
+- Utility chunk for shared code
+
+**Content Hashing:**
+- `app-[hash].js` for cache busting
+- `app-[hash].css` for optimized CSS
+- Asset filenames with content hashes
+
+**Bundle Analysis:**
+- Total bundle: ~4.1MB (under 5MB limit)
+- Enforced via GitHub Actions workflow
+
+### Build Output Structure
+
+```
+dist/
+├── index.html                 # Homepage (36.22 KB) - All sections
+├── getting-started.html       # (11.18 KB) - Getting Started only
+├── statistics.html            # (7.90 KB) - Statistics only
+├── community.html             # (13.59 KB) - Community only
+├── about.html                 # (9.20 KB) - About only
+├── faq.html                   # (13.30 KB) - FAQ only
+├── game-mode.html             # (12.34 KB) - Game Mode page
+├── 404.html                   # SPA fallback (copy of index.html)
+├── manifest.webmanifest       # PWA manifest
+├── sitemap.xml                # SEO sitemap (7 URLs)
+├── robots.txt                 # Crawler instructions
+├── sw.js                      # Service worker
+├── workbox-*.js               # Workbox runtime
+├── assets/
+│   ├── app-[hash].js          # Main application code
+│   ├── app-[hash].css         # Compiled CSS
+│   ├── [route]-[hash].js      # Route-specific chunks
+│   └── [asset]-[hash].[ext]   # Optimized assets
+└── [pwa-icons]                # Generated PWA icons
+```
+
+## Contributing
+
+### Contribution Guidelines
+
+1. **Fork the repository** and clone locally
+2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Follow established patterns:**
+   - Use design tokens (no hardcoded hex values) - See [design-system.md](design-system.md#design-tokens)
+   - Follow navigation patterns for interactive elements - See [design-system.md](design-system.md#interactive-element-standards)
+   - Use `v-show` (not `v-if`) for expandable sections - See [architecture.md](architecture.md#ssr-hydration-best-practices)
+   - Add SSR guards around browser APIs - See [troubleshooting.md](troubleshooting.md#ssr-guards)
+4. **Write tests** for new functionality (maintain 50%+ coverage)
+5. **Run quality checks:**
+   ```bash
+   npm run lint        # ESLint + Prettier
+   npm test            # Vitest tests
+   npx tsc --noEmit    # TypeScript validation
+   ```
+6. **Document changes:**
+   - Update relevant docs (architecture.md, design-system.md, etc.)
+   - Add changelog entry in [changelog.md](changelog.md)
+7. **Commit with descriptive messages** following conventional commits
+8. **Push to your fork** and submit a pull request
+
+### Code Quality Standards
+
+- **TypeScript:** Strict mode enabled, no `any` types
+- **Testing:** 50%+ coverage threshold enforced
+- **Linting:** Zero ESLint errors, Prettier formatted
+- **Accessibility:** WCAG AA compliance
+- **Performance:** Bundle size under 5MB
+- **SEO:** All content in pre-rendered HTML
+
+### Architecture Decision Records
+
+When making significant architectural changes:
+1. Document the problem in [changelog.md](changelog.md)
+2. Explain the solution and alternatives considered
+3. Update [architecture.md](architecture.md) with new patterns
+4. Update [design-system.md](design-system.md) for design changes
+5. Add troubleshooting entries if applicable
+
 ## Performance Considerations
 
 ### SSG Performance
