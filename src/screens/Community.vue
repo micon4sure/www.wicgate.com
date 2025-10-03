@@ -5,6 +5,7 @@ import { useEvents } from '../composables/useEvents';
 import TwitchEmbed from '../components/TwitchEmbed.vue';
 import EventsSkeleton from '../components/skeletons/EventsSkeleton.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
+import { getItem, setItem } from '../utils/storage';
 
 // SSR detection
 const isSSR = import.meta.env.SSR;
@@ -27,7 +28,7 @@ const expanded = ref(false);
 // Read localStorage preference after component mounts (after hydration)
 onMounted(() => {
   if (typeof window !== 'undefined') {
-    const stored = localStorage.getItem(EXPAND_KEY);
+    const stored = getItem(EXPAND_KEY);
     if (stored === '1') {
       expanded.value = true;
     }
@@ -36,7 +37,7 @@ onMounted(() => {
 
 watch(expanded, (val) => {
   if (typeof window !== 'undefined') {
-    localStorage.setItem(EXPAND_KEY, val ? '1' : '0');
+    setItem(EXPAND_KEY, val ? '1' : '0');
   }
 });
 

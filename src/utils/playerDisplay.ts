@@ -10,7 +10,10 @@ export function displayName(p: PlayerProfile): string {
   return p.profileName || 'Unknown';
 }
 
-// HTML-based colorizer compatible with <#hex>... </> markers
+/**
+ * HTML-based colorizer compatible with <#hex>... </> markers
+ * Validates hex colors to prevent malformed CSS injection
+ */
 export function colorize(name: string): string {
   let out = '<span style="color:var(--player-neutral)">';
   let last = 0;
@@ -23,9 +26,13 @@ export function colorize(name: string): string {
     last = regex.lastIndex;
 
     if (m[1]) {
-      if (open) out += '</span>';
-      out += `<span style="color:#${m[1]}">`;
-      open = true;
+      // Validate hex color to prevent CSS injection
+      const hexColor = m[1];
+      if (/^[\da-f]{3,6}$/i.test(hexColor)) {
+        if (open) out += '</span>';
+        out += `<span style="color:#${hexColor}">`;
+        open = true;
+      }
     } else if (open) {
       out += '</span>';
       open = false;

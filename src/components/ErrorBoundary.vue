@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onErrorCaptured } from 'vue';
 import { AnalyticsEvents } from '../utils/analytics';
+import * as Sentry from '@sentry/vue';
 
 const hasError = ref(false);
 const errorMessage = ref('');
@@ -25,10 +26,18 @@ onErrorCaptured((err, instance, info) => {
     });
   }
 
-  // TODO: Send to error tracking service in production
-  // if (import.meta.env.PROD && window.Sentry) {
-  //   window.Sentry.captureException(err);
-  // }
+  // Send to Sentry in production
+  if (import.meta.env.PROD) {
+    Sentry.captureException(err, {
+      contexts: {
+        vue: {
+          componentName: instance?.$options.name || 'Unknown',
+          propsData: instance?.$props,
+          lifecycleHook: info,
+        },
+      },
+    });
+  }
 
   // Prevent error from propagating
   return false;

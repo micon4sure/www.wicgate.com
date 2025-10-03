@@ -3,6 +3,8 @@ import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 import type { LeaderboardEntry } from '../api-types';
 import RankInsignia from './RankInsignia.vue';
 import { AnalyticsEvents } from '../utils/analytics';
+import { debounce } from '../utils/debounce';
+import { DEBOUNCE_RESIZE } from '../constants';
 
 interface Props {
   title: string;
@@ -74,16 +76,19 @@ function updateWindowWidth() {
   windowWidth.value = window.innerWidth;
 }
 
+// Debounce resize handler to improve performance
+const debouncedResize = debounce(updateWindowWidth, DEBOUNCE_RESIZE);
+
 onMounted(() => {
   if (typeof window !== 'undefined') {
-    window.addEventListener('resize', updateWindowWidth);
+    window.addEventListener('resize', debouncedResize);
     updateWindowWidth();
   }
 });
 
 onUnmounted(() => {
   if (typeof window !== 'undefined') {
-    window.removeEventListener('resize', updateWindowWidth);
+    window.removeEventListener('resize', debouncedResize);
   }
 });
 </script>

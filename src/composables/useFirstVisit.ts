@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { getItem, setItem } from '../utils/storage';
 
 const FIRST_VISIT_KEY = 'wicgate_visited';
 
@@ -8,13 +9,13 @@ export function useFirstVisit() {
   function checkFirstVisit(): boolean {
     if (typeof window === 'undefined') return false;
 
-    const hasVisited = localStorage.getItem(FIRST_VISIT_KEY);
+    const hasVisited = getItem(FIRST_VISIT_KEY);
     return !hasVisited;
   }
 
   function markAsVisited() {
     if (typeof window !== 'undefined') {
-      localStorage.setItem(FIRST_VISIT_KEY, 'true');
+      setItem(FIRST_VISIT_KEY, 'true');
     }
   }
 

@@ -1,8 +1,6 @@
-import axios from 'axios';
-import lodash from 'lodash';
-import { ref, onMounted, onUnmounted } from 'vue';
-
-const { orderBy } = lodash;
+import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { formatDate, getCountdown as getCountdownUtil } from '../utils';
+import { EVENT_COUNTDOWN_INTERVAL } from '../constants';
 
 export interface Event {
   id: number | string;
@@ -19,7 +17,7 @@ export function useEvents() {
   const events = ref<Event[]>([]);
   const now = ref(new Date());
   const isLoading = ref(true);
-  let timer: number;
+  let timer: number | undefined;
 
   onMounted(async () => {
     // Skip data fetching during SSG build
@@ -30,8 +28,16 @@ export function useEvents() {
 
     try {
       const url = API + (import.meta.env.MODE === 'production' ? '/events' : '/events-test');
-      const response = await axios.get<Event[]>(url);
-      events.value = orderBy(response.data, ['date'], ['asc']);
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data: Event[] = await response.json();
+
+      // Sort by date ascending (native sort instead of lodash orderBy)
+      events.value = data.sort((a, b) => {
+        const dateA = new Date(a.start).getTime();
+        const dateB = new Date(b.start).getTime();
+        return dateA - dateB;
+      });
 
       isLoading.value = false;
       if (import.meta.env.DEV) console.log(`Fetched ${events.value.length} events from ${url}`);
@@ -40,41 +46,38 @@ export function useEvents() {
       isLoading.value = false;
     }
 
-    // Only set timer in browser context
-    if (typeof window !== 'undefined') {
+    // Only start countdown timer if events exist
+    if (typeof window !== 'undefined' && events.value.length > 0) {
       timer = window.setInterval(() => {
         now.value = new Date();
-      }, 1000);
+      }, EVENT_COUNTDOWN_INTERVAL);
+    }
+  });
+
+  // Watch events and start/stop timer accordingly (optimization: no timer when no events)
+  watch(events, (newEvents) => {
+    if (typeof window === 'undefined') return;
+
+    if (newEvents.length > 0 && timer === undefined) {
+      timer = window.setInterval(() => {
+        now.value = new Date();
+      }, EVENT_COUNTDOWN_INTERVAL);
+    } else if (newEvents.length === 0 && timer !== undefined) {
+      clearInterval(timer);
+      timer = undefined;
     }
   });
 
   onUnmounted(() => {
-    clearInterval(timer);
+    if (timer !== undefined) {
+      clearInterval(timer);
+      timer = undefined;
+    }
   });
 
-  function formatDate(raw: string): string {
-    return new Date(raw).toLocaleString();
-  }
-
+  // Wrapper for getCountdown that uses the reactive 'now' ref
   function getCountdown(raw: string): string {
-    const target = new Date(raw).getTime();
-    const diff = target - now.value.getTime();
-    if (diff <= 0) {
-      return 'Event ongoing';
-    }
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-
-    const parts: string[] = [];
-    if (days) {
-      parts.push(`${days}d`);
-    }
-    parts.push(`${String(hours).padStart(2, '0')}h`);
-    parts.push(`${String(minutes).padStart(2, '0')}m`);
-    parts.push(`${String(seconds).padStart(2, '0')}s`);
-    return parts.join(' ');
+    return getCountdownUtil(raw, now.value);
   }
 
   return {

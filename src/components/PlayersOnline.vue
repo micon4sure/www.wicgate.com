@@ -3,6 +3,9 @@ import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import type { OnlineProfile as PlayerProfile } from '../api-types';
 import type { ServerEntry } from '../api-types';
 import { colorize, displayName, groupPlayersByServer } from '../utils/playerDisplay';
+import { getItem, setItem } from '../utils/storage';
+import { debounce } from '../utils/debounce';
+import { DEBOUNCE_RESIZE } from '../constants';
 
 const props = defineProps<{ players: PlayerProfile[]; servers?: ServerEntry[] }>();
 const emit = defineEmits<{ enterGameMode: [] }>();
@@ -70,26 +73,25 @@ function close() {
   persist();
 }
 function persist() {
-  localStorage.setItem('wicgate_panel_open', open.value ? 'true' : 'false');
+  setItem('wicgate_panel_open', open.value ? 'true' : 'false');
 }
 
+// Debounce resize handler to improve performance
+const debouncedResize = debounce(handleResize, DEBOUNCE_RESIZE);
+
 onMounted(() => {
-  window.addEventListener('resize', handleResize, { passive: true });
+  window.addEventListener('resize', debouncedResize, { passive: true });
   handleResize();
 
-  try {
-    const stored = localStorage.getItem('wicgate_panel_open');
-    if (stored === 'true') {
-      open.value = true;
-      applyClasses();
-    }
-  } catch {
-    // Ignore localStorage errors (private browsing, etc.)
+  const stored = getItem('wicgate_panel_open');
+  if (stored === 'true') {
+    open.value = true;
+    applyClasses();
   }
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', handleResize);
+  window.removeEventListener('resize', debouncedResize);
   document.documentElement.style.removeProperty(PANEL_OFFSET_VAR);
   const wrapper = document.getElementById('siteWrapper');
   if (wrapper) wrapper.classList.remove('panel-open');

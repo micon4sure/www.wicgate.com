@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { rafThrottle } from '../utils/rafThrottle';
 
 const props = defineProps<{
   currentSection?: string;
@@ -75,13 +76,16 @@ function goToNextSection() {
   }
 }
 
+// Throttle scroll handler with RAF for 60fps performance
+const throttledScrollUpdate = rafThrottle(updateScrollProgress);
+
 onMounted(() => {
-  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  window.addEventListener('scroll', throttledScrollUpdate, { passive: true });
   updateScrollProgress();
 });
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', updateScrollProgress);
+  window.removeEventListener('scroll', throttledScrollUpdate);
 });
 </script>
 

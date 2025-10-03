@@ -16,6 +16,7 @@ import { useFirstVisit } from '../composables/useFirstVisit';
 import { getHeaderHeightWithBuffer, scrollToSection as scrollToSectionUtil } from '../utils/scroll';
 import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/structuredData';
 import { initWebVitals } from '../utils/performance';
+import { rafThrottle } from '../utils/rafThrottle';
 
 const store = useAppDataStore();
 const { data, playerCount, loading } = store;
@@ -201,6 +202,9 @@ function updateActiveSection() {
   }
 }
 
+// Throttle scroll/resize handlers with RAF for 60fps performance
+const throttledUpdateSection = rafThrottle(updateActiveSection);
+
 interface Slide {
   icon: string;
   title: string;
@@ -324,8 +328,8 @@ onMounted(() => {
   nextTick(() => {
     collectSectionElements();
     if (!scrollListenerAttached) {
-      window.addEventListener('scroll', updateActiveSection, { passive: true });
-      window.addEventListener('resize', updateActiveSection);
+      window.addEventListener('scroll', throttledUpdateSection, { passive: true });
+      window.addEventListener('resize', throttledUpdateSection);
       scrollListenerAttached = true;
     }
     updateActiveSection();
@@ -333,19 +337,24 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  // Clear slide carousel interval
   clearInterval(int);
+
+  // Remove scroll listeners
   if (scrollListenerAttached) {
-    window.removeEventListener('scroll', updateActiveSection);
-    window.removeEventListener('resize', updateActiveSection);
+    window.removeEventListener('scroll', throttledUpdateSection);
+    window.removeEventListener('resize', throttledUpdateSection);
     scrollListenerAttached = false;
   }
-  // Clear fast scroll timeout
-  if (fastScrollTimeout) {
+
+  // Clear all timeouts to prevent memory leaks
+  if (fastScrollTimeout !== undefined) {
     clearTimeout(fastScrollTimeout);
+    fastScrollTimeout = undefined;
   }
-  // Clear programmatic scroll timeout
-  if (programmaticScrollTimeout) {
+  if (programmaticScrollTimeout !== undefined) {
     clearTimeout(programmaticScrollTimeout);
+    programmaticScrollTimeout = undefined;
   }
 });
 

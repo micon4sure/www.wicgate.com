@@ -61,7 +61,10 @@ export const createApp = ViteSSG(
       if (to.hash) {
         const el = document.querySelector(to.hash);
         if (el) {
-          return { el: to.hash, behavior: 'smooth' } as any;
+          return {
+            el: to.hash,
+            behavior: 'smooth',
+          };
         }
       }
 

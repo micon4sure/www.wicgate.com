@@ -1,9 +1,5 @@
-import axios from 'axios';
-import lodash from 'lodash';
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { formatDate } from '../utils';
-
-const { map } = lodash;
 
 export interface Video {
   id: string;
@@ -24,7 +20,7 @@ export function useYoutube() {
   const videos = ref<Record<string, { channelTitle: string; videos: Video[] }>>({});
   const now = ref(new Date());
   const loading = ref(true);
-  let timer: number;
+  let timer: number | undefined;
 
   onMounted(async () => {
     // Skip data fetching during SSG build
@@ -36,8 +32,9 @@ export function useYoutube() {
     try {
       const url = API + '/videos';
       // API returns: Record<channelId, atomXmlString>
-      const response = await axios.get<Record<string, string>>(url);
-      const data = response.data;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data: Record<string, string> = await response.json();
 
       const parsed: Record<string, { channelTitle: string; videos: Video[] }> = {};
 
@@ -71,12 +68,15 @@ export function useYoutube() {
   });
 
   onUnmounted(() => {
-    clearInterval(timer);
+    if (timer !== undefined) {
+      clearInterval(timer);
+    }
   });
 
   // videos from all channels sorted by publishedAt desc (top 3)
   const videosSorted = computed(() => {
-    const all: Video[] = map(videos.value, (channel) => channel.videos).flat();
+    // Replace lodash map with native Object.values().flatMap()
+    const all: Video[] = Object.values(videos.value).flatMap((channel) => channel.videos);
     return all.sort(
       (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
@@ -94,16 +94,34 @@ export function useYoutube() {
  * Parses a YouTube Atom feed and returns channel title and all entries mapped to Video, sorted by date desc.
  */
 function parseYouTubeFeed(xml: string): { channelTitle: string; videos: Video[] } | null {
+  // Validate input
+  if (!xml || typeof xml !== 'string') {
+    throw new Error('Invalid XML input: expected non-empty string');
+  }
+
   const parser = new DOMParser();
   const doc = parser.parseFromString(xml, 'text/xml');
 
+  // Check for parser errors
   const parserError = doc.getElementsByTagName('parsererror');
   if (parserError && parserError.length > 0) {
-    throw new Error('Invalid XML received');
+    const errorText = parserError[0]?.textContent || 'Unknown parsing error';
+    throw new Error(`XML parsing failed: ${errorText}`);
+  }
+
+  // Validate document structure
+  const documentElement = doc.documentElement;
+  if (!documentElement || documentElement.nodeName === 'html') {
+    throw new Error('Invalid XML structure: not a valid feed document');
   }
 
   const entriesList = Array.from(doc.getElementsByTagName('entry'));
-  if (!entriesList || entriesList.length === 0) return null;
+  if (!entriesList || entriesList.length === 0) {
+    if (import.meta.env.DEV) {
+      console.warn('[YouTube Feed] No entries found in feed');
+    }
+    return null;
+  }
 
   // feed-level channel title (prefer <author><name> if present)
   let channelTitle = doc.getElementsByTagName('title')[0]?.textContent || '';

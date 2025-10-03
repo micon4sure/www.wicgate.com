@@ -2,6 +2,8 @@
 import { ref, toRef, onMounted, onUnmounted } from 'vue';
 import { scrollToSection } from '../utils/scroll';
 import { AnalyticsEvents } from '../utils/analytics';
+import { debounce } from '../utils/debounce';
+import { DEBOUNCE_RESIZE } from '../constants';
 
 const mobileOpen = ref(false);
 
@@ -81,25 +83,29 @@ function handleWindowResize() {
     lastWindowWidth.value = currentWidth;
 
     // If user is currently viewing a section (not hero), re-scroll to maintain position
-    if (activeSection.value) {
+    const section = activeSection.value;
+    if (section) {
       // Small delay to ensure CSS has updated after resize
       setTimeout(() => {
-        scrollToSection(activeSection.value!, 'auto');
-      }, 150);
+        scrollToSection(section, 'auto');
+      }, DEBOUNCE_RESIZE);
     }
   }
 }
 
+// Debounce resize handler to improve performance
+const debouncedResize = debounce(handleWindowResize, DEBOUNCE_RESIZE);
+
 onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
   document.addEventListener('keydown', handleEscapeKey);
-  window.addEventListener('resize', handleWindowResize);
+  window.addEventListener('resize', debouncedResize);
 });
 
 onUnmounted(() => {
   document.removeEventListener('click', handleOutsideClick);
   document.removeEventListener('keydown', handleEscapeKey);
-  window.removeEventListener('resize', handleWindowResize);
+  window.removeEventListener('resize', debouncedResize);
   document.body.style.overflow = ''; // Clean up body scroll lock
 });
 

@@ -7,6 +7,7 @@ import {
   manualInstallSteps,
   manualInstallWarning,
 } from '../content/content';
+import { getItem, setItem } from '../utils/storage';
 
 // Advanced Setup expand/collapse state with localStorage persistence
 const EXPAND_KEY = 'advanced_setup_expanded';
@@ -16,7 +17,7 @@ const isAdvancedExpanded = ref(false);
 // Read localStorage preference after component mounts (after hydration)
 onMounted(() => {
   if (typeof window !== 'undefined') {
-    const stored = localStorage.getItem(EXPAND_KEY);
+    const stored = getItem(EXPAND_KEY);
     if (stored === '1') {
       isAdvancedExpanded.value = true;
     }
@@ -25,7 +26,7 @@ onMounted(() => {
 
 watch(isAdvancedExpanded, (val) => {
   if (typeof window !== 'undefined') {
-    localStorage.setItem(EXPAND_KEY, val ? '1' : '0');
+    setItem(EXPAND_KEY, val ? '1' : '0');
   }
 });
 </script>

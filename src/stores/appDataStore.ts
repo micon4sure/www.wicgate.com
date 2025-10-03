@@ -31,6 +31,11 @@ async function fetchDataWithRetry(retryCount = 0): Promise<void> {
     lastFetchedAt.value = Date.now();
     error.value = null; // Clear any previous errors
     isOnline.value = true;
+
+    // Resume polling if it was stopped due to being offline
+    if (!intervalId && isInitialized.value && typeof window !== 'undefined') {
+      intervalId = window.setInterval(fetchData, 90000);
+    }
   } catch (e: any) {
     // If we haven't exhausted retries, try again
     if (retryCount < MAX_RETRIES) {
@@ -42,10 +47,16 @@ async function fetchDataWithRetry(retryCount = 0): Promise<void> {
       return fetchDataWithRetry(retryCount + 1);
     }
 
-    // All retries exhausted
+    // All retries exhausted - stop polling until manually recovered
     error.value = e?.message || 'Failed to load';
     isOnline.value = false;
     AnalyticsEvents.apiError('/api/data');
+
+    // Stop polling when offline to prevent unnecessary requests
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = undefined;
+    }
   }
 }
 
@@ -82,8 +93,8 @@ function init() {
           intervalId = undefined;
         }
       } else {
-        // Resume polling when tab becomes visible
-        if (!intervalId && isInitialized.value) {
+        // Resume polling when tab becomes visible, but only if we're online
+        if (!intervalId && isInitialized.value && isOnline.value) {
           fetchData(); // Fetch immediately
           intervalId = window.setInterval(fetchData, 90000);
         }
