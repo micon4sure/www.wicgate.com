@@ -236,57 +236,52 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
           <!-- Channel sections slide down when expanded -->
           <div v-show="expanded" class="by-channel videos-expandable">
-              <div class="vid-hdr by-channel-hdr">
-                <h3>By Content Creator</h3>
+            <div class="vid-hdr by-channel-hdr">
+              <h3>By Content Creator</h3>
+            </div>
+            <!-- Individual Creator Sections -->
+            <div v-for="ch in channelsList" :key="ch.channelId" class="channel-section">
+              <div class="creator-card-container">
+                <a
+                  :href="`https://www.youtube.com/channel/${ch.channelId}`"
+                  target="_blank"
+                  class="card creator-card"
+                  :aria-label="`View ${ch.channelTitle} YouTube channel`"
+                >
+                  <div class="creator-info">
+                    <h4 class="creator-name">{{ ch.channelTitle }}</h4>
+                    <div class="creator-badge-icon">
+                      <i class="fa-solid fa-external-link" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </a>
               </div>
-              <!-- Individual Creator Sections -->
-              <div v-for="ch in channelsList" :key="ch.channelId" class="channel-section">
-                <div class="creator-card-container">
-                  <a
-                    :href="`https://www.youtube.com/channel/${ch.channelId}`"
-                    target="_blank"
-                    class="card creator-card"
-                    :aria-label="`View ${ch.channelTitle} YouTube channel`"
-                  >
-                    <div class="creator-info">
-                      <h4 class="creator-name">{{ ch.channelTitle }}</h4>
-                      <div class="creator-badge-icon">
-                        <i class="fa-solid fa-external-link" aria-hidden="true"></i>
+              <div class="videos-grid">
+                <div v-for="v in ch.videos" :key="v.id" class="card vid-card">
+                  <a :href="v.videoUrl" target="_blank" class="vid-link" rel="noopener noreferrer">
+                    <div class="vid-thumb">
+                      <img
+                        :src="v.thumbnailUrl"
+                        :alt="`${v.title} - ${ch.channelTitle} video thumbnail`"
+                        loading="lazy"
+                      />
+                      <div class="play-over">
+                        <i class="fa-solid fa-play" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                    <div class="vid-info">
+                      <h4 class="vid-title">{{ v.title }}</h4>
+                      <div class="vid-meta">
+                        <span v-if="v.views != null">{{ v.views.toLocaleString() }} views</span>
+                        <span v-if="v.publishedAt">
+                          • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
+                        >
                       </div>
                     </div>
                   </a>
                 </div>
-                <div class="videos-grid">
-                  <div v-for="v in ch.videos" :key="v.id" class="card vid-card">
-                    <a
-                      :href="v.videoUrl"
-                      target="_blank"
-                      class="vid-link"
-                      rel="noopener noreferrer"
-                    >
-                      <div class="vid-thumb">
-                        <img
-                          :src="v.thumbnailUrl"
-                          :alt="`${v.title} - ${ch.channelTitle} video thumbnail`"
-                          loading="lazy"
-                        />
-                        <div class="play-over">
-                          <i class="fa-solid fa-play" aria-hidden="true"></i>
-                        </div>
-                      </div>
-                      <div class="vid-info">
-                        <h4 class="vid-title">{{ v.title }}</h4>
-                        <div class="vid-meta">
-                          <span v-if="v.views != null">{{ v.views.toLocaleString() }} views</span>
-                          <span v-if="v.publishedAt">
-                            • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
-                          >
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
               </div>
+            </div>
           </div>
 
           <div v-if="ytVideosSorted.length === 0" class="text-muted">No videos available</div>
@@ -359,6 +354,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
   line-height: 1.4;
   color: var(--t);
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
