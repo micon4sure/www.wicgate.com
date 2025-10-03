@@ -29,29 +29,9 @@ export function useEvents() {
     }
 
     try {
-      const url = API + '/events';
+      const url = import.meta.env.DEV ? API + '/events-test' : API + '/events';
       const response = await axios.get<Event[]>(url);
       events.value = orderBy(response.data, ['date'], ['asc']);
-
-      // ONLY add test events in development, never in production
-      if (import.meta.env.DEV) {
-        events.value.push({
-          id: 23,
-          name: 'Test event that started 5min ago',
-          start: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
-          description: 'Stay tuned for updates!',
-          link: 'https://www.wicgate.com/events',
-          coverUrl: 'https://www.wicgate.com/hero-0.png',
-        });
-        events.value.push({
-          id: 42,
-          name: 'Test event that will start in 5min',
-          start: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
-          description: 'Stay tuned for updates!',
-          link: 'https://www.wicgate.com/events',
-          coverUrl: 'https://www.wicgate.com/hero-1.png',
-        });
-      }
 
       isLoading.value = false;
       if (import.meta.env.DEV) console.log(`Fetched ${events.value.length} events from ${url}`);
