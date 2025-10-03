@@ -700,6 +700,96 @@ Each screen/component has dedicated CSS module:
 }
 ```
 
+### Expandable Section Transitions
+
+**Pattern for smooth expand/collapse animations with v-show directive.**
+
+Used in:
+- **Advanced Setup** ([src/screens/GettingStarted.vue](../src/screens/GettingStarted.vue)) - Dedicated Server & Manual Installation sections
+- **Videos by Creator** ([src/screens/Community.vue](../src/screens/Community.vue)) - Channel-organized video grid
+
+**CSS Pattern:**
+
+```css
+/* Base state (expanded/visible) */
+.advanced-content,
+.videos-expandable {
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 5000px; /* Large enough for all content */
+  opacity: 1;
+}
+
+/* Collapsed state (when v-show="false") */
+.advanced-content[style*="display: none"],
+.videos-expandable[style*="display: none"] {
+  max-height: 0;
+  opacity: 0;
+}
+```
+
+**Why This Pattern:**
+
+1. **Works with v-show:** Vue's `v-show` directive toggles `style="display: none"`, which we target with CSS selector
+2. **Smooth animations:** `max-height` + `opacity` transitions create polished expand/collapse effect
+3. **No layout shifts:** Content stays in DOM (v-show doesn't remove), preventing scroll jumping
+4. **SSR-compatible:** All content pre-rendered in HTML for SEO, just initially hidden with CSS
+
+**Component Integration:**
+
+```vue
+<script setup lang="ts">
+import { ref, onMounted, watch } from 'vue';
+
+const expanded = ref(false); // Initialize collapsed (SSR-safe)
+
+// Read localStorage AFTER hydration to prevent mismatch
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    const stored = localStorage.getItem('section_expanded');
+    if (stored === '1') {
+      expanded.value = true;
+    }
+  }
+});
+
+// Save preference when toggled
+watch(expanded, (val) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('section_expanded', val ? '1' : '0');
+  }
+});
+</script>
+
+<template>
+  <label class="toggle">
+    <input v-model="expanded" type="checkbox">
+    <span class="slider"></span>
+    <span class="lbl">{{ expanded ? 'Collapse' : 'Expand' }}</span>
+  </label>
+
+  <!-- v-show (not v-if) keeps content in DOM -->
+  <div v-show="expanded" class="advanced-content">
+    <!-- Content here... -->
+  </div>
+</template>
+```
+
+**Key Files:**
+- **CSS:** [src/assets/styles/modules/components/getting-started.css](../src/assets/styles/modules/components/getting-started.css) (lines 404-416)
+- **CSS:** [src/assets/styles/modules/components/videos.css](../src/assets/styles/modules/components/videos.css) (lines 281-293)
+
+**Technical Notes:**
+- `max-height` must be large enough for all content (5000px for Advanced Setup, 10000px for Videos)
+- `overflow: hidden` required for smooth height animation
+- `cubic-bezier(0.4, 0, 0.2, 1)` provides professional easing
+- Attribute selector `[style*="display: none"]` targets Vue's inline style
+
+**Architecture Reference:**
+- Pattern explained: [docs/architecture.md - SSR Hydration Best Practices](architecture.md#ssr-hydration-best-practices)
+- Changelog: [docs/changelog.md - Scroll Jumping & Hydration Fix](changelog.md#scroll-jumping--ssr-hydration-fix)
+
 ## Navigation Scroll Precision
 
 **⚠️ CRITICAL RULE:** ALWAYS use dynamic header measurement for scroll positioning. NEVER use hardcoded CSS `scroll-margin-top` values or manual pixel calculations.

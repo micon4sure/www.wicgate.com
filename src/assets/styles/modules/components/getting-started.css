@@ -400,3 +400,17 @@
 .advanced-section a[href]:active {
   color: rgba(var(--sw-rgb), 0.8);
 }
+
+/* Advanced Content Smooth Expand/Collapse */
+.advanced-content {
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 5000px; /* Large enough for all content */
+  opacity: 1;
+}
+
+.advanced-content[style*="display: none"] {
+  max-height: 0;
+  opacity: 0;
+}

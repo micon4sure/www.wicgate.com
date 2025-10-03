@@ -310,14 +310,14 @@ onMounted(() => {
         setTimeout(() => {
           // Use the shared scroll utility to ensure consistency with active section detection
           scrollToSectionUtil(hash, 'smooth');
-        }, 100);
+        }, 200);
       }
     }
     // Handle direct sublink access (e.g., /statistics, /community)
     else if (sectionFromRoute) {
       setTimeout(() => {
         scrollToSectionUtil(sectionFromRoute, 'smooth');
-      }, 100);
+      }, 200);
     }
   }
 

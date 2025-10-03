@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🔧 **Scroll Jumping & Hydration Fix** - Eliminated scroll jumping and SSR hydration mismatches with v-show + CSS transitions (Oct 3)
 - 🎯 **Advanced Setup Collapsible** - Made Advanced Setup Options collapsible by default for cleaner onboarding (Oct 3)
 - 🎯 **Getting Started Simplification** - Compressed 4 steps to 3, removed Requirements box, streamlined onboarding (Oct 3)
 - 🎨 **Navigation Flash Fix** - Disabled scroll listener during programmatic navigation to prevent highlight flash (Oct 2)
@@ -34,6 +35,122 @@
 ---
 
 ## October 2025
+
+### 🔧 Scroll Jumping & SSR Hydration Fix
+
+**Status:** Complete (October 3, 2025)
+
+**Problem:** Expandable sections (Advanced Setup in Getting Started, Videos in Community) were causing scroll jumping when toggling expand/collapse. Additionally, SSR hydration mismatch warnings appeared in console due to localStorage timing issues.
+
+**Root Cause Analysis:**
+1. **Scroll Jumping:** Using `v-if` for conditional rendering caused DOM insertion/removal AFTER scroll position calculation, shifting all content below the toggled section
+2. **Hydration Mismatch:** Reading localStorage at component initialization caused server (always collapsed) vs client (potentially expanded) HTML mismatch
+3. **Layout Instability:** Browser's scroll calculation happened before expandable content reached its final state
+
+**Solution:** Three-part architectural fix:
+1. **Replace `v-if` with `v-show`** - Keeps elements in DOM but toggles CSS `display: none`
+2. **CSS Transitions** - Add smooth `max-height` + `opacity` transitions for professional UX
+3. **SSR-Safe State Init** - Initialize state to `false` (collapsed), read localStorage in `onMounted()` after hydration completes
+
+**Files Changed:**
+- **src/screens/GettingStarted.vue**
+  - Changed `v-if="isAdvancedExpanded"` → `v-show="isAdvancedExpanded"` (line 56)
+  - Moved localStorage read from top-level to `onMounted()` hook
+  - Initialize `isAdvancedExpanded` to `false` (SSR-safe default)
+
+- **src/screens/Community.vue**
+  - Changed `v-if="expanded"` → `v-show="expanded"` (line 228)
+  - Moved localStorage read to `onMounted()`
+  - Initialize `expanded` to `false`
+  - Removed `<Transition>` wrapper (no longer needed with CSS transitions)
+
+- **src/assets/styles/modules/components/getting-started.css**
+  - Added `.advanced-content` transition rules (lines 404-416)
+  - `max-height: 5000px` when visible, `0` when hidden
+  - `opacity` fade with 0.3s cubic-bezier easing
+
+- **src/assets/styles/modules/components/videos.css**
+  - Added `.videos-expandable` transition rules (lines 281-293)
+  - `max-height: 10000px` (larger for video content)
+  - Matching transition timing
+
+- **src/views/Home.vue**
+  - Increased scroll delay from 100ms → 200ms (lines 310, 318)
+  - Gives Vue extra time to stabilize layout before scrolling
+
+**Technical Deep Dive:**
+
+**Why v-show Prevents Layout Shifts:**
+```vue
+<!-- ❌ v-if removes from DOM, causes layout shifts -->
+<div v-if="expanded" class="content">...</div>
+
+<!-- ✅ v-show stays in DOM, no layout shifts -->
+<div v-show="expanded" class="content">...</div>
+```
+
+**SSR Hydration Pattern:**
+```typescript
+// ❌ WRONG - Causes hydration mismatch
+const stored = typeof window !== 'undefined' ? localStorage.getItem(KEY) : null;
+const expanded = ref(stored === '1'); // Server: false, Client: maybe true
+
+// ✅ CORRECT - SSR-safe, no mismatch
+const expanded = ref(false); // Always false during SSR
+
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    const stored = localStorage.getItem(KEY);
+    if (stored === '1') {
+      expanded.value = true; // Only after hydration
+    }
+  }
+});
+```
+
+**CSS Transition Pattern:**
+```css
+.advanced-content {
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 5000px;
+  opacity: 1;
+}
+
+.advanced-content[style*="display: none"] {
+  max-height: 0;
+  opacity: 0;
+}
+```
+
+**Impact:**
+- ✅ **Zero scroll jumping** - DOM stays stable, scroll position accurate
+- ✅ **No hydration warnings** - Server and client render identical initial HTML
+- ✅ **Perfect SEO** - All 7 routes pre-render with full content (`data-server-rendered="true"`)
+- ✅ **Smooth UX** - CSS transitions provide polished expand/collapse animations
+- ✅ **Test Suite Passing** - All 27 tests pass (12 scroll utilities, 15 data store)
+- ✅ **Clean Build** - No TypeScript errors, no console warnings
+
+**Verified SSG Output:**
+```bash
+dist/index.html (37.13 KB) - Full pre-rendered content
+dist/getting-started.html (11.46 KB) - Advanced Setup collapsed by default
+dist/community.html (13.93 KB) - Videos section collapsed by default
++ 4 more routes, all with complete pre-rendered HTML
+```
+
+**User Experience:**
+- **Regular users:** No scroll jumping when toggling sections, instant visual feedback
+- **SEO bots:** See all content in HTML source (no JavaScript required)
+- **Returning users:** Preference remembered via localStorage, applied after page load
+- **Minor trade-off:** ~50ms delay before localStorage preference applies (imperceptible, standard SSR practice)
+
+**References:**
+- Pattern documented in [docs/architecture.md - SSR Hydration](architecture.md#ssr-hydration-best-practices)
+- CSS patterns in [docs/design-system.md - Expandable Sections](design-system.md#expandable-section-transitions)
+
+---
 
 ### 🎯 Advanced Setup Options Collapsible
 

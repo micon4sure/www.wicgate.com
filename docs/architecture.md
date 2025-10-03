@@ -164,6 +164,146 @@ if (!showFirstVisitOverlay.value) {
 - **Enhanced Layer (with JS):** Full UX with animations + live data + auto-scroll to sections
 - **Not Cloaking:** Same content, different loading strategy (Google-approved)
 
+### SSR Hydration Best Practices
+
+**Overview:**
+SSR hydration is the process where client-side JavaScript takes over the static HTML rendered by the server. For hydration to work correctly, the initial HTML rendered on both server and client MUST be identical, otherwise Vue will throw hydration mismatch warnings.
+
+**The Hydration Mismatch Problem:**
+
+When server renders HTML and client renders different HTML, Vue cannot properly hydrate:
+
+```typescript
+// ❌ WRONG - Causes hydration mismatch
+const stored = typeof window !== 'undefined' ? localStorage.getItem('key') : null;
+const expanded = ref(stored === '1');
+// Server renders: expanded = false (no localStorage in Node.js)
+// Client renders: expanded = true (if localStorage has '1')
+// Result: HTML mismatch, Vue warning in console
+```
+
+**The Solution Pattern - SSR-Safe State Initialization:**
+
+```typescript
+// ✅ CORRECT - Initialize to SSR-safe default
+const expanded = ref(false); // Always false during SSR build
+
+// ✅ CORRECT - Read browser state AFTER hydration
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    const stored = localStorage.getItem('key');
+    if (stored === '1') {
+      expanded.value = true; // Only update after mount
+    }
+  }
+});
+```
+
+**Why This Works:**
+1. **Server renders:** `expanded = false` → Generates HTML with collapsed state
+2. **Client hydrates:** `expanded = false` → Matches server HTML perfectly
+3. **After hydration:** `onMounted()` runs → Reads localStorage → Updates state
+4. **Result:** No mismatch warning, smooth UX
+
+**v-show vs v-if for SSR:**
+
+**Use `v-show` (not `v-if`) for expandable sections:**
+
+```vue
+<!-- ❌ v-if causes layout shifts -->
+<div v-if="expanded" class="content">
+  <!-- Content removed from DOM when collapsed -->
+  <!-- Re-inserted when expanded → causes layout shift -->
+</div>
+
+<!-- ✅ v-show prevents layout shifts -->
+<div v-show="expanded" class="content" style="display: none">
+  <!-- Content stays in DOM, just hidden with CSS -->
+  <!-- No DOM mutation → no layout shift → stable scroll position -->
+</div>
+```
+
+**Decision Guide - v-show vs v-if:**
+
+| Use Case | Directive | Reason |
+|----------|-----------|--------|
+| **Expandable sections** | `v-show` | Prevents layout shifts, SSR-friendly |
+| **SSR conditional sections** | `shouldRenderSection()` | Controls what gets pre-rendered |
+| **Never-needed-again content** | `v-if` | Removes from DOM permanently |
+| **Frequently toggled** | `v-show` | Better performance (no DOM mutations) |
+| **Heavy content, rarely shown** | `v-if` | Saves memory when hidden |
+
+**Real-World Example from WiCGATE:**
+
+Advanced Setup section in Getting Started uses this pattern:
+
+```vue
+<script setup lang="ts">
+import { ref, watch, onMounted } from 'vue';
+
+const EXPAND_KEY = 'advanced_setup_expanded';
+// Initialize to false (SSR-safe, prevents hydration mismatch)
+const isAdvancedExpanded = ref(false);
+
+// Read localStorage AFTER component mounts (after hydration)
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    const stored = localStorage.getItem(EXPAND_KEY);
+    if (stored === '1') {
+      isAdvancedExpanded.value = true;
+    }
+  }
+});
+
+// Save preference when changed
+watch(isAdvancedExpanded, (val) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(EXPAND_KEY, val ? '1' : '0');
+  }
+});
+</script>
+
+<template>
+  <!-- v-show keeps content in DOM, prevents scroll jumping -->
+  <div v-show="isAdvancedExpanded" class="advanced-content">
+    <!-- Dedicated Server Setup steps... -->
+  </div>
+</template>
+
+<style>
+/* Smooth CSS transitions for expand/collapse */
+.advanced-content {
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 5000px;
+  opacity: 1;
+}
+
+.advanced-content[style*="display: none"] {
+  max-height: 0;
+  opacity: 0;
+}
+</style>
+```
+
+**Benefits of This Pattern:**
+- ✅ Zero hydration warnings - Server and client HTML match perfectly
+- ✅ No scroll jumping - DOM stays stable (v-show doesn't mutate)
+- ✅ Smooth UX - CSS transitions provide polish
+- ✅ User preference respected - localStorage read after mount
+- ✅ SEO-friendly - All content in pre-rendered HTML
+
+**Trade-offs:**
+- ⚠️ Brief flash (~50-100ms) where section is collapsed before localStorage kicks in
+- This is **standard practice** for SSR apps and imperceptible to users
+- Alternative would be hydration warnings + unpredictable behavior
+
+**References:**
+- Implementation: [src/screens/GettingStarted.vue](../src/screens/GettingStarted.vue), [src/screens/Community.vue](../src/screens/Community.vue)
+- CSS patterns: [docs/design-system.md - Expandable Sections](design-system.md#expandable-section-transitions)
+- Changelog: [docs/changelog.md - Scroll Jumping & Hydration Fix](changelog.md#scroll-jumping--ssr-hydration-fix)
+
 ### Key Implementation Files
 
 **Core SSG Setup:**

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import {
   steps,
   dedicatedServerSteps,
@@ -10,8 +10,18 @@ import {
 
 // Advanced Setup expand/collapse state with localStorage persistence
 const EXPAND_KEY = 'advanced_setup_expanded';
-const stored = typeof window !== 'undefined' ? window.localStorage.getItem(EXPAND_KEY) : null;
-const isAdvancedExpanded = ref(stored === '1'); // Default: false (collapsed)
+// Initialize to collapsed state (SSR-safe, prevents hydration mismatch)
+const isAdvancedExpanded = ref(false);
+
+// Read localStorage preference after component mounts (after hydration)
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    const stored = localStorage.getItem(EXPAND_KEY);
+    if (stored === '1') {
+      isAdvancedExpanded.value = true;
+    }
+  }
+});
 
 watch(isAdvancedExpanded, (val) => {
   if (typeof window !== 'undefined') {
@@ -53,7 +63,7 @@ watch(isAdvancedExpanded, (val) => {
           </label>
         </div>
 
-        <div v-if="isAdvancedExpanded">
+        <div v-show="isAdvancedExpanded" class="advanced-content">
           <!-- Dedicated Server Setup -->
           <div class="server-setup mb-xl">
             <h3 class="grad-text text-center mb-lg">Dedicated Server Setup</h3>

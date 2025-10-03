@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useYoutube } from '../composables/useYoutube';
 import { useEvents } from '../composables/useEvents';
 import TwitchEmbed from '../components/TwitchEmbed.vue';
@@ -21,8 +21,18 @@ const { events, isLoading: eventsLoading, formatDate, getCountdown } = useEvents
 
 // UI state: expanded toggle (persist to localStorage)
 const EXPAND_KEY = 'community_videos_expanded';
-const stored = typeof window !== 'undefined' ? window.localStorage.getItem(EXPAND_KEY) : null;
-const expanded = ref(stored === '1');
+// Initialize to collapsed state (SSR-safe, prevents hydration mismatch)
+const expanded = ref(false);
+
+// Read localStorage preference after component mounts (after hydration)
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    const stored = localStorage.getItem(EXPAND_KEY);
+    if (stored === '1') {
+      expanded.value = true;
+    }
+  }
+});
 
 watch(expanded, (val) => {
   if (typeof window !== 'undefined') {
@@ -225,8 +235,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
           </div>
 
           <!-- Channel sections slide down when expanded -->
-          <Transition name="expand-y">
-            <div v-if="expanded" class="by-channel">
+          <div v-show="expanded" class="by-channel videos-expandable">
               <div class="vid-hdr by-channel-hdr">
                 <h3>By Content Creator</h3>
               </div>
@@ -278,8 +287,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                   </div>
                 </div>
               </div>
-            </div>
-          </Transition>
+          </div>
 
           <div v-if="ytVideosSorted.length === 0" class="text-muted">No videos available</div>
         </div>
