@@ -17,6 +17,7 @@ import { getHeaderHeightWithBuffer, scrollToSection as scrollToSectionUtil } fro
 import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/structuredData';
 import { initWebVitals } from '../utils/performance';
 import { rafThrottle } from '../utils/rafThrottle';
+import { SCROLL_SMOOTH_DURATION, SCROLL_FAST_SETTLE, SCROLL_TOP_DURATION } from '../constants';
 
 const store = useAppDataStore();
 const { data, playerCount, loading } = store;
@@ -155,10 +156,10 @@ function setCurrentSection(id?: string | null) {
         clearTimeout(fastScrollTimeout);
       }
 
-      // Re-enable transitions after scrolling settles (300ms)
+      // Re-enable transitions after scrolling settles
       fastScrollTimeout = setTimeout(() => {
         isFastScrolling.value = false;
-      }, 300) as unknown as number;
+      }, SCROLL_FAST_SETTLE) as unknown as number;
     }
 
     lastSectionChangeTime = now;
@@ -408,7 +409,7 @@ function handleNavNavigate(section?: string) {
   }
   programmaticScrollTimeout = setTimeout(() => {
     isProgrammaticScrolling.value = false;
-  }, 1500) as unknown as number;
+  }, SCROLL_SMOOTH_DURATION) as unknown as number;
 }
 
 // Scroll to section when route changes (wraps utility for nextTick)
@@ -440,7 +441,7 @@ watch(
       }
       programmaticScrollTimeout = setTimeout(() => {
         isProgrammaticScrolling.value = false;
-      }, 1500) as unknown as number; // Smooth scroll duration + buffer
+      }, SCROLL_SMOOTH_DURATION) as unknown as number;
     } else {
       // Homepage - scroll to top
       setCurrentSection(undefined);
@@ -452,7 +453,7 @@ watch(
       }
       programmaticScrollTimeout = setTimeout(() => {
         isProgrammaticScrolling.value = false;
-      }, 1000) as unknown as number;
+      }, SCROLL_TOP_DURATION) as unknown as number;
     }
   }
 );

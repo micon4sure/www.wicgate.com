@@ -21,7 +21,6 @@ function sendToAnalytics(metric: Metric) {
   }
 
   // In production, send to analytics endpoint
-  // TODO: Replace with your analytics endpoint
   const analyticsEndpoint = import.meta.env.VITE_ANALYTICS_ENDPOINT;
 
   if (analyticsEndpoint) {

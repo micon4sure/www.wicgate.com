@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🔧 **Constants Refactor & Cleanup** - Restored breakpoint/timing constants, removed unused dependencies/timers, centralized magic numbers (Oct 4)
 - ⚡ **Performance & Bundle Optimization** - Removed axios/lodash (-83KB), debounced resize handlers (-95% events), RAF throttled scrolling (60fps locked), consolidated utilities, fixed memory leaks (Oct 3)
 - 🔧 **Scroll Jumping & Hydration Fix** - Eliminated scroll jumping and SSR hydration mismatches with v-show + CSS transitions (Oct 3)
 - 🎯 **Advanced Setup Collapsible** - Made Advanced Setup Options collapsible by default for cleaner onboarding (Oct 3)
@@ -36,6 +37,127 @@
 ---
 
 ## October 2025
+
+### 🔧 Constants Refactor & Cleanup - Code Review Follow-up
+
+**Status:** Complete (October 4, 2025)
+
+**Problem:** During code review optimization, several important constants were incorrectly removed from `constants.ts`, causing code duplication and scattered magic numbers:
+
+1. **Missing Breakpoint Constants:** `MOBILE_BREAKPOINT` (768px) and `TABLET_BREAKPOINT` (1024px) were removed despite being used in 40+ locations
+2. **Missing Scroll Timing Constants:** Three scroll animation timeout values (300ms, 1000ms, 1500ms) were hardcoded in `Home.vue`
+3. **Duplicate Definitions:** `scroll.ts` had to redefine `MOBILE_BREAKPOINT` locally
+4. **Magic Numbers:** Components used hardcoded values instead of centralized constants
+
+**Root Cause Analysis:**
+- Constants were deemed "unused" based on grep searches
+- However, most usage was in CSS `@media` queries (which can't import JS constants)
+- JavaScript code had hardcoded the values instead of importing constants
+- The constants SHOULD have existed as single source of truth
+
+**Solution:** Restore constants with proper documentation and update all JS/TS usage:
+
+**Changes Made:**
+
+1. **Restored to `src/constants.ts`:**
+
+```typescript
+// Layout Breakpoints
+// Used in JavaScript responsive logic and CSS @media queries (often hardcoded in CSS)
+export const MOBILE_BREAKPOINT = 768;  // Mobile/tablet breakpoint (px)
+export const TABLET_BREAKPOINT = 1024; // Tablet/desktop breakpoint (px)
+
+// Scroll Animation Timings
+export const SCROLL_SMOOTH_DURATION = 1500; // Smooth scroll animation duration + buffer (ms)
+export const SCROLL_FAST_SETTLE = 300;      // Fast scroll transition re-enable delay (ms)
+export const SCROLL_TOP_DURATION = 1000;    // Scroll to top animation timeout (ms)
+```
+
+2. **Updated `src/utils/scroll.ts`:**
+   - Removed local `MOBILE_BREAKPOINT` definition
+   - Now imports from `constants.ts`
+
+```typescript
+// Before
+export const MOBILE_BREAKPOINT = 768;
+
+// After
+import { MOBILE_BREAKPOINT } from '../constants';
+```
+
+3. **Updated `src/views/Home.vue`:**
+   - Replaced 3 hardcoded timeout values
+   - Now imports scroll timing constants
+
+```typescript
+// Before
+setTimeout(() => { isFastScrolling.value = false; }, 300);
+setTimeout(() => { isProgrammaticScrolling.value = false; }, 1500);
+setTimeout(() => { isProgrammaticScrolling.value = false; }, 1000);
+
+// After
+import { SCROLL_SMOOTH_DURATION, SCROLL_FAST_SETTLE, SCROLL_TOP_DURATION } from '../constants';
+setTimeout(() => { isFastScrolling.value = false; }, SCROLL_FAST_SETTLE);
+setTimeout(() => { isProgrammaticScrolling.value = false; }, SCROLL_SMOOTH_DURATION);
+setTimeout(() => { isProgrammaticScrolling.value = false; }, SCROLL_TOP_DURATION);
+```
+
+4. **Updated `src/components/LeaderboardGroup.vue`:**
+   - Replaced hardcoded 768 and 1024 values
+
+```typescript
+// Before
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
+if (windowWidth.value <= 768) return 20;
+if (windowWidth.value <= 1024) return 22;
+
+// After
+import { MOBILE_BREAKPOINT, TABLET_BREAKPOINT } from '../constants';
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : TABLET_BREAKPOINT);
+if (windowWidth.value <= MOBILE_BREAKPOINT) return 20;
+if (windowWidth.value <= TABLET_BREAKPOINT) return 22;
+```
+
+5. **Updated `src/components/PlayersOnline.vue`:**
+   - Replaced hardcoded 768 value
+
+```typescript
+// Before
+const isMobile = window.innerWidth <= 768;
+
+// After
+import { MOBILE_BREAKPOINT } from '../constants';
+const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+```
+
+6. **Updated `src/utils/scroll.test.ts`:**
+   - Fixed test to import from `constants.ts` instead of `scroll.ts`
+
+**Also Removed (Genuinely Unused):**
+
+These constants were correctly removed as they have no usage:
+- `DEBOUNCE_INPUT = 300` - No text inputs exist in the app (only 2 checkboxes)
+- `VIDEO_REFRESH_INTERVAL = 1000` - Feature not implemented
+
+**Impact:**
+- ✅ Single source of truth for breakpoints and timing values
+- ✅ Easier to tune responsive behavior (change one constant instead of hunting 40+ files)
+- ✅ Self-documenting code (constant names explain what values mean)
+- ✅ No more magic numbers in component logic
+- ✅ All 27 tests passing, 0 TypeScript errors, 0 ESLint errors
+
+**Files Modified:**
+- `src/constants.ts` - Restored 5 constants with documentation
+- `src/utils/scroll.ts` - Import `MOBILE_BREAKPOINT` instead of defining locally
+- `src/utils/scroll.test.ts` - Import constant from `constants.ts`
+- `src/views/Home.vue` - Use 3 scroll timing constants
+- `src/components/LeaderboardGroup.vue` - Use both breakpoint constants
+- `src/components/PlayersOnline.vue` - Use `MOBILE_BREAKPOINT`
+
+**Lesson Learned:**
+Constants that represent application-wide design values (breakpoints, timing) should exist even if most usage is in CSS. They serve as documentation and provide a single source of truth for JavaScript code that needs the same values.
+
+---
 
 ### ⚡ Performance & Bundle Optimization - Comprehensive Code Review
 

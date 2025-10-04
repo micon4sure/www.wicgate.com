@@ -4,7 +4,7 @@ import type { LeaderboardEntry } from '../api-types';
 import RankInsignia from './RankInsignia.vue';
 import { AnalyticsEvents } from '../utils/analytics';
 import { debounce } from '../utils/debounce';
-import { DEBOUNCE_RESIZE } from '../constants';
+import { DEBOUNCE_RESIZE, MOBILE_BREAKPOINT, TABLET_BREAKPOINT } from '../constants';
 
 interface Props {
   title: string;
@@ -62,13 +62,13 @@ function podiumScoreClass(index: number): string {
 }
 
 // Responsive RankInsignia sizing
-const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : TABLET_BREAKPOINT);
 
 const rankInsigniaSize = computed(() => {
   if (windowWidth.value <= 360) return 16;
   if (windowWidth.value <= 480) return 18;
-  if (windowWidth.value <= 768) return 20;
-  if (windowWidth.value <= 1024) return 22;
+  if (windowWidth.value <= MOBILE_BREAKPOINT) return 20;
+  if (windowWidth.value <= TABLET_BREAKPOINT) return 22;
   return 24;
 });
 

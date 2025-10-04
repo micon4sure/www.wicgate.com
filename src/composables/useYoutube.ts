@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { formatDate } from '../utils';
 
 export interface Video {
@@ -18,9 +18,7 @@ const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 export function useYoutube() {
   // Map of channelId -> { channelTitle, videos[] }
   const videos = ref<Record<string, { channelTitle: string; videos: Video[] }>>({});
-  const now = ref(new Date());
   const loading = ref(true);
-  let timer: number | undefined;
 
   onMounted(async () => {
     // Skip data fetching during SSG build
@@ -57,19 +55,6 @@ export function useYoutube() {
       if (import.meta.env.DEV) console.error('Failed to fetch videos:', err?.message ?? err);
     } finally {
       loading.value = false;
-    }
-
-    // Only set timer in browser context
-    if (typeof window !== 'undefined') {
-      timer = window.setInterval(() => {
-        now.value = new Date();
-      }, 1000);
-    }
-  });
-
-  onUnmounted(() => {
-    if (timer !== undefined) {
-      clearInterval(timer);
     }
   });
 

@@ -5,7 +5,7 @@ import type { ServerEntry } from '../api-types';
 import { colorize, displayName, groupPlayersByServer } from '../utils/playerDisplay';
 import { getItem, setItem } from '../utils/storage';
 import { debounce } from '../utils/debounce';
-import { DEBOUNCE_RESIZE } from '../constants';
+import { DEBOUNCE_RESIZE, MOBILE_BREAKPOINT } from '../constants';
 
 const props = defineProps<{ players: PlayerProfile[]; servers?: ServerEntry[] }>();
 const emit = defineEmits<{ enterGameMode: [] }>();
@@ -42,7 +42,7 @@ function applyClasses() {
   const wrapper = document.getElementById('siteWrapper');
   if (!wrapper) return;
 
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
 
   if (open.value) {
     wrapper.classList.add('panel-open');

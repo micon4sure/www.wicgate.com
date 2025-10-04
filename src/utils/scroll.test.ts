@@ -9,8 +9,8 @@ import {
   getHeaderHeightWithBuffer,
   getDynamicHeaderHeight,
   scrollToSection,
-  MOBILE_BREAKPOINT,
 } from './scroll';
+import { MOBILE_BREAKPOINT } from '../constants';
 
 describe('scroll utilities', () => {
   beforeEach(() => {

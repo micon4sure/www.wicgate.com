@@ -3,10 +3,7 @@
  * Part of the WiCGATE dynamic header measurement system
  */
 
-/**
- * Mobile breakpoint constant for buffer calculation
- */
-export const MOBILE_BREAKPOINT = 768;
+import { MOBILE_BREAKPOINT } from '../constants';
 
 /**
  * Buffer sizes for active section detection tolerance

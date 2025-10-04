@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue';
 import type { DataResponse } from '../api-types';
 import { AnalyticsEvents } from '../utils/analytics';
+import { API_POLLING_INTERVAL, API_RETRY_DELAYS, MAX_API_RETRIES } from '../constants';
 
 const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 
@@ -14,10 +15,6 @@ const isOnline = ref(true);
 
 let intervalId: number | undefined;
 const isInitialized = ref(false);
-
-// Retry configuration
-const MAX_RETRIES = 3;
-const RETRY_DELAYS = [1000, 2000, 4000]; // Exponential backoff: 1s, 2s, 4s
 
 /**
  * Fetches data with retry logic and exponential backoff
@@ -34,14 +31,14 @@ async function fetchDataWithRetry(retryCount = 0): Promise<void> {
 
     // Resume polling if it was stopped due to being offline
     if (!intervalId && isInitialized.value && typeof window !== 'undefined') {
-      intervalId = window.setInterval(fetchData, 90000);
+      intervalId = window.setInterval(fetchData, API_POLLING_INTERVAL);
     }
   } catch (e: any) {
     // If we haven't exhausted retries, try again
-    if (retryCount < MAX_RETRIES) {
-      const delay = RETRY_DELAYS[retryCount] || 4000;
+    if (retryCount < MAX_API_RETRIES) {
+      const delay = API_RETRY_DELAYS[retryCount] || 4000;
       if (import.meta.env.DEV) {
-        console.log(`[API] Retry ${retryCount + 1}/${MAX_RETRIES} after ${delay}ms`);
+        console.log(`[API] Retry ${retryCount + 1}/${MAX_API_RETRIES} after ${delay}ms`);
       }
       await new Promise((resolve) => setTimeout(resolve, delay));
       return fetchDataWithRetry(retryCount + 1);
@@ -81,9 +78,8 @@ function init() {
   fetchData();
 
   // Only set interval if window is available (browser context)
-  // Increased to 90 seconds for better server performance
   if (typeof window !== 'undefined') {
-    intervalId = window.setInterval(fetchData, 90000);
+    intervalId = window.setInterval(fetchData, API_POLLING_INTERVAL);
 
     // Pause polling when tab is hidden
     document.addEventListener('visibilitychange', () => {
@@ -96,7 +92,7 @@ function init() {
         // Resume polling when tab becomes visible, but only if we're online
         if (!intervalId && isInitialized.value && isOnline.value) {
           fetchData(); // Fetch immediately
-          intervalId = window.setInterval(fetchData, 90000);
+          intervalId = window.setInterval(fetchData, API_POLLING_INTERVAL);
         }
       }
     });

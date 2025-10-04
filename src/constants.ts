@@ -10,16 +10,19 @@ export const MAX_API_RETRIES = 3;
 
 // UI Performance
 export const DEBOUNCE_RESIZE = 150; // Resize handler debounce (ms)
-export const DEBOUNCE_INPUT = 300; // Input handler debounce (ms)
-export const SCROLL_SMOOTH_DELAY = 1500; // Smooth scroll animation duration (ms)
 
 // Timers
 export const EVENT_COUNTDOWN_INTERVAL = 1000; // Update countdown every second
-export const VIDEO_REFRESH_INTERVAL = 1000; // Update video timestamps every second
 
-// Layout
-export const MOBILE_BREAKPOINT = 768; // Mobile/desktop breakpoint (px)
+// Layout Breakpoints
+// Used in JavaScript responsive logic and CSS @media queries (often hardcoded in CSS)
+export const MOBILE_BREAKPOINT = 768; // Mobile/tablet breakpoint (px)
 export const TABLET_BREAKPOINT = 1024; // Tablet/desktop breakpoint (px)
+
+// Scroll Animation Timings
+export const SCROLL_SMOOTH_DURATION = 1500; // Smooth scroll animation duration + buffer (ms)
+export const SCROLL_FAST_SETTLE = 300; // Fast scroll transition re-enable delay (ms)
+export const SCROLL_TOP_DURATION = 1000; // Scroll to top animation timeout (ms)
 
 // Storage Keys
 export const STORAGE_KEYS = {
