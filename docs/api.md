@@ -52,9 +52,9 @@ import type { DataResponse, OnlineProfile, LeaderboardEntry } from '@/api-types'
 - Respect the Page Visibility API (pause when tab hidden)
 
 **Client Implementation:**
-- Default polling: 90 seconds
+- Default polling: 90 seconds (`API_POLLING_INTERVAL` from [constants.ts](../src/constants.ts))
 - Automatic pause when browser tab is hidden
-- 3-retry exponential backoff (1s, 2s, 4s delays)
+- 3-retry exponential backoff with delays: [1s, 2s, 4s] (`API_RETRY_DELAYS` constant)
 
 ## Endpoints
 
@@ -496,8 +496,8 @@ async function fetchDataWithRetry(retryCount = 0): Promise<void> {
     const json: DataResponse = await r.json();
     data.value = json;
   } catch (e: any) {
-    if (retryCount < MAX_RETRIES) { // MAX_RETRIES = 3
-      const delay = RETRY_DELAYS[retryCount]; // [1000, 2000, 4000]
+    if (retryCount < MAX_API_RETRIES) { // MAX_API_RETRIES = 3 (from constants.ts)
+      const delay = API_RETRY_DELAYS[retryCount]; // [1000, 2000, 4000] (from constants.ts)
       await new Promise((resolve) => setTimeout(resolve, delay));
       return fetchDataWithRetry(retryCount + 1);
     }
@@ -531,8 +531,8 @@ When API calls fail after all retries:
 
 **Polling Interval:** 90 seconds
 ```typescript
-// Automatic refresh every 90 seconds
-intervalId = window.setInterval(fetchData, 90000);
+// Automatic refresh every 90 seconds (API_POLLING_INTERVAL from constants.ts)
+intervalId = window.setInterval(fetchData, API_POLLING_INTERVAL); // 90000ms
 ```
 
 **Page Visibility Integration:**

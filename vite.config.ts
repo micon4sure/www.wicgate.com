@@ -201,6 +201,6 @@ export default defineConfig(({ mode }) => ({
 
   // Performance optimizations
   optimizeDeps: {
-    include: ['vue', 'vue-router', 'lodash'],
+    include: ['vue', 'vue-router'],
   },
 }));

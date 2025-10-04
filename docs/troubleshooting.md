@@ -78,6 +78,38 @@ resolve: {
 
 ---
 
+### Deprecated Function Errors
+
+**Error:**
+```
+Cannot find name 'getDynamicHeaderHeight'
+  Property 'getDynamicHeaderHeight' does not exist
+```
+
+**Cause:** Attempting to use removed deprecated function.
+
+**Solution:** Use the current function:
+
+```typescript
+// ❌ WRONG - Deprecated and removed (Oct 4, 2025)
+import { getDynamicHeaderHeight } from '@/utils/scroll';
+const height = getDynamicHeaderHeight();
+
+// ✅ CORRECT - Current function
+import { getHeaderHeightWithBuffer } from '@/utils/scroll';
+const height = getHeaderHeightWithBuffer();
+```
+
+**Context:**
+- `getDynamicHeaderHeight()` was a backward compatibility wrapper
+- Marked `@deprecated` in code review
+- Removed during code cleanup (October 4, 2025)
+- All production code uses `getHeaderHeightWithBuffer()` directly
+
+**Reference:** [docs/changelog.md - Code Review Cleanup](changelog.md#code-review-cleanup)
+
+---
+
 ## Test Issues
 
 ### Tests Fail with "unexpected token" or "document is not defined"
@@ -398,22 +430,50 @@ npm run test:thorough # ~14s (real timers, for CI)
 **Check bundle size:**
 ```bash
 npm run build
-# Check dist/stats.html for bundle analysis
+# Check dist/ folder sizes and stats.html for bundle analysis
 ```
 
+**Recent Optimizations (October 2025):**
+- ✅ **Axios removed** (-13KB) - Now using native `fetch()` API
+- ✅ **Lodash removed** (-70KB) - Replaced with native ES6 methods (flatMap, Object.values)
+- ✅ **Debounced resize handlers** - Reduced event spam by 95%
+- ✅ **RAF throttled scroll** - 60fps locked performance
+- ✅ **Total savings:** ~83KB bundle reduction
+
+**Current Bundle Stats:**
+- Total dist: ~4.1MB (under 5MB limit ✓)
+- Core JS/CSS: ~27KB
+- Main dependencies: Vue 3, Vue Router (no heavy libs)
+
+**If bundle size increases:**
+
 **Common causes:**
-1. Unused dependencies imported
-2. Large libraries not code-split
-3. Images not optimized
+1. New unused dependencies imported
+2. Large images not optimized
+3. Duplicate imports across routes
 
 **Solution:**
 ```typescript
-// ❌ WRONG - Imports entire library
-import _ from 'lodash';
+// ❌ WRONG - Would import entire library (if any heavy libs added)
+import _ from 'some-heavy-library';
 
-// ✅ CORRECT - Import specific function
-import debounce from 'lodash/debounce';
+// ✅ CORRECT - Import specific functions only
+import { specificFunction } from 'some-heavy-library';
+
+// ✅ EVEN BETTER - Use native alternatives
+const unique = [...new Set(array)]; // Instead of _.uniq()
+const values = Object.values(obj);   // Instead of _.values()
+const flattened = arr.flatMap(x => x); // Instead of _.flatMap()
 ```
+
+**Verification:**
+```bash
+npm run build
+# Check bundle output
+ls -lh dist/assets/*.js
+```
+
+**Reference:** [docs/changelog.md - Performance & Bundle Optimization](changelog.md#performance--bundle-optimization)
 
 ---
 

@@ -6,11 +6,11 @@ WiCGATE uses a comprehensive testing infrastructure with **Vitest** and **Vue Te
 
 ## Test Suite Statistics
 
-- **Total Tests:** 27 comprehensive tests
+- **Total Tests:** 26 comprehensive tests
 - **Coverage:** 50%+ (enforced thresholds)
 - **Execution Time:** ~0.7s (fast mode) / ~14s (thorough mode)
 - **Test Files:** 2 primary test suites
-  - `scroll.test.ts` - 12 tests covering navigation utilities
+  - `scroll.test.ts` - 11 tests covering navigation utilities
   - `appDataStore.test.ts` - 15 tests covering state management
 
 ## Test Frameworks & Tools
@@ -245,13 +245,15 @@ All files               | 76.2%  | 67.8%    | 84.6%     | 76.2%
 
 **File:** [src/utils/scroll.test.ts](../src/utils/scroll.test.ts)
 
-**Tests:** 12 comprehensive tests
+**Tests:** 11 comprehensive tests
 
 **Coverage Areas:**
 - `getNavHeight()` - Header measurement with SSR fallbacks
 - `getHeaderHeightWithBuffer()` - Buffer calculation for mobile/desktop
 - `scrollToSection()` - Pixel-perfect scroll positioning
 - Edge cases: Missing elements, SSR environment, mobile detection
+
+**Note:** Previously had 12 tests - removed 1 deprecated function test during code cleanup (Oct 4, 2025)
 
 **Key Test Patterns:**
 

@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🧹 **Code Review Cleanup** - Removed deprecated getDynamicHeaderHeight() function and lodash vite config reference, 26 tests passing (Oct 4)
 - 🔧 **Constants Refactor & Cleanup** - Restored breakpoint/timing constants, removed unused dependencies/timers, centralized magic numbers (Oct 4)
 - ⚡ **Performance & Bundle Optimization** - Removed axios/lodash (-83KB), debounced resize handlers (-95% events), RAF throttled scrolling (60fps locked), consolidated utilities, fixed memory leaks (Oct 3)
 - 🔧 **Scroll Jumping & Hydration Fix** - Eliminated scroll jumping and SSR hydration mismatches with v-show + CSS transitions (Oct 3)
@@ -23,7 +24,7 @@
 - 📚 **Documentation Enhancement** - Fixed state management docs, added quick summaries, enhanced onboarding (Oct 2)
 - 📱 **PWA Implementation** - Full offline capability, installable app with service worker
 - 📊 **Analytics Integration** - 15 event categories, Web Vitals tracking
-- 🧪 **Testing Infrastructure** - 27 tests, hybrid timing (0.7s fast / 14s thorough)
+- 🧪 **Testing Infrastructure** - 26 tests, hybrid timing (0.7s fast / 14s thorough)
 - ♻️ **Scroll System Refactor** - 3 focused functions, eliminated 40+ lines duplication
 - 🔧 **Enhanced Error Handling** - 3-retry exponential backoff, Page Visibility API
 - 🔍 **SEO Revolution** - 7 unique pre-rendered HTML files, path-based routing
@@ -37,6 +38,54 @@
 ---
 
 ## October 2025
+
+### 🧹 Code Review Cleanup - Deprecated Code Removal
+
+**Status:** Complete (October 4, 2025)
+
+**Summary:** Removed unused/deprecated functions and config references identified during comprehensive code review.
+
+**Changes:**
+
+1. **Removed Deprecated Function:**
+   - Deleted `getDynamicHeaderHeight()` from [src/utils/scroll.ts](../src/utils/scroll.ts)
+   - Function was marked deprecated with `@deprecated` JSDoc tag
+   - Only used in one test (scroll.test.ts)
+   - All production code uses `getHeaderHeightWithBuffer()` directly
+   - Function was originally a migration wrapper, no longer needed
+
+2. **Removed Lodash from Vite Config:**
+   - Removed `'lodash'` from `vite.config.ts` optimizeDeps.include array
+   - Lodash not used anywhere in src/ (removed in Oct 3 bundle optimization)
+   - Config reference was leftover from axios/lodash migration
+   - Keeps build config clean and accurate
+
+3. **Test Suite Update:**
+   - Updated `scroll.test.ts` to remove deprecated function import and test
+   - Test count: 27 → 26 tests
+   - Removed 1 backward compatibility test for deprecated function
+   - All remaining tests passing, no regressions
+
+**Files Modified:**
+- `src/utils/scroll.ts` - Removed deprecated function (6 lines)
+- `src/utils/scroll.test.ts` - Removed deprecated import and test (24 lines)
+- `vite.config.ts` - Removed lodash from optimizeDeps (1 line)
+
+**Impact:**
+- ✅ Cleaner codebase with no deprecated code
+- ✅ More accurate build configuration
+- ✅ Slightly faster test execution (26 tests vs 27)
+- ✅ No breaking changes (function wasn't used in production)
+- ✅ All 26 tests passing, 0 TypeScript errors, 0 ESLint errors
+
+**Verification:**
+```bash
+npm test          # 26/26 tests passing ✓
+npm run lint      # 0 errors ✓
+npm run build     # Successful build ✓
+```
+
+---
 
 ### 🔧 Constants Refactor & Cleanup - Code Review Follow-up
 

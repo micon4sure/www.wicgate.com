@@ -4,12 +4,7 @@
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import {
-  getNavHeight,
-  getHeaderHeightWithBuffer,
-  getDynamicHeaderHeight,
-  scrollToSection,
-} from './scroll';
+import { getNavHeight, getHeaderHeightWithBuffer, scrollToSection } from './scroll';
 import { MOBILE_BREAKPOINT } from '../constants';
 
 describe('scroll utilities', () => {
@@ -109,35 +104,6 @@ describe('scroll utilities', () => {
       const height = getHeaderHeightWithBuffer();
 
       // Expected: 70 (nav) + 10 (mobile buffer) = 80
-      expect(height).toBe(80);
-    });
-  });
-
-  describe('getDynamicHeaderHeight (deprecated)', () => {
-    it('should still work for backward compatibility', () => {
-      Object.defineProperty(window, 'innerWidth', {
-        writable: true,
-        configurable: true,
-        value: 1200,
-      });
-
-      const header = document.createElement('header');
-      document.body.appendChild(header);
-
-      vi.spyOn(header, 'getBoundingClientRect').mockReturnValue({
-        height: 75,
-        width: 0,
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        x: 0,
-        y: 0,
-        toJSON: () => ({}),
-      });
-
-      const height = getDynamicHeaderHeight();
-      // Should delegate to getHeaderHeightWithBuffer
       expect(height).toBe(80);
     });
   });

@@ -13,7 +13,7 @@ WiCGATE implements a sophisticated **hybrid rendering architecture** that combin
 - **Data Layer:** API integration via composables (useYoutube, useEvents) with SSR-safe execution
 - **Components:** Reusable widgets in /components, screen sections in /screens, routed pages in /views
 - **Styling:** Modular CSS under /assets/styles/modules, design tokens in variables.css
-- **Testing:** 27 tests (12 scroll utilities, 15 data store), 50%+ coverage thresholds, hybrid timing strategy
+- **Testing:** 26 tests (11 scroll utilities, 15 data store), 50%+ coverage thresholds, hybrid timing strategy
 
 ## Core Architecture
 
@@ -25,6 +25,70 @@ WiCGATE implements a sophisticated **hybrid rendering architecture** that combin
 - Registers PWA service worker for offline capability
 - Configures Vue Router with custom scroll behavior
 - Initializes composable state modules with SSR support
+
+### Constants & Configuration
+
+**File:** [src/constants.ts](../src/constants.ts)
+
+Centralized configuration values to eliminate magic numbers across the codebase:
+
+**API & Network:**
+```typescript
+API_POLLING_INTERVAL = 90_000           // 90 second polling
+API_RETRY_DELAYS = [1000, 2000, 4000]  // Exponential backoff delays
+MAX_API_RETRIES = 3                     // 3 retry attempts
+```
+
+**UI Performance:**
+```typescript
+DEBOUNCE_RESIZE = 150                   // Resize handler debounce (ms)
+EVENT_COUNTDOWN_INTERVAL = 1000         // Countdown timer updates
+```
+
+**Layout Breakpoints:**
+```typescript
+MOBILE_BREAKPOINT = 768                 // Mobile/tablet split (px)
+TABLET_BREAKPOINT = 1024                // Tablet/desktop split (px)
+```
+
+**Scroll Animation Timings:**
+```typescript
+SCROLL_SMOOTH_DURATION = 1500           // Smooth scroll + buffer (ms)
+SCROLL_FAST_SETTLE = 300                // Fast scroll settle delay (ms)
+SCROLL_TOP_DURATION = 1000              // Scroll to top timeout (ms)
+```
+
+**Storage Keys:**
+```typescript
+STORAGE_KEYS = {
+  FIRST_VISIT: 'wicgate_visited',
+  PANEL_OPEN: 'wicgate_panel_open',
+  COMMUNITY_VIDEOS_EXPANDED: 'community_videos_expanded',
+  ADVANCED_SETUP_EXPANDED: 'advanced_setup_expanded',
+} as const;
+```
+
+**Why Centralized:**
+- Single source of truth for timing and breakpoint values
+- JavaScript imports constants for responsive logic
+- CSS uses hardcoded values in @media queries (documented in constants.ts comments)
+- Easier maintenance when tuning performance
+- Self-documenting code (constant names explain values)
+
+**Usage Example:**
+```typescript
+import { MOBILE_BREAKPOINT, SCROLL_SMOOTH_DURATION } from '@/constants';
+
+// Responsive logic
+if (window.innerWidth <= MOBILE_BREAKPOINT) {
+  // Mobile-specific behavior
+}
+
+// Timing logic
+setTimeout(() => {
+  isProgrammaticScrolling.value = false;
+}, SCROLL_SMOOTH_DURATION);
+```
 
 ### Routing System
 
@@ -954,7 +1018,7 @@ tests/
 ├── stores/
 │   └── appDataStore.test.ts   # 15 tests (fetch, retry, error handling)
 └── utils/
-    └── scroll.test.ts         # 12 tests (scroll utilities)
+    └── scroll.test.ts         # 11 tests (scroll utilities)
 
 docs/
 ├── architecture.md            # This file - SSG/SSR, routing, navigation, PWA

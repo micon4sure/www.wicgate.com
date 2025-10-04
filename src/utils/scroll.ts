@@ -55,14 +55,6 @@ export function getHeaderHeightWithBuffer(): number {
 }
 
 /**
- * @deprecated Use getHeaderHeightWithBuffer() instead
- * Kept for backward compatibility during migration
- */
-export function getDynamicHeaderHeight(): number {
-  return getHeaderHeightWithBuffer();
-}
-
-/**
  * Scrolls to a section by ID with pixel-perfect positioning
  *
  * Uses getNavHeight() to ensure sections align exactly below the header.

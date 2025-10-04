@@ -1,5 +1,22 @@
 # WICGATE Monolith Page – Implementation Specification
 
+> **📋 Historical Reference Document**
+>
+> This specification documents the **original prototype design** (September 2025) that served as the foundation for the current Vue 3 implementation. The actual codebase has evolved significantly with modern architecture patterns.
+>
+> **For Current Implementation Documentation:**
+> - **Architecture:** [architecture.md](architecture.md) - SSG/SSR, routing, state management, PWA
+> - **Design System:** [design-system.md](design-system.md) - Design tokens, component patterns, styling
+> - **API Integration:** [api.md](api.md) - Endpoints, data structures, client implementation
+> - **Testing:** [testing.md](testing.md) - Test suite, coverage, CI/CD
+>
+> **When to Reference This Spec:**
+> - Understanding original design intent
+> - Historical context for architectural decisions
+> - Comparison with current implementation
+>
+> ---
+
 Audience: Frontend contractor rebuilding the prototype into a production codebase.
 Scope: Concrete layout structure, design tokens, component specs, behaviors, data expectations. (No strategy/intent prose.)
 
