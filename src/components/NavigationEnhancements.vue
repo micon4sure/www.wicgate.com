@@ -85,6 +85,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  throttledScrollUpdate.cancel();
   window.removeEventListener('scroll', throttledScrollUpdate);
 });
 </script>

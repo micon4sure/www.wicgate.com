@@ -3,7 +3,9 @@ import { ref, onMounted } from 'vue';
 const props = defineProps<{ channel: string; muted?: boolean }>();
 const host = ref('');
 onMounted(() => {
-  host.value = window.location.hostname;
+  if (typeof window !== 'undefined') {
+    host.value = window.location.hostname;
+  }
 });
 </script>
 <template>

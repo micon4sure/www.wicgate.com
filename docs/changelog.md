@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🐛 **Memory Leak & Cleanup Fixes** - Fixed RAF/timeout cleanup in throttle/debounce utilities, added cancel methods, fixed visibilitychange listener leak (Oct 5)
 - 🧹 **Code Review Cleanup** - Removed deprecated getDynamicHeaderHeight() function and lodash vite config reference, 26 tests passing (Oct 4)
 - 🔧 **Constants Refactor & Cleanup** - Restored breakpoint/timing constants, removed unused dependencies/timers, centralized magic numbers (Oct 4)
 - ⚡ **Performance & Bundle Optimization** - Removed axios/lodash (-83KB), debounced resize handlers (-95% events), RAF throttled scrolling (60fps locked), consolidated utilities, fixed memory leaks (Oct 3)
@@ -38,6 +39,223 @@
 ---
 
 ## October 2025
+
+### 🐛 Memory Leak & Cleanup Fixes - Critical Bug Fixes
+
+**Status:** Complete (October 5, 2025)
+
+**Summary:** Fixed 4 critical memory leaks and resource cleanup issues identified during comprehensive code review. All issues involved pending callbacks executing after component unmount, potentially causing runtime errors.
+
+**Problems Identified:**
+
+1. **RAF Callbacks After Unmount (HIGH):** `requestAnimationFrame` callbacks continued executing after `removeEventListener`, accessing stale component state
+2. **Debounce Timeouts After Unmount (HIGH):** `setTimeout` callbacks continued executing after component unmount
+3. **visibilitychange Listener Leak (MEDIUM):** Anonymous arrow function added to `document` but never removed, accumulating on re-initialization
+4. **Misleading Comment (LOW):** ErrorBoundary comment suggested "re-render by key change" but code performed full page reload
+
+**Root Cause Analysis:**
+
+**Technical Reality:** `removeEventListener()` does NOT cancel pending `requestAnimationFrame` or `setTimeout` callbacks. The browser continues executing scheduled callbacks even after the event listener is removed. This is a common misconception that led to the bugs.
+
+**Proof:**
+```javascript
+// Misconception: removeEventListener cancels pending RAF
+const throttled = rafThrottle(updateUI);
+window.addEventListener('scroll', throttled);
+// Scroll triggers RAF callback (scheduled)
+window.removeEventListener('scroll', throttled);
+// ❌ RAF callback STILL executes after listener removed!
+```
+
+**Solution Architecture:**
+
+1. **Added `.cancel()` Methods to Utilities:**
+   - `rafThrottle()` → exposes `cancelAnimationFrame(rafId)`
+   - `debounce()` → exposes `clearTimeout(timeoutId)`
+   - Both return functions with `.cancel()` method for cleanup
+
+2. **Updated All Component Cleanup:**
+   - [Home.vue](../src/views/Home.vue) - Call `throttledUpdateSection.cancel()` before `removeEventListener`
+   - [NavigationEnhancements.vue](../src/components/NavigationEnhancements.vue) - Call `throttledScrollUpdate.cancel()`
+   - [Navigation.vue](../src/components/Navigation.vue) - Call `debouncedResize.cancel()`
+
+3. **Fixed visibilitychange Listener:**
+   - [appDataStore.ts](../src/stores/appDataStore.ts) - Store listener reference, remove in `stop()`
+   - Prevents duplicate listeners if `stop()` then `init()` called
+
+**Changes Made:**
+
+**1. src/utils/rafThrottle.ts - Added Cancel Method**
+```typescript
+// Before
+export function rafThrottle<T extends (...args: any[]) => any>(
+  fn: T
+): (...args: Parameters<T>) => void {
+  let rafId: number | undefined;
+  return function(...args) {
+    if (rafId !== undefined) return;
+    rafId = requestAnimationFrame(() => {
+      fn.apply(this, args);
+      rafId = undefined;
+    });
+  };
+}
+
+// After
+export function rafThrottle<T extends (...args: any[]) => any>(
+  fn: T
+): ((...args: Parameters<T>) => void) & { cancel: () => void } {
+  let rafId: number | undefined;
+
+  const throttled = function(...args) {
+    if (rafId !== undefined) return;
+    rafId = requestAnimationFrame(() => {
+      fn.apply(this, args);
+      rafId = undefined;
+    });
+  };
+
+  throttled.cancel = () => {
+    if (rafId !== undefined) {
+      cancelAnimationFrame(rafId);
+      rafId = undefined;
+    }
+  };
+
+  return throttled;
+}
+```
+
+**2. src/utils/debounce.ts - Added Cancel Method**
+```typescript
+// Added same pattern with clearTimeout
+debounced.cancel = () => {
+  if (timeoutId !== undefined) {
+    clearTimeout(timeoutId);
+    timeoutId = undefined;
+  }
+};
+```
+
+**3. Component Cleanup Updates**
+```typescript
+// Home.vue
+onBeforeUnmount(() => {
+  throttledUpdateSection.cancel(); // ✅ Cancel pending RAF
+  window.removeEventListener('scroll', throttledUpdateSection);
+});
+
+// NavigationEnhancements.vue
+onUnmounted(() => {
+  throttledScrollUpdate.cancel(); // ✅ Cancel pending RAF
+  window.removeEventListener('scroll', throttledScrollUpdate);
+});
+
+// Navigation.vue
+onUnmounted(() => {
+  debouncedResize.cancel(); // ✅ Cancel pending timeout
+  window.removeEventListener('resize', debouncedResize);
+});
+```
+
+**4. appDataStore.ts - Fixed Listener Leak**
+```typescript
+// Before
+function init() {
+  document.addEventListener('visibilitychange', () => {
+    // Anonymous function - can't be removed!
+  });
+}
+
+function stop() {
+  if (intervalId) {
+    clearInterval(intervalId);
+  }
+  isInitialized.value = false;
+}
+
+// After
+let visibilityChangeHandler: (() => void) | undefined;
+
+function init() {
+  visibilityChangeHandler = () => {
+    if (document.hidden) {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = undefined;
+      }
+    } else {
+      if (!intervalId && isInitialized.value && isOnline.value) {
+        fetchData();
+        intervalId = window.setInterval(fetchData, API_POLLING_INTERVAL);
+      }
+    }
+  };
+  document.addEventListener('visibilitychange', visibilityChangeHandler);
+}
+
+function stop() {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = undefined;
+  }
+  if (visibilityChangeHandler) {
+    document.removeEventListener('visibilitychange', visibilityChangeHandler);
+    visibilityChangeHandler = undefined;
+  }
+  isInitialized.value = false;
+}
+```
+
+**5. ErrorBoundary.vue - Fixed Misleading Comment**
+```typescript
+// Before
+function retry() {
+  hasError.value = false;
+  errorMessage.value = '';
+  errorStack.value = '';
+  // Force re-render by key change in parent ❌ WRONG
+  window.location.reload();
+}
+
+// After
+function retry() {
+  hasError.value = false;
+  errorMessage.value = '';
+  errorStack.value = '';
+  // Force full page reload to reset all state ✅ CORRECT
+  window.location.reload();
+}
+```
+
+**Files Modified:**
+- `src/utils/rafThrottle.ts` - Added `.cancel()` method, updated type signature and documentation
+- `src/utils/debounce.ts` - Added `.cancel()` method, updated type signature and documentation
+- `src/views/Home.vue` - Added `throttledUpdateSection.cancel()` in cleanup
+- `src/components/NavigationEnhancements.vue` - Added `throttledScrollUpdate.cancel()` in cleanup
+- `src/components/Navigation.vue` - Added `debouncedResize.cancel()` in cleanup
+- `src/stores/appDataStore.ts` - Store listener reference, cleanup in `stop()`
+- `src/components/ErrorBoundary.vue` - Fixed misleading comment
+
+**Impact:**
+- ✅ **Zero memory leaks** - All pending callbacks properly cancelled
+- ✅ **No runtime errors** - Components can't access stale state after unmount
+- ✅ **Proper resource cleanup** - Event listeners and timers fully cleaned up
+- ✅ **Backward compatible** - `.cancel()` is optional, existing code works without calling it
+- ✅ **All 26 tests passing** - No regressions introduced
+- ✅ **TypeScript strict mode passing** - Proper type signatures
+
+**Verification:**
+```bash
+npm run lint:fix   # 0 errors ✓
+npx tsc --noEmit   # 0 errors ✓
+bun run test       # 26/26 tests passing ✓
+```
+
+**Key Lesson:**
+`removeEventListener()` only prevents **future** event triggers from calling the handler. It does **NOT** cancel pending `requestAnimationFrame` or `setTimeout` callbacks that are already scheduled. Always explicitly cancel these with `cancelAnimationFrame()` and `clearTimeout()`.
+
+---
 
 ### 🧹 Code Review Cleanup - Deprecated Code Removal
 

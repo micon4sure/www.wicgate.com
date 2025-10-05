@@ -47,7 +47,7 @@ function retry() {
   hasError.value = false;
   errorMessage.value = '';
   errorStack.value = '';
-  // Force re-render by key change in parent
+  // Force full page reload to reset all state
   window.location.reload();
 }
 </script>

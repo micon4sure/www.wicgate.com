@@ -2,9 +2,10 @@
 import { computed } from 'vue';
 import Leaderboards from '../components/Leaderboards.vue';
 import LeaderboardSkeleton from '../components/skeletons/LeaderboardSkeleton.vue';
+import type { DataResponse } from '../api-types';
 
 const props = defineProps<{
-  data: any;
+  data: Partial<DataResponse>;
   loading: boolean;
 }>();
 

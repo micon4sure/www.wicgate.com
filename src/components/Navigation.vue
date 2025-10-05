@@ -105,6 +105,7 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', handleOutsideClick);
   document.removeEventListener('keydown', handleEscapeKey);
+  debouncedResize.cancel();
   window.removeEventListener('resize', debouncedResize);
   document.body.style.overflow = ''; // Clean up body scroll lock
 });

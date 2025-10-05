@@ -3,7 +3,7 @@
  * Perfect for scroll and resize handlers to maintain 60fps performance.
  *
  * @param fn - The function to throttle
- * @returns Throttled function that runs at most once per animation frame
+ * @returns Throttled function with cancel method for cleanup
  *
  * @example
  * const throttledScroll = rafThrottle(() => {
@@ -12,13 +12,19 @@
  * });
  *
  * window.addEventListener('scroll', throttledScroll, { passive: true });
+ *
+ * // Cleanup on unmount
+ * onUnmounted(() => {
+ *   throttledScroll.cancel();
+ *   window.removeEventListener('scroll', throttledScroll);
+ * });
  */
 export function rafThrottle<T extends (...args: any[]) => any>(
   fn: T
-): (...args: Parameters<T>) => void {
+): ((...args: Parameters<T>) => void) & { cancel: () => void } {
   let rafId: number | undefined;
 
-  return function (this: any, ...args: Parameters<T>) {
+  const throttled = function (this: any, ...args: Parameters<T>) {
     // If we already have a pending frame, skip this call
     if (rafId !== undefined) return;
 
@@ -27,4 +33,13 @@ export function rafThrottle<T extends (...args: any[]) => any>(
       rafId = undefined;
     });
   };
+
+  throttled.cancel = () => {
+    if (rafId !== undefined) {
+      cancelAnimationFrame(rafId);
+      rafId = undefined;
+    }
+  };
+
+  return throttled;
 }

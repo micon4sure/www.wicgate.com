@@ -341,8 +341,9 @@ onBeforeUnmount(() => {
   // Clear slide carousel interval
   clearInterval(int);
 
-  // Remove scroll listeners
+  // Remove scroll listeners and cancel pending RAF
   if (scrollListenerAttached) {
+    throttledUpdateSection.cancel();
     window.removeEventListener('scroll', throttledUpdateSection);
     window.removeEventListener('resize', throttledUpdateSection);
     scrollListenerAttached = false;

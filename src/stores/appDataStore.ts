@@ -15,6 +15,7 @@ const isOnline = ref(true);
 
 let intervalId: number | undefined;
 const isInitialized = ref(false);
+let visibilityChangeHandler: (() => void) | undefined;
 
 /**
  * Fetches data with retry logic and exponential backoff
@@ -82,7 +83,7 @@ function init() {
     intervalId = window.setInterval(fetchData, API_POLLING_INTERVAL);
 
     // Pause polling when tab is hidden
-    document.addEventListener('visibilitychange', () => {
+    visibilityChangeHandler = () => {
       if (document.hidden) {
         if (intervalId) {
           clearInterval(intervalId);
@@ -95,7 +96,8 @@ function init() {
           intervalId = window.setInterval(fetchData, API_POLLING_INTERVAL);
         }
       }
-    });
+    };
+    document.addEventListener('visibilitychange', visibilityChangeHandler);
   }
 }
 
@@ -103,6 +105,10 @@ function stop() {
   if (intervalId) {
     clearInterval(intervalId);
     intervalId = undefined;
+  }
+  if (visibilityChangeHandler) {
+    document.removeEventListener('visibilitychange', visibilityChangeHandler);
+    visibilityChangeHandler = undefined;
   }
   isInitialized.value = false;
 }
