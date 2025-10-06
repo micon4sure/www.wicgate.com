@@ -1,17 +1,42 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+
 const props = defineProps<{ channel: string; muted?: boolean }>();
-const host = ref('');
+
+const isVisible = ref(false);
+const host = typeof window !== 'undefined' ? window.location.hostname : 'wicgate.com';
+
+let observer: IntersectionObserver | null = null;
+const embedContainer = ref<HTMLElement | null>(null);
+
 onMounted(() => {
-  if (typeof window !== 'undefined') {
-    host.value = window.location.hostname;
-  }
+  if (typeof window === 'undefined' || !embedContainer.value) return;
+
+  // Use Intersection Observer to only load when in viewport
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !isVisible.value) {
+          isVisible.value = true;
+          observer?.disconnect();
+        }
+      });
+    },
+    { rootMargin: '100px' } // Start loading 100px before entering viewport
+  );
+
+  observer.observe(embedContainer.value);
+});
+
+onBeforeUnmount(() => {
+  observer?.disconnect();
 });
 </script>
+
 <template>
-  <div class="twitch-embed">
+  <div ref="embedContainer" class="twitch-embed">
     <iframe
-      v-if="host"
+      v-if="isVisible"
       :src="`https://player.twitch.tv/?channel=${props.channel}&parent=${host}&muted=${props.muted !== false}`"
       allowfullscreen
       loading="lazy"

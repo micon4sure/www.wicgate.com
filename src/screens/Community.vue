@@ -2,7 +2,7 @@
 import { ref, computed, watch, onMounted } from 'vue';
 import { useYoutube } from '../composables/useYoutube';
 import { useEvents } from '../composables/useEvents';
-import TwitchEmbed from '../components/TwitchEmbed.vue';
+import TwitchFacade from '../components/TwitchFacade.vue';
 import EventsSkeleton from '../components/skeletons/EventsSkeleton.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
 import { getItem, setItem } from '../utils/storage';
@@ -177,7 +177,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
               style="padding: 0; overflow: hidden; text-decoration: none; color: inherit"
               :aria-label="`Watch ${u} live on Twitch`"
             >
-              <TwitchEmbed :channel="u" muted />
+              <TwitchFacade :channel="u" muted />
               <div
                 style="
                   padding: 12px 16px;
