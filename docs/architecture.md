@@ -493,6 +493,86 @@ export function scrollToSection(sectionId: string, behavior = 'smooth'): void {
 - **Automatic Breakpoint Detection**: System adapts to any header size changes
 - **Window Resize Handling**: Recalculates positions when viewport changes significantly
 - **Mobile Optimization**: Enhanced buffer zones for iOS Safari and other mobile browsers
+
+#### Async Content Handling & Scroll Restoration
+
+**Challenge:** Community section has async content (Events API, Videos API, Twitch images) that loads AFTER initial scroll positioning, causing layout shifts and incorrect positioning.
+
+**Industry Standard Solution (Oct 2025):**
+
+1. **Manual Scroll Restoration**
+   ```typescript
+   // main.ts - Early initialization
+   if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
+     history.scrollRestoration = 'manual';
+   }
+   ```
+   - Disables browser's automatic scroll restoration (Chrome/MDN recommendation for SPAs)
+   - Prevents "progressive scroll down" bug on page refresh
+   - Full manual control prevents interference with async content loading
+
+2. **Async scrollBehavior with Delayed Execution**
+   ```typescript
+   // main.ts - Router scrollBehavior
+   if (to.meta.section) {
+     return new Promise((resolve) => {
+       setTimeout(() => {
+         const headerHeight = getNavHeight(); // Dynamic calculation
+         resolve({
+           el: `#${to.meta.section}`,
+           top: headerHeight, // ~80-83px
+           behavior: 'smooth'
+         });
+       }, 400); // Wait for sections to render + async content to start loading
+     });
+   }
+   ```
+   - Returns Promise that resolves after 400ms delay
+   - Waits for: DOM rendering + API requests initiated + skeletons displayed
+   - Dynamic offset via `getNavHeight()` (no hardcoded values)
+
+3. **Skeleton Height Matching**
+   ```typescript
+   // EventsSkeleton.vue
+   .skeleton-event-card { min-height: 340px; } // Matches real event cards
+
+   // VideosSkeleton.vue
+   .skeleton-video-card { min-height: 310px; } // Matches real video cards
+   ```
+   - Reserves accurate space before content loads
+   - Ensures 1:1 height swap when real content replaces skeletons
+   - Minimizes layout shift (CLS optimization)
+
+4. **localStorage State Timing**
+   ```typescript
+   // Community.vue - setup() scope (before first render)
+   const storedExpanded = typeof window !== 'undefined'
+     ? getItem(EXPAND_KEY) === '1'
+     : false;
+   const expanded = ref(storedExpanded);
+   ```
+   - Reads expanded videos state BEFORE first render
+   - Prevents 3000px layout shift after scroll positioning
+   - SSR-safe with typeof window check
+
+**Why Community Section Required Special Handling:**
+- 3 async data sources (Events API + Videos API + Twitch images)
+- Expanded state can dynamically add 3000px of content
+- More complex than other sections (Getting Started/About/FAQ have static content)
+
+**Unified Offset System:**
+- **Router scroll**: Uses `getNavHeight()` (~80-83px) ✅
+- **JS scroll util**: Uses `getNavHeight()` (~80-83px) ✅
+- **Active detection**: Uses `getHeaderHeightWithBuffer()` (~85-95px with tolerance) ✅
+- **No CSS conflicts**: Removed `scroll-margin-top` that conflicted with JS system
+
+**Results:**
+- ✅ No scroll jumping on page refresh
+- ✅ Accurate positioning for all sections
+- ✅ Correct nav highlighting (no offset mismatch)
+- ✅ Headlines fully visible (not cut off under nav)
+- ✅ Consistent behavior across all navigation types
+- ✅ Works seamlessly with async content loading
 - **No Manual Breakpoints**: Zero hardcoded pixel values across all screen sizes
 
 #### Performance Optimizations

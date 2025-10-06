@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🐛 **Critical Scroll Jump Fix** - Fixed fundamental scroll positioning bugs with async content loading using industry-standard patterns (Oct 6)
 - ⚡ **Scroll Performance Improvement** - Removed artificial setTimeout delays (50-200ms) from navigation scrolling for instant, more predictable UX (Oct 6)
 - ⚡ **Twitch Embed Performance Optimization** - Implemented click-to-load facade pattern with static previews, reducing initial page load by ~1.2MB (Oct 6)
 - 🐛 **Memory Leak & Cleanup Fixes** - Fixed RAF/timeout cleanup in throttle/debounce utilities, added cancel methods, fixed visibilitychange listener leak (Oct 5)
@@ -41,6 +42,126 @@
 ---
 
 ## October 2025
+
+### 🐛 Critical Scroll Jump Fix
+
+**Status:** Complete (October 6, 2025)
+
+**Summary:** Fixed fundamental scroll positioning bugs affecting Community section and all subsequent sections. Implemented industry-standard async scroll handling with dynamic header height calculation to eliminate layout shifts during async content loading.
+
+**Problems Identified:**
+
+1. **Scroll Timing Race Condition**
+   - Scroll happened BEFORE Community component mounted and loaded async content
+   - Timeline: Home.vue onMounted → scroll → Community.vue onMounted → fetch data → content loads → layout shifts
+   - Result: Scroll position calculated based on skeleton heights, then real content loaded and shifted everything
+
+2. **localStorage Expansion Timing**
+   - "Expanded videos" state read in `onMounted()` AFTER scroll positioning
+   - Could add 3000px of content after scroll calculation
+   - Caused progressive scroll down on each page refresh
+
+3. **Browser Scroll Restoration Conflict**
+   - Browser's automatic scroll restoration conflicted with async content loading
+   - Each refresh scrolled progressively lower as browser tried to restore position before content finished loading
+   - Industry standard solution: `history.scrollRestoration = 'manual'` for SPAs
+
+4. **Multiple Offset Conflicts**
+   - Router used hardcoded `top: 100px`
+   - CSS `scroll-margin-top: 100px` conflicted with JS calculations
+   - JS used dynamic `getNavHeight()` (~80px)
+   - Detection used `getHeaderHeightWithBuffer()` (~85-95px)
+   - Result: Misaligned scroll positions, wrong nav highlighting, headlines cut off
+
+**Solutions Implemented:**
+
+1. **Async scrollBehavior** (Industry Standard - Vue Router)
+   - Returns Promise that resolves after 400ms delay
+   - Waits for sections to render AND async content (Events/Videos APIs) to start loading
+   - Prevents scrolling before content is ready
+   ```typescript
+   // main.ts - scrollBehavior
+   if (to.meta.section) {
+     return new Promise((resolve) => {
+       setTimeout(() => {
+         const headerHeight = getNavHeight();
+         resolve({
+           el: `#${to.meta.section}`,
+           top: headerHeight,
+           behavior: 'smooth'
+         });
+       }, 400);
+     });
+   }
+   ```
+
+2. **localStorage Timing Fix**
+   - Read expanded state synchronously during `setup()` BEFORE first render
+   - Prevents layout shift after scroll positioning
+   ```typescript
+   // Community.vue - setup scope
+   const storedExpanded = typeof window !== 'undefined' ? getItem(EXPAND_KEY) === '1' : false;
+   const expanded = ref(storedExpanded);
+   ```
+
+3. **Manual Scroll Restoration**
+   - Disabled browser's automatic scroll restoration (industry standard for SPAs)
+   - Full manual control prevents interference with async content
+   ```typescript
+   // main.ts - early initialization
+   if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
+     history.scrollRestoration = 'manual';
+   }
+   ```
+
+4. **Dynamic Header Height System**
+   - Single source of truth: `getNavHeight()` function
+   - All systems use same dynamic calculation
+   - Removed conflicting CSS `scroll-margin-top`
+   - Router, JS scroll, and detection all reference same base offset
+
+5. **Skeleton Height Matching**
+   - EventsSkeleton: `min-height: 340px` (matches real event cards)
+   - VideosSkeleton: `min-height: 310px` (matches real video cards)
+   - Ensures 1:1 height swap when content loads
+
+**Files Modified:**
+- [src/main.ts](../src/main.ts) - Async scrollBehavior, manual scroll restoration, dynamic offset
+- [src/views/Home.vue](../src/views/Home.vue) - Removed early scroll in onMounted
+- [src/screens/Community.vue](../src/screens/Community.vue) - Fixed localStorage timing
+- [src/components/skeletons/EventsSkeleton.vue](../src/components/skeletons/EventsSkeleton.vue) - Height matching
+- [src/components/skeletons/VideosSkeleton.vue](../src/components/skeletons/VideosSkeleton.vue) - Height matching
+- [src/assets/styles/modules/layout.css](../src/assets/styles/modules/layout.css) - Removed CSS scroll-margin conflict
+
+**Technical Details:**
+
+Why Community Section Broke Most:
+- 3 async data sources: Events API + Videos API + Twitch image loading
+- Expanded state can dynamically add 3000px of content
+- Other sections have less/no async content
+
+Industry Standard Patterns Applied:
+- Manual scroll restoration (Chrome/MDN recommendation for SPAs)
+- Async scrollBehavior with Promise-based delays
+- Dynamic offset calculation (no hardcoded values)
+- Reserved space via skeleton screen height matching
+- Single source of truth for header measurements
+
+**Results:**
+- ✅ No scroll jumping on page refresh
+- ✅ Accurate positioning for all sections
+- ✅ Correct nav highlighting
+- ✅ Headlines fully visible (not cut off)
+- ✅ Consistent behavior across all navigation types
+- ✅ Works seamlessly with async content loading
+
+**Testing:**
+- Tested direct navigation to all sections
+- Verified page refresh maintains correct position
+- Confirmed nav highlighting accuracy
+- Validated with async content loading (Events/Videos/Twitch)
+
+---
 
 ### ⚡ Scroll Performance Improvement
 

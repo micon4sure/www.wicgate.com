@@ -306,21 +306,9 @@ onMounted(() => {
   // Check for first visit and show overlay if needed
   initFirstVisitCheck(!!(hash || sectionFromRoute));
 
-  // Only scroll if not showing first visit overlay
-  if (!showFirstVisitOverlay.value) {
-    // Handle hash-based navigation (legacy support)
-    if (hash) {
-      const element = document.getElementById(hash);
-      if (element) {
-        // Use the shared scroll utility to ensure consistency with active section detection
-        scrollToSectionUtil(hash, 'smooth');
-      }
-    }
-    // Handle direct sublink access (e.g., /statistics, /community)
-    else if (sectionFromRoute) {
-      scrollToSectionUtil(sectionFromRoute, 'smooth');
-    }
-  }
+  // Scroll handling moved to router's async scrollBehavior in main.ts
+  // This ensures content loads before scrolling, preventing position jumps
+  // (No manual scroll on mount - let router handle it after content ready)
 
   nextTick(() => {
     collectSectionElements();

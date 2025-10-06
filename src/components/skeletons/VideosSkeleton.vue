@@ -34,7 +34,9 @@
 
 <style scoped>
 .videos-placeholder {
-  min-height: 500px;
+  /* Reserve exact space to match real content - prevents layout shift */
+  /* 6 video cards: thumbnail (225px) + info (85px) + gap = ~310px per card */
+  min-height: 640px; /* Two rows of 3 cards on desktop */
   margin: 20px 0;
 }
 
@@ -77,11 +79,14 @@
   border-radius: 0;
   overflow: hidden;
   box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
+  /* Match exact height of real video cards to prevent layout shift */
+  /* Thumbnail 16:9 (225px) + info padding (12px*2 + ~70px content) ≈ 310px */
+  min-height: 310px;
 }
 
 .skeleton-video-thumb {
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  padding-bottom: 56.25%; /* 16:9 aspect ratio - matches real video thumbnails */
   background: linear-gradient(90deg, var(--s2) 0%, var(--mg-muted) 50%, var(--s2) 100%);
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s ease-in-out infinite;

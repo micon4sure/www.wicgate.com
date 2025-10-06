@@ -35,7 +35,8 @@
 
 <style scoped>
 .events-placeholder {
-  min-height: 400px;
+  /* Reserve exact space to match real content - prevents layout shift */
+  min-height: 380px; /* Height of 3 event cards in grid: ~340px + gap */
   margin: 20px 0;
 }
 
@@ -78,10 +79,12 @@
   border-radius: 0;
   overflow: hidden;
   box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
+  /* Match exact height of real event cards to prevent layout shift */
+  min-height: 340px;
 }
 
 .skeleton-event-image {
-  height: 220px;
+  height: 220px; /* Match real event-image height */
   background: linear-gradient(90deg, var(--s2) 0%, var(--mg-muted) 50%, var(--s2) 100%);
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s ease-in-out infinite;

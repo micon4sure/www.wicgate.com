@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useYoutube } from '../composables/useYoutube';
 import { useEvents } from '../composables/useEvents';
 import TwitchFacade from '../components/TwitchFacade.vue';
@@ -22,18 +22,10 @@ const { events, isLoading: eventsLoading, formatDate, getCountdown } = useEvents
 
 // UI state: expanded toggle (persist to localStorage)
 const EXPAND_KEY = 'community_videos_expanded';
-// Initialize to collapsed state (SSR-safe, prevents hydration mismatch)
-const expanded = ref(false);
-
-// Read localStorage preference after component mounts (after hydration)
-onMounted(() => {
-  if (typeof window !== 'undefined') {
-    const stored = getItem(EXPAND_KEY);
-    if (stored === '1') {
-      expanded.value = true;
-    }
-  }
-});
+// Read localStorage synchronously during setup (SSR-safe) to prevent layout shifts
+// This ensures the expanded state is set BEFORE first render and scroll positioning
+const storedExpanded = typeof window !== 'undefined' ? getItem(EXPAND_KEY) === '1' : false;
+const expanded = ref(storedExpanded);
 
 watch(expanded, (val) => {
   if (typeof window !== 'undefined') {

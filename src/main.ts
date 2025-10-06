@@ -7,6 +7,7 @@ import './assets/styles/base.css';
 import App from './App.vue';
 import { routes } from './router/routes';
 import { registerSW } from 'virtual:pwa-register';
+import { getNavHeight } from './utils/scroll';
 
 // Router base derived from Vite's BASE_URL. When base is './' (our config),
 // normalizing against the current URL yields the correct mount path in all environments:
@@ -17,6 +18,13 @@ const getRuntimeBase = () => {
   if (typeof window === 'undefined') return '/'; // SSR build
   return new URL(import.meta.env.BASE_URL, window.location.href).pathname;
 };
+
+// Disable browser's automatic scroll restoration (industry standard for SPAs)
+// This prevents scroll position bugs when async content loads after navigation
+// Home.vue's route watcher handles all scroll positioning manually
+if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
 
 // Register PWA service worker (client-side only)
 if (typeof window !== 'undefined') {
@@ -53,27 +61,42 @@ export const createApp = ViteSSG(
   {
     routes,
     base: getRuntimeBase(),
-    scrollBehavior(to, from, saved) {
-      // Return saved position for browser back/forward
-      if (saved) return saved;
+    scrollBehavior(to, from, _saved) {
+      // Async scroll behavior - waits for content to load before scrolling
+      // This fixes scroll jumping when async content (Events/Videos) loads after navigation
+
+      // For section-based navigation (e.g., /community, /statistics)
+      if (to.meta.section) {
+        return new Promise((resolve) => {
+          // Wait for sections to render and async content to start loading
+          // Community has Events API + Videos API that need time to respond
+          setTimeout(() => {
+            // Calculate actual header height dynamically
+            // This matches the offset used by scrollToSectionUtil() for consistency
+            const headerHeight = getNavHeight();
+
+            resolve({
+              el: `#${to.meta.section}`,
+              top: headerHeight, // Dynamic offset (~80-83px) - same as JS scroll system
+              behavior: 'smooth',
+            });
+          }, 400); // 400ms allows initial API requests to start and skeletons to render
+        });
+      }
 
       // For hash-based navigation (legacy support)
       if (to.hash) {
-        const el = document.querySelector(to.hash);
-        if (el) {
-          return {
-            el: to.hash,
-            behavior: 'smooth',
-          };
-        }
+        return {
+          el: to.hash,
+          behavior: 'smooth',
+        };
       }
 
       // Check if both routes use the same component (Home.vue)
       const toComponent = to.matched[0]?.components?.default;
       const fromComponent = from.matched[0]?.components?.default;
 
-      // If navigating within Home component sections, don't auto-scroll
-      // Let Home.vue's watcher handle the smooth scroll from current position
+      // If navigating within Home component sections, let watcher handle it
       if (toComponent === fromComponent && toComponent) {
         return false; // Disable automatic scroll
       }
