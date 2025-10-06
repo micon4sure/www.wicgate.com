@@ -206,11 +206,11 @@ const hash = window.location.hash ? window.location.hash.substring(1) : undefine
 if (!showFirstVisitOverlay.value) {
   // Handle legacy hash navigation (#statistics)
   if (hash) {
-    setTimeout(() => scrollToSectionUtil(hash, 'smooth'), 100);
+    scrollToSectionUtil(hash, 'smooth');
   }
   // Handle direct sublink navigation (/statistics)
   else if (sectionFromRoute) {
-    setTimeout(() => scrollToSectionUtil(sectionFromRoute, 'smooth'), 100);
+    scrollToSectionUtil(sectionFromRoute, 'smooth');
   }
 }
 ```

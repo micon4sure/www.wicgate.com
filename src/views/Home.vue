@@ -312,17 +312,13 @@ onMounted(() => {
     if (hash) {
       const element = document.getElementById(hash);
       if (element) {
-        setTimeout(() => {
-          // Use the shared scroll utility to ensure consistency with active section detection
-          scrollToSectionUtil(hash, 'smooth');
-        }, 200);
+        // Use the shared scroll utility to ensure consistency with active section detection
+        scrollToSectionUtil(hash, 'smooth');
       }
     }
     // Handle direct sublink access (e.g., /statistics, /community)
     else if (sectionFromRoute) {
-      setTimeout(() => {
-        scrollToSectionUtil(sectionFromRoute, 'smooth');
-      }, 200);
+      scrollToSectionUtil(sectionFromRoute, 'smooth');
     }
   }
 
@@ -382,10 +378,8 @@ function handleContinue() {
     setCurrentSection(hash);
     const element = document.getElementById(hash);
     if (element) {
-      setTimeout(() => {
-        // Use the shared scroll utility to ensure consistency with active section detection
-        scrollToSectionUtil(hash, 'smooth');
-      }, 100);
+      // Use the shared scroll utility to ensure consistency with active section detection
+      scrollToSectionUtil(hash, 'smooth');
     }
   }
 }
@@ -433,8 +427,8 @@ watch(
       // Disable scroll listener during programmatic scroll
       isProgrammaticScrolling.value = true;
 
-      // Small delay to ensure DOM is ready after route change
-      setTimeout(() => scrollToSection(newSection as string), 50);
+      // Scroll to section immediately
+      scrollToSection(newSection as string);
 
       // Re-enable scroll listener after smooth scroll completes
       if (programmaticScrollTimeout) {
