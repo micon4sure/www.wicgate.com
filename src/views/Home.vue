@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useHead } from '@vueuse/head';
 import Navigation from '../components/Navigation.vue';
 import LivePlayersBadge from '../components/LivePlayersBadge.vue';
@@ -23,6 +23,7 @@ const store = useAppDataStore();
 const { data, playerCount, loading } = store;
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
 const route = useRoute();
+const router = useRouter();
 const currentSection = ref<string | undefined>();
 const SECTION_IDS = ['hero', 'getting-started', 'multiplayer', 'community', 'about', 'faq'];
 let sectionElements: HTMLElement[] = [];
@@ -366,15 +367,11 @@ function handleContinue() {
   }
 }
 function scrollToGettingStarted() {
-  scrollToSectionUtil('getting-started');
-  history.replaceState(null, '', '#getting-started');
-  setCurrentSection('getting-started');
+  router.push('/getting-started');
 }
 
 function handleLiveBadgeClick() {
-  scrollToSectionUtil('multiplayer');
-  history.replaceState(null, '', '#multiplayer');
-  setCurrentSection('multiplayer');
+  router.push('/multiplayer');
 }
 
 function handleNavNavigate(section?: string) {
