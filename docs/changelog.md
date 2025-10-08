@@ -211,6 +211,21 @@ if (isInitialLoad.value) {
 - `src/stores/appDataStore.ts` - Added isInitialLoad flag, changed loading to computed
 - `src/stores/appDataStore.test.ts` - Fixed overlap prevention test
 
+**Follow-up Refinements:**
+
+1. **Module-Scope Pattern Consistency (597e009):**
+   - Moved `loading` computed from function scope to module scope
+   - Ensures consistency with other module-level refs (`data`, `loadingInternal`, `isInitialLoad`)
+   - Better practice for shared state pattern (like Pinia)
+   - Technically unnecessary for reactivity but improves code clarity
+
+2. **Test Failure Fix (1b7609e):**
+   - **Problem:** GitHub Actions failed on commits #126-128
+   - **Root Cause:** Line 63 in `beforeEach` tried to assign `store.loading.value = false`
+   - **Why It Failed:** After moving to module scope, `loading` became a computed ref (read-only)
+   - **Solution:** Removed line 63 - computed refs don't need manual reset
+   - **Result:** All 26 tests pass, deployment pipeline succeeds
+
 ---
 
 ### 🔧 Hash Navigation Fix

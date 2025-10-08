@@ -767,7 +767,9 @@ WiCGATE uses a **composable module pattern** with Vue 3's Composition API instea
 ```typescript
 // Module-level reactive state (shared across all component instances)
 const data = ref<Partial<DataResponse>>({});
-const loading = ref(false);
+const loadingInternal = ref(false);
+const isInitialLoad = ref(true);
+const loading = computed(() => loadingInternal.value && isInitialLoad.value);
 const playerCount = computed(() => data.value.profiles?.length || 0);
 
 // Export composable function
