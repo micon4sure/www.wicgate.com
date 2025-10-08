@@ -114,14 +114,7 @@ export const AnalyticsEvents = {
       action: 'Game Mode Exit',
     }),
 
-  // Players
-  playersButtonClick: (playerCount: number) =>
-    trackEvent({
-      category: 'Players',
-      action: 'Players Button Click',
-      value: playerCount,
-    }),
-
+  // Server Browser
   serverBrowserOpen: () =>
     trackEvent({
       category: 'Players',

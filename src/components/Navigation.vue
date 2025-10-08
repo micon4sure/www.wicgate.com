@@ -10,28 +10,18 @@ const mobileOpen = ref(false);
 const props = defineProps<{
   activeSection?: string | undefined;
   isFastScrolling?: boolean;
-  playerCount?: number;
-  showPlayersButton?: boolean;
 }>();
 const activeSection = toRef(props, 'activeSection');
 const isFastScrolling = toRef(props, 'isFastScrolling');
-const playerCount = toRef(props, 'playerCount');
-const showPlayersButton = toRef(props, 'showPlayersButton');
 
 const emit = defineEmits<{
   navigate: [string | undefined];
-  'toggle-players': [];
 }>();
 
 // Track window width for resize handling
 const lastWindowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1920);
 
 const isActive = (section: string) => activeSection.value === section;
-
-function togglePlayers() {
-  AnalyticsEvents.playersButtonClick(playerCount.value || 0);
-  emit('toggle-players');
-}
 
 // Enhanced mobile menu functionality
 function toggleMobileMenu() {
@@ -136,14 +126,14 @@ function getRoutePath(section: string): string {
 </script>
 <template>
   <!-- Header content within container -->
-  <div class="hdr container flex items-center justify-between">
+  <div class="hdr container flex items-center">
     <!-- Logo on left side -->
     <div class="nav-logo">
       <div class="logo-main">WICGATE</div>
       <div class="logo-subtitle">Community Hosted Multiplayer</div>
     </div>
 
-    <!-- Desktop navigation (center) -->
+    <!-- Desktop navigation (left-aligned) -->
     <nav class="desktop-nav" :class="{ 'fast-scroll': isFastScrolling }">
       <router-link
         :to="getRoutePath('hero')"
@@ -159,10 +149,10 @@ function getRoutePath(section: string): string {
         >Getting Started</router-link
       >
       <router-link
-        :to="getRoutePath('statistics')"
-        :class="{ active: isActive('statistics') }"
-        @click="handleNavigation('statistics')"
-        >Statistics</router-link
+        :to="getRoutePath('multiplayer')"
+        :class="{ active: isActive('multiplayer') }"
+        @click="handleNavigation('multiplayer')"
+        >Multiplayer</router-link
       >
       <router-link
         :to="getRoutePath('community')"
@@ -183,15 +173,6 @@ function getRoutePath(section: string): string {
         >FAQ</router-link
       >
     </nav>
-
-    <!-- Players button on right side -->
-    <div v-if="showPlayersButton" class="nav-players">
-      <button class="players-btn-nav" @click="togglePlayers">
-        <span class="p-count">{{ playerCount || 0 }}</span>
-        <span class="p-divider" />
-        <span class="p-label">Players Online</span>
-      </button>
-    </div>
 
     <!-- Enhanced hamburger menu button -->
     <button
@@ -232,10 +213,10 @@ function getRoutePath(section: string): string {
             >Getting Started</router-link
           >
           <router-link
-            :to="getRoutePath('statistics')"
-            :class="{ active: isActive('statistics') }"
-            @click="handleNavigation('statistics')"
-            >Statistics</router-link
+            :to="getRoutePath('multiplayer')"
+            :class="{ active: isActive('multiplayer') }"
+            @click="handleNavigation('multiplayer')"
+            >Multiplayer</router-link
           >
           <router-link
             :to="getRoutePath('community')"

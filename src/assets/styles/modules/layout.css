@@ -70,13 +70,5 @@
 }
 
 .main-content {
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.site-wrapper.panel-open .main-content {
-  margin-left: var(--panel-width);
-}
-
-.site-wrapper.no-transition .main-content {
-  transition: none !important;
+  /* No transitions needed */
 }

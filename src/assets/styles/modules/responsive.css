@@ -65,10 +65,6 @@
 
 /* Mobile landscape */
 @media (max-width: 768px) {
-  :root {
-    --panel-width: 100vw;
-  }
-
   /* Hero section */
   .hero {
     min-height: 60vh;
@@ -188,15 +184,6 @@
     width: 40px;
     height: 40px;
     font-size: 14px;
-  }
-
-  /* Panels - Mobile overlay mode */
-  .main-content {
-    transition: none;
-  }
-
-  .site-wrapper.panel-open .main-content {
-    margin-left: 0;
   }
 
   /* Grids */

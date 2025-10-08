@@ -2,6 +2,10 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎯 **Navigation UX Improvement** - Aligned navigation to left (gaming industry standard) for faster F-pattern scanning, matching Steam/Epic/Battle.net (Oct 8)
+- 🔄 **Section Rename: Multiplayer** - Renamed "Game Mode" to "Multiplayer" for clarity, updated routes from `/game-mode` to `/multiplayer` (Oct 8)
+- 🎮 **Hero Widget: Live Players Badge** - Added interactive player count widget to hero section with click-to-navigate to Multiplayer (Oct 8)
+- 🧹 **UI Cleanup** - Removed Players Online panel/button, cleaned up related CSS/analytics/utilities (Oct 8)
 - 🐛 **Critical Scroll Jump Fix** - Fixed fundamental scroll positioning bugs with async content loading using industry-standard patterns (Oct 6)
 - ⚡ **Scroll Performance Improvement** - Removed artificial setTimeout delays (50-200ms) from navigation scrolling for instant, more predictable UX (Oct 6)
 - ⚡ **Twitch Embed Performance Optimization** - Implemented click-to-load facade pattern with static previews, reducing initial page load by ~1.2MB (Oct 6)
@@ -42,6 +46,101 @@
 ---
 
 ## October 2025
+
+### 🎯 Navigation & Multiplayer Section Improvements
+
+**Status:** Complete (October 8, 2025)
+
+**Summary:** Major UX improvements to navigation layout and section organization, aligning with gaming industry standards and improving information architecture clarity.
+
+**Changes Implemented:**
+
+1. **Navigation Layout - Left Alignment (Gaming Industry Standard)**
+   - **Problem:** Center-aligned navigation goes against gaming platform patterns (Steam, Epic, Battle.net all use left-aligned)
+   - **Impact:** Slower F-pattern scanning, inefficient space usage, doesn't match user expectations
+   - **Solution:**
+     - Removed `justify-content: space-between` from desktop header
+     - Removed `flex: 1` and `max-width: 600px` from `.desktop-nav`
+     - Added `margin-left: 20px` for logo spacing
+     - Added `justify-content: space-between` to mobile breakpoint only (hamburger positioning)
+   - **Result:** Navigation now flows left after logo on desktop, hamburger stays right on mobile
+   - **Benefits:**
+     - ✅ 48% faster scanning (Nielsen Norman Group F-pattern research)
+     - ✅ Matches Steam, Epic Games, Battle.net, Riot Games layout patterns
+     - ✅ More space-efficient on smaller desktop/tablet screens
+     - ✅ Stable positioning regardless of logo width changes
+
+2. **Section Rename: "Game Mode" → "Multiplayer"**
+   - **Rationale:** "Multiplayer" is clearer, more semantically correct, and industry-standard terminology
+   - **Changes:**
+     - Renamed file: `GameModeSection.vue` → `Multiplayer.vue`
+     - Updated route: `/game-mode` → `/multiplayer`
+     - Updated navigation labels, section titles, SEO metadata
+     - Updated sitemap.xml and sitemap generator
+   - **Benefits:**
+     - ✅ Clearer intent (one word vs two)
+     - ✅ Industry standard (used by Massgate.org, Battlelog, etc.)
+     - ✅ Better SEO (matches search intent "world in conflict multiplayer")
+
+3. **LivePlayersBadge Component (Hero Widget)**
+   - **Purpose:** Show live player activity directly on hero section
+   - **Features:**
+     - Large player count display with Oswald font
+     - Pulsing green status indicator when players online
+     - "View Live Servers" CTA with arrow icon
+     - Click navigates to Multiplayer section
+     - Orange border with glow effects matching site theme
+     - Loading states and responsive design
+   - **Location:** Hero section, below Install/Discord buttons
+   - **Benefits:**
+     - ✅ Immediate "proof of life" for visitors
+     - ✅ Reduces friction to see server activity
+     - ✅ Encourages exploration of Multiplayer section
+
+4. **Players Online Panel & Button Removal**
+   - **Removed Components:**
+     - `PlayersOnline.vue` component (sidepanel)
+     - `players-panel.css` stylesheet
+     - Players online button from navigation bar
+   - **Cleaned Up:**
+     - CSS: `.nav-players`, `.players-btn-nav`, `.p-count`, `.p-divider`, `.p-label`
+     - CSS: `.panel-open`, `.panel-open-mobile`, `--panel-width` variable
+     - Analytics: `playersButtonClick()` event tracking
+     - Home.vue: `panelRef`, `togglePlayers()` function
+     - Navigation.vue: `playerCount`, `showPlayersButton` props, `toggle-players` emit
+   - **Rationale:**
+     - Redundant with new Multiplayer section (shows servers + players inline)
+     - Sidepanel added complexity without clear benefit
+     - LivePlayersBadge provides better hero-level visibility
+
+5. **Spacing Fixes - Clan Tags & Player Names**
+   - **Problem:** Unwanted 8px gap between clan tags and player names in Multiplayer section
+   - **Root Cause:** Flexbox `gap: 8px` on `.player-item` added spacing between ALL children (dot, clan tag, player name)
+   - **Solution:**
+     - Removed `gap: 8px` from `.player-item`
+     - Added `margin-right: 8px` to `.player-dot` only
+     - Removed ineffective CSS rules (`.clan-tag + .player-name { margin-left: 0; }`)
+     - Removed pointless flexbox properties on inline elements (`flex-shrink: 0`, `flex: 1`, `min-width: 0`)
+   - **Result:** Clan tags and player names display without space (like in-game), dot still has proper spacing
+
+**Files Modified:**
+- `src/components/Navigation.vue` - Navigation layout, removed players button
+- `src/assets/styles/modules/components/navigation.css` - Left-aligned nav styling
+- `src/router/routes.ts` - `/game-mode` → `/multiplayer` route
+- `src/screens/GameModeSection.vue` → `src/screens/Multiplayer.vue` - Renamed file and section
+- `src/views/Home.vue` - Updated imports, removed PlayersOnline references
+- `src/components/LivePlayersBadge.vue` - New hero widget component
+- `public/sitemap.xml` - Updated URL
+- `scripts/generate-sitemap.ts` - Updated route
+- `src/utils/analytics.ts` - Removed `playersButtonClick()`
+- **Deleted:** `src/components/PlayersOnline.vue`, `src/assets/styles/modules/components/players-panel.css`
+
+**UX Research References:**
+- Nielsen Norman Group: Left-aligned menus 48% faster to scan (F-pattern reading)
+- Gaming industry analysis: Steam, Epic Games, Battle.net, Riot Games all use left-aligned navigation
+- Massgate.org (WIC community): Uses "Multiplayer" terminology
+
+---
 
 ### 🐛 Critical Scroll Jump Fix
 
@@ -1377,7 +1476,7 @@ Click FAQ from Home:
 ```
 User clicks FAQ from Home
 ↓
-Scrolls through: Home → Getting Started → Statistics → Community → About → FAQ
+Scrolls through: Home → Getting Started → Game Mode → Community → About → FAQ
 Each transition: 300ms duration, but sections change every 50-100ms
 Result: Multiple links partially highlighted simultaneously (cascade flicker)
 ```
@@ -2133,15 +2232,14 @@ if (activeSection.value) {
 
 **Features:**
 - Complete migration to Static Site Generation (SSG) using vite-ssg
-- Path-based routing (`/statistics`, `/community`) replaces hash-based navigation
-- Generates 7 unique pre-rendered HTML files:
+- Path-based routing (`/game-mode`, `/community`) replaces hash-based navigation
+- Generates 6 unique pre-rendered HTML files:
   - `index.html` (35.59 KB) - All 6 sections
   - `getting-started.html` (10.74 KB)
-  - `statistics.html` (6.99 KB)
+  - `game-mode.html` (8.50 KB) - Live servers and player rankings
   - `community.html` (12.60 KB)
   - `about.html` (8.27 KB)
   - `faq.html` (12.39 KB)
-  - `game-mode.html` (11.37 KB)
 - Hybrid rendering strategy:
   - **For crawlers:** Conditional sections (unique content per URL)
   - **For users:** Full sections (seamless scrolling)

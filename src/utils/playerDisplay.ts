@@ -11,6 +11,25 @@ export function displayName(p: PlayerProfile): string {
 }
 
 /**
+ * Parse clan tag and player name separately for styled rendering
+ * Returns { clanTag, playerName } for separate display (like leaderboards)
+ */
+export function parseClanTag(p: PlayerProfile): { clanTag: string; playerName: string } {
+  if (p.tagFormat && p.profileName && p.shortName) {
+    // Extract clan tag portion by replacing player name with empty string
+    const clanTag = p.tagFormat.replace('C', p.shortName).replace('P', '');
+    return {
+      clanTag: clanTag.trim(),
+      playerName: p.profileName,
+    };
+  }
+  return {
+    clanTag: '',
+    playerName: p.profileName || 'Unknown',
+  };
+}
+
+/**
  * HTML-based colorizer compatible with <#hex>... </> markers
  * Validates hex colors to prevent malformed CSS injection
  */

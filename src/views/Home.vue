@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick, computed, watch } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useHead } from '@vueuse/head';
 import Navigation from '../components/Navigation.vue';
-import PlayersOnline from '../components/PlayersOnline.vue';
+import LivePlayersBadge from '../components/LivePlayersBadge.vue';
 import SiteFooter from '../components/Footer.vue';
 import GettingStarted from '../screens/GettingStarted.vue';
-import Statistics from '../screens/Statistics.vue';
+import Multiplayer from '../screens/Multiplayer.vue';
 import Community from '../screens/Community.vue';
 import About from '../screens/About.vue';
 import FAQ from '../screens/FAQ.vue';
@@ -22,11 +22,9 @@ import { SCROLL_SMOOTH_DURATION, SCROLL_FAST_SETTLE, SCROLL_TOP_DURATION } from 
 const store = useAppDataStore();
 const { data, playerCount, loading } = store;
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
-const router = useRouter();
 const route = useRoute();
-const panelRef = ref<InstanceType<typeof PlayersOnline> | null>(null);
 const currentSection = ref<string | undefined>();
-const SECTION_IDS = ['hero', 'getting-started', 'statistics', 'community', 'about', 'faq'];
+const SECTION_IDS = ['hero', 'getting-started', 'multiplayer', 'community', 'about', 'faq'];
 let sectionElements: HTMLElement[] = [];
 let scrollListenerAttached = false;
 
@@ -344,10 +342,6 @@ onBeforeUnmount(() => {
   }
 });
 
-function togglePlayers() {
-  panelRef.value?.toggle();
-}
-
 // First visit overlay handlers
 function handleGoHome() {
   dismissOverlay();
@@ -371,13 +365,16 @@ function handleContinue() {
     }
   }
 }
-function enterGameMode() {
-  router.push('/game-mode');
-}
 function scrollToGettingStarted() {
   scrollToSectionUtil('getting-started');
   history.replaceState(null, '', '#getting-started');
   setCurrentSection('getting-started');
+}
+
+function handleLiveBadgeClick() {
+  scrollToSectionUtil('multiplayer');
+  history.replaceState(null, '', '#multiplayer');
+  setCurrentSection('multiplayer');
 }
 
 function handleNavNavigate(section?: string) {
@@ -447,10 +444,7 @@ watch(
       <Navigation
         :active-section="currentSection"
         :is-fast-scrolling="isFastScrolling"
-        :show-players-button="true"
-        :player-count="playerCount"
         @navigate="handleNavNavigate"
-        @toggle-players="togglePlayers"
       />
     </header>
 
@@ -488,6 +482,11 @@ watch(
                 Join Discord
               </a>
             </div>
+            <LivePlayersBadge
+              :player-count="playerCount"
+              :loading="loading"
+              @click="handleLiveBadgeClick"
+            />
           </div>
           <div class="hero-vis" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
             <div
@@ -519,7 +518,7 @@ watch(
 
       <div id="screens">
         <GettingStarted v-if="shouldRenderSection('getting-started')" />
-        <Statistics v-if="shouldRenderSection('statistics')" :data="data" :loading="loading" />
+        <Multiplayer v-if="shouldRenderSection('multiplayer')" :data="data" :loading="loading" />
         <Community v-if="shouldRenderSection('community')" />
         <About v-if="shouldRenderSection('about')" />
         <FAQ v-if="shouldRenderSection('faq')" />
@@ -527,14 +526,6 @@ watch(
       <SiteFooter />
     </div>
   </div>
-
-  <!-- Players Panel -->
-  <PlayersOnline
-    ref="panelRef"
-    :players="data.profiles || []"
-    :servers="data.servers || []"
-    @enter-game-mode="enterGameMode"
-  />
 
   <!-- First Visit Overlay -->
   <FirstVisitOverlay

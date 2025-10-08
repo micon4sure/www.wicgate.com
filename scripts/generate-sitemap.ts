@@ -19,7 +19,7 @@ const routes = [
     changefreq: 'weekly',
   },
   {
-    path: '/statistics',
+    path: '/multiplayer',
     priority: 0.8,
     changefreq: 'daily',
   },
@@ -37,11 +37,6 @@ const routes = [
     path: '/faq',
     priority: 0.8,
     changefreq: 'weekly',
-  },
-  {
-    path: '/game-mode',
-    priority: 0.6,
-    changefreq: 'monthly',
   },
 ];
 

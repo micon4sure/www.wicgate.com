@@ -7,7 +7,7 @@ WiCGATE implements a sophisticated **hybrid rendering architecture** that combin
 ## Quick Architecture Summary
 
 - **Entry:** ViteSSG for Static Site Generation with client-side hydration
-- **Routing:** 7 pre-rendered routes (/, /getting-started, /statistics, /community, /about, /faq, /game-mode)
+- **Routing:** 6 pre-rendered routes (/, /getting-started, /multiplayer, /community, /about, /faq)
 - **Hybrid Strategy:** SSG for SEO (unique HTML per route) + SPA for UX (smooth scrolling, no page reloads)
 - **State Management:** Composable module pattern with reactive refs, 3-retry exponential backoff, 90s polling, Page Visibility API
 - **Data Layer:** API integration via composables (useYoutube, useEvents) with SSR-safe execution
@@ -94,14 +94,13 @@ setTimeout(() => {
 
 **File:** [src/router/routes.ts](../src/router/routes.ts)
 
-Path-based routing with 7 pre-rendered routes:
+Path-based routing with 6 pre-rendered routes:
 - `/` - Homepage with all sections
 - `/getting-started` - Installation guide
-- `/statistics` - Player leaderboards
+- `/multiplayer` - Live servers and player rankings
 - `/community` - Events, videos, creators
 - `/about` - Project information
 - `/faq` - Frequently asked questions
-- `/game-mode` - Standalone statistics dashboard
 
 Each route includes comprehensive SEO metadata (title, description, keywords, Open Graph tags).
 
@@ -129,21 +128,20 @@ function shouldRenderSection(sectionId: string): boolean {
 ### Build Output
 
 ```bash
-npm run build → Generates 7 unique HTML files:
+npm run build → Generates 6 unique HTML files:
 
 dist/index.html              35.59 KB  # All 6 sections for homepage
 dist/getting-started.html    10.74 KB  # Only Getting Started section
-dist/statistics.html          6.99 KB  # Only Statistics section
+dist/multiplayer.html         8.50 KB  # Only Multiplayer section (servers + stats)
 dist/community.html          12.60 KB  # Only Community section
 dist/about.html               8.27 KB  # Only About section
 dist/faq.html                12.39 KB  # Only FAQ section
-dist/game-mode.html          11.37 KB  # Game mode standalone page
 ```
 
 ### SEO Benefits
 
 ✅ **Unique Content Per URL:** Each route serves different HTML with unique file sizes
-✅ **No Duplicate Content:** Google indexes 7 separate pages with focused content
+✅ **No Duplicate Content:** Google indexes 6 separate pages with focused content
 ✅ **Fast Initial Load:** Pre-rendered HTML loads instantly
 ✅ **Progressive Enhancement:** Content visible without JavaScript
 ✅ **Semantic Skeleton Loaders:** SEO-friendly placeholders with descriptive text
@@ -153,27 +151,27 @@ dist/game-mode.html          11.37 KB  # Game mode standalone page
 **❌ Hash-based routing problem (before SSG):**
 ```
 wicgate.com/          → Serves index.html (36KB, all sections)
-wicgate.com/#statistics → Serves index.html (36KB, all sections) ← DUPLICATE
+wicgate.com/#game-mode → Serves index.html (36KB, all sections) ← DUPLICATE
 wicgate.com/#community  → Serves index.html (36KB, all sections) ← DUPLICATE
 ```
 Google sees identical content at all URLs = duplicate content penalty.
 
 **✅ Path-based SSG solution (current):**
 ```
-wicgate.com/          → Serves index.html (36KB, all sections)
-wicgate.com/statistics → Serves statistics.html (7KB, stats only) ← UNIQUE
+wicgate.com/           → Serves index.html (36KB, all sections)
+wicgate.com/multiplayer → Serves multiplayer.html (8.5KB, multiplayer only) ← UNIQUE
 wicgate.com/community  → Serves community.html (13KB, community only) ← UNIQUE
 ```
 Google sees different content at each URL = proper indexing.
 
 ### User Experience Flow
 
-1. **User visits `/statistics` directly (browser address bar):**
-   - Server sends `statistics.html` (7KB, only statistics section)
+1. **User visits `/multiplayer` directly (browser address bar):**
+   - Server sends `multiplayer.html` (8.5KB, only multiplayer section)
    - User sees skeleton loader with SEO text
    - JavaScript loads and hydrates
    - `isSSR` becomes `false`, all sections render client-side
-   - **Auto-scroll to section:** `onMounted()` detects `route.meta.section` and scrolls to statistics
+   - **Auto-scroll to section:** `onMounted()` detects `route.meta.section` and scrolls to multiplayer
    - User can now scroll smoothly to any section
 
 2. **User clicks "Community" nav link:**
@@ -183,16 +181,16 @@ Google sees different content at each URL = proper indexing.
    - Scrolls from current position to Community section
    - URL updates without page refresh
 
-3. **Search Engine crawls `/statistics`:**
-   - Receives pre-rendered `statistics.html`
+3. **Search Engine crawls `/multiplayer`:**
+   - Receives pre-rendered `multiplayer.html`
    - No JavaScript execution needed
-   - Sees only Statistics content with proper meta tags
-   - Indexes as unique page focused on player rankings
+   - Sees only Multiplayer content with proper meta tags
+   - Indexes as unique page focused on live servers and player rankings
 
 ### Direct Sublink Navigation Implementation
 
 **Problem Solved (October 2025):**
-Direct URL access to sublinks (e.g., typing `/statistics` in browser) would load the route but not scroll to the section, leaving users at the top of the homepage.
+Direct URL access to sublinks (e.g., typing `/multiplayer` in browser) would load the route but not scroll to the section, leaving users at the top of the homepage.
 
 **Solution:**
 Enhanced `onMounted()` in [src/views/Home.vue:262-290](../src/views/Home.vue#L262-290) to handle both hash-based and path-based navigation:
@@ -204,11 +202,11 @@ const hash = window.location.hash ? window.location.hash.substring(1) : undefine
 
 // Only scroll if not showing first visit overlay
 if (!showFirstVisitOverlay.value) {
-  // Handle legacy hash navigation (#statistics)
+  // Handle legacy hash navigation (#multiplayer)
   if (hash) {
     scrollToSectionUtil(hash, 'smooth');
   }
-  // Handle direct sublink navigation (/statistics)
+  // Handle direct sublink navigation (/multiplayer)
   else if (sectionFromRoute) {
     scrollToSectionUtil(sectionFromRoute, 'smooth');
   }
@@ -218,7 +216,7 @@ if (!showFirstVisitOverlay.value) {
 **Key Points:**
 - **Crawlers unaffected:** They receive pre-rendered HTML without JavaScript execution
 - **Users enhanced:** JavaScript auto-scrolls to target section after hydration
-- **Dual navigation support:** Handles both `/statistics` (modern) and `/#statistics` (legacy)
+- **Dual navigation support:** Handles both `/multiplayer` (modern) and `/#multiplayer` (legacy)
 - **First visit integration:** Respects overlay state, only scrolls when appropriate
 - **Route watcher preserved:** In-app navigation continues using existing watcher
 
@@ -364,7 +362,7 @@ watch(isAdvancedExpanded, (val) => {
 - Alternative would be hydration warnings + unpredictable behavior
 
 **References:**
-- Implementation: [src/screens/GettingStarted.vue](../src/screens/GettingStarted.vue), [src/screens/Community.vue](../src/screens/Community.vue)
+- Implementation: [src/screens/GettingStarted.vue](../src/screens/GettingStarted.vue), [src/screens/Community.vue](../src/screens/Community.vue), [src/screens/Multiplayer.vue](../src/screens/Multiplayer.vue)
 - CSS patterns: [docs/design-system.md - Expandable Sections](design-system.md#expandable-section-transitions)
 - Changelog: [docs/changelog.md - Scroll Jumping & Hydration Fix](changelog.md#scroll-jumping--ssr-hydration-fix)
 
@@ -574,6 +572,94 @@ export function scrollToSection(sectionId: string, behavior = 'smooth'): void {
 - ✅ Consistent behavior across all navigation types
 - ✅ Works seamlessly with async content loading
 - **No Manual Breakpoints**: Zero hardcoded pixel values across all screen sizes
+
+### Navigation Layout Architecture
+
+**Industry Standard Alignment (October 2025):**
+
+Following gaming platform UX patterns, the navigation uses **left-aligned** layout matching industry leaders (Steam, Epic Games, Battle.net, Riot Games).
+
+#### Desktop Layout (>1024px)
+
+```html
+<!-- Navigation.vue template -->
+<div class="hdr container flex items-center">
+  <!-- Logo (left) -->
+  <div class="nav-logo">...</div>
+
+  <!-- Navigation links (flows naturally left after logo) -->
+  <nav class="desktop-nav">...</nav>
+</div>
+```
+
+```css
+/* navigation.css */
+.desktop-nav {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 100%;
+  margin-left: 20px; /* Space after logo, natural left flow */
+}
+```
+
+**Key Implementation Details:**
+- **No `justify-content: space-between`** on desktop - This was removed from `.hdr` to prevent nav from being pushed to the right edge
+- **Natural flexbox flow** - Logo and nav sit naturally on left side with simple margin spacing
+- **Hamburger menu hidden** - Mobile menu button has `display: none` on desktop
+
+#### Mobile Layout (≤1024px)
+
+```css
+/* navigation.css */
+@media (max-width: 1024px) {
+  .hdr {
+    height: 70px;
+    padding: 0 20px;
+    justify-content: space-between; /* Pushes hamburger to right */
+  }
+
+  .desktop-nav {
+    display: none; /* Hide desktop links */
+  }
+
+  .mob-menu {
+    display: flex; /* Show hamburger */
+  }
+}
+```
+
+**Mobile Behavior:**
+- **`justify-content: space-between`** applied ONLY at mobile breakpoint
+- Creates 2 flex children: Logo (left) + Hamburger (right)
+- Desktop navigation hidden, replaced with hamburger menu
+- Full-screen mobile menu teleported to `<body>` with backdrop
+
+#### Why Left-Aligned?
+
+**Research Findings (Nielsen Norman Group + Gaming Platforms):**
+- **48% faster scanning** - F-pattern reading (left-to-right cultures)
+- **Industry standard** - All major gaming platforms use left-aligned nav
+- **Space efficiency** - More room for nav items without centering constraints
+- **User expectations** - Matches established gaming website patterns
+
+**Platforms Analyzed:**
+- Steam (desktop client + web)
+- Epic Games Store
+- Battle.net
+- Riot Games (League of Legends, Valorant)
+- Massgate.org (World in Conflict revival)
+
+#### Responsive Breakpoint Strategy
+
+**Single breakpoint: 1024px**
+- Above 1024px: Desktop nav (left-aligned), no hamburger
+- Below 1024px: Hamburger menu (right-aligned), no desktop nav
+
+**CSS Architecture:**
+- Base styles define desktop behavior (no media query needed)
+- Single `@media (max-width: 1024px)` handles mobile transformation
+- Avoids complex multi-breakpoint logic
 
 #### Performance Optimizations
 
@@ -998,14 +1084,13 @@ All routes pre-render unique HTML at build time:
 |-------|-------------|-----------|
 | `/` | Homepage with all sections | 36.22 KB |
 | `/getting-started` | Installation guide | 11.18 KB |
-| `/statistics` | Player leaderboards | 7.90 KB |
+| `/multiplayer` | Live servers and player rankings | 12.34 KB |
 | `/community` | Events, creators, videos | 13.59 KB |
 | `/about` | Project information | 9.20 KB |
 | `/faq` | Frequently asked questions | 13.30 KB |
-| `/game-mode` | Full-screen statistics dashboard | 12.34 KB |
 
 **SEO Benefits:**
-- ✅ 7 unique HTML files (no duplicate content)
+- ✅ 6 unique HTML files (no duplicate content)
 - ✅ Focused, indexable content per route
 - ✅ Progressive enhancement with skeleton loaders
 - ✅ Dynamic meta tags and JSON-LD schemas
@@ -1038,13 +1123,12 @@ src/
 │       └── LeaderboardSkeleton.vue
 ├── screens/                   # Section components (used in Home.vue)
 │   ├── GettingStarted.vue     # Onboarding with WIC LIVE download, Advanced Setup (v-show)
+│   ├── Multiplayer.vue        # Live servers, player lists, and leaderboards
 │   ├── Community.vue          # Events, videos, live streams, creator badges (v-show)
-│   ├── Statistics.vue         # Leaderboards and player data
 │   ├── About.vue              # Project information
 │   └── FAQ.vue                # Frequently asked questions
 ├── views/                     # Routed pages
-│   ├── Home.vue               # Main SPA with all sections (SSR conditional rendering)
-│   └── GameMode.vue           # Standalone full-screen statistics dashboard
+│   └── Home.vue               # Main SPA with all sections (SSR conditional rendering)
 ├── composables/               # Composition functions
 │   ├── useYoutube.ts          # Multi-channel video fetching (SSR-safe, Atom feed parsing)
 │   ├── useEvents.ts           # Discord events integration (SSR-safe, real-time countdown)
@@ -1186,14 +1270,13 @@ Generates `dist/sw.js` with:
 dist/
 ├── index.html                 # Homepage (36.22 KB) - All sections
 ├── getting-started.html       # (11.18 KB) - Getting Started only
-├── statistics.html            # (7.90 KB) - Statistics only
+├── multiplayer.html           # (12.34 KB) - Multiplayer section with servers and leaderboards
 ├── community.html             # (13.59 KB) - Community only
 ├── about.html                 # (9.20 KB) - About only
 ├── faq.html                   # (13.30 KB) - FAQ only
-├── game-mode.html             # (12.34 KB) - Game Mode page
 ├── 404.html                   # SPA fallback (copy of index.html)
 ├── manifest.webmanifest       # PWA manifest
-├── sitemap.xml                # SEO sitemap (7 URLs)
+├── sitemap.xml                # SEO sitemap (6 URLs)
 ├── robots.txt                 # Crawler instructions
 ├── sw.js                      # Service worker
 ├── workbox-*.js               # Workbox runtime

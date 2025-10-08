@@ -50,83 +50,6 @@ header {
   line-height: 1;
 }
 
-/* Players Button in Navigation */
-.nav-players {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-
-.players-btn-nav {
-  display: flex;
-  align-items: center;
-  background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.95) 100%);
-  border: 1px solid rgba(var(--sw-rgb), 0.3);
-  border-radius: 0;
-  height: 52px;
-  padding: 0 20px;
-  color: var(--t2);
-  font-family: 'Oswald', sans-serif;
-  font-weight: 500;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.players-btn-nav:hover {
-  color: var(--ink);
-  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.85) 0%, rgba(var(--sw-rgb), 0.68) 100%);
-  border-color: rgba(var(--sw-rgb), 0.75);
-  transform: scale(1.03) translateY(-2px);
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    0 0 24px rgba(var(--sw-rgb), 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-.players-btn-nav:active {
-  color: var(--ink);
-  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.8) 100%);
-  border-color: rgba(var(--sw-rgb), 0.9);
-  transform: scale(0.98) translateY(0px);
-  box-shadow:
-    0 1px 8px rgba(0, 0, 0, 0.5),
-    0 0 16px rgba(var(--sw-rgb), 0.6),
-    inset 0 3px 6px rgba(0, 0, 0, 0.2);
-}
-
-.p-count {
-  font-weight: 700;
-  font-size: 16px;
-  color: var(--sw);
-}
-
-.players-btn-nav:hover .p-count,
-.players-btn-nav:active .p-count {
-  color: var(--ink);
-}
-
-.p-divider {
-  width: 1px;
-  height: 20px;
-  background: rgba(var(--t2-rgb), 0.4);
-  margin: 0 12px;
-}
-
-.players-btn-nav:hover .p-divider,
-.players-btn-nav:active .p-divider {
-  background: rgba(var(--ink-rgb), 0.4);
-}
-
-.p-label {
-  font-size: 12px;
-}
-
 /* Military-style logo */
 .logo {
   font-family: 'Oswald', 'Impact', sans-serif;
@@ -162,8 +85,7 @@ header {
   gap: 8px;
   align-items: center;
   height: 100%;
-  flex: 1;
-  max-width: 600px;
+  margin-left: 20px;
 }
 
 /* Modern rectangular navigation tabs - Desktop */
@@ -510,6 +432,7 @@ header {
   .hdr {
     height: 70px;
     padding: 0 20px;
+    justify-content: space-between;
   }
 
   .logo {
@@ -554,26 +477,6 @@ header {
     font-size: 10px;
   }
 
-  /* Mobile players button */
-  .players-btn-nav {
-    height: 44px;
-    padding: 0 16px;
-    font-size: 12px;
-  }
-
-  .p-count {
-    font-size: 14px;
-  }
-
-  .p-label {
-    font-size: 11px;
-  }
-
-  /* Show players button on tablet landscape */
-  .nav-players {
-    display: flex;
-  }
-
   .mobile-nav-content {
     top: 65px; /* Just nav height now */
     min-height: calc(100vh - 65px);
@@ -600,11 +503,6 @@ header {
 
   .logo-subtitle {
     font-size: 9px;
-  }
-
-  /* Hide players button on smaller screens */
-  .nav-players {
-    display: none;
   }
 
   .mobile-nav a {

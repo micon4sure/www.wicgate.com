@@ -30,16 +30,16 @@ export const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/statistics',
-    name: 'statistics',
+    path: '/multiplayer',
+    name: 'multiplayer',
     component: Home,
     meta: {
-      section: 'statistics',
-      title: 'Player Statistics & Leaderboards - WiC Rankings | WICGATE',
+      section: 'multiplayer',
+      title: 'Multiplayer - Live Servers & Rankings | WICGATE',
       description:
-        'View World in Conflict player rankings, competitive leaderboards, and match statistics. Track top players across all game modes including Domination, Assault, and Tug of War.',
+        'View live World in Conflict multiplayer servers with online players and competitive leaderboards. Track top players and see real-time server activity.',
       keywords:
-        'wic leaderboards, world in conflict rankings, wic stats, world in conflict player stats, wic competitive',
+        'wic multiplayer, wic servers, wic online players, wic leaderboards, world in conflict rankings, wic stats, world in conflict live servers',
       ogImage: '/og-statistics.jpg',
     },
   },
@@ -83,18 +83,6 @@ export const routes: RouteRecordRaw[] = [
       keywords:
         'wic help, world in conflict troubleshooting, wic faq, wic crashes, wic server issues, world in conflict support',
       ogImage: '/og-faq.jpg',
-    },
-  },
-  {
-    path: '/game-mode',
-    name: 'game-mode',
-    component: () => import('../views/GameMode.vue'),
-    meta: {
-      title: 'Game Modes - World in Conflict Multiplayer | WICGATE',
-      description:
-        'Explore World in Conflict multiplayer game modes: Domination, Assault, Tug of War, and more. Learn strategies and tactics for competitive play.',
-      keywords: 'wic game modes, world in conflict domination, wic assault, wic tug of war',
-      ogImage: '/og-game-mode.jpg',
     },
   },
 ];
