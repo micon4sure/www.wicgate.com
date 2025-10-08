@@ -177,11 +177,30 @@ describe('appDataStore', () => {
     });
 
     it('should not fetch if already loading', async () => {
-      store.loading.value = true;
+      // Mock a slow fetch to simulate an in-progress request
+      mockFetch.mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              resolve({
+                ok: true,
+                json: async () => mockApiResponse,
+              });
+            }, 100);
+          })
+      );
 
+      // Start first fetch (won't complete for 100ms)
+      const firstFetch = store.fetchData();
+
+      // Try to start second fetch while first is still loading
       await store.fetchData();
 
-      expect(mockFetch).not.toHaveBeenCalled();
+      // Wait for first fetch to complete
+      await firstFetch;
+
+      // Should only have been called once (second call blocked by loading guard)
+      expect(mockFetch).toHaveBeenCalledTimes(1);
     });
 
     it('should clear error on successful fetch', async () => {

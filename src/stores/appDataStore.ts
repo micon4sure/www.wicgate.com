@@ -6,7 +6,8 @@ import { API_POLLING_INTERVAL, API_RETRY_DELAYS, MAX_API_RETRIES } from '../cons
 const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 
 const data = ref<Partial<DataResponse>>({});
-const loading = ref(false);
+const loadingInternal = ref(false);
+const isInitialLoad = ref(true);
 const error = ref<string | null>(null);
 const lastFetchedAt = ref<number | null>(null);
 const playerCount = computed(() => data.value.profiles?.length || 0);
@@ -29,6 +30,11 @@ async function fetchDataWithRetry(retryCount = 0): Promise<void> {
     lastFetchedAt.value = Date.now();
     error.value = null; // Clear any previous errors
     isOnline.value = true;
+
+    // Mark initial load as complete after first successful fetch
+    if (isInitialLoad.value) {
+      isInitialLoad.value = false;
+    }
 
     // Resume polling if it was stopped due to being offline
     if (!intervalId && isInitialized.value && typeof window !== 'undefined') {
@@ -63,11 +69,11 @@ async function fetchData() {
   if (import.meta.env.SSR) return;
 
   // Prevent overlapping calls
-  if (loading.value) return;
+  if (loadingInternal.value) return;
 
-  loading.value = true;
+  loadingInternal.value = true;
   await fetchDataWithRetry();
-  loading.value = false;
+  loadingInternal.value = false;
 }
 
 function init() {
@@ -116,7 +122,7 @@ function stop() {
 export function useAppDataStore() {
   return {
     data,
-    loading,
+    loading: computed(() => loadingInternal.value && isInitialLoad.value),
     error,
     playerCount,
     playersOnline,
