@@ -52,7 +52,19 @@
 
 ---
 
-### 3. SSR Guards (MANDATORY)
+### 3. Path-Based Navigation (SSG REQUIRED)
+
+❌ **NEVER:** `history.replaceState(null, '', '#section');`
+✅ **ALWAYS:** `router.push('/section');`
+
+**SSG pre-renders path-based routes** (`/multiplayer`, `/community`). Hash URLs (`/#section`) break shareable URLs and SEO.
+
+📖 **Deep dive:** [docs/architecture.md - Routes & SEO](docs/architecture.md#routes--seo)
+📍 **Location:** [src/router/routes.ts](src/router/routes.ts)
+
+---
+
+### 4. SSR Guards (MANDATORY)
 
 ❌ **NEVER:** `document.querySelector()` without guards
 ✅ **ALWAYS:** `if (!import.meta.env.SSR) { /* browser code */ }`
@@ -63,7 +75,7 @@
 
 ---
 
-### 4. Interactive Element Hover Pattern
+### 5. Interactive Element Hover Pattern
 
 **Standard for all clickable elements:**
 - Inactive: `color: var(--t2)`
@@ -73,7 +85,7 @@
 
 ---
 
-### 5. Button Hierarchy
+### 6. Button Hierarchy
 
 - **Red (`.btn-download`):** ONLY for executable programs (WIC LIVE installer)
 - **Orange (`.btn-p`):** Standard primary actions
@@ -83,7 +95,7 @@
 
 ---
 
-### 6. Styling Organization
+### 7. Styling Organization
 
 - Add styles to `src/assets/styles/modules/components/*.css`
 - Import via `base.css`
@@ -93,7 +105,7 @@
 
 ---
 
-### 7. Testing Requirements
+### 8. Testing Requirements
 
 - Support hybrid timing: `if (!process.env.TEST_REAL_TIMERS) { vi.useFakeTimers(); }`
 - Maintain 50%+ coverage
@@ -103,7 +115,7 @@
 
 ---
 
-### 8. Formatting & Quality
+### 9. Formatting & Quality
 
 - LF line endings (no CRLF)
 - Prettier via ESLint
@@ -149,6 +161,7 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 |----------|-----------|-----|
 | `color: #ff6600` | `color: var(--sw)` | [Design Tokens](docs/design-system.md#design-tokens) |
 | `scroll-margin-top: 120px` | `scrollToSection('id')` | [Navigation](docs/architecture.md#navigation-system) |
+| `history.replaceState('#id')` | `router.push('/section')` | [Routes & SEO](docs/architecture.md#routes--seo) |
 | `document.querySelector()` | `if (!import.meta.env.SSR) {...}` | [SSR Guards](docs/architecture.md#ssr-guards) |
 | `bun test` | `bun run test` | [Testing](docs/testing.md#package-manager-comparison) |
 | Red button for ZIP | Hyperlink for files | [Button Hierarchy](docs/design-system.md#download-button-hierarchy) |
@@ -178,4 +191,4 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 ---
 
-*Last Updated: October 2, 2025*
+*Last Updated: October 8, 2025*
