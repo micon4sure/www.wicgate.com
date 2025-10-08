@@ -2,6 +2,9 @@
 
 ## Recent Changes - Quick Summary
 
+- 🐛 **90-Second Refresh Bug Fix** - Fixed LivePlayersBadge and Multiplayer section flashing/crashing every 90 seconds during polling (Oct 8)
+- 🔧 **Hash Navigation Fix** - Replaced hash-based URLs with path-based routes in hero section for SSG compatibility (Oct 8)
+- 📖 **GUIDE.md Update** - Added path-based navigation pattern to prevent future hash navigation bugs (Oct 8)
 - 🎯 **Navigation UX Improvement** - Aligned navigation to left (gaming industry standard) for faster F-pattern scanning, matching Steam/Epic/Battle.net (Oct 8)
 - 🔄 **Section Rename: Multiplayer** - Renamed "Game Mode" to "Multiplayer" for clarity, updated routes from `/game-mode` to `/multiplayer` (Oct 8)
 - 🎮 **Hero Widget: Live Players Badge** - Added interactive player count widget to hero section with click-to-navigate to Multiplayer (Oct 8)
@@ -139,6 +142,159 @@
 - Nielsen Norman Group: Left-aligned menus 48% faster to scan (F-pattern reading)
 - Gaming industry analysis: Steam, Epic Games, Battle.net, Riot Games all use left-aligned navigation
 - Massgate.org (WIC community): Uses "Multiplayer" terminology
+
+---
+
+### 🐛 90-Second Refresh Bug Fix
+
+**Status:** Complete (October 8, 2025)
+
+**Summary:** Fixed infuriating refresh bug where LivePlayersBadge (hero) and Multiplayer section would flash/crash every 90 seconds during API polling, completely disrupting user experience.
+
+**Problem:**
+
+1. **API Polling Interval:**
+   - API polls every 90 seconds (`API_POLLING_INTERVAL = 90_000ms`)
+   - `loading` state toggled `true` on EVERY poll
+   - Both LivePlayersBadge and Multiplayer receive `loading` prop from store
+
+2. **LivePlayersBadge (Hero Section):**
+   - Every 90 seconds: Dimmed to opacity 0.6
+   - Status text changed to "CHECKING STATUS..."
+   - "View Live Servers" CTA disappeared
+   - Cursor changed to default (not clickable)
+
+3. **Multiplayer Section:**
+   - Every 90 seconds: All content replaced by skeleton loaders
+   - Server cards disappeared
+   - Statistics leaderboards disappeared
+   - User couldn't read stats without constant interruption
+
+4. **Root Cause:**
+   - `loading` state used for BOTH initial page load AND polling updates
+   - Home.vue passes `loading` to both components
+   - Components show loading states every time polling fires
+
+**Solution:**
+
+Added `isInitialLoad` flag to separate initial load from polling updates:
+
+```typescript
+// appDataStore.ts
+const loadingInternal = ref(false);
+const isInitialLoad = ref(true);
+
+// Export computed loading (only true during initial load)
+loading: computed(() => loadingInternal.value && isInitialLoad.value)
+
+// After first successful fetch
+if (isInitialLoad.value) {
+  isInitialLoad.value = false;
+}
+```
+
+**Impact:**
+
+- ✅ **Initial page load:** Both components show loading states correctly
+- ✅ **After first load:** Player count updates smoothly (8 → 9 players)
+- ✅ **Every 90 seconds:** Data updates silently without any visual flash
+- ✅ **User experience:** No interruptions when reading stats/server lists
+- ✅ **LivePlayersBadge:** Never dims or shows "CHECKING STATUS..." after initial load
+- ✅ **Multiplayer:** Server cards and leaderboards update in place without skeleton flash
+
+**Test Updates:**
+- Fixed "should not fetch if already loading" test
+- Now simulates real concurrent calls instead of manually setting loading state
+- All 26 tests pass
+
+**Files Modified:**
+- `src/stores/appDataStore.ts` - Added isInitialLoad flag, changed loading to computed
+- `src/stores/appDataStore.test.ts` - Fixed overlap prevention test
+
+---
+
+### 🔧 Hash Navigation Fix
+
+**Status:** Complete (October 8, 2025)
+
+**Summary:** Fixed hash-based navigation in hero section that conflicted with SSG path-based architecture, breaking shareable URLs and SEO.
+
+**Problem:**
+
+Two functions in Home.vue were using `history.replaceState()` with hash URLs instead of proper path-based routes:
+
+```typescript
+// ❌ WRONG - Uses hash
+function scrollToGettingStarted() {
+  scrollToSectionUtil('getting-started');
+  history.replaceState(null, '', '#getting-started');
+  setCurrentSection('getting-started');
+}
+
+function handleLiveBadgeClick() {
+  scrollToSectionUtil('multiplayer');
+  history.replaceState(null, '', '#multiplayer');
+  setCurrentSection('multiplayer');
+}
+```
+
+**Impact:**
+- Created inconsistent navigation: `/#section` vs `/section`
+- Broke shareable URLs (refresh on `/#multiplayer` → homepage instead of Multiplayer page)
+- Undermined SSG "no duplicate content" strategy
+- SEO conflict between hash and path-based URLs
+
+**Solution:**
+
+Replaced manual history manipulation with `router.push()`:
+
+```typescript
+// ✅ CORRECT - Uses path-based routes
+function scrollToGettingStarted() {
+  router.push('/getting-started');
+}
+
+function handleLiveBadgeClick() {
+  router.push('/multiplayer');
+}
+```
+
+**Result:**
+- ✅ URLs now use `/section` instead of `/#section`
+- ✅ Shareable URLs work correctly (refresh preserves page)
+- ✅ Fully aligned with SSG pre-rendered routes
+- ✅ SEO-friendly (no hash URL conflicts)
+- ✅ Route watcher handles scrolling automatically
+
+**Files Modified:**
+- `src/views/Home.vue` - Replaced hash navigation with router.push()
+
+---
+
+### 📖 GUIDE.md Path-Based Navigation Pattern
+
+**Status:** Complete (October 8, 2025)
+
+**Summary:** Added essential pattern to GUIDE.md to prevent future hash-based navigation bugs.
+
+**Added:**
+- Section 3: Path-Based Navigation (SSG REQUIRED)
+- Clear ❌/✅ example: `history.replaceState('#section')` vs `router.push('/section')`
+- Explanation: Hash URLs break shareable URLs and SEO
+- Entry in Common Mistakes table
+- Cross-reference to Routes & SEO docs
+
+**Updated:**
+- Renumbered sections 3-8 → 4-9
+- Last Updated date: October 2 → October 8, 2025
+
+**Impact:**
+- Future developers and AI agents will see this pattern upfront
+- Prevents hash-based navigation bugs before they happen
+- Maintains GUIDE.md's brevity (added only 8 lines)
+
+**Files Modified:**
+- `GUIDE.md` - Added path-based navigation pattern
 
 ---
 
