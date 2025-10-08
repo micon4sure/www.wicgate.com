@@ -8,6 +8,7 @@ const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 const data = ref<Partial<DataResponse>>({});
 const loadingInternal = ref(false);
 const isInitialLoad = ref(true);
+const loading = computed(() => loadingInternal.value && isInitialLoad.value);
 const error = ref<string | null>(null);
 const lastFetchedAt = ref<number | null>(null);
 const playerCount = computed(() => data.value.profiles?.length || 0);
@@ -122,7 +123,7 @@ function stop() {
 export function useAppDataStore() {
   return {
     data,
-    loading: computed(() => loadingInternal.value && isInitialLoad.value),
+    loading,
     error,
     playerCount,
     playersOnline,
