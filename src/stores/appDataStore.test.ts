@@ -60,7 +60,7 @@ describe('appDataStore', () => {
 
     // Reset store state
     store.data.value = {};
-    store.loading.value = false;
+    // Note: loading is a computed ref (read-only), no need to reset
     store.error.value = null;
     store.lastFetchedAt.value = null;
     store.stop(); // Clear any existing intervals
