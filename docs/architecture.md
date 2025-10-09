@@ -1112,8 +1112,10 @@ src/
 ├── components/
 │   ├── Navigation.vue         # Mobile-first responsive nav (pixel-perfect scrolling)
 │   ├── HeaderBanner.vue       # Professional logo design with players button
+│   ├── WidgetDashboard.vue    # Homepage widget grid (6 widgets: Quick Start, Live Servers, Community, Top Players, Videos, Help)
 │   ├── LeaderboardGroup.vue   # Enhanced leaderboard tables with rank styling
-│   ├── RankInsignia.vue       # Player rank badges
+│   ├── RankInsignia.vue       # Player rank badges (used in leaderboards and Top Players widget)
+│   ├── Leaderboards.vue       # Leaderboard container component
 │   ├── PlayersOnline.vue      # Slide-in panel for live player list
 │   ├── FirstVisitOverlay.vue  # Welcome overlay for new users
 │   ├── TwitchEmbed.vue        # Live stream integration
@@ -1130,7 +1132,7 @@ src/
 │   ├── About.vue              # Project information
 │   └── FAQ.vue                # Frequently asked questions
 ├── views/                     # Routed pages
-│   └── Home.vue               # Main SPA with all sections (SSR conditional rendering)
+│   └── Home.vue               # Main SPA with WidgetDashboard hero + sections (SSR conditional rendering)
 ├── composables/               # Composition functions
 │   ├── useYoutube.ts          # Multi-channel video fetching (SSR-safe, Atom feed parsing)
 │   ├── useEvents.ts           # Discord events integration (SSR-safe, real-time countdown)
@@ -1151,17 +1153,18 @@ src/
 │           ├── buttons.css    # Button hierarchy and styles
 │           ├── responsive.css # Responsive utilities
 │           └── components/    # Component-specific modules
-│               ├── navigation.css      # Nav with rectangular tabs
-│               ├── leaderboards.css    # Enhanced leaderboard tables
-│               ├── hero.css            # Hero section styling
-│               ├── community.css       # Events, videos, creators
-│               ├── getting-started.css # Onboarding (with v-show transitions)
-│               ├── videos.css          # Video components (with v-show transitions)
-│               ├── about.css           # About section
-│               ├── faq.css             # FAQ section
-│               ├── game-mode.css       # Game mode page
-│               ├── players-panel.css   # Side panel for online players
-│               └── toggle.css          # Toggle switch components
+│               ├── navigation.css         # Nav with rectangular tabs
+│               ├── widget-dashboard.css   # Homepage widget grid (685 lines, 7 responsive breakpoints)
+│               ├── leaderboards.css       # Enhanced leaderboard tables
+│               ├── hero.css               # Hero section styling
+│               ├── community.css          # Events, videos, creators
+│               ├── getting-started.css    # Onboarding (with v-show transitions)
+│               ├── videos.css             # Video components (with v-show transitions)
+│               ├── about.css              # About section
+│               ├── faq.css                # FAQ section
+│               ├── game-mode.css          # Game mode page
+│               ├── players-panel.css      # Side panel for online players
+│               └── toggle.css             # Toggle switch components
 └── content/
     └── content.ts             # Static content (hero copy, steps, requirements)
 

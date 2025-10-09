@@ -221,10 +221,16 @@ Typography automatically scales down on mobile breakpoints. See [typography.css]
 - Includes live player count badge
 - Primary CTA for new users
 
-**2. Data Widgets (Live Servers, Statistics)**
+**2. Data Widgets (Live Servers, Top Players)**
 - Real-time API data integration
 - Skeleton loaders for SSR compatibility
 - Top 3 list patterns for glanceable information
+- **Player Display Consistency:** Top Players widget matches leaderboard styling exactly
+  - Rank insignias (20px size)
+  - Clan tags: Courier New monospace, `var(--sw)` orange, 0.75rem
+  - Player names: Rajdhani, `var(--t)` white, 0.9rem
+  - Zero spacing between clan tag and player name (like in-game)
+  - Podium colors for scores: gold (#ffd700), silver (#c0c0c0), bronze (#cd7f32)
 
 **3. Community Widgets**
 - Platform-specific icon styling (Discord, YouTube)

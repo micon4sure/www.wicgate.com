@@ -334,15 +334,7 @@
   flex-shrink: 0;
 }
 
-.ladder-name {
-  flex: 1;
-  color: var(--t);
-  font-family: var(--font-body);
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+/* Player name styling moved to scoped styles in WidgetDashboard.vue */
 
 .ladder-score {
   color: var(--sw);

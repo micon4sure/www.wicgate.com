@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎨 **Widget Dashboard Styling Improvements** - Top Players widget now matches leaderboard styling: rank insignias, clan tags (orange), player names (white), podium colors for scores (Oct 9)
 - 🎨 **Homepage Redesign: Widget Dashboard** - Replaced hero carousel with function-geared widget grid, integrated player count into Live Servers widget (Oct 9)
 - 🐛 **90-Second Refresh Bug Fix** - Fixed LivePlayersBadge and Multiplayer section flashing/crashing every 90 seconds during polling (Oct 8)
 - 🔧 **Hash Navigation Fix** - Replaced hash-based URLs with path-based routes in hero section for SSG compatibility (Oct 8)
@@ -76,7 +77,7 @@
    - **Quick Start** - Primary CTA with live player count, links to Getting Started
    - **Live Servers** - Real-time server list (top 3), player counts, links to Multiplayer
    - **Community** - Discord stats, next event countdown, links to Community
-   - **Top Players** - Ladder rankings (top 3), links to Statistics
+   - **Top Players** - Ladder rankings (top 3) with rank insignias, clan tags, podium colors for scores, links to Statistics
    - **Latest Videos** - YouTube thumbnails (3 latest), click-to-watch
    - **Getting Help** - FAQ categories, support links, links to FAQ section
 
@@ -101,12 +102,13 @@
    - **Shadows:** Multi-layer system (elevation + glow + highlight)
 
 **6. Updated Files**
-   - ✅ Created: `src/components/WidgetDashboard.vue` (218 lines)
-   - ✅ Created: `src/assets/styles/modules/components/widget-dashboard.css` (520 lines)
+   - ✅ Created: `src/components/WidgetDashboard.vue` (385 lines with leaderboard-matching player display)
+   - ✅ Created: `src/assets/styles/modules/components/widget-dashboard.css` (685 lines)
    - ✅ Modified: `src/views/Home.vue` (removed 65 lines carousel code, replaced hero section)
    - ✅ Modified: `src/assets/styles/base.css` (imported widget-dashboard.css)
    - ✅ Updated: `docs/design-system.md` (added Widget Dashboard patterns section)
    - ✅ Updated: `docs/changelog.md` (this entry)
+   - ✅ Deleted: `src/components/LivePlayersBadge.vue` (redundant with Live Servers widget)
 
 **Benefits:**
 
@@ -124,7 +126,8 @@
 
 **Data-Driven Design:**
 - ✅ **Live Server Data:** Shows actual server activity (not static marketing copy)
-- ✅ **Real Rankings:** Top 3 ladder players updated in real-time
+- ✅ **Real Rankings:** Top 3 ladder players with rank insignias, clan tags (orange), player names (white), podium-colored scores (gold/silver/bronze)
+- ✅ **Leaderboard Consistency:** Player display matches main leaderboard styling exactly (Courier New clan tags, Rajdhani player names, zero spacing between tag and name)
 - ✅ **Event Integration:** Next community event countdown
 - ✅ **Content Preview:** Latest 3 YouTube videos with thumbnails
 

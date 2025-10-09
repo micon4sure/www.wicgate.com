@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useEvents } from '../composables/useEvents';
 import { useYoutube } from '../composables/useYoutube';
+import RankInsignia from './RankInsignia.vue';
+import type { LadderEntry } from '../api-types';
 
 const router = useRouter();
 const store = useAppDataStore();
@@ -59,6 +61,14 @@ const nextEvent = computed(() => {
 // Navigation functions
 function goToSection(section: string) {
   router.push(`/${section}`);
+}
+
+// Format clan tag like leaderboard
+function formatClanTag(entry: LadderEntry): string {
+  if (entry.tagFormat && entry.shortName) {
+    return entry.tagFormat.replace('C', entry.shortName).replace('P', '');
+  }
+  return '';
 }
 </script>
 
@@ -178,9 +188,16 @@ function goToSection(section: string) {
                   v-for="(player, i) in topLadderPlayers"
                   :key="player.profileId"
                   class="ladder-item"
+                  :class="`rank-${i + 1}`"
                 >
-                  <span class="ladder-rank" :class="`rank-${i + 1}`">{{ i + 1 }}</span>
-                  <span class="ladder-name">{{ player.profileName }}</span>
+                  <span class="ladder-rank">{{ i + 1 }}</span>
+                  <div class="player-cell-content">
+                    <RankInsignia :rank="player.rank || 0" :size="20" />
+                    <span v-if="formatClanTag(player)" class="clan-tag">{{
+                      formatClanTag(player)
+                    }}</span>
+                    <span class="player-name">{{ player.profileName }}</span>
+                  </div>
                   <span class="ladder-score">{{ player.high }}</span>
                 </div>
               </div>
@@ -292,15 +309,79 @@ function goToSection(section: string) {
   cursor: pointer;
 }
 
-.ladder-rank.rank-1 {
-  color: var(--gold);
+/* Podium styling for rank numbers */
+.ladder-item.rank-1 .ladder-rank {
+  color: var(--medal-gold);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  font-size: 1.05rem;
 }
 
-.ladder-rank.rank-2 {
-  color: var(--silver);
+.ladder-item.rank-2 .ladder-rank {
+  color: var(--medal-silver);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  font-size: 1rem;
 }
 
-.ladder-rank.rank-3 {
-  color: var(--bronze);
+.ladder-item.rank-3 .ladder-rank {
+  color: var(--medal-bronze);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  font-size: 0.95rem;
+}
+
+/* Podium styling for scores - matches leaderboard */
+.ladder-item.rank-1 .ladder-score {
+  color: var(--medal-gold);
+  font-weight: 600;
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.ladder-item.rank-2 .ladder-score {
+  color: var(--medal-silver);
+  font-weight: 600;
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.ladder-item.rank-3 .ladder-score {
+  color: var(--medal-bronze);
+  font-weight: 600;
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* Player cell content - matches leaderboard layout */
+.player-cell-content {
+  display: flex;
+  align-items: center;
+  /* NO gap property - matches leaderboard */
+  flex: 1;
+  overflow: hidden;
+  line-height: 1;
+}
+
+.player-cell-content .rank-insignia {
+  flex-shrink: 0;
+  margin: 0 6px 0 0; /* Only rank insignia gets right margin */
+}
+
+.clan-tag {
+  font-family: 'Courier New', monospace;
+  color: var(--sw);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+.player-name {
+  font-family: 'Rajdhani', sans-serif;
+  color: var(--t);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
