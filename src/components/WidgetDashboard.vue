@@ -4,22 +4,20 @@ import { useRouter } from 'vue-router';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useEvents } from '../composables/useEvents';
 import { useYoutube } from '../composables/useYoutube';
+import { useServerCapacity } from '../composables/useServerCapacity';
+import { usePlayerDisplay } from '../composables/usePlayerDisplay';
 import RankInsignia from './RankInsignia.vue';
 import type { LadderEntry } from '../api-types';
 import { getRoutePath } from '../types/navigation';
-import { colorize } from '../utils/playerDisplay';
 
 const router = useRouter();
 const store = useAppDataStore();
 const { playerCount, loading: storeLoading, data } = store;
 
-// Get capacity color based on fill percentage (matches Multiplayer section)
-function getCapacityColor(count: number, max: number = 16): string {
-  const pct = (count / max) * 100;
-  if (pct >= 90) return 'var(--dl-light)'; // Red - nearly full
-  if (pct >= 50) return 'var(--sw)'; // Orange - half full
-  return 'var(--g)'; // Green - plenty of space
-}
+// Utility composables
+const { getCapacityColor } = useServerCapacity();
+const { colorize } = usePlayerDisplay();
+
 const { events } = useEvents();
 const { videosSorted } = useYoutube();
 

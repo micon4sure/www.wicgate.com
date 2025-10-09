@@ -3,6 +3,11 @@
  * Handles private browsing mode, storage quota exceeded, and other edge cases
  */
 
+import { STORAGE_KEYS } from '../constants';
+
+// Type for valid storage keys
+type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
+
 /**
  * Safely get an item from localStorage
  * @param key - The storage key
@@ -76,4 +81,109 @@ export function isStorageAvailable(): boolean {
   } catch {
     return false;
   }
+}
+
+// ============================================================================
+// Typed Storage Helpers
+// ============================================================================
+
+/**
+ * Get a boolean value from localStorage with type safety
+ * @param key - Storage key (must be from STORAGE_KEYS)
+ * @param defaultValue - Default boolean value
+ * @returns Boolean value from storage or default
+ *
+ * @example
+ * ```typescript
+ * const isExpanded = getBoolean(STORAGE_KEYS.ADVANCED_SETUP_EXPANDED, false);
+ * ```
+ */
+export function getBoolean(key: StorageKey, defaultValue: boolean): boolean {
+  const value = getItem(key);
+  if (value === null) return defaultValue;
+  return value === '1' || value === 'true';
+}
+
+/**
+ * Set a boolean value in localStorage with type safety
+ * @param key - Storage key (must be from STORAGE_KEYS)
+ * @param value - Boolean value to store
+ * @returns True if successful
+ *
+ * @example
+ * ```typescript
+ * setBoolean(STORAGE_KEYS.ADVANCED_SETUP_EXPANDED, true);
+ * ```
+ */
+export function setBoolean(key: StorageKey, value: boolean): boolean {
+  return setItem(key, value ? '1' : '0');
+}
+
+/**
+ * Get a number value from localStorage with type safety
+ * @param key - Storage key (must be from STORAGE_KEYS)
+ * @param defaultValue - Default number value
+ * @returns Number value from storage or default
+ */
+export function getNumber(key: StorageKey, defaultValue: number): number {
+  const value = getItem(key);
+  if (value === null) return defaultValue;
+  const parsed = Number(value);
+  return isNaN(parsed) ? defaultValue : parsed;
+}
+
+/**
+ * Set a number value in localStorage with type safety
+ * @param key - Storage key (must be from STORAGE_KEYS)
+ * @param value - Number value to store
+ * @returns True if successful
+ */
+export function setNumber(key: StorageKey, value: number): boolean {
+  return setItem(key, String(value));
+}
+
+/**
+ * Get a JSON object from localStorage with type safety
+ * @param key - Storage key (must be from STORAGE_KEYS)
+ * @param defaultValue - Default object value
+ * @returns Parsed object from storage or default
+ */
+export function getJSON<T>(key: StorageKey, defaultValue: T): T {
+  const value = getItem(key);
+  if (value === null) return defaultValue;
+
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    if (import.meta.env.DEV) {
+      console.warn(`[Storage] Failed to parse JSON for key '${key}'`);
+    }
+    return defaultValue;
+  }
+}
+
+/**
+ * Set a JSON object in localStorage with type safety
+ * @param key - Storage key (must be from STORAGE_KEYS)
+ * @param value - Object value to store
+ * @returns True if successful
+ */
+export function setJSON<T>(key: StorageKey, value: T): boolean {
+  try {
+    return setItem(key, JSON.stringify(value));
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.warn(`[Storage] Failed to stringify value for key '${key}':`, error);
+    }
+    return false;
+  }
+}
+
+/**
+ * Type-safe remove function that only accepts valid storage keys
+ * @param key - Storage key (must be from STORAGE_KEYS)
+ * @returns True if successful
+ */
+export function removeTyped(key: StorageKey): boolean {
+  return removeItem(key);
 }

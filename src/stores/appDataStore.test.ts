@@ -120,10 +120,38 @@ describe('appDataStore', () => {
 
       // Mock failure for all retry attempts (4 total: initial + 3 retries)
       mockFetch
-        .mockResolvedValueOnce({ ok: false, statusText: 'Internal Server Error' })
-        .mockResolvedValueOnce({ ok: false, statusText: 'Internal Server Error' })
-        .mockResolvedValueOnce({ ok: false, statusText: 'Internal Server Error' })
-        .mockResolvedValueOnce({ ok: false, statusText: 'Internal Server Error' });
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 500,
+          statusText: 'Internal Server Error',
+          headers: { get: () => null },
+          json: async () => ({}),
+          text: async () => 'Internal Server Error',
+        })
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 500,
+          statusText: 'Internal Server Error',
+          headers: { get: () => null },
+          json: async () => ({}),
+          text: async () => 'Internal Server Error',
+        })
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 500,
+          statusText: 'Internal Server Error',
+          headers: { get: () => null },
+          json: async () => ({}),
+          text: async () => 'Internal Server Error',
+        })
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 500,
+          statusText: 'Internal Server Error',
+          headers: { get: () => null },
+          json: async () => ({}),
+          text: async () => 'Internal Server Error',
+        });
 
       const fetchPromise = store.fetchData();
 
@@ -134,7 +162,8 @@ describe('appDataStore', () => {
 
       await fetchPromise;
 
-      expect(store.error.value).toBe('Internal Server Error');
+      // Error format changed with typed errors: "API Error (500): Internal Server Error"
+      expect(store.error.value).toContain('Internal Server Error');
       expect(store.loading.value).toBe(false);
       expect(mockFetch).toHaveBeenCalledTimes(4); // Initial + 3 retries
 

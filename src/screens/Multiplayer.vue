@@ -3,7 +3,8 @@ import { computed } from 'vue';
 import Leaderboards from '../components/Leaderboards.vue';
 import LeaderboardSkeleton from '../components/skeletons/LeaderboardSkeleton.vue';
 import type { DataResponse } from '../api-types';
-import { colorize, parseClanTag, groupPlayersByServer } from '../utils/playerDisplay';
+import { useServerCapacity } from '../composables/useServerCapacity';
+import { usePlayerDisplay } from '../composables/usePlayerDisplay';
 
 const props = defineProps<{
   data: Partial<DataResponse>;
@@ -37,13 +38,9 @@ const activeServerCount = computed(
   () => serverGroups.value.filter((g) => g.players.length > 0).length
 );
 
-// Get capacity color based on fill percentage
-function getCapacityColor(count: number, max: number = 16): string {
-  const pct = (count / max) * 100;
-  if (pct >= 90) return 'var(--dl-light)'; // Red
-  if (pct >= 50) return 'var(--sw)'; // Orange
-  return 'var(--g)'; // Green
-}
+// Utility composables
+const { getCapacityColor } = useServerCapacity();
+const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
 </script>
 <template>
   <section id="multiplayer" class="section">

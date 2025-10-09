@@ -2,6 +2,7 @@ import { ref, computed } from 'vue';
 import type { DataResponse } from '../api-types';
 import { AnalyticsEvents } from '../utils/analytics';
 import { API_POLLING_INTERVAL, API_RETRY_DELAYS, MAX_API_RETRIES } from '../constants';
+import { isApiError, getErrorMessage, apiErrorFromResponse } from '../types/errors';
 
 const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 
@@ -25,7 +26,10 @@ let visibilityChangeHandler: (() => void) | undefined;
 async function fetchDataWithRetry(retryCount = 0): Promise<void> {
   try {
     const r = await fetch(`${API}/data`, { cache: 'no-store' });
-    if (!r.ok) throw new Error(r.statusText);
+    if (!r.ok) {
+      // Create typed API error with response context
+      throw await apiErrorFromResponse(r, '/api/data');
+    }
     const json: DataResponse = await r.json();
     data.value = json;
     lastFetchedAt.value = Date.now();
@@ -41,7 +45,7 @@ async function fetchDataWithRetry(retryCount = 0): Promise<void> {
     if (!intervalId && isInitialized.value && typeof window !== 'undefined') {
       intervalId = window.setInterval(fetchData, API_POLLING_INTERVAL);
     }
-  } catch (e: any) {
+  } catch (e: unknown) {
     // If we haven't exhausted retries, try again
     if (retryCount < MAX_API_RETRIES) {
       const delay = API_RETRY_DELAYS[retryCount] || 4000;
@@ -53,9 +57,16 @@ async function fetchDataWithRetry(retryCount = 0): Promise<void> {
     }
 
     // All retries exhausted - stop polling until manually recovered
-    error.value = e?.message || 'Failed to load';
+    // Use typed error handling to extract user-friendly message
+    error.value = getErrorMessage(e);
     isOnline.value = false;
-    AnalyticsEvents.apiError('/api/data');
+
+    // Log error with context for analytics
+    if (isApiError(e)) {
+      AnalyticsEvents.apiError(`/api/data (${e.statusCode || 'unknown'})`);
+    } else {
+      AnalyticsEvents.apiError('/api/data');
+    }
 
     // Stop polling when offline to prevent unnecessary requests
     if (intervalId) {
