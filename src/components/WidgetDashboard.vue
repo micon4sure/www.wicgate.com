@@ -12,6 +12,14 @@ import { colorize } from '../utils/playerDisplay';
 const router = useRouter();
 const store = useAppDataStore();
 const { playerCount, loading: storeLoading, data } = store;
+
+// Get capacity color based on fill percentage (matches Multiplayer section)
+function getCapacityColor(count: number, max: number = 16): string {
+  const pct = (count / max) * 100;
+  if (pct >= 90) return 'var(--dl-light)'; // Red - nearly full
+  if (pct >= 50) return 'var(--sw)'; // Orange - half full
+  return 'var(--g)'; // Green - plenty of space
+}
 const { events } = useEvents();
 const { videosSorted } = useYoutube();
 
@@ -138,7 +146,9 @@ function formatClanTag(entry: LadderEntry): string {
                 <div v-for="server in activeServers" :key="server.id" class="server-item">
                   <span class="server-dot"></span>
                   <span class="server-name" v-html="colorize(server.name)"></span>
-                  <span class="server-count">{{ server.count }}/16</span>
+                  <span class="server-count" :style="{ color: getCapacityColor(server.count) }"
+                    >{{ server.count }}/16</span
+                  >
                 </div>
               </div>
               <div v-else class="widget-empty">No active servers</div>

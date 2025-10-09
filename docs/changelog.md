@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎨 **Live Servers Widget Color Enhancement** - Added dynamic player count colors (green < 50%, orange 50-89%, red ≥ 90%) matching Multiplayer section (Oct 9)
 - 🎨 **Quick Start Widget Enhancement** - Added download icon and "Install WICGATE" CTA (reused from removed homepage button) for clearer action (Oct 9)
 - 🌈 **Server Name Color Rendering** - Fixed Live Servers widget to properly render WiC in-game color codes, matching Multiplayer section display (Oct 9)
 - 🔗 **Discord Navigation Integration** - Moved Discord from homepage CTA to navigation bar (icon-only on desktop, full link in mobile menu), removed redundant homepage buttons (Oct 9)
