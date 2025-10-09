@@ -86,6 +86,49 @@ header {
   align-items: center;
   height: 100%;
   margin-left: 20px;
+  flex: 1;
+}
+
+/* Discord Social Button - Desktop */
+.discord-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  margin-right: 12px;
+  background: linear-gradient(180deg, rgba(88, 101, 242, 0.15) 0%, rgba(88, 101, 242, 0.08) 100%);
+  border: 1px solid rgba(88, 101, 242, 0.3);
+  border-radius: 0;
+  color: rgb(88, 101, 242);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .discord-nav-btn:hover {
+    background: linear-gradient(180deg, rgba(88, 101, 242, 0.95) 0%, rgba(88, 101, 242, 0.8) 100%);
+    border-color: rgba(88, 101, 242, 0.9);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 24px rgba(88, 101, 242, 0.4),
+      0 0 36px rgba(88, 101, 242, 0.3);
+  }
+}
+
+.discord-nav-btn:active {
+  transform: translateY(0);
+  box-shadow:
+    0 4px 16px rgba(88, 101, 242, 0.35),
+    0 0 24px rgba(88, 101, 242, 0.25);
+}
+
+.discord-nav-btn svg {
+  width: 24px;
+  height: 24px;
 }
 
 /* Modern rectangular navigation tabs - Desktop */
@@ -546,6 +589,41 @@ header {
   opacity: 1;
 }
 
+/* Mobile Discord Link */
+.mobile-discord-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 20px 32px;
+  min-height: 70px;
+  color: rgb(88, 101, 242);
+  text-decoration: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, rgba(88, 101, 242, 0.15) 0%, rgba(88, 101, 242, 0.05) 100%);
+  border-top: 1px solid rgba(88, 101, 242, 0.3);
+  border-bottom: 1px solid rgba(88, 101, 242, 0.3);
+  margin-top: auto;
+  transition: all 0.3s ease;
+}
+
+.mobile-discord-link:hover {
+  background: linear-gradient(90deg, rgba(88, 101, 242, 0.9) 0%, rgba(88, 101, 242, 0.7) 50%, rgba(88, 101, 242, 0.3) 100%);
+  color: #fff;
+  padding-left: 40px;
+  border-color: rgba(88, 101, 242, 0.8);
+}
+
+.mobile-discord-link svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
 /* Enhanced hamburger menu button */
 .mob-menu {
   display: none;
@@ -623,8 +701,12 @@ header {
     letter-spacing: 1px;
   }
 
-  /* Hide desktop navigation, show mobile hamburger */
+  /* Hide desktop navigation and Discord button, show mobile hamburger */
   .desktop-nav {
+    display: none;
+  }
+
+  .discord-nav-btn {
     display: none;
   }
 

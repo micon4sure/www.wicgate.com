@@ -2,6 +2,9 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎨 **Quick Start Widget Enhancement** - Added download icon and "Install WICGATE" CTA (reused from removed homepage button) for clearer action (Oct 9)
+- 🌈 **Server Name Color Rendering** - Fixed Live Servers widget to properly render WiC in-game color codes, matching Multiplayer section display (Oct 9)
+- 🔗 **Discord Navigation Integration** - Moved Discord from homepage CTA to navigation bar (icon-only on desktop, full link in mobile menu), removed redundant homepage buttons (Oct 9)
 - 🔄 **Navigation System: Path-Based Nested Routes** - Refactored from hash-based to nested routes (27 pre-rendered routes), unique SEO meta tags per subsection, 80% code reduction (Oct 9)
 - 🎨 **Widget Dashboard Styling Improvements** - Top Players widget now matches leaderboard styling: rank insignias, clan tags (orange), player names (white), podium colors for scores (Oct 9)
 - 🎨 **Homepage Redesign: Widget Dashboard** - Replaced hero carousel with function-geared widget grid, integrated player count into Live Servers widget (Oct 9)
