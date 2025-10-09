@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick, computed, watch } from 'vue';
+import { onMounted, onBeforeUnmount, nextTick, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useHead } from '@vueuse/head';
 import Navigation from '../components/Navigation.vue';
@@ -13,31 +13,30 @@ import FAQ from '../screens/FAQ.vue';
 import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useFirstVisit } from '../composables/useFirstVisit';
+import { useActiveSection } from '../composables/useActiveSection';
 import { getHeaderHeightWithBuffer, scrollToSection as scrollToSectionUtil } from '../utils/scroll';
 import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/structuredData';
 import { initWebVitals } from '../utils/performance';
 import { rafThrottle } from '../utils/rafThrottle';
-import { SCROLL_SMOOTH_DURATION, SCROLL_FAST_SETTLE, SCROLL_TOP_DURATION } from '../constants';
 import { getAllValidIds, getSectionFromSubsection, isSubsection } from '../types/navigation';
 
 const store = useAppDataStore();
 const { data, loading } = store;
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
+const {
+  currentSection,
+  isFastScrolling,
+  isProgrammaticScrolling,
+  setCurrentSection,
+  startProgrammaticScroll,
+  cleanup: cleanupActiveSection,
+} = useActiveSection();
+
 const route = useRoute();
-const currentSection = ref<string | undefined>();
 // Get all valid IDs including subsections for scroll tracking
 const ALL_VALID_IDS = getAllValidIds();
 let sectionElements: HTMLElement[] = [];
 let scrollListenerAttached = false;
-
-// Fast scroll detection for smooth navigation animations
-const isFastScrolling = ref(false);
-let lastSectionChangeTime = 0;
-let fastScrollTimeout: number | undefined;
-
-// Programmatic scroll detection to prevent listener interference
-const isProgrammaticScrolling = ref(false);
-let programmaticScrollTimeout: number | undefined;
 
 // SSG conditional rendering
 const isSSR = import.meta.env.SSR;
@@ -140,35 +139,8 @@ useHead({
   ],
 });
 
-function setCurrentSection(id?: string | null) {
-  const normalized = id && id !== 'hero' ? id : undefined;
-  if (currentSection.value !== normalized) {
-    // Detect fast scrolling (section changes within 150ms)
-    const now = Date.now();
-    const timeSinceLastChange = now - lastSectionChangeTime;
-
-    if (timeSinceLastChange < 150 && lastSectionChangeTime > 0) {
-      // Fast scrolling detected - disable transitions
-      isFastScrolling.value = true;
-
-      // Clear any existing timeout
-      if (fastScrollTimeout) {
-        clearTimeout(fastScrollTimeout);
-      }
-
-      // Re-enable transitions after scrolling settles
-      fastScrollTimeout = setTimeout(() => {
-        isFastScrolling.value = false;
-      }, SCROLL_FAST_SETTLE) as unknown as number;
-    }
-
-    lastSectionChangeTime = now;
-    currentSection.value = normalized;
-  }
-}
-
+// setCurrentSection is now provided by useActiveSection composable
 // Dynamic header measurement imported from utils/scroll.ts
-// (Removed duplicate code - now using shared utility)
 
 function collectSectionElements() {
   // Collect both main sections and subsections for precise scroll tracking
@@ -256,15 +228,8 @@ onBeforeUnmount(() => {
     scrollListenerAttached = false;
   }
 
-  // Clear all timeouts to prevent memory leaks
-  if (fastScrollTimeout !== undefined) {
-    clearTimeout(fastScrollTimeout);
-    fastScrollTimeout = undefined;
-  }
-  if (programmaticScrollTimeout !== undefined) {
-    clearTimeout(programmaticScrollTimeout);
-    programmaticScrollTimeout = undefined;
-  }
+  // Clean up active section composable (handles all timeouts)
+  cleanupActiveSection();
 });
 
 // First visit overlay handlers
@@ -294,16 +259,8 @@ function handleNavNavigate(sectionOrSubsection?: string) {
 
   setCurrentSection(parentSection);
 
-  // Set flag for programmatic scroll on every nav click
-  // This handles both route changes AND same-route clicks (e.g., click FAQ while already on /faq)
-  isProgrammaticScrolling.value = true;
-
-  if (programmaticScrollTimeout) {
-    clearTimeout(programmaticScrollTimeout);
-  }
-  programmaticScrollTimeout = setTimeout(() => {
-    isProgrammaticScrolling.value = false;
-  }, SCROLL_SMOOTH_DURATION) as unknown as number;
+  // Start programmatic scroll mode (disables listener temporarily)
+  startProgrammaticScroll();
 }
 
 // Scroll to section when route changes (wraps utility for nextTick)
@@ -327,48 +284,25 @@ watch(
       // Subsection route - scroll to subsection
       setCurrentSection(section);
 
-      // Disable scroll listener during programmatic scroll
-      isProgrammaticScrolling.value = true;
+      // Start programmatic scroll mode
+      startProgrammaticScroll();
 
       // Scroll to subsection
       scrollToSection(subsection);
-
-      // Re-enable scroll listener after smooth scroll completes
-      if (programmaticScrollTimeout) {
-        clearTimeout(programmaticScrollTimeout);
-      }
-      programmaticScrollTimeout = setTimeout(() => {
-        isProgrammaticScrolling.value = false;
-      }, SCROLL_SMOOTH_DURATION) as unknown as number;
     } else if (section) {
       // Main section route - scroll to section
       setCurrentSection(section);
 
-      // Disable scroll listener during programmatic scroll
-      isProgrammaticScrolling.value = true;
+      // Start programmatic scroll mode
+      startProgrammaticScroll();
 
       // Scroll to section
       scrollToSection(section);
-
-      // Re-enable scroll listener after smooth scroll completes
-      if (programmaticScrollTimeout) {
-        clearTimeout(programmaticScrollTimeout);
-      }
-      programmaticScrollTimeout = setTimeout(() => {
-        isProgrammaticScrolling.value = false;
-      }, SCROLL_SMOOTH_DURATION) as unknown as number;
     } else {
       // Homepage - scroll to top
       setCurrentSection(undefined);
-      isProgrammaticScrolling.value = true;
+      startProgrammaticScroll(1000); // Use 1000ms for scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      if (programmaticScrollTimeout) {
-        clearTimeout(programmaticScrollTimeout);
-      }
-      programmaticScrollTimeout = setTimeout(() => {
-        isProgrammaticScrolling.value = false;
-      }, SCROLL_TOP_DURATION) as unknown as number;
     }
   }
 );
