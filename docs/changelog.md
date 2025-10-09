@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎨 **Homepage Redesign: Widget Dashboard** - Replaced hero carousel with function-geared widget grid, integrated player count into Live Servers widget (Oct 9)
 - 🐛 **90-Second Refresh Bug Fix** - Fixed LivePlayersBadge and Multiplayer section flashing/crashing every 90 seconds during polling (Oct 8)
 - 🔧 **Hash Navigation Fix** - Replaced hash-based URLs with path-based routes in hero section for SSG compatibility (Oct 8)
 - 📖 **GUIDE.md Update** - Added path-based navigation pattern to prevent future hash navigation bugs (Oct 8)
@@ -45,6 +46,115 @@
 - 🎯 **Players Button Redesign** - 52px pill-shaped, mobile-optimized
 - 🔗 **Advanced Setup UX** - Professional hyperlinks for file downloads
 - 👤 **Content Creator Redesign** - Ultra-compact badges (37% size reduction)
+
+---
+
+## October 2025
+
+### 🎨 Homepage Redesign: Widget Dashboard (Function-Geared)
+
+**Status:** Complete (October 9, 2025)
+
+**Summary:** Complete redesign of the homepage hero section, replacing the feature carousel with a modern widget-based dashboard. Follows industry best practices from GitHub, Vercel, and Notion for function-first design.
+
+**Problem Statement:**
+- **Old Design:** Passive 5-slide carousel showcasing game features
+- **Issues:**
+  - Users had to wait/click through slides to discover site functions
+  - No direct access to key actions from homepage
+  - Carousel interaction pattern is outdated (pre-2020)
+  - Low engagement on hero section (passive consumption vs active exploration)
+
+**Solution Implemented:**
+
+**1. Widget Dashboard Component**
+   - **File:** [src/components/WidgetDashboard.vue](../src/components/WidgetDashboard.vue)
+   - **CSS Module:** [src/assets/styles/modules/components/widget-dashboard.css](../src/assets/styles/modules/components/widget-dashboard.css)
+   - **Architecture:** 6-widget grid with responsive breakpoints (3 cols → 2 cols → 1 col)
+
+**2. Widget Types (All Functional)**
+   - **Quick Start** - Primary CTA with live player count, links to Getting Started
+   - **Live Servers** - Real-time server list (top 3), player counts, links to Multiplayer
+   - **Community** - Discord stats, next event countdown, links to Community
+   - **Top Players** - Ladder rankings (top 3), links to Statistics
+   - **Latest Videos** - YouTube thumbnails (3 latest), click-to-watch
+   - **Getting Help** - FAQ categories, support links, links to FAQ section
+
+**3. Technical Implementation**
+   - **Data Integration:** Leverages existing API composables (`useAppDataStore`, `useEvents`, `useYoutube`)
+   - **SSR-Safe:** Skeleton loaders during hydration, no layout shifts
+   - **Responsive:** 7 breakpoint cascade (1200px, 1100px, 1000px, 900px, 850px, 768px, 480px)
+   - **Performance:** Zero new API calls, reuses existing data fetching infrastructure
+   - **Accessibility:** Semantic HTML, ARIA labels, keyboard navigation
+
+**4. Removed Components**
+   - Hero carousel (5 slides, swipe handlers, auto-rotate interval)
+   - Slide navigation arrows and indicators
+   - Touch/swipe gesture handlers
+   - 60+ lines of carousel state management code
+
+**5. Design System Integration**
+   - **Military Aesthetic:** Maintained steel/graphite panels, orange accents
+   - **Design Tokens:** 100% token-based (`var(--sw)`, `var(--mg)`, etc.)
+   - **Hover Pattern:** Standard orange gradient with lift effect (`translateY(-4px)`)
+   - **Typography:** Oswald headings, Rajdhani body text
+   - **Shadows:** Multi-layer system (elevation + glow + highlight)
+
+**6. Updated Files**
+   - ✅ Created: `src/components/WidgetDashboard.vue` (218 lines)
+   - ✅ Created: `src/assets/styles/modules/components/widget-dashboard.css` (520 lines)
+   - ✅ Modified: `src/views/Home.vue` (removed 65 lines carousel code, replaced hero section)
+   - ✅ Modified: `src/assets/styles/base.css` (imported widget-dashboard.css)
+   - ✅ Updated: `docs/design-system.md` (added Widget Dashboard patterns section)
+   - ✅ Updated: `docs/changelog.md` (this entry)
+
+**Benefits:**
+
+**UX Improvements:**
+- ✅ **Faster Task Completion:** Direct access to all site functions from homepage
+- ✅ **Better Information Architecture:** Glanceable overview of all key data
+- ✅ **Modern UX Pattern:** Follows 2024+ industry standards (GitHub dashboard, Vercel projects)
+- ✅ **Higher Engagement:** Interactive widgets vs passive carousel
+
+**Technical Benefits:**
+- ✅ **Code Reduction:** -65 lines carousel logic, cleaner component tree
+- ✅ **Performance:** No auto-rotate intervals, fewer event listeners
+- ✅ **Maintainability:** Modular widget structure, easier to extend
+- ✅ **SEO:** Same SSG pre-rendering, structured data preserved
+
+**Data-Driven Design:**
+- ✅ **Live Server Data:** Shows actual server activity (not static marketing copy)
+- ✅ **Real Rankings:** Top 3 ladder players updated in real-time
+- ✅ **Event Integration:** Next community event countdown
+- ✅ **Content Preview:** Latest 3 YouTube videos with thumbnails
+
+**Testing:**
+- ✅ All 26 tests passing (`bun run test`)
+- ✅ SSG build successful (6 pages pre-rendered)
+- ✅ No hydration mismatches
+- ✅ Responsive breakpoints verified (1200px → 480px)
+
+**Industry Alignment:**
+- **GitHub Dashboard:** Card-based quick access to repos, activity, projects
+- **Vercel Dashboard:** Project widgets with deployment status, analytics
+- **Notion Homepage:** Block-based customizable workspace
+- **Steam Library:** Game cards with play buttons, stats, news
+
+**Before/After Comparison:**
+| Aspect | Before (Carousel) | After (Widgets) |
+|--------|------------------|-----------------|
+| **Primary Action** | Watch slides rotate | Click any widget |
+| **Time to Info** | Wait for slide | Instant (all visible) |
+| **Interactivity** | 2 arrows + dots | 6 clickable widgets |
+| **Data Shown** | 0 live data | 4 real-time sources |
+| **Mobile UX** | Swipe gestures | Vertical scroll |
+| **Discovery** | Sequential | Parallel |
+
+**Future Enhancement Potential:**
+- Widget reordering/customization (user preferences)
+- Additional widgets (patch notes, tournament bracket)
+- Widget-specific animations on data updates
+- Personalized content (recent matches, friends online)
 
 ---
 

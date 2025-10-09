@@ -11,7 +11,7 @@
 
 /* Component modules */
 @import './modules/components/navigation.css';
-@import './modules/components/hero.css';
+@import './modules/components/widget-dashboard.css';
 @import './modules/components/leaderboards.css';
 @import './modules/components/getting-started.css';
 @import './modules/components/community.css';

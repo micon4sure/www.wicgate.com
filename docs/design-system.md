@@ -163,6 +163,112 @@ Typography automatically scales down on mobile breakpoints. See [typography.css]
 
 ## Component Patterns
 
+### Widget Dashboard (Homepage)
+
+**File:** [src/components/WidgetDashboard.vue](../src/components/WidgetDashboard.vue)
+**CSS Module:** [src/assets/styles/modules/components/widget-dashboard.css](../src/assets/styles/modules/components/widget-dashboard.css)
+
+**Design Philosophy:** Function-geared dashboard following industry best practices (GitHub, Vercel, Notion). Provides quick access to all key site functions through interactive widget cards.
+
+#### Widget Grid Layout
+
+```css
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* 3 columns desktop */
+  gap: 24px;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1100px) {
+  .widget-grid {
+    grid-template-columns: repeat(2, 1fr);  /* 2 columns tablet */
+  }
+}
+
+@media (max-width: 768px) {
+  .widget-grid {
+    grid-template-columns: 1fr;  /* 1 column mobile */
+  }
+}
+```
+
+#### Widget Card Pattern
+
+```css
+.widget {
+  background: linear-gradient(180deg,
+    rgba(var(--panel-main-rgb), 0.96) 0%,
+    rgba(var(--panel-dark-rgb), 0.98) 100%);
+  border: 1px solid var(--divider-strong);
+  box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+}
+
+.widget:hover {
+  border-color: rgba(var(--sw-rgb), 0.75);
+  box-shadow: 0 0 30px rgba(var(--sw-rgb), 0.32);
+  transform: translateY(-4px);
+}
+```
+
+#### Widget Types
+
+**1. Primary Widget (Quick Start)**
+- Enhanced visual prominence with orange gradient background
+- Includes live player count badge
+- Primary CTA for new users
+
+**2. Data Widgets (Live Servers, Statistics)**
+- Real-time API data integration
+- Skeleton loaders for SSR compatibility
+- Top 3 list patterns for glanceable information
+
+**3. Community Widgets**
+- Platform-specific icon styling (Discord, YouTube)
+- Event countdown integration
+- Social engagement metrics
+
+**4. Content Widgets (Latest Videos, Help)**
+- Thumbnail previews with text clipping
+- Icon-based navigation lists
+- Click-to-action patterns
+
+#### Widget Structure
+
+```html
+<div class="widget">
+  <!-- Header: Icon + Title -->
+  <div class="widget-header">
+    <div class="widget-icon">
+      <i class="fa-solid fa-icon"></i>
+    </div>
+    <h3>Widget Title</h3>
+  </div>
+
+  <!-- Body: Main Content -->
+  <div class="widget-body">
+    <!-- Stats, lists, or content -->
+  </div>
+
+  <!-- Footer: Action Link -->
+  <div class="widget-footer">
+    <span class="widget-action">
+      View More <i class="fa-solid fa-arrow-right"></i>
+    </span>
+  </div>
+</div>
+```
+
+**Key Features:**
+- **Flexible height:** `min-height` ensures consistency, `flex: 1` for body adapts to content
+- **Interactive footers:** Arrow icons slide right on hover
+- **Responsive scaling:** Widget heights, padding, and font sizes adapt across 7 breakpoints
+- **SSR-safe:** Skeleton loaders prevent layout shift during API loading
+- **Accessibility:** All widgets are clickable with proper ARIA labels
+
 ### Interactive Element Standards
 
 **Universal Hover Pattern:**
