@@ -28,6 +28,8 @@ npm run build        # Production build (SSG + PWA)
 4. ❌ NEVER use Pinia (this project uses composable modules)
 5. ❌ NEVER commit CRLF line endings (LF only)
 6. ❌ NEVER use `bun test` → ✅ ALWAYS use `bun run test`
+7. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
+8. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, etc.)
 
 ---
 
@@ -39,6 +41,7 @@ npm run build        # Production build (SSG + PWA)
 - New features → Update [docs/changelog.md](docs/changelog.md)
 - API changes → Update [docs/api.md](docs/api.md)
 - Testing changes → Update [docs/testing.md](docs/testing.md)
+- Common issues → Update [docs/troubleshooting.md](docs/troubleshooting.md)
 - Preference changes → Update THIS file only
 
 ---
@@ -55,4 +58,4 @@ npm run build        # Production build (SSG + PWA)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, Composable Modules, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** October 2, 2025
+**Updated:** October 10, 2025

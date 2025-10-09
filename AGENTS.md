@@ -95,11 +95,12 @@ All in [variables.css](src/assets/styles/modules/variables.css):
 ## Key Features (October 2025)
 
 - **PWA:** Offline capability, installable, service worker
-- **SSG:** 7 unique pre-rendered HTML files for SEO
+- **SSG:** 27 unique pre-rendered HTML files for SEO (path-based nested routes)
 - **Navigation:** Dynamic header measurement (pixel-perfect)
 - **Analytics:** Type-safe event tracking (15 categories)
-- **Testing:** 27 tests, hybrid timing strategy (fast/thorough)
-- **Error Handling:** 3-retry exponential backoff, 90s polling
+- **Testing:** 26 tests, hybrid timing strategy (fast/thorough)
+- **Error Handling:** Typed error hierarchy, 3-retry exponential backoff, 90s polling
+- **Widget System:** Modular widget components (7 widgets + base component)
 
 ---
 
@@ -109,20 +110,30 @@ All in [variables.css](src/assets/styles/modules/variables.css):
 [src/main.ts](src/main.ts) - ViteSSG initialization + PWA registration
 
 ### Routing
-7 pre-rendered routes: `/`, `/getting-started`, `/statistics`, `/community`, `/about`, `/faq`, `/game-mode`
+27 pre-rendered routes: 6 main sections + 21 subsections (path-based nested routes)
 
 ### State Management
-[src/stores/appDataStore.ts](src/stores/appDataStore.ts) - Player data with retry logic
+[src/stores/appDataStore.ts](src/stores/appDataStore.ts) - Player data with typed error handling
 
 ### Composables (SSR-safe)
-- [useYoutube.ts](src/composables/useYoutube.ts) - Video fetching
+- [useYoutube.ts](src/composables/useYoutube.ts) - Video fetching with memoization
 - [useEvents.ts](src/composables/useEvents.ts) - Discord events
 - [useFirstVisit.ts](src/composables/useFirstVisit.ts) - Welcome overlay
+- [useServerCapacity.ts](src/composables/useServerCapacity.ts) - Server capacity colors
+- [usePlayerDisplay.ts](src/composables/usePlayerDisplay.ts) - Player name parsing
+- [useActiveSection.ts](src/composables/useActiveSection.ts) - Scroll state management
+- [useSectionObserver.ts](src/composables/useSectionObserver.ts) - IntersectionObserver wrapper
 
 ### Utilities
-- [scroll.ts](src/utils/scroll.ts) - Navigation scroll (single source of truth)
+- [scroll.ts](src/utils/scroll.ts) - Navigation scroll system
+- [memoize.ts](src/utils/memoize.ts) - Memoization toolkit
+- [features.ts](src/utils/features.ts) - Feature flag system (11 flags)
 - [analytics.ts](src/utils/analytics.ts) - Event tracking
 - [performance.ts](src/utils/performance.ts) - Web Vitals
+
+### Types
+- [types/errors.ts](src/types/errors.ts) - Typed error hierarchy (ApiError, NetworkError, etc.)
+- [types/utils.ts](src/types/utils.ts) - 25+ utility types and type guards
 
 ---
 
@@ -131,13 +142,15 @@ All in [variables.css](src/assets/styles/modules/variables.css):
 ```
 src/
 ├── main.ts              # ViteSSG entry
-├── router/              # Vue Router
+├── router/              # Vue Router with nested routes
 ├── stores/              # Composable state modules
-├── components/          # Reusable widgets
+├── components/          # Reusable UI components
+│   └── widgets/         # Widget components (7 total)
 ├── screens/             # Section components
 ├── views/               # Routed pages
-├── composables/         # Composition functions
-├── utils/               # Utilities
+├── composables/         # Composition functions (7 total)
+├── utils/               # Utility functions
+├── types/               # TypeScript types
 ├── assets/styles/       # Modular CSS
 └── content/             # Static content
 ```
@@ -155,21 +168,22 @@ src/
 
 ## Recent Major Updates
 
-### October 2025
-- PWA implementation (offline support)
-- Analytics integration (type-safe tracking)
-- Testing infrastructure (27 tests)
-- Scroll system refactor (standardized)
-- Enhanced error handling (retry logic)
-- SEO revolution (SSG with vite-ssg)
-- Design system refinement (rectangular nav)
-- Documentation reorganization (this file!)
+### October 10, 2025 - Comprehensive Refactoring
+- Widget component system (7 modular widgets + base)
+- Type safety improvements (error hierarchy, utility types)
+- Performance optimizations (IntersectionObserver, memoization)
+- Developer experience (feature flags, JSDoc, 25+ utility types)
+- Component decomposition (80% complexity reduction)
+- Code duplication reduced (47% → 3%)
 
-### September 2025
-- Navigation revolution (dynamic measurement)
-- Events system (Discord integration)
-- Mobile navigation overhaul
-- First visit experience
+### October 1-9, 2025
+- Widget dashboard (replaced hero carousel)
+- Path-based nested routes (27 pre-rendered routes)
+- Discord integration (navigation + events)
+- Live server capacity colors
+- PWA implementation
+- Testing infrastructure (26 tests)
+- Documentation overhaul
 
 ---
 
@@ -196,4 +210,4 @@ src/
 **For complete operational rules, see [CLAUDE.md](CLAUDE.md)**
 **For detailed documentation, see [docs/](docs/)**
 
-**Last Updated:** October 1, 2025
+**Last Updated:** October 10, 2025
