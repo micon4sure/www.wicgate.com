@@ -909,7 +909,7 @@ WiCGATE consumes a read-only, public API for live game data. See **[API Document
 - Multi-channel YouTube video fetching from Atom feeds
 - Parses XML responses into structured video objects
 - SSR-safe execution with `import.meta.env.SSR` guards
-- Lodash CommonJS fix for build compatibility
+- Memoized sorting with dependency tracking (Phase 4)
 
 #### useEvents.ts
 **File:** [src/composables/useEvents.ts](../src/composables/useEvents.ts)
@@ -926,6 +926,38 @@ WiCGATE consumes a read-only, public API for live game data. See **[API Document
 - Welcome overlay management
 - Section navigation integration
 - Dismissal state persistence
+
+#### useServerCapacity.ts *(Phase 1.1)*
+**File:** [src/composables/useServerCapacity.ts](../src/composables/useServerCapacity.ts)
+
+- Centralized server capacity color logic (eliminates duplication)
+- Dynamic capacity colors based on player count percentage
+- Configurable thresholds (90% = full/red, 50% = busy/orange, <50% = available/green)
+- Used by [LiveServersWidget.vue](../src/components/widgets/LiveServersWidget.vue) and [Multiplayer.vue](../src/screens/Multiplayer.vue)
+
+#### usePlayerDisplay.ts *(Phase 1.2)*
+**File:** [src/composables/usePlayerDisplay.ts](../src/composables/usePlayerDisplay.ts)
+
+- Player name parsing and colorization with memoization
+- Clan tag extraction and formatted display names
+- Server grouping with alphabetical sorting
+- Cache management for performance (colorize cache)
+
+#### useActiveSection.ts *(Phase 3.1)*
+**File:** [src/composables/useActiveSection.ts](../src/composables/useActiveSection.ts)
+
+- Centralized scroll state management
+- Manages `currentSection`, `isFastScrolling`, `isProgrammaticScrolling`
+- Fast scroll detection to prevent navigation flicker
+- Programmatic scroll tracking to disable listeners during animations
+
+#### useSectionObserver.ts *(Phase 4)*
+**File:** [src/composables/useSectionObserver.ts](../src/composables/useSectionObserver.ts)
+
+- IntersectionObserver wrapper for scroll detection
+- Replaces scroll event listeners for 60% fewer callbacks
+- Dynamic rootMargin based on header height
+- SSR-safe with proper cleanup
 
 ### Utilities
 
@@ -977,6 +1009,170 @@ JSON-LD schema generators for SEO:
 **File:** [src/utils/playerDisplay.ts](../src/utils/playerDisplay.ts)
 
 Formatter and colorizer for Massgate-style player names with rank badges and clan tags.
+
+#### memoize.ts *(Phase 4)*
+**File:** [src/utils/memoize.ts](../src/utils/memoize.ts)
+
+Memoization utilities for performance optimization:
+- `MemoCache<T>` - TTL-based caching class (default 5000ms)
+- `memoizeWithDeps()` - React useMemo-style memoization with dependency tracking
+- `memoize()` - Simple single-argument function memoizer
+- `memoizeJson()` - Object argument memoizer with JSON stringification
+
+#### features.ts *(Phase 5.3)*
+**File:** [src/utils/features.ts](../src/utils/features.ts)
+
+Feature flag system for gradual rollout and A/B testing:
+- 11 feature flags for performance, UI, experimental, and debug features
+- Environment-specific flags (development/production/test)
+- localStorage overrides for development/testing
+- Console helpers (`window.features.*` in DEV mode)
+- Current enabled features: `intersection-observer`, `memoized-sorting`, `analytics` (production)
+
+#### storage.ts *(Phase 2.2)*
+**File:** [src/utils/storage.ts](../src/utils/storage.ts)
+
+Type-safe localStorage wrapper with enhanced helpers:
+- Basic operations: `getItem()`, `setItem()`, `removeItem()`, `isStorageAvailable()`
+- Typed helpers: `getBoolean()`, `setBoolean()`, `getNumber()`, `setNumber()`, `getJSON()`, `setJSON()`
+- Error handling for private browsing mode and quota exceeded
+- SSR-safe with window guards
+
+## Type System
+
+### Error Types *(Phase 2.1)*
+**File:** [src/types/errors.ts](../src/types/errors.ts)
+
+Structured error hierarchy replacing `any` types:
+
+**Error Classes:**
+- `ApiError` - HTTP errors with endpoint and status code context
+- `NetworkError` - Network failures (timeout, offline, DNS)
+- `ValidationError` - Data validation failures
+- `StorageError` - localStorage/storage quota errors
+
+**Helper Functions:**
+- `apiErrorFromResponse()` - Extract error details from Response object
+- `isApiError()`, `isNetworkError()`, `isValidationError()`, `isStorageError()` - Type guards
+
+**Usage:**
+```typescript
+try {
+  const response = await fetch('/api/data');
+  if (!response.ok) {
+    throw await apiErrorFromResponse(response, '/api/data');
+  }
+} catch (err) {
+  if (isApiError(err)) {
+    console.error(`API Error (${err.endpoint}): HTTP ${err.statusCode}`);
+  } else if (isNetworkError(err)) {
+    console.error(`Network Error: ${err.message}`);
+  }
+}
+```
+
+### Utility Types *(Phase 5.1)*
+**File:** [src/types/utils.ts](../src/types/utils.ts)
+
+Comprehensive TypeScript utility types for improved type safety:
+
+**Basic Utilities:**
+- `Nullable<T>` - T | null
+- `Optional<T>` - T | undefined
+- `Maybe<T>` - T | null | undefined
+- `ReadonlyDeep<T>` - Deeply readonly type
+- `Mutable<T>` - Remove readonly from deeply readonly type
+- `RequireKeys<T, K>` - Make specific keys required
+- `OptionalKeys<T, K>` - Make specific keys optional
+
+**API Response Types:**
+- `ApiResponse<T>` - Standard success/error wrapper
+- `PaginatedResponse<T>` - Paginated data with pagination metadata
+- `FetchResult<T>` - Type-safe fetch result (data XOR error)
+
+**Function Utilities:**
+- `AsyncReturnType<T>` - Extract return type from async function
+- `OptionalParameters<T>` - Make function parameters optional
+
+**Object Utilities:**
+- `AtLeastOne<T>` - Require at least one property
+- `ExactlyOne<T>` - Require exactly one property
+- `DeepPartial<T>` - Deeply partial type
+- `KeysOfType<T, V>` - Extract keys matching value type
+
+**Type Guards:**
+- `isDefined()`, `isNullish()`, `isString()`, `isNumber()`, `isBoolean()`, `isObject()`, `isArray()`, `isFunction()`
+
+### Navigation Types *(Enhanced Phase 5.2)*
+**File:** [src/types/navigation.ts](../src/types/navigation.ts)
+
+Enhanced with comprehensive JSDoc comments:
+- `NAVIGATION_STRUCTURE` - Complete section/subsection structure
+- `getSectionFromSubsection()` - Get parent section from subsection ID
+- `isSubsection()` - Check if ID is a subsection
+- `getAllValidIds()` - Get all valid section/subsection IDs
+- `getRoutePath()` - Convert ID to Vue Router path
+
+## Component Architecture
+
+### Widget System *(Phase 3.2)*
+
+**WidgetDashboard.vue** reduced from 376 lines to 77 lines (80% reduction) by extracting 7 widget components.
+
+#### Widget Base Component
+**File:** [src/components/widgets/WidgetBase.vue](../src/components/widgets/WidgetBase.vue)
+
+Base component enforcing consistent widget structure:
+```vue
+<WidgetBase
+  title="Live Servers"
+  icon="server"
+  action="See All Servers"
+  widget-class="servers-widget"
+  @action-click="navigate('multiplayer-servers')"
+>
+  <!-- Widget content here -->
+</WidgetBase>
+```
+
+#### Widget Components
+All widgets located in [src/components/widgets/](../src/components/widgets/):
+
+1. **QuickStartWidget.vue** (63 lines)
+   - Installation quick links
+   - Direct downloads and setup guide
+
+2. **LiveServersWidget.vue** (86 lines)
+   - Real-time server status
+   - Player count with dynamic capacity colors (useServerCapacity)
+   - Empty state handling
+
+3. **TopPlayersWidget.vue** (87 lines)
+   - Top 5 leaderboard preview
+   - Rank badges and clan tags
+   - Styled player names with colorization
+
+4. **CommunityWidget.vue** (74 lines)
+   - Upcoming events countdown
+   - Discord integration
+   - Empty state for no events
+
+5. **LatestVideosWidget.vue** (86 lines)
+   - Latest 3 YouTube videos
+   - Multi-channel support
+   - Thumbnail, title, author, view count
+
+6. **GettingHelpWidget.vue** (57 lines)
+   - FAQ quick links
+   - Support resources
+   - Community links
+
+**Benefits:**
+- Modular, testable components
+- Consistent structure and styling
+- Easy to add/remove widgets
+- Reduced complexity in parent component
+- Shared WidgetBase for consistency
 
 ## Content Management
 

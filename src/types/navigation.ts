@@ -70,8 +70,18 @@ export const NAVIGATION_STRUCTURE: NavigationSection[] = [
 
 /**
  * Helper to get section ID from subsection ID
+ * Useful for navigation logic when you need to determine the parent section
+ * of a given subsection (e.g., for breadcrumbs or active section highlighting).
+ *
  * @param subsectionId - Full subsection ID (e.g., 'multiplayer-servers')
- * @returns Parent section ID (e.g., 'multiplayer')
+ * @returns Parent section ID (e.g., 'multiplayer') or undefined if not found
+ *
+ * @example
+ * ```typescript
+ * getSectionFromSubsection('multiplayer-servers'); // 'multiplayer'
+ * getSectionFromSubsection('community-events');    // 'community'
+ * getSectionFromSubsection('invalid-id');          // undefined
+ * ```
  */
 export function getSectionFromSubsection(subsectionId: string): string | undefined {
   for (const section of NAVIGATION_STRUCTURE) {
@@ -85,7 +95,18 @@ export function getSectionFromSubsection(subsectionId: string): string | undefin
 }
 
 /**
- * Check if an ID is a subsection
+ * Check if an ID is a subsection (vs a main section)
+ * Useful for routing logic to determine if nested path structure is needed.
+ *
+ * @param id - Section or subsection ID to check
+ * @returns True if the ID is a subsection, false if it's a main section or invalid
+ *
+ * @example
+ * ```typescript
+ * isSubsection('multiplayer-servers'); // true
+ * isSubsection('multiplayer');         // false
+ * isSubsection('hero');                // false
+ * ```
  */
 export function isSubsection(id: string): boolean {
   return NAVIGATION_STRUCTURE.some((section) => section.subsections?.some((sub) => sub.id === id));
@@ -93,6 +114,18 @@ export function isSubsection(id: string): boolean {
 
 /**
  * Get all valid section and subsection IDs
+ * Useful for validation, testing, or generating sitemap/navigation menus.
+ *
+ * @returns Array of all valid IDs (both main sections and subsections)
+ *
+ * @example
+ * ```typescript
+ * const allIds = getAllValidIds();
+ * // ['hero', 'getting-started', 'getting-started-quick', 'getting-started-advanced', ...]
+ *
+ * // Validate user input
+ * const isValid = getAllValidIds().includes(userInput);
+ * ```
  */
 export function getAllValidIds(): string[] {
   const ids: string[] = [];
@@ -107,8 +140,19 @@ export function getAllValidIds(): string[] {
 
 /**
  * Get route path for a section or subsection
+ * Converts navigation IDs to Vue Router paths with proper nested structure.
+ * Handles special cases where the URL pattern doesn't match the ID pattern.
+ *
  * @param id - Section or subsection ID
  * @returns Route path (e.g., '/multiplayer/statistics')
+ *
+ * @example
+ * ```typescript
+ * getRoutePath('hero');                  // '/'
+ * getRoutePath('multiplayer');           // '/multiplayer'
+ * getRoutePath('multiplayer-servers');   // '/multiplayer/servers'
+ * getRoutePath('faq-server-community');  // '/faq/community' (special case)
+ * ```
  */
 export function getRoutePath(id: string): string {
   // Handle hero/home
