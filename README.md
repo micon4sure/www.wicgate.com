@@ -15,10 +15,10 @@ WiCGATE delivers a Massgate-inspired experience for the World in Conflict reviva
 - **Framework:** Vue 3 + TypeScript (Composition API)
 - **Build System:** Vite with ViteSSG for Static Site Generation
 - **State Management:** Composable modules with reactive refs
-- **Routing:** Vue Router (path-based, 7 pre-rendered routes)
+- **Routing:** Vue Router (path-based, 27 pre-rendered routes)
 - **Styling:** Modular CSS with design tokens
 - **PWA:** Service worker with offline capability
-- **Testing:** Vitest + Vue Test Utils (27 tests, 50%+ coverage)
+- **Testing:** Vitest + Vue Test Utils (26 tests, 50%+ coverage)
 - **Analytics:** Custom type-safe event tracking
 - **CI/CD:** GitHub Actions + GitHub Pages
 
@@ -91,29 +91,36 @@ src/
 ├── router/              # Vue Router with SEO metadata
 ├── stores/              # Composable state modules
 ├── components/          # Reusable UI components
-│   ├── Navigation.vue   # Pixel-perfect responsive navigation
+│   ├── Navigation.vue   # Responsive navigation
+│   ├── WidgetDashboard.vue   # Homepage widget orchestrator
+│   ├── widgets/         # Modular widget components (7 total)
 │   ├── LeaderboardGroup.vue  # Enhanced leaderboard tables
-│   ├── PlayersOnline.vue     # Slide-in live player panel
 │   ├── FirstVisitOverlay.vue # Welcome overlay
 │   └── skeletons/       # SEO-friendly loading states
 ├── screens/             # Section components
 │   ├── GettingStarted.vue
+│   ├── Multiplayer.vue
 │   ├── Community.vue
-│   ├── Statistics.vue
 │   ├── About.vue
 │   └── FAQ.vue
 ├── views/               # Routed pages
-│   ├── Home.vue         # Main SPA with all sections
-│   └── GameMode.vue     # Standalone game mode page
+│   └── Home.vue         # Main SPA with all sections
 ├── composables/         # Composition functions
-│   ├── useYoutube.ts    # Multi-channel video fetching (SSR-safe)
-│   ├── useEvents.ts     # Discord events integration (SSR-safe)
-│   └── useFirstVisit.ts # First-time visitor detection
+│   ├── useYoutube.ts    # Multi-channel video fetching
+│   ├── useEvents.ts     # Discord events integration
+│   ├── useServerCapacity.ts  # Server capacity colors
+│   ├── usePlayerDisplay.ts   # Player name parsing
+│   ├── useActiveSection.ts   # Scroll state management
+│   └── useSectionObserver.ts # IntersectionObserver wrapper
 ├── utils/               # Utility functions
-│   ├── scroll.ts        # Dynamic navigation scroll system
-│   ├── analytics.ts     # Type-safe event tracking
-│   ├── performance.ts   # Web Vitals monitoring
-│   └── structuredData.ts # SEO JSON-LD schemas
+│   ├── scroll.ts        # Navigation scroll system
+│   ├── memoize.ts       # Memoization utilities
+│   ├── features.ts      # Feature flag system
+│   ├── analytics.ts     # Event tracking
+│   └── performance.ts   # Web Vitals monitoring
+├── types/               # TypeScript types
+│   ├── errors.ts        # Error type hierarchy
+│   └── utils.ts         # Utility types (25+ types)
 └── assets/styles/       # Modular CSS with design tokens
 ```
 
