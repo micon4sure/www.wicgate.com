@@ -293,6 +293,93 @@ export interface DataResponse {
 
 ---
 
+### Error Type Issues *(Phase 2.1 - Oct 10, 2025)*
+
+**Error:**
+```
+Property 'statusCode' does not exist on type 'Error'
+```
+
+**Cause:** Using typed error classes but catching as generic Error.
+
+**Solution:** Use type guards from `src/types/errors.ts`:
+
+```typescript
+// ❌ WRONG - Generic Error type
+try {
+  await fetchData();
+} catch (err) {
+  console.error(err.statusCode); // Error: Property doesn't exist!
+}
+
+// ✅ CORRECT - Use type guards
+import { isApiError, isNetworkError } from '@/types/errors';
+
+try {
+  await fetchData();
+} catch (err) {
+  if (isApiError(err)) {
+    console.error(`API Error (${err.endpoint}): HTTP ${err.statusCode}`);
+  } else if (isNetworkError(err)) {
+    console.error(`Network Error: ${err.message}`);
+  } else {
+    console.error('Unknown error:', err);
+  }
+}
+```
+
+**Available error types:**
+- `ApiError` - HTTP errors with endpoint and status code
+- `NetworkError` - Network failures (timeout, offline, DNS)
+- `ValidationError` - Data validation failures
+- `StorageError` - localStorage/quota errors
+
+**Reference:** [docs/architecture.md - Error Types](architecture.md#error-types-phase-21)
+
+---
+
+### Utility Type Errors *(Phase 5.1 - Oct 10, 2025)*
+
+**Error:**
+```
+Type 'string | null' is not assignable to type 'string'
+```
+
+**Cause:** Missing null/undefined handling.
+
+**Solution:** Use utility types from `src/types/utils.ts`:
+
+```typescript
+// ❌ WRONG - Type mismatch
+const name: string = localStorage.getItem('name'); // Returns string | null!
+
+// ✅ CORRECT - Use Nullable type
+import { Nullable } from '@/types/utils';
+
+const name: Nullable<string> = localStorage.getItem('name');
+if (name !== null) {
+  console.log(name.toUpperCase()); // Safe now
+}
+
+// ✅ ALSO CORRECT - Use type guard
+import { isDefined } from '@/types/utils';
+
+const name = localStorage.getItem('name');
+if (isDefined(name)) {
+  console.log(name.toUpperCase()); // TypeScript knows it's string
+}
+```
+
+**Available utility types:**
+- `Nullable<T>`, `Optional<T>`, `Maybe<T>` - Handle null/undefined
+- `ReadonlyDeep<T>`, `Mutable<T>` - Deep readonly operations
+- `ApiResponse<T>`, `PaginatedResponse<T>` - API types
+- Type guards: `isDefined()`, `isString()`, `isNumber()`, etc.
+
+**Reference:** [docs/architecture.md - Utility Types](architecture.md#utility-types-phase-51)
+
+---
+
 ### Cannot Find Type Declaration
 
 **Error:**
@@ -533,6 +620,152 @@ end_of_line = lf
 
 ---
 
+## Refactoring-Related Issues *(Oct 10, 2025 Refactoring)*
+
+### Cannot Find Composable
+
+**Error:**
+```
+Cannot find module '@/composables/useServerCapacity'
+Module '"@/composables/useServerCapacity"' has no exported member 'getCapacityColor'
+```
+
+**Cause:** Trying to import function directly instead of using composable pattern.
+
+**Solution:** Use the composable correctly:
+
+```typescript
+// ❌ WRONG - Direct import doesn't exist
+import { getCapacityColor } from '@/composables/useServerCapacity';
+
+// ✅ CORRECT - Use composable pattern
+import { useServerCapacity } from '@/composables/useServerCapacity';
+
+const { getCapacityColor, getCapacityLabel, getCapacityPercentage } = useServerCapacity();
+const color = getCapacityColor(12, 16); // Returns color token
+```
+
+**Available composables (Phase 1 & 3):**
+- `useServerCapacity` - Server capacity colors and labels
+- `usePlayerDisplay` - Player name parsing, colorization, grouping
+- `useActiveSection` - Scroll state management
+- `useSectionObserver` - IntersectionObserver for scroll detection
+
+**Reference:** [docs/architecture.md - Composables](architecture.md#composables)
+
+---
+
+### Widget Component Not Rendering
+
+**Error:**
+```
+Failed to resolve component: QuickStartWidget
+```
+
+**Cause:** Widget components moved to separate files (Phase 3.2).
+
+**Solution:** Import widget components explicitly:
+
+```typescript
+// ❌ WRONG - Components not global
+<QuickStartWidget /> // Won't work without import
+
+// ✅ CORRECT - Import widget components
+import QuickStartWidget from '@/components/widgets/QuickStartWidget.vue';
+import LiveServersWidget from '@/components/widgets/LiveServersWidget.vue';
+
+// Then use in template
+<QuickStartWidget />
+<LiveServersWidget />
+```
+
+**Available widget components (Phase 3.2):**
+- `WidgetBase.vue` - Base widget structure (wrap content)
+- `QuickStartWidget.vue` - Installation quick links
+- `LiveServersWidget.vue` - Real-time server status
+- `TopPlayersWidget.vue` - Leaderboard preview
+- `CommunityWidget.vue` - Discord events
+- `LatestVideosWidget.vue` - YouTube videos
+- `GettingHelpWidget.vue` - FAQ/support links
+
+**Reference:** [docs/design-system.md - Widget Components](design-system.md#widget-components-phase-32)
+
+---
+
+### Feature Flag Not Working
+
+**Error:**
+```
+Cannot find name 'isFeatureEnabled'
+Feature always returns false
+```
+
+**Cause:** Feature flag system introduced in Phase 5.3.
+
+**Solution:** Import and use feature flags correctly:
+
+```typescript
+// ✅ CORRECT - Check if feature is enabled
+import { isFeatureEnabled } from '@/utils/features';
+
+if (isFeatureEnabled('intersection-observer')) {
+  // Use IntersectionObserver
+} else {
+  // Fallback to scroll listeners
+}
+```
+
+**Development/testing:**
+```typescript
+// Enable feature for testing (localStorage override)
+import { setFeatureOverride } from '@/utils/features';
+
+setFeatureOverride('experimental-search', true);
+
+// Or use console in browser (DEV mode only)
+window.features.enable('dark-mode');
+window.features.list(); // Show all features
+```
+
+**Available feature flags:**
+- Performance: `intersection-observer`, `memoized-sorting`, `lazy-widgets`
+- UI: `enhanced-statistics`, `player-profiles`, `dark-mode`
+- Experimental: `experimental-search`, `beta-notifications`, `analytics`
+- Debug: `debug-mode`, `verbose-logging`
+
+**Reference:** [docs/architecture.md - Feature Flag System](architecture.md#featurests-phase-53)
+
+---
+
+### Memoization Cache Not Working
+
+**Cause:** Memoization utilities added in Phase 4.
+
+**Solution:** Use memoization utilities correctly:
+
+```typescript
+// ✅ CORRECT - Memoize expensive operations
+import { memoizeWithDeps } from '@/utils/memoize';
+
+const sortedVideos = memoizeWithDeps(
+  (videos: Video[]) => [...videos].sort((a, b) => b.views - a.views),
+  (videos) => [videos.length] // Only recompute when length changes
+);
+
+// Use it
+const result = sortedVideos(allVideos);
+```
+
+**Available memoization utilities:**
+- `MemoCache<T>` - TTL-based caching class
+- `memoizeWithDeps()` - React useMemo-style memoization
+- `memoize()` - Simple single-argument memoizer
+- `memoizeJson()` - Object argument memoizer
+
+**Reference:** [docs/architecture.md - Memoization Utilities](architecture.md#memoizets-phase-4)
+
+---
+
 ## Quick Diagnostic Commands
 
 ```bash
@@ -608,4 +841,4 @@ If issue persists:
 
 ---
 
-*Last Updated: October 3, 2025*
+*Last Updated: October 10, 2025 (Post-Refactoring)*

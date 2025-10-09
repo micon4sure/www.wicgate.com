@@ -163,12 +163,19 @@ Typography automatically scales down on mobile breakpoints. See [typography.css]
 
 ## Component Patterns
 
-### Widget Dashboard (Homepage)
+### Widget Dashboard (Homepage) *(Updated Phase 3.2)*
 
-**File:** [src/components/WidgetDashboard.vue](../src/components/WidgetDashboard.vue)
+**Main File:** [src/components/WidgetDashboard.vue](../src/components/WidgetDashboard.vue) (77 lines - orchestrator)
+**Widget Components:** [src/components/widgets/](../src/components/widgets/) (7 modular components)
 **CSS Module:** [src/assets/styles/modules/components/widget-dashboard.css](../src/assets/styles/modules/components/widget-dashboard.css)
 
 **Design Philosophy:** Function-geared dashboard following industry best practices (GitHub, Vercel, Notion). Provides quick access to all key site functions through interactive widget cards.
+
+**Architecture (Phase 3.2 Refactoring - Oct 10, 2025):**
+- Reduced WidgetDashboard from 376 lines to 77 lines (80% reduction)
+- Extracted 7 widget components for modularity and testability
+- Shared `WidgetBase.vue` component enforces consistent structure
+- Each widget is self-contained with its own logic and styling
 
 #### Widget Grid Layout
 
@@ -242,7 +249,49 @@ Typography automatically scales down on mobile breakpoints. See [typography.css]
 - Icon-based navigation lists
 - Click-to-action patterns
 
-#### Widget Structure
+#### Widget Components *(Phase 3.2)*
+
+**1. WidgetBase.vue** (Base Component)
+```vue
+<WidgetBase
+  title="Widget Title"
+  icon="icon-name"
+  action="Action Text"
+  widget-class="custom-class"
+  @action-click="handleClick"
+>
+  <template #default>
+    <!-- Widget content goes here -->
+  </template>
+</WidgetBase>
+```
+
+**2. QuickStartWidget.vue** (63 lines)
+- Installation quick links and download CTA
+- Primary widget with enhanced visual prominence
+
+**3. LiveServersWidget.vue** (86 lines)
+- Real-time server status with player counts
+- Uses `useServerCapacity` composable for dynamic colors
+- Green (<50%), Orange (50-89%), Red (≥90%)
+
+**4. TopPlayersWidget.vue** (87 lines)
+- Top 5 leaderboard preview
+- Uses `usePlayerDisplay` composable for colorization
+- Matches main leaderboard styling exactly
+
+**5. CommunityWidget.vue** (74 lines)
+- Upcoming Discord events with countdown
+- Empty state for no events
+
+**6. LatestVideosWidget.vue** (86 lines)
+- Latest 3 YouTube videos from multiple channels
+- Thumbnail, title, author, view count
+
+**7. GettingHelpWidget.vue** (57 lines)
+- FAQ quick links and support resources
+
+#### Widget Structure (Legacy/Direct HTML)
 
 ```html
 <div class="widget">
@@ -274,6 +323,7 @@ Typography automatically scales down on mobile breakpoints. See [typography.css]
 - **Responsive scaling:** Widget heights, padding, and font sizes adapt across 7 breakpoints
 - **SSR-safe:** Skeleton loaders prevent layout shift during API loading
 - **Accessibility:** All widgets are clickable with proper ARIA labels
+- **Modular architecture:** Each widget is a standalone component (Phase 3.2)
 
 ### Interactive Element Standards
 
