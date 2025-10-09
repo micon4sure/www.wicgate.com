@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🔄 **Navigation System: Path-Based Nested Routes** - Refactored from hash-based to nested routes (27 pre-rendered routes), unique SEO meta tags per subsection, 80% code reduction (Oct 9)
 - 🎨 **Widget Dashboard Styling Improvements** - Top Players widget now matches leaderboard styling: rank insignias, clan tags (orange), player names (white), podium colors for scores (Oct 9)
 - 🎨 **Homepage Redesign: Widget Dashboard** - Replaced hero carousel with function-geared widget grid, integrated player count into Live Servers widget (Oct 9)
 - 🐛 **90-Second Refresh Bug Fix** - Fixed LivePlayersBadge and Multiplayer section flashing/crashing every 90 seconds during polling (Oct 8)
@@ -51,6 +52,84 @@
 ---
 
 ## October 2025
+
+### 🔄 Navigation System: Path-Based Nested Routes
+
+**Status:** Complete (October 9, 2025)
+
+**Summary:** Complete refactor from hash-based deeplinks to proper path-based nested routes for better SEO, cleaner URLs, and simpler navigation architecture.
+
+**Problem Statement:**
+- **Old System:** Hash-based subsection navigation (e.g., `/multiplayer#multiplayer-statistics`)
+- **Issues:**
+  - Hash fragments not crawled by search engines
+  - No unique meta tags per subsection
+  - Complex navigation logic with timing hacks
+  - Hash watchers and route detection code
+  - Inconsistent behavior between navigation bar and widgets
+
+**Solution Implemented:**
+
+**1. Nested Route Structure**
+   - **File:** [src/router/routes.ts](../src/router/routes.ts)
+   - **Architecture:** 27 total routes (1 homepage + 5 main sections + 21 subsections)
+   - **Pattern:** Parent/child routes with unique paths (e.g., `/multiplayer/statistics`)
+
+**2. Route Breakdown**
+   - Homepage: `/`
+   - Getting Started: `/getting-started` + 2 subsections (`/quick`, `/advanced`)
+   - Multiplayer: `/multiplayer` + 2 subsections (`/servers`, `/statistics`)
+   - Community: `/community` + 3 subsections (`/events`, `/streams`, `/videos`)
+   - About: `/about` + 4 subsections (`/mission`, `/story`, `/values`, `/team`)
+   - FAQ: `/faq` + 4 subsections (`/getting-started`, `/technical`, `/gameplay`, `/community`)
+
+**3. Technical Implementation**
+   - **Navigation Helper:** Added `getRoutePath()` function in [src/types/navigation.ts](../src/types/navigation.ts)
+   - **Components Simplified:**
+     - [Navigation.vue](../src/components/Navigation.vue): 15 lines → 3 lines (80% reduction)
+     - [WidgetDashboard.vue](../src/components/WidgetDashboard.vue): Removed timing delays and route detection
+     - [Home.vue](../src/views/Home.vue): Removed hash watcher, simplified route handling
+   - **Router ScrollBehavior:** Updated [src/main.ts](../src/main.ts) to handle subsection scrolling with smooth animations
+
+**4. SEO Benefits**
+   - **27 Pre-Rendered Routes:** Each subsection generates its own HTML file at build time
+   - **Unique Meta Tags:** Each subsection has tailored title, description, keywords, Open Graph tags
+   - **Clean URLs:** `/multiplayer/statistics` instead of `/multiplayer#multiplayer-statistics`
+   - **Search Engine Crawlable:** All subsections fully indexable by Google/Bing
+   - **Better Social Sharing:** Unique Open Graph tags for each subsection
+
+**5. Code Quality Improvements**
+   - **Removed:** All hash-based navigation code, timing hacks, route detection logic
+   - **Simplified:** Navigation logic by 80%, consistent behavior across all components
+   - **Fixed:** Smooth scrolling works for all sections (not just homepage)
+   - **Documentation:** Complete rewrite of [DEEPLINKS.md](../DEEPLINKS.md) with new structure
+
+**6. Bug Fixes**
+   - Fixed FAQ "Server & Community" navigation (added special case mapping for `faq-server-community` → `/faq/community`)
+   - Fixed smooth scrolling not working for sections (changed `behavior: 'auto'` → `behavior: 'smooth'`)
+   - Removed legacy hash support from First Visit Overlay (unnecessary for site in development)
+
+**Results:**
+- ✅ Build generates 21 subsection HTML files (was: 0)
+- ✅ Total routes: 27 (was: 6)
+- ✅ Navigation logic: 80% code reduction
+- ✅ Clean build: Zero router warnings
+- ✅ All tests passing (26/26)
+
+**Files Modified:**
+- `src/router/routes.ts` - Complete nested route structure
+- `src/types/navigation.ts` - Added `getRoutePath()` helper with special case handling
+- `src/components/Navigation.vue` - Simplified to use `router.push(getRoutePath())`
+- `src/components/WidgetDashboard.vue` - Removed complex navigation logic
+- `src/views/Home.vue` - Removed hash watcher, simplified route handling
+- `src/main.ts` - Updated scrollBehavior for subsections with smooth scrolling
+- `DEEPLINKS.md` - Complete rewrite documenting new path-based structure
+
+**Migration:**
+- Old: `/multiplayer#multiplayer-statistics` (hash-based)
+- New: `/multiplayer/statistics` (path-based)
+
+---
 
 ### 🎨 Homepage Redesign: Widget Dashboard (Function-Geared)
 

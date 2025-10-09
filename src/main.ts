@@ -65,7 +65,29 @@ export const createApp = ViteSSG(
       // Async scroll behavior - waits for content to load before scrolling
       // This fixes scroll jumping when async content (Events/Videos) loads after navigation
 
-      // For section-based navigation (e.g., /community, /statistics)
+      // Handle subsection routes (e.g., /multiplayer/statistics)
+      if (to.meta.subsection) {
+        return new Promise((resolve) => {
+          // Wait for sections to render and async content to start loading
+          setTimeout(() => {
+            const headerHeight = getNavHeight();
+            const element = document.getElementById(to.meta.subsection as string);
+
+            if (element) {
+              const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+              resolve({
+                top: elementPosition - headerHeight,
+                behavior: 'smooth',
+              });
+            } else {
+              // Fallback to top if element not found
+              resolve({ top: 0 });
+            }
+          }, 100);
+        });
+      }
+
+      // For section-based navigation (e.g., /community, /multiplayer)
       if (to.meta.section) {
         return new Promise((resolve) => {
           // Wait for sections to render and async content to start loading
@@ -80,16 +102,8 @@ export const createApp = ViteSSG(
               top: headerHeight, // Dynamic offset (~80-83px) - same as JS scroll system
               behavior: 'smooth',
             });
-          }, 400); // 400ms allows initial API requests to start and skeletons to render
+          }, 100);
         });
-      }
-
-      // For hash-based navigation (legacy support)
-      if (to.hash) {
-        return {
-          el: to.hash,
-          behavior: 'smooth',
-        };
       }
 
       // Check if both routes use the same component (Home.vue)
@@ -101,7 +115,7 @@ export const createApp = ViteSSG(
         return false; // Disable automatic scroll
       }
 
-      // For different pages (e.g., navigating to /game-mode), scroll to top
+      // For different pages or homepage, scroll to top
       return { top: 0 };
     },
   },

@@ -7,7 +7,7 @@ WiCGATE implements a sophisticated **hybrid rendering architecture** that combin
 ## Quick Architecture Summary
 
 - **Entry:** ViteSSG for Static Site Generation with client-side hydration
-- **Routing:** 6 pre-rendered routes (/, /getting-started, /multiplayer, /community, /about, /faq)
+- **Routing:** 27 pre-rendered routes (1 homepage + 5 main sections + 21 subsections)
 - **Hybrid Strategy:** SSG for SEO (unique HTML per route) + SPA for UX (smooth scrolling, no page reloads)
 - **State Management:** Composable module pattern with reactive refs, 3-retry exponential backoff, 90s polling, Page Visibility API
 - **Data Layer:** API integration via composables (useYoutube, useEvents) with SSR-safe execution
@@ -94,15 +94,26 @@ setTimeout(() => {
 
 **File:** [src/router/routes.ts](../src/router/routes.ts)
 
-Path-based routing with 6 pre-rendered routes:
-- `/` - Homepage with all sections
+**Architecture:** Path-based nested routes with 27 total pre-rendered routes:
+
+**Main Routes (6):**
+- `/` - Homepage with widget dashboard
 - `/getting-started` - Installation guide
 - `/multiplayer` - Live servers and player rankings
 - `/community` - Events, videos, creators
 - `/about` - Project information
 - `/faq` - Frequently asked questions
 
-Each route includes comprehensive SEO metadata (title, description, keywords, Open Graph tags).
+**Subsection Routes (21):**
+- **Getting Started (2):** `/getting-started/quick`, `/getting-started/advanced`
+- **Multiplayer (2):** `/multiplayer/servers`, `/multiplayer/statistics`
+- **Community (3):** `/community/events`, `/community/streams`, `/community/videos`
+- **About (4):** `/about/mission`, `/about/story`, `/about/values`, `/about/team`
+- **FAQ (4):** `/faq/getting-started`, `/faq/technical`, `/faq/gameplay`, `/faq/community`
+
+Each route includes comprehensive SEO metadata (unique title, description, keywords, Open Graph tags).
+
+**Navigation Helper:** [src/types/navigation.ts](../src/types/navigation.ts) provides `getRoutePath()` function to convert section/subsection IDs to proper route paths (e.g., `'multiplayer-statistics'` → `'/multiplayer/statistics'`).
 
 ## SSG/SSR Architecture
 
@@ -128,23 +139,42 @@ function shouldRenderSection(sectionId: string): boolean {
 ### Build Output
 
 ```bash
-npm run build → Generates 6 unique HTML files:
+npm run build → Generates 27 unique HTML files:
 
-dist/index.html              35.59 KB  # All 6 sections for homepage
-dist/getting-started.html    10.74 KB  # Only Getting Started section
-dist/multiplayer.html         8.50 KB  # Only Multiplayer section (servers + stats)
-dist/community.html          12.60 KB  # Only Community section
-dist/about.html               8.27 KB  # Only About section
-dist/faq.html                12.39 KB  # Only FAQ section
+# Main routes (6)
+dist/index.html              44.63 KB  # Homepage with all sections
+dist/getting-started.html    14.04 KB  # Getting Started section
+dist/multiplayer.html        11.29 KB  # Multiplayer section
+dist/community.html          17.07 KB  # Community section
+dist/about.html              11.81 KB  # About section
+dist/faq.html                15.84 KB  # FAQ section
+
+# Subsection routes (21)
+dist/getting-started/quick.html          14.06 KB
+dist/getting-started/advanced.html       14.06 KB
+dist/multiplayer/servers.html            11.30 KB
+dist/multiplayer/statistics.html         11.30 KB
+dist/community/events.html               17.09 KB
+dist/community/streams.html              17.09 KB
+dist/community/videos.html               17.09 KB
+dist/about/mission.html                  11.83 KB
+dist/about/story.html                    11.83 KB
+dist/about/values.html                   11.83 KB
+dist/about/team.html                     11.83 KB
+dist/faq/getting-started.html            15.86 KB
+dist/faq/technical.html                  15.86 KB
+dist/faq/gameplay.html                   15.86 KB
+dist/faq/community.html                  15.85 KB
 ```
 
 ### SEO Benefits
 
-✅ **Unique Content Per URL:** Each route serves different HTML with unique file sizes
-✅ **No Duplicate Content:** Google indexes 6 separate pages with focused content
+✅ **Unique Content Per URL:** Each of 27 routes serves different HTML with focused content
+✅ **No Duplicate Content:** Google indexes 27 separate pages (6 sections + 21 subsections)
 ✅ **Fast Initial Load:** Pre-rendered HTML loads instantly
 ✅ **Progressive Enhancement:** Content visible without JavaScript
 ✅ **Semantic Skeleton Loaders:** SEO-friendly placeholders with descriptive text
+✅ **Subsection SEO:** Each subsection has unique meta tags for targeted search traffic
 
 ### How It Solves Duplicate Content
 
@@ -1092,7 +1122,7 @@ All routes pre-render unique HTML at build time:
 | `/faq` | Frequently asked questions | 13.30 KB |
 
 **SEO Benefits:**
-- ✅ 6 unique HTML files (no duplicate content)
+- ✅ 27 unique HTML files (1 homepage + 5 sections + 21 subsections, no duplicate content)
 - ✅ Focused, indexable content per route
 - ✅ Progressive enhancement with skeleton loaders
 - ✅ Dynamic meta tags and JSON-LD schemas

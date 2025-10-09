@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref, toRef, onMounted, onUnmounted, computed } from 'vue';
-import { scrollToSection } from '../utils/scroll';
+import { useRouter } from 'vue-router';
 import { AnalyticsEvents } from '../utils/analytics';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_RESIZE } from '../constants';
-import { NAVIGATION_STRUCTURE, getSectionFromSubsection } from '../types/navigation';
+import { NAVIGATION_STRUCTURE, getRoutePath } from '../types/navigation';
 import type { NavigationSection } from '../types/navigation';
+
+const router = useRouter();
 
 const mobileOpen = ref(false);
 const openDropdown = ref<string | null>(null);
@@ -16,10 +18,6 @@ const props = defineProps<{
 }>();
 const activeSection = toRef(props, 'activeSection');
 const isFastScrolling = toRef(props, 'isFastScrolling');
-
-const emit = defineEmits<{
-  navigate: [string | undefined];
-}>();
 
 // Track window width for resize handling
 const lastWindowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1920);
@@ -88,23 +86,14 @@ function handleEscapeKey(event: KeyboardEvent) {
   }
 }
 
-// Handle window resize for scroll position recalculation
+// Handle window resize (simplified - no manual scrolling needed)
 function handleWindowResize() {
   const currentWidth = window.innerWidth;
   const widthDifference = Math.abs(currentWidth - lastWindowWidth.value);
 
-  // Only recalculate if there's a significant width change (breakpoint crossing)
+  // Only update if there's a significant width change (breakpoint crossing)
   if (widthDifference > 100) {
     lastWindowWidth.value = currentWidth;
-
-    // If user is currently viewing a section (not hero), re-scroll to maintain position
-    const section = activeSection.value;
-    if (section) {
-      // Small delay to ensure CSS has updated after resize
-      setTimeout(() => {
-        scrollToSection(section, 'auto');
-      }, DEBOUNCE_RESIZE);
-    }
   }
 }
 
@@ -132,31 +121,15 @@ function handleNavigation(sectionId: string) {
   const sectionName = sectionId === 'hero' ? 'Home' : sectionId;
   AnalyticsEvents.sectionView(sectionName);
 
-  // Determine parent section for emit
-  const parentSection = getSectionFromSubsection(sectionId) || sectionId;
-  emit('navigate', parentSection !== 'hero' ? parentSection : undefined);
-
   closeMobileMenu();
+  closeDropdown();
 
-  // Always scroll to section/subsection
-  scrollToSection(sectionId === 'hero' ? 'hero' : sectionId);
+  // Navigate using router
+  router.push(getRoutePath(sectionId));
 
   // Check if we're in game mode - if so, trigger home mode first
   const event = new CustomEvent('exitGameMode');
   window.dispatchEvent(event);
-}
-
-// Get route path for section (parent section only)
-function getRoutePath(sectionId: string): string {
-  if (sectionId === 'hero') return '/';
-
-  // If it's a subsection, get the parent section
-  const parentSection = getSectionFromSubsection(sectionId);
-  if (parentSection) {
-    return `/${parentSection}`;
-  }
-
-  return `/${sectionId}`;
 }
 </script>
 <template>
@@ -177,7 +150,7 @@ function getRoutePath(sectionId: string): string {
           :to="getRoutePath(section.id)"
           :class="{ active: section.id === 'hero' ? !activeSection : isActive(section.id) }"
           :class-home-btn="section.id === 'hero'"
-          @click="handleNavigation(section.id)"
+          @click.prevent="handleNavigation(section.id)"
         >
           {{ section.label }}
         </router-link>
@@ -193,22 +166,22 @@ function getRoutePath(sectionId: string): string {
             :to="getRoutePath(section.id)"
             :class="{ active: isSectionOrSubsectionActive(section) }"
             class="nav-dropdown-trigger"
-            @click="handleNavigation(section.id)"
+            @click.prevent="handleNavigation(section.id)"
           >
             {{ section.label }}
             <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
           </router-link>
           <div v-show="openDropdown === section.id" class="dropdown-menu">
-            <a
+            <router-link
               v-for="subsection in section.subsections"
               :key="subsection.id"
-              :href="`#${subsection.id}`"
+              :to="getRoutePath(subsection.id)"
               :class="{ active: isActive(subsection.id) }"
               class="dropdown-item"
               @click.prevent="handleNavigation(subsection.id)"
             >
               {{ subsection.label }}
-            </a>
+            </router-link>
           </div>
         </div>
       </template>
@@ -245,7 +218,7 @@ function getRoutePath(sectionId: string): string {
               v-if="!section.subsections"
               :to="getRoutePath(section.id)"
               :class="{ active: section.id === 'hero' ? !activeSection : isActive(section.id) }"
-              @click="handleNavigation(section.id)"
+              @click.prevent="handleNavigation(section.id)"
             >
               {{ section.label }}
             </router-link>
@@ -256,7 +229,7 @@ function getRoutePath(sectionId: string): string {
                 <router-link
                   :to="getRoutePath(section.id)"
                   :class="{ active: isSectionOrSubsectionActive(section) }"
-                  @click="handleNavigation(section.id)"
+                  @click.prevent="handleNavigation(section.id)"
                 >
                   {{ section.label }}
                 </router-link>
@@ -269,16 +242,16 @@ function getRoutePath(sectionId: string): string {
                 </button>
               </div>
               <div v-show="openDropdown === section.id" class="mobile-dropdown-content">
-                <a
+                <router-link
                   v-for="subsection in section.subsections"
                   :key="subsection.id"
-                  :href="`#${subsection.id}`"
+                  :to="getRoutePath(subsection.id)"
                   :class="{ active: isActive(subsection.id) }"
                   class="mobile-dropdown-item"
                   @click.prevent="handleNavigation(subsection.id)"
                 >
                   {{ subsection.label }}
-                </a>
+                </router-link>
               </div>
             </div>
           </template>

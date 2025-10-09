@@ -104,3 +104,37 @@ export function getAllValidIds(): string[] {
   }
   return ids;
 }
+
+/**
+ * Get route path for a section or subsection
+ * @param id - Section or subsection ID
+ * @returns Route path (e.g., '/multiplayer/statistics')
+ */
+export function getRoutePath(id: string): string {
+  // Handle hero/home
+  if (id === 'hero') return '/';
+
+  // Special case mappings for IDs that don't match URL patterns
+  const specialCases: Record<string, string> = {
+    'faq-server-community': '/faq/community',
+  };
+
+  if (specialCases[id]) {
+    return specialCases[id];
+  }
+
+  // Check if it's a subsection
+  for (const section of NAVIGATION_STRUCTURE) {
+    if (section.subsections) {
+      const subsection = section.subsections.find((sub) => sub.id === id);
+      if (subsection) {
+        // Extract subsection path from ID (e.g., 'multiplayer-statistics' → 'statistics')
+        const subsectionPath = id.replace(`${section.id}-`, '');
+        return `/${section.id}/${subsectionPath}`;
+      }
+    }
+  }
+
+  // It's a main section
+  return `/${id}`;
+}

@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useEvents } from '../composables/useEvents';
 import { useYoutube } from '../composables/useYoutube';
 import RankInsignia from './RankInsignia.vue';
 import type { LadderEntry } from '../api-types';
-import { isSubsection, getSectionFromSubsection } from '../types/navigation';
-import { scrollToSection } from '../utils/scroll';
+import { getRoutePath } from '../types/navigation';
 
 const router = useRouter();
-const route = useRoute();
 const store = useAppDataStore();
 const { playerCount, loading: storeLoading, data } = store;
 const { events } = useEvents();
@@ -61,30 +59,9 @@ const nextEvent = computed(() => {
   return upcoming || events.value[0];
 });
 
-// Navigation functions - support both sections and subsections
-// Mimics Navigation.vue dropdown behavior for consistency
-function goToSection(sectionOrSubsection: string) {
-  if (isSubsection(sectionOrSubsection)) {
-    // Get parent section for this subsection
-    const parentSection = getSectionFromSubsection(sectionOrSubsection);
-    const currentRoute = route.path.substring(1) || 'hero'; // Remove leading '/', default to 'hero' for '/'
-
-    if (currentRoute === parentSection) {
-      // Already on parent route - just scroll (same as Navigation.vue dropdown)
-      scrollToSection(sectionOrSubsection);
-    } else {
-      // Navigate to parent route first, then scroll after route change
-      router.push(`/${parentSection}`).then(() => {
-        // Wait for route change and DOM update (slightly more than router's 400ms delay)
-        setTimeout(() => {
-          scrollToSection(sectionOrSubsection);
-        }, 450);
-      });
-    }
-  } else {
-    // Main section - navigate normally
-    router.push(`/${sectionOrSubsection}`);
-  }
+// Navigation function - uses proper nested routes
+function goToSection(sectionOrSubsectionId: string) {
+  router.push(getRoutePath(sectionOrSubsectionId));
 }
 
 // Format clan tag like leaderboard
@@ -299,7 +276,7 @@ function formatClanTag(entry: LadderEntry): string {
       <!-- CTA Buttons -->
       <div class="widget-cta">
         <a
-          href="#getting-started"
+          href="/getting-started"
           class="btn btn-download"
           @click.prevent="goToSection('getting-started')"
         >

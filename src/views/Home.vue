@@ -217,19 +217,24 @@ onMounted(() => {
   // Initialize store data
   store.init();
 
-  // Determine initial section from route
-  const sectionFromRoute = targetSection.value;
-  const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
+  // Determine initial section from route (use parent section for subsections)
+  const subsection = route.meta.subsection as string | undefined;
+  const section = route.meta.section as string | undefined;
 
   // Set current section for first visit overlay
-  setCurrentSection(sectionFromRoute || hash);
+  setCurrentSection(section);
 
   // Check for first visit and show overlay if needed
-  initFirstVisitCheck(!!(hash || sectionFromRoute));
+  initFirstVisitCheck(!!(subsection || section));
 
-  // Scroll handling moved to router's async scrollBehavior in main.ts
-  // This ensures content loads before scrolling, preventing position jumps
-  // (No manual scroll on mount - let router handle it after content ready)
+  // Scroll to subsection if present
+  if (subsection) {
+    nextTick(() => {
+      setTimeout(() => {
+        scrollToSection(subsection);
+      }, 100);
+    });
+  }
 
   nextTick(() => {
     collectSectionElements();
@@ -274,16 +279,8 @@ function handleGoHome() {
 
 function handleContinue() {
   dismissOverlay();
-  const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
-
-  if (hash) {
-    setCurrentSection(hash);
-    const element = document.getElementById(hash);
-    if (element) {
-      // Use the shared scroll utility to ensure consistency with active section detection
-      scrollToSectionUtil(hash, 'smooth');
-    }
-  }
+  // Route-based navigation is already handled by onMounted() hook
+  // which checks route.meta.subsection and scrolls accordingly
 }
 
 function handleNavNavigate(sectionOrSubsection?: string) {
@@ -317,20 +314,41 @@ function scrollToSection(sectionId: string) {
   });
 }
 
-// Watch for route changes and scroll to the target section
+// Watch for route changes and scroll to the target section/subsection
 watch(
-  () => route.meta.section,
-  (newSection) => {
+  () => route.path,
+  () => {
     if (isSSR) return;
 
-    if (newSection) {
-      setCurrentSection(newSection as string);
+    const subsection = route.meta.subsection as string | undefined;
+    const section = route.meta.section as string | undefined;
+
+    if (subsection) {
+      // Subsection route - scroll to subsection
+      setCurrentSection(section);
 
       // Disable scroll listener during programmatic scroll
       isProgrammaticScrolling.value = true;
 
-      // Scroll to section immediately
-      scrollToSection(newSection as string);
+      // Scroll to subsection
+      scrollToSection(subsection);
+
+      // Re-enable scroll listener after smooth scroll completes
+      if (programmaticScrollTimeout) {
+        clearTimeout(programmaticScrollTimeout);
+      }
+      programmaticScrollTimeout = setTimeout(() => {
+        isProgrammaticScrolling.value = false;
+      }, SCROLL_SMOOTH_DURATION) as unknown as number;
+    } else if (section) {
+      // Main section route - scroll to section
+      setCurrentSection(section);
+
+      // Disable scroll listener during programmatic scroll
+      isProgrammaticScrolling.value = true;
+
+      // Scroll to section
+      scrollToSection(section);
 
       // Re-enable scroll listener after smooth scroll completes
       if (programmaticScrollTimeout) {
@@ -352,39 +370,6 @@ watch(
         isProgrammaticScrolling.value = false;
       }, SCROLL_TOP_DURATION) as unknown as number;
     }
-  }
-);
-
-// Watch for hash changes to handle subsection navigation
-watch(
-  () => route.hash,
-  (newHash) => {
-    if (isSSR || !newHash) return;
-
-    // Extract ID from hash (remove #)
-    const targetId = newHash.substring(1);
-
-    // If it's a subsection, update current section to parent
-    if (isSubsection(targetId)) {
-      const parentSection = getSectionFromSubsection(targetId);
-      setCurrentSection(parentSection);
-    } else {
-      setCurrentSection(targetId);
-    }
-
-    // Disable scroll listener during programmatic scroll
-    isProgrammaticScrolling.value = true;
-
-    // Scroll to the target (section or subsection)
-    scrollToSection(targetId);
-
-    // Re-enable scroll listener after smooth scroll completes
-    if (programmaticScrollTimeout) {
-      clearTimeout(programmaticScrollTimeout);
-    }
-    programmaticScrollTimeout = setTimeout(() => {
-      isProgrammaticScrolling.value = false;
-    }, SCROLL_SMOOTH_DURATION) as unknown as number;
   }
 );
 </script>
