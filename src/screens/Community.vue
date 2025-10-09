@@ -89,7 +89,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
       </div>
 
       <!-- Events Section -->
-      <div class="mb-xl">
+      <div id="community-events" class="mb-xl">
         <div class="vid-hdr">
           <h3>Events</h3>
           <p class="section-lead" style="margin: 0; font-size: 0.9rem">
@@ -154,7 +154,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
       </div>
 
       <!-- Live Streams -->
-      <div class="mb-xl">
+      <div id="community-streams" class="mb-xl">
         <div class="vid-hdr">
           <h3>Live Streams</h3>
         </div>
@@ -186,7 +186,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
       </div>
 
       <!-- Latest Videos -->
-      <div class="vid-section mb-xl">
+      <div id="community-videos" class="vid-section mb-xl">
         <div class="vid-hdr">
           <h3>Latest Videos</h3>
           <label class="toggle">

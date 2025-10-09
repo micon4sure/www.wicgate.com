@@ -39,7 +39,7 @@ watch(isAdvancedExpanded, (val) => {
           Join the battlefield in just a few minutes with our streamlined setup
         </p>
       </div>
-      <div class="inst-steps">
+      <div id="getting-started-quick" class="inst-steps">
         <div v-for="s in steps" :key="s.n" class="inst-step">
           <div class="step-num">{{ s.n }}</div>
           <div class="step-cont">
@@ -51,7 +51,7 @@ watch(isAdvancedExpanded, (val) => {
       </div>
 
       <!-- Advanced Setup Options -->
-      <div class="advanced-section">
+      <div id="getting-started-advanced" class="advanced-section">
         <div class="text-center mb-xl">
           <h2>Advanced Setup Options</h2>
           <p class="section-lead">

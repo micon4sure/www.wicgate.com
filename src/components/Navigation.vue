@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref, toRef, onMounted, onUnmounted } from 'vue';
+import { ref, toRef, onMounted, onUnmounted, computed } from 'vue';
 import { scrollToSection } from '../utils/scroll';
 import { AnalyticsEvents } from '../utils/analytics';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_RESIZE } from '../constants';
+import { NAVIGATION_STRUCTURE, getSectionFromSubsection } from '../types/navigation';
+import type { NavigationSection } from '../types/navigation';
 
 const mobileOpen = ref(false);
+const openDropdown = ref<string | null>(null);
 
 const props = defineProps<{
   activeSection?: string | undefined;
@@ -23,6 +26,27 @@ const lastWindowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 
 
 const isActive = (section: string) => activeSection.value === section;
 
+// Check if a section or any of its subsections is active
+const isSectionOrSubsectionActive = (section: NavigationSection): boolean => {
+  if (isActive(section.id)) return true;
+  if (section.subsections && activeSection.value) {
+    return section.subsections.some((sub) => activeSection.value === sub.id);
+  }
+  return false;
+};
+
+// Get navigation sections
+const navSections = computed(() => NAVIGATION_STRUCTURE);
+
+// Dropdown management
+function toggleDropdown(sectionId: string) {
+  openDropdown.value = openDropdown.value === sectionId ? null : sectionId;
+}
+
+function closeDropdown() {
+  openDropdown.value = null;
+}
+
 // Enhanced mobile menu functionality
 function toggleMobileMenu() {
   mobileOpen.value = !mobileOpen.value;
@@ -37,6 +61,7 @@ function toggleMobileMenu() {
 function closeMobileMenu() {
   mobileOpen.value = false;
   document.body.style.overflow = '';
+  closeDropdown();
 }
 
 // Close menu when clicking outside
@@ -103,25 +128,35 @@ onUnmounted(() => {
 // Dynamic header measurement imported from utils/scroll.ts
 // (Removed duplicate code - now using shared utility)
 
-function handleNavigation(section: string) {
-  const sectionName = section === 'hero' ? 'Home' : section;
+function handleNavigation(sectionId: string) {
+  const sectionName = sectionId === 'hero' ? 'Home' : sectionId;
   AnalyticsEvents.sectionView(sectionName);
-  emit('navigate', section !== 'hero' ? section : undefined);
+
+  // Determine parent section for emit
+  const parentSection = getSectionFromSubsection(sectionId) || sectionId;
+  emit('navigate', parentSection !== 'hero' ? parentSection : undefined);
+
   closeMobileMenu();
 
-  // Always scroll to section, even if already on that route
-  // This fixes the issue where clicking FAQ again after scrolling away doesn't work
-  scrollToSection(section === 'hero' ? 'hero' : section);
+  // Always scroll to section/subsection
+  scrollToSection(sectionId === 'hero' ? 'hero' : sectionId);
 
   // Check if we're in game mode - if so, trigger home mode first
   const event = new CustomEvent('exitGameMode');
   window.dispatchEvent(event);
 }
 
-// Get route path for section
-function getRoutePath(section: string): string {
-  if (section === 'hero') return '/';
-  return `/${section}`;
+// Get route path for section (parent section only)
+function getRoutePath(sectionId: string): string {
+  if (sectionId === 'hero') return '/';
+
+  // If it's a subsection, get the parent section
+  const parentSection = getSectionFromSubsection(sectionId);
+  if (parentSection) {
+    return `/${parentSection}`;
+  }
+
+  return `/${sectionId}`;
 }
 </script>
 <template>
@@ -135,43 +170,48 @@ function getRoutePath(section: string): string {
 
     <!-- Desktop navigation (left-aligned) -->
     <nav class="desktop-nav" :class="{ 'fast-scroll': isFastScrolling }">
-      <router-link
-        :to="getRoutePath('hero')"
-        :class="{ active: !activeSection }"
-        class="home-btn"
-        @click="handleNavigation('hero')"
-        >Home</router-link
-      >
-      <router-link
-        :to="getRoutePath('getting-started')"
-        :class="{ active: isActive('getting-started') }"
-        @click="handleNavigation('getting-started')"
-        >Getting Started</router-link
-      >
-      <router-link
-        :to="getRoutePath('multiplayer')"
-        :class="{ active: isActive('multiplayer') }"
-        @click="handleNavigation('multiplayer')"
-        >Multiplayer</router-link
-      >
-      <router-link
-        :to="getRoutePath('community')"
-        :class="{ active: isActive('community') }"
-        @click="handleNavigation('community')"
-        >Community</router-link
-      >
-      <router-link
-        :to="getRoutePath('about')"
-        :class="{ active: isActive('about') }"
-        @click="handleNavigation('about')"
-        >About</router-link
-      >
-      <router-link
-        :to="getRoutePath('faq')"
-        :class="{ active: isActive('faq') }"
-        @click="handleNavigation('faq')"
-        >FAQ</router-link
-      >
+      <template v-for="section in navSections" :key="section.id">
+        <!-- Sections without subsections -->
+        <router-link
+          v-if="!section.subsections"
+          :to="getRoutePath(section.id)"
+          :class="{ active: section.id === 'hero' ? !activeSection : isActive(section.id) }"
+          :class-home-btn="section.id === 'hero'"
+          @click="handleNavigation(section.id)"
+        >
+          {{ section.label }}
+        </router-link>
+
+        <!-- Sections with subsections (dropdown) -->
+        <div
+          v-else
+          class="nav-dropdown"
+          @mouseenter="openDropdown = section.id"
+          @mouseleave="closeDropdown"
+        >
+          <router-link
+            :to="getRoutePath(section.id)"
+            :class="{ active: isSectionOrSubsectionActive(section) }"
+            class="nav-dropdown-trigger"
+            @click="handleNavigation(section.id)"
+          >
+            {{ section.label }}
+            <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+          </router-link>
+          <div v-show="openDropdown === section.id" class="dropdown-menu">
+            <a
+              v-for="subsection in section.subsections"
+              :key="subsection.id"
+              :href="`#${subsection.id}`"
+              :class="{ active: isActive(subsection.id) }"
+              class="dropdown-item"
+              @click.prevent="handleNavigation(subsection.id)"
+            >
+              {{ subsection.label }}
+            </a>
+          </div>
+        </div>
+      </template>
     </nav>
 
     <!-- Enhanced hamburger menu button -->
@@ -199,43 +239,49 @@ function getRoutePath(section: string): string {
     <Transition name="mobile-nav">
       <nav v-if="mobileOpen" class="mobile-nav">
         <div class="mobile-nav-content">
-          <router-link
-            :to="getRoutePath('hero')"
-            :class="{ active: !activeSection }"
-            class="home-btn"
-            @click="handleNavigation('hero')"
-            >Home</router-link
-          >
-          <router-link
-            :to="getRoutePath('getting-started')"
-            :class="{ active: isActive('getting-started') }"
-            @click="handleNavigation('getting-started')"
-            >Getting Started</router-link
-          >
-          <router-link
-            :to="getRoutePath('multiplayer')"
-            :class="{ active: isActive('multiplayer') }"
-            @click="handleNavigation('multiplayer')"
-            >Multiplayer</router-link
-          >
-          <router-link
-            :to="getRoutePath('community')"
-            :class="{ active: isActive('community') }"
-            @click="handleNavigation('community')"
-            >Community</router-link
-          >
-          <router-link
-            :to="getRoutePath('about')"
-            :class="{ active: isActive('about') }"
-            @click="handleNavigation('about')"
-            >About</router-link
-          >
-          <router-link
-            :to="getRoutePath('faq')"
-            :class="{ active: isActive('faq') }"
-            @click="handleNavigation('faq')"
-            >FAQ</router-link
-          >
+          <template v-for="section in navSections" :key="section.id">
+            <!-- Sections without subsections -->
+            <router-link
+              v-if="!section.subsections"
+              :to="getRoutePath(section.id)"
+              :class="{ active: section.id === 'hero' ? !activeSection : isActive(section.id) }"
+              @click="handleNavigation(section.id)"
+            >
+              {{ section.label }}
+            </router-link>
+
+            <!-- Sections with subsections (expandable) -->
+            <div v-else class="mobile-nav-section">
+              <div class="mobile-nav-section-header">
+                <router-link
+                  :to="getRoutePath(section.id)"
+                  :class="{ active: isSectionOrSubsectionActive(section) }"
+                  @click="handleNavigation(section.id)"
+                >
+                  {{ section.label }}
+                </router-link>
+                <button
+                  class="mobile-dropdown-toggle"
+                  :class="{ open: openDropdown === section.id }"
+                  @click="toggleDropdown(section.id)"
+                >
+                  <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div v-show="openDropdown === section.id" class="mobile-dropdown-content">
+                <a
+                  v-for="subsection in section.subsections"
+                  :key="subsection.id"
+                  :href="`#${subsection.id}`"
+                  :class="{ active: isActive(subsection.id) }"
+                  class="mobile-dropdown-item"
+                  @click.prevent="handleNavigation(subsection.id)"
+                >
+                  {{ subsection.label }}
+                </a>
+              </div>
+            </div>
+          </template>
         </div>
       </nav>
     </Transition>

@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useEvents } from '../composables/useEvents';
 import { useYoutube } from '../composables/useYoutube';
 import RankInsignia from './RankInsignia.vue';
 import type { LadderEntry } from '../api-types';
+import { isSubsection, getSectionFromSubsection } from '../types/navigation';
+import { scrollToSection } from '../utils/scroll';
 
 const router = useRouter();
+const route = useRoute();
 const store = useAppDataStore();
 const { playerCount, loading: storeLoading, data } = store;
 const { events } = useEvents();
@@ -58,9 +61,30 @@ const nextEvent = computed(() => {
   return upcoming || events.value[0];
 });
 
-// Navigation functions
-function goToSection(section: string) {
-  router.push(`/${section}`);
+// Navigation functions - support both sections and subsections
+// Mimics Navigation.vue dropdown behavior for consistency
+function goToSection(sectionOrSubsection: string) {
+  if (isSubsection(sectionOrSubsection)) {
+    // Get parent section for this subsection
+    const parentSection = getSectionFromSubsection(sectionOrSubsection);
+    const currentRoute = route.path.substring(1) || 'hero'; // Remove leading '/', default to 'hero' for '/'
+
+    if (currentRoute === parentSection) {
+      // Already on parent route - just scroll (same as Navigation.vue dropdown)
+      scrollToSection(sectionOrSubsection);
+    } else {
+      // Navigate to parent route first, then scroll after route change
+      router.push(`/${parentSection}`).then(() => {
+        // Wait for route change and DOM update (slightly more than router's 400ms delay)
+        setTimeout(() => {
+          scrollToSection(sectionOrSubsection);
+        }, 450);
+      });
+    }
+  } else {
+    // Main section - navigate normally
+    router.push(`/${sectionOrSubsection}`);
+  }
 }
 
 // Format clan tag like leaderboard
@@ -107,7 +131,7 @@ function formatClanTag(entry: LadderEntry): string {
         </div>
 
         <!-- Live Servers Widget -->
-        <div class="widget" @click="goToSection('multiplayer')">
+        <div class="widget" @click="goToSection('multiplayer-servers')">
           <div class="widget-header">
             <div class="widget-icon">
               <i class="fa-solid fa-server" aria-hidden="true"></i>
@@ -146,7 +170,7 @@ function formatClanTag(entry: LadderEntry): string {
         </div>
 
         <!-- Community Widget -->
-        <div class="widget" @click="goToSection('community')">
+        <div class="widget" @click="goToSection('community-events')">
           <div class="widget-header">
             <div class="widget-icon widget-icon-discord">
               <i class="fa-brands fa-discord" aria-hidden="true"></i>
@@ -170,7 +194,7 @@ function formatClanTag(entry: LadderEntry): string {
         </div>
 
         <!-- Statistics Widget -->
-        <div class="widget" @click="goToSection('multiplayer')">
+        <div class="widget" @click="goToSection('multiplayer-statistics')">
           <div class="widget-header">
             <div class="widget-icon">
               <i class="fa-solid fa-trophy" aria-hidden="true"></i>
@@ -210,7 +234,7 @@ function formatClanTag(entry: LadderEntry): string {
         </div>
 
         <!-- Latest Content Widget -->
-        <div class="widget" @click="goToSection('community')">
+        <div class="widget" @click="goToSection('community-videos')">
           <div class="widget-header">
             <div class="widget-icon widget-icon-youtube">
               <i class="fa-brands fa-youtube" aria-hidden="true"></i>

@@ -18,13 +18,15 @@ import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/stru
 import { initWebVitals } from '../utils/performance';
 import { rafThrottle } from '../utils/rafThrottle';
 import { SCROLL_SMOOTH_DURATION, SCROLL_FAST_SETTLE, SCROLL_TOP_DURATION } from '../constants';
+import { getAllValidIds, getSectionFromSubsection, isSubsection } from '../types/navigation';
 
 const store = useAppDataStore();
 const { data, loading } = store;
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
 const route = useRoute();
 const currentSection = ref<string | undefined>();
-const SECTION_IDS = ['hero', 'getting-started', 'multiplayer', 'community', 'about', 'faq'];
+// Get all valid IDs including subsections for scroll tracking
+const ALL_VALID_IDS = getAllValidIds();
 let sectionElements: HTMLElement[] = [];
 let scrollListenerAttached = false;
 
@@ -169,7 +171,8 @@ function setCurrentSection(id?: string | null) {
 // (Removed duplicate code - now using shared utility)
 
 function collectSectionElements() {
-  sectionElements = SECTION_IDS.map((id) => document.getElementById(id)).filter(
+  // Collect both main sections and subsections for precise scroll tracking
+  sectionElements = ALL_VALID_IDS.map((id) => document.getElementById(id)).filter(
     Boolean
   ) as HTMLElement[];
 }
@@ -283,8 +286,16 @@ function handleContinue() {
   }
 }
 
-function handleNavNavigate(section?: string) {
-  setCurrentSection(section);
+function handleNavNavigate(sectionOrSubsection?: string) {
+  // If it's a subsection, normalize to parent section for navigation state
+  // but the actual scrolling will target the subsection ID
+  let parentSection = sectionOrSubsection;
+
+  if (sectionOrSubsection && isSubsection(sectionOrSubsection)) {
+    parentSection = getSectionFromSubsection(sectionOrSubsection);
+  }
+
+  setCurrentSection(parentSection);
 
   // Set flag for programmatic scroll on every nav click
   // This handles both route changes AND same-route clicks (e.g., click FAQ while already on /faq)
@@ -341,6 +352,39 @@ watch(
         isProgrammaticScrolling.value = false;
       }, SCROLL_TOP_DURATION) as unknown as number;
     }
+  }
+);
+
+// Watch for hash changes to handle subsection navigation
+watch(
+  () => route.hash,
+  (newHash) => {
+    if (isSSR || !newHash) return;
+
+    // Extract ID from hash (remove #)
+    const targetId = newHash.substring(1);
+
+    // If it's a subsection, update current section to parent
+    if (isSubsection(targetId)) {
+      const parentSection = getSectionFromSubsection(targetId);
+      setCurrentSection(parentSection);
+    } else {
+      setCurrentSection(targetId);
+    }
+
+    // Disable scroll listener during programmatic scroll
+    isProgrammaticScrolling.value = true;
+
+    // Scroll to the target (section or subsection)
+    scrollToSection(targetId);
+
+    // Re-enable scroll listener after smooth scroll completes
+    if (programmaticScrollTimeout) {
+      clearTimeout(programmaticScrollTimeout);
+    }
+    programmaticScrollTimeout = setTimeout(() => {
+      isProgrammaticScrolling.value = false;
+    }, SCROLL_SMOOTH_DURATION) as unknown as number;
   }
 );
 </script>

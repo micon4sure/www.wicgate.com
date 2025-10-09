@@ -54,7 +54,7 @@ function getCapacityColor(count: number, max: number = 16): string {
       </div>
 
       <!-- Players & Servers Online Subsection -->
-      <div class="subsection mb-xl">
+      <div id="multiplayer-servers" class="subsection mb-xl">
         <div class="subsection-header">
           <h3>Players & Servers Online</h3>
           <p class="subsection-lead">
@@ -119,7 +119,7 @@ function getCapacityColor(count: number, max: number = 16): string {
       </div>
 
       <!-- Statistics Subsection -->
-      <div class="subsection">
+      <div id="multiplayer-statistics" class="subsection">
         <div class="subsection-header">
           <h3>Statistics</h3>
           <p class="subsection-lead">Rankings and leaderboards</p>

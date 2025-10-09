@@ -13,7 +13,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
       </div>
 
       <!-- Project Mission -->
-      <div class="about-mission mb-xl">
+      <div id="about-mission" class="about-mission mb-xl">
         <div class="mission-content">
           <h3>Our Mission</h3>
           <p class="mission-text">{{ aboutProject.mission }}</p>
@@ -21,7 +21,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
       </div>
 
       <!-- Project Story -->
-      <div class="about-story mb-xl">
+      <div id="about-story" class="about-story mb-xl">
         <div class="grid grid-2 about-grid">
           <div class="story-content">
             <h3>The Story</h3>
@@ -35,7 +35,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
       </div>
 
       <!-- Project Values -->
-      <div class="about-values mb-xl">
+      <div id="about-values" class="about-values mb-xl">
         <h3 class="text-center mb-lg">What Drives Us</h3>
         <div class="grid grid-2 values-grid">
           <div v-for="value in projectValues" :key="value.title" class="value-card">
@@ -49,7 +49,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
       </div>
 
       <!-- Team Members -->
-      <div class="about-team">
+      <div id="about-team" class="about-team">
         <h3 class="text-center mb-lg">The Team</h3>
         <div class="grid grid-3 team-grid">
           <div v-for="member in teamMembers" :key="member.name" class="team-card">

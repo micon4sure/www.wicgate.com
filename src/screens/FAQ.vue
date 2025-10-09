@@ -8,6 +8,18 @@ function toggle(q: string) {
   open.value = open.value === q ? null : q;
 }
 
+// Generate subsection ID from category name
+function getCategoryId(categoryName: string): string {
+  // Map category names to subsection IDs
+  const categoryMap: Record<string, string> = {
+    'Getting Started': 'faq-getting-started',
+    'Technical Issues': 'faq-technical',
+    'Gameplay & Features': 'faq-gameplay',
+    'Server & Community': 'faq-server-community',
+  };
+  return categoryMap[categoryName] || `faq-${categoryName.toLowerCase().replace(/\s+/g, '-')}`;
+}
+
 // Flatten all FAQ items for structured data
 const allFaqItems = computed(() => {
   return faq.flatMap((category) => category.items);
@@ -36,7 +48,7 @@ onMounted(() => {
         <p class="section-lead">Common questions about WICGATE and World in Conflict multiplayer</p>
       </div>
       <div class="faq-cont">
-        <div v-for="cat in faq" :key="cat.cat" class="faq-cat">
+        <div v-for="cat in faq" :id="getCategoryId(cat.cat)" :key="cat.cat" class="faq-cat">
           <h3>{{ cat.cat }}</h3>
           <div v-for="item in cat.items" :key="item.q" class="faq-item">
             <div class="faq-q" :class="{ active: open === item.q }" @click="toggle(item.q)">
