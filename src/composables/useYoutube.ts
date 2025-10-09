@@ -1,5 +1,6 @@
 import { ref, onMounted, computed } from 'vue';
 import { formatDate } from '../utils';
+import { memoizeWithDeps } from '../utils/memoize';
 
 export interface Video {
   id: string;
@@ -58,14 +59,22 @@ export function useYoutube() {
     }
   });
 
-  // videos from all channels sorted by publishedAt desc (top 3)
-  const videosSorted = computed(() => {
-    // Replace lodash map with native Object.values().flatMap()
-    const all: Video[] = Object.values(videos.value).flatMap((channel) => channel.videos);
-    return all.sort(
-      (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-    );
-  });
+  // Memoized sorting function - only recomputes when video count changes
+  const sortVideos = memoizeWithDeps(
+    (vids: Record<string, { channelTitle: string; videos: Video[] }>) => {
+      const all: Video[] = Object.values(vids).flatMap((channel) => channel.videos);
+      return all.sort(
+        (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+      );
+    },
+    (vids) => [
+      Object.keys(vids).length,
+      Object.values(vids).reduce((sum, ch) => sum + ch.videos.length, 0),
+    ]
+  );
+
+  // videos from all channels sorted by publishedAt desc
+  const videosSorted = computed(() => sortVideos(videos.value));
 
   return {
     videos,

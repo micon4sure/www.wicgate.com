@@ -14,10 +14,10 @@ import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useFirstVisit } from '../composables/useFirstVisit';
 import { useActiveSection } from '../composables/useActiveSection';
-import { getHeaderHeightWithBuffer, scrollToSection as scrollToSectionUtil } from '../utils/scroll';
+import { useSectionObserver } from '../composables/useSectionObserver';
+import { scrollToSection as scrollToSectionUtil } from '../utils/scroll';
 import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/structuredData';
 import { initWebVitals } from '../utils/performance';
-import { rafThrottle } from '../utils/rafThrottle';
 import { getAllValidIds, getSectionFromSubsection, isSubsection } from '../types/navigation';
 
 const store = useAppDataStore();
@@ -30,13 +30,18 @@ const {
   setCurrentSection,
   startProgrammaticScroll,
   cleanup: cleanupActiveSection,
+  getIsProgrammaticScrolling,
 } = useActiveSection();
+
+// IntersectionObserver for performant section detection
+const sectionObserver = useSectionObserver({
+  onSectionChange: setCurrentSection,
+  isProgrammaticScrolling: getIsProgrammaticScrolling,
+});
 
 const route = useRoute();
 // Get all valid IDs including subsections for scroll tracking
 const ALL_VALID_IDS = getAllValidIds();
-let sectionElements: HTMLElement[] = [];
-let scrollListenerAttached = false;
 
 // SSG conditional rendering
 const isSSR = import.meta.env.SSR;
@@ -139,45 +144,8 @@ useHead({
   ],
 });
 
-// setCurrentSection is now provided by useActiveSection composable
-// Dynamic header measurement imported from utils/scroll.ts
-
-function collectSectionElements() {
-  // Collect both main sections and subsections for precise scroll tracking
-  sectionElements = ALL_VALID_IDS.map((id) => document.getElementById(id)).filter(
-    Boolean
-  ) as HTMLElement[];
-}
-
-function updateActiveSection() {
-  if (!sectionElements.length) return;
-
-  // Skip during programmatic scrolling to prevent flash
-  if (isProgrammaticScrolling.value) return;
-
-  const scrollY = window.scrollY || window.pageYOffset;
-  // Use buffer for detection tolerance (allows slight scroll past before switching)
-  const offset = getHeaderHeightWithBuffer();
-
-  for (const el of sectionElements) {
-    const rect = el.getBoundingClientRect();
-    const top = rect.top + scrollY;
-    const bottom = top + rect.height;
-
-    if (scrollY + offset >= top && scrollY + offset < bottom) {
-      setCurrentSection(el.id);
-      return;
-    }
-  }
-
-  // Use responsive offset for hero section threshold too
-  if (scrollY < offset - 40) {
-    setCurrentSection('hero');
-  }
-}
-
-// Throttle scroll/resize handlers with RAF for 60fps performance
-const throttledUpdateSection = rafThrottle(updateActiveSection);
+// Section detection now uses IntersectionObserver (composable above)
+// Much better performance than scroll listeners
 
 onMounted(() => {
   // Skip client-side initialization during SSG
@@ -209,24 +177,14 @@ onMounted(() => {
   }
 
   nextTick(() => {
-    collectSectionElements();
-    if (!scrollListenerAttached) {
-      window.addEventListener('scroll', throttledUpdateSection, { passive: true });
-      window.addEventListener('resize', throttledUpdateSection);
-      scrollListenerAttached = true;
-    }
-    updateActiveSection();
+    // Start observing sections with IntersectionObserver
+    sectionObserver.observe(ALL_VALID_IDS);
   });
 });
 
 onBeforeUnmount(() => {
-  // Remove scroll listeners and cancel pending RAF
-  if (scrollListenerAttached) {
-    throttledUpdateSection.cancel();
-    window.removeEventListener('scroll', throttledUpdateSection);
-    window.removeEventListener('resize', throttledUpdateSection);
-    scrollListenerAttached = false;
-  }
+  // Disconnect IntersectionObserver
+  sectionObserver.disconnect();
 
   // Clean up active section composable (handles all timeouts)
   cleanupActiveSection();
