@@ -2,7 +2,7 @@
 
 /* Hero Section with Widget Grid */
 .widget-hero {
-  padding: 60px 0 80px;
+  padding: 120px 0 60px; /* Top: 83px nav + 37px clearance, Bottom: reduced for tighter layout */
   background: linear-gradient(
     180deg,
     rgba(var(--mg-rgb), 0.02) 0%,
@@ -10,15 +10,15 @@
   );
 }
 
-/* Hero Header */
+/* Hero Header - Compact Dashboard Style */
 .widget-hero-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px; /* Reduced from 60px for tighter spacing */
 }
 
 .hero-tag {
   display: inline-block;
-  padding: 8px 20px;
+  padding: 6px 16px; /* More compact - reduced from 8px 20px */
   background: linear-gradient(
     180deg,
     rgba(var(--mg-rgb), 0.4) 0%,
@@ -27,24 +27,35 @@
   border: 1px solid rgba(var(--sw-rgb), 0.4);
   color: var(--sw);
   font-family: var(--font-heading);
-  font-size: 0.875rem;
+  font-size: 0.75rem; /* Smaller - reduced from 0.875rem */
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px; /* Tighter - reduced from 2px */
   text-transform: uppercase;
-  margin-bottom: 24px;
+  margin-bottom: 16px; /* Reduced from 24px */
   box-shadow: 0 0 20px rgba(var(--sw-rgb), 0.2);
 }
 
-.hero-subtitle {
+/* Override hero.css for compact widget dashboard title */
+.widget-hero .military-title {
+  font-size: 2rem; /* Compact - reduced from 3.5rem in hero.css */
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+/* Inline subtitle for compact presentation */
+.widget-hero .hero-subtitle {
+  display: inline; /* Changed from block to keep on same line */
+  font-size: 1.25rem; /* Reduced from 2rem in hero.css */
   color: var(--sw);
   font-weight: 700;
 }
 
-.hero-description {
-  font-size: 1.125rem;
-  color: var(--t2);
-  max-width: 700px;
-  margin: 20px auto 0;
+/* Compact description */
+.widget-hero .hero-description {
+  font-size: 1rem; /* Reduced from 1.125rem */
+  color: var(--t3); /* More subtle - changed from t2 */
+  max-width: 600px; /* Narrower - reduced from 700px */
+  margin: 12px auto 0; /* Tighter - reduced from 20px */
   line-height: 1.6;
   font-family: var(--font-body);
   font-weight: 500;
@@ -484,15 +495,23 @@
 /* Desktop Small */
 @media (max-width: 1000px) {
   .widget-hero {
-    padding: 50px 0 70px;
+    padding: 110px 0 50px; /* Maintain nav clearance */
   }
 
   .widget-hero-header {
-    margin-bottom: 50px;
+    margin-bottom: 35px;
   }
 
   .widget {
     min-height: 240px;
+  }
+
+  .widget-hero .military-title {
+    font-size: 1.875rem;
+  }
+
+  .widget-hero .hero-subtitle {
+    font-size: 1.125rem;
   }
 }
 
@@ -537,11 +556,11 @@
 /* Mobile - 1 column grid */
 @media (max-width: 768px) {
   .widget-hero {
-    padding: 40px 0 60px;
+    padding: 100px 0 40px; /* Maintain nav clearance on mobile */
   }
 
   .widget-hero-header {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
   }
 
   .widget-grid {
@@ -558,7 +577,15 @@
     font-size: 1.125rem;
   }
 
-  .hero-description {
+  .widget-hero .military-title {
+    font-size: 1.75rem;
+  }
+
+  .widget-hero .hero-subtitle {
+    font-size: 1.125rem;
+  }
+
+  .widget-hero .hero-description {
     font-size: 0.9375rem;
   }
 
@@ -576,11 +603,11 @@
 /* Mobile Small */
 @media (max-width: 480px) {
   .widget-hero {
-    padding: 30px 0 50px;
+    padding: 90px 0 30px; /* Maintain nav clearance even on small mobile */
   }
 
   .widget-hero-header {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
   }
 
   .widget-header {
@@ -638,12 +665,20 @@
   }
 
   .hero-tag {
-    padding: 6px 16px;
-    font-size: 0.8125rem;
-    margin-bottom: 20px;
+    padding: 5px 12px; /* More compact on mobile */
+    font-size: 0.6875rem; /* Smaller on mobile */
+    margin-bottom: 14px;
   }
 
-  .hero-description {
+  .widget-hero .military-title {
+    font-size: 1.5rem; /* More compact on mobile */
+  }
+
+  .widget-hero .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .widget-hero .hero-description {
     font-size: 0.875rem;
   }
 }
