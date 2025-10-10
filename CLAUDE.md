@@ -23,7 +23,7 @@ npm run build        # Production build (SSG + PWA)
 ## Mandatory Constraints (NO EXCEPTIONS)
 
 1. ❌ NEVER use hardcoded colors → ✅ ALWAYS use `var(--token)`
-2. ❌ NEVER use hardcoded scroll values → ✅ ALWAYS use `scrollToSection()`
+2. ❌ NEVER use hardcoded scroll offsets → ✅ ALWAYS use CSS `var(--header-height)`
 3. ❌ NEVER use browser APIs without SSR guards
 4. ❌ NEVER use Pinia (this project uses composable modules)
 5. ❌ NEVER commit CRLF line endings (LF only)

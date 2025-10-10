@@ -40,15 +40,15 @@
 
 ---
 
-### 2. Dynamic Scroll (NO HARDCODED VALUES)
+### 2. Native Scroll System (NO HARDCODED VALUES)
 
-❌ **NEVER:** `scroll-margin-top: 120px;` or manual calculations
-✅ **ALWAYS:** `import { scrollToSection } from '@/utils/scroll';`
+❌ **NEVER:** `padding-top: 80px;` or `scroll-margin-top: 120px;`
+✅ **ALWAYS:** `padding-top: var(--header-height);`
 
-**Header height is dynamic** across breakpoints. Hardcoded values break on mobile.
+**Browser handles scrolling natively.** CSS variable auto-synced by JavaScript.
 
-📖 **Deep dive:** [docs/architecture.md - Navigation System](docs/architecture.md#navigation-system)
-📍 **Location:** [src/utils/scroll.ts](src/utils/scroll.ts)
+📖 **Deep dive:** [docs/SCROLL_SYSTEM.md](docs/SCROLL_SYSTEM.md)
+📍 **Location:** [src/utils/headerHeight.ts](src/utils/headerHeight.ts)
 
 ---
 
@@ -160,7 +160,7 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 | ❌ Wrong | ✅ Correct | See |
 |----------|-----------|-----|
 | `color: #ff6600` | `color: var(--sw)` | [Design Tokens](docs/design-system.md#design-tokens) |
-| `scroll-margin-top: 120px` | `scrollToSection('id')` | [Navigation](docs/architecture.md#navigation-system) |
+| `padding-top: 80px` | `var(--header-height)` | [Scroll System](docs/SCROLL_SYSTEM.md) |
 | `history.replaceState('#id')` | `router.push('/section')` | [Routes & SEO](docs/architecture.md#routes--seo) |
 | `document.querySelector()` | `if (!import.meta.env.SSR) {...}` | [SSR Guards](docs/architecture.md#ssr-guards) |
 | `bun test` | `bun run test` | [Testing](docs/testing.md#package-manager-comparison) |
@@ -173,7 +173,7 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 | File | Purpose |
 |------|---------|
-| [src/utils/scroll.ts](src/utils/scroll.ts) | Dynamic scroll (single source of truth) |
+| [src/utils/headerHeight.ts](src/utils/headerHeight.ts) | Header height sync for native scroll |
 | [src/assets/styles/modules/variables.css](src/assets/styles/modules/variables.css) | All design tokens |
 | [src/views/Home.vue](src/views/Home.vue) | SSG conditional rendering |
 | [src/stores/appDataStore.ts](src/stores/appDataStore.ts) | API data fetching (composable pattern) |

@@ -49,11 +49,11 @@ npm run build        # Production build (SSG + PWA)
 
 Location: [src/assets/styles/modules/variables.css](src/assets/styles/modules/variables.css)
 
-### 2. Dynamic Scroll (MANDATORY)
-❌ `scroll-margin-top: 120px;`
-✅ `import { scrollToSection } from '@/utils/scroll';`
+### 2. Native Scroll System (MANDATORY)
+❌ `padding-top: 80px;` or `scroll-margin-top: 120px;`
+✅ `padding-top: var(--header-height);`
 
-Location: [src/utils/scroll.ts](src/utils/scroll.ts)
+Browser handles scrolling natively. See [docs/SCROLL_SYSTEM.md](docs/SCROLL_SYSTEM.md)
 
 ### 3. SSR Guards (MANDATORY)
 ❌ `document.querySelector()`
@@ -121,11 +121,10 @@ All in [variables.css](src/assets/styles/modules/variables.css):
 - [useFirstVisit.ts](src/composables/useFirstVisit.ts) - Welcome overlay
 - [useServerCapacity.ts](src/composables/useServerCapacity.ts) - Server capacity colors
 - [usePlayerDisplay.ts](src/composables/usePlayerDisplay.ts) - Player name parsing
-- [useActiveSection.ts](src/composables/useActiveSection.ts) - Scroll state management
-- [useSectionObserver.ts](src/composables/useSectionObserver.ts) - IntersectionObserver wrapper
+- [useScrollTracker.ts](src/composables/useScrollTracker.ts) - Nav highlighting only
 
 ### Utilities
-- [scroll.ts](src/utils/scroll.ts) - Navigation scroll system
+- [headerHeight.ts](src/utils/headerHeight.ts) - Dynamic header height sync
 - [memoize.ts](src/utils/memoize.ts) - Memoization toolkit
 - [features.ts](src/utils/features.ts) - Feature flag system (11 flags)
 - [analytics.ts](src/utils/analytics.ts) - Event tracking
