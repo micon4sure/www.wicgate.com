@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, nextTick, computed, watch } from 'vue';
+import { onMounted, onBeforeUnmount, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useHead } from '@vueuse/head';
 import Navigation from '../components/Navigation.vue';
@@ -13,31 +13,18 @@ import FAQ from '../screens/FAQ.vue';
 import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useFirstVisit } from '../composables/useFirstVisit';
-import { useActiveSection } from '../composables/useActiveSection';
-import { useSectionObserver } from '../composables/useSectionObserver';
-import { scrollToSection as scrollToSectionUtil } from '../utils/scroll';
+import { useScrollTracker } from '../composables/useScrollTracker';
 import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/structuredData';
 import { initWebVitals } from '../utils/performance';
-import { getAllValidIds, getSectionFromSubsection, isSubsection } from '../types/navigation';
+import { getAllValidIds } from '../types/navigation';
+import { syncHeaderHeight } from '../utils/headerHeight';
 
 const store = useAppDataStore();
 const { data, loading } = store;
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
-const {
-  currentSection,
-  isFastScrolling,
-  isProgrammaticScrolling,
-  setCurrentSection,
-  startProgrammaticScroll,
-  cleanup: cleanupActiveSection,
-  getIsProgrammaticScrolling,
-} = useActiveSection();
 
-// IntersectionObserver for performant section detection
-const sectionObserver = useSectionObserver({
-  onSectionChange: setCurrentSection,
-  isProgrammaticScrolling: getIsProgrammaticScrolling,
-});
+// Simple scroll tracker for navigation highlighting
+const { currentSection, observe, disconnect } = useScrollTracker();
 
 const route = useRoute();
 // Get all valid IDs including subsections for scroll tracking
@@ -144,9 +131,6 @@ useHead({
   ],
 });
 
-// Section detection now uses IntersectionObserver (composable above)
-// Much better performance than scroll listeners
-
 onMounted(() => {
   // Skip client-side initialization during SSG
   if (isSSR) return;
@@ -157,122 +141,44 @@ onMounted(() => {
   // Initialize store data
   store.init();
 
-  // Determine initial section from route (use parent section for subsections)
-  const subsection = route.meta.subsection as string | undefined;
-  const section = route.meta.section as string | undefined;
-
-  // Set current section for first visit overlay
-  setCurrentSection(section);
+  // Sync header height with CSS variable for pixel-perfect scroll positioning
+  // This measures actual rendered header height and updates --header-height
+  const cleanupHeaderSync = syncHeaderHeight();
 
   // Check for first visit and show overlay if needed
-  initFirstVisitCheck(!!(subsection || section));
+  const hasSection = !!(route.meta.subsection || route.meta.section);
+  initFirstVisitCheck(hasSection);
 
-  // Scroll to subsection if present
-  if (subsection) {
-    nextTick(() => {
-      setTimeout(() => {
-        scrollToSection(subsection);
-      }, 100);
-    });
-  }
+  // Start observing sections for navigation highlighting
+  // Browser handles scrolling via router scrollBehavior + CSS
+  observe(ALL_VALID_IDS);
 
-  nextTick(() => {
-    // Start observing sections with IntersectionObserver
-    sectionObserver.observe(ALL_VALID_IDS);
+  // Cleanup on unmount
+  onBeforeUnmount(() => {
+    // Disconnect IntersectionObserver
+    disconnect();
+
+    // Clean up header height sync
+    if (cleanupHeaderSync) cleanupHeaderSync();
   });
-});
-
-onBeforeUnmount(() => {
-  // Disconnect IntersectionObserver
-  sectionObserver.disconnect();
-
-  // Clean up active section composable (handles all timeouts)
-  cleanupActiveSection();
 });
 
 // First visit overlay handlers
 function handleGoHome() {
   dismissOverlay();
-  // Clear any hash and show home page
-  history.replaceState(null, '', window.location.pathname);
-  setCurrentSection(undefined);
-  // Scroll to top smoothly
+  // Browser handles smooth scroll to top via native behavior
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function handleContinue() {
   dismissOverlay();
-  // Route-based navigation is already handled by onMounted() hook
-  // which checks route.meta.subsection and scrolls accordingly
+  // Browser already scrolled to target section via router scrollBehavior
 }
-
-function handleNavNavigate(sectionOrSubsection?: string) {
-  // If it's a subsection, normalize to parent section for navigation state
-  // but the actual scrolling will target the subsection ID
-  let parentSection = sectionOrSubsection;
-
-  if (sectionOrSubsection && isSubsection(sectionOrSubsection)) {
-    parentSection = getSectionFromSubsection(sectionOrSubsection);
-  }
-
-  setCurrentSection(parentSection);
-
-  // Start programmatic scroll mode (disables listener temporarily)
-  startProgrammaticScroll();
-}
-
-// Scroll to section when route changes (wraps utility for nextTick)
-function scrollToSection(sectionId: string) {
-  // Wait for all sections to render on client-side
-  nextTick(() => {
-    scrollToSectionUtil(sectionId);
-  });
-}
-
-// Watch for route changes and scroll to the target section/subsection
-watch(
-  () => route.path,
-  () => {
-    if (isSSR) return;
-
-    const subsection = route.meta.subsection as string | undefined;
-    const section = route.meta.section as string | undefined;
-
-    if (subsection) {
-      // Subsection route - scroll to subsection
-      setCurrentSection(section);
-
-      // Start programmatic scroll mode
-      startProgrammaticScroll();
-
-      // Scroll to subsection
-      scrollToSection(subsection);
-    } else if (section) {
-      // Main section route - scroll to section
-      setCurrentSection(section);
-
-      // Start programmatic scroll mode
-      startProgrammaticScroll();
-
-      // Scroll to section
-      scrollToSection(section);
-    } else {
-      // Homepage - scroll to top
-      setCurrentSection(undefined);
-      startProgrammaticScroll(1000); // Use 1000ms for scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-);
 </script>
 <template>
   <div id="siteWrapper" class="site-wrapper">
     <header>
-      <Navigation
-        :active-section="currentSection"
-        :is-fast-scrolling="isFastScrolling"
-        @navigate="handleNavNavigate"
-      />
+      <Navigation :active-section="currentSection" />
     </header>
 
     <div class="main-content">

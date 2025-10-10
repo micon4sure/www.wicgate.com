@@ -2,17 +2,17 @@
 
 /* Enhanced Section Spacing System */
 .section {
-  padding: 80px 20px;
+  padding: var(--header-height) 20px 80px; /* Top: dynamic header height, Sides: 20px, Bottom: 80px */
   position: relative;
 }
 
 /* Improved section spacing for better visual rhythm */
 .section-enhanced {
-  padding: 100px 20px 120px;
+  padding: calc(var(--header-height) + 20px) 20px 120px; /* Dynamic header + extra buffer */
 }
 
 .section-compact {
-  padding: 60px 20px 80px;
+  padding: var(--header-height) 20px 80px; /* Dynamic header height */
 }
 
 /* Visual Section Separators */
@@ -316,7 +316,7 @@
 /* Responsive Hierarchy Adjustments */
 @media (max-width: 1024px) {
   .section-enhanced {
-    padding: 80px 20px 100px;
+    padding: var(--header-height) 20px 100px; /* Dynamic header height */
   }
 
   .content-group {
@@ -343,11 +343,11 @@
 
 @media (max-width: 768px) {
   .section {
-    padding: 60px 20px;
+    padding: var(--header-height) 20px 60px; /* Dynamic header height with reduced bottom padding */
   }
 
   .section-enhanced {
-    padding: 70px 20px 80px;
+    padding: calc(var(--header-height) + 10px) 20px 80px; /* Dynamic header + small buffer */
   }
 
   .section-separator {
@@ -398,11 +398,11 @@
 
 @media (max-width: 480px) {
   .section {
-    padding: 50px 20px;
+    padding: var(--header-height) 20px 50px; /* Dynamic header height with minimal bottom padding */
   }
 
   .section-enhanced {
-    padding: 60px 20px 70px;
+    padding: var(--header-height) 20px 70px; /* Dynamic header height */
   }
 
   .section-separator {

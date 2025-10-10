@@ -20,6 +20,8 @@
 @import './modules/components/faq.css';
 @import './modules/components/footer.css';
 @import './modules/components/toggle.css';
+@import './modules/components/hero.css';
+@import './modules/components/visual-hierarchy.css';
 
-/* Responsive design system */
+/* Responsive design system - imported LAST to properly override above styles */
 @import './modules/responsive.css';

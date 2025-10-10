@@ -2,7 +2,7 @@
 
 /* Hero Section with Widget Grid */
 .widget-hero {
-  padding: 120px 0 60px; /* Top: 83px nav + 37px clearance, Bottom: reduced for tighter layout */
+  padding: calc(var(--header-height) + 40px) 0 60px; /* Top: dynamic header + extra clearance, Bottom: reduced for tighter layout */
   background: linear-gradient(
     180deg,
     rgba(var(--mg-rgb), 0.02) 0%,
@@ -487,7 +487,7 @@
 /* Desktop Small */
 @media (max-width: 1000px) {
   .widget-hero {
-    padding: 110px 0 50px; /* Maintain nav clearance */
+    padding: calc(var(--header-height) + 30px) 0 50px; /* Dynamic header + clearance */
   }
 
   .widget-hero-header {
@@ -548,7 +548,7 @@
 /* Mobile - 1 column grid */
 @media (max-width: 768px) {
   .widget-hero {
-    padding: 100px 0 40px; /* Maintain nav clearance on mobile */
+    padding: calc(var(--header-height) + 20px) 0 40px; /* Dynamic header + clearance on mobile */
   }
 
   .widget-hero-header {
@@ -595,7 +595,7 @@
 /* Mobile Small */
 @media (max-width: 480px) {
   .widget-hero {
-    padding: 90px 0 30px; /* Maintain nav clearance even on small mobile */
+    padding: calc(var(--header-height) + 10px) 0 30px; /* Dynamic header + minimal clearance on small mobile */
   }
 
   .widget-hero-header {

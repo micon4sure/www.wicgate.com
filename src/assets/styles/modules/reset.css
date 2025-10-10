@@ -6,9 +6,26 @@
   box-sizing: border-box;
 }
 
+:root {
+  /* Dynamic header height - updated by JavaScript to match actual rendered height */
+  /* Default fallback: 80px (will be overridden on mount) */
+  --header-height: 80px;
+}
+
 html {
   overflow-x: hidden;
   overscroll-behavior-x: none;
+  /* Native smooth scrolling - browser GPU accelerated */
+  scroll-behavior: smooth;
+  /* Dynamic scroll offset - automatically syncs with actual header height */
+  scroll-padding-top: var(--header-height);
+}
+
+/* Respect user motion preferences for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {

@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { computed } from 'vue';
 import { useYoutube } from '../composables/useYoutube';
 import { useEvents } from '../composables/useEvents';
 import TwitchFacade from '../components/TwitchFacade.vue';
 import EventsSkeleton from '../components/skeletons/EventsSkeleton.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
-import { getItem, setItem } from '../utils/storage';
 
 // SSR detection
 const isSSR = import.meta.env.SSR;
@@ -20,19 +19,7 @@ const {
 // Events integration
 const { events, isLoading: eventsLoading, formatDate, getCountdown } = useEvents();
 
-// UI state: expanded toggle (persist to localStorage)
-const EXPAND_KEY = 'community_videos_expanded';
-// Read localStorage synchronously during setup (SSR-safe) to prevent layout shifts
-// This ensures the expanded state is set BEFORE first render and scroll positioning
-const storedExpanded = typeof window !== 'undefined' ? getItem(EXPAND_KEY) === '1' : false;
-const expanded = ref(storedExpanded);
-
-watch(expanded, (val) => {
-  if (typeof window !== 'undefined') {
-    setItem(EXPAND_KEY, val ? '1' : '0');
-  }
-});
-
+// Show top 6 latest videos
 const top6NYTVideos = computed(() => ytVideosSorted.value.slice(0, 6));
 
 // Flatten grouped channels into an array for v-for and sort by channel title
@@ -189,11 +176,6 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
       <div id="community-videos" class="vid-section mb-xl">
         <div class="vid-hdr">
           <h3>Latest Videos</h3>
-          <label class="toggle">
-            <input v-model="expanded" type="checkbox" />
-            <span class="slider"></span>
-            <span class="lbl">Expand</span>
-          </label>
         </div>
 
         <VideosSkeleton v-if="isSSR || ytVidsLoading" />
@@ -227,8 +209,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
             </div>
           </div>
 
-          <!-- Channel sections slide down when expanded -->
-          <div v-show="expanded" class="by-channel videos-expandable">
+          <!-- Videos by Content Creator (always visible) -->
+          <div class="by-channel videos-expandable">
             <div class="vid-hdr by-channel-hdr">
               <h3>By Content Creator</h3>
             </div>

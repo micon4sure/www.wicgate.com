@@ -14,10 +14,8 @@ const openDropdown = ref<string | null>(null);
 
 const props = defineProps<{
   activeSection?: string | undefined;
-  isFastScrolling?: boolean;
 }>();
 const activeSection = toRef(props, 'activeSection');
-const isFastScrolling = toRef(props, 'isFastScrolling');
 
 // Track window width for resize handling
 const lastWindowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1920);
@@ -114,9 +112,6 @@ onUnmounted(() => {
   document.body.style.overflow = ''; // Clean up body scroll lock
 });
 
-// Dynamic header measurement imported from utils/scroll.ts
-// (Removed duplicate code - now using shared utility)
-
 function handleNavigation(sectionId: string) {
   const sectionName = sectionId === 'hero' ? 'Home' : sectionId;
   AnalyticsEvents.sectionView(sectionName);
@@ -124,7 +119,7 @@ function handleNavigation(sectionId: string) {
   closeMobileMenu();
   closeDropdown();
 
-  // Navigate using router
+  // Navigate using router - browser handles scrolling via scrollBehavior + CSS
   router.push(getRoutePath(sectionId));
 
   // Check if we're in game mode - if so, trigger home mode first
@@ -142,7 +137,7 @@ function handleNavigation(sectionId: string) {
     </div>
 
     <!-- Desktop navigation (left-aligned) -->
-    <nav class="desktop-nav" :class="{ 'fast-scroll': isFastScrolling }">
+    <nav class="desktop-nav">
       <template v-for="section in navSections" :key="section.id">
         <!-- Sections without subsections -->
         <router-link

@@ -7,7 +7,6 @@ import './assets/styles/base.css';
 import App from './App.vue';
 import { routes } from './router/routes';
 import { registerSW } from 'virtual:pwa-register';
-import { getNavHeight } from './utils/scroll';
 
 // Router base derived from Vite's BASE_URL. When base is './' (our config),
 // normalizing against the current URL yields the correct mount path in all environments:
@@ -19,11 +18,11 @@ const getRuntimeBase = () => {
   return new URL(import.meta.env.BASE_URL, window.location.href).pathname;
 };
 
-// Disable browser's automatic scroll restoration (industry standard for SPAs)
-// This prevents scroll position bugs when async content loads after navigation
-// Home.vue's route watcher handles all scroll positioning manually
+// Enable browser's native scroll restoration
+// Modern best practice: Let browser handle scroll position restoration
+// CSS scroll-behavior + scroll-padding-top handle smooth scrolling and offsets
 if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
-  history.scrollRestoration = 'manual';
+  history.scrollRestoration = 'auto';
 }
 
 // Register PWA service worker (client-side only)
@@ -61,61 +60,25 @@ export const createApp = ViteSSG(
   {
     routes,
     base: getRuntimeBase(),
-    scrollBehavior(to, from, _saved) {
-      // Async scroll behavior - waits for content to load before scrolling
-      // This fixes scroll jumping when async content (Events/Videos) loads after navigation
+    scrollBehavior(to, _from, savedPosition) {
+      // Native browser scroll behavior - minimal JavaScript, CSS does the work
 
-      // Handle subsection routes (e.g., /multiplayer/statistics)
-      if (to.meta.subsection) {
-        return new Promise((resolve) => {
-          // Wait for sections to render and async content to start loading
-          setTimeout(() => {
-            const headerHeight = getNavHeight();
-            const element = document.getElementById(to.meta.subsection as string);
-
-            if (element) {
-              const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-              resolve({
-                top: elementPosition - headerHeight,
-                behavior: 'smooth',
-              });
-            } else {
-              // Fallback to top if element not found
-              resolve({ top: 0 });
-            }
-          }, 100);
-        });
+      // 1. Browser back/forward - restore saved position
+      if (savedPosition) {
+        return savedPosition;
       }
 
-      // For section-based navigation (e.g., /community, /multiplayer)
-      if (to.meta.section) {
-        return new Promise((resolve) => {
-          // Wait for sections to render and async content to start loading
-          // Community has Events API + Videos API that need time to respond
-          setTimeout(() => {
-            // Calculate actual header height dynamically
-            // This matches the offset used by scrollToSectionUtil() for consistency
-            const headerHeight = getNavHeight();
-
-            resolve({
-              el: `#${to.meta.section}`,
-              top: headerHeight, // Dynamic offset (~80-83px) - same as JS scroll system
-              behavior: 'smooth',
-            });
-          }, 100);
-        });
+      // 2. Section or subsection route - scroll to element
+      // CSS scroll-padding-top automatically handles header offset
+      const targetId = to.meta.subsection || to.meta.section;
+      if (targetId) {
+        return {
+          el: `#${targetId}`,
+          behavior: 'smooth', // Uses CSS scroll-behavior
+        };
       }
 
-      // Check if both routes use the same component (Home.vue)
-      const toComponent = to.matched[0]?.components?.default;
-      const fromComponent = from.matched[0]?.components?.default;
-
-      // If navigating within Home component sections, let watcher handle it
-      if (toComponent === fromComponent && toComponent) {
-        return false; // Disable automatic scroll
-      }
-
-      // For different pages or homepage, scroll to top
+      // 3. Default - scroll to top
       return { top: 0 };
     },
   },

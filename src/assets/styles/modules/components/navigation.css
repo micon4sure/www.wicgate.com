@@ -224,15 +224,6 @@ header {
   background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.65) 100%);
 }
 
-/* Disable transitions during fast scrolling to prevent cascade animation */
-.desktop-nav.fast-scroll a {
-  transition: none !important;
-}
-
-.desktop-nav.fast-scroll a::before {
-  transition: none !important;
-}
-
 /* Home button styling (distinguishes it from other nav tabs) */
 .home-btn {
   /* Additional styling for home button if needed */
@@ -392,7 +383,7 @@ header {
 
 .mobile-nav-content {
   position: absolute;
-  top: 80px; /* 80px nav only */
+  top: var(--header-height); /* Dynamic header height */
   left: 0;
   width: 100vw;
   background: linear-gradient(180deg, rgba(var(--night-rgb), 0.98) 0%, rgba(var(--night-dark-rgb), 0.98) 100%);
@@ -404,7 +395,7 @@ header {
   display: flex;
   flex-direction: column;
   padding: 0;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - var(--header-height));
 }
 
 /* Vue transition for mobile nav */
@@ -715,11 +706,7 @@ header {
   }
 
 
-  /* Mobile navigation content positioning */
-  .mobile-nav-content {
-    top: 70px; /* 70px nav only */
-    min-height: calc(100vh - 70px);
-  }
+  /* Mobile navigation content positioning - uses dynamic header height */
 }
 
 /* Tablet landscape adjustments */
@@ -740,11 +727,6 @@ header {
 
   .logo-subtitle {
     font-size: 10px;
-  }
-
-  .mobile-nav-content {
-    top: 65px; /* Just nav height now */
-    min-height: calc(100vh - 65px);
   }
 
   .mobile-nav a {
@@ -799,11 +781,6 @@ header {
 
   .logo-subtitle {
     font-size: 8px;
-  }
-
-  .mobile-nav-content {
-    top: 60px; /* Just nav height now */
-    min-height: calc(100vh - 60px);
   }
 
   .mobile-nav a {

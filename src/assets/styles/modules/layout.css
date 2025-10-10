@@ -8,7 +8,7 @@
 }
 
 .section {
-  padding: 80px 20px;
+  padding: var(--header-height) 20px 80px; /* Top: dynamic header height, Sides: 20px, Bottom: 80px */
 }
 
 /* Flexbox utilities */

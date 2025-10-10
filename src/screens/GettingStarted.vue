@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
 import {
   steps,
   dedicatedServerSteps,
@@ -7,28 +6,6 @@ import {
   manualInstallSteps,
   manualInstallWarning,
 } from '../content/content';
-import { getItem, setItem } from '../utils/storage';
-
-// Advanced Setup expand/collapse state with localStorage persistence
-const EXPAND_KEY = 'advanced_setup_expanded';
-// Initialize to collapsed state (SSR-safe, prevents hydration mismatch)
-const isAdvancedExpanded = ref(false);
-
-// Read localStorage preference after component mounts (after hydration)
-onMounted(() => {
-  if (typeof window !== 'undefined') {
-    const stored = getItem(EXPAND_KEY);
-    if (stored === '1') {
-      isAdvancedExpanded.value = true;
-    }
-  }
-});
-
-watch(isAdvancedExpanded, (val) => {
-  if (typeof window !== 'undefined') {
-    setItem(EXPAND_KEY, val ? '1' : '0');
-  }
-});
 </script>
 <template>
   <section id="getting-started" class="gs-bg section">
@@ -50,21 +27,16 @@ watch(isAdvancedExpanded, (val) => {
         </div>
       </div>
 
-      <!-- Advanced Setup Options -->
+      <!-- Advanced Setup Options (always visible) -->
       <div id="getting-started-advanced" class="advanced-section">
         <div class="text-center mb-xl">
           <h2>Advanced Setup Options</h2>
           <p class="section-lead">
             For users who need dedicated server hosting or manual installation
           </p>
-          <label class="toggle">
-            <input v-model="isAdvancedExpanded" type="checkbox" />
-            <span class="slider"></span>
-            <span class="lbl">{{ isAdvancedExpanded ? 'Collapse' : 'Expand' }}</span>
-          </label>
         </div>
 
-        <div v-show="isAdvancedExpanded" class="advanced-content">
+        <div class="advanced-content">
           <!-- Dedicated Server Setup -->
           <div class="server-setup mb-xl">
             <h3 class="grad-text text-center mb-lg">Dedicated Server Setup</h3>

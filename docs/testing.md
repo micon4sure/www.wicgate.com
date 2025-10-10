@@ -1,5 +1,7 @@
 # Testing Documentation
 
+> **⚠️ UPDATE (October 2025):** Scroll utility tests removed as part of native scroll system refactor. Browser handles scrolling natively now. See [Changelog](changelog.md) for details.
+
 ## Overview
 
 WiCGATE uses a comprehensive testing infrastructure with **Vitest** and **Vue Test Utils** for component and utility testing. The test suite implements a hybrid timing strategy for optimal development speed and CI thoroughness.

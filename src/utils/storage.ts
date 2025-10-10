@@ -95,7 +95,7 @@ export function isStorageAvailable(): boolean {
  *
  * @example
  * ```typescript
- * const isExpanded = getBoolean(STORAGE_KEYS.ADVANCED_SETUP_EXPANDED, false);
+ * const hasVisited = getBoolean(STORAGE_KEYS.FIRST_VISIT, false);
  * ```
  */
 export function getBoolean(key: StorageKey, defaultValue: boolean): boolean {
@@ -112,7 +112,7 @@ export function getBoolean(key: StorageKey, defaultValue: boolean): boolean {
  *
  * @example
  * ```typescript
- * setBoolean(STORAGE_KEYS.ADVANCED_SETUP_EXPANDED, true);
+ * setBoolean(STORAGE_KEYS.FIRST_VISIT, true);
  * ```
  */
 export function setBoolean(key: StorageKey, value: boolean): boolean {

@@ -1,5 +1,7 @@
 # Design System Documentation
 
+> **⚠️ UPDATE (October 2025):** Expandable section patterns removed. All content now always visible. See [Changelog](changelog.md) for details.
+
 ## Overview
 
 WiCGATE uses a comprehensive design system inspired by the original Massgate military aesthetic. All styling is token-based, modular, and responsive across all breakpoints.

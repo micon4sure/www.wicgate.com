@@ -2,6 +2,9 @@
 
 ## Recent Changes - Quick Summary
 
+- 🔧 **CRITICAL: Missing CSS Imports Fixed** - Discovered and fixed missing `hero.css` and `visual-hierarchy.css` imports in `base.css` that prevented dynamic header height from working, added comprehensive [SCROLL_SYSTEM.md](SCROLL_SYSTEM.md) documentation (Oct 10)
+- 🎯 **Dynamic Header Height Sync** - Implemented industry-standard auto-syncing system: JavaScript measures actual header height, updates CSS variable `--header-height`, `scroll-padding-top` uses variable for pixel-perfect positioning at all breakpoints, zero maintenance required (Oct 10)
+- 🔄 **Native Scroll & Navigation System Refactor** - Complete rewrite using CSS/HTML-first approach: `scroll-behavior: smooth`, CSS variables for scroll offset, native `scrollRestoration: auto`, removed 500+ lines of custom JS logic (80% reduction), removed expandable sections for better discoverability (Oct 10)
 - 🏗️ **Major Refactoring (Phases 1-5)** - Comprehensive codebase optimization: extracted composables, improved type safety, decomposed components, performance optimizations, developer experience enhancements (Oct 10)
 - 🎨 **Live Servers Widget Color Enhancement** - Added dynamic player count colors (green < 50%, orange 50-89%, red ≥ 90%) matching Multiplayer section (Oct 9)
 - 🎨 **Quick Start Widget Enhancement** - Added download icon and "Install WICGATE" CTA (reused from removed homepage button) for clearer action (Oct 9)

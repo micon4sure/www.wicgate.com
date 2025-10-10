@@ -21,7 +21,7 @@
   }
 
   .section {
-    padding: 60px 0;
+    padding: var(--header-height) 0 60px; /* Dynamic header height, zero sides, 60px bottom */
   }
 
   .hero {
@@ -136,7 +136,7 @@
   }
 
   .section {
-    padding: 50px 0;
+    padding: var(--header-height) 0 50px; /* Dynamic header height */
   }
 
   .section h2 {
@@ -241,7 +241,7 @@
   }
 
   .section {
-    padding: 40px 0;
+    padding: var(--header-height) 0 40px; /* Dynamic header height */
   }
 
   .hero {
@@ -407,7 +407,7 @@
   }
 
   .section {
-    padding: 30px 0;
+    padding: var(--header-height) 0 30px; /* Dynamic header height */
   }
 
   .grid {
@@ -546,7 +546,7 @@
 
   /* Optimize vertical space usage */
   .section {
-    padding: 35px 0;
+    padding: var(--header-height) 0 35px; /* Dynamic header height */
   }
 
   /* Hero padding managed by hero.css for precise header offset calculations */

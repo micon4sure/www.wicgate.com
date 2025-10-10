@@ -1,5 +1,7 @@
 # Troubleshooting Guide
 
+> **⚠️ UPDATE (October 2025):** Scroll-related issues resolved by native scroll system. Old programmatic scroll troubleshooting no longer relevant. See [Architecture](architecture.md#native-scroll--navigation-system-october-2025) for current implementation.
+
 Common issues and solutions for WiCGATE development.
 
 ---

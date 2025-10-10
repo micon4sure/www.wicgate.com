@@ -8,7 +8,7 @@
     linear-gradient(180deg, rgba(var(--bg-rgb), 0.96) 0%, rgba(var(--graphite-dark-rgb), 0.98) 100%);
   display: flex;
   align-items: center;
-  padding-top: 83px; /* 80px navigation + 3px border */
+  padding-top: var(--header-height); /* Dynamic header height */
 }
 
 .hero-grid {
@@ -208,12 +208,8 @@
 
 /* Responsive breakpoints for hero section and carousel */
 
-/* Adjust hero padding - EXACT header heights including 3px navigation border + mobile buffers */
+/* Typography adjustments - padding-top automatically handled by --header-height */
 @media screen and (max-width: 1024px) {
-  .hero {
-    padding-top: 78px; /* 70px navigation + 3px border + 5px buffer */
-  }
-
   .military-title {
     font-size: 3rem;
   }
@@ -224,30 +220,6 @@
 
   .hero-description {
     font-size: 1.125rem;
-  }
-}
-
-@media screen and (max-width: 900px) {
-  .hero {
-    padding-top: 83px; /* 70px navigation + 3px border + 10px buffer */
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .hero {
-    padding-top: 88px; /* 65px navigation + 3px border + 20px buffer */
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .hero {
-    padding-top: 93px; /* 65px navigation + 3px border + 25px buffer */
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .hero {
-    padding-top: 93px; /* 60px navigation + 3px border + 30px buffer */
   }
 }
 
