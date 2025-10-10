@@ -20,7 +20,7 @@ const getRuntimeBase = () => {
 
 // Enable browser's native scroll restoration
 // Modern best practice: Let browser handle scroll position restoration
-// CSS scroll-behavior + scroll-padding-top handle smooth scrolling and offsets
+// CSS scroll-behavior handles smooth scrolling, JavaScript calculates offsets
 if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
   history.scrollRestoration = 'auto';
 }

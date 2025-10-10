@@ -17,8 +17,7 @@ html {
   overscroll-behavior-x: none;
   /* Native smooth scrolling - browser GPU accelerated */
   scroll-behavior: smooth;
-  /* Dynamic scroll offset - automatically syncs with actual header height */
-  scroll-padding-top: var(--header-height);
+  /* Note: scroll-padding-top not used - JavaScript calculates offsets for cross-browser reliability */
 }
 
 /* Respect user motion preferences for accessibility */

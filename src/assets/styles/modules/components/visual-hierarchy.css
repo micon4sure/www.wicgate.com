@@ -1,10 +1,7 @@
 /* Visual Hierarchy Improvements - Enhanced spacing, separation, and flow */
 
 /* Enhanced Section Spacing System */
-.section {
-  padding: var(--header-height) 20px 80px; /* Top: dynamic header height, Sides: 20px, Bottom: 80px */
-  position: relative;
-}
+/* Base .section padding defined in layout.css */
 
 /* Improved section spacing for better visual rhythm */
 .section-enhanced {
