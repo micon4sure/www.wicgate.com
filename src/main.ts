@@ -61,21 +61,42 @@ export const createApp = ViteSSG(
     routes,
     base: getRuntimeBase(),
     scrollBehavior(to, _from, savedPosition) {
-      // Native browser scroll behavior - minimal JavaScript, CSS does the work
-
       // 1. Browser back/forward - restore saved position
       if (savedPosition) {
         return savedPosition;
       }
 
-      // 2. Section or subsection route - scroll to element
-      // CSS scroll-padding-top automatically handles header offset
+      // 2. Section or subsection route - scroll to element with manual offset
+      // Manual calculation ensures pixel-perfect positioning across all browsers
       const targetId = to.meta.subsection || to.meta.section;
       if (targetId) {
-        return {
-          el: `#${targetId}`,
-          behavior: 'smooth', // Uses CSS scroll-behavior
-        };
+        return new Promise((resolve) => {
+          // Delay ensures DOM is ready and headerHeight.ts has executed
+          setTimeout(() => {
+            const element = document.getElementById(targetId);
+            if (!element) {
+              resolve({ top: 0 });
+              return;
+            }
+
+            // Get measured header height from CSS variable (synced by headerHeight.ts)
+            const headerHeight =
+              parseInt(
+                getComputedStyle(document.documentElement)
+                  .getPropertyValue('--header-height')
+                  .trim()
+              ) || 80;
+
+            // Calculate exact scroll position: element top + scroll offset - header height
+            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition - headerHeight;
+
+            resolve({
+              top: offsetPosition,
+              behavior: 'smooth',
+            });
+          }, 100);
+        });
       }
 
       // 3. Default - scroll to top

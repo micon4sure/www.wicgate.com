@@ -14,6 +14,7 @@ header {
 
 .hdr {
   height: 80px;
+  min-height: 80px;
   padding: 0 20px;
 }
 
@@ -683,6 +684,7 @@ header {
 @media (max-width: 1024px) {
   .hdr {
     height: 70px;
+    min-height: 70px;
     padding: 0 20px;
     justify-content: space-between;
   }
@@ -713,6 +715,7 @@ header {
 @media (max-width: 768px) {
   .hdr {
     height: 65px;
+    min-height: 65px;
     padding: 0 18px;
   }
 
@@ -768,6 +771,7 @@ header {
 @media (max-width: 480px) {
   .hdr {
     height: 60px;
+    min-height: 60px;
     padding: 0 16px;
   }
 

@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🔧 **CRITICAL: Scroll Positioning & Navigation Height Fix** - Fixed hardcoded `.hdr` heights breaking dynamic measurement system and browser `scroll-padding-top` inconsistencies by using both `height` + `min-height` properties and manual offset calculation in router scrollBehavior for pixel-perfect positioning across all browsers and breakpoints (Oct 10)
 - 🔧 **CRITICAL: Missing CSS Imports Fixed** - Discovered and fixed missing `hero.css` and `visual-hierarchy.css` imports in `base.css` that prevented dynamic header height from working, added comprehensive [SCROLL_SYSTEM.md](SCROLL_SYSTEM.md) documentation (Oct 10)
 - 🎯 **Dynamic Header Height Sync** - Implemented industry-standard auto-syncing system: JavaScript measures actual header height, updates CSS variable `--header-height`, `scroll-padding-top` uses variable for pixel-perfect positioning at all breakpoints, zero maintenance required (Oct 10)
 - 🔄 **Native Scroll & Navigation System Refactor** - Complete rewrite using CSS/HTML-first approach: `scroll-behavior: smooth`, CSS variables for scroll offset, native `scrollRestoration: auto`, removed 500+ lines of custom JS logic (80% reduction), removed expandable sections for better discoverability (Oct 10)
