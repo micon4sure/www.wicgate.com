@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎯 **Navigation Highlighting: Hybrid Scroll Tracking** - Replaced complex IntersectionObserver with simple hybrid approach: click navigation uses route (instant), manual scrolling uses position-based tracking (scroll position + header height), added programmatic scroll protection to prevent racing highlights, ~110 lines vs 100+ complex observer code (Oct 10)
 - 🧹 **Code Cleanup: Scroll System Documentation** - Removed duplicate `.section` CSS definition, updated outdated comments to reflect manual offset calculation instead of `scroll-padding-top`, consolidated `.section` definition with `position: relative` in layout.css (Oct 10)
 - 🔧 **CRITICAL: Scroll Positioning & Navigation Height Fix** - Fixed hardcoded `.hdr` heights breaking dynamic measurement system and browser `scroll-padding-top` inconsistencies by using both `height` + `min-height` properties and manual offset calculation in router scrollBehavior for pixel-perfect positioning across all browsers and breakpoints (Oct 10)
 - 🔧 **CRITICAL: Missing CSS Imports Fixed** - Discovered and fixed missing `hero.css` and `visual-hierarchy.css` imports in `base.css` that prevented dynamic header height from working, added comprehensive [SCROLL_SYSTEM.md](SCROLL_SYSTEM.md) documentation (Oct 10)

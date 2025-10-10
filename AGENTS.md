@@ -121,7 +121,7 @@ All in [variables.css](src/assets/styles/modules/variables.css):
 - [useFirstVisit.ts](src/composables/useFirstVisit.ts) - Welcome overlay
 - [useServerCapacity.ts](src/composables/useServerCapacity.ts) - Server capacity colors
 - [usePlayerDisplay.ts](src/composables/usePlayerDisplay.ts) - Player name parsing
-- [useScrollTracker.ts](src/composables/useScrollTracker.ts) - Nav highlighting only
+- [useActiveSection.ts](src/composables/useActiveSection.ts) - Nav highlighting (hybrid: route + scroll position)
 
 ### Utilities
 - [headerHeight.ts](src/utils/headerHeight.ts) - Dynamic header height sync

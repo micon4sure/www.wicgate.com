@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, computed } from 'vue';
+import { onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useHead } from '@vueuse/head';
 import Navigation from '../components/Navigation.vue';
@@ -13,7 +13,7 @@ import FAQ from '../screens/FAQ.vue';
 import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useFirstVisit } from '../composables/useFirstVisit';
-import { useScrollTracker } from '../composables/useScrollTracker';
+import { useActiveSection } from '../composables/useActiveSection';
 import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/structuredData';
 import { initWebVitals } from '../utils/performance';
 import { getAllValidIds } from '../types/navigation';
@@ -23,12 +23,24 @@ const store = useAppDataStore();
 const { data, loading } = store;
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
 
-// Simple scroll tracker for navigation highlighting
-const { currentSection, observe, disconnect } = useScrollTracker();
+// Get all valid section IDs for scroll tracking
+const ALL_VALID_IDS = getAllValidIds();
+
+// Hybrid navigation highlighting: click-based (route) + scroll-based (manual)
+const { currentSection, startProgrammaticScroll } = useActiveSection(ALL_VALID_IDS);
 
 const route = useRoute();
-// Get all valid IDs including subsections for scroll tracking
-const ALL_VALID_IDS = getAllValidIds();
+
+// Disable scroll tracking during programmatic navigation (clicks)
+watch(
+  () => route.meta.section || route.meta.subsection,
+  (newSection, oldSection) => {
+    // Only trigger on actual navigation (not initial load)
+    if (oldSection !== undefined && newSection !== oldSection) {
+      startProgrammaticScroll();
+    }
+  }
+);
 
 // SSG conditional rendering
 const isSSR = import.meta.env.SSR;
@@ -149,15 +161,8 @@ onMounted(() => {
   const hasSection = !!(route.meta.subsection || route.meta.section);
   initFirstVisitCheck(hasSection);
 
-  // Start observing sections for navigation highlighting
-  // Browser handles scrolling via router scrollBehavior + CSS
-  observe(ALL_VALID_IDS);
-
   // Cleanup on unmount
   onBeforeUnmount(() => {
-    // Disconnect IntersectionObserver
-    disconnect();
-
     // Clean up header height sync
     if (cleanupHeaderSync) cleanupHeaderSync();
   });

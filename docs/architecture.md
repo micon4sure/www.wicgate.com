@@ -35,7 +35,7 @@ Browser (handles ALL scrolling natively)
   ↓
 Router (declarative scrollBehavior)
   ↓
-IntersectionObserver (navigation highlighting only)
+useActiveSection (hybrid: route + scroll position tracking)
 ```
 
 ### Key Implementation Details
@@ -148,44 +148,69 @@ scrollBehavior(to, _from, savedPosition) {
 
 **Reduced from 60+ lines to 15 lines** by letting browser APIs do the work.
 
-#### 4. Minimal JavaScript Enhancement
-**File:** [src/composables/useScrollTracker.ts](../src/composables/useScrollTracker.ts)
+#### 4. Navigation Highlighting: Hybrid Tracking
+**File:** [src/composables/useActiveSection.ts](../src/composables/useActiveSection.ts)
 
 Single responsibility: Track active section for navigation highlighting.
 
-```typescript
-export function useScrollTracker() {
-  const currentSection = ref<string | undefined>();
-  let observer: IntersectionObserver | null = null;
+**Hybrid Approach (October 2025):**
+- **Click navigation**: Uses route immediately (instant highlight)
+- **Manual scrolling**: Uses scroll position tracking (updates as you scroll)
+- **Programmatic scroll protection**: Disables tracking for 800ms during smooth scroll
 
-  if (typeof window !== 'undefined') {
-    observer = new IntersectionObserver(
-      (entries) => {
-        const intersecting = entries.find(e => e.isIntersecting);
-        if (intersecting) {
-          currentSection.value = intersecting.target.id;
-        }
-      },
-      {
-        rootMargin: '-20% 0px -60% 0px',  // Active zone
-        threshold: 0,
+```typescript
+export function useActiveSection(sectionIds: string[]) {
+  const route = useRoute();
+  const scrollBasedSection = ref<string | undefined>();
+  const isProgrammaticScroll = ref(false);
+
+  // Simple position-based tracking
+  function updateScrollBasedSection() {
+    if (isProgrammaticScroll.value) return;
+
+    const headerHeight = parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--header-height').trim()
+    ) || 80;
+
+    const scrollPosition = window.scrollY + headerHeight + 20;
+
+    // Find topmost section past scroll position
+    let foundSection: string | undefined;
+    for (const id of sectionIds) {
+      const element = document.getElementById(id);
+      if (element && scrollPosition >= element.offsetTop) {
+        foundSection = id;
       }
-    );
+    }
+
+    scrollBasedSection.value = foundSection === 'hero' ? undefined : foundSection;
   }
 
-  return { currentSection, observe, disconnect };
+  // Debounced scroll listener
+  window.addEventListener('scroll', handleScroll, { passive: true });
+
+  // Smart computed: route during clicks, scroll position during manual scroll
+  const currentSection = computed(() => {
+    const routeSection = route.meta.subsection || route.meta.section;
+    return isProgrammaticScroll.value ? routeSection : scrollBasedSection.value;
+  });
+
+  return { currentSection, startProgrammaticScroll };
 }
 ```
 
 **What Was Removed:**
-- ❌ `useActiveSection.ts` (200+ lines of complex state management)
-- ❌ `useSectionObserver.ts` (150+ lines of observer logic)
-- ❌ `utils/scroll.ts` (100+ lines of scroll utilities)
-- ❌ Programmatic scroll flags and timing delays
-- ❌ Manual scroll position calculations
-- ❌ Route watchers for scrolling
+- ❌ Complex IntersectionObserver with zones/thresholds
+- ❌ Multiple observers with different configurations
+- ❌ Scroll direction detection
+- ❌ Fast scroll detection with timeouts
 
-**Code Reduction:** 80% (500+ lines → ~100 lines)
+**Benefits:**
+- ✅ **Simple**: Position comparison vs complex intersection logic
+- ✅ **Reliable**: No timing issues or race conditions
+- ✅ **Both modes work**: Click (instant) + manual scroll (follows position)
+- ✅ **110 lines**: Down from 100+ lines of IntersectionObserver complexity
 
 ### What This System Provides
 
@@ -195,7 +220,7 @@ export function useScrollTracker() {
 | Dynamic header offset | CSS variable + JS measurement | Pixel-perfect at all breakpoints, zero maintenance |
 | Responsive adaptation | `syncHeaderHeight()` on resize | Auto-adapts when header changes |
 | Scroll restoration | `history.scrollRestoration: auto` | Browser handles perfectly |
-| Active section | Single IntersectionObserver | Performant, SSR-safe |
+| Active section | Hybrid route + scroll position | Simple, reliable, both modes work |
 | Accessibility | `prefers-reduced-motion` | Built-in support |
 
 ### Migration Notes
