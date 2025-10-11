@@ -84,14 +84,6 @@ export const createApp = ViteSSG(
         });
       }
 
-      // For hash-based navigation (legacy support)
-      if (to.hash) {
-        return {
-          el: to.hash,
-          behavior: 'smooth',
-        };
-      }
-
       // Check if both routes use the same component (Home.vue)
       const toComponent = to.matched[0]?.components?.default;
       const fromComponent = from.matched[0]?.components?.default;

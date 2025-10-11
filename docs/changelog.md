@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🧹 **Navigation Cleanup** - Removed all legacy hash-based navigation backward compatibility code (Oct 11)
 - 🔧 **Critical SSG/SSR Fix** - Fixed meta tag injection by migrating from @vueuse/head to @unhead/vue, all 6 routes now have unique SEO-optimized meta tags (Oct 11)
 - 🛡️ **SSR Guards Enhancement** - Added comprehensive SSR guards to scroll.ts, debounce.ts, and rafThrottle.ts for bulletproof server-side rendering (Oct 11)
 - 🐛 **90-Second Refresh Bug Fix** - Fixed LivePlayersBadge and Multiplayer section flashing/crashing every 90 seconds during polling (Oct 8)
@@ -51,6 +52,82 @@
 ---
 
 ## October 2025
+
+### 🧹 Legacy Hash Navigation Cleanup
+
+**Status:** Complete (October 11, 2025)
+
+**Summary:** Removed all backward compatibility code for legacy hash-based navigation (`/#section`), transitioning exclusively to path-based routing (`/section`). Simplified hero button to use pure router-link navigation.
+
+**Rationale:**
+- Website is in active development - no need for backward compatibility with old bookmarks
+- Hash-based URLs (`/#getting-started`) are incompatible with SSG pre-rendering
+- Path-based URLs (`/getting-started`) are SEO-friendly and fully supported by vite-ssg
+- Removing legacy code improves maintainability and reduces complexity
+
+**Code Removed:**
+
+1. **src/views/Home.vue - Hero Button (Line 466)**
+   - **Before:** `<a href="#getting-started" @click.prevent="scrollToGettingStarted">`
+   - **After:** `<router-link to="/getting-started" class="btn btn-download">`
+   - **Removed Function:** `scrollToGettingStarted()` (no longer needed)
+
+2. **src/views/Home.vue - onMounted Hash Reading (Lines 303-309)**
+   - **Before:** Read `window.location.hash` and used it for section detection
+   - **After:** Only use `route.meta.section` from Vue Router
+   - **Removed:** `const hash = window.location.hash...` logic
+
+3. **src/views/Home.vue - handleGoHome Hash Cleanup (Line 353)**
+   - **Before:** Used `history.replaceState()` to remove hash from URL
+   - **After:** No hash cleanup needed (hashes never created)
+   - **Removed:** `history.replaceState(null, '', window.location.pathname);`
+
+4. **src/views/Home.vue - handleContinue Hash Handling (Lines 361-369)**
+   - **Before:** Read hash and used it to scroll to sections
+   - **After:** Only use `targetSection.value` from route metadata
+   - **Removed:** Hash reading and DOM querying logic
+
+5. **src/main.ts - scrollBehavior Legacy Hash Support (Lines 87-93)**
+   - **Before:** Special handling for `to.hash` navigation
+   - **After:** Only handle path-based `to.meta.section` navigation
+   - **Removed:**
+     ```typescript
+     if (to.hash) {
+       return { el: to.hash, behavior: 'smooth' };
+     }
+     ```
+
+**Navigation Flow (After Cleanup):**
+
+```
+User clicks hero button → router.push('/getting-started')
+  ↓
+Vue Router changes route → { path: '/getting-started', meta: { section: 'getting-started' } }
+  ↓
+Route watcher detects change → scrollToSection('getting-started')
+  ↓
+Smooth scroll to #getting-started element (with dynamic header offset)
+```
+
+**Benefits:**
+- ✅ 100% path-based navigation (no hash URLs created anywhere)
+- ✅ Cleaner, more maintainable codebase (~30 lines removed)
+- ✅ No backward compatibility complexity
+- ✅ Fully aligned with SSG/SEO best practices
+- ✅ Simpler mental model for navigation logic
+
+**Verification:**
+- ✅ TypeScript compilation: 0 errors
+- ✅ ESLint: 0 errors (fixed unused function warning)
+- ✅ Build successful: All 6 routes pre-rendered
+- ✅ Hero button navigates to `/getting-started` correctly
+
+**Files Modified:**
+- `src/views/Home.vue` - Removed hash reading and cleanup logic
+- `src/main.ts` - Removed legacy hash support from scrollBehavior
+- `docs/changelog.md` - Added this entry
+
+---
 
 ### 🔧 Critical SSG/SSR Meta Tag Fix & SSR Guards Enhancement
 

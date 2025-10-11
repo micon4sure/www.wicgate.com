@@ -300,13 +300,12 @@ onMounted(() => {
 
   // Determine initial section from route
   const sectionFromRoute = targetSection.value;
-  const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
 
   // Set current section for first visit overlay
-  setCurrentSection(sectionFromRoute || hash);
+  setCurrentSection(sectionFromRoute);
 
   // Check for first visit and show overlay if needed
-  initFirstVisitCheck(!!(hash || sectionFromRoute));
+  initFirstVisitCheck(!!sectionFromRoute);
 
   // Scroll handling moved to router's async scrollBehavior in main.ts
   // This ensures content loads before scrolling, preventing position jumps
@@ -349,8 +348,6 @@ onBeforeUnmount(() => {
 // First visit overlay handlers
 function handleGoHome() {
   dismissOverlay();
-  // Clear any hash and show home page
-  history.replaceState(null, '', window.location.pathname);
   setCurrentSection(undefined);
   // Scroll to top smoothly
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -358,19 +355,12 @@ function handleGoHome() {
 
 function handleContinue() {
   dismissOverlay();
-  const hash = window.location.hash ? window.location.hash.substring(1) : undefined;
-
-  if (hash) {
-    setCurrentSection(hash);
-    const element = document.getElementById(hash);
-    if (element) {
-      // Use the shared scroll utility to ensure consistency with active section detection
-      scrollToSectionUtil(hash, 'smooth');
-    }
+  // Overlay only shown for route-based navigation
+  const section = targetSection.value;
+  if (section) {
+    setCurrentSection(section);
+    scrollToSectionUtil(section, 'smooth');
   }
-}
-function scrollToGettingStarted() {
-  router.push('/getting-started');
 }
 
 function handleLiveBadgeClick() {
@@ -462,12 +452,9 @@ watch(
               the real Massgate code.
             </p>
             <div class="hero-acts">
-              <a
-                href="#getting-started"
-                class="btn btn-download"
-                @click.prevent="scrollToGettingStarted"
-                ><i class="fa-solid fa-arrow-down" aria-hidden="true"></i> INSTALL WICGATE</a
-              >
+              <router-link to="/getting-started" class="btn btn-download">
+                <i class="fa-solid fa-arrow-down" aria-hidden="true"></i> INSTALL WICGATE
+              </router-link>
               <a
                 href="https://discord.gg/WnxwfMTyBe"
                 target="_blank"
