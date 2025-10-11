@@ -26,6 +26,9 @@ export function debounce<T extends (...args: any[]) => any>(
   let timeoutId: number | undefined;
 
   const debounced = function (this: any, ...args: Parameters<T>) {
+    // SSR guard - exit early if window is not available
+    if (typeof window === 'undefined') return;
+
     if (timeoutId !== undefined) {
       clearTimeout(timeoutId);
     }

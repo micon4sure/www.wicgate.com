@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import Navigation from '../components/Navigation.vue';
 import LivePlayersBadge from '../components/LivePlayersBadge.vue';
 import SiteFooter from '../components/Footer.vue';
@@ -118,7 +118,10 @@ useHead({
   link: [
     {
       rel: 'canonical',
-      href: () => `https://wicgate.com${route.path}`,
+      href: () => {
+        const path = route.path === '/' ? '/' : route.path;
+        return `https://wicgate.com${path}`;
+      },
     },
   ],
   script: [

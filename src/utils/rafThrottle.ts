@@ -25,6 +25,9 @@ export function rafThrottle<T extends (...args: any[]) => any>(
   let rafId: number | undefined;
 
   const throttled = function (this: any, ...args: Parameters<T>) {
+    // SSR guard - exit early if requestAnimationFrame is not available
+    if (typeof window === 'undefined' || typeof requestAnimationFrame === 'undefined') return;
+
     // If we already have a pending frame, skip this call
     if (rafId !== undefined) return;
 
@@ -35,7 +38,7 @@ export function rafThrottle<T extends (...args: any[]) => any>(
   };
 
   throttled.cancel = () => {
-    if (rafId !== undefined) {
+    if (rafId !== undefined && typeof cancelAnimationFrame !== 'undefined') {
       cancelAnimationFrame(rafId);
       rafId = undefined;
     }

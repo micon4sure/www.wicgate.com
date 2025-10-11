@@ -1,7 +1,7 @@
 /// <reference types="vite-plugin-pwa/client" />
 
 import { ViteSSG } from 'vite-ssg';
-import { createHead } from '@vueuse/head';
+// @vueuse/head removed - vite-ssg v28+ includes @unhead/vue by default
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './assets/styles/base.css';
 import App from './App.vue';
@@ -106,9 +106,8 @@ export const createApp = ViteSSG(
     },
   },
   ({ app }) => {
-    // Setup head management
-    const head = createHead();
-    app.use(head);
+    // Note: vite-ssg v28+ automatically sets up @unhead/vue
+    // No manual head management setup needed
 
     // Provide the app base so components can construct asset URLs
     const runtimeBase = getRuntimeBase();

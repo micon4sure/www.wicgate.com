@@ -27,6 +27,9 @@ const DETECTION_BUFFER = {
  * ```
  */
 export function getNavHeight(): number {
+  // SSR guard - return fallback if document is not available
+  if (typeof document === 'undefined') return 80;
+
   const nav = document.querySelector('header');
   if (!nav) return 80; // Fallback for SSR or early mount
   return Math.ceil(nav.getBoundingClientRect().height);
@@ -48,6 +51,9 @@ export function getNavHeight(): number {
  * ```
  */
 export function getHeaderHeightWithBuffer(): number {
+  // SSR guard - return fallback if window is not available
+  if (typeof window === 'undefined') return 85; // 80 + 5 (desktop buffer)
+
   const navHeight = getNavHeight();
   const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
   const buffer = isMobile ? DETECTION_BUFFER.MOBILE : DETECTION_BUFFER.DESKTOP;
@@ -70,6 +76,9 @@ export function getHeaderHeightWithBuffer(): number {
  * ```
  */
 export function scrollToSection(sectionId: string, behavior: 'smooth' | 'auto' = 'smooth'): void {
+  // SSR guard - exit early if browser APIs are not available
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
   if (sectionId === 'hero') {
     window.scrollTo({ top: 0, behavior });
     return;
