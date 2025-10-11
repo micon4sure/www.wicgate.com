@@ -15,8 +15,8 @@
 html {
   overflow-x: hidden;
   overscroll-behavior-x: none;
-  /* Native smooth scrolling - browser GPU accelerated */
-  scroll-behavior: smooth;
+  /* Scroll behavior controlled by JavaScript for SPA/SSG hybrid flexibility */
+  /* Vue Router controls smooth vs instant scroll based on navigation type */
   /* Note: scroll-padding-top not used - JavaScript calculates offsets for cross-browser reliability */
 }
 

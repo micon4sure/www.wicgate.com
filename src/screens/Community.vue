@@ -277,6 +277,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 /* Latest videos section */
 .latest-videos-section {
   margin-bottom: 20px;
+  min-height: 340px; /* Minimum height for ~2 rows of videos - prevents collapse during loading */
 }
 
 /* Latest videos section should match channel sections exactly */

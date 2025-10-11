@@ -333,6 +333,7 @@
 /* MILITARY EVENTS SECTION */
 .events-container {
   margin-top: 20px;
+  min-height: 380px; /* Match EventsSkeleton min-height - prevents layout shift during SSR → CSR hydration */
 }
 
 .events-grid {
@@ -718,6 +719,10 @@
 }
 
 /* LIVE STREAMS MILITARY STYLING */
+.live-streams-container {
+  min-height: 200px; /* Minimum height for 2 stream cards - prevents collapse */
+}
+
 .live-streams-container .card {
   background: linear-gradient(
     180deg,

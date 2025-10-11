@@ -10,15 +10,18 @@ export function useActiveSection(sectionIds: string[] = []) {
   const route = useRoute();
   const scrollBasedSection = ref<string | undefined>();
   const isProgrammaticScroll = ref(false);
+  const isHydrating = ref(true); // Track SSR → CSR hydration state
   let programmaticScrollTimeout: number | undefined;
   let scrollTimeout: number | undefined;
+  let hydrationTimeout: number | undefined;
 
   /**
    * Get the currently visible section based on scroll position
    * Returns the topmost section that's past the header
    */
   function updateScrollBasedSection() {
-    if (isProgrammaticScroll.value) return;
+    // Skip tracking during programmatic scroll OR initial hydration
+    if (isProgrammaticScroll.value || isHydrating.value) return;
     if (typeof window === 'undefined') return;
 
     // Get header height from CSS variable
@@ -79,8 +82,17 @@ export function useActiveSection(sectionIds: string[] = []) {
     if (typeof window === 'undefined') return;
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+
     // Initial update
     updateScrollBasedSection();
+
+    // End hydration protection after content stabilizes
+    // Wait for API data to load (YouTube/Events ~200-500ms)
+    hydrationTimeout = setTimeout(() => {
+      isHydrating.value = false;
+      // Update once after hydration completes
+      updateScrollBasedSection();
+    }, 500) as unknown as number;
   });
 
   onBeforeUnmount(() => {
@@ -89,6 +101,7 @@ export function useActiveSection(sectionIds: string[] = []) {
     window.removeEventListener('scroll', handleScroll);
     if (scrollTimeout) clearTimeout(scrollTimeout);
     if (programmaticScrollTimeout) clearTimeout(programmaticScrollTimeout);
+    if (hydrationTimeout) clearTimeout(hydrationTimeout);
   });
 
   // Current active section - prioritizes route (for clicks), falls back to scroll

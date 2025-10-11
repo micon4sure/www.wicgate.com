@@ -60,18 +60,25 @@ export const createApp = ViteSSG(
   {
     routes,
     base: getRuntimeBase(),
-    scrollBehavior(to, _from, savedPosition) {
+    scrollBehavior(to, from, savedPosition) {
       // 1. Browser back/forward - restore saved position
       if (savedPosition) {
         return savedPosition;
       }
 
       // 2. Section or subsection route - scroll to element with manual offset
-      // Manual calculation ensures pixel-perfect positioning across all browsers
       const targetId = to.meta.subsection || to.meta.section;
       if (targetId) {
         return new Promise((resolve) => {
-          // Delay ensures DOM is ready and headerHeight.ts has executed
+          // Detect direct navigation (page reload/bookmark) vs SPA navigation
+          const isDirectNavigation = !from.name;
+
+          // Determine scroll behavior and delay based on navigation type
+          // SPA navigation: Smooth animated scroll (nice UX for clicks)
+          // Direct navigation: Instant jump (avoids smooth scroll distance limitations)
+          const scrollBehavior = isDirectNavigation ? 'auto' : 'smooth';
+          const delay = isDirectNavigation ? 600 : 100; // Longer delay for content stability on reload
+
           setTimeout(() => {
             const element = document.getElementById(targetId);
             if (!element) {
@@ -79,7 +86,6 @@ export const createApp = ViteSSG(
               return;
             }
 
-            // Get measured header height from CSS variable (synced by headerHeight.ts)
             const headerHeight =
               parseInt(
                 getComputedStyle(document.documentElement)
@@ -87,15 +93,14 @@ export const createApp = ViteSSG(
                   .trim()
               ) || 80;
 
-            // Calculate exact scroll position: element top + scroll offset - header height
             const elementPosition = element.getBoundingClientRect().top + window.scrollY;
             const offsetPosition = elementPosition - headerHeight;
 
             resolve({
               top: offsetPosition,
-              behavior: 'smooth',
+              behavior: scrollBehavior, // 'auto' for page reload, 'smooth' for clicks
             });
-          }, 100);
+          }, delay);
         });
       }
 
