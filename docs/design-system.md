@@ -2,9 +2,20 @@
 
 > **⚠️ MAJOR UPDATE (October 12, 2025):** Complete migration from modular CSS to **Tailwind CSS utility-first approach**. This resulted in ~80% code reduction (8,154 deletions vs 1,569 additions). See [Changelog](changelog.md) for migration details.
 
+> **🎨 THEME REDESIGN (October 12, 2025):** Refined color hierarchy: **Graphite base** → **Teal accents** → **Orange CTAs** → **Red alerts**. Widgets and cards now feature orange hover borders, navigation uses teal for active states.
+
 ## Overview
 
-WiCGATE uses a **Tailwind-first design system** inspired by the original Massgate military aesthetic. All design tokens are defined in Tailwind configuration, and 95% of styling is done with utility classes directly in Vue templates.
+WiCGATE uses a **Tailwind-first design system** with a refined military aesthetic. All design tokens are defined in Tailwind configuration, and 95% of styling is done with utility classes directly in Vue templates.
+
+## Color Hierarchy
+
+**Visual Language:**
+- **Graphite/Dark** (Base) - Cards, panels, backgrounds
+- **Teal** (Primary Accent) - Navigation highlights, active states, list item hovers
+- **Orange** (CTAs) - Download buttons, card hover borders, primary actions
+- **Red** (Alerts) - Important highlights, warnings, critical stats
+- **Gold** (Decorative) - Medals, special badges
 
 **Migration Impact:**
 - 29 CSS module files deleted (~8,000+ lines)
@@ -66,37 +77,109 @@ All design tokens now live in Tailwind configuration instead of CSS variables. T
 
 ### Color Palette
 
-**Usage:** Reference colors in utility classes (e.g., `text-soviet`, `bg-mg-dark`, `border-battlefield-teal/40`)
+**Usage:** Reference colors in utility classes (e.g., `text-teal`, `bg-mg-dark`, `border-soviet/60`)
 
-#### Massgate Red Theme
+#### 1. Base Colors (Graphite/Dark - Foundation)
 ```typescript
-'massgate-red': '#e53935',          // Primary brand red
-'massgate-red-dark': '#b71c1c',     // Darker red for depth
-'massgate-red-bright': '#ff5252',   // Bright accent red
-'massgate-gold': '#ffd700',         // Gold accents
+'texture': {
+  dark: '#0a0a0a',         // Main site background
+  panel: '#151515',        // Card/panel backgrounds
+  lighter: '#1e1e1e',      // Elevated elements
+}
+
+'mg': {
+  DEFAULT: '#1f2f3b',      // Base card/panel color
+  dark: '#101a22',         // Dark panels
+  muted: '#344654',        // Subtle borders
+}
+
+'graphite': {
+  DEFAULT: '#0f1215',      // Primary dark base
+  dark: '#08090b',         // Darkest variant
+  light: '#1a1e22',        // Light variant
+}
 ```
 
-**Usage:** `bg-massgate-red`, `text-massgate-gold`, `border-massgate-red-bright`
+**Usage:** `bg-texture-dark`, `bg-mg`, `border-mg/70`, `bg-graphite`
 
-#### Military Theme
+#### 2. Primary Accent (Teal - Navigation & Active States)
 ```typescript
-'soviet': '#ff6600',                // Primary orange (accent)
-'battlefield-teal': '#00d9ff',      // Teal blue accent
-'battlefield-cyan': '#00ffff',      // Cyan highlight
+'teal': {
+  DEFAULT: '#00d9ff',      // Primary teal (navigation, active states)
+  bright: '#4de8ff',       // Bright teal (hover highlights)
+  dark: '#00b8d4',         // Dark teal (borders)
+  glow: '#26c6da',         // Teal glow effect
+}
+
+// Legacy battlefield names (compatibility)
+'battlefield-teal': '#00d9ff',
+'battlefield-cyan': '#00ffff',
 ```
 
-**Usage:** `text-soviet`, `bg-battlefield-teal/30`, `border-battlefield-cyan/40`
+**Usage:** `text-teal`, `bg-teal/15`, `border-teal/60`, `shadow-teal-glow`
 
-#### Panel Colors
+**Where to use:**
+- Navigation active tabs
+- List item hovers (server lists, player lists, leaderboards)
+- Widget icon backgrounds
+- Dropdown active states
+
+#### 3. CTAs & Actions (Orange - Primary Actions)
 ```typescript
-'mg': '#1a2633',                    // Base panel color
-'mg-dark': '#0d1419',               // Dark panel variant
-'texture-panel': '#1c2a38',         // Textured panel
-'texture-dark': '#0f1a24',          // Dark textured panel
-'night-panel': '#141e28',           // Night mode panel
+'soviet': {
+  DEFAULT: '#ff6600',      // Orange for CTAs, downloads, card hover borders
+  light: '#ff8533',        // Light orange hover
+  dark: '#e65c00',         // Darker orange active
+}
 ```
 
-**Usage:** `bg-mg`, `bg-gradient-to-b from-texture-panel to-texture-dark`, `border-mg/70`
+**Usage:** `bg-soviet`, `border-soviet/70`, `shadow-orange-glow`, `shadow-orange-border`
+
+**Where to use:**
+- Download buttons (`.btn-soviet`)
+- Card/widget hover borders
+- Primary CTA buttons
+- Action links
+
+#### 4. Alerts & Important (Red - Critical Elements)
+```typescript
+'massgate-red': {
+  DEFAULT: '#c62828',      // Important highlights
+  dark: '#8b0000',         // Critical elements
+  bright: '#e53935',       // Alerts, warnings
+  shadow: '#6d0000',       // Deep shadow
+  glow: '#ff1744',         // Intense glow
+}
+```
+
+**Usage:** `text-massgate-red-bright`, `border-massgate-red/60`, `shadow-massgate-glow`
+
+**Where to use:**
+- Alert/warning buttons (`.btn-red`)
+- Critical stats
+- Important badges
+- Error states
+
+#### 5. Decorative Accents (Gold - Special Highlights)
+```typescript
+'massgate-gold': {
+  DEFAULT: '#ffca28',      // Gold accent
+  bright: '#ffd54f',       // Bright gold
+  dark: '#ffa000',         // Dark gold
+}
+
+// Medal colors
+'gold': '#ffd700',
+'silver': '#c0c0c0',
+'bronze': '#cd7f32',
+```
+
+**Usage:** `text-massgate-gold`, `text-gold`, `shadow-gold-glow`
+
+**Where to use:**
+- Medals and rankings
+- Special achievement badges
+- Decorative highlights (use sparingly)
 
 #### Text Colors
 ```typescript
@@ -115,22 +198,39 @@ All design tokens now live in Tailwind configuration instead of CSS variables. T
 
 **Usage:** `text-online`, `bg-offline`
 
-### Custom Box Shadows
+### Custom Box Shadows (NEW THEME)
 
-**Usage:** Reference in utility classes (e.g., `shadow-soviet-glow`, `shadow-teal-glow`)
+**Usage:** Reference in utility classes (e.g., `shadow-orange-glow`, `shadow-teal-glow`)
 
 ```typescript
 boxShadow: {
-  'soviet-glow': '0 0 20px rgba(255, 102, 0, 0.5)',
-  'teal-glow': '0 0 20px rgba(0, 217, 255, 0.5)',
-  'red-glow': '0 0 20px rgba(229, 57, 53, 0.5)',
-  'gold-glow': '0 0 20px rgba(255, 215, 0, 0.5)',
+  // Teal (PRIMARY - navigation, active states)
+  'teal-glow': '0 0 25px rgba(0, 217, 255, 0.5), 0 0 50px rgba(0, 217, 255, 0.25)',
+  'teal-glow-intense': '0 0 35px rgba(77, 232, 255, 0.7), 0 0 70px rgba(0, 217, 255, 0.4)',
+  'teal-subtle': '0 0 15px rgba(0, 217, 255, 0.3)',
+  'teal-border': '0 0 20px rgba(0, 217, 255, 0.4), inset 0 0 10px rgba(0, 217, 255, 0.1)',
+
+  // Orange (CTAs, card hovers)
+  'orange-glow': '0 0 30px rgba(255, 102, 0, 0.6), 0 0 60px rgba(255, 102, 0, 0.3)',
+  'orange-glow-intense': '0 0 40px rgba(255, 133, 51, 0.8), 0 0 80px rgba(255, 102, 0, 0.5)',
+  'orange-border': '0 0 20px rgba(255, 102, 0, 0.5), inset 0 0 10px rgba(255, 102, 0, 0.1)',
+
+  // Red (alerts, warnings)
+  'massgate-glow': '0 0 30px rgba(198, 40, 40, 0.6), 0 0 60px rgba(198, 40, 40, 0.3)',
+  'massgate-glow-intense': '0 0 40px rgba(229, 53, 53, 0.8), 0 0 80px rgba(198, 40, 40, 0.5)',
+
+  // Gold (decorative)
+  'gold-glow': '0 0 30px rgba(255, 202, 40, 0.7), 0 0 60px rgba(255, 202, 40, 0.4)',
 }
 ```
 
-**Usage:** `shadow-soviet-glow`, `hover:shadow-teal-glow`
+**Usage:**
+- `shadow-teal-glow` - Active navigation tabs
+- `shadow-orange-glow` - CTA buttons, card hovers
+- `shadow-massgate-glow` - Alert buttons
+- `shadow-gold-glow` - Special highlights
 
-**⚠️ Important:** Opacity modifiers (e.g., `shadow-soviet-glow/50`) DO NOT work with custom shadows in `@apply` directive. Use manual CSS `box-shadow` for variable opacity.
+**⚠️ Important:** Opacity modifiers (e.g., `shadow-teal-glow/50`) DO NOT work with custom shadows in `@apply` directive. Use manual CSS `box-shadow` for variable opacity.
 
 ### Custom Animations
 
@@ -791,38 +891,95 @@ rm -rf src/assets/styles/modules/
 
 ## Common Patterns
 
-### Card Pattern
+### Card Pattern (NEW THEME - Orange Hover Borders)
 
 ```vue
-<div class="bg-mg border border-mg/70 overflow-hidden transition-all duration-300
-            hover:border-soviet/70 hover:shadow-[0_0_30px_rgba(255,102,0,0.32)]
-            hover:transform hover:-translate-y-1">
+<!-- Standard card with orange hover border -->
+<div class="card">
+  <!-- Card content -->
+</div>
+
+<!-- Or inline Tailwind: -->
+<div class="bg-gradient-to-b from-texture-panel to-texture-dark
+            border border-mg/70 overflow-hidden transition-all duration-300
+            hover:border-[rgba(255,102,0,0.6)]
+            hover:shadow-[0_12px_28px_rgba(4,9,14,0.55),0_0_25px_rgba(255,102,0,0.35)]">
   <!-- Card content -->
 </div>
 ```
 
+**Key Features:**
+- **Default state:** Graphite base with subtle mg border
+- **Hover state:** Orange border (`rgba(255, 102, 0, 0.6)`) with orange glow
+- **Background:** Dark gradient (`texture-panel` → `texture-dark`)
+
+**Component Classes:**
+- `.card` - Generic card base
+- `.panel-card` - Military-style panel card (same hover behavior)
+- `.widget` - Homepage glassmorphism widgets (orange border on desktop hover)
+
 ### Badge Pattern
 
 ```vue
+<!-- Teal badge (active/navigation context) -->
 <span class="inline-flex items-center gap-2 py-1.5 px-4
-             bg-gradient-to-b from-mg/40 to-mg-dark/60
-             border border-soviet/40 text-soviet
+             bg-gradient-to-b from-teal/20 to-teal/10
+             border border-teal/50 text-teal
              font-military text-xs font-bold tracking-widest uppercase
-             shadow-soviet-glow/30">
-  THE WAR CONTINUES
+             shadow-teal-subtle">
+  ONLINE NOW
+</span>
+
+<!-- Red badge (important/alert context) -->
+<span class="inline-flex items-center gap-2 py-1.5 px-4
+             bg-gradient-to-b from-massgate-red/30 to-massgate-red-dark/20
+             border border-massgate-red/60 text-massgate-red-bright
+             font-military text-xs font-bold tracking-widest uppercase
+             shadow-massgate-glow">
+  CRITICAL ALERT
 </span>
 ```
 
-### Button Pattern
+### Button Patterns (NEW THEME)
 
+#### Primary CTA Button (Orange - Downloads, Main Actions)
 ```vue
-<button class="py-3 px-6 bg-soviet text-t font-military font-bold uppercase
-               rounded transition-all duration-200
-               hover:bg-soviet/90 hover:scale-105 hover:shadow-soviet-glow
-               active:scale-95">
+<button class="btn-soviet">
   Download Now
 </button>
 ```
+
+**Classes:** `.btn-soviet`
+- Orange gradient background
+- Black text
+- Orange glow on hover
+- Use for: Downloads, primary CTAs, main action buttons
+
+#### Secondary Button (Teal - Navigation, Auxiliary)
+```vue
+<button class="btn-teal">
+  View Details
+</button>
+```
+
+**Classes:** `.btn-teal`
+- Teal outline/border
+- Transparent background
+- Teal fill on hover
+- Use for: Secondary actions, navigation buttons, "Learn More" links
+
+#### Alert/Warning Button (Red - Critical Actions)
+```vue
+<button class="btn-red">
+  Delete Account
+</button>
+```
+
+**Classes:** `.btn-red`
+- Red gradient background
+- White text
+- Red glow on hover
+- Use for: Destructive actions, warnings, critical operations
 
 ## Troubleshooting
 

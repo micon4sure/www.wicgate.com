@@ -27,11 +27,18 @@ import {
         <div
           v-for="s in steps"
           :key="s.n"
-          class="panel-card border-l-4 border-l-soviet/70 p-6 flex gap-6 md:flex-row flex-col md:text-left text-center"
+          class="panel-card border-l-4 border-l-teal/70 p-6 flex gap-6 md:flex-row flex-col md:text-left text-center"
         >
           <!-- Step Badge -->
           <div
-            class="w-14 h-14 bg-soviet-gradient border-2 border-soviet/85 flex items-center justify-center font-military font-bold text-2xl text-ink shadow-soviet-glow md:self-start self-center flex-shrink-0 rounded-none"
+            class="w-14 h-14 border-2 border-teal/85 flex items-center justify-center font-military font-bold text-2xl text-t md:self-start self-center flex-shrink-0 rounded-none"
+            style="
+              background: linear-gradient(
+                180deg,
+                rgba(0, 217, 255, 0.35) 0%,
+                rgba(0, 217, 255, 0.2) 100%
+              );
+            "
           >
             {{ s.n }}
           </div>
@@ -64,7 +71,13 @@ import {
         <!-- Dedicated Server Setup -->
         <div class="relative mb-16">
           <h3
-            class="text-gradient-soviet text-4xl font-military font-bold text-center uppercase tracking-wide mb-8"
+            class="text-4xl font-military font-bold text-center uppercase tracking-wide mb-8"
+            style="
+              background: linear-gradient(135deg, #4de8ff 0%, #00d9ff 50%, #00b8d4 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            "
           >
             Dedicated Server Setup
           </h3>
@@ -78,10 +91,17 @@ import {
               <div
                 v-for="step in dedicatedServerSteps"
                 :key="step.n"
-                class="panel-card border-l-4 border-l-soviet/70 p-6 flex gap-6 md:flex-row flex-col md:text-left text-center"
+                class="panel-card border-l-4 border-l-teal/70 p-6 flex gap-6 md:flex-row flex-col md:text-left text-center"
               >
                 <div
-                  class="w-14 h-14 bg-soviet-gradient border-2 border-soviet/85 flex items-center justify-center font-military font-bold text-2xl text-ink shadow-soviet-glow md:self-start self-center flex-shrink-0 rounded-none"
+                  class="w-14 h-14 border-2 border-teal/85 flex items-center justify-center font-military font-bold text-2xl text-t md:self-start self-center flex-shrink-0 rounded-none"
+                  style="
+                    background: linear-gradient(
+                      180deg,
+                      rgba(0, 217, 255, 0.35) 0%,
+                      rgba(0, 217, 255, 0.2) 100%
+                    );
+                  "
                 >
                   {{ step.n }}
                 </div>
@@ -97,9 +117,15 @@ import {
             </div>
 
             <!-- Network Configuration Sidebar -->
-            <div class="panel-card border-l-4 border-l-soviet/70 p-6">
+            <div class="panel-card border-l-4 border-l-teal/70 p-6">
               <h3
-                class="text-gradient-soviet font-military font-semibold uppercase tracking-wider text-xl mb-4"
+                class="font-military font-semibold uppercase tracking-wider text-xl mb-4"
+                style="
+                  background: linear-gradient(135deg, #4de8ff 0%, #00d9ff 50%, #00b8d4 100%);
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                "
               >
                 Network Configuration
               </h3>
@@ -113,7 +139,7 @@ import {
                   class="flex items-center gap-2 py-2 border-b border-mg/20 last:border-b-0 md:flex-row flex-col md:items-center items-start md:gap-2 gap-1"
                 >
                   <span
-                    class="font-mono font-bold text-soviet min-w-[100px] tracking-wider md:min-w-[100px] min-w-0"
+                    class="font-mono font-bold text-teal min-w-[100px] tracking-wider md:min-w-[100px] min-w-0"
                   >
                     {{ port.port }}
                   </span>
@@ -135,7 +161,13 @@ import {
         <!-- Manual Installation -->
         <div class="relative">
           <h3
-            class="text-gradient-soviet text-4xl font-military font-bold text-center uppercase tracking-wide mb-8"
+            class="text-4xl font-military font-bold text-center uppercase tracking-wide mb-8"
+            style="
+              background: linear-gradient(135deg, #4de8ff 0%, #00d9ff 50%, #00b8d4 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            "
           >
             Manual WICGATE Installation
           </h3>
@@ -166,10 +198,17 @@ import {
             <div
               v-for="step in manualInstallSteps"
               :key="step.n"
-              class="panel-card border-l-4 border-l-soviet/70 p-6 flex gap-6 md:flex-row flex-col md:text-left text-center"
+              class="panel-card border-l-4 border-l-teal/70 p-6 flex gap-6 md:flex-row flex-col md:text-left text-center"
             >
               <div
-                class="w-14 h-14 bg-soviet-gradient border-2 border-soviet/85 flex items-center justify-center font-military font-bold text-2xl text-ink shadow-soviet-glow md:self-start self-center flex-shrink-0 rounded-none"
+                class="w-14 h-14 border-2 border-teal/85 flex items-center justify-center font-military font-bold text-2xl text-t md:self-start self-center flex-shrink-0 rounded-none"
+                style="
+                  background: linear-gradient(
+                    180deg,
+                    rgba(0, 217, 255, 0.35) 0%,
+                    rgba(0, 217, 255, 0.2) 100%
+                  );
+                "
               >
                 {{ step.n }}
               </div>

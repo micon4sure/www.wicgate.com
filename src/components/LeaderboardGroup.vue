@@ -80,7 +80,7 @@ onUnmounted(() => {
 </script>
 <template>
   <div
-    class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.96)] to-[rgba(var(--panel-shadow-rgb),0.98)] border border-[var(--divider-strong)] rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-[var(--tr)]"
+    class="bg-gradient-to-b from-[rgba(15,18,21,0.96)] to-[rgba(8,9,11,0.98)] border border-[var(--divider-strong)] rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-[var(--tr)]"
   >
     <div
       class="p-[15px_20px] bg-gradient-to-b from-[rgba(var(--dl-rgb),0.95)] to-[rgba(var(--dl-rgb),0.78)] border-b-[3px] border-b-[rgba(var(--dl-rgb),0.85)] relative max-[768px]:p-[12px_15px] max-[480px]:p-[10px_12px] max-[360px]:p-[0.625rem_0.75rem]"
@@ -100,15 +100,17 @@ onUnmounted(() => {
 
     <div
       v-if="categories.length > 1"
-      class="flex bg-gradient-to-b from-[rgba(var(--graphite-rgb),0.95)] to-[rgba(var(--graphite-dark-rgb),0.95)] border-b-2 border-b-[rgba(var(--graphite-rgb),0.8)] relative"
+      class="flex bg-gradient-to-b from-[rgba(15,18,21,0.95)] to-[rgba(8,9,11,0.95)] border-b-2 border-b-[rgba(15,18,21,0.8)] relative"
     >
       <button
         v-for="c in categories"
         :key="c"
-        class="flex-1 p-[12px_16px] bg-gradient-to-b from-[rgba(var(--graphite-rgb),0.9)] to-[rgba(var(--graphite-dark-rgb),0.92)] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-0 text-[var(--t2)] cursor-pointer font-[Oswald,sans-serif] font-medium text-[0.875rem] uppercase tracking-[1px] transition-[var(--tr)] relative mr-px hover:bg-gradient-to-b hover:from-[rgba(var(--sw-rgb),0.85)] hover:to-[rgba(var(--sw-rgb),0.68)] hover:text-[var(--ink)] hover:border-[rgba(var(--sw-rgb),0.75)] hover:-translate-y-px max-[768px]:p-[10px_12px] max-[768px]:text-[0.8rem] max-[480px]:p-[8px_10px] max-[480px]:text-[0.75rem] max-[360px]:p-[0.5rem_0.625rem] max-[360px]:text-[0.7rem]"
+        class="flex-1 p-[12px_16px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-0 text-[var(--t2)] cursor-pointer font-[Oswald,sans-serif] font-medium text-[0.875rem] uppercase tracking-[1px] transition-[var(--tr)] relative mr-px max-[768px]:p-[10px_12px] max-[768px]:text-[0.8rem] max-[480px]:p-[8px_10px] max-[480px]:text-[0.75rem] max-[360px]:p-[0.5rem_0.625rem] max-[360px]:text-[0.7rem]"
         :class="{
-          'bg-gradient-to-b from-[rgba(var(--sw-rgb),0.98)] to-[rgba(var(--sw-rgb),0.8)] text-[var(--ink)] font-semibold border-[rgba(var(--sw-rgb),0.95)] z-10 shadow-[0_0_18px_rgba(var(--sw-rgb),0.35)]':
+          'bg-gradient-to-b from-[#00d9ff] to-[#00b8d4] !text-[var(--ink)] font-semibold border-[rgba(0,217,255,0.85)] z-10 shadow-[0_0_18px_rgba(0,217,255,0.5)]':
             active === c,
+          'bg-gradient-to-b from-[rgba(var(--graphite-rgb),0.9)] to-[rgba(var(--graphite-dark-rgb),0.92)] hover:!bg-gradient-to-b hover:!from-[#4de8ff] hover:!to-[#00d9ff] hover:!text-[var(--ink)] hover:border-[rgba(0,217,255,0.6)] hover:-translate-y-px':
+            active !== c,
         }"
         @click="
           () => {
@@ -167,10 +169,10 @@ onUnmounted(() => {
             <tr
               v-for="(e, index) in entriesFor(c)"
               :key="e.rank + (e.profileName || '')"
-              class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-[rgba(var(--sw-rgb),0.18)] hover:[&>td]:to-[rgba(var(--sw-rgb),0.12)] hover:[&>td]:!border-[rgba(var(--sw-rgb),0.4)] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
+              class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-[rgba(0,217,255,0.18)] hover:[&>td]:to-[rgba(0,217,255,0.12)] hover:[&>td]:!border-[rgba(0,217,255,0.4)] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
             >
               <td
-                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
+                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(var(--graphite-rgb),0.75)] to-[rgba(var(--graphite-dark-rgb),0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(var(--graphite-light-rgb),0.78)] [tr:nth-child(even)>&]:to-[rgba(var(--graphite-rgb),0.88)] transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
                 :class="{
                   'text-[var(--medal-gold)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.1rem] max-[360px]:text-[1rem]':
                     index === 0,
@@ -183,7 +185,7 @@ onUnmounted(() => {
                 {{ index + 1 }}
               </td>
               <td
-                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(var(--graphite-rgb),0.75)] to-[rgba(var(--graphite-dark-rgb),0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(var(--graphite-light-rgb),0.78)] [tr:nth-child(even)>&]:to-[rgba(var(--graphite-rgb),0.88)] transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
               >
                 <div class="flex items-center leading-none">
                   <RankInsignia
@@ -193,7 +195,8 @@ onUnmounted(() => {
                   />
                   <span
                     v-if="formatClanTag(e)"
-                    class="font-[Courier_New,monospace] text-[var(--sw)] font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
+                    class="font-[Courier_New,monospace] font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
+                    style="color: #00d9ff"
                     >{{ formatClanTag(e) }}</span
                   >
                   <span
@@ -203,7 +206,7 @@ onUnmounted(() => {
                 </div>
               </td>
               <td
-                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(var(--graphite-rgb),0.75)] to-[rgba(var(--graphite-dark-rgb),0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(var(--graphite-light-rgb),0.78)] [tr:nth-child(even)>&]:to-[rgba(var(--graphite-rgb),0.88)] transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
                 :class="{
                   'text-[var(--medal-gold)]': index === 0,
                   'text-[var(--medal-silver)]': index === 1,
@@ -259,10 +262,10 @@ onUnmounted(() => {
           <tr
             v-for="(e, index) in entriesFor(active)"
             :key="e.rank + (e.profileName || '')"
-            class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-[rgba(var(--sw-rgb),0.18)] hover:[&>td]:to-[rgba(var(--sw-rgb),0.12)] hover:[&>td]:!border-[rgba(var(--sw-rgb),0.4)] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
+            class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-[rgba(0,217,255,0.18)] hover:[&>td]:to-[rgba(0,217,255,0.12)] hover:[&>td]:!border-[rgba(0,217,255,0.4)] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
           >
             <td
-              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
+              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(var(--graphite-rgb),0.75)] to-[rgba(var(--graphite-dark-rgb),0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(var(--graphite-light-rgb),0.78)] [tr:nth-child(even)>&]:to-[rgba(var(--graphite-rgb),0.88)] transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
               :class="{
                 'text-[var(--medal-gold)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.1rem] max-[360px]:text-[1rem]':
                   index === 0,
@@ -275,7 +278,7 @@ onUnmounted(() => {
               {{ index + 1 }}
             </td>
             <td
-              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(var(--graphite-rgb),0.75)] to-[rgba(var(--graphite-dark-rgb),0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(var(--graphite-light-rgb),0.78)] [tr:nth-child(even)>&]:to-[rgba(var(--graphite-rgb),0.88)] transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
             >
               <div class="flex items-center leading-none">
                 <RankInsignia
@@ -285,7 +288,8 @@ onUnmounted(() => {
                 />
                 <span
                   v-if="formatClanTag(e)"
-                  class="font-[Courier_New,monospace] text-[var(--sw)] font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
+                  class="font-[Courier_New,monospace] font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
+                  style="color: #00d9ff"
                   >{{ formatClanTag(e) }}</span
                 >
                 <span
@@ -295,7 +299,7 @@ onUnmounted(() => {
               </div>
             </td>
             <td
-              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(var(--graphite-rgb),0.75)] to-[rgba(var(--graphite-dark-rgb),0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(var(--graphite-light-rgb),0.78)] [tr:nth-child(even)>&]:to-[rgba(var(--graphite-rgb),0.88)] transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
               :class="{
                 'text-[var(--medal-gold)]': index === 0,
                 'text-[var(--medal-silver)]': index === 1,

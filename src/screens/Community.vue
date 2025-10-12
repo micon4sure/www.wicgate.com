@@ -438,7 +438,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 .creator-badge-icon {
   font-size: 0.9rem;
-  color: rgba(var(--sw-rgb), 0.75);
+  color: rgba(0, 217, 255, 0.75);
   transition: all 0.3s ease;
   flex-shrink: 0;
 }
@@ -615,7 +615,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
     rgba(var(--panel-slate-dark-rgb), 0.9) 100%
   );
   color: var(--t);
-  border: 1px solid rgba(var(--sw-rgb), 0.5);
+  border: 1px solid rgba(0, 217, 255, 0.5);
   text-transform: uppercase;
   font-family: 'Oswald', sans-serif;
 }
@@ -648,7 +648,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
     rgba(var(--panel-slate-dark-rgb), 0.9) 100%
   );
   color: var(--t);
-  border: 1px solid rgba(var(--sw-rgb), 0.5);
+  border: 1px solid rgba(0, 217, 255, 0.5);
 }
 
 .event-content.no-image .event-status.live {
@@ -698,7 +698,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 }
 
 .event-link-icon {
-  color: rgba(var(--sw-rgb), 0.75);
+  color: rgba(255, 102, 0, 0.75);
   font-size: 0.8rem;
 }
 
@@ -717,7 +717,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 .events-empty i {
   font-size: 2.5rem;
   margin-bottom: 16px;
-  color: rgba(var(--sw-rgb), 0.7);
+  color: rgba(0, 217, 255, 0.7);
   opacity: 0.85;
 }
 
@@ -767,7 +767,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 }
 
 .live-streams-container .card strong {
-  color: var(--sw);
+  color: #00d9ff;
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
   text-transform: uppercase;

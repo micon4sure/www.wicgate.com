@@ -13,8 +13,8 @@
     --mg: #1f2f3b;
     --mg-dark: #101a22;
     --mg-muted: #344654;
-    --mg-rgb: 31, 47, 59;
-    --mg-dark-rgb: 16, 26, 34;
+    --mg-rgb: 15, 18, 21;
+    --mg-dark-rgb: 8, 9, 11;
     --mg-muted-rgb: 52, 70, 84;
 
     /* Accent colors */
@@ -42,13 +42,13 @@
     /* Backgrounds */
     --bg: #050a0f;
     --bg-rgb: 5, 10, 15;
-    --panel-main: #121e27;
-    --panel-main-rgb: 18, 30, 39;
-    --panel-dark: #090f14;
-    --panel-dark-rgb: 9, 15, 20;
-    --panel-shadow-rgb: 9, 16, 21;
-    --s1: #0e1a22;
-    --s2: #14222a;
+    --panel-main: #0f1215;
+    --panel-main-rgb: 15, 18, 21;
+    --panel-dark: #08090b;
+    --panel-dark-rgb: 8, 9, 11;
+    --panel-shadow-rgb: 8, 9, 11;
+    --s1: #0f1215;
+    --s2: #1a1e22;
 
     /* Text colors */
     --t: #f3f6f8;
@@ -143,15 +143,72 @@
 
 /* Component layer - Reusable military-style patterns */
 @layer components {
-  /* Military buttons */
+  /* Button System (NEW THEME: Orange CTAs, Teal Secondary, Red Alerts) */
+
+  /* Primary CTA buttons - Orange (downloads, main actions) */
   .btn-soviet {
-    @apply px-6 py-3 bg-soviet-gradient text-ink font-military font-bold uppercase tracking-wider rounded-none transition-all duration-300;
-    @apply hover:scale-105 hover:shadow-soviet-glow active:scale-100;
+    @apply px-6 py-3 text-ink font-military font-bold uppercase tracking-wider rounded-none transition-all duration-300;
+    background: linear-gradient(180deg, #ff8533 0%, #ff6600 100%);
+    border: 2px solid rgba(255, 102, 0, 0.6);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 102, 0, 0.4);
   }
 
+  @media (hover: hover) {
+    .btn-soviet:hover {
+      transform: scale(1.05);
+      background: linear-gradient(180deg, #ff9551 0%, #ff7722 100%);
+      border-color: rgba(255, 133, 51, 0.8);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 102, 0, 0.6);
+    }
+  }
+
+  .btn-soviet:active {
+    transform: scale(1);
+    background: linear-gradient(180deg, #e65c00 0%, #cc5200 100%);
+  }
+
+  /* Secondary buttons - Teal outline (navigation, auxiliary actions) */
+  .btn-teal {
+    @apply px-6 py-3 bg-transparent text-teal font-military font-bold uppercase tracking-wider rounded-none transition-all duration-300;
+    border: 2px solid rgba(0, 217, 255, 0.6);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 217, 255, 0.1);
+  }
+
+  @media (hover: hover) {
+    .btn-teal:hover {
+      transform: scale(1.05);
+      background: rgba(0, 217, 255, 0.15);
+      border-color: rgba(0, 217, 255, 0.85);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 217, 255, 0.5);
+      color: var(--t);
+    }
+  }
+
+  .btn-teal:active {
+    transform: scale(1);
+    background: rgba(0, 217, 255, 0.25);
+  }
+
+  /* Alert/Warning buttons - Red (critical actions, warnings) */
   .btn-red {
-    @apply px-6 py-3 bg-red-gradient text-t font-military font-bold uppercase tracking-wider rounded-none transition-all duration-300;
-    @apply hover:scale-105 hover:shadow-red-glow active:scale-100;
+    @apply px-6 py-3 text-t font-military font-bold uppercase tracking-wider rounded-none transition-all duration-300;
+    background: linear-gradient(180deg, #e53935 0%, #c62828 100%);
+    border: 2px solid rgba(198, 40, 40, 0.7);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(198, 40, 40, 0.4);
+  }
+
+  @media (hover: hover) {
+    .btn-red:hover {
+      transform: scale(1.05);
+      background: linear-gradient(180deg, #ff5252 0%, #e53935 100%);
+      border-color: rgba(229, 53, 53, 0.9);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 30px rgba(198, 40, 40, 0.6);
+    }
+  }
+
+  .btn-red:active {
+    transform: scale(1);
+    background: linear-gradient(180deg, #c62828 0%, #8b0000 100%);
   }
 
   /* Container */
@@ -168,7 +225,16 @@
   /* Military panel card */
   .panel-card {
     @apply bg-panel-main border border-mg/70 shadow-military rounded-none relative;
-    @apply hover:border-soviet/35 hover:shadow-panel transition-all duration-300;
+    @apply transition-all duration-300;
+  }
+
+  @media (hover: hover) {
+    .panel-card:hover {
+      border-color: rgba(255, 102, 0, 0.6);
+      box-shadow: 0 12px 30px rgba(4, 9, 14, 0.55),
+                  0 0 25px rgba(255, 102, 0, 0.35),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
   }
 
   /* Status indicator pulse */
@@ -191,7 +257,7 @@
       0 0 36px rgba(var(--graphite-rgb), 0.35);
   }
 
-  /* Navigation tab - Desktop */
+  /* Navigation tab - Desktop (NEW THEME: Teal active/hover states) */
   .nav-tab {
     @apply no-underline font-military font-medium text-sm uppercase tracking-wider;
     @apply relative cursor-pointer h-full px-4 flex items-center justify-center text-center;
@@ -199,7 +265,7 @@
     @apply transition-all duration-300 select-none flex-1 min-w-[80px] max-w-[160px];
     @apply whitespace-nowrap overflow-hidden text-ellipsis origin-[center_bottom];
     background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.92) 100%);
-    border: 2px solid rgba(var(--sw-rgb), 0.4);
+    border: 2px solid rgba(0, 217, 255, 0.3);
     border-bottom: 0;
     color: var(--t2);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -208,35 +274,35 @@
   @media (hover: hover) {
     .nav-tab:hover {
       color: var(--ink);
-      background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.85) 0%, rgba(var(--sw-rgb), 0.68) 100%);
-      border-color: rgba(var(--sw-rgb), 0.75);
+      background: linear-gradient(180deg, #4de8ff 0%, #00d9ff 100%);
+      border-color: rgba(0, 217, 255, 0.6);
       transform: scale(1.02) translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 24px rgba(var(--sw-rgb), 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 24px rgba(0, 217, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
   }
 
   .nav-tab:active {
     color: var(--ink);
-    background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.9) 0%, rgba(var(--sw-rgb), 0.74) 100%);
-    border-color: rgba(var(--sw-rgb), 0.8);
+    background: linear-gradient(180deg, #00d9ff 0%, #00b8d4 100%);
+    border-color: rgba(0, 217, 255, 0.7);
     transform: scale(1.01) translateY(-1px);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(var(--sw-rgb), 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .nav-tab.active {
     color: var(--ink);
-    background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.98) 0%, rgba(var(--sw-rgb), 0.8) 100%);
+    background: linear-gradient(180deg, #00d9ff 0%, #00b8d4 100%);
     font-weight: 600;
-    border-color: rgba(var(--sw-rgb), 0.95);
+    border-color: rgba(0, 217, 255, 0.85);
     transform: scale(1.02) translateY(-2px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 32px rgba(var(--sw-rgb), 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 32px rgba(0, 217, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
   .nav-tab::before {
     content: '';
     @apply absolute left-0 right-0 h-[3px] opacity-0;
     bottom: -3px;
-    background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.9) 0%, rgba(var(--sw-rgb), 0.6) 100%);
+    background: linear-gradient(90deg, rgba(0, 217, 255, 0.9) 0%, rgba(0, 217, 255, 0.6) 100%);
     transition: var(--tr);
   }
 
@@ -248,16 +314,16 @@
 
   .nav-tab.active::before {
     opacity: 1;
-    background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.65) 100%);
+    background: linear-gradient(90deg, rgba(0, 217, 255, 0.95) 0%, rgba(0, 217, 255, 0.65) 100%);
   }
 
-  /* Navigation dropdown */
+  /* Navigation dropdown (NEW THEME: Teal active states) */
   .nav-dropdown {
     @apply absolute top-full left-0 min-w-[200px];
     background: linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(5, 5, 5, 0.99) 100%);
-    border: 2px solid rgba(var(--sw-rgb), 0.85);
-    border-top: 2px solid rgba(var(--sw-rgb), 0.9);
-    box-shadow: 0 0 40px rgba(var(--sw-rgb), 0.35);
+    border: 2px solid rgba(0, 217, 255, 0.7);
+    border-top: 2px solid rgba(0, 217, 255, 0.8);
+    box-shadow: 0 0 40px rgba(0, 217, 255, 0.35);
     @apply z-[1001] py-1;
   }
 
@@ -270,26 +336,26 @@
 
   @media (hover: hover) {
     .nav-dropdown-item:hover {
-      background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.3) 0%, rgba(var(--sw-rgb), 0.05) 100%);
-      color: var(--ink);
+      background: linear-gradient(90deg, rgba(0, 217, 255, 0.25) 0%, rgba(0, 217, 255, 0.05) 100%);
+      color: var(--t);
       padding-left: 28px;
     }
   }
 
   .nav-dropdown-item.active {
-    background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.98) 0%, rgba(var(--sw-rgb), 0.75) 100%);
-    @apply text-ink font-bold;
+    background: linear-gradient(90deg, rgba(0, 217, 255, 0.45) 0%, rgba(0, 217, 255, 0.25) 100%);
+    @apply text-t font-bold;
     padding-left: 28px;
-    box-shadow: 0 0 20px rgba(var(--sw-rgb), 0.4);
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
   }
 
   .nav-dropdown-item.active::before {
     content: '';
     @apply absolute left-0 top-0 bottom-0 w-1;
-    background: linear-gradient(180deg, rgba(var(--sw-light-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.7) 100%);
+    background: linear-gradient(180deg, rgba(77, 232, 255, 0.95) 0%, rgba(0, 217, 255, 0.7) 100%);
   }
 
-  /* Mobile navigation link */
+  /* Mobile navigation link (NEW THEME: Teal hover/active states) */
   .nav-mobile-link {
     @apply flex items-center w-full py-6 px-8 min-h-[72px];
     @apply no-underline font-military text-lg font-medium uppercase tracking-wider;
@@ -299,12 +365,12 @@
     @apply sm:min-h-16 sm:py-[18px] sm:px-6 sm:text-base;
     @apply xs:min-h-[60px] xs:py-4 xs:px-5 xs:text-[15px] xs:tracking-wider;
     color: var(--t2);
-    border-bottom: 1px solid rgba(var(--sw-rgb), 0.2);
+    border-bottom: 1px solid rgba(0, 217, 255, 0.15);
   }
 
   @media (hover: hover) {
     .nav-mobile-link:hover {
-      background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.3) 0%, transparent 100%);
+      background: linear-gradient(90deg, rgba(0, 217, 255, 0.2) 0%, transparent 100%);
       color: var(--t);
       padding-left: 40px;
     }
@@ -329,7 +395,7 @@
   }
 
   .nav-mobile-link:active {
-    background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.5) 0%, rgba(var(--sw-rgb), 0.2) 100%);
+    background: linear-gradient(90deg, rgba(0, 217, 255, 0.3) 0%, rgba(0, 217, 255, 0.15) 100%);
     color: var(--t);
   }
 
@@ -338,7 +404,7 @@
     @apply absolute left-0 top-0 bottom-0 -translate-x-full;
     @apply transition-transform duration-300;
     width: 6px;
-    background: linear-gradient(180deg, rgba(var(--sw-light-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.7) 100%);
+    background: linear-gradient(180deg, rgba(77, 232, 255, 0.95) 0%, rgba(0, 217, 255, 0.7) 100%);
   }
 
   .nav-mobile-link:hover::before {
@@ -346,10 +412,10 @@
   }
 
   .nav-mobile-link.active {
-    background: linear-gradient(90deg, rgba(var(--sw-rgb), 0.98) 0%, rgba(var(--sw-rgb), 0.75) 100%);
-    @apply text-ink font-semibold;
+    background: linear-gradient(90deg, rgba(0, 217, 255, 0.45) 0%, rgba(0, 217, 255, 0.25) 100%);
+    @apply text-t font-semibold;
     padding-left: 40px;
-    box-shadow: 0 0 20px rgba(var(--sw-rgb), 0.4);
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
   }
 
   @media (max-width: 768px) {
@@ -410,7 +476,7 @@
     animation: shimmer 3s infinite;
   }
 
-  /* Gold CTA Button */
+  /* Gold CTA Button (special occasions - kept for compatibility) */
   .btn-gold-cta {
     @apply px-8 py-4 bg-gold-cta text-texture-dark font-military font-extrabold;
     @apply uppercase tracking-widest text-lg rounded-none;
@@ -420,13 +486,25 @@
     @apply active:scale-100 active:shadow-gold-shine;
   }
 
-  /* Massgate Primary Button (Red) */
+  /* Legacy red button (now used for alerts/warnings only) */
   .btn-massgate-primary {
-    @apply px-6 py-3 bg-massgate-header text-white font-military font-bold;
-    @apply uppercase tracking-wider rounded-none border-2 border-massgate-red-bright;
-    @apply shadow-massgate-glow transition-all duration-300;
-    @apply hover:bg-massgate-header-shine hover:shadow-massgate-glow-intense hover:scale-105;
-    @apply active:scale-100;
+    @apply px-6 py-3 text-white font-military font-bold;
+    @apply uppercase tracking-wider rounded-none transition-all duration-300;
+    background: linear-gradient(180deg, #e53935 0%, #c62828 100%);
+    border: 2px solid rgba(229, 53, 53, 0.7);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(198, 40, 40, 0.4);
+  }
+
+  @media (hover: hover) {
+    .btn-massgate-primary:hover {
+      transform: scale(1.05);
+      background: linear-gradient(180deg, #ff5252 0%, #e53935 100%);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 30px rgba(198, 40, 40, 0.6);
+    }
+  }
+
+  .btn-massgate-primary:active {
+    transform: scale(1);
   }
 
   /* Atmospheric Teal Overlay */
@@ -487,9 +565,11 @@
 
   @media (hover: hover) and (min-width: 768px) {
     .widget:hover {
-      @apply md:bg-black/40 md:border-white/30;
+      @apply md:bg-black/40;
+      /* Teal border on hover */
+      border-color: rgba(0, 217, 255, 0.7);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
-                  0 0 24px rgba(var(--sw-rgb), 0.3),
+                  0 0 30px rgba(0, 217, 255, 0.4),
                   inset 0 1px 0 rgba(255, 255, 255, 0.15);
       transform: translateY(-4px) scale(1.02);
     }
@@ -501,15 +581,19 @@
     }
   }
 
-  .widget-primary {
-    @apply md:border-massgate-red/40;
+  /* Widget with teal border on desktop (for special widgets) */
+  @media (min-width: 768px) {
+    .widget-primary {
+      border-color: rgba(0, 217, 255, 0.4);
+    }
   }
 
   @media (hover: hover) and (min-width: 768px) {
     .widget-primary:hover {
-      @apply md:border-massgate-red/60;
+      /* Teal border hover */
+      border-color: rgba(0, 217, 255, 0.7);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
-                  0 0 30px rgba(198, 40, 40, 0.4),
+                  0 0 30px rgba(0, 217, 255, 0.4),
                   inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
   }
@@ -575,8 +659,8 @@
 
   @media (hover: hover) {
     .server-item:hover {
-      background: rgba(var(--sw-rgb), 0.1);
-      border-color: rgba(var(--sw-rgb), 0.3);
+      background: rgba(0, 217, 255, 0.08);
+      border-color: rgba(0, 217, 255, 0.35);
     }
   }
 
@@ -626,6 +710,13 @@
     @apply transition-all duration-200;
   }
 
+  @media (hover: hover) {
+    .player-list-item:hover {
+      background: rgba(0, 217, 255, 0.08);
+      border-color: rgba(0, 217, 255, 0.35);
+    }
+  }
+
   .player-rank {
     @apply w-6 h-6 flex items-center justify-center bg-mg/40 text-massgate-gold text-xs font-bold;
     @apply flex-shrink-0;
@@ -654,11 +745,11 @@
 
   /* Icon color overrides for widgets */
   .widget-icon-youtube {
-    @apply text-youtube bg-youtube/20 border-youtube/40;
+    @apply text-youtube;
   }
 
   .widget-icon-discord {
-    @apply text-discord bg-discord/20 border-discord/40;
+    @apply text-discord;
   }
 
   .widget-icon-server {
@@ -673,6 +764,13 @@
   .ladder-item {
     @apply flex items-center gap-3 p-3 bg-mg/15 border border-mg/25 rounded-none;
     @apply transition-all duration-200;
+  }
+
+  @media (hover: hover) {
+    .ladder-item:hover {
+      background: rgba(0, 217, 255, 0.08);
+      border-color: rgba(0, 217, 255, 0.35);
+    }
   }
 
   .ladder-rank {
@@ -830,6 +928,14 @@
     );
     @apply border border-[var(--divider-strong)] rounded-none overflow-hidden;
     @apply shadow-[0_12px_28px_rgba(4,9,14,0.55)] transition-all duration-300;
+  }
+
+  @media (hover: hover) {
+    .card:hover {
+      border-color: rgba(255, 102, 0, 0.6);
+      box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55),
+                  0 0 25px rgba(255, 102, 0, 0.35);
+    }
   }
 
   /* Community links */

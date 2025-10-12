@@ -30,7 +30,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
       <div id="about-story" class="mb-xl">
         <div class="grid grid-2 gap-10 items-start max-[768px]:grid-cols-1 max-[768px]:gap-6">
           <div
-            class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.96)] to-[rgba(var(--panel-dark-rgb),0.98)] border border-[var(--divider-strong)] p-7 relative shadow-[0_0_20px_rgba(var(--mg-rgb),0.2),inset_0_1px_0_rgba(255,255,255,0.1)] after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-transparent after:via-[rgba(var(--sw-rgb),0.7)] after:to-transparent max-[768px]:p-5 max-[480px]:p-4"
+            class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.96)] to-[rgba(var(--panel-dark-rgb),0.98)] border border-[var(--divider-strong)] p-7 relative shadow-[0_0_20px_rgba(var(--mg-rgb),0.2),inset_0_1px_0_rgba(255,255,255,0.1)] after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-transparent after:via-[rgba(0,217,255,0.7)] after:to-transparent max-[768px]:p-5 max-[480px]:p-4"
           >
             <h3
               class="m-0 mb-4 text-[1.3rem] text-[var(--t)] font-[Oswald,sans-serif] font-semibold uppercase tracking-wider"
@@ -40,7 +40,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
             <p class="m-0 leading-relaxed text-[var(--t2)]">{{ aboutProject.story }}</p>
           </div>
           <div
-            class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.96)] to-[rgba(var(--panel-dark-rgb),0.98)] border border-[var(--divider-strong)] p-7 relative shadow-[0_0_20px_rgba(var(--mg-rgb),0.2),inset_0_1px_0_rgba(255,255,255,0.1)] after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-transparent after:via-[rgba(var(--sw-rgb),0.7)] after:to-transparent max-[768px]:p-5 max-[480px]:p-4"
+            class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.96)] to-[rgba(var(--panel-dark-rgb),0.98)] border border-[var(--divider-strong)] p-7 relative shadow-[0_0_20px_rgba(var(--mg-rgb),0.2),inset_0_1px_0_rgba(255,255,255,0.1)] after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-transparent after:via-[rgba(0,217,255,0.7)] after:to-transparent max-[768px]:p-5 max-[480px]:p-4"
           >
             <h3
               class="m-0 mb-4 text-[1.3rem] text-[var(--t)] font-[Oswald,sans-serif] font-semibold uppercase tracking-wider"
@@ -61,10 +61,20 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
           <div
             v-for="value in projectValues"
             :key="value.title"
-            class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.96)] to-[rgba(var(--panel-dark-rgb),0.98)] border border-[var(--divider-strong)] border-t-[3px] border-t-[rgba(var(--sw-rgb),0.8)] overflow-hidden relative text-center p-8 px-6 shadow-[0_0_20px_rgba(var(--mg-rgb),0.2),inset_0_1px_0_rgba(255,255,255,0.1)] max-[768px]:p-6 max-[768px]:px-5"
+            class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.96)] to-[rgba(var(--panel-dark-rgb),0.98)] border border-[var(--divider-strong)] border-t-[3px] border-t-[rgba(0,217,255,0.8)] overflow-hidden relative text-center p-8 px-6 shadow-[0_0_20px_rgba(var(--mg-rgb),0.2),inset_0_1px_0_rgba(255,255,255,0.1)] max-[768px]:p-6 max-[768px]:px-5"
           >
             <div
-              class="w-[60px] h-[60px] bg-gradient-to-br from-[rgba(var(--sw-rgb),0.95)] to-[rgba(var(--sw-rgb),0.75)] border border-[rgba(var(--sw-rgb),0.8)] flex items-center justify-center mx-auto mb-5 text-2xl text-[var(--ink)] shadow-[0_6px_20px_rgba(var(--sw-rgb),0.35),inset_0_1px_0_rgba(255,255,255,0.2)] font-bold max-[480px]:w-[50px] max-[480px]:h-[50px] max-[480px]:text-[1.3rem] max-[480px]:mb-4"
+              class="w-[60px] h-[60px] border border-[rgba(0,217,255,0.8)] flex items-center justify-center mx-auto mb-5 text-2xl text-teal font-bold max-[480px]:w-[50px] max-[480px]:h-[50px] max-[480px]:text-[1.3rem] max-[480px]:mb-4"
+              style="
+                background: linear-gradient(
+                  135deg,
+                  rgba(0, 217, 255, 0.35) 0%,
+                  rgba(0, 217, 255, 0.2) 100%
+                );
+                box-shadow:
+                  0 6px 20px rgba(0, 217, 255, 0.35),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2);
+              "
             >
               <i
                 :class="value.icon"
@@ -91,7 +101,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
           <div
             v-for="member in teamMembers"
             :key="member.name"
-            class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.96)] to-[rgba(var(--panel-dark-rgb),0.98)] border border-[var(--divider-strong)] border-l-[3px] border-l-[rgba(var(--sw-rgb),0.6)] overflow-hidden relative text-center p-7 px-6 shadow-[0_0_20px_rgba(var(--mg-rgb),0.2),inset_0_1px_0_rgba(255,255,255,0.1)] max-[768px]:p-6 max-[768px]:px-5"
+            class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.96)] to-[rgba(var(--panel-dark-rgb),0.98)] border border-[var(--divider-strong)] border-l-[3px] border-l-[rgba(0,217,255,0.6)] overflow-hidden relative text-center p-7 px-6 shadow-[0_0_20px_rgba(var(--mg-rgb),0.2),inset_0_1px_0_rgba(255,255,255,0.1)] max-[768px]:p-6 max-[768px]:px-5"
           >
             <div>
               <h4
@@ -100,7 +110,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
                 {{ member.name }}
               </h4>
               <div
-                class="text-[0.9rem] text-[var(--sw)] font-semibold mb-4 uppercase tracking-[0.02em] font-[Oswald,sans-serif]"
+                class="text-[0.9rem] text-teal font-semibold mb-4 uppercase tracking-[0.02em] font-[Oswald,sans-serif]"
               >
                 {{ member.role }}
               </div>
@@ -115,7 +125,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
               href="https://discord.gg/WnxwfMTyBe"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-[var(--sw)] no-underline transition-all hover:text-[var(--sw)] hover:underline"
+              class="text-teal no-underline transition-all hover:text-teal-bright hover:underline"
               >Discord community</a
             >
             and help us keep World in Conflict alive!

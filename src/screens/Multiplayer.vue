@@ -149,7 +149,7 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
 .subsection-header h3 {
   font-size: 24px;
   font-weight: 700;
-  color: var(--sw);
+  color: #00d9ff;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 8px;
@@ -307,7 +307,7 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
 /* Clan tag styling (matches leaderboards) */
 .clan-tag {
   font-family: 'Courier New', monospace;
-  color: var(--sw);
+  color: #00d9ff;
   font-weight: 600;
   font-size: 0.8rem;
   text-transform: none;

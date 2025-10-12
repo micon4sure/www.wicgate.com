@@ -55,21 +55,22 @@ onMounted(() => {
           class="mb-10 max-[768px]:mb-[30px] max-[480px]:mb-[25px]"
         >
           <h3
-            class="text-[var(--sw)] text-2xl mb-5 pb-2.5 border-b-2 border-[rgba(var(--sw-rgb),0.5)] font-[Oswald,sans-serif] font-bold uppercase tracking-[1.5px] max-[768px]:text-[1.3rem] max-[768px]:mb-[15px] max-[480px]:text-[1.2rem] max-[480px]:mb-3"
+            class="text-2xl mb-5 pb-2.5 border-b-2 font-[Oswald,sans-serif] font-bold uppercase tracking-[1.5px] max-[768px]:text-[1.3rem] max-[768px]:mb-[15px] max-[480px]:text-[1.2rem] max-[480px]:mb-3"
+            style="color: #00d9ff; border-color: rgba(0, 217, 255, 0.5)"
           >
             {{ cat.cat }}
           </h3>
           <div
             v-for="item in cat.items"
             :key="item.q"
-            class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.94)] to-[rgba(var(--panel-dark-rgb),0.96)] border border-[var(--divider-soft)] shadow-[0_2px_8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)] overflow-hidden mb-[15px] relative hover:border-[rgba(var(--sw-rgb),0.35)] hover:shadow-[0_2px_12px_rgba(0,0,0,0.4)] max-[480px]:mb-2.5"
+            class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.94)] to-[rgba(var(--panel-dark-rgb),0.96)] border border-[var(--divider-soft)] shadow-[0_2px_8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)] overflow-hidden mb-[15px] relative hover:border-[rgba(0,217,255,0.35)] hover:shadow-[0_2px_12px_rgba(0,0,0,0.4)] max-[480px]:mb-2.5"
           >
             <div
               class="py-5 px-[25px] flex justify-between items-center cursor-pointer transition-all relative before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-0.5 before:bg-transparent before:transition-[background] before:duration-300 max-[768px]:py-[15px] max-[768px]:px-5 max-[480px]:py-3 max-[480px]:px-[15px]"
               :class="
                 open === item.q
-                  ? 'bg-gradient-to-r from-[rgba(var(--sw-rgb),0.12)] to-[rgba(var(--sw-rgb),0.04)] border-b border-[rgba(var(--sw-rgb),0.4)] before:bg-gradient-to-b before:from-[rgba(var(--sw-rgb),0.8)] before:to-[rgba(var(--sw-rgb),0.4)]'
-                  : 'hover:bg-gradient-to-r hover:from-[rgba(var(--sw-rgb),0.08)] hover:to-[rgba(var(--sw-rgb),0.02)] hover:text-[var(--t)]'
+                  ? 'bg-gradient-to-r from-[rgba(0,217,255,0.12)] to-[rgba(0,217,255,0.04)] border-b border-[rgba(0,217,255,0.4)] before:bg-gradient-to-b before:from-[rgba(0,217,255,0.8)] before:to-[rgba(0,217,255,0.4)]'
+                  : 'hover:bg-gradient-to-r hover:from-[rgba(0,217,255,0.08)] hover:to-[rgba(0,217,255,0.02)] hover:text-[var(--t)]'
               "
               @click="toggle(item.q)"
             >
@@ -80,7 +81,8 @@ onMounted(() => {
               </h4>
               <span
                 class="text-[var(--t2)] transition-all duration-300 flex-shrink-0 ml-[15px] font-semibold text-base opacity-80 select-none max-[768px]:ml-2.5 max-[480px]:ml-2 max-[480px]:text-sm"
-                :class="open === item.q ? 'rotate-180 text-[var(--sw)] opacity-100' : ''"
+                :class="open === item.q ? 'rotate-180 opacity-100' : ''"
+                :style="open === item.q ? 'color: #00d9ff' : ''"
                 >▼</span
               >
             </div>

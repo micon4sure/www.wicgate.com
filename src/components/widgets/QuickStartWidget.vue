@@ -23,7 +23,8 @@ function handleClick() {
       <p class="widget-desc">Install WICGATE and join the battlefield</p>
     </template>
     <template #action>
-      <i class="fa-solid fa-download" aria-hidden="true"></i> Install WICGATE
+      <i class="fa-solid fa-download text-massgate-red-bright" aria-hidden="true"></i> Install
+      WICGATE
     </template>
   </WidgetBase>
 </template>

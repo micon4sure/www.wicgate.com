@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎨 **Widget Icon Brand Colors** - Fixed Discord and YouTube widget icons to display their official brand colors (#5865F2 and #e53935) by making iconClass conditional in WidgetBase.vue, removed excessive teal glow from Getting Started step badges (Oct 12)
 - 🎨 **MAJOR: Tailwind CSS Migration** - Complete rewrite from modular CSS to utility-first Tailwind approach, ~80% code reduction (8,154 deletions vs 1,569 additions), deleted 29 CSS module files, all design tokens moved to `tailwind.config.ts` (Oct 12)
 - ✨ **Homepage Enhancement: Glassmorphism & Video Background** - Added frosted glass widget effect (desktop only), 22MB video background with SSR guards, enhanced text readability with drop shadows, 3-slide onboarding wizard for first-time visitors (Oct 12)
 - 🔧 **CRITICAL: Page Reload Scroll Fix** - Fixed page refresh failing to reach FAQ/About sections by removing global CSS `scroll-behavior: smooth` that overrode JavaScript control, now uses smart behavior: instant jump (`auto`) on page reload to avoid smooth scroll distance limitations (~700ms browser animation timeout), smooth animation on SPA clicks for UX (Oct 11)
