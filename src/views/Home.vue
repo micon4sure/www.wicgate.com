@@ -158,8 +158,7 @@ onMounted(() => {
   const cleanupHeaderSync = syncHeaderHeight();
 
   // Check for first visit and show overlay if needed
-  const hasSection = !!(route.meta.subsection || route.meta.section);
-  initFirstVisitCheck(hasSection);
+  initFirstVisitCheck();
 
   // Cleanup on unmount
   onBeforeUnmount(() => {

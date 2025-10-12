@@ -1413,6 +1413,361 @@ All widgets located in [src/components/widgets/](../src/components/widgets/):
 - Reduced complexity in parent component
 - Shared WidgetBase for consistency
 
+## Styling System
+
+### Tailwind CSS Architecture (October 2025)
+
+**Major Migration:** The entire codebase migrated from modular CSS to Tailwind CSS utility-first approach, resulting in **~80% code reduction** (8,154 lines deleted vs 1,569 added).
+
+#### Philosophy: Utility-First CSS
+
+WiCGATE follows a **Tailwind-first** approach where 95% of styling is done directly in Vue templates using utility classes:
+
+```vue
+<!-- Utility classes directly in template -->
+<div class="flex items-center gap-3 py-5 px-6 border-b border-mg/30">
+  <span class="text-xl font-bold text-t uppercase tracking-[0.5px]">
+    {{ title }}
+  </span>
+</div>
+```
+
+**Benefits:**
+- ✅ **Visibility:** See all styles at a glance in the template
+- ✅ **No naming:** No need to invent class names
+- ✅ **Consistency:** Design tokens enforced through config
+- ✅ **Performance:** Purges unused styles automatically
+- ✅ **Maintainability:** Changes are localized, no cascading effects
+
+#### Tailwind Configuration
+
+**File:** [tailwind.config.ts](../tailwind.config.ts)
+
+All design tokens live in the Tailwind config, not CSS variables:
+
+**Custom Colors:**
+```typescript
+colors: {
+  // Massgate Red Theme
+  'massgate-red': '#e53935',
+  'massgate-red-dark': '#b71c1c',
+  'massgate-red-bright': '#ff5252',
+  'massgate-gold': '#ffd700',
+
+  // Military Theme
+  'soviet': '#ff6600',
+  'battlefield-teal': '#00d9ff',
+  'battlefield-cyan': '#00ffff',
+
+  // Panel Colors
+  'mg': '#1a2633',
+  'mg-dark': '#0d1419',
+  'texture-panel': '#1c2a38',
+  'texture-dark': '#0f1a24',
+  'night-panel': '#141e28',
+
+  // Text Colors
+  't': '#e8eaed',
+  't-secondary': '#b8bec5',
+  't-dim': '#8a9199',
+
+  // Status Colors
+  'online': '#4caf50',
+  'offline': '#666',
+}
+```
+
+**Custom Breakpoints:**
+```typescript
+screens: {
+  'xs': '360px',
+  'sm': '480px',
+  'md': '768px',
+  'lg': '900px',
+  'xl': '1024px',
+  '2xl': '1200px',
+  '3xl': '1366px',
+  '4xl': '1920px',
+}
+```
+
+**Custom Animations:**
+```typescript
+animation: {
+  'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+  'red-pulse': 'redPulse 2s ease-in-out infinite',
+  'gold-shimmer': 'goldShimmer 3s ease-in-out infinite',
+}
+```
+
+**Custom Box Shadows:**
+```typescript
+boxShadow: {
+  'soviet-glow': '0 0 20px rgba(255, 102, 0, 0.5)',
+  'teal-glow': '0 0 20px rgba(0, 217, 255, 0.5)',
+  'red-glow': '0 0 20px rgba(229, 57, 53, 0.5)',
+  'gold-glow': '0 0 20px rgba(255, 215, 0, 0.5)',
+}
+```
+
+#### Custom Component Layer
+
+**File:** [src/assets/styles/tailwind.css](../src/assets/styles/tailwind.css)
+
+For truly reusable patterns that need complex styles, use `@layer components`:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Glassmorphism Widget Pattern (Desktop Only) */
+  .widget {
+    @apply rounded-none overflow-hidden;
+    @apply transition-all duration-300 flex flex-col min-h-[280px];
+    @apply cursor-pointer;
+
+    /* Glass effect for desktop */
+    @apply md:backdrop-blur-md md:bg-black/30 md:border md:border-white/20;
+    @apply md:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)];
+
+    /* Solid background for mobile (performance) */
+    @apply bg-gradient-to-b from-texture-panel to-texture-dark;
+    @apply border border-mg/70 shadow-[0_12px_28px_rgba(4,9,14,0.55)];
+  }
+
+  @media (hover: hover) and (min-width: 768px) {
+    .widget:hover {
+      @apply md:bg-black/40 md:border-white/30;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                  0 0 24px rgba(var(--sw-rgb), 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-4px) scale(1.02);
+    }
+  }
+}
+```
+
+**When to Use Component Layer:**
+- Complex patterns used in 3+ places
+- Patterns that need hover states with transforms
+- Patterns where inline utilities would be >10 classes
+
+**When NOT to Use:**
+- One-off styles (use inline utilities)
+- Simple combinations (use inline utilities)
+- Component-specific styles (use scoped styles)
+
+#### Glassmorphism Design Pattern
+
+**Context:** Homepage hero section features a video background with widgets overlaid on top.
+
+**Problem:** Need widgets visible over dynamic video background while showing the video through.
+
+**Solution:** Glassmorphism (frosted glass effect) on desktop, solid backgrounds on mobile for performance.
+
+**Implementation:**
+
+```vue
+<!-- Widget with glassmorphism -->
+<div class="widget">
+  <!-- Content automatically gets glass effect on desktop -->
+</div>
+
+<!-- Hero with video background -->
+<section class="relative min-h-[85vh] overflow-hidden">
+  <!-- Video (hidden on mobile for performance) -->
+  <video
+    v-if="!isSSR"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    class="absolute inset-0 w-full h-full object-cover hidden md:block"
+  >
+    <source src="/hero-background.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Light overlay for text readability -->
+  <div class="absolute inset-0 bg-black/20 md:bg-black/15"></div>
+
+  <!-- Widgets with glassmorphism -->
+  <div class="container relative z-10">
+    <!-- 6 widgets here -->
+  </div>
+</section>
+```
+
+**Key Features:**
+- `backdrop-blur-md` - Creates frosted glass effect
+- `bg-black/30` - Semi-transparent background
+- `border-white/20` - Subtle border
+- Responsive: Desktop only (mobile gets solid backgrounds)
+- Performance: `backdrop-blur` only on desktop, lighter overlays
+
+**Text Readability Enhancement:**
+
+```vue
+<h1 class="text-6xl ... drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
+  World in Conflict
+</h1>
+
+<p class="... font-semibold drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
+  Experience the critically acclaimed 2007 Cold War RTS masterpiece online again.
+</p>
+```
+
+Strong drop shadows ensure text remains readable over dynamic video content.
+
+#### Video Background Support
+
+**Requirements:**
+- Must work with SSR (video APIs not available during build)
+- Mobile optimization (hide video, save CPU/bandwidth)
+- Accessibility (respect `prefers-reduced-motion`)
+
+**Pattern:**
+
+```vue
+<script setup lang="ts">
+// SSR detection
+const isSSR = import.meta.env.SSR;
+</script>
+
+<template>
+  <video
+    v-if="!isSSR"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    class="absolute inset-0 w-full h-full object-cover hidden md:block"
+  >
+    <source src="/hero-background.mp4" type="video/mp4" />
+  </video>
+</template>
+```
+
+**Key Attributes:**
+- `v-if="!isSSR"` - Prevents SSR errors
+- `autoplay muted loop` - Background video standard
+- `playsinline` - iOS Safari compatibility
+- `preload="metadata"` - Load only metadata, not full video
+- `hidden md:block` - Desktop only
+
+**File Location:** Place video in `public/` folder, reference with `/filename.mp4`
+
+#### Responsive Design Strategy
+
+**Mobile-First with Desktop Enhancements:**
+
+```vue
+<!-- Base: Mobile styles -->
+<div class="py-3.5 px-4 gap-2.5">
+  <!-- Content -->
+</div>
+
+<!-- Progressive Enhancement: Tablet -->
+<div class="py-3.5 px-4 gap-2.5 md:py-4 md:px-5">
+  <!-- Content -->
+</div>
+
+<!-- Progressive Enhancement: Desktop -->
+<div class="py-3.5 px-4 gap-2.5 md:py-4 md:px-5 lg:py-5 lg:px-6 lg:gap-3">
+  <!-- Content -->
+</div>
+```
+
+**Breakpoint Strategy:**
+- `xs` (360px): Very small phones
+- `sm` (480px): Small phones
+- `md` (768px): Tablets, enable glassmorphism/video
+- `lg` (900px): Small laptops
+- `xl` (1024px): Standard laptops
+- `2xl+` (1200px+): Large screens
+
+**Performance Considerations:**
+- Glassmorphism: Desktop only (`md:` prefix)
+- Video backgrounds: Desktop only (`hidden md:block`)
+- Backdrop blur: GPU-intensive, desktop only
+- Solid backgrounds: Mobile default for performance
+
+#### Tailwind Best Practices
+
+**DO:**
+- ✅ Use utility classes directly in templates
+- ✅ Reference design tokens from `tailwind.config.ts`
+- ✅ Use `@layer components` for complex reusable patterns
+- ✅ Use responsive prefixes (`md:`, `lg:`) for breakpoints
+- ✅ Use opacity modifiers (`bg-black/30`, `border-white/20`)
+- ✅ Use arbitrary values sparingly (`drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]`)
+
+**DON'T:**
+- ❌ Create custom CSS classes for simple combinations
+- ❌ Use hardcoded colors (use design tokens)
+- ❌ Use inline styles (`style="..."`)
+- ❌ Mix Tailwind with traditional CSS modules
+- ❌ Create component classes for one-off styles
+
+**Migration from Modular CSS:**
+
+```vue
+<!-- BEFORE: Modular CSS -->
+<style scoped>
+.widget-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(26, 38, 51, 0.3);
+}
+</style>
+
+<!-- AFTER: Tailwind Utilities -->
+<div class="flex items-center gap-3 py-5 px-6 border-b border-mg/30">
+  <!-- Content -->
+</div>
+```
+
+**Result:** ~80% reduction in CSS code, better consistency, easier maintenance.
+
+#### Dynamic Header Height Integration
+
+**Problem:** Video background and glassmorphism widgets need proper spacing for fixed header.
+
+**Solution:** Use `pt-[var(--header-height)]` CSS variable synced by JavaScript.
+
+**Implementation:**
+
+```vue
+<section class="pt-[calc(var(--header-height)+40px)]">
+  <!-- Content has dynamic padding based on header height -->
+</section>
+```
+
+The header height is measured and synced automatically by [src/utils/headerHeight.ts](../src/utils/headerHeight.ts). See [Native Scroll System](#native-scroll--navigation-system-october-2025) for details.
+
+#### Tailwind Opacity Modifier Limitation
+
+**⚠️ Important:** Tailwind opacity modifiers (like `/50`) **do NOT work** with custom `boxShadow` utilities when using `@apply`.
+
+```css
+/* ❌ WRONG - Causes build error */
+.my-element {
+  @apply shadow-soviet-glow/50; /* ERROR: class does not exist */
+}
+
+/* ✅ CORRECT - Use manual CSS */
+.my-element {
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+}
+```
+
+This is a Tailwind limitation, not a project issue. For variable opacity, use manual `box-shadow` CSS.
+
 ## Content Management
 
 ### Static Content
@@ -1611,25 +1966,7 @@ src/
 ├── assets/
 │   ├── logo.svg
 │   └── styles/
-│       ├── base.css           # Global styles + module imports
-│       └── modules/           # Modular CSS with design tokens
-│           ├── variables.css  # Design tokens (colors, shadows, transitions)
-│           ├── typography.css # Font families and utility classes
-│           ├── buttons.css    # Button hierarchy and styles
-│           ├── responsive.css # Responsive utilities
-│           └── components/    # Component-specific modules
-│               ├── navigation.css         # Nav with rectangular tabs
-│               ├── widget-dashboard.css   # Homepage widget grid (685 lines, 7 responsive breakpoints)
-│               ├── leaderboards.css       # Enhanced leaderboard tables
-│               ├── hero.css               # Hero section styling
-│               ├── community.css          # Events, videos, creators
-│               ├── getting-started.css    # Onboarding (with v-show transitions)
-│               ├── videos.css             # Video components (with v-show transitions)
-│               ├── about.css              # About section
-│               ├── faq.css                # FAQ section
-│               ├── game-mode.css          # Game mode page
-│               ├── players-panel.css      # Side panel for online players
-│               └── toggle.css             # Toggle switch components
+│       └── tailwind.css       # Tailwind imports + custom component layer
 └── content/
     └── content.ts             # Static content (hero copy, steps, requirements)
 

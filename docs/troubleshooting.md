@@ -190,31 +190,52 @@ ERROR: Coverage for lines (45%) does not meet threshold (50%)
 
 ## Styling Issues
 
-### Styles Not Applying
+### Tailwind Classes Not Applying *(Updated Oct 12, 2025)*
 
-**Cause:** CSS module not imported in `base.css`.
+**Cause:** Class not defined in Tailwind config or typo in class name.
 
-**Solution:** Ensure your CSS file is imported:
+**Solution:**
 
+1. **Check class exists in Tailwind config:**
+```typescript
+// tailwind.config.ts
+export default {
+  theme: {
+    extend: {
+      colors: {
+        'soviet': '#ff6600', // Custom color
+      }
+    }
+  }
+}
+```
+
+2. **Verify class spelling:**
+```vue
+<!-- ❌ WRONG - Typo -->
+<div class="text-sovit">...</div>
+
+<!-- ✅ CORRECT -->
+<div class="text-soviet">...</div>
+```
+
+3. **Check Tailwind is imported:**
+```typescript
+// src/main.ts
+import './assets/styles/tailwind.css'; // Must be imported
+```
+
+4. **Restart dev server after config changes:**
 ```bash
-# 1. Create CSS module
-touch src/assets/styles/modules/components/my-feature.css
-
-# 2. Add to base.css
-echo "@import './modules/components/my-feature.css';" >> src/assets/styles/base.css
+npm run dev
 ```
 
-**Verify import order in base.css:**
-```css
-/* Core foundation (first) */
-@import './modules/variables.css';
-@import './modules/reset.css';
+**Common Issues:**
+- Custom color not in `tailwind.config.ts` → Add to `theme.extend.colors`
+- Opacity modifier on custom shadow (e.g., `shadow-soviet-glow/50`) → Use manual CSS
+- Missing responsive prefix (e.g., `block` instead of `hidden md:block`)
 
-/* Component modules (after foundation) */
-@import './modules/components/my-feature.css';
-```
-
-**Reference:** [docs/design-system.md - Modular CSS](design-system.md#modular-css-architecture)
+**Reference:** [docs/design-system.md - Tailwind Best Practices](design-system.md#tailwind-best-practices)
 
 ---
 
@@ -246,23 +267,48 @@ scrollToSection('statistics');
 
 ---
 
-### Design Token Not Working
+### Design Token Not Working *(Updated Oct 12, 2025)*
 
-**Cause:** Token doesn't exist or has typo.
+**Cause:** Token doesn't exist in Tailwind config or wrong syntax.
 
-**Solution:** Check token exists in `variables.css`:
+**Solution:** Check token exists in `tailwind.config.ts`:
 
-```bash
-# Find token definition
-grep "var(--sw)" src/assets/styles/modules/variables.css
+```typescript
+// Check color definitions
+export default {
+  theme: {
+    extend: {
+      colors: {
+        'soviet': '#ff6600',           // ✅ Use: text-soviet, bg-soviet
+        'mg': '#1a2633',                // ✅ Use: bg-mg, border-mg/70
+        'massgate-red': '#e53935',      // ✅ Use: text-massgate-red
+      }
+    }
+  }
+}
 ```
 
-**Common token typos:**
-- `--primary` (doesn't exist) → Use `--sw` (Massgate orange)
-- `--text` (doesn't exist) → Use `--t` (primary text color)
-- `--bg` (doesn't exist) → Use `--graphite` (background color)
+**Common token issues:**
+- Using CSS variable syntax (`var(--sw)`) → Use Tailwind class (`text-soviet`)
+- Token doesn't exist → Add to `tailwind.config.ts`
+- Wrong token name → Check spelling in config
 
-**All tokens:** [src/assets/styles/modules/variables.css](../src/assets/styles/modules/variables.css)
+**Common fixes:**
+```vue
+<!-- ❌ WRONG - CSS variable syntax (old approach) -->
+<div style="color: var(--sw)">...</div>
+
+<!-- ✅ CORRECT - Tailwind utility class -->
+<div class="text-soviet">...</div>
+
+<!-- ❌ WRONG - Token doesn't exist -->
+<div class="text-primary">...</div>
+
+<!-- ✅ CORRECT - Use defined token -->
+<div class="text-soviet">...</div>
+```
+
+**All tokens:** [tailwind.config.ts](../tailwind.config.ts)
 
 **Reference:** [docs/design-system.md - Design Tokens](design-system.md#design-tokens)
 

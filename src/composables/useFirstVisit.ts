@@ -19,15 +19,13 @@ export function useFirstVisit() {
     }
   }
 
-  function shouldShowOverlay(hasHash: boolean): boolean {
-    // Show overlay only if:
-    // 1. It's a first visit AND
-    // 2. There's a hash in URL (deep link) OR user has auto game mode preference
-    return checkFirstVisit() && hasHash;
+  function shouldShowOverlay(): boolean {
+    // Show overlay on first visit to provide onboarding
+    return checkFirstVisit();
   }
 
-  function initFirstVisitCheck(hasHashOrAutoMode: boolean) {
-    if (shouldShowOverlay(hasHashOrAutoMode)) {
+  function initFirstVisitCheck() {
+    if (shouldShowOverlay()) {
       showFirstVisitOverlay.value = true;
     }
   }

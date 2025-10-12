@@ -46,26 +46,42 @@ function handleClick() {
 </script>
 
 <template>
-  <div class="widget" :class="widgetClass" @click="handleClick">
-    <div class="widget-header">
-      <div class="widget-icon" :class="iconClass">
+  <div :class="widgetClass" class="widget" @click="handleClick">
+    <!-- Widget Header -->
+    <div
+      class="flex items-center gap-3 py-5 px-6 pb-4 border-b border-mg/30 max-[900px]:py-4 max-[900px]:px-5 max-[900px]:pb-3 max-[480px]:py-3.5 max-[480px]:px-4 max-[480px]:pb-2.5 max-[480px]:gap-2.5"
+    >
+      <div
+        :class="iconClass"
+        class="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-battlefield-teal/30 to-battlefield-teal/15 border border-battlefield-teal/40 text-xl text-battlefield-teal flex-shrink-0 max-[480px]:w-9 max-[480px]:h-9 max-[480px]:text-lg"
+      >
         <i :class="icon" aria-hidden="true"></i>
       </div>
-      <h3>{{ title }}</h3>
+      <h3
+        class="m-0 text-xl font-bold text-t font-military uppercase tracking-[0.5px] max-[768px]:text-lg max-[480px]:text-base"
+      >
+        {{ title }}
+      </h3>
     </div>
-    <div class="widget-body">
+
+    <!-- Widget Body (Content Slot) -->
+    <div
+      class="flex-1 py-5 px-6 flex flex-col gap-4 max-[900px]:py-4 max-[900px]:px-5 max-[480px]:py-3.5 max-[480px]:px-4 max-[480px]:gap-3"
+    >
       <slot />
     </div>
-    <div class="widget-footer">
-      <span class="widget-action">
-        <slot name="action"> {{ action }} <i class="fa-solid fa-arrow-right"></i> </slot>
+
+    <!-- Widget Footer -->
+    <div
+      class="py-4 px-6 border-t border-mg/30 bg-gradient-to-b from-mg/10 to-mg-dark/20 max-[900px]:py-3 max-[900px]:px-5 max-[480px]:py-2.5 max-[480px]:px-4"
+    >
+      <span
+        class="flex items-center justify-between text-battlefield-teal font-military text-sm font-semibold uppercase tracking-[0.5px] transition-all duration-200 group-hover:text-battlefield-cyan group-hover:translate-x-1"
+      >
+        <slot name="action"> {{ action }} <i class="fa-solid fa-arrow-right ml-2"></i> </slot>
       </span>
     </div>
   </div>
 </template>
 
-<style scoped>
-.widget {
-  cursor: pointer;
-}
-</style>
+<style scoped></style>

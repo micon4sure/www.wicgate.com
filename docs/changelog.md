@@ -2,6 +2,8 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎨 **MAJOR: Tailwind CSS Migration** - Complete rewrite from modular CSS to utility-first Tailwind approach, ~80% code reduction (8,154 deletions vs 1,569 additions), deleted 29 CSS module files, all design tokens moved to `tailwind.config.ts` (Oct 12)
+- ✨ **Homepage Enhancement: Glassmorphism & Video Background** - Added frosted glass widget effect (desktop only), 22MB video background with SSR guards, enhanced text readability with drop shadows, 3-slide onboarding wizard for first-time visitors (Oct 12)
 - 🔧 **CRITICAL: Page Reload Scroll Fix** - Fixed page refresh failing to reach FAQ/About sections by removing global CSS `scroll-behavior: smooth` that overrode JavaScript control, now uses smart behavior: instant jump (`auto`) on page reload to avoid smooth scroll distance limitations (~700ms browser animation timeout), smooth animation on SPA clicks for UX (Oct 11)
 - 🎨 **Layout Stability: SSR→CSR Hydration** - Added min-height constraints to Community section containers (events: 380px, videos: 340px, streams: 200px) matching skeleton loaders, prevents layout shifts during API data loading, added 500ms hydration protection to useActiveSection to prevent premature scroll tracking during SSR→CSR transition, implemented smart scroll delays (400ms direct nav, 100ms SPA) (Oct 11)
 - 🎯 **Navigation Highlighting: Hybrid Scroll Tracking** - Replaced complex IntersectionObserver with simple hybrid approach: click navigation uses route (instant), manual scrolling uses position-based tracking (scroll position + header height), added programmatic scroll protection to prevent racing highlights, ~110 lines vs 100+ complex observer code (Oct 10)
@@ -65,6 +67,189 @@
 ---
 
 ## October 2025
+
+### 🎨 Tailwind CSS Migration + Homepage Enhancement
+
+**Status:** Complete (October 12, 2025)
+
+**Summary:** Complete migration from modular CSS to Tailwind utility-first approach, resulting in massive code reduction and improved maintainability. Enhanced homepage with glassmorphism widgets, video background, and improved onboarding experience.
+
+#### Part 1: Tailwind CSS Migration (~80% Code Reduction)
+
+**Problem Statement:**
+- **Old System:** 29 separate CSS module files (~8,000+ lines of code)
+- **Issues:**
+  - Scattered styles across multiple files
+  - CSS variable references (`var(--sw)`, `var(--mg)`, etc.)
+  - Difficult to see what styles apply without jumping between files
+  - Naming fatigue (inventing class names for every component)
+  - No purging of unused styles
+
+**Solution: Utility-First Tailwind**
+- All design tokens moved from `variables.css` to `tailwind.config.ts`
+- 95% of styles now inline Tailwind utilities in Vue templates
+- One exception: `--header-height` CSS variable (synced by JavaScript)
+- Custom component layer only for truly reusable complex patterns (`.widget`)
+
+**Files Changed:**
+1. **Deleted 29 CSS Module Files:**
+   - `src/assets/styles/modules/variables.css`
+   - `src/assets/styles/modules/typography.css`
+   - `src/assets/styles/modules/buttons.css`
+   - `src/assets/styles/modules/responsive.css`
+   - `src/assets/styles/modules/utilities.css`
+   - `src/assets/styles/modules/animations.css`
+   - `src/assets/styles/modules/layout.css`
+   - `src/assets/styles/modules/reset.css`
+   - `src/assets/styles/modules/components/navigation.css`
+   - `src/assets/styles/modules/components/widget-dashboard.css` (685 lines!)
+   - `src/assets/styles/modules/components/leaderboards.css`
+   - `src/assets/styles/modules/components/hero.css`
+   - `src/assets/styles/modules/components/community.css`
+   - `src/assets/styles/modules/components/getting-started.css`
+   - `src/assets/styles/modules/components/videos.css`
+   - `src/assets/styles/modules/components/about.css`
+   - `src/assets/styles/modules/components/faq.css`
+   - `src/assets/styles/modules/components/game-mode.css`
+   - `src/assets/styles/modules/components/players-panel.css`
+   - `src/assets/styles/modules/components/toggle.css`
+   - ...and 9 more backup/legacy files
+
+2. **Created/Updated:**
+   - `src/assets/styles/tailwind.css` - Tailwind imports + custom `.widget` component class
+   - `tailwind.config.ts` - All design tokens (colors, shadows, animations, breakpoints)
+   - `postcss.config.cjs` - PostCSS configuration for Tailwind
+
+3. **Updated All Vue Components:**
+   - Converted `<style>` blocks to inline Tailwind classes
+   - Example: `WidgetBase.vue`, `WidgetDashboard.vue`, `Navigation.vue`, `Footer.vue`, `Leaderboards.vue`, etc.
+
+**Results:**
+- **8,154 lines deleted vs 1,569 added** = ~80% code reduction
+- **29 CSS files deleted** → **1 Tailwind file**
+- All components now have styles visible directly in templates
+- Zero CSS naming fatigue
+- Automatic purging of unused styles (smaller bundle)
+- Improved developer experience with autocomplete
+
+**Migration Example:**
+
+```vue
+<!-- BEFORE: Modular CSS (30+ lines in separate file) -->
+<style scoped>
+.widget-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(26, 38, 51, 0.3);
+  background: linear-gradient(180deg, #1c2a38 0%, #0f1a24 100%);
+}
+</style>
+
+<template>
+  <div class="widget-header">
+    <i class="icon"></i>
+    <h3>Title</h3>
+  </div>
+</template>
+
+<!-- AFTER: Tailwind Utilities (no separate style file needed) -->
+<template>
+  <div class="flex items-center gap-3 py-5 px-6 border-b border-mg/30 bg-gradient-to-b from-texture-panel to-texture-dark">
+    <i class="icon"></i>
+    <h3>Title</h3>
+  </div>
+</template>
+```
+
+#### Part 2: Homepage Visual Enhancement
+
+**Problem Statement:**
+- Homepage lacked visual context and background
+- Needed better beginner-friendly onboarding
+- Video background requested for hero section
+
+**Solution Implemented:**
+
+**1. Glassmorphism Widget Design**
+   - **File:** `src/assets/styles/tailwind.css` - `.widget` class
+   - **Pattern:** Frosted glass effect (desktop only), solid backgrounds on mobile
+   - **Key Features:**
+     - `backdrop-blur-md` + `bg-black/30` for frosted glass
+     - Semi-transparent with white borders (`border-white/20`)
+     - Inset highlights for depth
+     - Desktop only (`md:` prefix) - mobile gets solid backgrounds for performance
+
+**2. Video Background Support**
+   - **File:** `src/components/WidgetDashboard.vue`
+   - **Video:** `public/hero-background.mp4` (22MB, user-provided)
+   - **Implementation:**
+     - HTML5 video with `autoplay muted loop playsinline`
+     - SSR-safe with `v-if="!isSSR"` guard
+     - Desktop only (`hidden md:block`) for performance
+     - Lightened overlays (20% → 15% black) to show video through
+
+**3. Text Readability Enhancement**
+   - Strong drop shadows for text over dynamic video
+   - `drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]` for headings
+   - `drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]` for body text
+   - Bold/semibold font weights for better visibility
+
+**4. Enhanced Onboarding Wizard**
+   - **File:** `src/components/FirstVisitOverlay.vue`
+   - **Upgrade:** Single screen → 3-slide wizard
+   - **Slides:**
+     1. What is World in Conflict? (game introduction)
+     2. What is WiCGate? (project mission)
+     3. Get Started (installation CTA)
+   - **Features:**
+     - Slide indicators (dots)
+     - Next/Continue buttons
+     - All styles converted to Tailwind
+     - Manual `box-shadow` CSS (Tailwind opacity modifiers don't work with custom shadows)
+
+**5. Hero Section Enhancement**
+   - **File:** `src/components/WidgetDashboard.vue`
+   - **Height:** Increased to `min-h-[85vh]` to showcase video
+   - **Messaging:** Enhanced copy for clarity
+   - **Feature Badges:** Added "Official Servers", "Active Community", "Free to Play" badges
+   - **Dynamic Padding:** `pt-[calc(var(--header-height)+40px)]` for header offset
+
+**Files Modified:**
+- `src/components/WidgetDashboard.vue` - Hero section, video background, widget grid
+- `src/components/widgets/WidgetBase.vue` - Converted to Tailwind
+- `src/components/widgets/GettingHelpWidget.vue` - Style cleanup
+- `src/components/FirstVisitOverlay.vue` - Upgraded to 3-slide wizard with Tailwind
+- `src/composables/useFirstVisit.ts` - Show overlay to ALL first-time visitors
+- `src/views/Home.vue` - Updated function signature
+- `src/assets/styles/tailwind.css` - Added `.widget` glassmorphism component
+- `tailwind.config.ts` - Custom colors, shadows, animations, breakpoints
+- `package.json` - Added Tailwind dependencies
+
+**Technical Notes:**
+
+**Tailwind Opacity Modifier Limitation:**
+- Opacity modifiers (e.g., `shadow-soviet-glow/50`) DO NOT work with custom `boxShadow` in `@apply`
+- Solution: Use manual CSS `box-shadow` for variable opacity
+- Example: `box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);`
+
+**Performance Optimizations:**
+- Glassmorphism (`backdrop-blur-md`) desktop only - mobile gets solid backgrounds
+- Video background desktop only - saves mobile bandwidth/CPU
+- Responsive breakpoints: `md:` (768px) enables premium features
+
+**Documentation Updates:**
+- `docs/architecture.md` - New "Styling System" section with Tailwind architecture
+- `docs/design-system.md` - Complete rewrite for Tailwind-first approach
+- Updated all component patterns, removed modular CSS references
+
+**Results:**
+- ~80% code reduction (8,154 deletions vs 1,569 additions)
+- Improved maintainability (styles visible in templates)
+- Better visual appeal (glassmorphism + video background)
+- Enhanced beginner onboarding (3-slide wizard)
+- Better performance (automatic style purging, mobile optimizations)
 
 ### 🔄 Navigation System: Path-Based Nested Routes
 

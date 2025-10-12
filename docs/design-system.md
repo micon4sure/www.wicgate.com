@@ -1,1144 +1,885 @@
 # Design System Documentation
 
-> **⚠️ UPDATE (October 2025):** Expandable section patterns removed. All content now always visible. See [Changelog](changelog.md) for details.
+> **⚠️ MAJOR UPDATE (October 12, 2025):** Complete migration from modular CSS to **Tailwind CSS utility-first approach**. This resulted in ~80% code reduction (8,154 deletions vs 1,569 additions). See [Changelog](changelog.md) for migration details.
 
 ## Overview
 
-WiCGATE uses a comprehensive design system inspired by the original Massgate military aesthetic. All styling is token-based, modular, and responsive across all breakpoints.
+WiCGATE uses a **Tailwind-first design system** inspired by the original Massgate military aesthetic. All design tokens are defined in Tailwind configuration, and 95% of styling is done with utility classes directly in Vue templates.
+
+**Migration Impact:**
+- 29 CSS module files deleted (~8,000+ lines)
+- All components now use Tailwind utility classes
+- Design tokens moved from CSS variables to Tailwind config
+- One exception: `--header-height` CSS variable (synced by JavaScript for dynamic measurement)
+
+## Design Philosophy
+
+### Utility-First Approach
+
+**Critical Rule:** ALWAYS use Tailwind utility classes. NEVER create custom CSS classes for simple style combinations.
+
+**Why Tailwind?**
+- **Visibility:** All styles visible in template, no jumping between files
+- **No Naming:** No need to invent class names (`.widget-header`, `.player-card`, etc.)
+- **Consistency:** Design tokens enforced through Tailwind config
+- **Performance:** Purges unused styles automatically, smaller bundle
+- **Maintainability:** Changes are localized, no cascading effects
+
+**Example:**
+```vue
+<!-- ❌ BEFORE: Modular CSS approach -->
+<style scoped>
+.widget-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(26, 38, 51, 0.3);
+}
+</style>
+
+<template>
+  <div class="widget-header">
+    <i class="icon"></i>
+    <h3>Title</h3>
+  </div>
+</template>
+
+<!-- ✅ AFTER: Tailwind utility-first -->
+<template>
+  <div class="flex items-center gap-3 py-5 px-6 border-b border-mg/30">
+    <i class="icon"></i>
+    <h3>Title</h3>
+  </div>
+</template>
+```
+
+**Result:** Deleted entire `<style>` block, more readable, easier to maintain.
 
 ## Design Tokens
 
-### CSS Variables Location
+### Tailwind Configuration
 
-**File:** [src/assets/styles/modules/variables.css](../src/assets/styles/modules/variables.css)
+**File:** [tailwind.config.ts](../tailwind.config.ts)
 
-**Critical Rule:** NEVER use hardcoded hex values. ALWAYS reference design tokens via `var(--token-name)`.
-
-**Why Design Tokens?**
-- **Visual Consistency:** All colors, spacing, and effects centralized in one file
-- **Theme Changes:** Update entire site by changing token values
-- **Maintainability:** No scattered hardcoded values across 50+ files
-- **Refactoring:** Change `--sw` from orange to blue → entire site updates instantly
-
-**Example:**
-```css
-/* ❌ WRONG - Hardcoded values scattered everywhere */
-.button { color: #ff6600; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
-.link { color: #ff6600; }
-.badge { background: #ff6600; }
-
-/* ✅ CORRECT - Design tokens centralized */
-.button { color: var(--sw); box-shadow: var(--shadow-md); }
-.link { color: var(--sw); }
-.badge { background: var(--sw); }
-```
+All design tokens now live in Tailwind configuration instead of CSS variables. This enables direct usage in utility classes with autocomplete and type safety.
 
 ### Color Palette
 
-#### Structure Colors (Steel/Graphite)
-```css
---mg: #4a5568;           /* Steel structure base */
---mg-dark: #2d3748;      /* Dark steel */
---mg-muted: #718096;     /* Muted steel */
+**Usage:** Reference colors in utility classes (e.g., `text-soviet`, `bg-mg-dark`, `border-battlefield-teal/40`)
 
---graphite: #1a202c;     /* Navigation base */
---graphite-dark: #0f131a; /* Dark graphite */
---graphite-light: #2d3748; /* Light graphite */
+#### Massgate Red Theme
+```typescript
+'massgate-red': '#e53935',          // Primary brand red
+'massgate-red-dark': '#b71c1c',     // Darker red for depth
+'massgate-red-bright': '#ff5252',   // Bright accent red
+'massgate-gold': '#ffd700',         // Gold accents
 ```
 
-#### Accent Colors
-```css
---sw: #ff6600;           /* Massgate orange (primary) */
---sw-light: #ff8533;     /* Light orange (hover) */
---sw-rgb: 255, 102, 0;   /* RGB for rgba() usage */
+**Usage:** `bg-massgate-red`, `text-massgate-gold`, `border-massgate-red-bright`
 
---dl: #dc2626;           /* Alert red (danger) */
---d: #5865f2;            /* Discord blue */
+#### Military Theme
+```typescript
+'soviet': '#ff6600',                // Primary orange (accent)
+'battlefield-teal': '#00d9ff',      // Teal blue accent
+'battlefield-cyan': '#00ffff',      // Cyan highlight
 ```
+
+**Usage:** `text-soviet`, `bg-battlefield-teal/30`, `border-battlefield-cyan/40`
+
+#### Panel Colors
+```typescript
+'mg': '#1a2633',                    // Base panel color
+'mg-dark': '#0d1419',               // Dark panel variant
+'texture-panel': '#1c2a38',         // Textured panel
+'texture-dark': '#0f1a24',          // Dark textured panel
+'night-panel': '#141e28',           // Night mode panel
+```
+
+**Usage:** `bg-mg`, `bg-gradient-to-b from-texture-panel to-texture-dark`, `border-mg/70`
 
 #### Text Colors
-```css
---t: #f7fafc;            /* Primary text (headings) */
---t2: #cbd5e0;           /* Secondary text (inactive) */
---t3: #a0aec0;           /* Tertiary text (subtle) */
---ink: #1a202c;          /* Dark text for light backgrounds */
+```typescript
+'t': '#e8eaed',                     // Primary text (headings)
+'t-secondary': '#b8bec5',           // Secondary text (body)
+'t-dim': '#8a9199',                 // Dimmed text (subtle)
 ```
 
-#### Brand/Platform Tokens
-```css
---yt: #ff0000;           /* YouTube red */
---yt-dark: #cc0000;      /* YouTube dark */
+**Usage:** `text-t`, `text-t-secondary`, `text-t-dim`
 
---tw: #9146ff;           /* Twitch purple */
---tw-dark: #772ce8;      /* Twitch dark */
+#### Status Colors
+```typescript
+'online': '#4caf50',                // Online status (green)
+'offline': '#666',                  // Offline status (gray)
 ```
 
-#### Medal/Rank Colors
-```css
---gold: #ffd700;         /* 1st place */
---silver: #c0c0c0;       /* 2nd place */
---bronze: #cd7f32;       /* 3rd place */
+**Usage:** `text-online`, `bg-offline`
+
+### Custom Box Shadows
+
+**Usage:** Reference in utility classes (e.g., `shadow-soviet-glow`, `shadow-teal-glow`)
+
+```typescript
+boxShadow: {
+  'soviet-glow': '0 0 20px rgba(255, 102, 0, 0.5)',
+  'teal-glow': '0 0 20px rgba(0, 217, 255, 0.5)',
+  'red-glow': '0 0 20px rgba(229, 57, 53, 0.5)',
+  'gold-glow': '0 0 20px rgba(255, 215, 0, 0.5)',
+}
 ```
 
-#### Panel RGB Helpers
-```css
---panel-rgb: 26, 32, 44;    /* For rgba() backgrounds */
---overlay-rgb: 15, 19, 26;  /* For overlay backgrounds */
+**Usage:** `shadow-soviet-glow`, `hover:shadow-teal-glow`
+
+**⚠️ Important:** Opacity modifiers (e.g., `shadow-soviet-glow/50`) DO NOT work with custom shadows in `@apply` directive. Use manual CSS `box-shadow` for variable opacity.
+
+### Custom Animations
+
+**Usage:** Reference in utility classes (e.g., `animate-pulse-slow`)
+
+```typescript
+animation: {
+  'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+  'red-pulse': 'redPulse 2s ease-in-out infinite',
+  'gold-shimmer': 'goldShimmer 3s ease-in-out infinite',
+}
 ```
 
-### Shadows
+**Usage:** `animate-pulse-slow`, `animate-red-pulse`, `animate-gold-shimmer`
 
-#### Multi-Layer Shadow System
-```css
-/* Elevation shadows */
---shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
---shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
---shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
---shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.3);
+### Custom Breakpoints
 
-/* Glow effects */
---glow-orange: 0 0 24px rgba(var(--sw-rgb), 0.4);
---glow-red: 0 0 24px rgba(220, 38, 38, 0.4);
---glow-blue: 0 0 24px rgba(88, 101, 242, 0.4);
+**Usage:** Use responsive prefixes in utility classes (e.g., `md:block`, `lg:flex`, `2xl:text-6xl`)
 
-/* Inner highlights */
---highlight: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+```typescript
+screens: {
+  'xs': '360px',      // Very small phones
+  'sm': '480px',      // Small phones
+  'md': '768px',      // Tablets (glassmorphism/video enabled)
+  'lg': '900px',      // Small laptops
+  'xl': '1024px',     // Standard laptops
+  '2xl': '1200px',    // Large screens
+  '3xl': '1366px',    // Extra large screens
+  '4xl': '1920px',    // 1080p displays
+}
 ```
 
-**Professional Glow Rule:** Keep glow opacity at 0.3-0.4 for subtle, professional appearance.
-
-### Transitions
-
-```css
---transition-fast: 150ms cubic-bezier(0.25, 0.8, 0.25, 1);
---transition-base: 200ms cubic-bezier(0.25, 0.8, 0.25, 1);
---transition-slow: 300ms cubic-bezier(0.25, 0.8, 0.25, 1);
-```
-
-**Standard easing:** `cubic-bezier(0.25, 0.8, 0.25, 1)` for smooth, professional feel.
-
-### Gradients
-
-```css
---gradient-orange: linear-gradient(135deg, var(--sw) 0%, var(--sw-light) 100%);
---gradient-graphite: linear-gradient(180deg, var(--graphite) 0%, var(--graphite-dark) 100%);
---gradient-panel: linear-gradient(180deg, rgba(var(--panel-rgb), 0.95) 0%, rgba(var(--panel-rgb), 0.85) 100%);
-```
+**Usage:** `hidden md:block`, `text-sm lg:text-base 2xl:text-lg`
 
 ## Typography
 
 ### Font Families
 
-**File:** [src/assets/styles/modules/typography.css](../src/assets/styles/modules/typography.css)
-
-```css
---font-heading: 'Oswald', sans-serif;     /* Headers, nav */
---font-body: 'Rajdhani', sans-serif;      /* Body copy */
---font-data: 'Courier New', monospace;    /* Player names, scores */
-```
-
-### Font Scales
-
-#### Desktop
-```css
---text-xs: 0.75rem;    /* 12px */
---text-sm: 0.875rem;   /* 14px */
---text-base: 1rem;     /* 16px */
---text-lg: 1.125rem;   /* 18px */
---text-xl: 1.25rem;    /* 20px */
---text-2xl: 1.5rem;    /* 24px */
---text-3xl: 1.875rem;  /* 30px */
---text-4xl: 2.25rem;   /* 36px */
-```
-
-#### Responsive Scaling
-Typography automatically scales down on mobile breakpoints. See [typography.css](../src/assets/styles/modules/typography.css) for responsive variants.
-
-### Utility Classes
-
-```css
-.heading-primary    /* Oswald, bold, large */
-.heading-secondary  /* Oswald, semibold, medium */
-.body-text          /* Rajdhani, regular, base */
-.data-text          /* Courier New, monospace */
-```
-
-## Component Patterns
-
-### Widget Dashboard (Homepage) *(Updated Phase 3.2)*
-
-**Main File:** [src/components/WidgetDashboard.vue](../src/components/WidgetDashboard.vue) (77 lines - orchestrator)
-**Widget Components:** [src/components/widgets/](../src/components/widgets/) (7 modular components)
-**CSS Module:** [src/assets/styles/modules/components/widget-dashboard.css](../src/assets/styles/modules/components/widget-dashboard.css)
-
-**Design Philosophy:** Function-geared dashboard following industry best practices (GitHub, Vercel, Notion). Provides quick access to all key site functions through interactive widget cards.
-
-**Architecture (Phase 3.2 Refactoring - Oct 10, 2025):**
-- Reduced WidgetDashboard from 376 lines to 77 lines (80% reduction)
-- Extracted 7 widget components for modularity and testability
-- Shared `WidgetBase.vue` component enforces consistent structure
-- Each widget is self-contained with its own logic and styling
-
-#### Widget Grid Layout
-
-```css
-.widget-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);  /* 3 columns desktop */
-  gap: 24px;
-}
-
-/* Responsive breakpoints */
-@media (max-width: 1100px) {
-  .widget-grid {
-    grid-template-columns: repeat(2, 1fr);  /* 2 columns tablet */
-  }
-}
-
-@media (max-width: 768px) {
-  .widget-grid {
-    grid-template-columns: 1fr;  /* 1 column mobile */
-  }
+**Defined in Tailwind Config:**
+```typescript
+fontFamily: {
+  'military': ['Oswald', 'sans-serif'],      // Headers, navigation
+  'body': ['Rajdhani', 'sans-serif'],        // Body text
+  'mono': ['Courier New', 'monospace'],      // Player names, data
 }
 ```
 
-#### Widget Card Pattern
+**Usage:** `font-military`, `font-body`, `font-mono`
 
-```css
-.widget {
-  background: linear-gradient(180deg,
-    rgba(var(--panel-main-rgb), 0.96) 0%,
-    rgba(var(--panel-dark-rgb), 0.98) 100%);
-  border: 1px solid var(--divider-strong);
-  box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
-  display: flex;
-  flex-direction: column;
-  min-height: 280px;
-}
+### Font Sizes & Responsive Scaling
 
-.widget:hover {
-  border-color: rgba(var(--sw-rgb), 0.75);
-  box-shadow: 0 0 30px rgba(var(--sw-rgb), 0.32);
-  transform: translateY(-4px);
-}
-```
+**Tailwind Default Scale (Extended):**
+- `text-xs` (0.75rem/12px)
+- `text-sm` (0.875rem/14px)
+- `text-base` (1rem/16px)
+- `text-lg` (1.125rem/18px)
+- `text-xl` (1.25rem/20px)
+- `text-2xl` (1.5rem/24px)
+- `text-3xl` (1.875rem/30px)
+- `text-4xl` (2.25rem/36px)
+- `text-5xl` (3rem/48px)
+- `text-6xl` (3.75rem/60px)
 
-#### Widget Types
-
-**1. Primary Widget (Quick Start)**
-- Enhanced visual prominence with orange gradient background
-- Includes live player count badge
-- Primary CTA for new users
-
-**2. Data Widgets (Live Servers, Top Players)**
-- Real-time API data integration
-- Skeleton loaders for SSR compatibility
-- Top 3 list patterns for glanceable information
-- **Player Display Consistency:** Top Players widget matches leaderboard styling exactly
-  - Rank insignias (20px size)
-  - Clan tags: Courier New monospace, `var(--sw)` orange, 0.75rem
-  - Player names: Rajdhani, `var(--t)` white, 0.9rem
-  - Zero spacing between clan tag and player name (like in-game)
-  - Podium colors for scores: gold (#ffd700), silver (#c0c0c0), bronze (#cd7f32)
-
-**3. Community Widgets**
-- Platform-specific icon styling (Discord, YouTube)
-- Event countdown integration
-- Social engagement metrics
-
-**4. Content Widgets (Latest Videos, Help)**
-- Thumbnail previews with text clipping
-- Icon-based navigation lists
-- Click-to-action patterns
-
-#### Widget Components *(Phase 3.2)*
-
-**1. WidgetBase.vue** (Base Component)
+**Responsive Typography Pattern:**
 ```vue
-<WidgetBase
-  title="Widget Title"
-  icon="icon-name"
-  action="Action Text"
-  widget-class="custom-class"
-  @action-click="handleClick"
->
-  <template #default>
-    <!-- Widget content goes here -->
-  </template>
-</WidgetBase>
+<!-- Mobile → Tablet → Desktop progression -->
+<h1 class="text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl">
+  World in Conflict
+</h1>
+
+<p class="text-sm md:text-base lg:text-lg">
+  Body text that scales
+</p>
 ```
 
-**2. QuickStartWidget.vue** (63 lines)
-- Installation quick links and download CTA
-- Primary widget with enhanced visual prominence
+## Component Patterns with Tailwind
 
-**3. LiveServersWidget.vue** (86 lines)
-- Real-time server status with player counts
-- Uses `useServerCapacity` composable for dynamic colors
-- Green (<50%), Orange (50-89%), Red (≥90%)
-
-**4. TopPlayersWidget.vue** (87 lines)
-- Top 5 leaderboard preview
-- Uses `usePlayerDisplay` composable for colorization
-- Matches main leaderboard styling exactly
-
-**5. CommunityWidget.vue** (74 lines)
-- Upcoming Discord events with countdown
-- Empty state for no events
-
-**6. LatestVideosWidget.vue** (86 lines)
-- Latest 3 YouTube videos from multiple channels
-- Thumbnail, title, author, view count
-
-**7. GettingHelpWidget.vue** (57 lines)
-- FAQ quick links and support resources
-
-#### Widget Structure (Legacy/Direct HTML)
-
-```html
-<div class="widget">
-  <!-- Header: Icon + Title -->
-  <div class="widget-header">
-    <div class="widget-icon">
-      <i class="fa-solid fa-icon"></i>
-    </div>
-    <h3>Widget Title</h3>
-  </div>
-
-  <!-- Body: Main Content -->
-  <div class="widget-body">
-    <!-- Stats, lists, or content -->
-  </div>
-
-  <!-- Footer: Action Link -->
-  <div class="widget-footer">
-    <span class="widget-action">
-      View More <i class="fa-solid fa-arrow-right"></i>
-    </span>
-  </div>
-</div>
-```
-
-**Key Features:**
-- **Flexible height:** `min-height` ensures consistency, `flex: 1` for body adapts to content
-- **Interactive footers:** Arrow icons slide right on hover
-- **Responsive scaling:** Widget heights, padding, and font sizes adapt across 7 breakpoints
-- **SSR-safe:** Skeleton loaders prevent layout shift during API loading
-- **Accessibility:** All widgets are clickable with proper ARIA labels
-- **Modular architecture:** Each widget is a standalone component (Phase 3.2)
-
-### Interactive Element Standards
-
-**Universal Hover Pattern:**
-- **Inactive state:** Text uses `var(--t2)` (neutral)
-- **Hover state:** Background `rgba(var(--sw-rgb), 0.85)`, text `var(--ink)` (dark)
-- **Transform:** `scale(1.02-1.03) translateY(-2px)`
-- **Transition:** `var(--transition-base)`
-
-### Navigation Components
-
-**File:** [src/assets/styles/modules/components/navigation.css](../src/assets/styles/modules/components/navigation.css)
-
-#### Navigation Tabs (Desktop)
-```css
-.nav-link {
-  border-radius: 3px 3px 0 0; /* Rectangular tabs */
-  transition: var(--transition-base);
-}
-
-.nav-link:hover {
-  background: linear-gradient(180deg,
-    rgba(var(--sw-rgb), 0.85) 0%,
-    rgba(var(--sw-rgb), 0.68) 100%);
-  color: var(--ink);
-  transform: scale(1.02) translateY(-2px);
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    0 0 24px rgba(var(--sw-rgb), 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-```
-
-**Key Features:**
-- 3px top border-radius for rectangular aesthetic
-- Multi-layer shadows (elevation + glow + highlight)
-- Scale + translateY for depth
-- Orange gradient with dark text
-
-#### Players Button (Pill Design)
-```css
-.players-btn-nav {
-  height: 52px;
-  background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.95) 100%);
-  border: 1px solid rgba(var(--sw-rgb), 0.3);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.players-btn-nav:hover {
-  background: linear-gradient(180deg,
-    rgba(var(--sw-rgb), 0.85) 0%,
-    rgba(var(--sw-rgb), 0.68) 100%);
-  transform: scale(1.03) translateY(-2px);
-}
-
-.players-btn-nav:active {
-  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.8) 100%);
-  transform: scale(0.98) translateY(0px);
-  box-shadow:
-    0 1px 8px rgba(0, 0, 0, 0.5),
-    0 0 16px rgba(var(--sw-rgb), 0.6),
-    inset 0 3px 6px rgba(0, 0, 0, 0.2);
-}
-```
-
-**Key Features:**
-- 52px height with rectangular navigation styling
-- Matches navigation tabs design (not pill-shaped)
-- Slightly stronger scale (1.03x) for emphasis on hover
-- Clear active/pressed state with scale(0.98) and inset shadow
-- Optimized for thumb/finger interaction on mobile
-
-#### Mobile Navigation
-```css
-.mobile-nav {
-  position: fixed;
-  top: 0;
-  right: -100%; /* Off-screen by default */
-  width: 100%;
-  height: 100vh;
-  background: var(--graphite-dark);
-  transition: right var(--transition-slow);
-}
-
-.mobile-nav.open {
-  right: 0; /* Slide in */
-}
-```
-
-**Features:**
-- Full-screen overlay
-- Smooth slide animation
-- Touch-optimized spacing
-
-### Button System
-
-**File:** [src/assets/styles/modules/components/buttons.css](../src/assets/styles/modules/components/buttons.css)
-
-#### Primary Button (Orange)
-```css
-.btn-p {
-  background: var(--gradient-orange);
-  color: var(--ink);
-  padding: 12px 24px;
-  border-radius: 4px;
-  transition: var(--transition-base);
-}
-
-.btn-p:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-lg), var(--glow-orange);
-}
-```
-
-#### Download Button (Red - Reserved)
-```css
-.btn-download {
-  background: var(--dl);
-  color: var(--t);
-}
-```
-
-**⚠️ Critical Rule:** Reserve `.btn-download` (red) EXCLUSIVELY for executable program downloads (e.g., WIC LIVE). Use `.btn-p` (orange) for standard actions.
-
-#### Game Mode Header Controls
-
-**File:** [src/assets/styles/modules/components/game-mode.css](../src/assets/styles/modules/components/game-mode.css)
-
-Game mode header includes a static status display and interactive exit button.
-
-**Players Online Status (Static Display):**
-```css
-.gm-status {
-  display: flex;
-  align-items: center;
-  background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.95) 100%);
-  border: 1px solid rgba(var(--sw-rgb), 0.3);
-  /* No hover effects - static display */
-}
-```
-
-**Exit Button (Interactive):**
-```css
-.gm-btn-base {
-  background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.95) 100%);
-  border: 1px solid rgba(var(--sw-rgb), 0.3);
-  color: var(--t2);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.gm-btn-base:hover {
-  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.85) 0%, rgba(var(--sw-rgb), 0.68) 100%);
-  color: var(--ink);
-  transform: scale(1.03) translateY(-2px);
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    0 0 24px rgba(var(--sw-rgb), 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-.gm-btn-base:active {
-  background: linear-gradient(180deg, rgba(var(--sw-rgb), 0.95) 0%, rgba(var(--sw-rgb), 0.8) 100%);
-  transform: scale(0.98) translateY(0px);
-  box-shadow:
-    0 1px 8px rgba(0, 0, 0, 0.5),
-    0 0 16px rgba(var(--sw-rgb), 0.6),
-    inset 0 3px 6px rgba(0, 0, 0, 0.2);
-}
-```
-
-**Game Mode Header:**
-```css
-.gm-header {
-  background: linear-gradient(180deg, rgba(var(--graphite-light-rgb), 0.95) 0%, rgba(var(--graphite-dark-rgb), 0.98) 100%);
-  border-bottom: 3px solid rgba(var(--graphite-rgb), 0.85);
-  box-shadow:
-    0 2px 24px rgba(0, 0, 0, 0.75),
-    0 0 36px rgba(var(--graphite-rgb), 0.35);
-}
-```
-
-**Usage:**
-```html
-<!-- Players Online status - static display -->
-<div class="gm-status">
-  <span class="gm-status-count">{{ playerCount }}</span>
-  <span class="gm-status-divider" />
-  <span class="gm-status-label">Players Online</span>
-</div>
-
-<!-- Exit Game Mode button - interactive -->
-<button class="gm-btn-base gm-exit" @click="goHome">
-  <i class="fa-solid fa-right-from-bracket"></i>
-  Exit Game Mode
-</button>
-```
-
-**Key Features:**
-- Game mode header matches navigation's dark graphite background
-- `.gm-status` is a static display with no hover effects
-- `.gm-btn-base` provides interactive navigation-style hover and active states
-- Exit button uses orange gradient hover with `var(--ink)` text
-- Clear active/pressed state: scale(0.98), deeper inset shadow
-- Multi-layer shadows: elevation + glow + highlight on hover
-- Stronger tactile feedback on click/tap for better UX
-- Responsive heights: 52px desktop, 44px tablet, 40px mobile
-
-#### Hyperlink Standards
-```css
-.advanced-setup-link {
-  color: var(--sw);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  text-underline-offset: 3px;
-  transition: var(--transition-base);
-}
-
-.advanced-setup-link:hover {
-  color: var(--sw-light);
-  border-bottom-color: var(--sw-light);
-}
-```
-
-**Use Cases:**
-- File/ZIP downloads in Advanced Setup sections
-- Discord server access links
-- External documentation links
-
-**Pattern:** Massgate orange with hover underline, `target="_blank"` for external links.
-
-#### Video Play Button
+### Glassmorphism Widget Pattern (Homepage)
 
 **Files:**
-- [src/assets/styles/modules/components/community.css](../src/assets/styles/modules/components/community.css) (lines 568-598)
-- [src/assets/styles/modules/components/videos.css](../src/assets/styles/modules/components/videos.css) (lines 69-98)
+- [src/assets/styles/tailwind.css](../src/assets/styles/tailwind.css) - `.widget` component class
+- [src/components/WidgetDashboard.vue](../src/components/WidgetDashboard.vue) - Widget grid orchestrator
+- [src/components/widgets/](../src/components/widgets/) - 6 modular widget components
 
-**Design:** YouTube-style rounded rectangle play button for video thumbnails.
+**Design Pattern:** Frosted glass effect (glassmorphism) on desktop for video background transparency, solid backgrounds on mobile for performance.
 
-```css
-.play-over {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 68px;
-  height: 48px;
-  background: rgba(255, 0, 0, 0.9);  /* YouTube red */
-  color: #fff;
-  border-radius: 10px;  /* Rounded corners */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
+#### Widget Base Structure
 
-@media (hover: hover) {
-  .vid-card:hover .play-over {
-    opacity: 1;
-  }
-}
-
-.vid-card:active .play-over {
-  opacity: 1;
-  background: rgba(255, 0, 0, 1);
-  transform: translate(-50%, -50%) scale(0.95);
-}
-```
-
-**Key Features:**
-- **Shape:** 68px × 48px rounded rectangle (YouTube's 1.42:1 aspect ratio)
-- **Color:** YouTube red `rgba(255, 0, 0, 0.9)` - instantly recognizable
-- **Corners:** 10px border-radius for YouTube's signature rounded style
-- **Icon:** Default Font Awesome `fa-play` - no custom sizing needed
-- **Behavior:** Fades in on hover, scales down slightly on click
-- **Simple:** Fixed size, no responsive complexity
-
-**Why This Design:**
-- Matches YouTube's actual play button shape
-- Instantly recognizable to users
-- Clean, minimal implementation
-- Works well at all screen sizes without breakpoints
-
-### Leaderboard Components
-
-**File:** [src/assets/styles/modules/components/leaderboards.css](../src/assets/styles/modules/components/leaderboards.css)
-
-#### Table Styling
-```css
-.leaderboard-table {
-  background: rgba(var(--panel-rgb), 0.3);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.leaderboard-row {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  transition: var(--transition-fast);
-}
-
-.leaderboard-row:hover {
-  background: rgba(var(--sw-rgb), 0.1);
-}
-```
-
-#### Rank Styling
-```css
-.rank-1 { color: var(--gold); font-weight: bold; }
-.rank-2 { color: var(--silver); font-weight: bold; }
-.rank-3 { color: var(--bronze); font-weight: bold; }
-
-.podium-1 { background: linear-gradient(135deg,
-  rgba(255, 215, 0, 0.2) 0%,
-  rgba(255, 215, 0, 0.05) 100%); }
-.podium-2 { background: linear-gradient(135deg,
-  rgba(192, 192, 192, 0.2) 0%,
-  rgba(192, 192, 192, 0.05) 100%); }
-.podium-3 { background: linear-gradient(135deg,
-  rgba(205, 127, 50, 0.2) 0%,
-  rgba(205, 127, 50, 0.05) 100%); }
-```
-
-### Community Components
-
-**File:** [src/assets/styles/modules/components/community.css](../src/assets/styles/modules/components/community.css)
-
-#### Creator Badges (Ultra-Compact)
-```css
-.creator-badge {
-  height: 50px;  /* Desktop */
-  padding: 8px 16px;
-  border-radius: 8px;
-  background: rgba(var(--panel-rgb), 0.5);
-  transition: var(--transition-base);
-  color: var(--t2); /* Inactive state */
-}
-
-.creator-badge:hover {
-  background: linear-gradient(180deg,
-    rgba(var(--sw-rgb), 0.85) 0%,
-    rgba(var(--sw-rgb), 0.68) 100%);
-  color: var(--ink); /* Hover state */
-  transform: scale(1.02) translateY(-2px);
-}
-
-/* Responsive scaling */
-@media (max-width: 900px) {
-  .creator-badge { height: 45px; }
-}
-@media (max-width: 768px) {
-  .creator-badge { height: 40px; }
-}
-```
-
-**Design Evolution:**
-- 37% height reduction across breakpoints (from original 80px)
-- Standardized `var(--t2)` inactive text color
-- Matching navigation hover behavior
-- Optimized padding for ultra-clean presentation
-
-#### Event Cards
-```css
-.event-card {
-  background: rgba(var(--panel-rgb), 0.7);
-  border-left: 4px solid var(--sw);
-  border-radius: 8px;
-  padding: 16px;
-}
-
-.event-status-live {
-  color: var(--dl);
-  animation: pulse 2s infinite;
-}
-
-.event-countdown {
-  font-family: var(--font-data);
-  color: var(--sw);
-  font-weight: bold;
-}
-```
-
-### Skeleton Loaders (Progressive Enhancement)
-
-**Files:**
-- [src/components/skeletons/LeaderboardSkeleton.vue](../src/components/skeletons/LeaderboardSkeleton.vue)
-- [src/components/skeletons/EventsSkeleton.vue](../src/components/skeletons/EventsSkeleton.vue)
-- [src/components/skeletons/VideosSkeleton.vue](../src/components/skeletons/VideosSkeleton.vue)
-
-#### Skeleton Pattern
-```css
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    rgba(var(--panel-rgb), 0.3) 0%,
-    rgba(var(--panel-rgb), 0.5) 50%,
-    rgba(var(--panel-rgb), 0.3) 100%
-  );
-  background-size: 200% 100%;
-  animation: skeleton-loading 1.5s ease-in-out infinite;
-}
-
-@keyframes skeleton-loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-```
-
-**SEO Enhancement:**
-```html
-<noscript>
-  <p>Loading player leaderboards... (Requires JavaScript)</p>
-</noscript>
-```
-
-Every skeleton component includes descriptive `<noscript>` fallback for SEO and accessibility.
-
-## Responsive Breakpoints
-
-### Primary Breakpoints
-
-```css
-/* Desktop Large */
-@media (max-width: 1200px) { /* Typography -5% */ }
-
-/* Desktop Medium */
-@media (max-width: 1100px) { /* Nav adjustments */ }
-
-/* Desktop Small */
-@media (max-width: 1000px) { /* Compact layouts */ }
-
-/* Tablet */
-@media (max-width: 900px) { /* Creator badges -10% */ }
-
-/* Tablet Small */
-@media (max-width: 850px) { /* Further compacting */ }
-
-/* Mobile */
-@media (max-width: 768px) {
-  /* Mobile nav activation */
-  /* Typography scales down */
-  /* Touch-optimized spacing */
-}
-
-/* Mobile Small */
-@media (max-width: 480px) { /* Minimal layout */ }
-```
-
-### Responsive Strategy
-
-**File:** [src/assets/styles/modules/responsive.css](../src/assets/styles/modules/responsive.css)
-
-1. **Mobile-first approach:** Base styles for mobile, progressively enhance for desktop
-2. **Fluid typography:** Scale text smoothly across breakpoints
-3. **Touch targets:** Minimum 44px for mobile interactive elements
-4. **Dynamic spacing:** Padding/margins adjust with viewport
-5. **Content reflow:** Stack columns on narrow screens
-
-## Modular CSS Architecture
-
-### Module Organization
-
-**Base:** [src/assets/styles/base.css](../src/assets/styles/base.css)
-
-Imports all modules in dependency order:
-```css
-@import './modules/variables.css';
-@import './modules/typography.css';
-@import './modules/components/navigation.css';
-@import './modules/components/buttons.css';
-@import './modules/components/leaderboards.css';
-/* ... etc */
-```
-
-### Component Modules
-
-Each screen/component has dedicated CSS module:
-
-- `navigation.css` (18KB+) - Nav tabs, mobile menu, players button
-- `leaderboards.css` (12KB+) - Tables, ranks, medals, podium
-- `community.css` (18KB+) - Events, creators, videos, streams
-- `hero.css` - Hero section, animated backgrounds
-- `getting-started.css` - Onboarding flow styling
-- `videos.css` - Video grids, thumbnails
-- `about.css` - About section layouts
-- `faq.css` - Accordion patterns
-- `game-mode.css` - Standalone dashboard
-- `players-panel.css` - Slide-in panel
-- `toggle.css` - Switch components
-
-**Rule:** When adding styles, create or extend the appropriate module under `assets/styles/modules/components/` and import via `base.css`.
-
-## Hover Effects & Animations
-
-### Standard Hover Pattern
-
-```css
-.interactive-element {
-  transition: all var(--transition-base);
-}
-
-.interactive-element:hover {
-  background: linear-gradient(180deg,
-    rgba(var(--sw-rgb), 0.85) 0%,
-    rgba(var(--sw-rgb), 0.68) 100%);
-  color: var(--ink);
-  transform: scale(1.02) translateY(-2px);
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.3),      /* Elevation */
-    0 0 24px rgba(var(--sw-rgb), 0.4),  /* Glow */
-    inset 0 1px 0 rgba(255, 255, 255, 0.15); /* Highlight */
-}
-```
-
-**Components:**
-1. **Scale transform:** 1.02x (subtle) to 1.03x (emphasis)
-2. **TranslateY:** -2px for lift effect
-3. **Multi-layer shadow:** Elevation + glow + inner highlight
-4. **Cubic-bezier easing:** Smooth, professional feel
-
-### Animation Keyframes
-
-```css
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes slideIn {
-  from { transform: translateX(-100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-```
-
-### Expandable Section Transitions
-
-**Pattern for smooth expand/collapse animations with v-show directive.**
-
-Used in:
-- **Advanced Setup** ([src/screens/GettingStarted.vue](../src/screens/GettingStarted.vue)) - Dedicated Server & Manual Installation sections
-- **Videos by Creator** ([src/screens/Community.vue](../src/screens/Community.vue)) - Channel-organized video grid
-
-**CSS Pattern:**
-
-```css
-/* Base state (expanded/visible) */
-.advanced-content,
-.videos-expandable {
-  overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  max-height: 5000px; /* Large enough for all content */
-  opacity: 1;
-}
-
-/* Collapsed state (when v-show="false") */
-.advanced-content[style*="display: none"],
-.videos-expandable[style*="display: none"] {
-  max-height: 0;
-  opacity: 0;
-}
-```
-
-**Why This Pattern:**
-
-1. **Works with v-show:** Vue's `v-show` directive toggles `style="display: none"`, which we target with CSS selector
-2. **Smooth animations:** `max-height` + `opacity` transitions create polished expand/collapse effect
-3. **No layout shifts:** Content stays in DOM (v-show doesn't remove), preventing scroll jumping
-4. **SSR-compatible:** All content pre-rendered in HTML for SEO, just initially hidden with CSS
-
-**Component Integration:**
+[WidgetBase.vue](../src/components/WidgetBase.vue) - Base component for all widgets:
 
 ```vue
-<script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
-
-const expanded = ref(false); // Initialize collapsed (SSR-safe)
-
-// Read localStorage AFTER hydration to prevent mismatch
-onMounted(() => {
-  if (typeof window !== 'undefined') {
-    const stored = localStorage.getItem('section_expanded');
-    if (stored === '1') {
-      expanded.value = true;
-    }
-  }
-});
-
-// Save preference when toggled
-watch(expanded, (val) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('section_expanded', val ? '1' : '0');
-  }
-});
-</script>
-
 <template>
-  <label class="toggle">
-    <input v-model="expanded" type="checkbox">
-    <span class="slider"></span>
-    <span class="lbl">{{ expanded ? 'Collapse' : 'Expand' }}</span>
-  </label>
+  <div :class="widgetClass" class="widget" @click="handleClick">
+    <!-- Header -->
+    <div class="flex items-center gap-3 py-5 px-6 pb-4 border-b border-mg/30
+                max-[900px]:py-4 max-[900px]:px-5 max-[900px]:pb-3
+                max-[480px]:py-3.5 max-[480px]:px-4 max-[480px]:pb-2.5 max-[480px]:gap-2.5">
+      <div :class="iconClass"
+           class="w-10 h-10 flex items-center justify-center
+                  bg-gradient-to-br from-battlefield-teal/30 to-battlefield-teal/15
+                  border border-battlefield-teal/40 text-xl text-battlefield-teal flex-shrink-0
+                  max-[480px]:w-9 max-[480px]:h-9 max-[480px]:text-lg">
+        <i :class="icon" aria-hidden="true"></i>
+      </div>
+      <h3 class="m-0 text-xl font-bold text-t font-military uppercase tracking-[0.5px]
+                 max-[768px]:text-lg max-[480px]:text-base">
+        {{ title }}
+      </h3>
+    </div>
 
-  <!-- v-show (not v-if) keeps content in DOM -->
-  <div v-show="expanded" class="advanced-content">
-    <!-- Content here... -->
+    <!-- Body (slot) -->
+    <div class="flex-1 py-5 px-6 flex flex-col gap-4
+                max-[900px]:py-4 max-[900px]:px-5
+                max-[480px]:py-3.5 max-[480px]:px-4 max-[480px]:gap-3">
+      <slot />
+    </div>
+
+    <!-- Footer -->
+    <div class="py-4 px-6 border-t border-mg/30 bg-gradient-to-b from-mg/10 to-mg-dark/20
+                max-[900px]:py-3 max-[900px]:px-5 max-[480px]:py-2.5 max-[480px]:px-4">
+      <span class="flex items-center justify-between text-battlefield-teal font-military text-sm font-semibold uppercase tracking-[0.5px] transition-all duration-200 group-hover:text-battlefield-cyan group-hover:translate-x-1">
+        <slot name="action">{{ action }} <i class="fa-solid fa-arrow-right ml-2"></i></slot>
+      </span>
+    </div>
   </div>
 </template>
 ```
 
-**Key Files:**
-- **CSS:** [src/assets/styles/modules/components/getting-started.css](../src/assets/styles/modules/components/getting-started.css) (lines 404-416)
-- **CSS:** [src/assets/styles/modules/components/videos.css](../src/assets/styles/modules/components/videos.css) (lines 281-293)
+**Key Features:**
+- All styling done with Tailwind utility classes
+- Responsive at multiple breakpoints (`max-[900px]`, `max-[768px]`, `max-[480px]`)
+- No custom CSS needed in component
+- Flexible slots for content customization
 
-**Technical Notes:**
-- `max-height` must be large enough for all content (5000px for Advanced Setup, 10000px for Videos)
-- `overflow: hidden` required for smooth height animation
-- `cubic-bezier(0.4, 0, 0.2, 1)` provides professional easing
-- Attribute selector `[style*="display: none"]` targets Vue's inline style
+#### Glassmorphism `.widget` Class
 
-**Architecture Reference:**
-- Pattern explained: [docs/architecture.md - SSR Hydration Best Practices](architecture.md#ssr-hydration-best-practices)
-- Changelog: [docs/changelog.md - Scroll Jumping & Hydration Fix](changelog.md#scroll-jumping--ssr-hydration-fix)
-
-## Navigation Scroll Precision
-
-**⚠️ CRITICAL RULE:** ALWAYS use dynamic header measurement for scroll positioning. NEVER use hardcoded CSS `scroll-margin-top` values or manual pixel calculations.
-
-### Correct Implementation
-
-**File:** [src/utils/scroll.ts](../src/utils/scroll.ts)
-
-```typescript
-// ✅ CORRECT: Dynamic measurement at scroll time
-export function scrollToSection(sectionId: string, behavior = 'smooth'): void {
-  const sectionElement = document.getElementById(sectionId);
-  const headerHeight = getNavHeight(); // Dynamic measurement
-  const targetY = sectionElement.offsetTop - headerHeight;
-  window.scrollTo({ top: targetY, behavior });
-}
-```
-
-### Incorrect Implementations
+**File:** [src/assets/styles/tailwind.css](../src/assets/styles/tailwind.css)
 
 ```css
-/* ❌ WRONG: Hardcoded scroll-margin-top */
-section {
-  scroll-margin-top: 120px; /* Breaks on responsive */
-}
-```
+@layer components {
+  .widget {
+    @apply rounded-none overflow-hidden;
+    @apply transition-all duration-300 flex flex-col min-h-[280px];
+    @apply cursor-pointer;
 
-```typescript
-// ❌ WRONG: Manual pixel calculations
-const targetY = sectionElement.offsetTop - 120; // Hardcoded offset
-```
+    /* Glassmorphism for desktop */
+    @apply md:backdrop-blur-md md:bg-black/30 md:border md:border-white/20;
+    @apply md:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)];
 
-**Why Dynamic Measurement:**
-- Adapts automatically across all breakpoints (1200px, 900px, 768px, etc.)
-- Eliminates ~40 lines of duplicate manual calculations
-- Single source of truth in `getNavHeight()`
-- Zero maintenance when header design changes
+    /* Solid background for mobile (performance) */
+    @apply bg-gradient-to-b from-texture-panel to-texture-dark;
+    @apply border border-mg/70 shadow-[0_12px_28px_rgba(4,9,14,0.55)];
+  }
 
-## Color Consistency Rules
-
-### Text Color States
-
-```css
-/* Inactive/default state */
-.element {
-  color: var(--t2); /* Neutral text */
-}
-
-/* Hover/active state */
-.element:hover {
-  color: var(--ink); /* Dark contrast on orange background */
-}
-
-/* Dividers and borders */
-.divider {
-  border-color: var(--t2); /* Inactive */
-}
-
-.divider:hover {
-  border-color: var(--ink); /* Active */
-}
-```
-
-**Applied consistently across:**
-- Navigation links
-- Players button
-- Creator badges
-- Button components
-- Interactive cards
-
-## Accessibility Considerations
-
-### WCAG AA Compliance
-
-- **Headings:** `var(--t)` (#f7fafc) on dark surfaces = 15.8:1 contrast
-- **Body text:** `var(--t2)` (#cbd5e0) on dark surfaces = 11.2:1 contrast
-- **Interactive elements:** Minimum 3:1 contrast in all states
-
-### Focus States
-
-```css
-.interactive-element:focus {
-  outline: 2px solid var(--sw);
-  outline-offset: 2px;
-}
-
-.interactive-element:focus:not(:focus-visible) {
-  outline: none; /* Hide outline for mouse users */
-}
-```
-
-### Touch Targets
-
-Minimum 44x44px for mobile interactive elements:
-```css
-@media (max-width: 768px) {
-  button, a, .interactive {
-    min-height: 44px;
-    min-width: 44px;
+  @media (hover: hover) and (min-width: 768px) {
+    .widget:hover {
+      @apply md:bg-black/40 md:border-white/30;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                  0 0 24px rgba(var(--sw-rgb), 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-4px) scale(1.02);
+    }
   }
 }
 ```
 
-## Component Scoping
+**Why `@layer components`?**
+- Complex pattern used across 6 widgets
+- Needs hover state with manual `box-shadow` (opacity modifiers don't work with custom shadows)
+- Combines 10+ Tailwind utilities into one semantic class
+- Still uses `@apply` for most styles (Tailwind utilities)
 
-**Rule:** Component-scoped additions should be MINIMAL. Keep global styles in modules for maintainability.
+#### Widget Grid Layout
 
-**Example (Vue SFC):**
+**File:** [src/components/WidgetDashboard.vue](../src/components/WidgetDashboard.vue)
+
 ```vue
-<style scoped>
-/* Only component-specific overrides */
-.unique-component-class {
-  /* Minimal styles */
+<div class="grid grid-cols-1 gap-4 mb-10
+            sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3
+            sm:gap-4 md:gap-5 xl:gap-6 md:mb-12 xl:mb-16">
+  <QuickStartWidget @navigate="goToSection" />
+  <LiveServersWidget :data="data" :player-count="playerCount" :loading="storeLoading"
+                     :is-s-s-r="isSSR" @navigate="goToSection" />
+  <CommunityWidget :events="events" @navigate="goToSection" />
+  <TopPlayersWidget :ladder="data.ladder || []" :loading="storeLoading"
+                    :is-s-s-r="isSSR" @navigate="goToSection" />
+  <LatestVideosWidget :videos="videosSorted" :is-s-s-r="isSSR" @navigate="goToSection" />
+  <GettingHelpWidget @navigate="goToSection" />
+</div>
+```
+
+**Responsive Breakpoints:**
+- Mobile (`grid-cols-1`): 1 column stacked
+- Tablet (`md:grid-cols-2`): 2 columns
+- Desktop (`xl:grid-cols-3`): 3 columns
+
+**Gap Progression:**
+- Mobile: `gap-4` (1rem)
+- Tablet: `md:gap-5` (1.25rem)
+- Desktop: `xl:gap-6` (1.5rem)
+
+### Video Background Pattern
+
+**Context:** Homepage hero section with video background requires special handling for SSR and performance.
+
+**Pattern:**
+
+```vue
+<script setup lang="ts">
+const isSSR = import.meta.env.SSR;
+</script>
+
+<template>
+  <section class="relative min-h-[85vh] pt-[calc(var(--header-height)+40px)] pb-20 overflow-hidden
+                  2xl:pt-[calc(var(--header-height)+40px)] xl:pt-[calc(var(--header-height)+30px)]
+                  md:pt-[calc(var(--header-height)+20px)] sm:pt-[calc(var(--header-height)+10px)]
+                  md:pb-20 sm:pb-12 sm:min-h-0">
+    <!-- Video (desktop only, SSR-safe) -->
+    <video v-if="!isSSR" autoplay muted loop playsinline preload="metadata"
+           class="absolute inset-0 w-full h-full object-cover hidden md:block">
+      <source src="/hero-background.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Light overlay for readability -->
+    <div class="absolute inset-0 bg-black/20 md:bg-black/15"></div>
+
+    <!-- Content with glassmorphism widgets -->
+    <div class="container relative z-10">
+      <!-- Widgets here -->
+    </div>
+  </section>
+</template>
+```
+
+**Key Classes:**
+- `min-h-[85vh]` - Tall hero section to showcase video
+- `pt-[calc(var(--header-height)+40px)]` - Dynamic header offset
+- `hidden md:block` - Desktop only (performance)
+- `v-if="!isSSR"` - SSR-safe
+- `bg-black/20` - Semi-transparent overlay
+
+### Text Readability Over Video
+
+**Pattern:** Use drop shadows for text over dynamic backgrounds:
+
+```vue
+<h1 class="text-6xl leading-tight mb-4 font-military font-bold text-t uppercase tracking-wide
+           drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]
+           2xl:text-6xl xl:text-5xl md:text-[2.5rem] sm:text-3xl">
+  World in Conflict
+</h1>
+
+<p class="text-lg text-t leading-relaxed font-body font-semibold
+          drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]
+          2xl:text-lg xl:text-base md:text-base sm:text-sm">
+  Experience the critically acclaimed 2007 Cold War RTS masterpiece online again.
+</p>
+```
+
+**Key Techniques:**
+- `drop-shadow-[custom]` - Arbitrary value for precise shadow
+- Strong opacity (`0.9`) ensures readability
+- Responsive font sizes (`2xl:text-6xl xl:text-5xl ...`)
+- `font-semibold` or `font-bold` for weight
+
+### Responsive Strategy
+
+**Mobile-First with Progressive Enhancement:**
+
+```vue
+<!-- Base (Mobile) → Tablet → Desktop progression -->
+<div class="py-3.5 px-4 gap-2.5
+            max-[900px]:py-4 max-[900px]:px-5
+            max-[480px]:py-3.5 max-[480px]:px-4 max-[480px]:gap-3">
+  <!-- Content -->
+</div>
+```
+
+**Standard Breakpoints:**
+- `sm:` (480px) - Small phones
+- `md:` (768px) - Tablets (glassmorphism/video enabled)
+- `lg:` (900px) - Small laptops
+- `xl:` (1024px) - Standard laptops
+- `2xl:` (1200px+) - Large screens
+
+**Arbitrary Breakpoints:**
+- `max-[900px]:` - Custom max-width query
+- `max-[480px]:` - Custom max-width query
+
+### Performance Considerations
+
+**Desktop-Only Features:**
+```vue
+<!-- Glassmorphism (GPU-intensive) -->
+<div class="md:backdrop-blur-md md:bg-black/30">...</div>
+
+<!-- Video background (bandwidth/CPU-intensive) -->
+<video class="hidden md:block">...</video>
+
+<!-- Complex animations -->
+<div class="md:animate-pulse-slow">...</div>
+```
+
+**Mobile Optimization:**
+```vue
+<!-- Solid backgrounds (no blur) -->
+<div class="bg-mg border border-mg/70 md:backdrop-blur-md md:bg-black/30">
+  <!-- Fallback solid, desktop gets glassmorphism -->
+</div>
+
+<!-- Simpler layouts -->
+<div class="grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+  <!-- 1 col mobile, 2 tablet, 3 desktop -->
+</div>
+```
+
+## Tailwind Best Practices
+
+### DO: Utility-First
+
+```vue
+<!-- ✅ GOOD: Inline utilities -->
+<div class="flex items-center gap-3 py-5 px-6 border-b border-mg/30">
+  <span class="text-xl font-bold text-t font-military uppercase tracking-[0.5px]">
+    Title
+  </span>
+</div>
+```
+
+### DON'T: Create Custom Classes
+
+```vue
+<!-- ❌ BAD: Custom class for simple combination -->
+<style>
+.my-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+}
+</style>
+
+<div class="my-header">...</div>
+```
+
+### DO: Use Design Tokens
+
+```vue
+<!-- ✅ GOOD: Tailwind colors from config -->
+<div class="text-soviet bg-mg border-battlefield-teal/40">...</div>
+```
+
+### DON'T: Hardcode Colors
+
+```vue
+<!-- ❌ BAD: Hardcoded hex values -->
+<div style="color: #ff6600; background: #1a2633;">...</div>
+
+<!-- ❌ BAD: Arbitrary colors -->
+<div class="text-[#ff6600] bg-[#1a2633]">...</div>
+```
+
+### DO: Responsive Prefixes
+
+```vue
+<!-- ✅ GOOD: Mobile-first with breakpoints -->
+<h1 class="text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl">
+  Heading
+</h1>
+```
+
+### DON'T: Media Queries in Styles
+
+```vue
+<!-- ❌ BAD: Custom media queries -->
+<style>
+h1 {
+  font-size: 1.875rem;
+}
+@media (min-width: 768px) {
+  h1 { font-size: 2.25rem; }
 }
 </style>
 ```
 
-**All base styling should reference tokens:**
+### DO: Component Layer for Complex Patterns
+
+```css
+/* ✅ GOOD: Reusable complex pattern */
+@layer components {
+  .widget {
+    @apply rounded-none overflow-hidden transition-all duration-300;
+    @apply md:backdrop-blur-md md:bg-black/30;
+    /* Complex hover with manual box-shadow */
+  }
+}
+```
+
+### DON'T: Component Layer for Simple Combos
+
+```css
+/* ❌ BAD: Unnecessary component class */
+@layer components {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+}
+```
+
+## Dynamic Header Height
+
+**Exception to "No CSS Variables" Rule:** `--header-height` is the ONLY CSS variable used (synced by JavaScript).
+
+**Usage:**
 ```vue
+<section class="pt-[calc(var(--header-height)+40px)]">
+  <!-- Dynamic padding based on header height -->
+</section>
+```
+
+**Why:**
+- Header height changes at responsive breakpoints
+- JavaScript measures actual rendered height
+- Auto-syncs on resize
+- No hardcoded pixel values needed
+
+**File:** [src/utils/headerHeight.ts](../src/utils/headerHeight.ts)
+
+## Arbitrary Values
+
+**When to Use:**
+
+```vue
+<!-- ✅ GOOD: Non-standard spacing -->
+<div class="pt-[calc(var(--header-height)+40px)]">...</div>
+
+<!-- ✅ GOOD: Custom drop shadow -->
+<h1 class="drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">...</h1>
+
+<!-- ✅ GOOD: Precise tracking -->
+<span class="tracking-[0.5px]">...</span>
+
+<!-- ✅ GOOD: Min-height not in scale -->
+<div class="min-h-[85vh]">...</div>
+```
+
+**When NOT to Use:**
+
+```vue
+<!-- ❌ BAD: Color exists in config -->
+<div class="text-[#ff6600]">...</div>
+<!-- ✅ GOOD: Use token -->
+<div class="text-soviet">...</div>
+
+<!-- ❌ BAD: Spacing exists in scale -->
+<div class="p-[20px]">...</div>
+<!-- ✅ GOOD: Use scale -->
+<div class="p-5">...</div> <!-- 20px = 1.25rem = p-5 -->
+```
+
+## Opacity Modifiers
+
+**Usage:** Add `/opacity` to colors:
+
+```vue
+<!-- Backgrounds -->
+<div class="bg-black/30">...</div>
+<div class="bg-mg/70">...</div>
+
+<!-- Borders -->
+<div class="border-mg/30">...</div>
+<div class="border-white/20">...</div>
+
+<!-- Text -->
+<span class="text-t/80">...</span>
+```
+
+**⚠️ Limitation:** Does NOT work with custom `boxShadow` in `@apply`:
+
+```css
+/* ❌ WRONG: Build error */
+.element {
+  @apply shadow-soviet-glow/50; /* ERROR: class does not exist */
+}
+
+/* ✅ CORRECT: Manual CSS */
+.element {
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+}
+```
+
+## Gradients
+
+**Built-in Gradient Utilities:**
+
+```vue
+<!-- Direction -->
+<div class="bg-gradient-to-r">...</div>  <!-- left to right -->
+<div class="bg-gradient-to-b">...</div>  <!-- top to bottom -->
+<div class="bg-gradient-to-br">...</div> <!-- top-left to bottom-right -->
+
+<!-- With opacity -->
+<div class="bg-gradient-to-b from-texture-panel to-texture-dark">...</div>
+<div class="bg-gradient-to-b from-mg/10 to-mg-dark/20">...</div>
+
+<!-- Three stops -->
+<div class="bg-gradient-to-b from-texture-dark/30 via-transparent to-night-panel/60">...</div>
+```
+
+## Transitions & Animations
+
+**Built-in Transitions:**
+
+```vue
+<!-- Standard durations -->
+<div class="transition-all duration-200">...</div>
+<div class="transition-all duration-300">...</div>
+
+<!-- Specific properties -->
+<div class="transition-colors duration-200">...</div>
+<div class="transition-transform duration-300">...</div>
+```
+
+**Custom Animations (from config):**
+
+```vue
+<div class="animate-pulse-slow">...</div>
+<div class="animate-red-pulse">...</div>
+<div class="animate-gold-shimmer">...</div>
+```
+
+## Hover & Focus States
+
+**Standard Pattern:**
+
+```vue
+<button class="text-t-secondary hover:text-t
+               bg-mg hover:bg-soviet
+               border border-mg/30 hover:border-soviet/70
+               transition-all duration-200
+               transform hover:scale-105 hover:-translate-y-0.5">
+  Click Me
+</button>
+```
+
+**Focus States:**
+
+```vue
+<button class="focus:outline-none focus:ring-2 focus:ring-soviet focus:ring-offset-2">
+  Accessible Button
+</button>
+```
+
+## Migration Guide
+
+### From Modular CSS to Tailwind
+
+**Step 1:** Remove CSS module imports
+
+```typescript
+// ❌ BEFORE: main.ts
+import './assets/styles/modules/variables.css';
+import './assets/styles/modules/typography.css';
+import './assets/styles/modules/components/navigation.css';
+// ... 29 imports
+
+// ✅ AFTER: main.ts
+import './assets/styles/tailwind.css'; // One import!
+```
+
+**Step 2:** Convert component styles
+
+```vue
+<!-- BEFORE -->
 <style scoped>
-.unique-component-class {
-  color: var(--t2);           /* ✅ GOOD: Token reference */
-  background: var(--graphite); /* ✅ GOOD */
-  /* NOT: color: #cbd5e0; */  /* ❌ BAD: Hardcoded */
+.widget-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(26, 38, 51, 0.3);
+  background: linear-gradient(180deg, #1c2a38 0%, #0f1a24 100%);
 }
 </style>
+
+<template>
+  <div class="widget-header">
+    <!-- Content -->
+  </div>
+</template>
+
+<!-- AFTER -->
+<template>
+  <div class="flex items-center gap-3 py-5 px-6 border-b border-mg/30 bg-gradient-to-b from-texture-panel to-texture-dark">
+    <!-- Content -->
+  </div>
+</template>
 ```
 
-## Download Button Hierarchy
+**Step 3:** Move design tokens to Tailwind config
 
-**Rule:** Reserve different button styles for different action types.
-
-### Button Type Matrix
-
-| Action Type | Class | Color | Use Case |
-|------------|-------|-------|----------|
-| Executable download | `.btn-download` | Red (`var(--dl)`) | WIC LIVE installer |
-| Primary action | `.btn-p` | Orange (`var(--sw)`) | Standard CTAs |
-| File/ZIP download | Hyperlink | Orange link | Setup files, assets |
-| External link | Hyperlink | Orange link | Discord, docs |
-
-**Examples:**
-
-```html
-<!-- ✅ CORRECT: Executable program -->
-<button class="btn-download">Download WIC LIVE</button>
-
-<!-- ✅ CORRECT: File download -->
-<a href="/files/setup.zip" class="advanced-setup-link">
-  Download setup files
-</a>
-
-<!-- ✅ CORRECT: Primary action -->
-<button class="btn-p">Join Community</button>
-
-<!-- ❌ WRONG: File download as red button -->
-<button class="btn-download">Download config.zip</button>
+```typescript
+// tailwind.config.ts
+export default {
+  theme: {
+    extend: {
+      colors: {
+        'mg': '#1a2633',
+        'soviet': '#ff6600',
+        // ... all tokens
+      }
+    }
+  }
+}
 ```
 
-## Design System Maintenance
+**Step 4:** Delete CSS modules
 
-### Adding New Components
+```bash
+# Delete 29 CSS module files
+rm -rf src/assets/styles/modules/
+```
 
-1. **Create module:** `src/assets/styles/modules/components/new-component.css`
-2. **Use tokens:** Reference `var(--token-name)` exclusively
-3. **Import in base.css:** Add import in dependency order
-4. **Document patterns:** Update this file with new patterns
+**Result:** ~80% code reduction (8,154 deletions vs 1,569 additions)
 
-### Modifying Tokens
+## Accessibility with Tailwind
 
-1. **Edit variables.css:** Change token value once
-2. **Propagates everywhere:** All components update automatically
-3. **Test responsive:** Verify across all breakpoints
-4. **Update docs:** Document token changes here
+### Focus States
 
-### Responsive Testing Checklist
+```vue
+<button class="focus:outline-none focus:ring-2 focus:ring-soviet focus:ring-offset-2">
+  Accessible
+</button>
+```
 
-- [ ] Desktop Large (1200px+)
-- [ ] Desktop Medium (1100px-1200px)
-- [ ] Desktop Small (1000px-1100px)
-- [ ] Tablet (900px-1000px)
-- [ ] Tablet Small (850px-900px)
-- [ ] Mobile (768px-850px)
-- [ ] Mobile Small (<768px)
+### Screen Reader Only
+
+```vue
+<span class="sr-only">Skip to content</span>
+```
+
+### Aria Labels
+
+```vue
+<button aria-label="Close" class="...">
+  <i class="fa-solid fa-times" aria-hidden="true"></i>
+</button>
+```
+
+### Touch Targets (Mobile)
+
+```vue
+<!-- Minimum 44x44px -->
+<button class="min-h-[44px] min-w-[44px] md:min-h-[40px] md:min-w-[40px]">
+  Tap Me
+</button>
+```
+
+## Common Patterns
+
+### Card Pattern
+
+```vue
+<div class="bg-mg border border-mg/70 overflow-hidden transition-all duration-300
+            hover:border-soviet/70 hover:shadow-[0_0_30px_rgba(255,102,0,0.32)]
+            hover:transform hover:-translate-y-1">
+  <!-- Card content -->
+</div>
+```
+
+### Badge Pattern
+
+```vue
+<span class="inline-flex items-center gap-2 py-1.5 px-4
+             bg-gradient-to-b from-mg/40 to-mg-dark/60
+             border border-soviet/40 text-soviet
+             font-military text-xs font-bold tracking-widest uppercase
+             shadow-soviet-glow/30">
+  THE WAR CONTINUES
+</span>
+```
+
+### Button Pattern
+
+```vue
+<button class="py-3 px-6 bg-soviet text-t font-military font-bold uppercase
+               rounded transition-all duration-200
+               hover:bg-soviet/90 hover:scale-105 hover:shadow-soviet-glow
+               active:scale-95">
+  Download Now
+</button>
+```
+
+## Troubleshooting
+
+### Issue: Class Not Working
+
+**Problem:**
+```vue
+<div class="text-soviet"><!-- No color --></div>
+```
+
+**Solution:** Check Tailwind config has the color defined:
+```typescript
+colors: {
+  'soviet': '#ff6600', // ✅ Defined
+}
+```
+
+### Issue: Opacity Modifier Not Working
+
+**Problem:**
+```css
+.element {
+  @apply shadow-soviet-glow/50; /* ERROR */
+}
+```
+
+**Solution:** Use manual CSS for custom shadows:
+```css
+.element {
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+}
+```
+
+### Issue: Arbitrary Value Not Working
+
+**Problem:**
+```vue
+<div class="min-h-[85vh"><!-- Missing bracket --></div>
+```
+
+**Solution:** Close bracket:
+```vue
+<div class="min-h-[85vh]"><!-- ✅ Fixed --></div>
+```
+
+### Issue: Responsive Classes Not Applying
+
+**Problem:**
+```vue
+<div class="md:block"><!-- Still hidden on desktop --></div>
+```
+
+**Solution:** Need base class too:
+```vue
+<div class="hidden md:block"><!-- ✅ Fixed --></div>
+```
 
 ---
 
-*This document defines the complete design system for WiCGATE. For architectural details, see [architecture.md](architecture.md).*
+*This document defines the complete Tailwind-first design system for WiCGATE. For architectural details, see [architecture.md](architecture.md).*

@@ -28,15 +28,15 @@
 
 ## Essential Patterns
 
-### 1. Design Tokens (NO EXCEPTIONS)
+### 1. Tailwind Utility-First (NO EXCEPTIONS) *(Updated Oct 12, 2025)*
 
-❌ **NEVER:** `color: #ff6600;`
-✅ **ALWAYS:** `color: var(--sw);`
+❌ **NEVER:** `color: #ff6600;` or custom CSS classes for simple styles
+✅ **ALWAYS:** `class="text-soviet"` (Tailwind utility classes)
 
-**All visual values use tokens.** Never hardcode hex colors, pixel values, or shadow definitions.
+**All styling uses Tailwind utilities.** Design tokens defined in `tailwind.config.ts`, not CSS variables.
 
-📖 **Deep dive:** [docs/design-system.md - Design Tokens](docs/design-system.md#design-tokens)
-📍 **Location:** [src/assets/styles/modules/variables.css](src/assets/styles/modules/variables.css)
+📖 **Deep dive:** [docs/design-system.md - Tailwind](docs/design-system.md#design-philosophy)
+📍 **Location:** [tailwind.config.ts](tailwind.config.ts)
 
 ---
 
@@ -95,13 +95,13 @@
 
 ---
 
-### 7. Styling Organization
+### 7. Styling Organization *(Updated Oct 12, 2025)*
 
-- Add styles to `src/assets/styles/modules/components/*.css`
-- Import via `base.css`
-- Keep component `<style>` blocks minimal
+- **Use Tailwind utility classes directly in templates** (95% of styling)
+- **Use `@layer components`** only for complex reusable patterns (e.g., `.widget`)
+- **No custom CSS** for simple style combinations
 
-📖 **Deep dive:** [docs/design-system.md - Modular CSS](docs/design-system.md#modular-css-architecture)
+📖 **Deep dive:** [docs/design-system.md - Tailwind Best Practices](docs/design-system.md#tailwind-best-practices)
 
 ---
 
@@ -159,13 +159,13 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 | ❌ Wrong | ✅ Correct | See |
 |----------|-----------|-----|
-| `color: #ff6600` | `color: var(--sw)` | [Design Tokens](docs/design-system.md#design-tokens) |
-| `padding-top: 80px` | `var(--header-height)` | [Scroll System](docs/SCROLL_SYSTEM.md) |
+| `color: #ff6600` | `class="text-soviet"` | [Tailwind](docs/design-system.md#design-philosophy) |
+| Custom CSS class | Tailwind utilities | [Tailwind Best Practices](docs/design-system.md#tailwind-best-practices) |
+| `padding-top: 80px` | `pt-[var(--header-height)]` | [Scroll System](docs/SCROLL_SYSTEM.md) |
 | `history.replaceState('#id')` | `router.push('/section')` | [Routes & SEO](docs/architecture.md#routes--seo) |
 | `document.querySelector()` | `if (!import.meta.env.SSR) {...}` | [SSR Guards](docs/architecture.md#ssr-guards) |
 | `bun test` | `bun run test` | [Testing](docs/testing.md#package-manager-comparison) |
 | Red button for ZIP | Hyperlink for files | [Button Hierarchy](docs/design-system.md#download-button-hierarchy) |
-| Styles in component | Styles in `components/*.css` | [Modular CSS](docs/design-system.md#modular-css-architecture) |
 
 ---
 
@@ -173,8 +173,9 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 | File | Purpose |
 |------|---------|
+| [tailwind.config.ts](tailwind.config.ts) | All design tokens (colors, shadows, animations) |
+| [src/assets/styles/tailwind.css](src/assets/styles/tailwind.css) | Tailwind imports + custom components |
 | [src/utils/headerHeight.ts](src/utils/headerHeight.ts) | Header height sync for native scroll |
-| [src/assets/styles/modules/variables.css](src/assets/styles/modules/variables.css) | All design tokens |
 | [src/views/Home.vue](src/views/Home.vue) | SSG conditional rendering |
 | [src/stores/appDataStore.ts](src/stores/appDataStore.ts) | API data fetching (composable pattern) |
 | [vite.config.ts](vite.config.ts) | SSG + PWA config |
@@ -191,4 +192,4 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 ---
 
-*Last Updated: October 8, 2025*
+*Last Updated: October 12, 2025 (Tailwind CSS Migration)*

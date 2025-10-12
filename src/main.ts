@@ -3,7 +3,7 @@
 import { ViteSSG } from 'vite-ssg';
 import { createHead } from '@vueuse/head';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import './assets/styles/base.css';
+import './assets/styles/tailwind.css';
 import App from './App.vue';
 import { routes } from './router/routes';
 import { registerSW } from 'virtual:pwa-register';

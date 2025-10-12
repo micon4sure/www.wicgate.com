@@ -47,20 +47,6 @@ function formatClanTag(entry: LeaderboardEntry): string {
   return '';
 }
 
-function podiumTextClass(index: number): string {
-  if (index === 0) return 'podium-gold';
-  if (index === 1) return 'podium-silver';
-  if (index === 2) return 'podium-bronze';
-  return '';
-}
-
-function podiumScoreClass(index: number): string {
-  if (index === 0) return 'rank-score-gold';
-  if (index === 1) return 'rank-score-silver';
-  if (index === 2) return 'rank-score-bronze';
-  return '';
-}
-
 // Responsive RankInsignia sizing
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : TABLET_BREAKPOINT);
 
@@ -93,18 +79,37 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <div class="lb-cont">
-    <div class="lb-hdr">
-      <h3>{{ title }}</h3>
-      <p v-if="subtitle" class="leaderboard-subtitle text-sm text-dim">{{ subtitle }}</p>
+  <div
+    class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.96)] to-[rgba(var(--panel-shadow-rgb),0.98)] border border-[var(--divider-strong)] rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-[var(--tr)]"
+  >
+    <div
+      class="p-[15px_20px] bg-gradient-to-b from-[rgba(var(--dl-rgb),0.95)] to-[rgba(var(--dl-rgb),0.78)] border-b-[3px] border-b-[rgba(var(--dl-rgb),0.85)] relative max-[768px]:p-[12px_15px] max-[480px]:p-[10px_12px] max-[360px]:p-[0.625rem_0.75rem]"
+    >
+      <h3
+        class="font-[Oswald,sans-serif] text-[1.25rem] font-bold text-white uppercase tracking-[1px] m-0 [text-shadow:0_2px_4px_rgba(0,0,0,0.4)] max-[768px]:text-[1.1rem]"
+      >
+        {{ title }}
+      </h3>
+      <p
+        v-if="subtitle"
+        class="font-[Rajdhani,sans-serif] font-medium m-[5px_0_0_0] text-[rgba(255,255,255,0.85)] uppercase tracking-[0.5px] text-[0.85rem]"
+      >
+        {{ subtitle }}
+      </p>
     </div>
 
-    <div v-if="categories.length > 1" class="tabs">
+    <div
+      v-if="categories.length > 1"
+      class="flex bg-gradient-to-b from-[rgba(var(--graphite-rgb),0.95)] to-[rgba(var(--graphite-dark-rgb),0.95)] border-b-2 border-b-[rgba(var(--graphite-rgb),0.8)] relative"
+    >
       <button
         v-for="c in categories"
         :key="c"
-        class="tab-btn"
-        :class="{ active: active === c }"
+        class="flex-1 p-[12px_16px] bg-gradient-to-b from-[rgba(var(--graphite-rgb),0.9)] to-[rgba(var(--graphite-dark-rgb),0.92)] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-0 text-[var(--t2)] cursor-pointer font-[Oswald,sans-serif] font-medium text-[0.875rem] uppercase tracking-[1px] transition-[var(--tr)] relative mr-px hover:bg-gradient-to-b hover:from-[rgba(var(--sw-rgb),0.85)] hover:to-[rgba(var(--sw-rgb),0.68)] hover:text-[var(--ink)] hover:border-[rgba(var(--sw-rgb),0.75)] hover:-translate-y-px max-[768px]:p-[10px_12px] max-[768px]:text-[0.8rem] max-[480px]:p-[8px_10px] max-[480px]:text-[0.75rem] max-[360px]:p-[0.5rem_0.625rem] max-[360px]:text-[0.7rem]"
+        :class="{
+          'bg-gradient-to-b from-[rgba(var(--sw-rgb),0.98)] to-[rgba(var(--sw-rgb),0.8)] text-[var(--ink)] font-semibold border-[rgba(var(--sw-rgb),0.95)] z-10 shadow-[0_0_18px_rgba(var(--sw-rgb),0.35)]':
+            active === c,
+        }"
         @click="
           () => {
             active = c;
@@ -118,40 +123,93 @@ onUnmounted(() => {
 
     <!-- If categories provided, render tab containers; else single table -->
     <template v-if="categories.length > 0">
-      <div v-for="c in categories" :key="c" class="tab-cont" :class="{ active: active === c }">
-        <table class="lb-table">
+      <div v-for="c in categories" :key="c" :class="{ hidden: active !== c, block: active === c }">
+        <table
+          class="w-full [border-collapse:separate] border-spacing-0 font-[Rajdhani,sans-serif]"
+        >
           <colgroup>
-            <col class="col-rank" />
-            <col class="col-player" />
-            <col class="col-score" />
+            <col
+              class="w-[72px] min-w-[72px] max-[1024px]:w-16 max-[1024px]:min-w-16 max-[768px]:w-[3.75rem] max-[768px]:min-w-[3.75rem] max-[480px]:w-[3.375rem] max-[480px]:min-w-[3.375rem] max-[360px]:w-12 max-[360px]:min-w-12"
+            />
+            <col class="w-auto" />
+            <col
+              class="w-[140px] min-w-[140px] max-[1024px]:w-36 max-[1024px]:min-w-36 max-[768px]:w-[7.5rem] max-[768px]:min-w-[7.5rem] max-[480px]:w-[6.25rem] max-[480px]:min-w-[6.25rem] max-[360px]:w-[5.5rem] max-[360px]:min-w-[5.5rem]"
+            />
           </colgroup>
           <thead>
             <tr>
-              <th>Rank</th>
-              <th>Player</th>
-              <th>{{ thirdLabel }}</th>
+              <th
+                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+              >
+                Rank
+              </th>
+              <th
+                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+              >
+                Player
+              </th>
+              <th
+                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+              >
+                {{ thirdLabel }}
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr v-if="entriesFor(c).length === 0">
-              <td colspan="3" class="text-muted">No data</td>
+              <td
+                colspan="3"
+                class="text-center italic text-[var(--t3)] font-[Rajdhani,sans-serif] p-[30px]"
+              >
+                No data
+              </td>
             </tr>
             <tr
               v-for="(e, index) in entriesFor(c)"
               :key="e.rank + (e.profileName || '')"
-              :class="index + 1 <= 3 ? 'rank-' + (index + 1) : ''"
+              class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-[rgba(var(--sw-rgb),0.18)] hover:[&>td]:to-[rgba(var(--sw-rgb),0.12)] hover:[&>td]:!border-[rgba(var(--sw-rgb),0.4)] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
             >
-              <td class="lb-position" :class="index + 1 <= 3 ? 'rank-' + (index + 1) : ''">
+              <td
+                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
+                :class="{
+                  'text-[var(--medal-gold)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.1rem] max-[360px]:text-[1rem]':
+                    index === 0,
+                  'text-[var(--medal-silver)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.05rem] max-[360px]:text-[0.95rem]':
+                    index === 1,
+                  'text-[var(--medal-bronze)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1rem] max-[360px]:text-[0.9rem]':
+                    index === 2,
+                }"
+              >
                 {{ index + 1 }}
               </td>
-              <td class="player-cell">
-                <div class="player-cell-content">
-                  <RankInsignia :rank="e.rank" :size="rankInsigniaSize" />
-                  <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
-                  <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
+              <td
+                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+              >
+                <div class="flex items-center leading-none">
+                  <RankInsignia
+                    :rank="e.rank"
+                    :size="rankInsigniaSize"
+                    class="inline-block !align-middle flex-shrink-0 m-0 leading-none"
+                  />
+                  <span
+                    v-if="formatClanTag(e)"
+                    class="font-[Courier_New,monospace] text-[var(--sw)] font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
+                    >{{ formatClanTag(e) }}</span
+                  >
+                  <span
+                    class="font-[Rajdhani,sans-serif] text-[var(--t)] font-semibold text-[1.1rem] tracking-[0.3px] inline align-middle leading-[1.2] m-0 max-[1024px]:text-[1.05rem] max-[768px]:text-[1rem] max-[480px]:text-[0.95rem] max-[360px]:text-[0.9rem]"
+                    >{{ e.profileName || 'Unknown' }}</span
+                  >
                 </div>
               </td>
-              <td :class="[podiumScoreClass(index), podiumTextClass(index)]">
+              <td
+                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+                :class="{
+                  'text-[var(--medal-gold)]': index === 0,
+                  'text-[var(--medal-silver)]': index === 1,
+                  'text-[var(--medal-bronze)]': index === 2,
+                }"
+              >
                 {{ e.high?.toLocaleString?.() }}
               </td>
             </tr>
@@ -160,39 +218,90 @@ onUnmounted(() => {
       </div>
     </template>
     <template v-else>
-      <table class="lb-table">
+      <table class="w-full [border-collapse:separate] border-spacing-0 font-[Rajdhani,sans-serif]">
         <colgroup>
-          <col class="col-rank" />
-          <col class="col-player" />
-          <col class="col-score" />
+          <col
+            class="w-[72px] min-w-[72px] max-[1024px]:w-16 max-[1024px]:min-w-16 max-[768px]:w-[3.75rem] max-[768px]:min-w-[3.75rem] max-[480px]:w-[3.375rem] max-[480px]:min-w-[3.375rem] max-[360px]:w-12 max-[360px]:min-w-12"
+          />
+          <col class="w-auto" />
+          <col
+            class="w-[140px] min-w-[140px] max-[1024px]:w-36 max-[1024px]:min-w-36 max-[768px]:w-[7.5rem] max-[768px]:min-w-[7.5rem] max-[480px]:w-[6.25rem] max-[480px]:min-w-[6.25rem] max-[360px]:w-[5.5rem] max-[360px]:min-w-[5.5rem]"
+          />
         </colgroup>
         <thead>
           <tr>
-            <th>Rank</th>
-            <th>Player</th>
-            <th>{{ thirdLabel }}</th>
+            <th
+              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+            >
+              Rank
+            </th>
+            <th
+              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+            >
+              Player
+            </th>
+            <th
+              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+            >
+              {{ thirdLabel }}
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr v-if="entriesFor(active).length === 0">
-            <td colspan="3" class="text-muted">No data</td>
+            <td
+              colspan="3"
+              class="text-center italic text-[var(--t3)] font-[Rajdhani,sans-serif] p-[30px]"
+            >
+              No data
+            </td>
           </tr>
           <tr
             v-for="(e, index) in entriesFor(active)"
             :key="e.rank + (e.profileName || '')"
-            :class="index + 1 <= 3 ? 'rank-' + (index + 1) : ''"
+            class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-[rgba(var(--sw-rgb),0.18)] hover:[&>td]:to-[rgba(var(--sw-rgb),0.12)] hover:[&>td]:!border-[rgba(var(--sw-rgb),0.4)] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
           >
-            <td class="lb-position" :class="index + 1 <= 3 ? 'rank-' + (index + 1) : ''">
+            <td
+              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
+              :class="{
+                'text-[var(--medal-gold)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.1rem] max-[360px]:text-[1rem]':
+                  index === 0,
+                'text-[var(--medal-silver)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.05rem] max-[360px]:text-[0.95rem]':
+                  index === 1,
+                'text-[var(--medal-bronze)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1rem] max-[360px]:text-[0.9rem]':
+                  index === 2,
+              }"
+            >
               {{ index + 1 }}
             </td>
-            <td class="player-cell">
-              <div class="player-cell-content">
-                <RankInsignia :rank="e.rank" :size="rankInsigniaSize" />
-                <span v-if="formatClanTag(e)" class="clan-tag">{{ formatClanTag(e) }}</span>
-                <span class="player-name">{{ e.profileName || 'Unknown' }}</span>
+            <td
+              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+            >
+              <div class="flex items-center leading-none">
+                <RankInsignia
+                  :rank="e.rank"
+                  :size="rankInsigniaSize"
+                  class="inline-block !align-middle flex-shrink-0 m-0 leading-none"
+                />
+                <span
+                  v-if="formatClanTag(e)"
+                  class="font-[Courier_New,monospace] text-[var(--sw)] font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
+                  >{{ formatClanTag(e) }}</span
+                >
+                <span
+                  class="font-[Rajdhani,sans-serif] text-[var(--t)] font-semibold text-[1.1rem] tracking-[0.3px] inline align-middle leading-[1.2] m-0 max-[1024px]:text-[1.05rem] max-[768px]:text-[1rem] max-[480px]:text-[0.95rem] max-[360px]:text-[0.9rem]"
+                  >{{ e.profileName || 'Unknown' }}</span
+                >
               </div>
             </td>
-            <td :class="[podiumScoreClass(index), podiumTextClass(index)]">
+            <td
+              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-[rgba(16,26,34,0.75)] to-[rgba(9,16,21,0.85)] align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-[rgba(24,38,48,0.78)] [tr:nth-child(even)>&]:to-[rgba(14,24,31,0.88)] transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+              :class="{
+                'text-[var(--medal-gold)]': index === 0,
+                'text-[var(--medal-silver)]': index === 1,
+                'text-[var(--medal-bronze)]': index === 2,
+              }"
+            >
               {{ e.high?.toLocaleString?.() }}
             </td>
           </tr>
@@ -205,40 +314,5 @@ onUnmounted(() => {
   </div>
 </template>
 <style scoped>
-/* uses global styles */
-.clan-tag {
-  color: var(--sw);
-}
-
-.player-name {
-  color: var(--t);
-}
-
-.podium-gold {
-  color: var(--medal-gold);
-}
-
-.podium-silver {
-  color: var(--medal-silver);
-}
-
-.podium-bronze {
-  color: var(--medal-bronze);
-}
-
-/* Gold, Silver, Bronze styling for rank positions only */
-.lb-position.rank-1 {
-  color: var(--medal-gold);
-  font-weight: 600;
-}
-
-.lb-position.rank-2 {
-  color: var(--medal-silver);
-  font-weight: 600;
-}
-
-.lb-position.rank-3 {
-  color: var(--medal-bronze);
-  font-weight: 600;
-}
+/* All styles converted to Tailwind utilities */
 </style>

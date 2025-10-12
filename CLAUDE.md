@@ -22,14 +22,26 @@ npm run build        # Production build (SSG + PWA)
 
 ## Mandatory Constraints (NO EXCEPTIONS)
 
-1. ❌ NEVER use hardcoded colors → ✅ ALWAYS use `var(--token)`
-2. ❌ NEVER use hardcoded scroll offsets → ✅ ALWAYS use CSS `var(--header-height)`
-3. ❌ NEVER use browser APIs without SSR guards
-4. ❌ NEVER use Pinia (this project uses composable modules)
-5. ❌ NEVER commit CRLF line endings (LF only)
-6. ❌ NEVER use `bun test` → ✅ ALWAYS use `bun run test`
-7. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
-8. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, etc.)
+1. ✅ ALWAYS use Tailwind utility classes for styling
+2. ✅ Design tokens live in `tailwind.config.ts` (colors, spacing, fonts)
+3. ❌ NEVER use hardcoded scroll offsets → ✅ ALWAYS use `pt-[var(--header-height)]`
+4. ❌ NEVER use browser APIs without SSR guards
+5. ❌ NEVER use Pinia (this project uses composable modules)
+6. ❌ NEVER commit CRLF line endings (LF only)
+7. ❌ NEVER use `bun test` → ✅ ALWAYS use `bun run test`
+8. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
+9. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, etc.)
+
+---
+
+## Styling Philosophy
+
+**Tailwind-First Approach:**
+- Use Tailwind utility classes directly in templates for 95% of styling
+- Only create custom CSS when truly necessary (complex animations, very specific states)
+- Design tokens defined in `tailwind.config.ts`, not CSS variables (except `--header-height` for JS sync)
+- Use `@layer components` sparingly for truly reusable component patterns only
+- Prefer inline utilities over semantic CSS classes for maintainability and visibility
 
 ---
 
@@ -56,6 +68,6 @@ npm run build        # Production build (SSG + PWA)
 
 ---
 
-**Stack:** Vue 3 + TypeScript, Vite, ViteSSG, Composable Modules, Vitest
+**Stack:** Vue 3 + TypeScript, Vite, ViteSSG, Tailwind CSS, Composable Modules, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** October 10, 2025
+**Updated:** October 12, 2025

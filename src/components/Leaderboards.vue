@@ -48,11 +48,21 @@ const ladderData = computed(() => ({ ladder: props.data.ladder || [] }));
       :keys="{ default: 'ladder' }"
       third-label="Rating"
     />
-    <div class="lb-cont">
-      <div class="lb-hdr">
-        <h3>Clan Leaderboard</h3>
+    <div
+      class="bg-gradient-to-b from-[rgba(var(--panel-main-rgb),0.96)] to-[rgba(var(--panel-shadow-rgb),0.98)] border border-[var(--divider-strong)] rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-[var(--tr)]"
+    >
+      <div
+        class="p-[15px_20px] bg-gradient-to-b from-[rgba(var(--dl-rgb),0.95)] to-[rgba(var(--dl-rgb),0.78)] border-b-[3px] border-b-[rgba(var(--dl-rgb),0.85)] relative"
+      >
+        <h3
+          class="font-[Oswald,sans-serif] text-[1.25rem] font-bold text-white uppercase tracking-[1px] m-0 [text-shadow:0_2px_4px_rgba(0,0,0,0.4)]"
+        >
+          Clan Leaderboard
+        </h3>
       </div>
-      <div class="lb-placeholder">Coming soon</div>
+      <div class="text-center italic text-[var(--t3)] font-[Rajdhani,sans-serif] p-[30px]">
+        Coming soon
+      </div>
     </div>
   </div>
 </template>
