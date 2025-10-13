@@ -29,7 +29,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
 
           <div class="flex justify-center mb-6">
             <div
-              class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-3 border-massgate-orange flex items-center justify-center"
+              class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-[3px] border-massgate-orange flex items-center justify-center"
             >
               <i class="fa-solid fa-bullseye text-ink text-3xl md:text-4xl" aria-hidden="true"></i>
             </div>
@@ -113,7 +113,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
           >
             <div class="flex justify-center mb-6">
               <div
-                class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-3 border-massgate-orange flex items-center justify-center"
+                class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-[3px] border-massgate-orange flex items-center justify-center"
               >
                 <i :class="value.icon" class="text-ink text-2xl md:text-3xl" aria-hidden="true"></i>
               </div>
