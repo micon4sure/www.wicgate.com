@@ -336,8 +336,8 @@
 
   @media (hover: hover) {
     .nav-dropdown-item:hover {
-      background: linear-gradient(90deg, rgba(0, 217, 255, 0.15) 0%, rgba(0, 217, 255, 0.05) 100%);
-      color: var(--t);
+      background: linear-gradient(90deg, #00d9ff 0%, #00b8d4 100%);
+      color: var(--ink);
       padding-left: 28px;
     }
   }
@@ -370,8 +370,8 @@
 
   @media (hover: hover) {
     .nav-mobile-link:hover {
-      background: linear-gradient(90deg, rgba(0, 217, 255, 0.2) 0%, transparent 100%);
-      color: var(--t);
+      background: linear-gradient(90deg, #00d9ff 0%, #00b8d4 100%);
+      color: var(--ink);
       padding-left: 40px;
     }
 
@@ -395,8 +395,8 @@
   }
 
   .nav-mobile-link:active {
-    background: linear-gradient(90deg, rgba(0, 217, 255, 0.3) 0%, rgba(0, 217, 255, 0.15) 100%);
-    color: var(--t);
+    background: linear-gradient(90deg, #00d9ff 0%, #00b8d4 100%);
+    color: var(--ink);
   }
 
   .nav-mobile-link::before {
@@ -412,10 +412,10 @@
   }
 
   .nav-mobile-link.active {
-    background: linear-gradient(90deg, rgba(0, 217, 255, 0.45) 0%, rgba(0, 217, 255, 0.25) 100%);
-    @apply text-t font-semibold;
+    background: linear-gradient(90deg, #00d9ff 0%, #00b8d4 100%);
+    color: var(--ink);
+    @apply font-semibold;
     padding-left: 40px;
-    box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
   }
 
   @media (max-width: 768px) {

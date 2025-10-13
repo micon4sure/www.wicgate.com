@@ -309,58 +309,18 @@ function handleLogout() {
           "
         >
           <template v-for="section in navSections" :key="section.id">
-            <!-- Sections without subsections -->
+            <!-- All sections as simple links -->
             <router-link
-              v-if="!section.subsections"
               :to="getRoutePath(section.id)"
-              :class="{ active: section.id === 'hero' ? !activeSection : isActive(section.id) }"
+              :class="{
+                active:
+                  section.id === 'hero' ? !activeSection : isSectionOrSubsectionActive(section),
+              }"
               class="nav-mobile-link"
               @click.prevent="handleNavigation(section.id)"
             >
               {{ section.label }}
             </router-link>
-
-            <!-- Sections with subsections (expandable) -->
-            <div v-else class="flex flex-col w-full">
-              <div class="flex items-center w-full border-b border-teal-dark/20">
-                <router-link
-                  :to="getRoutePath(section.id)"
-                  :class="{ active: isSectionOrSubsectionActive(section) }"
-                  class="nav-mobile-link flex-1 border-b-0"
-                  @click.prevent="handleNavigation(section.id)"
-                >
-                  {{ section.label }}
-                </router-link>
-                <button
-                  :class="{ open: openDropdown === section.id }"
-                  class="bg-transparent border-0 text-teal text-base py-6 px-8 min-h-[72px] cursor-pointer transition-all duration-300 flex items-center justify-center hover:bg-teal-dark/30 hover:text-teal-bright [&.open>i]:rotate-180"
-                  @click="toggleDropdown(section.id)"
-                >
-                  <i
-                    class="fa-solid fa-chevron-down transition-transform duration-300"
-                    aria-hidden="true"
-                  ></i>
-                </button>
-              </div>
-              <div
-                v-show="openDropdown === section.id"
-                class="flex flex-col bg-gradient-to-b from-teal-dark/20 to-teal/10 border-b border-teal-dark/20"
-              >
-                <router-link
-                  v-for="subsection in section.subsections"
-                  :key="subsection.id"
-                  :to="getRoutePath(subsection.id)"
-                  :class="{
-                    'bg-gradient-to-r from-teal-dark/50 to-teal/30 text-white font-bold pl-[60px] before:text-teal-bright before:opacity-100 shadow-teal-border':
-                      isActive(subsection.id),
-                  }"
-                  class="flex items-center w-full py-[18px] px-8 pl-[52px] min-h-[60px] text-battlefield-mist no-underline font-body text-base font-semibold normal-case tracking-wide bg-transparent transition-all duration-300 relative border-b border-teal-dark/10 last:border-b-0 before:content-['•'] before:absolute before:left-8 before:text-teal before:text-xl before:opacity-60 hover:bg-gradient-to-r hover:from-teal-dark/40 hover:to-transparent hover:via-teal/30 hover:text-t hover:pl-[60px]"
-                  @click.prevent="handleNavigation(subsection.id)"
-                >
-                  {{ subsection.label }}
-                </router-link>
-              </div>
-            </div>
           </template>
 
           <!-- Auth Links in Mobile Menu -->
@@ -386,7 +346,7 @@ function handleLogout() {
           <router-link
             v-if="!isAuthenticated"
             to="/login"
-            class="flex items-center gap-3 w-full py-5 px-8 min-h-[70px] text-teal no-underline font-military text-base font-semibold uppercase tracking-wider bg-gradient-to-r from-teal/15 to-teal/5 border-t border-b border-teal/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-teal hover:to-teal/30 hover:via-teal-dark hover:text-ink hover:pl-10 hover:border-teal-bright"
+            class="flex items-center gap-3 w-full py-5 px-8 min-h-[70px] text-t-secondary no-underline font-military text-base font-semibold uppercase tracking-wider bg-graphite border-t border-b border-teal/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-teal-bright hover:to-teal hover:text-ink hover:pl-10 hover:border-teal"
             @click="closeMobileMenu"
           >
             <i class="fa-solid fa-right-to-bracket w-5 h-5 flex-shrink-0"></i>
