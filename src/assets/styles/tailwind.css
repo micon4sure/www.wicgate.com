@@ -22,6 +22,11 @@
     --sw-light: #ff8533;
     --sw-rgb: 255, 102, 0;
     --sw-light-rgb: 255, 133, 51;
+    /* Massgate orange tokens */
+    --massgate-orange: #f37c2b;
+    --massgate-orange-light: #f8a85e;
+    --massgate-orange-dark: #e06820;
+    --massgate-orange-rgb: 243, 124, 43;
 
     /* Soviet/Orange (primary accent) */
     --soviet: #ff6600;
@@ -257,7 +262,7 @@
       0 0 36px rgba(var(--graphite-rgb), 0.35);
   }
 
-  /* Navigation tab - Desktop (NEW THEME: Teal active/hover states) */
+  /* Navigation tab - Desktop (Massgate orange hover/active states) */
   .nav-tab {
     @apply no-underline font-military font-medium text-sm uppercase tracking-wider;
     @apply relative cursor-pointer h-full px-4 flex items-center justify-center text-center;
@@ -265,7 +270,7 @@
     @apply transition-all duration-300 select-none flex-1 min-w-[80px] max-w-[160px];
     @apply whitespace-nowrap overflow-hidden text-ellipsis origin-[center_bottom];
     background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.92) 100%);
-    border: 2px solid rgba(0, 217, 255, 0.3);
+    border: 2px solid rgba(var(--massgate-orange-rgb), 0.35);
     border-bottom: 0;
     color: var(--t2);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -274,35 +279,35 @@
   @media (hover: hover) {
     .nav-tab:hover {
       color: var(--ink);
-      background: linear-gradient(180deg, #4de8ff 0%, #00d9ff 100%);
-      border-color: rgba(0, 217, 255, 0.6);
+      background: linear-gradient(180deg, var(--massgate-orange-light) 0%, var(--massgate-orange) 100%);
+      border-color: rgba(var(--massgate-orange-rgb), 0.7);
       transform: scale(1.02) translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 24px rgba(0, 217, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 24px rgba(var(--massgate-orange-rgb), 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
   }
 
   .nav-tab:active {
     color: var(--ink);
-    background: linear-gradient(180deg, #00d9ff 0%, #00b8d4 100%);
-    border-color: rgba(0, 217, 255, 0.7);
+    background: linear-gradient(180deg, var(--massgate-orange) 0%, var(--massgate-orange-dark) 100%);
+    border-color: rgba(var(--massgate-orange-rgb), 0.75);
     transform: scale(1.01) translateY(-1px);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 217, 255, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(var(--massgate-orange-rgb), 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .nav-tab.active {
     color: var(--ink);
-    background: linear-gradient(180deg, #00d9ff 0%, #00b8d4 100%);
+    background: linear-gradient(180deg, var(--massgate-orange-light) 0%, var(--massgate-orange) 100%);
     font-weight: 600;
-    border-color: rgba(0, 217, 255, 0.85);
+    border-color: rgba(var(--massgate-orange-rgb), 0.85);
     transform: scale(1.02) translateY(-2px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 32px rgba(0, 217, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 32px rgba(var(--massgate-orange-rgb), 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
   .nav-tab::before {
     content: '';
     @apply absolute left-0 right-0 h-[3px] opacity-0;
     bottom: -3px;
-    background: linear-gradient(90deg, rgba(0, 217, 255, 0.9) 0%, rgba(0, 217, 255, 0.6) 100%);
+    background: linear-gradient(90deg, rgba(var(--massgate-orange-rgb), 0.95) 0%, rgba(var(--massgate-orange-rgb), 0.6) 100%);
     transition: var(--tr);
   }
 
@@ -314,15 +319,15 @@
 
   .nav-tab.active::before {
     opacity: 1;
-    background: linear-gradient(90deg, rgba(0, 217, 255, 0.95) 0%, rgba(0, 217, 255, 0.65) 100%);
+    background: linear-gradient(90deg, rgba(var(--massgate-orange-rgb), 0.98) 0%, rgba(var(--massgate-orange-rgb), 0.7) 100%);
   }
 
-  /* Navigation dropdown (NEW THEME: Teal active states) */
+  /* Navigation dropdown (Massgate orange active states) */
   .nav-dropdown {
     @apply absolute top-full left-0 min-w-[200px];
     background: linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(5, 5, 5, 0.99) 100%);
-    border: 2px solid rgba(0, 217, 255, 0.7);
-    border-top: 2px solid rgba(0, 217, 255, 0.8);
+    border: 2px solid rgba(var(--massgate-orange-rgb), 0.7);
+    border-top: 2px solid rgba(var(--massgate-orange-rgb), 0.8);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
     @apply z-[1001] py-1;
   }
@@ -336,14 +341,14 @@
 
   @media (hover: hover) {
     .nav-dropdown-item:hover {
-      background: linear-gradient(90deg, #4de8ff 0%, #00d9ff 100%);
+      background: linear-gradient(90deg, rgba(var(--massgate-orange-rgb), 0.95) 0%, rgba(var(--massgate-orange-rgb), 0.75) 100%);
       color: var(--ink);
       padding-left: 28px;
     }
   }
 
   .nav-dropdown-item.active {
-    background: linear-gradient(90deg, #00d9ff 0%, #00b8d4 100%);
+    background: linear-gradient(90deg, var(--massgate-orange-light) 0%, var(--massgate-orange) 100%);
     color: var(--ink);
     @apply font-bold;
     padding-left: 28px;
@@ -352,10 +357,10 @@
   .nav-dropdown-item.active::before {
     content: '';
     @apply absolute left-0 top-0 bottom-0 w-1;
-    background: linear-gradient(180deg, rgba(77, 232, 255, 0.95) 0%, rgba(0, 217, 255, 0.7) 100%);
+    background: linear-gradient(180deg, rgba(var(--massgate-orange-rgb), 0.95) 0%, rgba(var(--massgate-orange-rgb), 0.65) 100%);
   }
 
-  /* Mobile navigation link (NEW THEME: Teal hover/active states) */
+  /* Mobile navigation link (Massgate orange hover/active states) */
   .nav-mobile-link {
     @apply flex items-center w-full py-6 px-8 min-h-[72px];
     @apply no-underline font-military text-lg font-medium uppercase tracking-wider;
@@ -365,12 +370,12 @@
     @apply sm:min-h-16 sm:py-[18px] sm:px-6 sm:text-base;
     @apply xs:min-h-[60px] xs:py-4 xs:px-5 xs:text-[15px] xs:tracking-wider;
     color: var(--t2);
-    border-bottom: 1px solid rgba(0, 217, 255, 0.15);
+    border-bottom: 1px solid rgba(var(--massgate-orange-rgb), 0.2);
   }
 
   @media (hover: hover) {
     .nav-mobile-link:hover {
-      background: linear-gradient(90deg, #4de8ff 0%, #00d9ff 100%);
+      background: linear-gradient(90deg, var(--massgate-orange-light) 0%, var(--massgate-orange) 100%);
       color: var(--ink);
       padding-left: 40px;
     }
@@ -395,7 +400,7 @@
   }
 
   .nav-mobile-link:active {
-    background: linear-gradient(90deg, #00d9ff 0%, #00b8d4 100%);
+    background: linear-gradient(90deg, var(--massgate-orange) 0%, rgba(var(--massgate-orange-rgb), 0.85) 100%);
     color: var(--ink);
   }
 
@@ -404,7 +409,7 @@
     @apply absolute left-0 top-0 bottom-0 -translate-x-full;
     @apply transition-transform duration-300;
     width: 6px;
-    background: linear-gradient(180deg, rgba(77, 232, 255, 0.95) 0%, rgba(0, 217, 255, 0.7) 100%);
+    background: linear-gradient(180deg, rgba(var(--massgate-orange-rgb), 0.95) 0%, rgba(var(--massgate-orange-rgb), 0.65) 100%);
   }
 
   .nav-mobile-link:hover::before {
@@ -412,7 +417,7 @@
   }
 
   .nav-mobile-link.active {
-    background: linear-gradient(90deg, #00d9ff 0%, #00b8d4 100%);
+    background: linear-gradient(90deg, var(--massgate-orange-light) 0%, var(--massgate-orange) 100%);
     color: var(--ink);
     @apply font-semibold;
     padding-left: 40px;

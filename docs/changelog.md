@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🎨 **Navigation & Leaderboards: Unified Massgate Orange Hover States** - Shifted primary navigation tabs (desktop + mobile), login CTA, dropdown items, and all leaderboard tab/row hover treatments to the same `massgate-orange` design tokens for consistent interactions. Added helper CSS vars in Tailwind base for RGB math so borders, glows, and gradients share the palette (Oct 13)
 
 - 🎨 **Leaderboard Headers: Red Gradient + White Text** - Updated leaderboard headers to use red gradient background with white text for strong military command center aesthetic: red gradient (`from-massgate-red to-massgate-red-dark` = #c62828 → #8b0000), dark red border (`border-massgate-red-dark`), white text with subtle shadow - affects all leaderboards (High Scores, Total Scores, Player Leaderboard, Clan Leaderboard) - creates bold, commanding presence matching military tactical UI (Oct 13)
 - 🎨 **Text Brightness Enhancement** - Brightened text colors for better visibility on steel blue card backgrounds: primary text (#f3f6f8 → #ffffff pure white), secondary text (#a7b7c3 → #c5d5e0 brighter gray-blue), tertiary text (#6c7a85 → #8a9aa8) - improves readability across all content cards in About, FAQ, Getting Started, Multiplayer, Community sections (Oct 13)
@@ -3471,4 +3472,3 @@ if (activeSection.value) {
 - Created: 11 new files (composables, utilities, types, widgets)
 - Modified: 5 files (WidgetDashboard, Home, appDataStore, storage, navigation)
 - Enhanced: 2 documentation files (architecture.md, changelog.md)
-
