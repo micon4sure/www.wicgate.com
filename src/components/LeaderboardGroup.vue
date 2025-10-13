@@ -83,16 +83,16 @@ onUnmounted(() => {
     class="bg-gradient-to-b from-[rgba(15,18,21,0.96)] to-[rgba(8,9,11,0.98)] border border-[var(--divider-strong)] rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-[var(--tr)]"
   >
     <div
-      class="p-[15px_20px] bg-massgate-red-dark relative max-[768px]:p-[12px_15px] max-[480px]:p-[10px_12px] max-[360px]:p-[0.625rem_0.75rem]"
+      class="p-[15px_20px] bg-gradient-to-b from-massgate-red to-massgate-red-dark border-[3px] border-massgate-red-dark relative max-[768px]:p-[12px_15px] max-[480px]:p-[10px_12px] max-[360px]:p-[0.625rem_0.75rem]"
     >
       <h3
-        class="font-[Oswald,sans-serif] text-[1.25rem] font-bold text-white uppercase tracking-[1px] m-0 [text-shadow:0_2px_4px_rgba(0,0,0,0.4)] max-[768px]:text-[1.1rem]"
+        class="font-[Oswald,sans-serif] text-[1.25rem] font-bold text-white uppercase tracking-[1px] m-0 [text-shadow:0_1px_3px_rgba(0,0,0,0.5)] max-[768px]:text-[1.1rem]"
       >
         {{ title }}
       </h3>
       <p
         v-if="subtitle"
-        class="font-[Rajdhani,sans-serif] font-medium m-[5px_0_0_0] text-[rgba(255,255,255,0.85)] uppercase tracking-[0.5px] text-[0.85rem]"
+        class="font-[Rajdhani,sans-serif] font-medium m-[5px_0_0_0] text-white/90 uppercase tracking-[0.5px] text-[0.85rem] [text-shadow:0_1px_2px_rgba(0,0,0,0.4)]"
       >
         {{ subtitle }}
       </p>

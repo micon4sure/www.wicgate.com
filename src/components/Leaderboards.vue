@@ -51,9 +51,11 @@ const ladderData = computed(() => ({ ladder: props.data.ladder || [] }));
     <div
       class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-[var(--divider-strong)] rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-all duration-300"
     >
-      <div class="p-[15px_20px] bg-massgate-red-dark relative">
+      <div
+        class="p-[15px_20px] bg-gradient-to-b from-massgate-red to-massgate-red-dark border-[3px] border-massgate-red-dark relative"
+      >
         <h3
-          class="font-[Oswald,sans-serif] text-[1.25rem] font-bold text-white uppercase tracking-[1px] m-0 [text-shadow:0_2px_4px_rgba(0,0,0,0.4)]"
+          class="font-[Oswald,sans-serif] text-[1.25rem] font-bold text-white uppercase tracking-[1px] m-0 [text-shadow:0_1px_3px_rgba(0,0,0,0.5)]"
         >
           Clan Leaderboard
         </h3>

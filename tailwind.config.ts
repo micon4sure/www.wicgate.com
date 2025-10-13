@@ -73,6 +73,7 @@ export default {
           DEFAULT: '#00d9ff',      // Primary teal accent (navigation, active states)
           bright: '#4de8ff',       // Bright teal (hover highlights)
           dark: '#00b8d4',         // Dark teal (borders)
+          darker: '#008b9e',       // Darker teal (headers, badges)
           glow: '#26c6da',         // Teal glow effect
         },
         // Legacy battlefield teal names (for compatibility)
@@ -87,9 +88,9 @@ export default {
 
         // Text hierarchy
         't': {
-          DEFAULT: '#f3f6f8',
-          secondary: '#a7b7c3',
-          dim: '#6c7a85',
+          DEFAULT: '#ffffff',      // Pure white for maximum contrast on steel blue
+          secondary: '#c5d5e0',    // Brighter gray-blue for better visibility
+          dim: '#8a9aa8',          // Brightened tertiary text
         },
 
         // Functional colors
