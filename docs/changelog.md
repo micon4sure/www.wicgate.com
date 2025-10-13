@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🎨 **About & FAQ Sections: Modern Card-Based Redesign** - Complete visual overhaul matching Getting Started's design language: circular icon badges with teal accents, card-based layouts, Vue transitions for collapsibles, Tailwind-first approach (no CSS variables/inline styles), hover effects reserved for interactive elements only (buttons/links), category icons (graduation-cap, wrench, gamepad, users) (Oct 13)
 - 📚 **Documentation Consolidation** - Merged SCROLL_SYSTEM.md and DEEPLINKS.md into architecture.md, reduced from 2,270 lines to 559 lines (75% reduction), deleted design-system.md (duplicate of tailwind.config.ts), updated all references across GUIDE.md and AGENTS.md (Oct 13)
 - 🎨 **Community Section: Teal Hover Theme** - Converted all video/event/stream card hover effects from orange to teal accent color matching navigation tabs for consistent visual language, reduced excessive glow effects in design system by ~50% (Oct 13)
 - 🎨 **Getting Started: Modern Timeline UI** - Complete redesign with vertical timeline pattern, z-index layered badges/cards/lines, collapsible advanced sections with subtle hover effects, prominent RED download CTA button, orange underlined links in advanced sections (Oct 13)

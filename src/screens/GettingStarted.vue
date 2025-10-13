@@ -45,7 +45,7 @@ const showManualInstall = ref(false);
             <!-- Badge Container -->
             <div class="flex-shrink-0 relative z-20 mr-6 md:mr-8">
               <div
-                class="w-[60px] h-[60px] rounded-full border-[3px] border-teal flex items-center justify-center font-military font-bold text-3xl text-teal shadow-teal-subtle transition-all duration-300 hover:scale-110 hover:shadow-teal-glow md:w-[60px] md:h-[60px] max-md:w-14 max-md:h-14 max-md:text-2xl"
+                class="w-[60px] h-[60px] rounded-full border-[3px] border-teal flex items-center justify-center font-military font-bold text-3xl text-teal shadow-teal-subtle md:w-[60px] md:h-[60px] max-md:w-14 max-md:h-14 max-md:text-2xl"
                 :class="['bg-gradient-to-br from-graphite-dark via-graphite to-graphite-dark']"
               >
                 {{ s.n }}
@@ -54,7 +54,7 @@ const showManualInstall = ref(false);
 
             <!-- Step Card -->
             <div
-              class="flex-1 relative z-10 bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-teal/70 rounded-none p-6 md:p-8 transition-all duration-300 hover:border-teal/50 hover:shadow-teal-subtle"
+              class="flex-1 relative z-10 bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-teal/70 rounded-none p-6 md:p-8"
             >
               <h4
                 class="font-military font-bold text-2xl md:text-3xl uppercase tracking-wide text-t mb-4 leading-tight"
@@ -160,7 +160,7 @@ const showManualInstall = ref(false);
                       <div
                         v-for="step in dedicatedServerSteps"
                         :key="step.n"
-                        class="bg-graphite/50 border border-teal/20 p-5 rounded-none hover:border-teal/40 transition-all duration-300"
+                        class="bg-graphite/50 border border-teal/20 p-5 rounded-none"
                       >
                         <div class="flex items-start gap-4">
                           <span
@@ -296,7 +296,7 @@ const showManualInstall = ref(false);
                     <div
                       v-for="step in manualInstallSteps"
                       :key="step.n"
-                      class="bg-graphite/50 border border-teal/20 p-5 rounded-none hover:border-teal/40 transition-all duration-300"
+                      class="bg-graphite/50 border border-teal/20 p-5 rounded-none"
                     >
                       <div class="flex items-start gap-4">
                         <span
