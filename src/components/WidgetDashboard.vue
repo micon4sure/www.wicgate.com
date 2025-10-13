@@ -93,9 +93,9 @@ function goToSection(sectionOrSubsectionId: string) {
           <p
             class="text-base text-t-secondary leading-relaxed font-body drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] 2xl:text-base xl:text-[0.9375rem] md:text-[0.875rem] sm:text-[0.8125rem]"
           >
-            WiCGate has restored official multiplayer using the
-            <strong class="text-soviet">real Massgate server code</strong>. Command Soviet or NATO
-            forces in intense tactical battles with the original community.
+            Using the <strong class="text-soviet">official Massgate server code</strong>, WiCGate
+            delivers authentic WiC multiplayer with all original features intact. Command Soviet or
+            Western forces in intense tactical battles across dedicated WiCGate servers.
           </p>
         </div>
 

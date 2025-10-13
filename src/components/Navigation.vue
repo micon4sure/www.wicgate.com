@@ -264,19 +264,19 @@ function handleLogout() {
     <!-- Enhanced hamburger menu button -->
     <button
       :class="{ active: mobileOpen }"
-      class="flex lg:hidden bg-gradient-to-br from-texture-panel/95 to-texture-dark/95 border-2 border-massgate-red/85 rounded-none p-3 cursor-pointer transition-all duration-300 relative w-12 h-12 justify-center items-center flex-col gap-1 [-webkit-tap-highlight-color:transparent] z-[1001] hover:bg-massgate-header-shine hover:shadow-massgate-glow hover:border-massgate-red-bright sm:w-11 sm:h-11 sm:p-2.5 xs:w-10 xs:h-10 xs:p-2"
+      class="flex lg:hidden bg-gradient-to-br from-texture-panel/95 to-texture-dark/95 border-2 border-teal/60 rounded-none p-3 cursor-pointer transition-all duration-300 relative w-12 h-12 justify-center items-center flex-col gap-1 [-webkit-tap-highlight-color:transparent] z-[1001] hover:bg-teal/10 hover:border-teal sm:w-11 sm:h-11 sm:p-2.5 xs:w-10 xs:h-10 xs:p-2"
       aria-label="Toggle mobile menu"
       aria-expanded="mobileOpen"
       @click="toggleMobileMenu"
     >
       <span
-        class="block w-6 h-[3px] bg-massgate-red-bright rounded-none transition-all duration-300 origin-center sm:w-5 sm:h-0.5 xs:w-[18px] [.active_&]:translate-y-[7px] [.active_&]:rotate-45 [.active_&]:bg-t [.active_&:hover]:bg-massgate-gold-bright sm:[.active_&]:translate-y-1.5"
+        class="block w-6 h-[3px] bg-t-secondary rounded-none transition-all duration-300 origin-center sm:w-5 sm:h-0.5 xs:w-[18px] [.active_&]:translate-y-[7px] [.active_&]:rotate-45 [.active_&]:bg-t [.active_&:hover]:bg-teal-bright sm:[.active_&]:translate-y-1.5"
       ></span>
       <span
-        class="block w-6 h-[3px] bg-massgate-red-bright rounded-none transition-all duration-300 origin-center sm:w-5 sm:h-0.5 xs:w-[18px] [.active_&]:opacity-0 [.active_&]:scale-0"
+        class="block w-6 h-[3px] bg-t-secondary rounded-none transition-all duration-300 origin-center sm:w-5 sm:h-0.5 xs:w-[18px] [.active_&]:opacity-0 [.active_&]:scale-0"
       ></span>
       <span
-        class="block w-6 h-[3px] bg-massgate-red-bright rounded-none transition-all duration-300 origin-center sm:w-5 sm:h-0.5 xs:w-[18px] [.active_&]:-translate-y-[7px] [.active_&]:-rotate-45 [.active_&]:bg-t [.active_&:hover]:bg-massgate-gold-bright sm:[.active_&]:-translate-y-1.5"
+        class="block w-6 h-[3px] bg-t-secondary rounded-none transition-all duration-300 origin-center sm:w-5 sm:h-0.5 xs:w-[18px] [.active_&]:-translate-y-[7px] [.active_&]:-rotate-45 [.active_&]:bg-t [.active_&:hover]:bg-teal-bright sm:[.active_&]:-translate-y-1.5"
       ></span>
     </button>
   </div>
@@ -299,7 +299,7 @@ function handleLogout() {
         class="fixed top-0 left-0 w-screen h-screen z-[999] pointer-events-none"
       >
         <div
-          class="absolute top-[var(--header-height)] left-0 w-screen border-t-[3px] border-t-massgate-red-bright shadow-massgate-glow-intense pointer-events-auto flex flex-col p-0 min-h-[calc(100vh-var(--header-height))]"
+          class="absolute top-[var(--header-height)] left-0 w-screen border-t-[3px] border-t-teal shadow-teal-subtle pointer-events-auto flex flex-col p-0 min-h-[calc(100vh-var(--header-height))]"
           style="
             background: linear-gradient(
               180deg,
@@ -322,7 +322,7 @@ function handleLogout() {
 
             <!-- Sections with subsections (expandable) -->
             <div v-else class="flex flex-col w-full">
-              <div class="flex items-center w-full border-b border-massgate-red-dark/20">
+              <div class="flex items-center w-full border-b border-teal-dark/20">
                 <router-link
                   :to="getRoutePath(section.id)"
                   :class="{ active: isSectionOrSubsectionActive(section) }"
@@ -333,7 +333,7 @@ function handleLogout() {
                 </router-link>
                 <button
                   :class="{ open: openDropdown === section.id }"
-                  class="bg-transparent border-0 text-massgate-red-bright text-base py-6 px-8 min-h-[72px] cursor-pointer transition-all duration-300 flex items-center justify-center hover:bg-massgate-red-dark/30 hover:text-massgate-gold-bright [&.open>i]:rotate-180"
+                  class="bg-transparent border-0 text-teal text-base py-6 px-8 min-h-[72px] cursor-pointer transition-all duration-300 flex items-center justify-center hover:bg-teal-dark/30 hover:text-teal-bright [&.open>i]:rotate-180"
                   @click="toggleDropdown(section.id)"
                 >
                   <i
@@ -344,17 +344,17 @@ function handleLogout() {
               </div>
               <div
                 v-show="openDropdown === section.id"
-                class="flex flex-col bg-gradient-to-b from-massgate-red-dark/20 to-massgate-red-shadow/30 border-b border-massgate-red-dark/20"
+                class="flex flex-col bg-gradient-to-b from-teal-dark/20 to-teal/10 border-b border-teal-dark/20"
               >
                 <router-link
                   v-for="subsection in section.subsections"
                   :key="subsection.id"
                   :to="getRoutePath(subsection.id)"
                   :class="{
-                    'bg-massgate-header text-white font-bold pl-[60px] before:text-massgate-gold-bright before:opacity-100 shadow-massgate-border':
+                    'bg-gradient-to-r from-teal-dark/50 to-teal/30 text-white font-bold pl-[60px] before:text-teal-bright before:opacity-100 shadow-teal-border':
                       isActive(subsection.id),
                   }"
-                  class="flex items-center w-full py-[18px] px-8 pl-[52px] min-h-[60px] text-battlefield-mist no-underline font-body text-base font-semibold normal-case tracking-wide bg-transparent transition-all duration-300 relative border-b border-massgate-red-dark/10 last:border-b-0 before:content-['•'] before:absolute before:left-8 before:text-massgate-red-bright before:text-xl before:opacity-60 hover:bg-gradient-to-r hover:from-massgate-red-dark/40 hover:to-transparent hover:via-massgate-red-shadow/60 hover:text-t hover:pl-[60px]"
+                  class="flex items-center w-full py-[18px] px-8 pl-[52px] min-h-[60px] text-battlefield-mist no-underline font-body text-base font-semibold normal-case tracking-wide bg-transparent transition-all duration-300 relative border-b border-teal-dark/10 last:border-b-0 before:content-['•'] before:absolute before:left-8 before:text-teal before:text-xl before:opacity-60 hover:bg-gradient-to-r hover:from-teal-dark/40 hover:to-transparent hover:via-teal/30 hover:text-t hover:pl-[60px]"
                   @click.prevent="handleNavigation(subsection.id)"
                 >
                   {{ subsection.label }}
