@@ -45,8 +45,7 @@ const showManualInstall = ref(false);
             <!-- Badge Container -->
             <div class="flex-shrink-0 relative z-20 mr-6 md:mr-8">
               <div
-                class="w-[60px] h-[60px] rounded-full border-[3px] border-massgate-orange flex items-center justify-center font-military font-bold text-3xl text-massgate-orange shadow-massgate-orange-glow md:w-[60px] md:h-[60px] max-md:w-14 max-md:h-14 max-md:text-2xl"
-                :class="['bg-gradient-to-br from-graphite-dark via-graphite to-graphite-dark']"
+                class="w-[60px] h-[60px] rounded-full border-[3px] border-massgate-orange bg-gradient-to-b from-massgate-orange-light to-massgate-orange flex items-center justify-center font-military font-bold text-3xl text-ink shadow-massgate-orange-glow md:w-[60px] md:h-[60px] max-md:w-14 max-md:h-14 max-md:text-2xl"
               >
                 {{ s.n }}
               </div>
@@ -117,10 +116,10 @@ const showManualInstall = ref(false);
             >
               <div class="flex items-center gap-4">
                 <div
-                  class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-2 border-massgate-orange flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:shadow-massgate-orange-glow"
+                  class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:shadow-massgate-orange-glow"
                 >
                   <i
-                    class="fa-solid fa-server text-massgate-orange text-xl md:text-2xl"
+                    class="fa-solid fa-server text-ink text-xl md:text-2xl"
                     aria-hidden="true"
                   ></i>
                 </div>
@@ -164,7 +163,7 @@ const showManualInstall = ref(false);
                       >
                         <div class="flex items-start gap-4">
                           <span
-                            class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border border-massgate-orange rounded-full flex items-center justify-center font-military font-bold text-lg text-massgate-orange"
+                            class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-massgate-orange-light to-massgate-orange border border-massgate-orange rounded-full flex items-center justify-center font-military font-bold text-lg text-ink"
                           >
                             {{ step.n }}
                           </span>
@@ -235,10 +234,10 @@ const showManualInstall = ref(false);
             >
               <div class="flex items-center gap-4">
                 <div
-                  class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-2 border-massgate-orange flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:shadow-massgate-orange-glow"
+                  class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:shadow-massgate-orange-glow"
                 >
                   <i
-                    class="fa-solid fa-wrench text-massgate-orange text-xl md:text-2xl"
+                    class="fa-solid fa-wrench text-ink text-xl md:text-2xl"
                     aria-hidden="true"
                   ></i>
                 </div>
@@ -300,7 +299,7 @@ const showManualInstall = ref(false);
                     >
                       <div class="flex items-start gap-4">
                         <span
-                          class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border border-massgate-orange rounded-full flex items-center justify-center font-military font-bold text-lg text-massgate-orange"
+                          class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-massgate-orange-light to-massgate-orange border border-massgate-orange rounded-full flex items-center justify-center font-military font-bold text-lg text-ink"
                         >
                           {{ step.n }}
                         </span>

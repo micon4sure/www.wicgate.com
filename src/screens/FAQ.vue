@@ -73,11 +73,11 @@ onMounted(() => {
           <!-- Category Header -->
           <div class="flex items-center gap-4 mb-6">
             <div
-              class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-2 border-massgate-orange flex items-center justify-center flex-shrink-0"
+              class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center flex-shrink-0"
             >
               <i
                 :class="getCategoryIcon(cat.cat)"
-                class="text-massgate-orange text-xl md:text-2xl"
+                class="text-ink text-xl md:text-2xl"
                 aria-hidden="true"
               ></i>
             </div>

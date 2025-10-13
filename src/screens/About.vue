@@ -29,9 +29,12 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
 
           <div class="flex justify-center mb-6">
             <div
-              class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-3 border-massgate-orange flex items-center justify-center"
+              class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-3 border-massgate-orange flex items-center justify-center"
             >
-              <i class="fa-solid fa-bullseye text-massgate-orange text-3xl md:text-4xl" aria-hidden="true"></i>
+              <i
+                class="fa-solid fa-bullseye text-ink text-3xl md:text-4xl"
+                aria-hidden="true"
+              ></i>
             </div>
           </div>
 
@@ -55,9 +58,12 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
           >
             <div class="flex items-center gap-4 mb-6">
               <div
-                class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-2 border-massgate-orange flex items-center justify-center flex-shrink-0"
+                class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center flex-shrink-0"
               >
-                <i class="fa-solid fa-book text-massgate-orange text-xl md:text-2xl" aria-hidden="true"></i>
+                <i
+                  class="fa-solid fa-book text-ink text-xl md:text-2xl"
+                  aria-hidden="true"
+                ></i>
               </div>
               <h3
                 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wide"
@@ -76,10 +82,10 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
           >
             <div class="flex items-center gap-4 mb-6">
               <div
-                class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-2 border-massgate-orange flex items-center justify-center flex-shrink-0"
+                class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center flex-shrink-0"
               >
                 <i
-                  class="fa-solid fa-lightbulb text-massgate-orange text-xl md:text-2xl"
+                  class="fa-solid fa-lightbulb text-ink text-xl md:text-2xl"
                   aria-hidden="true"
                 ></i>
               </div>
@@ -113,11 +119,11 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
           >
             <div class="flex justify-center mb-6">
               <div
-                class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-3 border-massgate-orange flex items-center justify-center"
+                class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-3 border-massgate-orange flex items-center justify-center"
               >
                 <i
                   :class="value.icon"
-                  class="text-massgate-orange text-2xl md:text-3xl"
+                  class="text-ink text-2xl md:text-3xl"
                   aria-hidden="true"
                 ></i>
               </div>
