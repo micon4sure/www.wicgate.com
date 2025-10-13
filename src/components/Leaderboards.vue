@@ -51,9 +51,7 @@ const ladderData = computed(() => ({ ladder: props.data.ladder || [] }));
     <div
       class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-[var(--divider-strong)] rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-all duration-300"
     >
-      <div
-        class="p-[15px_20px] bg-gradient-to-b from-massgate-red/95 to-massgate-red/78 border-b-[3px] border-b-massgate-red/85 relative"
-      >
+      <div class="p-[15px_20px] bg-massgate-red-dark relative">
         <h3
           class="font-[Oswald,sans-serif] text-[1.25rem] font-bold text-white uppercase tracking-[1px] m-0 [text-shadow:0_2px_4px_rgba(0,0,0,0.4)]"
         >

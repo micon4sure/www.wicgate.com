@@ -83,7 +83,7 @@ onUnmounted(() => {
     class="bg-gradient-to-b from-[rgba(15,18,21,0.96)] to-[rgba(8,9,11,0.98)] border border-[var(--divider-strong)] rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-[var(--tr)]"
   >
     <div
-      class="p-[15px_20px] bg-gradient-to-b from-massgate-red/95 to-massgate-red/78 border-b-[3px] border-b-massgate-red/85 relative max-[768px]:p-[12px_15px] max-[480px]:p-[10px_12px] max-[360px]:p-[0.625rem_0.75rem]"
+      class="p-[15px_20px] bg-massgate-red-dark relative max-[768px]:p-[12px_15px] max-[480px]:p-[10px_12px] max-[360px]:p-[0.625rem_0.75rem]"
     >
       <h3
         class="font-[Oswald,sans-serif] text-[1.25rem] font-bold text-white uppercase tracking-[1px] m-0 [text-shadow:0_2px_4px_rgba(0,0,0,0.4)] max-[768px]:text-[1.1rem]"
@@ -100,7 +100,7 @@ onUnmounted(() => {
 
     <div
       v-if="categories.length > 1"
-      class="flex bg-gradient-to-b from-[rgba(15,18,21,0.95)] to-[rgba(8,9,11,0.95)] border-b-2 border-b-[rgba(15,18,21,0.8)] relative"
+      class="flex bg-gradient-to-b from-[rgba(15,18,21,0.95)] to-[rgba(8,9,11,0.95)] relative"
     >
       <button
         v-for="c in categories"
@@ -141,17 +141,17 @@ onUnmounted(() => {
           <thead>
             <tr>
               <th
-                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
               >
                 Rank
               </th>
               <th
-                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
               >
                 Player
               </th>
               <th
-                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
               >
                 {{ thirdLabel }}
               </th>
@@ -233,17 +233,17 @@ onUnmounted(() => {
         <thead>
           <tr>
             <th
-              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
             >
               Rank
             </th>
             <th
-              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
             >
               Player
             </th>
             <th
-              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-2 border-b-[rgba(var(--dl-rgb),0.45)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
             >
               {{ thirdLabel }}
             </th>
