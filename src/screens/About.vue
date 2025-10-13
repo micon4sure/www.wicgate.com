@@ -24,14 +24,14 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
         >
           <!-- Decorative gradient line -->
           <div
-            class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-teal/70 to-transparent"
+            class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-massgate-orange/70 to-transparent"
           ></div>
 
           <div class="flex justify-center mb-6">
             <div
-              class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-teal/30 to-teal/10 border-3 border-teal flex items-center justify-center"
+              class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-3 border-massgate-orange flex items-center justify-center"
             >
-              <i class="fa-solid fa-bullseye text-teal text-3xl md:text-4xl" aria-hidden="true"></i>
+              <i class="fa-solid fa-bullseye text-massgate-orange text-3xl md:text-4xl" aria-hidden="true"></i>
             </div>
           </div>
 
@@ -51,13 +51,13 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <!-- The Story Card -->
           <div
-            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-teal/70 rounded-none p-6 md:p-8 relative"
+            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8 relative"
           >
             <div class="flex items-center gap-4 mb-6">
               <div
-                class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-teal/30 to-teal/10 border-2 border-teal flex items-center justify-center flex-shrink-0"
+                class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-2 border-massgate-orange flex items-center justify-center flex-shrink-0"
               >
-                <i class="fa-solid fa-book text-teal text-xl md:text-2xl" aria-hidden="true"></i>
+                <i class="fa-solid fa-book text-massgate-orange text-xl md:text-2xl" aria-hidden="true"></i>
               </div>
               <h3
                 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wide"
@@ -72,14 +72,14 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
 
           <!-- Our Approach Card -->
           <div
-            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-teal/70 rounded-none p-6 md:p-8 relative"
+            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8 relative"
           >
             <div class="flex items-center gap-4 mb-6">
               <div
-                class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-teal/30 to-teal/10 border-2 border-teal flex items-center justify-center flex-shrink-0"
+                class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-2 border-massgate-orange flex items-center justify-center flex-shrink-0"
               >
                 <i
-                  class="fa-solid fa-lightbulb text-teal text-xl md:text-2xl"
+                  class="fa-solid fa-lightbulb text-massgate-orange text-xl md:text-2xl"
                   aria-hidden="true"
                 ></i>
               </div>
@@ -109,15 +109,15 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
           <div
             v-for="value in projectValues"
             :key="value.title"
-            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-t-4 border-t-teal/70 rounded-none p-8 text-center relative"
+            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-t-4 border-t-massgate-orange/70 rounded-none p-8 text-center relative"
           >
             <div class="flex justify-center mb-6">
               <div
-                class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-teal/30 to-teal/10 border-3 border-teal flex items-center justify-center"
+                class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-3 border-massgate-orange flex items-center justify-center"
               >
                 <i
                   :class="value.icon"
-                  class="text-teal text-2xl md:text-3xl"
+                  class="text-massgate-orange text-2xl md:text-3xl"
                   aria-hidden="true"
                 ></i>
               </div>
@@ -147,7 +147,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
           <div
             v-for="member in teamMembers"
             :key="member.name"
-            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-teal/70 rounded-none p-6 md:p-8 text-center"
+            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8 text-center"
           >
             <h4
               class="text-xl md:text-2xl font-military font-bold text-t uppercase tracking-wider mb-2"

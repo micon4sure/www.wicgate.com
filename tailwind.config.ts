@@ -16,6 +16,13 @@ export default {
         },
 
 
+        // Massgate Orange (STRUCTURAL ACCENTS - timelines, badges, borders, headers)
+        'massgate-orange': {
+          DEFAULT: '#f37c2b',      // Massgate orange (authentic color from original)
+          light: '#f8a85e',        // Lighter variant
+          dark: '#e06820',         // Darker variant
+        },
+
         // Massgate Gold (DECORATIVE ACCENTS - medals, special highlights)
         'massgate-gold': {
           DEFAULT: '#ffca28',      // Gold accent
@@ -137,6 +144,10 @@ export default {
         'massgate-glow-intense': '0 0 30px rgba(229, 53, 53, 0.6), 0 0 60px rgba(198, 40, 40, 0.3)',
         'massgate-border': '0 0 15px rgba(198, 40, 40, 0.4), inset 0 0 10px rgba(198, 40, 40, 0.1)',
         'massgate-panel': '0 4px 20px rgba(139, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03)',
+
+        // Massgate Orange Glows (structural accents)
+        'massgate-orange-glow': '0 0 15px rgba(243, 124, 43, 0.4), 0 0 30px rgba(243, 124, 43, 0.2)',
+        'massgate-orange-subtle': '0 0 12px rgba(243, 124, 43, 0.3)',
 
         // Gold Glows
         'gold-glow': '0 0 15px rgba(255, 202, 40, 0.5), 0 0 30px rgba(255, 202, 40, 0.3)',

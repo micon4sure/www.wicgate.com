@@ -195,8 +195,7 @@ onUnmounted(() => {
                   />
                   <span
                     v-if="formatClanTag(e)"
-                    class="font-[Courier_New,monospace] font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
-                    style="color: #00d9ff"
+                    class="font-[Courier_New,monospace] text-massgate-orange font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
                     >{{ formatClanTag(e) }}</span
                   >
                   <span
@@ -288,7 +287,7 @@ onUnmounted(() => {
                 />
                 <span
                   v-if="formatClanTag(e)"
-                  class="font-[Courier_New,monospace] text-teal font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
+                  class="font-[Courier_New,monospace] text-massgate-orange font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
                   >{{ formatClanTag(e) }}</span
                 >
                 <span

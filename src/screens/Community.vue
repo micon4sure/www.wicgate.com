@@ -154,7 +154,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                   <i class="fa-regular fa-calendar" aria-hidden="true"></i>
                   {{ formatDate(e.start) }}
                 </span>
-                <span v-if="e.link" class="text-teal text-xs">
+                <span v-if="e.link" class="text-massgate-orange text-xs">
                   <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </span>
               </div>
@@ -194,7 +194,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
             <TwitchFacade :channel="u" muted />
             <div class="p-3 md:p-4 flex justify-center items-center border-t border-teal/10">
               <strong
-                class="text-teal font-military font-semibold uppercase tracking-wide text-sm md:text-base"
+                class="text-massgate-orange font-military font-semibold uppercase tracking-wide text-sm md:text-base"
                 >{{ u }}</strong
               >
             </div>

@@ -73,16 +73,16 @@ onMounted(() => {
           <!-- Category Header -->
           <div class="flex items-center gap-4 mb-6">
             <div
-              class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-teal/30 to-teal/10 border-2 border-teal flex items-center justify-center flex-shrink-0"
+              class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-2 border-massgate-orange flex items-center justify-center flex-shrink-0"
             >
               <i
                 :class="getCategoryIcon(cat.cat)"
-                class="text-teal text-xl md:text-2xl"
+                class="text-massgate-orange text-xl md:text-2xl"
                 aria-hidden="true"
               ></i>
             </div>
             <h3
-              class="text-2xl md:text-3xl font-military font-bold text-teal uppercase tracking-wider"
+              class="text-2xl md:text-3xl font-military font-bold text-massgate-orange uppercase tracking-wider"
             >
               {{ cat.cat }}
             </h3>
@@ -115,8 +115,8 @@ onMounted(() => {
                   class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b transition-all duration-300"
                   :class="
                     openQuestion === item.q
-                      ? 'from-teal/80 to-teal/40'
-                      : 'from-transparent to-transparent group-hover:from-teal/50 group-hover:to-teal/20'
+                      ? 'from-massgate-orange/80 to-massgate-orange/40'
+                      : 'from-transparent to-transparent group-hover:from-massgate-orange/50 group-hover:to-massgate-orange/20'
                   "
                 ></div>
 

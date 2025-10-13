@@ -89,7 +89,7 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
             <div
               v-for="group in serverGroups"
               :key="group.serverId"
-              class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-teal/70 rounded-none overflow-hidden"
+              class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none overflow-hidden"
               :class="{ 'opacity-60': group.players.length === 0 }"
             >
               <!-- Server Card Header -->
@@ -148,7 +148,7 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
                     <!-- Clan Tag -->
                     <span
                       v-if="parseClanTag(player).clanTag"
-                      class="font-mono text-teal font-semibold text-xs"
+                      class="font-mono text-massgate-orange font-semibold text-xs"
                     >
                       {{ parseClanTag(player).clanTag }}
                     </span>

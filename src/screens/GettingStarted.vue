@@ -38,14 +38,14 @@ const showManualInstall = ref(false);
             <!-- Timeline Line Container (behind everything) -->
             <div
               v-if="index < steps.length - 1"
-              class="absolute left-[29px] top-[60px] bottom-[-32px] w-[3px] bg-gradient-to-b from-teal/50 via-teal/30 to-teal/50 z-0"
+              class="absolute left-[29px] top-[60px] bottom-[-32px] w-[3px] bg-gradient-to-b from-massgate-orange/50 via-massgate-orange/30 to-massgate-orange/50 z-0"
               aria-hidden="true"
             ></div>
 
             <!-- Badge Container -->
             <div class="flex-shrink-0 relative z-20 mr-6 md:mr-8">
               <div
-                class="w-[60px] h-[60px] rounded-full border-[3px] border-teal flex items-center justify-center font-military font-bold text-3xl text-teal shadow-teal-subtle md:w-[60px] md:h-[60px] max-md:w-14 max-md:h-14 max-md:text-2xl"
+                class="w-[60px] h-[60px] rounded-full border-[3px] border-massgate-orange flex items-center justify-center font-military font-bold text-3xl text-massgate-orange shadow-massgate-orange-glow md:w-[60px] md:h-[60px] max-md:w-14 max-md:h-14 max-md:text-2xl"
                 :class="['bg-gradient-to-br from-graphite-dark via-graphite to-graphite-dark']"
               >
                 {{ s.n }}
@@ -54,7 +54,7 @@ const showManualInstall = ref(false);
 
             <!-- Step Card -->
             <div
-              class="flex-1 relative z-10 bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-teal/70 rounded-none p-6 md:p-8"
+              class="flex-1 relative z-10 bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8"
             >
               <h4
                 class="font-military font-bold text-2xl md:text-3xl uppercase tracking-wide text-t mb-4 leading-tight"
@@ -117,10 +117,10 @@ const showManualInstall = ref(false);
             >
               <div class="flex items-center gap-4">
                 <div
-                  class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-teal/30 to-teal/10 border-2 border-teal flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:shadow-teal-subtle"
+                  class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-2 border-massgate-orange flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:shadow-massgate-orange-glow"
                 >
                   <i
-                    class="fa-solid fa-server text-teal text-xl md:text-2xl"
+                    class="fa-solid fa-server text-massgate-orange text-xl md:text-2xl"
                     aria-hidden="true"
                   ></i>
                 </div>
@@ -164,7 +164,7 @@ const showManualInstall = ref(false);
                       >
                         <div class="flex items-start gap-4">
                           <span
-                            class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-teal/30 to-teal/10 border border-teal rounded-full flex items-center justify-center font-military font-bold text-lg text-teal"
+                            class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border border-massgate-orange rounded-full flex items-center justify-center font-military font-bold text-lg text-massgate-orange"
                           >
                             {{ step.n }}
                           </span>
@@ -186,7 +186,7 @@ const showManualInstall = ref(false);
                       class="bg-graphite/70 border border-teal/20 p-5 rounded-none h-fit sticky top-24"
                     >
                       <h5
-                        class="font-military font-bold uppercase tracking-wider text-lg mb-4 text-teal flex items-center gap-2"
+                        class="font-military font-bold uppercase tracking-wider text-lg mb-4 text-massgate-orange flex items-center gap-2"
                       >
                         <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
                         Network Ports
@@ -201,7 +201,7 @@ const showManualInstall = ref(false);
                           class="bg-graphite-dark/60 border border-teal/10 p-3 rounded-none"
                         >
                           <div class="flex items-baseline gap-2 mb-1">
-                            <span class="font-mono font-bold text-teal text-base">
+                            <span class="font-mono font-bold text-massgate-orange text-base">
                               {{ port.port }}
                             </span>
                             <span class="text-t-secondary text-xs uppercase font-body">
@@ -235,10 +235,10 @@ const showManualInstall = ref(false);
             >
               <div class="flex items-center gap-4">
                 <div
-                  class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-teal/30 to-teal/10 border-2 border-teal flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:shadow-teal-subtle"
+                  class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border-2 border-massgate-orange flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:shadow-massgate-orange-glow"
                 >
                   <i
-                    class="fa-solid fa-wrench text-teal text-xl md:text-2xl"
+                    class="fa-solid fa-wrench text-massgate-orange text-xl md:text-2xl"
                     aria-hidden="true"
                   ></i>
                 </div>
@@ -300,7 +300,7 @@ const showManualInstall = ref(false);
                     >
                       <div class="flex items-start gap-4">
                         <span
-                          class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-teal/30 to-teal/10 border border-teal rounded-full flex items-center justify-center font-military font-bold text-lg text-teal"
+                          class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-massgate-orange/30 to-massgate-orange/10 border border-massgate-orange rounded-full flex items-center justify-center font-military font-bold text-lg text-massgate-orange"
                         >
                           {{ step.n }}
                         </span>
