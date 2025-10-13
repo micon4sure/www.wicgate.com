@@ -133,24 +133,24 @@ export default {
 
       boxShadow: {
         // Massgate Red Glows (important highlights only)
-        'massgate-glow': '0 0 30px rgba(198, 40, 40, 0.6), 0 0 60px rgba(198, 40, 40, 0.3)',
-        'massgate-glow-intense': '0 0 40px rgba(229, 53, 53, 0.8), 0 0 80px rgba(198, 40, 40, 0.5)',
+        'massgate-glow': '0 0 15px rgba(198, 40, 40, 0.4), 0 0 30px rgba(198, 40, 40, 0.2)',
+        'massgate-glow-intense': '0 0 30px rgba(229, 53, 53, 0.6), 0 0 60px rgba(198, 40, 40, 0.3)',
         'massgate-border': '0 0 15px rgba(198, 40, 40, 0.4), inset 0 0 10px rgba(198, 40, 40, 0.1)',
         'massgate-panel': '0 4px 20px rgba(139, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03)',
 
         // Gold Glows
-        'gold-glow': '0 0 30px rgba(255, 202, 40, 0.7), 0 0 60px rgba(255, 202, 40, 0.4)',
+        'gold-glow': '0 0 15px rgba(255, 202, 40, 0.5), 0 0 30px rgba(255, 202, 40, 0.3)',
         'gold-shine': '0 4px 20px rgba(255, 202, 40, 0.5), inset 0 -1px 10px rgba(255, 213, 79, 0.3)',
 
         // Teal Glows (PRIMARY ACCENT - navigation, active states, highlights)
-        'teal-glow': '0 0 25px rgba(0, 217, 255, 0.5), 0 0 50px rgba(0, 217, 255, 0.25)',
-        'teal-glow-intense': '0 0 35px rgba(77, 232, 255, 0.7), 0 0 70px rgba(0, 217, 255, 0.4)',
+        'teal-glow': '0 0 15px rgba(0, 217, 255, 0.4), 0 0 30px rgba(0, 217, 255, 0.2)',
+        'teal-glow-intense': '0 0 25px rgba(77, 232, 255, 0.5), 0 0 50px rgba(0, 217, 255, 0.25)',
         'teal-subtle': '0 0 15px rgba(0, 217, 255, 0.3)',
         'teal-border': '0 0 20px rgba(0, 217, 255, 0.4), inset 0 0 10px rgba(0, 217, 255, 0.1)',
 
         // Orange Glows (CTAs, hover states on cards)
-        'orange-glow': '0 0 30px rgba(255, 102, 0, 0.6), 0 0 60px rgba(255, 102, 0, 0.3)',
-        'orange-glow-intense': '0 0 40px rgba(255, 133, 51, 0.8), 0 0 80px rgba(255, 102, 0, 0.5)',
+        'orange-glow': '0 0 15px rgba(255, 102, 0, 0.4), 0 0 30px rgba(255, 102, 0, 0.2)',
+        'orange-glow-intense': '0 0 30px rgba(255, 133, 51, 0.6), 0 0 60px rgba(255, 102, 0, 0.3)',
         'orange-border': '0 0 20px rgba(255, 102, 0, 0.5), inset 0 0 10px rgba(255, 102, 0, 0.1)',
 
         // Texture Shadows (cards and panels)

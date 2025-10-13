@@ -967,6 +967,22 @@
     @apply hover:bg-twitch hover:border-twitch-dark hover:text-white;
     @apply hover:shadow-[0_8px_24px_rgba(145,70,255,0.4)];
   }
+
+  /* ========== GETTING STARTED SECTION ========== */
+
+  /* Download/setup links in advanced sections - Orange with underline on hover */
+  #getting-started-advanced a {
+    @apply text-soviet font-semibold no-underline transition-all duration-200;
+  }
+
+  #getting-started-advanced a:hover {
+    @apply text-soviet-light underline;
+    text-underline-offset: 3px;
+  }
+
+  #getting-started-advanced a:active {
+    @apply text-soviet-dark;
+  }
 }
 
 /* Utility layer - Additional helpers */

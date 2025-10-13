@@ -23,6 +23,8 @@ npm run build        # Production build (SSG + PWA)
 ## Mandatory Constraints (NO EXCEPTIONS)
 
 1. ✅ ALWAYS use Tailwind utility classes for styling
+   - ❌ NEVER use `<style scoped>` blocks
+   - ✅ Inline Tailwind in templates OR `@apply` in `tailwind.css` (`@layer components`)
 2. ✅ Design tokens live in `tailwind.config.ts` (colors, spacing, fonts)
 3. ❌ NEVER use hardcoded scroll offsets → ✅ ALWAYS use `pt-[var(--header-height)]`
 4. ❌ NEVER use browser APIs without SSR guards
