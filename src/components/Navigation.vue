@@ -239,7 +239,7 @@ function handleLogout() {
       <router-link
         v-if="!isAuthenticated"
         to="/login"
-        class="flex items-center gap-2 px-4 py-2 bg-teal/15 border border-teal/40 text-teal font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-teal hover:border-teal-bright hover:text-ink hover:shadow-teal-border hover:-translate-y-0.5 active:translate-y-0"
+        class="flex items-center gap-2 px-4 py-2 bg-graphite border-2 border-teal/30 text-t-secondary font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-b hover:from-teal-bright hover:to-teal hover:border-teal hover:text-ink hover:-translate-y-0.5 active:bg-gradient-to-b active:from-teal active:to-teal-dark active:translate-y-0"
       >
         <i class="fa-solid fa-right-to-bracket"></i>
         Login
