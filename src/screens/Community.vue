@@ -37,13 +37,20 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 </script>
 
 <template>
-  <section id="community" class="com-hub section">
-    <div class="container">
-      <div class="text-center mb-xl">
-        <h2>Community</h2>
-        <p class="section-lead">Join the conversation across all platforms</p>
+  <section id="community" class="section bg-gradient-to-b from-graphite/30 to-graphite-dark/50">
+    <div class="container max-w-7xl">
+      <!-- Header -->
+      <div class="text-center mb-20">
+        <h2
+          class="text-5xl md:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
+        >
+          Community
+        </h2>
+        <p class="text-lg md:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
+          Join the conversation across all platforms
+        </p>
 
-        <!-- Simple community links -->
+        <!-- Community links (keep existing) -->
         <div class="community-links">
           <a
             href="https://discord.gg/WnxwfMTyBe"
@@ -76,177 +83,242 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
       </div>
 
       <!-- Events Section -->
-      <div id="community-events" class="mb-xl">
-        <div class="vid-hdr">
-          <h3>Events</h3>
-          <p class="section-lead" style="margin: 0; font-size: 0.9rem">
+      <div id="community-events" class="mb-20">
+        <!-- Subsection Header -->
+        <div class="text-center mb-8">
+          <h3
+            class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-2"
+          >
+            Events
+          </h3>
+          <p class="text-sm md:text-base text-t-secondary font-body m-0">
             Tournaments, community nights, and special operations
           </p>
         </div>
 
-        <!-- Combined Events Layout -->
+        <!-- Events Content -->
         <EventsSkeleton v-if="isSSR || eventsLoading" />
-        <div v-else-if="events.length" class="events-container">
-          <div class="events-grid">
-            <component
-              :is="e.link ? 'a' : 'div'"
-              v-for="e in events"
-              :key="e.id"
-              :href="e.link"
-              target="_blank"
-              class="event-card"
+        <div v-else-if="events.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <component
+            :is="e.link ? 'a' : 'div'"
+            v-for="e in events"
+            :key="e.id"
+            :href="e.link"
+            target="_blank"
+            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300 hover:border-teal/75 hover:shadow-[0_0_30px_rgba(0,217,255,0.32)] hover:-translate-y-0.5 active:scale-[0.98] no-underline text-inherit flex flex-col"
+          >
+            <!-- Event Image -->
+            <div
+              v-if="e.coverUrl"
+              class="relative h-56 bg-cover bg-center bg-graphite-dark flex items-start justify-end p-3 border-b border-teal/20"
+              :style="{ backgroundImage: 'url(' + e.coverUrl + ')' }"
             >
+              <div class="absolute inset-0 bg-gradient-to-br from-black/10 to-black/40"></div>
               <div
-                v-if="e.coverUrl"
-                class="event-image"
-                :style="{ backgroundImage: 'url(' + e.coverUrl + ')' }"
+                class="relative z-10 px-4 py-1.5 rounded-none text-xs font-bold tracking-wider uppercase font-military border"
+                :class="
+                  new Date(e.start).getTime() <= Date.now()
+                    ? 'bg-youtube text-white border-youtube-bright shadow-[0_0_20px_rgba(229,57,53,0.6)] animate-pulse'
+                    : 'bg-graphite-light/90 text-t border-teal/50'
+                "
               >
-                <div class="event-image-overlay"></div>
-                <div v-if="new Date(e.start).getTime() <= Date.now()" class="event-status live">
-                  <span class="status-text">LIVE NOW</span>
-                </div>
-                <div v-else class="event-status">
-                  <span class="status-text">{{ getCountdown(e.start) }}</span>
-                </div>
+                {{ new Date(e.start).getTime() <= Date.now() ? 'LIVE NOW' : getCountdown(e.start) }}
               </div>
-              <div class="event-content" :class="{ 'no-image': !e.coverUrl }">
-                <div
-                  v-if="!e.coverUrl && new Date(e.start).getTime() <= Date.now()"
-                  class="event-status live"
-                >
-                  <span class="status-text">LIVE NOW</span>
-                </div>
-                <div v-else-if="!e.coverUrl" class="event-status">
-                  <span class="status-text">{{ getCountdown(e.start) }}</span>
-                </div>
-                <h4 class="event-title">{{ e.name }}</h4>
-                <p class="event-desc">{{ e.description }}</p>
-                <div class="event-meta">
-                  <span class="event-date">
-                    <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-                    {{ formatDate(e.start) }}
-                  </span>
-                  <span v-if="e.link" class="event-link-icon">
-                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                  </span>
-                </div>
+            </div>
+
+            <!-- Event Content -->
+            <div class="flex-1 flex flex-col gap-2 p-4">
+              <!-- Status badge for no-image events -->
+              <div
+                v-if="!e.coverUrl"
+                class="self-start px-4 py-1.5 rounded-none text-xs font-bold tracking-wider uppercase font-military border mb-2"
+                :class="
+                  new Date(e.start).getTime() <= Date.now()
+                    ? 'bg-youtube text-white border-youtube-bright shadow-[0_0_20px_rgba(229,57,53,0.6)] animate-pulse'
+                    : 'bg-graphite-light/90 text-t border-teal/50'
+                "
+              >
+                {{ new Date(e.start).getTime() <= Date.now() ? 'LIVE NOW' : getCountdown(e.start) }}
               </div>
-            </component>
-          </div>
+
+              <h4
+                class="m-0 text-lg md:text-xl font-military font-medium text-t uppercase tracking-wide leading-snug"
+              >
+                {{ e.name }}
+              </h4>
+              <p class="m-0 text-sm md:text-base text-t-secondary font-body leading-relaxed flex-1">
+                {{ e.description }}
+              </p>
+              <div class="flex justify-between items-center mt-3 pt-3 border-t border-teal/10">
+                <span class="text-xs text-t3 flex items-center gap-2 font-body">
+                  <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                  {{ formatDate(e.start) }}
+                </span>
+                <span v-if="e.link" class="text-teal text-xs">
+                  <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+          </component>
         </div>
-        <div v-else-if="!eventsLoading" class="events-empty">
-          <i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i>
-          <p>No events scheduled at the moment</p>
+        <div
+          v-else-if="!eventsLoading"
+          class="text-center py-10 text-t3 border border-teal/10 bg-gradient-to-b from-graphite-light/85 to-graphite-dark/90 rounded-none"
+        >
+          <i
+            class="fa-regular fa-calendar-xmark text-4xl mb-4 text-teal/70 opacity-85"
+            aria-hidden="true"
+          ></i>
+          <p class="m-0 text-base font-body">No events scheduled at the moment</p>
         </div>
       </div>
 
       <!-- Live Streams -->
-      <div id="community-streams" class="mb-xl">
-        <div class="vid-hdr">
-          <h3>Live Streams</h3>
+      <div id="community-streams" class="mb-20">
+        <!-- Subsection Header -->
+        <div class="text-center mb-8">
+          <h3 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider">
+            Live Streams
+          </h3>
         </div>
-        <div class="live-streams-container">
-          <div class="grid grid-2" style="gap: 30px">
-            <a
-              v-for="u in twitchUsernames"
-              :key="u"
-              :href="`https://twitch.tv/${u}`"
-              target="_blank"
-              class="card"
-              style="padding: 0; overflow: hidden; text-decoration: none; color: inherit"
-              :aria-label="`Watch ${u} live on Twitch`"
-            >
-              <TwitchFacade :channel="u" muted />
-              <div
-                style="
-                  padding: 12px 16px;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                "
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <a
+            v-for="u in twitchUsernames"
+            :key="u"
+            :href="`https://twitch.tv/${u}`"
+            target="_blank"
+            class="card p-0 overflow-hidden no-underline text-inherit"
+            :aria-label="`Watch ${u} live on Twitch`"
+          >
+            <TwitchFacade :channel="u" muted />
+            <div class="p-3 md:p-4 flex justify-center items-center border-t border-teal/10">
+              <strong
+                class="text-teal font-military font-semibold uppercase tracking-wide text-sm md:text-base"
+                >{{ u }}</strong
               >
-                <strong style="font-size: 0.9rem">{{ u }}</strong>
-              </div>
-            </a>
-          </div>
+            </div>
+          </a>
         </div>
       </div>
 
       <!-- Latest Videos -->
-      <div id="community-videos" class="vid-section mb-xl">
-        <div class="vid-hdr">
-          <h3>Latest Videos</h3>
+      <div id="community-videos" class="mb-20">
+        <!-- Subsection Header -->
+        <div class="text-center mb-8">
+          <h3 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider">
+            Latest Videos
+          </h3>
         </div>
 
         <VideosSkeleton v-if="isSSR || ytVidsLoading" />
 
-        <div v-else>
-          <!-- Always show 6 latest videos -->
-          <div class="latest-videos-section">
-            <div class="videos-grid">
-              <div v-for="v in top6NYTVideos" :key="v.id || v.videoUrl" class="card vid-card">
-                <a :href="v.videoUrl" target="_blank" class="vid-link" rel="noopener noreferrer">
-                  <div class="vid-thumb">
-                    <img
-                      :src="v.thumbnailUrl"
-                      :alt="`${v.title} - ${v.author || 'WiCGATE'} video thumbnail`"
-                      loading="lazy"
-                    />
-                    <div class="play-over"><i class="fa-solid fa-play" aria-hidden="true"></i></div>
+        <div v-else class="min-h-[340px]">
+          <!-- Latest 6 Videos -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+            <div
+              v-for="v in top6NYTVideos"
+              :key="v.id || v.videoUrl"
+              class="card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(4,9,14,0.6)] active:scale-[0.98]"
+            >
+              <a
+                :href="v.videoUrl"
+                target="_blank"
+                class="no-underline text-inherit block"
+                rel="noopener noreferrer"
+              >
+                <div class="relative w-full pb-[56.25%] bg-graphite-dark overflow-hidden">
+                  <img
+                    :src="v.thumbnailUrl"
+                    :alt="`${v.title} - ${v.author || 'WiCGATE'} video thumbnail`"
+                    loading="lazy"
+                    class="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div class="play-over">
+                    <i class="fa-solid fa-play" aria-hidden="true"></i>
                   </div>
-                  <div class="vid-info">
-                    <h4 class="vid-title">{{ v.title }}</h4>
-                    <div class="vid-meta">
-                      <span v-if="v.author">{{ v.author }}</span>
-                      <span v-if="v.views != null"> • {{ v.views.toLocaleString() }} views</span>
-                      <span v-if="v.publishedAt">
-                        • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
-                      >
-                    </div>
+                </div>
+                <div class="p-3 md:p-4">
+                  <h4
+                    class="m-0 mb-1.5 text-sm md:text-base leading-snug text-t font-body font-semibold line-clamp-2"
+                  >
+                    {{ v.title }}
+                  </h4>
+                  <div class="text-xs text-t3 font-body">
+                    <span v-if="v.author">{{ v.author }}</span>
+                    <span v-if="v.views != null"> • {{ v.views.toLocaleString() }} views</span>
+                    <span v-if="v.publishedAt">
+                      • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
+                    >
                   </div>
-                </a>
-              </div>
+                </div>
+              </a>
             </div>
           </div>
 
-          <!-- Videos by Content Creator (always visible) -->
-          <div class="by-channel videos-expandable">
-            <div class="vid-hdr by-channel-hdr">
-              <h3>By Content Creator</h3>
+          <!-- By Content Creator -->
+          <div v-if="channelsList.length">
+            <!-- Subsection Header -->
+            <div class="text-center mb-8 mt-12">
+              <h3
+                class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider"
+              >
+                By Content Creator
+              </h3>
             </div>
-            <!-- Individual Creator Sections -->
-            <div v-for="ch in channelsList" :key="ch.channelId" class="channel-section">
-              <div class="creator-card-container">
+
+            <div v-for="ch in channelsList" :key="ch.channelId" class="mb-12">
+              <!-- Creator Card (KEEP TEAL HOVER) -->
+              <div class="flex justify-center mb-5">
                 <a
                   :href="`https://www.youtube.com/channel/${ch.channelId}`"
                   target="_blank"
-                  class="card creator-card"
+                  class="bg-gradient-to-b from-graphite-light/96 to-graphite-dark/98 border border-teal/40 rounded-none px-6 py-3 no-underline transition-all duration-300 flex items-center justify-center gap-2.5 shadow-[0_12px_28px_rgba(4,9,14,0.55)] min-h-[50px] min-w-[250px] max-w-[350px] w-full hover:bg-gradient-to-b hover:from-teal-bright hover:to-teal hover:border-teal/60 hover:shadow-[0_4px_16px_rgba(0,0,0,0.3),0_0_24px_rgba(0,217,255,0.4)] hover:-translate-y-0.5 active:scale-[0.98] group"
                   :aria-label="`View ${ch.channelTitle} YouTube channel`"
                 >
-                  <div class="creator-info">
-                    <h4 class="creator-name">{{ ch.channelTitle }}</h4>
-                    <div class="creator-badge-icon">
-                      <i class="fa-solid fa-external-link" aria-hidden="true"></i>
-                    </div>
-                  </div>
+                  <span
+                    class="flex-1 text-center text-t-secondary font-military font-bold uppercase tracking-wide text-base whitespace-nowrap overflow-hidden text-ellipsis group-hover:text-graphite-dark"
+                  >
+                    {{ ch.channelTitle }}
+                  </span>
+                  <i
+                    class="fa-solid fa-external-link text-teal text-sm transition-all duration-300 group-hover:text-graphite-dark group-hover:translate-x-1"
+                    aria-hidden="true"
+                  ></i>
                 </a>
               </div>
-              <div class="videos-grid">
-                <div v-for="v in ch.videos" :key="v.id" class="card vid-card">
-                  <a :href="v.videoUrl" target="_blank" class="vid-link" rel="noopener noreferrer">
-                    <div class="vid-thumb">
+
+              <!-- Creator Videos -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div
+                  v-for="v in ch.videos"
+                  :key="v.id"
+                  class="card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(4,9,14,0.6)] active:scale-[0.98]"
+                >
+                  <a
+                    :href="v.videoUrl"
+                    target="_blank"
+                    class="no-underline text-inherit block"
+                    rel="noopener noreferrer"
+                  >
+                    <div class="relative w-full pb-[56.25%] bg-graphite-dark overflow-hidden">
                       <img
                         :src="v.thumbnailUrl"
                         :alt="`${v.title} - ${ch.channelTitle} video thumbnail`"
                         loading="lazy"
+                        class="absolute inset-0 w-full h-full object-cover"
                       />
                       <div class="play-over">
                         <i class="fa-solid fa-play" aria-hidden="true"></i>
                       </div>
                     </div>
-                    <div class="vid-info">
-                      <h4 class="vid-title">{{ v.title }}</h4>
-                      <div class="vid-meta">
+                    <div class="p-3 md:p-4">
+                      <h4
+                        class="m-0 mb-1.5 text-sm md:text-base leading-snug text-t font-body font-semibold line-clamp-2"
+                      >
+                        {{ v.title }}
+                      </h4>
+                      <div class="text-xs text-t3 font-body">
                         <span v-if="v.views != null">{{ v.views.toLocaleString() }} views</span>
                         <span v-if="v.publishedAt">
                           • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
@@ -259,528 +331,13 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
             </div>
           </div>
 
-          <div v-if="ytVideosSorted.length === 0" class="text-muted">No videos available</div>
+          <div v-if="ytVideosSorted.length === 0" class="text-t3 text-center py-10">
+            No videos available
+          </div>
         </div>
       </div>
     </div>
   </section>
 </template>
 
-<style scoped>
-/* Responsive video grid */
-.videos-grid {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-/* Latest videos section */
-.latest-videos-section {
-  margin-bottom: 20px;
-  min-height: 340px; /* Minimum height for ~2 rows of videos - prevents collapse during loading */
-}
-
-/* Latest videos section should match channel sections exactly */
-@media (min-width: 1024px) {
-  .latest-videos-section .videos-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Video card styles */
-.vid-card {
-  transition: var(--tr);
-}
-
-@media (hover: hover) {
-  .vid-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-card);
-  }
-}
-
-.vid-card:active {
-  transform: scale(0.98);
-}
-
-.vid-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-
-.vid-thumb {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
-  /* 16:9 aspect ratio */
-  background-size: cover;
-  background-position: center;
-  background-color: var(--s2);
-  border-radius: 0;
-  overflow: hidden;
-}
-
-.vid-info {
-  padding: 12px 16px;
-}
-
-.vid-title {
-  margin: 0 0 6px;
-  font-size: 0.95rem;
-  line-height: 1.4;
-  color: var(--t);
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 600;
-}
-
-.vid-meta {
-  font-size: 0.8rem;
-  color: var(--t3);
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 500;
-}
-
-/* Channel sections */
-.by-channel-hdr {
-  margin-top: 30px;
-}
-
-.by-channel {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-/* Individual Creator Sections */
-.channel-section {
-  margin-bottom: 32px;
-}
-
-.creator-card-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.creator-card {
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-main-rgb), 0.96) 0%,
-    rgba(var(--panel-dark-rgb), 0.98) 100%
-  );
-  border: 1px solid var(--divider-strong);
-  border-radius: 0;
-  padding: 12px 24px;
-  text-decoration: none;
-  color: inherit;
-  transition: var(--tr);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
-  min-height: 50px;
-  min-width: 250px;
-  max-width: 350px;
-  width: 100%;
-}
-
-@media (hover: hover) {
-  .creator-card:hover {
-    background: linear-gradient(180deg, #4de8ff 0%, #00d9ff 100%);
-    border-color: rgba(0, 217, 255, 0.6);
-    box-shadow:
-      0 4px 16px rgba(0, 0, 0, 0.3),
-      0 0 24px rgba(0, 217, 255, 0.4);
-    transform: translateY(-2px);
-  }
-
-  .creator-card:hover .creator-name {
-    color: var(--ink);
-  }
-}
-
-.creator-card:active {
-  transform: scale(0.98);
-  border-color: rgba(var(--sw-rgb), 0.55);
-}
-
-.creator-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex: 1;
-}
-
-.creator-name {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--t2);
-  font-family: 'Oswald', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 1.2;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-}
-
-.creator-badge-icon {
-  font-size: 0.9rem;
-  color: rgba(0, 217, 255, 0.75);
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-}
-
-@media (hover: hover) {
-  .creator-card:hover .creator-badge-icon {
-    color: var(--ink);
-    transform: translateX(3px);
-  }
-}
-
-/* Force 3 columns for channel videos on larger screens */
-@media (min-width: 1024px) {
-  .channel-section .videos-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Slide-down expand transition */
-.expand-y-enter-from,
-.expand-y-leave-to {
-  max-height: 0;
-  opacity: 0;
-}
-
-.expand-y-enter-active,
-.expand-y-leave-active {
-  transition:
-    max-height 0.4s ease,
-    opacity 0.4s ease;
-}
-
-.expand-y-enter-to,
-.expand-y-leave-from {
-  max-height: 3000px;
-  opacity: 1;
-}
-
-/* Responsive breakpoints */
-@media (max-width: 768px) {
-  .videos-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 16px;
-  }
-
-  .creator-card {
-    padding: 10px 20px;
-    min-height: 45px;
-    min-width: 220px;
-    max-width: 300px;
-  }
-
-  .creator-name {
-    font-size: 0.9rem;
-  }
-
-  .channel-section {
-    margin-bottom: 28px;
-  }
-}
-
-@media (max-width: 480px) {
-  .videos-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .vid-hdr {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .by-channel {
-    gap: 16px;
-  }
-
-  .creator-card {
-    padding: 8px 16px;
-    min-height: 40px;
-    min-width: unset;
-    max-width: unset;
-    width: 100%;
-  }
-
-  .creator-name {
-    font-size: 0.85rem;
-  }
-
-  .creator-badge-icon {
-    font-size: 0.75rem;
-  }
-
-  .channel-section {
-    margin-bottom: 24px;
-  }
-
-  .creator-card-container {
-    margin-bottom: 16px;
-  }
-}
-
-/* Events Styles - New Clean Design */
-.events-container {
-  margin-top: 20px;
-}
-
-.events-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.event-card {
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-main-rgb), 0.96) 0%,
-    rgba(var(--panel-dark-rgb), 0.98) 100%
-  );
-  border: 1px solid var(--divider-strong);
-  border-radius: 0;
-  padding: 0;
-  text-decoration: none;
-  color: inherit;
-  transition: var(--tr);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
-}
-
-@media (hover: hover) {
-  .event-card:hover {
-    border-color: rgba(0, 217, 255, 0.75);
-    box-shadow: 0 0 30px rgba(0, 217, 255, 0.32);
-    transform: translateY(-2px);
-  }
-}
-
-.event-card:active {
-  transform: scale(0.98);
-  border-color: rgba(0, 217, 255, 0.55);
-}
-
-.event-image {
-  position: relative;
-  height: 220px;
-  background-size: cover;
-  background-position: center;
-  background-color: var(--s2);
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding: 12px;
-  border-bottom: 1px solid var(--divider-strong);
-}
-
-.event-image-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
-}
-
-.event-status {
-  position: relative;
-  z-index: 2;
-  padding: 6px 16px;
-  border-radius: 0;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-slate-rgb), 0.9) 0%,
-    rgba(var(--panel-slate-dark-rgb), 0.9) 100%
-  );
-  color: var(--t);
-  border: 1px solid rgba(0, 217, 255, 0.5);
-  text-transform: uppercase;
-  font-family: 'Oswald', sans-serif;
-}
-
-.event-status.live {
-  background: var(--brand-youtube);
-  color: #fff;
-  border-color: var(--brand-youtube-bright);
-  box-shadow: 0 0 20px rgba(var(--brand-youtube-rgb), 0.6);
-  animation: militaryPulse 2s ease-in-out infinite;
-}
-
-.event-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 16px;
-}
-
-.event-content.no-image {
-  gap: 12px;
-}
-
-.event-content.no-image .event-status {
-  align-self: flex-start;
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-slate-rgb), 0.9) 0%,
-    rgba(var(--panel-slate-dark-rgb), 0.9) 100%
-  );
-  color: var(--t);
-  border: 1px solid rgba(0, 217, 255, 0.5);
-}
-
-.event-content.no-image .event-status.live {
-  background: var(--brand-youtube);
-  color: #fff;
-  border-color: var(--brand-youtube-bright);
-}
-
-.event-title {
-  margin: 0;
-  font-size: 1.1rem;
-  line-height: 1.3;
-  color: var(--t);
-  font-family: 'Oswald', sans-serif;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.event-desc {
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  color: var(--t2);
-  flex: 1;
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 500;
-}
-
-.event-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--divider-soft);
-}
-
-.event-date {
-  font-size: 0.8rem;
-  color: var(--t3);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 500;
-}
-
-.event-link-icon {
-  color: rgba(0, 217, 255, 0.75);
-  font-size: 0.8rem;
-}
-
-.events-empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--t3);
-  border: 1px solid var(--divider-soft);
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-main-rgb), 0.85) 0%,
-    rgba(var(--panel-dark-rgb), 0.9) 100%
-  );
-}
-
-.events-empty i {
-  font-size: 2.5rem;
-  margin-bottom: 16px;
-  color: rgba(0, 217, 255, 0.7);
-  opacity: 0.85;
-}
-
-.events-empty p {
-  margin: 0;
-  font-size: 1rem;
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 500;
-}
-
-@media (max-width: 768px) {
-  .events-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .event-card {
-    padding: 14px;
-  }
-}
-
-/* Live Streams Military Styling */
-.live-streams-container .card {
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-main-rgb), 0.96) 0%,
-    rgba(var(--panel-dark-rgb), 0.98) 100%
-  );
-  border: 1px solid var(--divider-strong);
-  border-radius: 0;
-  overflow: hidden;
-  box-shadow: 0 12px 26px rgba(4, 9, 14, 0.5);
-  transition: var(--tr);
-}
-
-@media (hover: hover) {
-  .live-streams-container .card:hover {
-    border-color: rgba(0, 217, 255, 0.75);
-    box-shadow: 0 0 30px rgba(0, 217, 255, 0.28);
-    transform: translateY(-2px);
-  }
-}
-
-.live-streams-container .card > div:last-child {
-  border-top: 1px solid var(--divider-soft);
-  padding: 12px 16px;
-}
-
-.live-streams-container .card strong {
-  color: #00d9ff;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Military Animation */
-@keyframes militaryPulse {
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(var(--brand-youtube-rgb), 0.6);
-  }
-
-  50% {
-    box-shadow: 0 0 30px rgba(var(--brand-youtube-rgb), 0.9);
-  }
-}
-</style>
+<style scoped></style>

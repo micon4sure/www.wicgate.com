@@ -883,18 +883,21 @@
   .play-over {
     @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
     @apply w-[68px] h-12 bg-youtube/90 text-white rounded-[10px];
-    @apply flex items-center justify-center opacity-0 pointer-events-none;
-    @apply transition-opacity duration-300;
+    @apply flex items-center justify-center opacity-100;
+    @apply transition-all duration-300;
   }
 
   @media (hover: hover) {
-    .vid-card:hover .play-over {
-      @apply opacity-100;
+    .vid-card:hover .play-over,
+    .card:hover .play-over {
+      @apply bg-youtube;
+      box-shadow: 0 0 20px rgba(229, 57, 53, 0.6);
     }
   }
 
-  .vid-card:active .play-over {
-    @apply opacity-100 bg-youtube;
+  .vid-card:active .play-over,
+  .card:active .play-over {
+    @apply bg-youtube;
     box-shadow: 0 0 20px rgba(229, 57, 53, 0.6);
     animation: playBtnScale 0.2s ease-out;
   }

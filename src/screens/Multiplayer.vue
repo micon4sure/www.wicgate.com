@@ -42,29 +42,46 @@ const activeServerCount = computed(
 const { getCapacityColor } = useServerCapacity();
 const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
 </script>
+
 <template>
-  <section id="multiplayer" class="section">
-    <div class="container">
-      <div class="text-center mb-xl">
-        <h2>Multiplayer</h2>
-        <p class="section-lead">Live servers and player rankings</p>
+  <section id="multiplayer" class="section bg-gradient-to-b from-graphite/30 to-graphite-dark/50">
+    <div class="container max-w-7xl">
+      <!-- Header -->
+      <div class="text-center mb-20">
+        <h2
+          class="text-5xl md:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
+        >
+          Multiplayer
+        </h2>
+        <p class="text-lg md:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
+          Live servers and player rankings
+        </p>
       </div>
 
       <!-- Players & Servers Online Subsection -->
-      <div id="multiplayer-servers" class="subsection mb-xl">
-        <div class="subsection-header">
-          <h3>Players & Servers Online</h3>
-          <p class="subsection-lead">
+      <div id="multiplayer-servers" class="mb-20">
+        <!-- Subsection Header -->
+        <div class="text-center mb-8">
+          <h3
+            class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-2"
+          >
+            Players & Servers Online
+          </h3>
+          <p class="text-sm md:text-base text-t-secondary font-body m-0">
             {{ totalPlayers }} {{ totalPlayers === 1 ? 'player' : 'players' }} across
             {{ activeServerCount }} {{ activeServerCount === 1 ? 'server' : 'servers' }}
           </p>
         </div>
 
-        <div class="server-cards">
+        <!-- Server Cards Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-5">
           <!-- Loading state -->
-          <div v-if="showPlaceholder" class="server-card-skeleton">
-            <div class="skeleton-header"></div>
-            <div class="skeleton-content"></div>
+          <div
+            v-if="showPlaceholder"
+            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/20 rounded-none p-5 min-h-[150px]"
+          >
+            <div class="h-6 bg-graphite/30 mb-4 w-3/5"></div>
+            <div class="h-20 bg-graphite/20"></div>
           </div>
 
           <!-- Server cards -->
@@ -72,43 +89,81 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
             <div
               v-for="group in serverGroups"
               :key="group.serverId"
-              class="server-card"
-              :class="{ 'server-empty': group.players.length === 0 }"
+              class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-teal/70 rounded-none overflow-hidden"
+              :class="{ 'opacity-60': group.players.length === 0 }"
             >
-              <div class="server-card-header">
-                <div class="server-name-row">
-                  <div class="server-status">
-                    <span class="status-dot" :class="{ active: group.players.length > 0 }"></span>
-                    <span class="server-name" v-html="colorize(group.serverName)"></span>
+              <!-- Server Card Header -->
+              <div
+                class="p-4 md:p-5 bg-gradient-to-b from-graphite/25 to-graphite-dark/40 border-b border-teal/20"
+              >
+                <div class="flex items-center justify-between gap-3 flex-wrap">
+                  <div class="flex items-center gap-3 flex-1 min-w-0">
+                    <!-- Status Dot -->
+                    <span
+                      class="w-2 h-2 rounded-full flex-shrink-0"
+                      :class="
+                        group.players.length > 0
+                          ? 'bg-green shadow-[0_0_8px_rgba(52,211,153,0.6)] animate-pulse'
+                          : 'bg-graphite opacity-50'
+                      "
+                    ></span>
+                    <!-- Server Name -->
+                    <span
+                      class="font-military text-xl md:text-2xl font-bold text-t uppercase tracking-wide truncate"
+                      v-html="colorize(group.serverName)"
+                    ></span>
                   </div>
+                  <!-- Server Capacity -->
                   <div
-                    class="server-capacity"
+                    class="text-base md:text-lg font-military font-bold tracking-wide flex-shrink-0"
                     :style="{ color: getCapacityColor(group.players.length) }"
                   >
                     {{ group.players.length }}/16
                   </div>
                 </div>
               </div>
-              <div class="server-card-body">
-                <div v-if="group.players.length === 0" class="no-players">No players online</div>
-                <div v-else class="player-grid">
+
+              <!-- Server Card Body -->
+              <div class="p-4 md:p-5">
+                <!-- No Players -->
+                <div v-if="group.players.length === 0" class="text-center text-t3 text-sm py-3">
+                  No players online
+                </div>
+
+                <!-- Player Grid -->
+                <div
+                  v-else
+                  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2"
+                >
                   <div
                     v-for="player in group.players"
                     :key="(player.profileName || 'Unknown') + String(player.serverId)"
-                    class="player-item"
+                    class="flex items-center gap-2 px-3 py-2 bg-graphite/15 border border-graphite/25 rounded-none transition-all duration-200 hover:bg-teal/15 hover:border-teal/30"
                   >
-                    <span class="player-dot"></span
-                    ><span v-if="parseClanTag(player).clanTag" class="clan-tag">{{
-                      parseClanTag(player).clanTag
-                    }}</span
-                    ><span class="player-name">{{ parseClanTag(player).playerName }}</span>
+                    <!-- Player Dot -->
+                    <span
+                      class="w-1.5 h-1.5 rounded-full bg-green opacity-80 flex-shrink-0 animate-pulse"
+                    ></span>
+
+                    <!-- Clan Tag -->
+                    <span
+                      v-if="parseClanTag(player).clanTag"
+                      class="font-mono text-teal font-semibold text-xs"
+                    >
+                      {{ parseClanTag(player).clanTag }}
+                    </span>
+
+                    <!-- Player Name -->
+                    <span class="font-body text-t font-semibold text-base tracking-wide truncate">
+                      {{ parseClanTag(player).playerName }}
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Empty state when no servers -->
-            <div v-if="serverGroups.length === 0" class="no-servers">
+            <div v-if="serverGroups.length === 0" class="col-span-full text-center py-16 text-t3">
               <p>No servers available</p>
             </div>
           </template>
@@ -116,10 +171,17 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
       </div>
 
       <!-- Statistics Subsection -->
-      <div id="multiplayer-statistics" class="subsection">
-        <div class="subsection-header">
-          <h3>Statistics</h3>
-          <p class="subsection-lead">Rankings and leaderboards</p>
+      <div id="multiplayer-statistics">
+        <!-- Subsection Header -->
+        <div class="text-center mb-8">
+          <h3
+            class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-2"
+          >
+            Statistics
+          </h3>
+          <p class="text-sm md:text-base text-t-secondary font-body m-0">
+            Rankings and leaderboards
+          </p>
         </div>
 
         <!-- SSG/Loading: Render skeleton placeholder -->
@@ -131,375 +193,5 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
     </div>
   </section>
 </template>
-<style scoped>
-/* Subsection structure */
-.subsection {
-  margin-bottom: 60px;
-}
 
-.subsection:last-child {
-  margin-bottom: 0;
-}
-
-.subsection-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.subsection-header h3 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #00d9ff;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
-}
-
-.subsection-lead {
-  font-size: 14px;
-  color: var(--t2);
-  margin: 0;
-}
-
-/* Server cards grid */
-.server-cards {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
-/* Two-column layout on desktop */
-@media (min-width: 1024px) {
-  .server-cards {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-}
-
-.server-card {
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-main-rgb), 0.96) 0%,
-    rgba(var(--panel-dark-rgb), 0.98) 100%
-  );
-  border: 1px solid var(--divider-strong);
-  border-radius: 0;
-  overflow: hidden;
-}
-
-.server-card.server-empty {
-  opacity: 0.6;
-}
-
-.server-card-header {
-  padding: 16px 20px;
-  background: linear-gradient(
-    180deg,
-    rgba(var(--mg-rgb), 0.25) 0%,
-    rgba(var(--mg-dark-rgb), 0.4) 100%
-  );
-  border-bottom: 1px solid var(--divider-strong);
-}
-
-.server-name-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.server-status {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-  min-width: 0;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--t3);
-  flex-shrink: 0;
-  opacity: 0.5;
-}
-
-.status-dot.active {
-  background: var(--g);
-  opacity: 1;
-  box-shadow: 0 0 8px rgba(var(--g-rgb), 0.6);
-  animation: syncPulse 2s ease-in-out infinite;
-}
-
-.server-name {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--t);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.server-capacity {
-  font-size: 15px;
-  font-weight: 700;
-  font-family: 'Oswald', sans-serif;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
-}
-
-.server-card-body {
-  padding: 16px 20px;
-}
-
-.no-players {
-  text-align: center;
-  color: var(--t3);
-  font-size: 13px;
-  padding: 12px 0;
-}
-
-.player-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 8px;
-}
-
-/* Denser grid on larger screens */
-@media (min-width: 1440px) {
-  .player-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  }
-}
-
-.player-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  background: rgba(var(--mg-rgb), 0.15);
-  border: 1px solid rgba(var(--mg-rgb), 0.25);
-  border-radius: 0;
-  transition: all 0.2s;
-}
-
-@media (hover: hover) {
-  .player-item:hover {
-    background: rgba(var(--sw-rgb), 0.15);
-    border-color: rgba(var(--sw-rgb), 0.3);
-  }
-}
-
-.player-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--g);
-  flex-shrink: 0;
-  opacity: 0.8;
-  animation: syncPulse 2s ease-in-out infinite;
-  margin-right: 8px;
-}
-
-/* Clan tag styling (matches leaderboards) */
-.clan-tag {
-  font-family: 'Courier New', monospace;
-  color: #00d9ff;
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-transform: none;
-  letter-spacing: 0.3px;
-  display: inline;
-  vertical-align: middle;
-  line-height: 1.2;
-  margin: 0;
-  padding: 0;
-}
-
-/* Player name styling (matches leaderboards) */
-.player-name {
-  font-family: 'Rajdhani', sans-serif;
-  color: var(--t);
-  font-weight: 600;
-  font-size: 1.1rem;
-  letter-spacing: 0.3px;
-  display: inline;
-  vertical-align: middle;
-  line-height: 1.2;
-  margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.no-servers {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--t3);
-}
-
-.server-card-skeleton {
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-main-rgb), 0.96) 0%,
-    rgba(var(--panel-dark-rgb), 0.98) 100%
-  );
-  border: 1px solid var(--divider-strong);
-  padding: 20px;
-  min-height: 150px;
-}
-
-.skeleton-header {
-  height: 24px;
-  background: rgba(var(--mg-rgb), 0.3);
-  margin-bottom: 16px;
-  width: 60%;
-}
-
-.skeleton-content {
-  height: 80px;
-  background: rgba(var(--mg-rgb), 0.2);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .subsection {
-    margin-bottom: 40px;
-  }
-
-  .subsection-header {
-    margin-bottom: 24px;
-  }
-
-  .subsection-header h3 {
-    font-size: 20px;
-  }
-
-  .player-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 6px;
-  }
-
-  .player-item {
-    padding: 6px 10px;
-  }
-
-  .clan-tag {
-    font-size: 0.7rem;
-  }
-
-  .player-name {
-    font-size: 1rem;
-  }
-
-  .server-card-header {
-    padding: 12px 16px;
-  }
-
-  .server-card-body {
-    padding: 12px 16px;
-  }
-
-  .server-name {
-    font-size: 1.1rem;
-  }
-
-  .server-capacity {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .subsection-header h3 {
-    font-size: 18px;
-  }
-
-  .subsection-lead {
-    font-size: 13px;
-  }
-
-  .player-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .player-item {
-    padding: 5px 8px;
-  }
-
-  .clan-tag {
-    font-size: 0.65rem;
-  }
-
-  .player-name {
-    font-size: 0.95rem;
-  }
-
-  .server-name {
-    font-size: 1rem;
-  }
-
-  .server-name-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .server-status {
-    width: 100%;
-  }
-
-  .server-capacity {
-    align-self: flex-end;
-  }
-}
-
-/* Inherit deep styles from parent container */
-.container :deep(.grid-2) {
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-@media (max-width: 768px) {
-  .container :deep(.grid-2) {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
-  .container :deep(.lb-cont) {
-    margin-bottom: 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .container :deep(.lb-cont) {
-    font-size: 14px;
-  }
-
-  .container :deep(.lb-table) {
-    font-size: 12px;
-  }
-
-  .container :deep(.lb-table th) {
-    padding: 8px;
-    font-size: 11px;
-  }
-
-  .container :deep(.lb-table td) {
-    padding: 8px;
-    font-size: 12px;
-  }
-
-  .container :deep(.tabs) {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .container :deep(.tab-btn) {
-    font-size: 12px;
-    padding: 6px 12px;
-  }
-}
-</style>
+<style scoped></style>
