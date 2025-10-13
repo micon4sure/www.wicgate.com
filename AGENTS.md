@@ -10,7 +10,7 @@
 - **[CLAUDE.md](CLAUDE.md)** - User preferences and mandatory constraints
 - **[README.md](README.md)** - Project overview and setup
 - **[docs/architecture.md](docs/architecture.md)** - Technical architecture
-- **[docs/design-system.md](docs/design-system.md)** - CSS tokens and UI patterns
+- **[tailwind.config.ts](tailwind.config.ts)** - Design tokens (colors, shadows, animations)
 - **[docs/testing.md](docs/testing.md)** - Testing guide
 - **[docs/api.md](docs/api.md)** - API endpoints and data structures
 - **[docs/changelog.md](docs/changelog.md)** - Recent changes
@@ -61,7 +61,7 @@ npm run build        # Production build (SSG + PWA)
 ❌ `padding-top: 80px;` or `scroll-margin-top: 120px;`
 ✅ `padding-top: var(--header-height);` or `pt-[var(--header-height)]`
 
-Browser handles scrolling natively. See [docs/SCROLL_SYSTEM.md](docs/SCROLL_SYSTEM.md)
+Browser handles scrolling natively. See [docs/architecture.md#scroll--navigation-system](docs/architecture.md#scroll--navigation-system)
 
 ### 4. SSR Guards (MANDATORY)
 ❌ `document.querySelector()`

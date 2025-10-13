@@ -51,7 +51,7 @@ npm run build        # Production build (SSG + PWA)
 
 **When you make changes:**
 - Architecture → Update [docs/architecture.md](docs/architecture.md)
-- Design patterns → Update [docs/design-system.md](docs/design-system.md)
+- Design tokens → Update [tailwind.config.ts](tailwind.config.ts) or [tailwind.css](src/assets/styles/tailwind.css)
 - New features → Update [docs/changelog.md](docs/changelog.md)
 - API changes → Update [docs/api.md](docs/api.md)
 - Testing changes → Update [docs/testing.md](docs/testing.md)

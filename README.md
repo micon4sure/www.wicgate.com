@@ -106,7 +106,7 @@ Regular User:
 ### Core Documentation
 
 - **[Architecture Guide](docs/architecture.md)** - SSG/SSR, routing, navigation system, PWA, build process, deployment
-- **[Design System](docs/design-system.md)** - CSS tokens, patterns, hover effects, components, responsive design
+- **[Tailwind Config](tailwind.config.ts)** - Design tokens (colors, shadows, animations, breakpoints)
 - **[Testing Guide](docs/testing.md)** - Test commands, coverage thresholds, strategies, CI/CD integration
 - **[API Documentation](docs/api.md)** - Endpoints, data structures, error handling, integration patterns
 - **[Troubleshooting](docs/troubleshooting.md)** - Common issues, known bugs, SSR guards, solutions
@@ -184,15 +184,15 @@ See [.env.example](.env.example) for complete configuration options.
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes following the [design system](docs/design-system.md)
+3. Make your changes following [CLAUDE.md](CLAUDE.md) constraints
 4. Run tests and linting (`npm test && npm run lint`)
 5. Commit with descriptive messages
 6. Push to your fork and submit a pull request
 
 ### Guidelines
 
-- Follow established patterns in [docs/design-system.md](docs/design-system.md)
-- Use design tokens (no hardcoded hex values)
+- Follow Tailwind-first approach (see [CLAUDE.md](CLAUDE.md))
+- Use design tokens from [tailwind.config.ts](tailwind.config.ts) (no hardcoded hex values)
 - Maintain test coverage (50%+ threshold)
 - Document architectural changes in relevant docs
 - Work from feature branches; keep commits scoped

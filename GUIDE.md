@@ -15,7 +15,7 @@
 **Core Docs:**
 - [README.md](README.md) - Project overview, quick start
 - [docs/architecture.md](docs/architecture.md) - SSG/SSR, navigation, PWA, state
-- [docs/design-system.md](docs/design-system.md) - CSS tokens, patterns, hover effects
+- [tailwind.config.ts](tailwind.config.ts) - Design tokens (colors, shadows, animations)
 - [docs/testing.md](docs/testing.md) - Test commands, hybrid timing, coverage
 - [docs/api.md](docs/api.md) - API endpoints, data structures, integration
 - [docs/troubleshooting.md](docs/troubleshooting.md) - Common issues and solutions
@@ -35,7 +35,6 @@
 
 **All styling uses Tailwind utilities.** Design tokens defined in `tailwind.config.ts`, not CSS variables.
 
-📖 **Deep dive:** [docs/design-system.md - Tailwind](docs/design-system.md#design-philosophy)
 📍 **Location:** [tailwind.config.ts](tailwind.config.ts)
 
 ---
@@ -47,7 +46,7 @@
 
 **Browser handles scrolling natively.** CSS variable auto-synced by JavaScript.
 
-📖 **Deep dive:** [docs/SCROLL_SYSTEM.md](docs/SCROLL_SYSTEM.md)
+📖 **Deep dive:** [docs/architecture.md#scroll--navigation-system](docs/architecture.md#scroll--navigation-system)
 📍 **Location:** [src/utils/headerHeight.ts](src/utils/headerHeight.ts)
 
 ---
@@ -81,8 +80,6 @@
 - Inactive: `color: var(--t2)`
 - Hover: Orange gradient background + `color: var(--ink)` + scale transform
 
-📖 **Deep dive:** [docs/design-system.md - Interactive Elements](docs/design-system.md#interactive-element-standards)
-
 ---
 
 ### 6. Button Hierarchy
@@ -91,8 +88,6 @@
 - **Orange (`.btn-p`):** Standard primary actions
 - **Hyperlinks:** File downloads, external links
 
-📖 **Deep dive:** [docs/design-system.md - Button Hierarchy](docs/design-system.md#download-button-hierarchy)
-
 ---
 
 ### 7. Styling Organization *(Updated Oct 12, 2025)*
@@ -100,8 +95,6 @@
 - **Use Tailwind utility classes directly in templates** (95% of styling)
 - **Use `@layer components`** only for complex reusable patterns (e.g., `.widget`)
 - **No custom CSS** for simple style combinations
-
-📖 **Deep dive:** [docs/design-system.md - Tailwind Best Practices](docs/design-system.md#tailwind-best-practices)
 
 ---
 
@@ -179,13 +172,13 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 | ❌ Wrong | ✅ Correct | See |
 |----------|-----------|-----|
-| `color: #ff6600` | `class="text-soviet"` | [Tailwind](docs/design-system.md#design-philosophy) |
-| Custom CSS class | Tailwind utilities | [Tailwind Best Practices](docs/design-system.md#tailwind-best-practices) |
-| `padding-top: 80px` | `pt-[var(--header-height)]` | [Scroll System](docs/SCROLL_SYSTEM.md) |
-| `history.replaceState('#id')` | `router.push('/section')` | [Routes & SEO](docs/architecture.md#routes--seo) |
+| `color: #ff6600` | `class="text-soviet"` | [tailwind.config.ts](tailwind.config.ts) |
+| Custom CSS class | Tailwind utilities | [CLAUDE.md](CLAUDE.md) |
+| `padding-top: 80px` | `pt-[var(--header-height)]` | [Scroll System](docs/architecture.md#scroll--navigation-system) |
+| `history.replaceState('#id')` | `router.push('/section')` | [Routing System](docs/architecture.md#routing-system) |
 | `document.querySelector()` | `if (!import.meta.env.SSR) {...}` | [SSR Guards](docs/architecture.md#ssr-guards) |
 | `bun test` | `bun run test` | [Testing](docs/testing.md#package-manager-comparison) |
-| Red button for ZIP | Hyperlink for files | [Button Hierarchy](docs/design-system.md#download-button-hierarchy) |
+| Red button for ZIP | Hyperlink for files | [CLAUDE.md](CLAUDE.md) |
 
 ---
 
@@ -207,7 +200,7 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 **Build errors?** → [docs/troubleshooting.md](docs/troubleshooting.md)
 **Test failures?** → [docs/troubleshooting.md](docs/troubleshooting.md)
-**Styling issues?** → [docs/design-system.md](docs/design-system.md)
+**Styling issues?** → [tailwind.config.ts](tailwind.config.ts) or [tailwind.css](src/assets/styles/tailwind.css)
 **API issues?** → [docs/api.md](docs/api.md)
 **Architecture questions?** → [docs/architecture.md](docs/architecture.md)
 
