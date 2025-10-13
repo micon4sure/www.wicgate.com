@@ -75,7 +75,8 @@ export function groupPlayersByServer(
   const map = new Map<string, PlayerGroup>();
   for (const p of players) {
     const sid = String(p.serverId ?? '?');
-    const sname = nameMap[sid] || `Server ${sid}`;
+    // Server 0 means player is online but not on a server
+    const sname = nameMap[sid] || (sid === '0' ? 'Online' : `Server ${sid}`);
     if (!map.has(sid)) map.set(sid, { serverId: sid, serverName: sname, players: [] });
     map.get(sid)!.players.push(p);
   }

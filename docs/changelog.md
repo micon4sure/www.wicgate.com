@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🐛 **Server 0 Display Fix** - Players with serverId 0 (logged in but not on any server) now display as "Online" instead of "Server 0", added comprehensive tests and API documentation (Oct 13)
 - 🎨 **Widget Icon Brand Colors** - Fixed Discord and YouTube widget icons to display their official brand colors (#5865F2 and #e53935) by making iconClass conditional in WidgetBase.vue, removed excessive teal glow from Getting Started step badges (Oct 12)
 - 🎨 **MAJOR: Tailwind CSS Migration** - Complete rewrite from modular CSS to utility-first Tailwind approach, ~80% code reduction (8,154 deletions vs 1,569 additions), deleted 29 CSS module files, all design tokens moved to `tailwind.config.ts` (Oct 12)
 - ✨ **Homepage Enhancement: Glassmorphism & Video Background** - Added frosted glass widget effect (desktop only), 22MB video background with SSR guards, enhanced text readability with drop shadows, 3-slide onboarding wizard for first-time visitors (Oct 12)
@@ -68,6 +69,40 @@
 ---
 
 ## October 2025
+
+### 🐛 Server 0 Display Fix
+
+**Status:** Complete (October 13, 2025)
+
+**Problem Statement:**
+- Players with `serverId: 0` (logged in but not on any server) were displayed as "Server 0"
+- This was confusing to users since "Server 0" doesn't exist as an actual game server
+- The API uses `serverId: 0` to indicate a player is online in the lobby but not actively playing
+
+**Solution:**
+- Updated `groupPlayersByServer()` in both `usePlayerDisplay.ts` and `playerDisplay.ts`
+- Players with `serverId: 0` now display as "Online" instead of "Server 0"
+- Added comprehensive test suite (10 tests) covering all edge cases
+- Updated API documentation to clarify serverId behavior
+
+**Files Changed:**
+1. `src/composables/usePlayerDisplay.ts` - Main display logic
+2. `src/utils/playerDisplay.ts` - Legacy utility (kept in sync)
+3. `src/composables/usePlayerDisplay.test.ts` - New test file
+4. `docs/api.md` - Added serverId behavior documentation
+
+**Testing:**
+- ✅ 10 new tests passing
+- ✅ All 25 existing tests still passing
+- ✅ TypeScript type safety maintained
+- ✅ Coverage: `groupPlayersByServer()`, `colorize()`, `parseClanTag()`
+
+**Impact:**
+- Better UX: Clear indication of online vs. playing status
+- No breaking changes: Purely cosmetic improvement
+- Affects: Multiplayer page, LiveServersWidget, any component using `groupPlayersByServer()`
+
+---
 
 ### 🎨 Tailwind CSS Migration + Homepage Enhancement
 

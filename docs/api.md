@@ -346,6 +346,10 @@ interface OnlineProfile {
 }
 ```
 
+**Server ID Behavior:**
+- `serverId: 0` - Player is logged in but not on any server (displayed as "Online" in UI)
+- `serverId: 1+` - Player is actively playing on a specific server
+
 **Clan Tag Formatting:**
 - `profileName`: Full name with clan tag `[CLAN]PlayerName`
 - `shortName`: Extracted clan tag `CLAN`
