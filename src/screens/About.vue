@@ -20,7 +20,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
       <!-- Project Mission -->
       <div id="about-mission" class="mb-20">
         <div
-          class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/40 rounded-none p-8 md:p-12 text-center max-w-4xl mx-auto relative overflow-hidden"
+          class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/40 rounded-none p-8 md:p-12 text-center max-w-4xl mx-auto relative overflow-hidden"
         >
           <!-- Decorative gradient line -->
           <div
@@ -51,7 +51,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <!-- The Story Card -->
           <div
-            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8 relative"
+            class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8 relative"
           >
             <div class="flex items-center gap-4 mb-6">
               <div
@@ -72,7 +72,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
 
           <!-- Our Approach Card -->
           <div
-            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8 relative"
+            class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8 relative"
           >
             <div class="flex items-center gap-4 mb-6">
               <div
@@ -109,7 +109,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
           <div
             v-for="value in projectValues"
             :key="value.title"
-            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-t-4 border-t-massgate-orange/70 rounded-none p-8 text-center relative"
+            class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 border-t-4 border-t-massgate-orange/70 rounded-none p-8 text-center relative"
           >
             <div class="flex justify-center mb-6">
               <div
@@ -143,7 +143,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
           <div
             v-for="member in teamMembers"
             :key="member.name"
-            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8 text-center"
+            class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8 text-center"
           >
             <h4
               class="text-xl md:text-2xl font-military font-bold text-t uppercase tracking-wider mb-2"
@@ -163,7 +163,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
 
         <!-- Join CTA -->
         <div
-          class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/40 rounded-none p-6 md:p-8 text-center max-w-3xl mx-auto"
+          class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/40 rounded-none p-6 md:p-8 text-center max-w-3xl mx-auto"
         >
           <div class="flex justify-center mb-4">
             <div

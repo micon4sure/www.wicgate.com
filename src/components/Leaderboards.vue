@@ -49,7 +49,7 @@ const ladderData = computed(() => ({ ladder: props.data.ladder || [] }));
       third-label="Rating"
     />
     <div
-      class="bg-gradient-to-b from-graphite-light/96 to-graphite-dark/98 border border-graphite-dark rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-all duration-300"
+      class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-graphite-dark rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-all duration-300"
     >
       <div
         class="p-[15px_20px] bg-gradient-to-b from-massgate-red/95 to-massgate-red/78 border-b-[3px] border-b-massgate-red/85 relative"

@@ -93,7 +93,7 @@ onMounted(() => {
             <div
               v-for="item in cat.items"
               :key="item.q"
-              class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300"
+              class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300"
               :class="
                 openQuestion === item.q
                   ? 'border-teal/60 shadow-teal-subtle'
@@ -159,7 +159,7 @@ onMounted(() => {
 
       <!-- Help CTA -->
       <div
-        class="mt-16 bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/40 rounded-none p-6 md:p-8 text-center"
+        class="mt-16 bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/40 rounded-none p-6 md:p-8 text-center"
       >
         <div class="flex justify-center mb-4">
           <div

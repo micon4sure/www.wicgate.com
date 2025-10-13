@@ -53,7 +53,7 @@ const showManualInstall = ref(false);
 
             <!-- Step Card -->
             <div
-              class="flex-1 relative z-10 bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8"
+              class="flex-1 relative z-10 bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8"
             >
               <h4
                 class="font-military font-bold text-2xl md:text-3xl uppercase tracking-wide text-t mb-4 leading-tight"
@@ -106,7 +106,7 @@ const showManualInstall = ref(false);
         <div class="flex flex-col gap-6 max-w-5xl mx-auto">
           <!-- Dedicated Server Setup Card -->
           <div
-            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300 hover:border-teal/60 hover:shadow-teal-subtle"
+            class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300 hover:border-teal/60 hover:shadow-teal-subtle"
           >
             <!-- Card Header (Clickable) -->
             <button
@@ -221,7 +221,7 @@ const showManualInstall = ref(false);
 
           <!-- Manual Installation Card -->
           <div
-            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300 hover:border-teal/60 hover:shadow-teal-subtle"
+            class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300 hover:border-teal/60 hover:shadow-teal-subtle"
           >
             <!-- Card Header (Clickable) -->
             <button

@@ -78,7 +78,7 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
           <!-- Loading state -->
           <div
             v-if="showPlaceholder"
-            class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/20 rounded-none p-5 min-h-[150px]"
+            class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/20 rounded-none p-5 min-h-[150px]"
           >
             <div class="h-6 bg-graphite/30 mb-4 w-3/5"></div>
             <div class="h-20 bg-graphite/20"></div>
@@ -89,7 +89,7 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
             <div
               v-for="group in serverGroups"
               :key="group.serverId"
-              class="bg-gradient-to-br from-graphite-light/80 to-graphite-dark/90 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none overflow-hidden"
+              class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none overflow-hidden"
               :class="{ 'opacity-60': group.players.length === 0 }"
             >
               <!-- Server Card Header -->

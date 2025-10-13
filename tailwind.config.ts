@@ -37,12 +37,24 @@ export default {
           lighter: '#1e1e1e',      // Elevated elements
         },
 
-        // Steel/Graphite (PRIMARY CARD/PANEL COLOR - foundation for all cards)
+        // Steel/Graphite (structural steel tones)
         'mg': {
-          DEFAULT: '#1f2f3b',      // Base card/panel color
-          dark: '#101a22',         // Dark panels
-          muted: '#344654',        // Subtle borders
+          DEFAULT: '#1f2f3b',      // Base steel tone
+          dark: '#101a22',         // Deep steel
+          muted: '#344654',        // Mid steel accent
         },
+
+        // Panel Colors (AUTHENTIC MASTER BRANCH - military steel blue for cards)
+        'panel': {
+          DEFAULT: '#121e27',      // Panel main (authentic steel blue from master)
+          dark: '#090f14',         // Panel dark (very dark steel blue)
+          alt: '#1f313d',          // Alternating surface
+        },
+        'panel-striped': {
+          DEFAULT: '#182630',      // Authentic alternating row color from master
+          dark: '#0e181f',         // Darker alternating row
+        },
+
         'graphite': {
           DEFAULT: '#0f1215',      // Primary dark base
           dark: '#08090b',         // Darkest variant
