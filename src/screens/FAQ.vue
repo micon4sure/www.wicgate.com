@@ -163,9 +163,9 @@ onMounted(() => {
       >
         <div class="flex justify-center mb-4">
           <div
-            class="w-12 h-12 rounded-full bg-gradient-to-br from-teal/30 to-teal/10 border-2 border-teal flex items-center justify-center"
+            class="w-12 h-12 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center"
           >
-            <i class="fa-brands fa-discord text-teal text-xl" aria-hidden="true"></i>
+            <i class="fa-brands fa-discord text-ink text-xl" aria-hidden="true"></i>
           </div>
         </div>
         <h4

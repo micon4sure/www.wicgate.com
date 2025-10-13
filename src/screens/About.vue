@@ -31,10 +31,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
             <div
               class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-3 border-massgate-orange flex items-center justify-center"
             >
-              <i
-                class="fa-solid fa-bullseye text-ink text-3xl md:text-4xl"
-                aria-hidden="true"
-              ></i>
+              <i class="fa-solid fa-bullseye text-ink text-3xl md:text-4xl" aria-hidden="true"></i>
             </div>
           </div>
 
@@ -60,10 +57,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
               <div
                 class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center flex-shrink-0"
               >
-                <i
-                  class="fa-solid fa-book text-ink text-xl md:text-2xl"
-                  aria-hidden="true"
-                ></i>
+                <i class="fa-solid fa-book text-ink text-xl md:text-2xl" aria-hidden="true"></i>
               </div>
               <h3
                 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wide"
@@ -121,11 +115,7 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
               <div
                 class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-3 border-massgate-orange flex items-center justify-center"
               >
-                <i
-                  :class="value.icon"
-                  class="text-ink text-2xl md:text-3xl"
-                  aria-hidden="true"
-                ></i>
+                <i :class="value.icon" class="text-ink text-2xl md:text-3xl" aria-hidden="true"></i>
               </div>
             </div>
             <h4
@@ -177,9 +167,9 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
         >
           <div class="flex justify-center mb-4">
             <div
-              class="w-12 h-12 rounded-full bg-gradient-to-br from-teal/30 to-teal/10 border-2 border-teal flex items-center justify-center"
+              class="w-12 h-12 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center"
             >
-              <i class="fa-brands fa-discord text-teal text-xl" aria-hidden="true"></i>
+              <i class="fa-brands fa-discord text-ink text-xl" aria-hidden="true"></i>
             </div>
           </div>
           <p class="text-base md:text-lg text-t-secondary font-body leading-relaxed m-0">

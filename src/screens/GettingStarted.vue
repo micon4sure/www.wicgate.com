@@ -118,10 +118,7 @@ const showManualInstall = ref(false);
                 <div
                   class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:shadow-massgate-orange-glow"
                 >
-                  <i
-                    class="fa-solid fa-server text-ink text-xl md:text-2xl"
-                    aria-hidden="true"
-                  ></i>
+                  <i class="fa-solid fa-server text-ink text-xl md:text-2xl" aria-hidden="true"></i>
                 </div>
                 <div>
                   <h4
@@ -236,10 +233,7 @@ const showManualInstall = ref(false);
                 <div
                   class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:shadow-massgate-orange-glow"
                 >
-                  <i
-                    class="fa-solid fa-wrench text-ink text-xl md:text-2xl"
-                    aria-hidden="true"
-                  ></i>
+                  <i class="fa-solid fa-wrench text-ink text-xl md:text-2xl" aria-hidden="true"></i>
                 </div>
                 <div>
                   <h4
