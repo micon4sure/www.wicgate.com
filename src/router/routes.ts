@@ -1,5 +1,8 @@
 import type { RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
+import Login from '../views/Login.vue';
+import Admin from '../views/Admin.vue';
+import { useAuthStore } from '../stores/auth';
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -327,5 +330,53 @@ export const routes: RouteRecordRaw[] = [
         },
       },
     ],
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
+    meta: {
+      title: 'Login - WICGATE Admin',
+      description: 'Admin login for WICGATE multiplayer server management',
+      keywords: 'wicgate admin, wicgate login, world in conflict admin',
+    },
+    beforeEnter: (_to, _from, next) => {
+      // Redirect to admin if already logged in
+      const authStore = useAuthStore();
+      if (authStore.isAuthenticated) {
+        next({ name: 'admin' });
+      } else {
+        next();
+      }
+    },
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Admin,
+    meta: {
+      title: 'Admin Dashboard - WICGATE',
+      description: 'WICGATE admin dashboard for server management and analytics',
+      keywords: 'wicgate admin dashboard, server management',
+      requiresAuth: true,
+      requiresAdmin: true,
+    },
+    beforeEnter: (_to, _from, next) => {
+      const authStore = useAuthStore();
+
+      if (!authStore.isAuthenticated) {
+        // Not logged in, redirect to login with return URL
+        next({
+          name: 'login',
+          query: { redirect: '/admin' },
+        });
+      } else if (!authStore.isAdmin) {
+        // Logged in but not admin, redirect to home
+        next({ name: 'home' });
+      } else {
+        // Admin authenticated, proceed
+        next();
+      }
+    },
   },
 ];

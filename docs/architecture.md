@@ -1025,26 +1025,40 @@ Both scenarios covered by setting the flag in `handleNavNavigate()` which fires 
 
 ## State Management
 
-### Composable Module Architecture
+### Pinia Store Architecture (October 2025 Migration)
 
-**File:** [src/stores/appDataStore.ts](../src/stores/appDataStore.ts)
+**Migration Note:** WiCGATE migrated from composable modules to Pinia stores in October 2025 to support authentication, protected routes, and future multi-store scalability.
 
-WiCGATE uses a **composable module pattern** with Vue 3's Composition API instead of Pinia for state management. This approach provides reactive state with module-level refs and computed values, offering simplicity and direct SSR compatibility.
+**Files:**
+- [src/stores/appDataStore.ts](../src/stores/appDataStore.ts) - Game data (players, servers, leaderboards)
+- [src/stores/auth.ts](../src/stores/auth.ts) - Authentication and session management
+
+WiCGATE uses **Pinia** for centralized state management with Vue 3's Composition API pattern. Stores are defined using `defineStore` with setup function syntax for consistency with existing composables.
 
 #### Pattern Overview
 
 ```typescript
-// Module-level reactive state (shared across all component instances)
-const data = ref<Partial<DataResponse>>({});
-const loadingInternal = ref(false);
-const isInitialLoad = ref(true);
-const loading = computed(() => loadingInternal.value && isInitialLoad.value);
-const playerCount = computed(() => data.value.profiles?.length || 0);
+// Pinia store with setup function syntax
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
 
-// Export composable function
-export function useAppDataStore() {
+export const useAppDataStore = defineStore('appData', () => {
+  // State (reactive refs)
+  const data = ref<Partial<DataResponse>>({});
+  const loadingInternal = ref(false);
+  const isInitialLoad = ref(true);
+
+  // Getters (computed properties)
+  const loading = computed(() => loadingInternal.value && isInitialLoad.value);
+  const playerCount = computed(() => data.value.profiles?.length || 0);
+
+  // Actions (functions)
+  async function fetchData() { /* ... */ }
+  function init() { /* ... */ }
+  function stop() { /* ... */ }
+
   return { data, loading, playerCount, fetchData, init, stop };
-}
+});
 ```
 
 #### Key Features
@@ -1078,13 +1092,99 @@ async function fetchDataWithRetry(retryCount = 0): Promise<void> {
 }
 ```
 
-#### Why Composables Instead of Pinia?
+#### Why Pinia? (Migration Rationale)
 
-- **Simplicity:** Direct reactive refs without store boilerplate
-- **SSR-Safe:** No special SSR configuration needed
-- **Lightweight:** Zero additional dependencies
-- **Sufficient:** Single data store doesn't require Pinia's complexity
-- **Type-Safe:** Full TypeScript support with explicit returns
+**Original Architecture:** Composable modules with module-level refs
+**Migrated To:** Pinia stores (October 2025)
+
+**Migration Reasons:**
+- **Authentication:** Needed centralized auth state accessible in route guards
+- **Protected Routes:** Route guards require store access before component initialization
+- **Multi-Store Scalability:** Auth store + data store pattern for separation of concerns
+- **Devtools Integration:** Pinia devtools provide time-travel debugging and state inspection
+- **Industry Standard:** Pinia is Vue's official state management solution
+
+**Key Benefits:**
+- ✅ **SSR-Safe:** Pinia has first-class SSR support with automatic state hydration
+- ✅ **Type-Safe:** Full TypeScript support with automatic type inference
+- ✅ **Reactive:** Stores expose refs/computed directly (auto-unwrapped in templates)
+- ✅ **Modular:** Multiple stores for different concerns (data, auth, etc.)
+- ✅ **Zero Boilerplate:** Setup function syntax keeps composable-like simplicity
+
+**Reactivity Important Note:**
+When using Pinia stores in components, **do NOT destructure** - it breaks reactivity:
+
+```typescript
+// ❌ WRONG - Loses reactivity
+const { data, loading } = useAppDataStore();
+// `data` and `loading` are now static snapshots
+
+// ✅ CORRECT - Maintains reactivity
+const store = useAppDataStore();
+// Access via store.data, store.loading in template
+```
+
+**Alternative (if destructuring needed):**
+```typescript
+import { storeToRefs } from 'pinia';
+
+const store = useAppDataStore();
+const { data, loading } = storeToRefs(store); // ✅ Maintains reactivity
+```
+
+#### Authentication Store
+
+**File:** [src/stores/auth.ts](../src/stores/auth.ts)
+
+Manages user authentication and protected routes with:
+- **Mock JWT API:** Simulates backend authentication (admin/admin123, user/user123)
+- **Session Persistence:** Stores auth token in localStorage (key: `wicgate_auth_token`)
+- **Protected Routes:** Integration with Vue Router navigation guards
+- **SSR-Safe:** All localStorage access guarded with `typeof window !== 'undefined'`
+
+**Features:**
+- Login/logout with mock credentials
+- Session restoration from localStorage on page reload
+- Role-based access control (admin vs user)
+- Route guards for protected pages (`/admin`)
+- Automatic redirect to login for unauthenticated access
+
+**Usage Example:**
+```typescript
+// In component
+const authStore = useAuthStore();
+
+// Login
+await authStore.login({ username: 'admin', password: 'admin123' });
+
+// Check auth status
+if (authStore.isAuthenticated && authStore.isAdmin) {
+  // User is logged in as admin
+}
+
+// Logout
+authStore.logout();
+```
+
+**Route Guard Integration:**
+```typescript
+// src/router/routes.ts
+{
+  path: '/admin',
+  component: Admin,
+  beforeEnter: (_to, _from, next) => {
+    const authStore = useAuthStore();
+
+    if (!authStore.isAuthenticated) {
+      next({ name: 'login', query: { redirect: '/admin' } });
+    } else if (!authStore.isAdmin) {
+      next({ name: 'home' });
+    } else {
+      next();
+    }
+  },
+}
+```
 
 ## PWA Architecture
 

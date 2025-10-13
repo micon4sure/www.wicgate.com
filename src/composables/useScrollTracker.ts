@@ -31,7 +31,8 @@ export function useScrollTracker() {
         if (sortedEntries.length > 0) {
           const topSection = sortedEntries[0];
           // Special case: hero section should set currentSection to undefined (for Home highlighting)
-          currentSection.value = topSection.target.id === 'hero' ? undefined : topSection.target.id;
+          currentSection.value =
+            topSection?.target.id === 'hero' ? undefined : topSection?.target.id;
         }
       },
       {

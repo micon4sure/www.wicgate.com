@@ -9,6 +9,7 @@
  */
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import { setActivePinia, createPinia } from 'pinia';
 import { useAppDataStore } from './appDataStore';
 import type { DataResponse } from '../api-types';
 
@@ -48,6 +49,9 @@ describe('appDataStore', () => {
   let store: ReturnType<typeof useAppDataStore>;
 
   beforeEach(() => {
+    // Create fresh Pinia instance for each test
+    setActivePinia(createPinia());
+
     // Reset mocks
     vi.clearAllMocks();
     mockFetch.mockReset();
@@ -58,11 +62,11 @@ describe('appDataStore', () => {
     // Get fresh store instance
     store = useAppDataStore();
 
-    // Reset store state
-    store.data.value = {};
+    // Reset store state (Pinia stores expose refs directly, not .value)
+    store.data = {};
     // Note: loading is a computed ref (read-only), no need to reset
-    store.error.value = null;
-    store.lastFetchedAt.value = null;
+    store.error = null;
+    store.lastFetchedAt = null;
     store.stop(); // Clear any existing intervals
   });
 
@@ -78,7 +82,7 @@ describe('appDataStore', () => {
       await store.fetchData();
 
       expect(mockFetch).not.toHaveBeenCalled();
-      expect(store.loading.value).toBe(false);
+      expect(store.loading).toBe(false);
     });
 
     it('should not initialize during SSR', () => {
@@ -87,7 +91,7 @@ describe('appDataStore', () => {
       store.init();
 
       expect(mockFetch).not.toHaveBeenCalled();
-      expect(store.isInitialized.value).toBe(false);
+      expect(store.isInitialized).toBe(false);
     });
   });
 
@@ -104,10 +108,10 @@ describe('appDataStore', () => {
         expect.stringContaining('/api/data'),
         expect.objectContaining({ cache: 'no-store' })
       );
-      expect(store.data.value).toEqual(mockApiResponse);
-      expect(store.loading.value).toBe(false);
-      expect(store.error.value).toBeNull();
-      expect(store.lastFetchedAt.value).toBeGreaterThan(0);
+      expect(store.data).toEqual(mockApiResponse);
+      expect(store.loading).toBe(false);
+      expect(store.error).toBeNull();
+      expect(store.lastFetchedAt).toBeGreaterThan(0);
     });
 
     it('should handle fetch errors after retries', async () => {
@@ -163,8 +167,8 @@ describe('appDataStore', () => {
       await fetchPromise;
 
       // Error format changed with typed errors: "API Error (500): Internal Server Error"
-      expect(store.error.value).toContain('Internal Server Error');
-      expect(store.loading.value).toBe(false);
+      expect(store.error).toContain('Internal Server Error');
+      expect(store.loading).toBe(false);
       expect(mockFetch).toHaveBeenCalledTimes(4); // Initial + 3 retries
 
       if (!useRealTimers) {
@@ -196,8 +200,8 @@ describe('appDataStore', () => {
 
       await fetchPromise;
 
-      expect(store.error.value).toBe('Network failure');
-      expect(store.loading.value).toBe(false);
+      expect(store.error).toBe('Network failure');
+      expect(store.loading).toBe(false);
       expect(mockFetch).toHaveBeenCalledTimes(4); // Initial + 3 retries
 
       if (!useRealTimers) {
@@ -233,7 +237,7 @@ describe('appDataStore', () => {
     });
 
     it('should clear error on successful fetch', async () => {
-      store.error.value = 'Previous error';
+      store.error = 'Previous error';
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
@@ -242,29 +246,29 @@ describe('appDataStore', () => {
 
       await store.fetchData();
 
-      expect(store.error.value).toBeNull();
+      expect(store.error).toBeNull();
     });
   });
 
   describe('computed properties', () => {
     it('should calculate playerCount from profiles', () => {
-      store.data.value = mockApiResponse;
+      store.data = mockApiResponse;
 
-      expect(store.playerCount.value).toBe(2);
+      expect(store.playerCount).toBe(2);
     });
 
     it('should return 0 when no profiles', () => {
-      store.data.value = {};
+      store.data = {};
 
-      expect(store.playerCount.value).toBe(0);
+      expect(store.playerCount).toBe(0);
     });
 
     it('should correctly determine playersOnline', () => {
-      store.data.value = mockApiResponse;
-      expect(store.playersOnline.value).toBe(true);
+      store.data = mockApiResponse;
+      expect(store.playersOnline).toBe(true);
 
-      store.data.value = { profiles: [] };
-      expect(store.playersOnline.value).toBe(false);
+      store.data = { profiles: [] };
+      expect(store.playersOnline).toBe(false);
     });
   });
 
@@ -280,7 +284,7 @@ describe('appDataStore', () => {
       // Wait for async fetch
       await vi.waitFor(() => expect(mockFetch).toHaveBeenCalled());
 
-      expect(store.isInitialized.value).toBe(true);
+      expect(store.isInitialized).toBe(true);
     });
 
     it('should not initialize twice', async () => {
@@ -306,11 +310,11 @@ describe('appDataStore', () => {
       });
 
       store.init();
-      await vi.waitFor(() => expect(store.isInitialized.value).toBe(true));
+      await vi.waitFor(() => expect(store.isInitialized).toBe(true));
 
       store.stop();
 
-      expect(store.isInitialized.value).toBe(false);
+      expect(store.isInitialized).toBe(false);
     });
 
     it('should call fetchData on init', async () => {
@@ -325,7 +329,7 @@ describe('appDataStore', () => {
       await new Promise((resolve) => setTimeout(resolve, 10));
 
       expect(mockFetch).toHaveBeenCalled();
-      expect(store.isInitialized.value).toBe(true);
+      expect(store.isInitialized).toBe(true);
     });
   });
 

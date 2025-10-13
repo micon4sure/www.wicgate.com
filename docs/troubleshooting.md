@@ -485,6 +485,189 @@ npm run dev
 
 ---
 
+## Pinia Store Issues *(Oct 13, 2025)*
+
+### Store Data Not Reactive
+
+**Symptom:** UI doesn't update when store data changes.
+
+**Error:**
+```typescript
+// Component shows stale data, doesn't update on changes
+const { data, loading } = useAppDataStore();
+```
+
+**Cause:** Destructuring from Pinia stores breaks reactivity.
+
+**Solution:** Access store properties directly or use `storeToRefs()`:
+
+```typescript
+// ❌ WRONG - Loses reactivity
+import { useAppDataStore } from '@/stores/appDataStore';
+
+const { data, loading } = useAppDataStore(); // Static snapshot!
+
+// ✅ CORRECT Option 1 - Direct access
+const store = useAppDataStore();
+// Use store.data, store.loading in template
+
+// ✅ CORRECT Option 2 - storeToRefs()
+import { storeToRefs } from 'pinia';
+const { data, loading } = storeToRefs(store);
+// Now data and loading are reactive
+```
+
+**Why this happens:**
+- Destructuring creates static snapshots of current values
+- Vue's reactivity system can't track changes to destructured values
+- Store properties must be accessed via the store object to remain reactive
+
+**Template usage:**
+```vue
+<template>
+  <!-- ❌ WRONG - Won't update -->
+  <div v-if="loading">Loading...</div>
+  <div>{{ data.servers }}</div>
+
+  <!-- ✅ CORRECT - Reactive -->
+  <div v-if="store.loading">Loading...</div>
+  <div>{{ store.data.servers }}</div>
+</template>
+
+<script setup lang="ts">
+const store = useAppDataStore();
+// Don't destructure!
+</script>
+```
+
+**Reference:** [GUIDE.md - Pinia Reactivity](../GUIDE.md#state-management-pinia-stores-updated-oct-13-2025)
+
+---
+
+### Pinia Store Not Initialized in Tests
+
+**Error:**
+```
+getActivePinia was called with no active Pinia. Did you forget to install pinia?
+```
+
+**Cause:** Tests need a Pinia instance set up before using stores.
+
+**Solution:** Create fresh Pinia instance in test setup:
+
+```typescript
+import { setActivePinia, createPinia } from 'pinia';
+import { useAppDataStore } from './appDataStore';
+
+describe('appDataStore', () => {
+  beforeEach(() => {
+    // Create fresh Pinia instance for each test
+    setActivePinia(createPinia());
+  });
+
+  it('should initialize with default state', () => {
+    const store = useAppDataStore();
+
+    expect(store.data).toEqual({});
+    expect(store.loading).toBe(false);
+  });
+});
+```
+
+**For auth tests with localStorage:**
+```typescript
+beforeEach(() => {
+  setActivePinia(createPinia());
+
+  // Mock localStorage
+  global.localStorage = {
+    getItem: vi.fn(),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+    clear: vi.fn(),
+  } as any;
+});
+```
+
+**Reference:** [docs/testing.md - Authentication Store Tests](testing.md#authentication-store-test-suite-pinia)
+
+---
+
+### Auth Store Not Persisting Session
+
+**Symptom:** User gets logged out on page refresh.
+
+**Cause:** Session restoration not called on app initialization.
+
+**Solution:** Ensure `checkAuth()` is called in app entry point:
+
+```typescript
+// src/views/Home.vue or main.ts
+import { useAuthStore } from '@/stores/auth';
+
+onMounted(() => {
+  const authStore = useAuthStore();
+  authStore.checkAuth(); // Restores session from localStorage
+});
+```
+
+**Check localStorage:**
+```javascript
+// In browser console
+localStorage.getItem('wicgate_auth_token');
+// Should show: "mock_jwt_admin_1234567890" or similar
+```
+
+**Reference:** [docs/api.md - Authentication Integration](api.md#authentication-integration-authstore)
+
+---
+
+### Cannot Access Store in Route Guards
+
+**Error:**
+```
+Cannot call useAuthStore() before app is initialized
+```
+
+**Cause:** Pinia not installed before router is created.
+
+**Solution:** Ensure Pinia is added to app before router in `main.ts`:
+
+```typescript
+// ❌ WRONG - Router before Pinia
+app.use(router);
+app.use(pinia);
+
+// ✅ CORRECT - Pinia before router
+import { createPinia } from 'pinia';
+
+const pinia = createPinia();
+app.use(pinia);  // Must come first!
+app.use(router); // Router can now use stores in guards
+```
+
+**Route guard pattern:**
+```typescript
+// src/router/routes.ts
+import { useAuthStore } from '../stores/auth';
+
+{
+  path: '/admin',
+  beforeEnter: (_to, _from, next) => {
+    const authStore = useAuthStore(); // Works because Pinia is installed
+    if (!authStore.isAuthenticated) {
+      next({ name: 'login' });
+    } else {
+      next();
+    }
+  }
+}
+```
+
+**Reference:** [docs/architecture.md - State Management](architecture.md#state-management)
+
+---
+
 ## Runtime Errors
 
 ### "Cannot read property of undefined"
@@ -889,4 +1072,4 @@ If issue persists:
 
 ---
 
-*Last Updated: October 10, 2025 (Post-Refactoring)*
+*Last Updated: October 13, 2025 (Pinia Migration)*

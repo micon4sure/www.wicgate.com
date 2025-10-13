@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, toRef, onMounted, onUnmounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/auth';
 import { AnalyticsEvents } from '../utils/analytics';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_RESIZE } from '../constants';
@@ -8,9 +9,13 @@ import { NAVIGATION_STRUCTURE, getRoutePath } from '../types/navigation';
 import type { NavigationSection } from '../types/navigation';
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 const mobileOpen = ref(false);
 const openDropdown = ref<string | null>(null);
+
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+const isAdmin = computed(() => authStore.isAdmin);
 
 const props = defineProps<{
   activeSection?: string | undefined;
@@ -126,6 +131,12 @@ function handleNavigation(sectionId: string) {
   const event = new CustomEvent('exitGameMode');
   window.dispatchEvent(event);
 }
+
+function handleLogout() {
+  authStore.logout();
+  closeMobileMenu();
+  router.push('/');
+}
 </script>
 <template>
   <!-- Header content within container -->
@@ -202,20 +213,53 @@ function handleNavigation(sectionId: string) {
       </template>
     </nav>
 
-    <!-- Discord Social Button (Desktop) -->
-    <a
-      href="https://discord.gg/WnxwfMTyBe"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="flex items-center justify-center w-11 h-11 ml-auto mr-3 bg-discord/15 border border-discord/30 rounded-none text-discord transition-all duration-300 cursor-pointer no-underline hover:bg-discord hover:border-discord-dark hover:text-white hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(88,101,242,0.4),0_0_36px_rgba(88,101,242,0.3)] active:translate-y-0 active:shadow-[0_4px_16px_rgba(88,101,242,0.35),0_0_24px_rgba(88,101,242,0.25)] lg:flex hidden"
-      aria-label="Join Discord Server"
-    >
-      <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16" class="w-6 h-6">
-        <path
-          d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"
-        />
-      </svg>
-    </a>
+    <!-- Auth & Social Buttons (Desktop) -->
+    <div class="hidden lg:flex items-center gap-3 ml-auto">
+      <!-- Admin Link (if admin) -->
+      <router-link
+        v-if="isAdmin"
+        to="/admin"
+        class="flex items-center gap-2 px-4 py-2 bg-massgate-gold/15 border border-massgate-gold/40 text-massgate-gold font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-massgate-gold hover:border-massgate-gold-bright hover:text-ink hover:shadow-gold-glow hover:-translate-y-0.5 active:translate-y-0"
+      >
+        <i class="fa-solid fa-crown"></i>
+        Admin
+      </router-link>
+
+      <!-- Logout Button (if authenticated) -->
+      <button
+        v-if="isAuthenticated"
+        class="flex items-center gap-2 px-4 py-2 bg-massgate-red/15 border border-massgate-red/40 text-massgate-red-bright font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-massgate-red hover:border-massgate-red-bright hover:text-white hover:shadow-massgate-border hover:-translate-y-0.5 active:translate-y-0"
+        @click="handleLogout"
+      >
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+      </button>
+
+      <!-- Login Link (if not authenticated) -->
+      <router-link
+        v-if="!isAuthenticated"
+        to="/login"
+        class="flex items-center gap-2 px-4 py-2 bg-teal/15 border border-teal/40 text-teal font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-teal hover:border-teal-bright hover:text-ink hover:shadow-teal-border hover:-translate-y-0.5 active:translate-y-0"
+      >
+        <i class="fa-solid fa-right-to-bracket"></i>
+        Login
+      </router-link>
+
+      <!-- Discord Social Button -->
+      <a
+        href="https://discord.gg/WnxwfMTyBe"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center justify-center w-11 h-11 bg-discord/15 border border-discord/30 rounded-none text-discord transition-all duration-300 cursor-pointer no-underline hover:bg-discord hover:border-discord-dark hover:text-white hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(88,101,242,0.4),0_0_36px_rgba(88,101,242,0.3)] active:translate-y-0 active:shadow-[0_4px_16px_rgba(88,101,242,0.35),0_0_24px_rgba(88,101,242,0.25)]"
+        aria-label="Join Discord Server"
+      >
+        <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16" class="w-6 h-6">
+          <path
+            d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"
+          />
+        </svg>
+      </a>
+    </div>
 
     <!-- Enhanced hamburger menu button -->
     <button
@@ -318,6 +362,36 @@ function handleNavigation(sectionId: string) {
               </div>
             </div>
           </template>
+
+          <!-- Auth Links in Mobile Menu -->
+          <router-link
+            v-if="isAdmin"
+            to="/admin"
+            class="flex items-center gap-3 w-full py-5 px-8 min-h-[70px] text-massgate-gold no-underline font-military text-base font-semibold uppercase tracking-wider bg-gradient-to-r from-massgate-gold/15 to-massgate-gold/5 border-t border-b border-massgate-gold/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-massgate-gold hover:to-massgate-gold/30 hover:via-massgate-gold-dark hover:text-ink hover:pl-10 hover:border-massgate-gold-bright"
+            @click="closeMobileMenu"
+          >
+            <i class="fa-solid fa-crown w-5 h-5 flex-shrink-0"></i>
+            Admin Dashboard
+          </router-link>
+
+          <button
+            v-if="isAuthenticated"
+            class="flex items-center gap-3 w-full py-5 px-8 min-h-[70px] text-massgate-red-bright no-underline font-military text-base font-semibold uppercase tracking-wider bg-gradient-to-r from-massgate-red/15 to-massgate-red/5 border-t border-b border-massgate-red/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-massgate-red hover:to-massgate-red/30 hover:via-massgate-red-dark hover:text-white hover:pl-10 hover:border-massgate-red-bright text-left"
+            @click="handleLogout"
+          >
+            <i class="fa-solid fa-right-from-bracket w-5 h-5 flex-shrink-0"></i>
+            Logout
+          </button>
+
+          <router-link
+            v-if="!isAuthenticated"
+            to="/login"
+            class="flex items-center gap-3 w-full py-5 px-8 min-h-[70px] text-teal no-underline font-military text-base font-semibold uppercase tracking-wider bg-gradient-to-r from-teal/15 to-teal/5 border-t border-b border-teal/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-teal hover:to-teal/30 hover:via-teal-dark hover:text-ink hover:pl-10 hover:border-teal-bright"
+            @click="closeMobileMenu"
+          >
+            <i class="fa-solid fa-right-to-bracket w-5 h-5 flex-shrink-0"></i>
+            Login
+          </router-link>
 
           <!-- Discord Link in Mobile Menu -->
           <a

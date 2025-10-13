@@ -8,12 +8,13 @@ WiCGATE uses a comprehensive testing infrastructure with **Vitest** and **Vue Te
 
 ## Test Suite Statistics
 
-- **Total Tests:** 26 comprehensive tests
+- **Total Tests:** 44 comprehensive tests
 - **Coverage:** 50%+ (enforced thresholds)
 - **Execution Time:** ~0.7s (fast mode) / ~14s (thorough mode)
-- **Test Files:** 2 primary test suites
-  - `scroll.test.ts` - 11 tests covering navigation utilities
-  - `appDataStore.test.ts` - 15 tests covering state management
+- **Test Files:** 3 primary test suites
+  - `usePlayerDisplay.test.ts` - 10 tests covering player display utilities
+  - `appDataStore.test.ts` - 15 tests covering API data store (Pinia)
+  - `auth.test.ts` - 19 tests covering authentication store (Pinia)
 
 ## Test Frameworks & Tools
 
@@ -276,7 +277,7 @@ describe('getNavHeight', () => {
 });
 ```
 
-### Data Store Test Suite
+### Data Store Test Suite (Pinia)
 
 **File:** [src/stores/appDataStore.test.ts](../src/stores/appDataStore.test.ts)
 
@@ -293,7 +294,14 @@ describe('getNavHeight', () => {
 **Key Test Patterns:**
 
 ```typescript
-describe('API retry logic', () => {
+import { setActivePinia, createPinia } from 'pinia';
+
+describe('appDataStore', () => {
+  beforeEach(() => {
+    // Create fresh Pinia instance for each test
+    setActivePinia(createPinia());
+  });
+
   it('should retry failed requests with exponential backoff', async () => {
     global.fetch = vi.fn()
       .mockRejectedValueOnce(new Error('Network error')) // Attempt 1
@@ -302,13 +310,112 @@ describe('API retry logic', () => {
       .mockResolvedValueOnce({ ok: true, json: async () => mockData }); // Success
 
     const store = useAppDataStore();
-    await store.fetchPlayerData();
+    await store.fetchData();
 
     expect(global.fetch).toHaveBeenCalledTimes(4);
-    expect(store.playerData).toEqual(mockData);
+    expect(store.data).toEqual(mockData);
   });
 });
 ```
+
+**Important:** Pinia stores expose refs directly (no `.value` needed in tests)
+
+---
+
+### Authentication Store Test Suite (Pinia)
+
+**File:** [src/stores/auth.test.ts](../src/stores/auth.test.ts)
+
+**Tests:** 19 comprehensive tests
+
+**Coverage Areas:**
+- Initial state verification
+- Login with admin and user credentials
+- Login failure handling (invalid credentials)
+- Logout functionality
+- Session restoration from localStorage
+- Invalid/expired token handling
+- SSR guards for auth operations
+- Computed properties (isAuthenticated, isAdmin, userName)
+- Session persistence across "page reloads"
+
+**Key Test Patterns:**
+
+```typescript
+import { setActivePinia, createPinia } from 'pinia';
+import { useAuthStore } from './auth';
+
+describe('auth store', () => {
+  let authStore: ReturnType<typeof useAuthStore>;
+
+  beforeEach(() => {
+    setActivePinia(createPinia());
+    authStore = useAuthStore();
+
+    // Mock localStorage
+    global.localStorage = {
+      getItem: vi.fn(),
+      setItem: vi.fn(),
+      removeItem: vi.fn(),
+      clear: vi.fn(),
+    } as any;
+
+    // Use fake timers for mock API delays
+    if (!process.env.TEST_REAL_TIMERS) {
+      vi.useFakeTimers();
+    }
+  });
+
+  it('should login successfully with admin credentials', async () => {
+    const loginPromise = authStore.login({
+      username: 'admin',
+      password: 'admin123'
+    });
+
+    // Fast-forward mock delay
+    if (!process.env.TEST_REAL_TIMERS) {
+      await vi.advanceTimersByTimeAsync(500);
+    }
+
+    await loginPromise;
+
+    expect(authStore.currentUser).toEqual({
+      username: 'admin',
+      role: 'admin'
+    });
+    expect(authStore.isAuthenticated).toBe(true);
+    expect(authStore.isAdmin).toBe(true);
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      'wicgate_auth_token',
+      expect.stringContaining('mock_jwt_admin')
+    );
+  });
+
+  it('should persist session across page reloads', async () => {
+    // Login first
+    await authStore.login({ username: 'admin', password: 'admin123' });
+    const token = authStore.authToken;
+
+    // Simulate page reload with fresh Pinia instance
+    setActivePinia(createPinia());
+    const newStore = useAuthStore();
+
+    // Mock localStorage returning the token
+    (localStorage.getItem as any).mockReturnValue(token);
+
+    // Restore session
+    await newStore.checkAuth();
+
+    expect(newStore.isAuthenticated).toBe(true);
+    expect(newStore.currentUser?.username).toBe('admin');
+  });
+});
+```
+
+**Testing Mock JWT:**
+- Mock token format: `mock_jwt_{username}_{timestamp}`
+- Mock delays: 500ms for login, 200ms for token validation
+- Mock localStorage for session persistence testing
 
 ## SSR-Safe Test Mocks
 

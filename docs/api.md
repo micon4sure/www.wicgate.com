@@ -2,11 +2,13 @@
 
 ## Overview
 
-The WiCGATE API provides real-time access to World in Conflict multiplayer statistics, including server status, online players, leaderboards, and community events. The API is public, read-only, and requires no authentication.
+The WiCGATE API provides real-time access to World in Conflict multiplayer statistics, including server status, online players, leaderboards, and community events. The API is public and read-only, with optional authentication for admin features.
 
 **Base URL:** `https://www.wicgate.com/api`
 
 ## Quick Reference
+
+### Public Endpoints
 
 | Endpoint | Purpose | Update Frequency |
 |----------|---------|------------------|
@@ -15,6 +17,13 @@ The WiCGATE API provides real-time access to World in Conflict multiplayer stati
 | `GET /api/leaderboard/all` | All 10 leaderboard variants | Real-time |
 | `GET /api/leaderboard/ladder` | Player ladder rankings | Real-time |
 | `GET /api/events` | Discord community events | Real-time |
+
+### Authentication Endpoints (Mock)
+
+| Endpoint | Method | Purpose | Auth Required |
+|----------|--------|---------|---------------|
+| `/api/auth/login` | POST | Login with username/password | No |
+| `/api/auth/me` | GET | Verify token and get current user | Yes (token) |
 
 ## Configuration
 
@@ -42,7 +51,49 @@ import type { DataResponse, OnlineProfile, LeaderboardEntry } from '@/api-types'
 
 ## Authentication
 
-**None required.** The API is publicly accessible and read-only.
+### Public Endpoints
+
+**None required.** Public endpoints (`/api/data`, `/api/online`, `/api/leaderboard/*`, `/api/events`) are publicly accessible and read-only.
+
+### Admin Endpoints (Mock Implementation)
+
+Admin features use a **mock authentication system** for demonstration purposes. This simulates a JWT-based authentication flow but does not connect to a real backend.
+
+**Mock Credentials:**
+```
+Admin User:
+  Username: admin
+  Password: admin123
+
+Regular User:
+  Username: user
+  Password: user123
+```
+
+**Token Storage:**
+- Tokens are stored in `localStorage` with key: `wicgate_auth_token`
+- Token format: `mock_jwt_{username}_{timestamp}`
+- Session persists across page reloads until logout
+
+**Usage:**
+```typescript
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
+
+// Login
+await authStore.login({ username: 'admin', password: 'admin123' });
+
+// Check if authenticated
+if (authStore.isAuthenticated) {
+  console.log('User:', authStore.currentUser);
+}
+
+// Logout
+authStore.logout();
+```
+
+⚠️ **Note:** This is a mock implementation for development and demonstration. Production deployment requires integration with a real authentication backend.
 
 ## Rate Limiting
 
@@ -316,6 +367,128 @@ const { events, loading, error } = useEvents();
 
 ---
 
+## Authentication Endpoints (Mock)
+
+### POST /api/auth/login
+
+**Purpose:** Authenticate user and receive JWT token.
+
+**⚠️ Mock Implementation:** This endpoint is simulated client-side in [src/stores/auth.ts](../src/stores/auth.ts). No actual HTTP request is made.
+
+**Request Body:**
+```typescript
+{
+  username: string;  // "admin" or "user"
+  password: string;  // "admin123" or "user123"
+}
+```
+
+**Success Response (200):**
+```typescript
+{
+  user: {
+    username: string;      // "admin" or "user"
+    role: "admin" | "user" // User role
+  },
+  token: string;  // Mock JWT: "mock_jwt_{username}_{timestamp}"
+}
+```
+
+**Error Response (401):**
+```typescript
+{
+  message: "Invalid username or password",
+  code: "INVALID_CREDENTIALS"
+}
+```
+
+**Example Usage:**
+```typescript
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
+
+try {
+  await authStore.login({
+    username: 'admin',
+    password: 'admin123'
+  });
+
+  console.log('Logged in:', authStore.currentUser);
+  console.log('Token:', authStore.authToken);
+} catch (error) {
+  console.error('Login failed:', error.message);
+}
+```
+
+**Mock Delay:** 500ms (simulates network latency)
+
+---
+
+### GET /api/auth/me
+
+**Purpose:** Verify token validity and retrieve current user information.
+
+**⚠️ Mock Implementation:** This endpoint is simulated client-side in [src/stores/auth.ts](../src/stores/auth.ts). No actual HTTP request is made.
+
+**Request Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Success Response (200):**
+```typescript
+{
+  user: {
+    username: string;      // "admin" or "user"
+    role: "admin" | "user" // User role
+  }
+}
+```
+
+**Error Responses:**
+
+**401 - Invalid Token:**
+```typescript
+{
+  message: "Invalid or expired token",
+  code: "INVALID_TOKEN"
+}
+```
+
+**404 - User Not Found:**
+```typescript
+{
+  message: "User not found",
+  code: "USER_NOT_FOUND"
+}
+```
+
+**Example Usage:**
+```typescript
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
+
+// Automatically called on app initialization
+await authStore.checkAuth();
+
+if (authStore.isAuthenticated) {
+  console.log('Session restored:', authStore.currentUser);
+} else {
+  console.log('No valid session');
+}
+```
+
+**Mock Delay:** 200ms (simulates network latency)
+
+**Token Validation:**
+- Extracts username from token format: `mock_jwt_{username}_{timestamp}`
+- Verifies username exists in mock user database
+- Returns user object if valid
+
+---
+
 ## Data Structures
 
 ### ServerEntry
@@ -416,6 +589,47 @@ interface DiscordEvent {
 
 ---
 
+### User (Authentication)
+
+User account information returned from authentication endpoints.
+
+```typescript
+interface User {
+  username: string;           // User's login name
+  role: 'admin' | 'user';     // User role for authorization
+}
+```
+
+**Roles:**
+- `admin` - Full access to admin dashboard and protected routes
+- `user` - Basic authenticated user (no admin access)
+
+**Related Types:**
+
+```typescript
+// Login request payload
+interface LoginCredentials {
+  username: string;
+  password: string;
+}
+
+// Login success response
+interface LoginResponse {
+  user: User;
+  token: string;  // JWT token for authentication
+}
+
+// Authentication error
+interface AuthError {
+  message: string;    // Human-readable error message
+  code?: string;      // Error code (e.g., "INVALID_CREDENTIALS")
+}
+```
+
+**File Reference:** [src/types/auth.ts](../src/types/auth.ts)
+
+---
+
 ## Client Integration
 
 ### Primary Data Fetching (appDataStore)
@@ -483,6 +697,73 @@ const { events, loading, error, upcomingEvents, ongoingEvents } = useEvents();
 **File:** [src/composables/useYoutube.ts](../src/composables/useYoutube.ts)
 
 Note: Does NOT use WiCGATE API - fetches from YouTube Atom feeds directly.
+
+---
+
+### Authentication Integration (authStore)
+
+**File:** [src/stores/auth.ts](../src/stores/auth.ts)
+
+The authentication store handles login, logout, and session management with mock JWT:
+
+```typescript
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
+
+// Login
+try {
+  await authStore.login({
+    username: 'admin',
+    password: 'admin123'
+  });
+} catch (error) {
+  console.error('Login failed:', error);
+}
+
+// Check authentication state
+console.log('Authenticated:', authStore.isAuthenticated); // boolean
+console.log('Is Admin:', authStore.isAdmin);             // boolean
+console.log('Username:', authStore.userName);            // string | undefined
+console.log('User:', authStore.currentUser);             // User | null
+console.log('Token:', authStore.authToken);              // string | null
+
+// Restore session (called automatically on app init)
+await authStore.checkAuth();
+
+// Logout
+authStore.logout();
+```
+
+**Features:**
+- Mock JWT authentication (client-side only)
+- localStorage persistence (`wicgate_auth_token` key)
+- Session restoration across page reloads
+- SSR-safe (no operations during build)
+- Route guard integration via `beforeEnter` hooks
+
+**Route Protection Example:**
+```typescript
+// From src/router/routes.ts
+{
+  path: '/admin',
+  name: 'admin',
+  component: Admin,
+  beforeEnter: (_to, _from, next) => {
+    const authStore = useAuthStore();
+    if (!authStore.isAuthenticated) {
+      next({ name: 'login', query: { redirect: '/admin' } });
+    } else if (!authStore.isAdmin) {
+      next({ name: 'home' });
+    } else {
+      next();
+    }
+  }
+}
+```
+
+**Testing:**
+See [src/stores/auth.test.ts](../src/stores/auth.test.ts) for complete test suite (18 test cases).
 
 ---
 
@@ -675,4 +956,4 @@ See [src/stores/appDataStore.test.ts](../src/stores/appDataStore.test.ts) for co
 
 ---
 
-*Last Updated: October 2, 2025*
+*Last Updated: October 13, 2025*

@@ -13,7 +13,6 @@ import { getRoutePath } from '../types/navigation';
 
 const router = useRouter();
 const store = useAppDataStore();
-const { playerCount, loading: storeLoading, data } = store;
 
 const { events } = useEvents();
 const { videosSorted } = useYoutube();
@@ -130,9 +129,9 @@ function goToSection(sectionOrSubsectionId: string) {
         <QuickStartWidget @navigate="goToSection" />
 
         <LiveServersWidget
-          :data="data"
-          :player-count="playerCount"
-          :loading="storeLoading"
+          :data="store.data"
+          :player-count="store.playerCount"
+          :loading="store.loading"
           :is-s-s-r="isSSR"
           @navigate="goToSection"
         />
@@ -140,8 +139,8 @@ function goToSection(sectionOrSubsectionId: string) {
         <CommunityWidget :events="events" @navigate="goToSection" />
 
         <TopPlayersWidget
-          :ladder="data.ladder || []"
-          :loading="storeLoading"
+          :ladder="store.data.ladder || []"
+          :loading="store.loading"
           :is-s-s-r="isSSR"
           @navigate="goToSection"
         />

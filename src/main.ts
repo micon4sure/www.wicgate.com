@@ -2,6 +2,7 @@
 
 import { ViteSSG } from 'vite-ssg';
 import { createHead } from '@vueuse/head';
+import { createPinia } from 'pinia';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './assets/styles/tailwind.css';
 import App from './App.vue';
@@ -68,7 +69,7 @@ export const createApp = ViteSSG(
 
       // 2. Section or subsection route - scroll to element with manual offset
       const targetId = to.meta.subsection || to.meta.section;
-      if (targetId) {
+      if (targetId && typeof targetId === 'string') {
         return new Promise((resolve) => {
           // Detect direct navigation (page reload/bookmark) vs SPA navigation
           const isDirectNavigation = !from.name;
@@ -80,7 +81,7 @@ export const createApp = ViteSSG(
           const delay = isDirectNavigation ? 600 : 100; // Longer delay for content stability on reload
 
           setTimeout(() => {
-            const element = document.getElementById(targetId);
+            const element = document.getElementById(targetId as string);
             if (!element) {
               resolve({ top: 0 });
               return;
@@ -109,6 +110,10 @@ export const createApp = ViteSSG(
     },
   },
   ({ app }) => {
+    // Setup Pinia state management (must be before router for guards to work)
+    const pinia = createPinia();
+    app.use(pinia);
+
     // Setup head management
     const head = createHead();
     app.use(head);

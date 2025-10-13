@@ -26,7 +26,7 @@ npm run build        # Production build (SSG + PWA)
 2. ✅ Design tokens live in `tailwind.config.ts` (colors, spacing, fonts)
 3. ❌ NEVER use hardcoded scroll offsets → ✅ ALWAYS use `pt-[var(--header-height)]`
 4. ❌ NEVER use browser APIs without SSR guards
-5. ❌ NEVER use Pinia (this project uses composable modules)
+5. ✅ ALWAYS use Pinia for state management (stores in `src/stores/`)
 6. ❌ NEVER commit CRLF line endings (LF only)
 7. ❌ NEVER use `bun test` → ✅ ALWAYS use `bun run test`
 8. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
@@ -68,6 +68,6 @@ npm run build        # Production build (SSG + PWA)
 
 ---
 
-**Stack:** Vue 3 + TypeScript, Vite, ViteSSG, Tailwind CSS, Composable Modules, Vitest
+**Stack:** Vue 3 + TypeScript, Vite, ViteSSG, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** October 12, 2025
+**Updated:** October 13, 2025

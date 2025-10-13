@@ -126,16 +126,36 @@
 
 ## Critical Gotchas
 
-### State Management: Composables NOT Pinia
+### State Management: Pinia Stores *(Updated Oct 13, 2025)*
 
-⚠️ **This project uses COMPOSABLES, not Pinia**
+⚠️ **This project uses PINIA for state management**
 
 ```typescript
-// ✅ CORRECT - What this project uses
-const data = ref<DataResponse>({});
-export function useAppDataStore() {
+// ✅ CORRECT - Pinia store pattern
+import { defineStore } from 'pinia';
+
+export const useAppDataStore = defineStore('appData', () => {
+  const data = ref<DataResponse>({});
+  const loading = ref(false);
+
+  async function fetchData() { /* ... */ }
+
   return { data, loading, fetchData };
-}
+});
+```
+
+**Critical Reactivity Warning:**
+```typescript
+// ❌ WRONG - Loses reactivity
+const { data, loading } = useAppDataStore();
+
+// ✅ CORRECT - Maintains reactivity
+const store = useAppDataStore();
+// Access via store.data, store.loading
+
+// ✅ Alternative with storeToRefs()
+import { storeToRefs } from 'pinia';
+const { data, loading } = storeToRefs(store);
 ```
 
 📖 **Why?** [docs/architecture.md - State Management](docs/architecture.md#state-management)
@@ -177,7 +197,8 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 | [src/assets/styles/tailwind.css](src/assets/styles/tailwind.css) | Tailwind imports + custom components |
 | [src/utils/headerHeight.ts](src/utils/headerHeight.ts) | Header height sync for native scroll |
 | [src/views/Home.vue](src/views/Home.vue) | SSG conditional rendering |
-| [src/stores/appDataStore.ts](src/stores/appDataStore.ts) | API data fetching (composable pattern) |
+| [src/stores/appDataStore.ts](src/stores/appDataStore.ts) | API data fetching (Pinia store) |
+| [src/stores/auth.ts](src/stores/auth.ts) | Authentication (mock JWT, Pinia store) |
 | [vite.config.ts](vite.config.ts) | SSG + PWA config |
 
 ---
@@ -192,4 +213,4 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 ---
 
-*Last Updated: October 12, 2025 (Tailwind CSS Migration)*
+*Last Updated: October 13, 2025 (Pinia Migration + Authentication)*

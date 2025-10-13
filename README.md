@@ -14,11 +14,12 @@ WiCGATE delivers a Massgate-inspired experience for the World in Conflict reviva
 
 - **Framework:** Vue 3 + TypeScript (Composition API)
 - **Build System:** Vite with ViteSSG for Static Site Generation
-- **State Management:** Composable modules with reactive refs
-- **Routing:** Vue Router (path-based, 27 pre-rendered routes)
-- **Styling:** Modular CSS with design tokens
+- **State Management:** Pinia stores with SSR support
+- **Routing:** Vue Router (path-based, 29 pre-rendered routes)
+- **Styling:** Tailwind CSS utility-first with design tokens
+- **Authentication:** Mock JWT with localStorage persistence
 - **PWA:** Service worker with offline capability
-- **Testing:** Vitest + Vue Test Utils (26 tests, 50%+ coverage)
+- **Testing:** Vitest + Vue Test Utils (43 tests, 50%+ coverage)
 - **Analytics:** Custom type-safe event tracking
 - **CI/CD:** GitHub Actions + GitHub Pages
 
@@ -54,7 +55,7 @@ bun run test  # ~0.57s (22% faster than npm)
 ## Available Commands
 
 ```bash
-npm run dev              # Development server
+npm run dev              # Development server (http://localhost:5173)
 npm run build            # Production build (SSG + PWA + icons + sitemap)
 npm run build:icons      # Generate PWA icons from favicon.svg
 npm run preview          # Preview production build
@@ -66,6 +67,39 @@ npm run test:coverage    # Coverage report (50%+ threshold)
 npm run lint             # ESLint + Prettier
 npm run lint:fix         # Auto-fix linting issues
 ```
+
+## Authentication
+
+The portal includes an admin authentication system for server management and analytics.
+
+### Mock Credentials (Development)
+
+```
+Admin User:
+  Username: admin
+  Password: admin123
+
+Regular User:
+  Username: user
+  Password: user123
+```
+
+### Features
+
+- **Session Persistence:** Auth tokens stored in localStorage (key: `wicgate_auth_token`)
+- **Protected Routes:** `/admin` requires authentication + admin role
+- **Route Guards:** Automatic redirect to login for protected pages
+- **SSR-Safe:** All authentication logic guarded for server-side rendering
+
+### Usage
+
+1. Navigate to `/login`
+2. Enter credentials (see above)
+3. Access admin dashboard at `/admin`
+4. Session persists across page reloads
+5. Click "Logout" to clear session
+
+**Note:** This uses a mock API for demonstration. Production deployment requires real backend integration.
 
 ## Documentation
 

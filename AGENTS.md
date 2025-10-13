@@ -21,9 +21,10 @@
 
 **WiCGATE** - Community portal for World in Conflict multiplayer revival
 
-- **Stack:** Vue 3 + TypeScript, Vite + ViteSSG, Composable Modules, Vue Router
+- **Stack:** Vue 3 + TypeScript, Vite + ViteSSG, Pinia, Vue Router, Tailwind CSS
 - **Architecture:** Hybrid SSG/SPA with PWA support
 - **Purpose:** Massgate-inspired UI with live player data and community tools
+- **Authentication:** Mock JWT system (admin/user roles)
 
 ---
 
@@ -43,62 +44,68 @@ npm run build        # Production build (SSG + PWA)
 
 ## Critical Rules (See CLAUDE.md for details)
 
-### 1. Design Tokens (MANDATORY)
-❌ `color: #ff6600;`
-✅ `color: var(--sw);`
+### 1. Tailwind Utility-First (MANDATORY) *(Updated Oct 12, 2025)*
+❌ `color: #ff6600;` or custom CSS classes
+✅ `class="text-soviet"` (Tailwind utilities)
 
-Location: [src/assets/styles/modules/variables.css](src/assets/styles/modules/variables.css)
+**All design tokens in:** [tailwind.config.ts](tailwind.config.ts)
 
-### 2. Native Scroll System (MANDATORY)
+### 2. Pinia Reactivity (CRITICAL) *(Updated Oct 13, 2025)*
+❌ `const { data } = useAppDataStore();` (breaks reactivity!)
+✅ `const store = useAppDataStore();` (use `store.data`)
+✅ `const { data } = storeToRefs(store);` (alternative)
+
+**Destructuring creates static snapshots - must use store refs directly**
+
+### 3. Native Scroll System (MANDATORY)
 ❌ `padding-top: 80px;` or `scroll-margin-top: 120px;`
-✅ `padding-top: var(--header-height);`
+✅ `padding-top: var(--header-height);` or `pt-[var(--header-height)]`
 
 Browser handles scrolling natively. See [docs/SCROLL_SYSTEM.md](docs/SCROLL_SYSTEM.md)
 
-### 3. SSR Guards (MANDATORY)
+### 4. SSR Guards (MANDATORY)
 ❌ `document.querySelector()`
 ✅ `if (!import.meta.env.SSR) { /* browser code */ }`
 
-### 4. Interactive Element Hover Pattern
-- Inactive: `color: var(--t2)`
-- Hover: Orange gradient + `color: var(--ink)` + scale transform
+### 5. Interactive Element Hover Pattern
+- Inactive: Muted colors
+- Hover: Orange gradient + dark text + scale transform
 
-### 5. Button Hierarchy
+### 6. Button Hierarchy
 - **Red (`.btn-download`):** ONLY for executables
-- **Orange (`.btn-p`):** Primary actions
+- **Orange (primary):** Standard actions
 - **Hyperlinks:** File downloads, external links
-
-### 6. Styling Organization
-- Add to `src/assets/styles/modules/components/*.css`
-- Import via `base.css`
 
 ---
 
-## Visual Identity
+## Visual Identity *(Updated Oct 12, 2025)*
 
 ### Color Palette
-All in [variables.css](src/assets/styles/modules/variables.css):
+All in [tailwind.config.ts](tailwind.config.ts):
 
-- Steel: `--mg`, `--mg-dark`, `--mg-muted`
-- Graphite nav: `--graphite`, `--graphite-dark`, `--graphite-light`
-- Massgate orange: `--sw` (primary)
-- Alert red: `--dl` (downloads only)
-- Text: `--t` (primary), `--t2` (inactive), `--ink` (dark on light)
+- **Steel:** `mg`, `mg-dark`, `mg-muted` → Use: `bg-mg`, `text-mg-dark`
+- **Graphite nav:** `graphite`, `graphite-dark`, `graphite-light` → Use: `bg-graphite`
+- **Soviet orange:** `soviet` (#ff6600) → Use: `text-soviet`, `bg-soviet`
+- **Massgate red:** `massgate-red` → Use: `bg-massgate-red`
+- **Text:** `slate-200` (primary), `slate-400` (muted), `slate-800` (on light)
 
 ### Typography
-- Headers: Oswald
-- Body: Rajdhani
-- Data: Courier New
+- **Headers:** Oswald → Use: `font-oswald`
+- **Body:** Rajdhani → Use: `font-rajdhani`
+- **Data:** Courier New → Use: `font-mono`
 
 ---
 
 ## Key Features (October 2025)
 
 - **PWA:** Offline capability, installable, service worker
-- **SSG:** 27 unique pre-rendered HTML files for SEO (path-based nested routes)
+- **SSG:** 29 unique pre-rendered HTML files for SEO (path-based nested routes)
+- **Authentication:** Mock JWT with admin/user roles, protected routes
+- **State Management:** Pinia stores with SSR support
+- **Styling:** Tailwind CSS utility-first approach (80% code reduction)
 - **Navigation:** Dynamic header measurement (pixel-perfect)
 - **Analytics:** Type-safe event tracking (15 categories)
-- **Testing:** 26 tests, hybrid timing strategy (fast/thorough)
+- **Testing:** 44 tests, hybrid timing strategy (fast/thorough)
 - **Error Handling:** Typed error hierarchy, 3-retry exponential backoff, 90s polling
 - **Widget System:** Modular widget components (7 widgets + base component)
 
@@ -110,10 +117,11 @@ All in [variables.css](src/assets/styles/modules/variables.css):
 [src/main.ts](src/main.ts) - ViteSSG initialization + PWA registration
 
 ### Routing
-27 pre-rendered routes: 6 main sections + 21 subsections (path-based nested routes)
+29 pre-rendered routes: 6 main sections + 21 subsections + 2 auth routes (path-based nested routes)
 
-### State Management
-[src/stores/appDataStore.ts](src/stores/appDataStore.ts) - Player data with typed error handling
+### State Management (Pinia)
+- [src/stores/appDataStore.ts](src/stores/appDataStore.ts) - API data with retry logic
+- [src/stores/auth.ts](src/stores/auth.ts) - Authentication with mock JWT
 
 ### Composables (SSR-safe)
 - [useYoutube.ts](src/composables/useYoutube.ts) - Video fetching with memoization
@@ -140,17 +148,17 @@ All in [variables.css](src/assets/styles/modules/variables.css):
 
 ```
 src/
-├── main.ts              # ViteSSG entry
-├── router/              # Vue Router with nested routes
-├── stores/              # Composable state modules
+├── main.ts              # ViteSSG entry (Pinia + Router)
+├── router/              # Vue Router with nested routes + auth guards
+├── stores/              # Pinia stores (appData, auth)
 ├── components/          # Reusable UI components
 │   └── widgets/         # Widget components (7 total)
 ├── screens/             # Section components
-├── views/               # Routed pages
+├── views/               # Routed pages (Home, Login, Admin, etc.)
 ├── composables/         # Composition functions (7 total)
 ├── utils/               # Utility functions
-├── types/               # TypeScript types
-├── assets/styles/       # Modular CSS
+├── types/               # TypeScript types (auth, errors, utils)
+├── assets/styles/       # Tailwind CSS (base + components)
 └── content/             # Static content
 ```
 
@@ -167,33 +175,47 @@ src/
 
 ## Recent Major Updates
 
+### October 13, 2025 - Pinia Migration + Authentication
+- **State Management:** Migrated from composables to Pinia stores
+- **Authentication:** Mock JWT system (admin/user roles)
+- **Protected Routes:** `/login`, `/admin` with route guards
+- **Session Persistence:** localStorage-based session restoration
+- **Testing:** 44 total tests (19 auth + 15 appData + 10 player display)
+- **Documentation:** Comprehensive updates across all docs
+
+### October 12, 2025 - Tailwind CSS Migration
+- **80% code reduction:** Deleted 29 CSS module files
+- **Utility-first approach:** All design tokens in `tailwind.config.ts`
+- **Homepage enhancement:** Glassmorphism widgets, video background
+- **Onboarding:** 3-slide first-visit wizard
+
 ### October 10, 2025 - Comprehensive Refactoring
 - Widget component system (7 modular widgets + base)
 - Type safety improvements (error hierarchy, utility types)
 - Performance optimizations (IntersectionObserver, memoization)
 - Developer experience (feature flags, JSDoc, 25+ utility types)
 - Component decomposition (80% complexity reduction)
-- Code duplication reduced (47% → 3%)
 
 ### October 1-9, 2025
 - Widget dashboard (replaced hero carousel)
 - Path-based nested routes (27 pre-rendered routes)
 - Discord integration (navigation + events)
-- Live server capacity colors
 - PWA implementation
-- Testing infrastructure (26 tests)
-- Documentation overhaul
+- Testing infrastructure
 
 ---
 
 ## When Adding Features
 
-1. Use design tokens (no hardcoded values)
-2. Add SSR guards for browser code
-3. Create CSS modules in `components/`
-4. Write tests with hybrid timing
-5. Update [docs/changelog.md](docs/changelog.md)
-6. Update this file for major visual changes
+1. **Use Tailwind utilities** (no hardcoded values in style attributes)
+2. **Add SSR guards** for browser code (`window`, `document`, `localStorage`)
+3. **Use Pinia stores** for global state (not composables)
+4. **Avoid destructuring stores** (breaks reactivity - use `store.data` or `storeToRefs()`)
+5. **Write tests with hybrid timing** (support both fake and real timers)
+6. **Update documentation:**
+   - [docs/changelog.md](docs/changelog.md) - Feature history
+   - [AGENTS.md](AGENTS.md) - This file for major changes
+   - [docs/architecture.md](docs/architecture.md) - Architecture changes
 
 ---
 
@@ -209,4 +231,4 @@ src/
 **For complete operational rules, see [CLAUDE.md](CLAUDE.md)**
 **For detailed documentation, see [docs/](docs/)**
 
-**Last Updated:** October 10, 2025
+**Last Updated:** October 13, 2025 (Pinia Migration + Authentication)

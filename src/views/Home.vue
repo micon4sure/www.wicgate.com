@@ -12,6 +12,7 @@ import About from '../screens/About.vue';
 import FAQ from '../screens/FAQ.vue';
 import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
 import { useAppDataStore } from '../stores/appDataStore';
+import { useAuthStore } from '../stores/auth';
 import { useFirstVisit } from '../composables/useFirstVisit';
 import { useActiveSection } from '../composables/useActiveSection';
 import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/structuredData';
@@ -20,7 +21,7 @@ import { getAllValidIds } from '../types/navigation';
 import { syncHeaderHeight } from '../utils/headerHeight';
 
 const store = useAppDataStore();
-const { data, loading } = store;
+const authStore = useAuthStore();
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
 
 // Get all valid section IDs for scroll tracking
@@ -153,6 +154,10 @@ onMounted(() => {
   // Initialize store data
   store.init();
 
+  // Initialize auth (check for existing session from localStorage)
+  // Non-blocking - runs in background
+  authStore.checkAuth();
+
   // Sync header height with CSS variable for pixel-perfect scroll positioning
   // This measures actual rendered header height and updates --header-height
   const cleanupHeaderSync = syncHeaderHeight();
@@ -191,7 +196,11 @@ function handleContinue() {
 
       <div id="screens">
         <GettingStarted v-if="shouldRenderSection('getting-started')" />
-        <Multiplayer v-if="shouldRenderSection('multiplayer')" :data="data" :loading="loading" />
+        <Multiplayer
+          v-if="shouldRenderSection('multiplayer')"
+          :data="store.data"
+          :loading="store.loading"
+        />
         <Community v-if="shouldRenderSection('community')" />
         <About v-if="shouldRenderSection('about')" />
         <FAQ v-if="shouldRenderSection('faq')" />

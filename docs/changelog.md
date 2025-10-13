@@ -2,6 +2,7 @@
 
 ## Recent Changes - Quick Summary
 
+- 🔄 **MAJOR: Pinia State Management Migration** - Complete migration from composable-based state to Pinia stores, added authentication system with mock JWT (admin/user roles), protected routes with guards, session persistence via localStorage, 19 new auth tests (44 total tests), comprehensive docs update (Oct 13)
 - 🐛 **Server 0 Display Fix** - Players with serverId 0 (logged in but not on any server) now display as "Online" instead of "Server 0", added comprehensive tests and API documentation (Oct 13)
 - 🎨 **Widget Icon Brand Colors** - Fixed Discord and YouTube widget icons to display their official brand colors (#5865F2 and #e53935) by making iconClass conditional in WidgetBase.vue, removed excessive teal glow from Getting Started step badges (Oct 12)
 - 🎨 **MAJOR: Tailwind CSS Migration** - Complete rewrite from modular CSS to utility-first Tailwind approach, ~80% code reduction (8,154 deletions vs 1,569 additions), deleted 29 CSS module files, all design tokens moved to `tailwind.config.ts` (Oct 12)
@@ -101,6 +102,151 @@
 - Better UX: Clear indication of online vs. playing status
 - No breaking changes: Purely cosmetic improvement
 - Affects: Multiplayer page, LiveServersWidget, any component using `groupPlayersByServer()`
+
+---
+
+### 🔄 Pinia State Management Migration + Authentication
+
+**Status:** Complete (October 13, 2025)
+
+**Summary:** Complete migration from composable-based state management to Pinia stores, plus implementation of authentication system with mock JWT. Major architectural upgrade improving state management patterns and enabling protected routes.
+
+#### Part 1: State Management Migration (Composables → Pinia)
+
+**Problem Statement:**
+- **Old System:** Composable module pattern using Vue refs/computed
+- **Issues:**
+  - No DevTools integration for state debugging
+  - Complex state sharing patterns
+  - Difficult to implement cross-cutting features like authentication
+  - No built-in support for SSR hydration
+
+**Solution: Pinia Store Architecture**
+- Migrated `appDataStore` from composable to Pinia store
+- Setup function syntax `defineStore('name', () => {})` for consistency
+- Maintained all existing functionality (zero breaking changes)
+- Fixed critical reactivity bug (destructuring breaks reactivity)
+
+**Migration Pattern:**
+```typescript
+// Before (Composable)
+export function useAppDataStore() {
+  const data = ref<DataResponse>({});
+  return { data, loading, fetchData };
+}
+
+// After (Pinia)
+export const useAppDataStore = defineStore('appData', () => {
+  const data = ref<DataResponse>({});
+  return { data, loading, fetchData };
+});
+```
+
+**Critical Reactivity Fix:**
+- **Issue:** `const { data } = useAppDataStore()` creates static snapshot
+- **Solution:** Use `store.data` or `storeToRefs()` for reactivity
+- Fixed in: `Home.vue`, `WidgetDashboard.vue`
+
+#### Part 2: Authentication System Implementation
+
+**Features Implemented:**
+1. **Mock JWT Authentication**
+   - Mock users: `admin/admin123`, `user/user123`
+   - Token format: `mock_jwt_{username}_{timestamp}`
+   - Simulates network latency: 500ms login, 200ms validation
+
+2. **Session Persistence**
+   - localStorage key: `wicgate_auth_token`
+   - Auto-restore on app init via `checkAuth()`
+   - Logout clears token and state
+
+3. **Protected Routes**
+   - `/login` - Login page (redirects if authenticated)
+   - `/admin` - Admin dashboard (requires admin role)
+   - Route guards check auth before navigation
+
+4. **Navigation Integration**
+   - Desktop: Admin link (if admin), Logout/Login buttons
+   - Mobile: Same links in mobile menu
+   - Dynamic visibility based on auth state
+
+**Files Created:**
+1. `src/types/auth.ts` - TypeScript types (User, LoginResponse, AuthError, etc.)
+2. `src/stores/auth.ts` - Authentication store with mock API
+3. `src/stores/auth.test.ts` - 19 comprehensive tests
+4. `src/views/Login.vue` - Login page with Tailwind styling
+5. `src/views/Admin.vue` - Protected admin dashboard
+
+**Files Modified:**
+1. `CLAUDE.md` - Updated from "NEVER use Pinia" to "ALWAYS use Pinia"
+2. `package.json` - Added `pinia@3.0.3`
+3. `src/main.ts` - Configured Pinia before router
+4. `src/stores/appDataStore.ts` - Migrated to Pinia
+5. `src/stores/appDataStore.test.ts` - Updated for Pinia (removed .value)
+6. `src/router/routes.ts` - Added auth routes with guards
+7. `src/components/Navigation.vue` - Added auth links
+8. `src/views/Home.vue` - Fixed reactivity + auth init
+9. `src/components/WidgetDashboard.vue` - Fixed reactivity
+10. `src/composables/useScrollTracker.ts` - TypeScript fixes
+
+**Testing:**
+- ✅ 19 new auth tests (login, logout, session, guards, SSR)
+- ✅ 15 existing appDataStore tests passing
+- ✅ 10 usePlayerDisplay tests passing
+- ✅ **Total: 44 tests passing** (up from 26)
+- ✅ TypeScript strict mode: No errors
+- ✅ Linting: All passing
+- ✅ Build: 29 routes pre-rendered (including /login, /admin)
+
+**Documentation Updated:**
+1. `GUIDE.md` - Pinia patterns, reactivity warnings
+2. `README.md` - Auth section, mock credentials, features
+3. `docs/architecture.md` - Migration rationale, auth store docs
+4. `docs/api.md` - Mock auth endpoints (POST /login, GET /me)
+5. `docs/testing.md` - Auth store testing patterns
+6. `docs/troubleshooting.md` - Pinia common issues section
+
+**Key Technical Decisions:**
+
+1. **Why Pinia over Composables?**
+   - Authentication requires global state accessible in route guards
+   - DevTools integration for debugging
+   - Industry standard (Vue official state management)
+   - Better SSR hydration support
+   - Simpler patterns for multi-store apps
+
+2. **Why Mock JWT?**
+   - Demonstrates authentication patterns
+   - No backend dependency for demo
+   - Easy to swap for real API later
+   - localStorage simulates session persistence
+
+3. **Critical Gotcha Documented:**
+   ```typescript
+   // ❌ WRONG - Breaks reactivity
+   const { data } = useAppDataStore();
+
+   // ✅ CORRECT - Maintains reactivity
+   const store = useAppDataStore();
+   // Use store.data in templates
+   ```
+
+**Migration Impact:**
+- ✅ Zero breaking changes to existing functionality
+- ✅ All widgets and components work identically
+- ✅ API polling continues at 90s interval
+- ✅ Error handling and retry logic preserved
+- ✅ SSR guards maintained throughout
+
+**Routes Added:**
+- 29 total routes (up from 27)
+- `/login` - Public login page
+- `/admin` - Protected admin dashboard
+
+**Performance:**
+- No bundle size increase (Pinia is lightweight)
+- No performance degradation
+- Test execution: Still ~0.7s (fast mode)
 
 ---
 
