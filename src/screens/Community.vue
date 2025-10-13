@@ -392,13 +392,11 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 @media (hover: hover) {
   .creator-card:hover {
-    background: linear-gradient(
-      180deg,
-      rgba(var(--sw-rgb), 0.85) 0%,
-      rgba(var(--sw-rgb), 0.68) 100%
-    );
-    border-color: rgba(var(--sw-rgb), 0.75);
-    box-shadow: 0 0 30px rgba(var(--sw-rgb), 0.32);
+    background: linear-gradient(180deg, #4de8ff 0%, #00d9ff 100%);
+    border-color: rgba(0, 217, 255, 0.6);
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.3),
+      0 0 24px rgba(0, 217, 255, 0.4);
     transform: translateY(-2px);
   }
 
@@ -571,15 +569,15 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 @media (hover: hover) {
   .event-card:hover {
-    border-color: rgba(var(--sw-rgb), 0.75);
-    box-shadow: 0 0 30px rgba(var(--sw-rgb), 0.32);
+    border-color: rgba(0, 217, 255, 0.75);
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.32);
     transform: translateY(-2px);
   }
 }
 
 .event-card:active {
   transform: scale(0.98);
-  border-color: rgba(var(--sw-rgb), 0.55);
+  border-color: rgba(0, 217, 255, 0.55);
 }
 
 .event-image {
@@ -698,7 +696,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 }
 
 .event-link-icon {
-  color: rgba(255, 102, 0, 0.75);
+  color: rgba(0, 217, 255, 0.75);
   font-size: 0.8rem;
 }
 
@@ -755,8 +753,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 @media (hover: hover) {
   .live-streams-container .card:hover {
-    border-color: rgba(var(--sw-rgb), 0.75);
-    box-shadow: 0 0 30px rgba(var(--sw-rgb), 0.28);
+    border-color: rgba(0, 217, 255, 0.75);
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.28);
     transform: translateY(-2px);
   }
 }
