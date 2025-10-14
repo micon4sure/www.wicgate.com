@@ -52,8 +52,8 @@ function handleClick() {
       class="flex items-center gap-3 py-5 px-6 pb-4 border-b border-mg/30 max-[900px]:py-4 max-[900px]:px-5 max-[900px]:pb-3 max-[480px]:py-3.5 max-[480px]:px-4 max-[480px]:pb-2.5 max-[480px]:gap-2.5"
     >
       <div
-        :class="[iconClass || 'text-teal']"
-        class="w-10 h-10 flex items-center justify-center text-xl flex-shrink-0 max-[480px]:w-9 max-[480px]:h-9 max-[480px]:text-lg"
+        :class="[iconClass || 'text-ink']"
+        class="w-10 h-10 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center text-xl flex-shrink-0 max-[480px]:w-9 max-[480px]:h-9 max-[480px]:text-lg"
       >
         <i :class="icon" aria-hidden="true"></i>
       </div>

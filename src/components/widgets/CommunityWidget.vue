@@ -23,13 +23,7 @@ function handleClick() {
 </script>
 
 <template>
-  <WidgetBase
-    title="Community"
-    icon="fa-brands fa-discord"
-    action="Explore"
-    icon-class="widget-icon-discord"
-    @click="handleClick"
-  >
+  <WidgetBase title="Community" icon="fa-brands fa-discord" action="Explore" @click="handleClick">
     <div class="widget-stat">
       <span class="stat-number">287</span>
       <span class="stat-label">Discord Members</span>

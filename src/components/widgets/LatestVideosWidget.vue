@@ -28,7 +28,6 @@ function openVideo(url: string) {
     title="Latest Videos"
     icon="fa-brands fa-youtube"
     action="Watch More"
-    icon-class="widget-icon-youtube"
     @click="handleClick"
   >
     <div v-if="isSSR" class="widget-skeleton">
