@@ -25,7 +25,9 @@ npm run build        # Production build (SSG + PWA)
 1. ✅ ALWAYS use Tailwind utility classes for styling
    - ❌ NEVER use `<style scoped>` blocks
    - ✅ Inline Tailwind in templates OR `@apply` in `tailwind.css` (`@layer components`)
-2. ✅ Design tokens live in `tailwind.config.ts` (colors, spacing, fonts)
+2. ✅ Universal design tokens → `tailwind.config.ts` (used in 5+ components)
+   - ✅ Component-specific patterns → `tailwind.css` (@layer components, 1-2 uses)
+   - When unsure: start in CSS, promote to config if widely used
 3. ❌ NEVER use hardcoded scroll offsets → ✅ ALWAYS use `pt-[var(--header-height)]`
 4. ❌ NEVER use browser APIs without SSR guards
 5. ✅ ALWAYS use Pinia for state management (stores in `src/stores/`)
@@ -33,20 +35,6 @@ npm run build        # Production build (SSG + PWA)
 7. ❌ NEVER use `bun test` → ✅ ALWAYS use `bun run test`
 8. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
 9. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, etc.)
-
----
-
-## Styling Philosophy
-
-**Tailwind-First Approach:**
-- Use Tailwind utility classes directly in templates for 95% of styling
-- Only create custom CSS when truly necessary (complex animations, very specific states)
-- **SINGLE SOURCE OF TRUTH**: All design tokens (colors, shadows, animations) in `tailwind.config.ts`
-- CSS variables in `tailwind.css` are ONLY for:
-  - JS synchronization (`--header-height`)
-  - Legacy component compatibility (being gradually migrated to Tailwind classes)
-- Use `@layer components` sparingly for truly reusable component patterns only
-- Prefer inline utilities over semantic CSS classes for maintainability and visibility
 
 ---
 

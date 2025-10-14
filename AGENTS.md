@@ -44,11 +44,14 @@ npm run build        # Production build (SSG + PWA)
 
 ## Critical Rules (See CLAUDE.md for details)
 
-### 1. Tailwind Utility-First (MANDATORY) *(Updated Oct 12, 2025)*
+### 1. Tailwind Utility-First (MANDATORY) *(Updated Oct 14, 2025)*
 ❌ `color: #ff6600;` or custom CSS classes
 ✅ `class="text-soviet"` (Tailwind utilities)
 
-**All design tokens in:** [tailwind.config.ts](tailwind.config.ts)
+**Design System Separation:**
+- **[tailwind.config.ts](tailwind.config.ts)** = Universal tokens (used project-wide)
+- **[tailwind.css](src/assets/styles/tailwind.css)** = Component-specific patterns (1-2 uses)
+- Rule: Add to config if used in 5+ components, otherwise use CSS @layer
 
 ### 2. Pinia Reactivity (CRITICAL) *(Updated Oct 13, 2025)*
 ❌ `const { data } = useAppDataStore();` (breaks reactivity!)
@@ -231,4 +234,4 @@ src/
 **For complete operational rules, see [CLAUDE.md](CLAUDE.md)**
 **For detailed documentation, see [docs/](docs/)**
 
-**Last Updated:** October 13, 2025 (Pinia Migration + Authentication)
+**Last Updated:** October 14, 2025 (Design System Consolidation)

@@ -963,3 +963,31 @@
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
 }
+
+/* Component-specific animations (used in @layer components above) */
+@keyframes goldShimmer {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 202, 40, 0.4), 0 0 30px rgba(255, 202, 40, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 213, 79, 0.6), 0 0 50px rgba(255, 202, 40, 0.4);
+  }
+}
+
+@keyframes redPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(198, 40, 40, 0.4), 0 0 40px rgba(198, 40, 40, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(229, 53, 53, 0.6), 0 0 60px rgba(198, 40, 40, 0.4);
+  }
+}
+
+/* Animation utility classes */
+.animate-gold-shimmer {
+  animation: goldShimmer 3s ease-in-out infinite;
+}
+
+.animate-red-pulse {
+  animation: redPulse 2.5s ease-in-out infinite;
+}

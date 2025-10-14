@@ -49,7 +49,7 @@ function goToSection(sectionOrSubsectionId: string) {
 
     <!-- Subtle Atmospheric Gradients (reduced opacity) -->
     <div
-      class="absolute inset-0 bg-gradient-to-b from-texture-dark/30 via-transparent to-night-panel/60"
+      class="absolute inset-0 bg-gradient-to-b from-texture-dark/30 via-transparent to-graphite/60"
     ></div>
     <div
       class="absolute inset-0 bg-gradient-to-br from-massgate-red-dark/8 via-transparent to-soviet/5"

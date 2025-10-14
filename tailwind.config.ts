@@ -76,15 +76,9 @@ export default {
           darker: '#008b9e',       // Darker teal (headers, badges)
           glow: '#26c6da',         // Teal glow effect
         },
-        // Legacy battlefield teal names (for compatibility)
-        'battlefield-teal': '#00d9ff',
-        'battlefield-cyan': '#00ffff',
-        'battlefield-mist': '#a7b7c3',
 
-        // Backgrounds (dark theme colors)
-        'night': '#08090b',
-        'night-panel': '#0f1215',
-        'night-alt': '#1a1e22',
+        // Legacy compatibility (TODO: migrate components and remove)
+        'battlefield-mist': '#a7b7c3',  // Used in Navigation.vue
 
         // Text hierarchy
         't': {
@@ -126,72 +120,46 @@ export default {
       },
 
       backgroundImage: {
-        // Massgate Red Gradients
+        // Note: Most gradients can be created inline with Tailwind utilities
+        // Example: bg-gradient-to-b from-massgate-red to-massgate-red-dark
+
+        // Massgate Red (leaderboard headers - heavily used)
         'massgate-header': 'linear-gradient(180deg, #c62828 0%, #8b0000 100%)',
+
+        // Legacy compatibility (TODO: migrate to inline Tailwind gradients)
         'massgate-header-shine': 'linear-gradient(180deg, #e53935 0%, #c62828 50%, #8b0000 100%)',
-        'massgate-panel': 'linear-gradient(180deg, rgba(139, 0, 0, 0.15) 0%, rgba(109, 0, 0, 0.08) 100%)',
-        'massgate-panel-hover': 'linear-gradient(180deg, rgba(198, 40, 40, 0.2) 0%, rgba(139, 0, 0, 0.12) 100%)',
-
-        // Gold Gradients
-        'gold-shimmer': 'linear-gradient(135deg, #ffd54f 0%, #ffca28 50%, #ffa000 100%)',
-        'gold-cta': 'linear-gradient(180deg, #ffd54f 0%, #ffca28 100%)',
-
-        // Atmospheric Effects
-        'battlefield-atmosphere': 'linear-gradient(180deg, rgba(38, 198, 218, 0.1) 0%, transparent 60%)',
-        'battlefield-fog': 'linear-gradient(90deg, transparent 0%, rgba(77, 208, 225, 0.15) 50%, transparent 100%)',
-        'teal-glow-subtle': 'radial-gradient(circle, rgba(38, 198, 218, 0.2) 0%, transparent 70%)',
-
-        // Texture Backgrounds
-        'texture-dark-gradient': 'linear-gradient(180deg, #0a0a0a 0%, #050505 100%)',
-        'texture-panel-gradient': 'linear-gradient(180deg, #151515 0%, #0f0f0f 100%)',
-
-        // Legacy (kept for compatibility)
         'panel-main': 'linear-gradient(180deg, rgba(15, 18, 21, 0.96) 0%, rgba(8, 9, 11, 0.98) 100%)',
-        'soviet-gradient': 'linear-gradient(180deg, rgba(255, 102, 0, 0.98) 0%, rgba(255, 102, 0, 0.8) 100%)',
         'graphite-gradient': 'linear-gradient(180deg, rgba(15, 18, 21, 0.9) 0%, rgba(8, 9, 11, 0.92) 100%)',
       },
 
       boxShadow: {
-        // Massgate Red Glows (important highlights only)
+        // Note: Use shadow-lg shadow-color/50 for custom intensity variations
+
+        // Core glows (one per color family)
         'massgate-glow': '0 0 15px rgba(198, 40, 40, 0.4), 0 0 30px rgba(198, 40, 40, 0.2)',
-        'massgate-glow-intense': '0 0 30px rgba(229, 53, 53, 0.6), 0 0 60px rgba(198, 40, 40, 0.3)',
         'massgate-border': '0 0 15px rgba(198, 40, 40, 0.4), inset 0 0 10px rgba(198, 40, 40, 0.1)',
-        'massgate-panel': '0 4px 20px rgba(139, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03)',
-
-        // Massgate Orange Glows (structural accents)
-        'massgate-orange-glow': '0 0 15px rgba(243, 124, 43, 0.4), 0 0 30px rgba(243, 124, 43, 0.2)',
-        'massgate-orange-subtle': '0 0 12px rgba(243, 124, 43, 0.3)',
-
-        // Gold Glows
         'gold-glow': '0 0 15px rgba(255, 202, 40, 0.5), 0 0 30px rgba(255, 202, 40, 0.3)',
-        'gold-shine': '0 4px 20px rgba(255, 202, 40, 0.5), inset 0 -1px 10px rgba(255, 213, 79, 0.3)',
-
-        // Teal Glows (PRIMARY ACCENT - navigation, active states, highlights)
         'teal-glow': '0 0 15px rgba(0, 217, 255, 0.4), 0 0 30px rgba(0, 217, 255, 0.2)',
-        'teal-glow-intense': '0 0 25px rgba(77, 232, 255, 0.5), 0 0 50px rgba(0, 217, 255, 0.25)',
-        'teal-subtle': '0 0 15px rgba(0, 217, 255, 0.3)',
         'teal-border': '0 0 20px rgba(0, 217, 255, 0.4), inset 0 0 10px rgba(0, 217, 255, 0.1)',
-
-        // Orange Glows (CTAs, hover states on cards)
         'orange-glow': '0 0 15px rgba(255, 102, 0, 0.4), 0 0 30px rgba(255, 102, 0, 0.2)',
-        'orange-glow-intense': '0 0 30px rgba(255, 133, 51, 0.6), 0 0 60px rgba(255, 102, 0, 0.3)',
         'orange-border': '0 0 20px rgba(255, 102, 0, 0.5), inset 0 0 10px rgba(255, 102, 0, 0.1)',
 
-        // Texture Shadows (cards and panels)
+        // Depth/structure shadows
         'texture-depth': '0 6px 25px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.02)',
-
-        // Legacy (kept for compatibility)
         'military': '0 12px 30px rgba(4, 9, 14, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04)',
+
+        // Legacy compatibility (TODO: migrate to core shadows)
+        'massgate-panel': '0 4px 20px rgba(139, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03)',
+        'gold-shine': '0 4px 20px rgba(255, 202, 40, 0.5), inset 0 -1px 10px rgba(255, 213, 79, 0.3)',
+        'teal-subtle': '0 0 15px rgba(0, 217, 255, 0.3)',
         'soviet-glow': '0 0 30px rgba(255, 102, 0, 0.6), 0 0 60px rgba(255, 102, 0, 0.3)',
         'panel': '0 0 20px rgba(31, 47, 59, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
       },
 
       animation: {
+        // Core utility animations (use Tailwind's built-in animate-pulse for simple cases)
         'pulse-slow': 'pulse 2s ease-in-out infinite',
         'fade-in': 'fadeIn 0.6s ease-out',
-        'red-pulse': 'redPulse 2.5s ease-in-out infinite',
-        'gold-shimmer': 'goldShimmer 3s ease-in-out infinite',
-        'teal-glow': 'tealGlow 4s ease-in-out infinite',
       },
 
       keyframes: {
@@ -202,30 +170,6 @@ export default {
         fadeIn: {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        redPulse: {
-          '0%, 100%': {
-            boxShadow: '0 0 20px rgba(198, 40, 40, 0.4), 0 0 40px rgba(198, 40, 40, 0.2)'
-          },
-          '50%': {
-            boxShadow: '0 0 30px rgba(229, 53, 53, 0.6), 0 0 60px rgba(198, 40, 40, 0.4)'
-          },
-        },
-        goldShimmer: {
-          '0%, 100%': {
-            boxShadow: '0 0 15px rgba(255, 202, 40, 0.4), 0 0 30px rgba(255, 202, 40, 0.2)'
-          },
-          '50%': {
-            boxShadow: '0 0 25px rgba(255, 213, 79, 0.6), 0 0 50px rgba(255, 202, 40, 0.4)'
-          },
-        },
-        tealGlow: {
-          '0%, 100%': {
-            boxShadow: '0 0 10px rgba(38, 198, 218, 0.3), 0 0 20px rgba(38, 198, 218, 0.1)'
-          },
-          '50%': {
-            boxShadow: '0 0 20px rgba(77, 208, 225, 0.5), 0 0 40px rgba(38, 198, 218, 0.3)'
-          },
         },
       },
 

@@ -186,13 +186,17 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 | File | Purpose |
 |------|---------|
-| [tailwind.config.ts](tailwind.config.ts) | All design tokens (colors, shadows, animations) |
-| [src/assets/styles/tailwind.css](src/assets/styles/tailwind.css) | Tailwind imports + custom components |
+| [tailwind.config.ts](tailwind.config.ts) | **Universal design tokens** (colors, fonts, spacing used project-wide) |
+| [src/assets/styles/tailwind.css](src/assets/styles/tailwind.css) | **Component-specific patterns** (@layer components, animations for 1-2 components) |
 | [src/utils/headerHeight.ts](src/utils/headerHeight.ts) | Header height sync for native scroll |
 | [src/views/Home.vue](src/views/Home.vue) | SSG conditional rendering |
 | [src/stores/appDataStore.ts](src/stores/appDataStore.ts) | API data fetching (Pinia store) |
 | [src/stores/auth.ts](src/stores/auth.ts) | Authentication (mock JWT, Pinia store) |
 | [vite.config.ts](vite.config.ts) | SSG + PWA config |
+
+**Design System Separation:**
+- Add to `tailwind.config.ts` → "Will I use this in 5+ components?"
+- Add to `tailwind.css` → "Is this specific to 1-2 components?"
 
 ---
 
@@ -206,4 +210,4 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 ---
 
-*Last Updated: October 13, 2025 (Pinia Migration + Authentication)*
+*Last Updated: October 14, 2025 (Design System Consolidation)*
