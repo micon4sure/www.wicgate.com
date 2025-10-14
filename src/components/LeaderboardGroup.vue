@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
-import type { LeaderboardEntry } from '../api-types';
+import type { LeaderboardEntry, LadderEntry } from '../api-types';
 import RankInsignia from './RankInsignia.vue';
 import { AnalyticsEvents } from '../utils/analytics';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_RESIZE, MOBILE_BREAKPOINT, TABLET_BREAKPOINT } from '../constants';
+
+type LeaderboardRow = LeaderboardEntry | LadderEntry;
 
 interface Props {
   title: string;
   subtitle?: string;
   categories?: string[]; // Tab categories; if 0 or 1, tabs hidden
   keys?: Record<string, string>; // Map category -> dataset key in data
-  data: Record<string, LeaderboardEntry[] | undefined>;
+  data: Record<string, LeaderboardRow[] | undefined>;
   thirdLabel?: string; // Column header for value
   maxRows?: number; // Rows cap (default 10)
 }
@@ -29,23 +31,30 @@ const active = ref(props.categories[0] || 'default');
 watch(
   () => props.categories,
   (cats) => {
-    if (cats.length && !cats.includes(active.value)) active.value = cats[0];
+    if (cats.length > 0 && !cats.includes(active.value)) {
+      active.value = cats[0] ?? 'default';
+    }
   }
 );
 
-function rows(list?: LeaderboardEntry[]) {
+function rows(list?: LeaderboardRow[]) {
   return (list || []).slice(0, props.maxRows);
 }
 function entriesFor(cat: string) {
-  const key = props.keys[cat] || cat; // fallback: direct key
+  const key: string = props.keys?.[cat] ?? cat; // fallback: direct key
   return rows(props.data[key]);
 }
-function formatClanTag(entry: LeaderboardEntry): string {
+function formatClanTag(entry: LeaderboardRow): string {
   if (entry.tagFormat && entry.shortName) {
     return entry.tagFormat.replace('C', entry.shortName).replace('P', '');
   }
   return '';
 }
+
+const formatCategoryLabel = (category: string): string => {
+  if (!category) return '';
+  return category.charAt(0).toUpperCase() + category.slice(1);
+};
 
 // Responsive RankInsignia sizing
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : TABLET_BREAKPOINT);
@@ -119,7 +128,7 @@ onUnmounted(() => {
           }
         "
       >
-        {{ c[0].toUpperCase() + c.slice(1) }}
+        {{ formatCategoryLabel(c) }}
       </button>
     </div>
 
@@ -189,7 +198,7 @@ onUnmounted(() => {
               >
                 <div class="flex items-center leading-none">
                   <RankInsignia
-                    :rank="e.rank"
+                    :rank="e.rank ?? null"
                     :size="rankInsigniaSize"
                     class="inline-block !align-middle flex-shrink-0 m-0 leading-none"
                   />
@@ -281,7 +290,7 @@ onUnmounted(() => {
             >
               <div class="flex items-center leading-none">
                 <RankInsignia
-                  :rank="e.rank"
+                  :rank="e.rank ?? null"
                   :size="rankInsigniaSize"
                   class="inline-block !align-middle flex-shrink-0 m-0 leading-none"
                 />

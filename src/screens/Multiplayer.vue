@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import Leaderboards from '../components/Leaderboards.vue';
 import LeaderboardSkeleton from '../components/skeletons/LeaderboardSkeleton.vue';
-import type { DataResponse } from '../api-types';
+import type { DataResponse, LeaderboardEntry, LadderEntry } from '../api-types';
 import { useServerCapacity } from '../composables/useServerCapacity';
 import { usePlayerDisplay } from '../composables/usePlayerDisplay';
 
@@ -10,6 +10,9 @@ const props = defineProps<{
   data: Partial<DataResponse>;
   loading: boolean;
 }>();
+
+type LeaderboardRow = LeaderboardEntry | LadderEntry;
+type LeaderboardDataRecord = Record<string, LeaderboardRow[] | undefined>;
 
 // During SSG build or while loading, show placeholder
 const isSSR = import.meta.env.SSR;
@@ -37,6 +40,20 @@ const serverGroups = computed(() => {
 const activeServerCount = computed(
   () => serverGroups.value.filter((g) => g.players.length > 0).length
 );
+
+const leaderboardData = computed<LeaderboardDataRecord>(() => ({
+  lb_total: props.data.lb_total,
+  lb_totinf: props.data.lb_totinf,
+  lb_totarm: props.data.lb_totarm,
+  lb_totair: props.data.lb_totair,
+  lb_totsup: props.data.lb_totsup,
+  lb_high: props.data.lb_high,
+  lb_highinf: props.data.lb_highinf,
+  lb_higharm: props.data.lb_higharm,
+  lb_highair: props.data.lb_highair,
+  lb_highsup: props.data.lb_highsup,
+  ladder: props.data.ladder,
+}));
 
 // Utility composables
 const { getCapacityColor } = useServerCapacity();
@@ -188,7 +205,7 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
         <LeaderboardSkeleton v-if="showPlaceholder" />
 
         <!-- Runtime: Render live data -->
-        <Leaderboards v-else :data="data" />
+        <Leaderboards v-else :data="leaderboardData" />
       </div>
     </div>
   </section>

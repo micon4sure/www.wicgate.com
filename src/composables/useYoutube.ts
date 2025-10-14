@@ -1,24 +1,13 @@
 import { ref, onMounted, computed } from 'vue';
 import { formatDate } from '../utils';
 import { memoizeWithDeps } from '../utils/memoize';
-
-export interface Video {
-  id: string;
-  title: string;
-  publishedAt: string;
-  updatedAt?: string;
-  thumbnailUrl: string;
-  videoUrl: string;
-  author?: string; // channel / uploader name from <author><name>
-  views?: number; // from <media:statistics views="...">
-  channelId?: string; // from <yt:channelId>
-}
+import type { YouTubeVideo } from '../api-types';
 
 const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 
 export function useYoutube() {
   // Map of channelId -> { channelTitle, videos[] }
-  const videos = ref<Record<string, { channelTitle: string; videos: Video[] }>>({});
+  const videos = ref<Record<string, { channelTitle: string; videos: YouTubeVideo[] }>>({});
   const loading = ref(true);
 
   onMounted(async () => {
@@ -35,7 +24,7 @@ export function useYoutube() {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data: Record<string, string> = await response.json();
 
-      const parsed: Record<string, { channelTitle: string; videos: Video[] }> = {};
+      const parsed: Record<string, { channelTitle: string; videos: YouTubeVideo[] }> = {};
 
       for (const [channelId, xml] of Object.entries(data)) {
         try {
@@ -61,8 +50,8 @@ export function useYoutube() {
 
   // Memoized sorting function - only recomputes when video count changes
   const sortVideos = memoizeWithDeps(
-    (vids: Record<string, { channelTitle: string; videos: Video[] }>) => {
-      const all: Video[] = Object.values(vids).flatMap((channel) => channel.videos);
+    (vids: Record<string, { channelTitle: string; videos: YouTubeVideo[] }>) => {
+      const all: YouTubeVideo[] = Object.values(vids).flatMap((channel) => channel.videos);
       return all.sort(
         (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
       );
@@ -87,7 +76,7 @@ export function useYoutube() {
 /**
  * Parses a YouTube Atom feed and returns channel title and all entries mapped to Video, sorted by date desc.
  */
-function parseYouTubeFeed(xml: string): { channelTitle: string; videos: Video[] } | null {
+function parseYouTubeFeed(xml: string): { channelTitle: string; videos: YouTubeVideo[] } | null {
   // Validate input
   if (!xml || typeof xml !== 'string') {
     throw new Error('Invalid XML input: expected non-empty string');
@@ -124,15 +113,15 @@ function parseYouTubeFeed(xml: string): { channelTitle: string; videos: Video[] 
     ?.getElementsByTagName('name')[0]?.textContent;
   if (feedAuthorName) channelTitle = feedAuthorName;
 
-  const videos: Video[] = entriesList
+  const videos: YouTubeVideo[] = entriesList
     .map((entry) => mapEntryToVideo(entry))
-    .filter((v): v is Video => !!v)
+    .filter((v): v is YouTubeVideo => !!v)
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
   return { channelTitle, videos };
 }
 
-function mapEntryToVideo(entry: Element): Video | null {
+function mapEntryToVideo(entry: Element): YouTubeVideo | null {
   const firstText = (el: Element, tag: string): string | undefined =>
     el.getElementsByTagName(tag)[0]?.textContent || undefined;
 
@@ -189,7 +178,7 @@ function mapEntryToVideo(entry: Element): Video | null {
 
   if (!ytId || !title || !publishedAt || !thumbnailUrl || !videoUrl) return null;
 
-  const video: Video = {
+  const video: YouTubeVideo = {
     id: ytId,
     title,
     publishedAt,

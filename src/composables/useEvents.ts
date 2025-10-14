@@ -1,20 +1,12 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { formatDate, getCountdown as getCountdownUtil } from '../utils';
 import { EVENT_COUNTDOWN_INTERVAL } from '../constants';
-
-export interface Event {
-  id: number | string;
-  name: string;
-  start: string;
-  description: string;
-  link?: string;
-  coverUrl?: string;
-}
+import type { CommunityEvent } from '../api-types';
 
 const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 
 export function useEvents() {
-  const events = ref<Event[]>([]);
+  const events = ref<CommunityEvent[]>([]);
   const now = ref(new Date());
   const isLoading = ref(true);
   let timer: number | undefined;
@@ -30,7 +22,7 @@ export function useEvents() {
       const url = API + (import.meta.env.MODE === 'production' ? '/events' : '/events-test');
       const response = await fetch(url);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data: Event[] = await response.json();
+      const data: CommunityEvent[] = await response.json();
 
       // Sort by date ascending (native sort instead of lodash orderBy)
       events.value = data.sort((a, b) => {

@@ -79,6 +79,27 @@ export interface DiscordEvent {
   status: 'ongoing' | 'upcoming';
 }
 
+export interface CommunityEvent {
+  id: number | string;
+  name: string;
+  start: string;
+  description: string;
+  link?: string;
+  coverUrl?: string;
+}
+
+export interface YouTubeVideo {
+  id: string;
+  title: string;
+  publishedAt: string;
+  updatedAt?: string;
+  thumbnailUrl: string;
+  videoUrl: string;
+  author?: string;
+  views?: number;
+  channelId?: string;
+}
+
 // base url is https://www.wicgate.com so data endpoint is https://www.wicgate.com/api/data
 
 // Endpoint: GET /api/data

@@ -117,12 +117,13 @@ describe('auth store', () => {
     it('should fail login with invalid username', async () => {
       const loginPromise = authStore.login({ username: 'invalid', password: 'wrong' });
 
-      await vi.advanceTimersByTimeAsync(500);
-
-      await expect(loginPromise).rejects.toMatchObject({
+      const rejection = expect(loginPromise).rejects.toMatchObject({
         message: 'Invalid username or password',
         code: 'INVALID_CREDENTIALS',
       });
+
+      await vi.advanceTimersByTimeAsync(500);
+      await rejection;
 
       expect(authStore.currentUser).toBeNull();
       expect(authStore.authToken).toBeNull();
@@ -137,12 +138,13 @@ describe('auth store', () => {
     it('should fail login with invalid password', async () => {
       const loginPromise = authStore.login({ username: 'admin', password: 'wrongpassword' });
 
-      await vi.advanceTimersByTimeAsync(500);
-
-      await expect(loginPromise).rejects.toMatchObject({
+      const rejection = expect(loginPromise).rejects.toMatchObject({
         message: 'Invalid username or password',
         code: 'INVALID_CREDENTIALS',
       });
+
+      await vi.advanceTimersByTimeAsync(500);
+      await rejection;
 
       expect(authStore.error).toBe('Invalid username or password');
     });

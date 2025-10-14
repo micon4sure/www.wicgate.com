@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import type { LeaderboardEntry } from '../api-types';
+import type { LeaderboardEntry, LadderEntry } from '../api-types';
 import { computed } from 'vue';
 import LeaderboardGroup from './LeaderboardGroup.vue';
 
-const props = defineProps<{ data: Record<string, LeaderboardEntry[] | undefined> }>();
+type LeaderboardRow = LeaderboardEntry | LadderEntry;
+type LeaderboardDataRecord = Record<string, LeaderboardRow[] | undefined>;
+
+const props = defineProps<{ data: LeaderboardDataRecord }>();
 
 // Shared categories for high/total breakdown
 const categories = ['overall', 'infantry', 'armor', 'air', 'support'];
@@ -21,7 +24,9 @@ const totalKeys: Record<string, string> = {
   air: 'lb_totair',
   support: 'lb_totsup',
 };
-const ladderData = computed(() => ({ ladder: props.data.ladder || [] }));
+const ladderData = computed<LeaderboardDataRecord>(() => ({
+  ladder: props.data.ladder,
+}));
 </script>
 <template>
   <div class="grid grid-2 mb-lg">

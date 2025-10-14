@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 defineProps<{
-  currentSection?: string;
+  currentSection?: string | undefined;
 }>();
 
 const emit = defineEmits<{

@@ -262,7 +262,7 @@ function handleLogout() {
       :class="{ active: mobileOpen }"
       class="flex lg:hidden bg-gradient-to-br from-texture-panel/95 to-texture-dark/95 border-2 border-teal/60 rounded-none p-3 cursor-pointer transition-all duration-300 relative w-12 h-12 justify-center items-center flex-col gap-1 [-webkit-tap-highlight-color:transparent] z-[1001] hover:bg-teal/10 hover:border-teal sm:w-11 sm:h-11 sm:p-2.5 xs:w-10 xs:h-10 xs:p-2"
       aria-label="Toggle mobile menu"
-      aria-expanded="mobileOpen"
+      :aria-expanded="mobileOpen"
       @click="toggleMobileMenu"
     >
       <span
