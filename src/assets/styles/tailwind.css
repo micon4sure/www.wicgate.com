@@ -286,7 +286,7 @@
   }
 
   .nav-dropdown-item.active {
-    background: linear-gradient(90deg, var(--massgate-orange-light) 0%, var(--massgate-orange) 100%);
+    background: linear-gradient(90deg, theme('colors.massgate-orange.light') 0%, theme('colors.massgate-orange.DEFAULT') 100%);
     color: var(--ink);
     @apply font-bold;
     padding-left: 28px;
@@ -313,7 +313,7 @@
 
   @media (hover: hover) {
     .nav-mobile-link:hover {
-      background: linear-gradient(90deg, var(--massgate-orange-light) 0%, var(--massgate-orange) 100%);
+      background: linear-gradient(90deg, theme('colors.massgate-orange.light') 0%, theme('colors.massgate-orange.DEFAULT') 100%);
       color: var(--ink);
       padding-left: 40px;
     }
@@ -338,7 +338,7 @@
   }
 
   .nav-mobile-link:active {
-    background: linear-gradient(90deg, var(--massgate-orange) 0%, rgba(var(--massgate-orange-rgb), 0.85) 100%);
+    background: linear-gradient(90deg, theme('colors.massgate-orange.DEFAULT') 0%, rgba(var(--massgate-orange-rgb), 0.85) 100%);
     color: var(--ink);
   }
 
@@ -355,7 +355,7 @@
   }
 
   .nav-mobile-link.active {
-    background: linear-gradient(90deg, var(--massgate-orange-light) 0%, var(--massgate-orange) 100%);
+    background: linear-gradient(90deg, theme('colors.massgate-orange.light') 0%, theme('colors.massgate-orange.DEFAULT') 100%);
     color: var(--ink);
     @apply font-semibold;
     padding-left: 40px;
