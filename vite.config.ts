@@ -5,11 +5,12 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// For GitHub Pages under user/repo path we use relative asset paths.
-// base './' keeps asset links working both at https://micon4sure.github.io/www.wicgate.com/ and
-// at custom domain https://www.wicgate.com/ (once DNS + CNAME active) because paths are relative.
+const DEPLOY_BASE = process.env.DEPLOY_BASE || '/';
+
+// DEPLOY_BASE allows overriding the public base path (e.g. '/www.wicgate.com/' for GitHub Pages).
+// Defaults to '/' so pre-rendered pages resolve assets from the site root.
 export default defineConfig(({ mode }) => ({
-  base: './',
+  base: DEPLOY_BASE,
   plugins: [
     vue(),
     // PWA configuration
@@ -150,7 +151,7 @@ export default defineConfig(({ mode }) => ({
     },
     // Pre-render all routes automatically
     includedRoutes(paths) {
-      return paths;
+      return paths.filter((path) => path !== '/admin');
     },
   },
   css: {

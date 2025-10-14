@@ -6,39 +6,64 @@
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 
-// Define routes manually (mirrors routes.ts structure)
-const routes = [
-  {
-    path: '/',
-    priority: 1.0,
-    changefreq: 'daily',
-  },
-  {
-    path: '/getting-started',
-    priority: 0.9,
-    changefreq: 'weekly',
-  },
-  {
-    path: '/multiplayer',
-    priority: 0.8,
-    changefreq: 'daily',
-  },
-  {
-    path: '/community',
-    priority: 0.8,
-    changefreq: 'daily',
-  },
-  {
-    path: '/about',
-    priority: 0.7,
-    changefreq: 'monthly',
-  },
-  {
-    path: '/faq',
-    priority: 0.8,
-    changefreq: 'weekly',
-  },
-];
+import { NAVIGATION_STRUCTURE, getRoutePath } from '../src/types/navigation';
+
+interface RouteEntry {
+  path: string;
+  priority: number;
+  changefreq: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+}
+
+interface SectionRouteMeta {
+  priority: number;
+  changefreq: RouteEntry['changefreq'];
+  subsectionPriority?: number;
+}
+
+const SECTION_META: Record<string, SectionRouteMeta> = {
+  hero: { priority: 1.0, changefreq: 'daily' },
+  'getting-started': { priority: 0.9, changefreq: 'weekly' },
+  multiplayer: { priority: 0.8, changefreq: 'daily' },
+  community: { priority: 0.8, changefreq: 'weekly' },
+  about: { priority: 0.7, changefreq: 'monthly' },
+  faq: { priority: 0.8, changefreq: 'weekly' },
+};
+
+const DEFAULT_META: SectionRouteMeta = {
+  priority: 0.5,
+  changefreq: 'monthly',
+};
+
+const routeMap = new Map<string, RouteEntry>();
+
+function addRoute(path: string, priority: number, changefreq: RouteEntry['changefreq']) {
+  const normalizedPriority = Number(priority.toFixed(2));
+  routeMap.set(path, { path, priority: normalizedPriority, changefreq });
+}
+
+// Generate routes from navigation structure (covers main sections + subsections)
+for (const section of NAVIGATION_STRUCTURE) {
+  const meta = SECTION_META[section.id] ?? DEFAULT_META;
+  addRoute(getRoutePath(section.id), meta.priority, meta.changefreq);
+
+  if (section.subsections) {
+    const subsectionPriority =
+      meta.subsectionPriority ?? Math.max(meta.priority - 0.1, 0.3);
+
+    for (const subsection of section.subsections) {
+      addRoute(
+        getRoutePath(subsection.id),
+        subsectionPriority,
+        meta.changefreq
+      );
+    }
+  }
+}
+
+// Auth route (login) is public; admin dashboard stays off the sitemap
+addRoute('/login', 0.4, 'monthly');
+
+const routes = Array.from(routeMap.values()).sort((a, b) => a.path.localeCompare(b.path));
 
 const SITE_URL = 'https://wicgate.com';
 

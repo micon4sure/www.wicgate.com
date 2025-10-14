@@ -21,6 +21,8 @@ export const useAppDataStore = defineStore('appData', () => {
   let intervalId: number | undefined;
   const isInitialized = ref(false);
   let visibilityChangeHandler: (() => void) | undefined;
+  let onlineHandler: (() => void) | undefined;
+  let recoveryTimeoutId: number | undefined;
 
   /**
    * Fetches data with retry logic and exponential backoff
@@ -37,6 +39,10 @@ export const useAppDataStore = defineStore('appData', () => {
       lastFetchedAt.value = Date.now();
       error.value = null; // Clear any previous errors
       isOnline.value = true;
+      if (recoveryTimeoutId) {
+        clearTimeout(recoveryTimeoutId);
+        recoveryTimeoutId = undefined;
+      }
 
       // Mark initial load as complete after first successful fetch
       if (isInitialLoad.value) {
@@ -74,6 +80,17 @@ export const useAppDataStore = defineStore('appData', () => {
       if (intervalId) {
         clearInterval(intervalId);
         intervalId = undefined;
+      }
+      if (typeof window !== 'undefined') {
+        if (recoveryTimeoutId) {
+          clearTimeout(recoveryTimeoutId);
+        }
+        recoveryTimeoutId = window.setTimeout(() => {
+          recoveryTimeoutId = undefined;
+          if (isInitialized.value) {
+            fetchData();
+          }
+        }, API_POLLING_INTERVAL);
       }
     }
   }
@@ -118,6 +135,20 @@ export const useAppDataStore = defineStore('appData', () => {
         }
       };
       document.addEventListener('visibilitychange', visibilityChangeHandler);
+
+      onlineHandler = () => {
+        if (recoveryTimeoutId) {
+          clearTimeout(recoveryTimeoutId);
+          recoveryTimeoutId = undefined;
+        }
+        if (isInitialized.value) {
+          fetchData();
+          if (!intervalId) {
+            intervalId = window.setInterval(fetchData, API_POLLING_INTERVAL);
+          }
+        }
+      };
+      window.addEventListener('online', onlineHandler);
     }
   }
 
@@ -129,6 +160,14 @@ export const useAppDataStore = defineStore('appData', () => {
     if (visibilityChangeHandler) {
       document.removeEventListener('visibilitychange', visibilityChangeHandler);
       visibilityChangeHandler = undefined;
+    }
+    if (typeof window !== 'undefined' && onlineHandler) {
+      window.removeEventListener('online', onlineHandler);
+      onlineHandler = undefined;
+    }
+    if (recoveryTimeoutId) {
+      clearTimeout(recoveryTimeoutId);
+      recoveryTimeoutId = undefined;
     }
     isInitialized.value = false;
   }

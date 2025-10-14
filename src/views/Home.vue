@@ -47,6 +47,40 @@ watch(
 const isSSR = import.meta.env.SSR;
 const targetSection = computed(() => route.meta.section as string | undefined);
 
+const matchedMeta = computed(() => {
+  const matched = [...route.matched].reverse();
+  for (const record of matched) {
+    if (record.meta && Object.keys(record.meta).length > 0) {
+      return record.meta;
+    }
+  }
+  return route.meta;
+});
+
+const defaultTitle = 'WICGATE - World in Conflict Multiplayer Revival';
+const defaultDescription = 'Play World in Conflict online with restored multiplayer servers.';
+const defaultKeywords = 'world in conflict, wic multiplayer, massgate';
+const defaultOgImage = 'https://wicgate.com/og-default.jpg';
+
+const pageTitle = computed(() => (matchedMeta.value.title as string | undefined) || defaultTitle);
+const pageDescription = computed(
+  () => (matchedMeta.value.description as string | undefined) || defaultDescription
+);
+const pageKeywords = computed(
+  () => (matchedMeta.value.keywords as string | undefined) || defaultKeywords
+);
+const pageOgImage = computed(
+  () => (matchedMeta.value.ogImage as string | undefined) || defaultOgImage
+);
+
+const canonicalUrl = computed(() => {
+  const canonicalPath =
+    (matchedMeta.value.canonical as string | undefined) || route.fullPath || route.path || '/';
+  return `https://wicgate.com${
+    canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`
+  }`;
+});
+
 // Determine which sections to render based on SSR vs CSR
 function shouldRenderSection(sectionId: string): boolean {
   // Client-side: always render all sections for smooth long-scroll
@@ -64,66 +98,70 @@ function shouldRenderSection(sectionId: string): boolean {
 
 // Dynamic meta tags based on route
 useHead({
-  title: () => (route.meta.title as string) || 'WICGATE - World in Conflict Multiplayer Revival',
+  title: pageTitle,
   meta: [
     {
+      key: 'description',
       name: 'description',
-      content: () =>
-        (route.meta.description as string) ||
-        'Play World in Conflict online with restored multiplayer servers.',
+      content: pageDescription,
     },
     {
+      key: 'keywords',
       name: 'keywords',
-      content: () =>
-        (route.meta.keywords as string) || 'world in conflict, wic multiplayer, massgate',
+      content: pageKeywords,
     },
     // Open Graph
     {
+      key: 'og:title',
       property: 'og:title',
-      content: () => (route.meta.title as string) || 'WICGATE',
+      content: pageTitle,
     },
     {
+      key: 'og:description',
       property: 'og:description',
-      content: () =>
-        (route.meta.description as string) ||
-        'Play World in Conflict online with restored multiplayer servers.',
+      content: pageDescription,
     },
     {
       property: 'og:type',
       content: 'website',
     },
     {
+      key: 'og:url',
       property: 'og:url',
-      content: () => `https://wicgate.com${route.path}`,
+      content: canonicalUrl,
     },
     {
+      key: 'og:image',
       property: 'og:image',
-      content: () => (route.meta.ogImage as string) || 'https://wicgate.com/og-default.jpg',
+      content: pageOgImage,
     },
     // Twitter Card
     {
+      key: 'twitter:card',
       name: 'twitter:card',
       content: 'summary_large_image',
     },
     {
+      key: 'twitter:title',
       name: 'twitter:title',
-      content: () => (route.meta.title as string) || 'WICGATE',
+      content: pageTitle,
     },
     {
+      key: 'twitter:description',
       name: 'twitter:description',
-      content: () =>
-        (route.meta.description as string) ||
-        'Play World in Conflict online with restored multiplayer servers.',
+      content: pageDescription,
     },
     {
+      key: 'twitter:image',
       name: 'twitter:image',
-      content: () => (route.meta.ogImage as string) || 'https://wicgate.com/og-default.jpg',
+      content: pageOgImage,
     },
   ],
   link: [
     {
       rel: 'canonical',
-      href: () => `https://wicgate.com${route.path}`,
+      href: canonicalUrl,
+      key: 'canonical',
     },
   ],
   script: [
