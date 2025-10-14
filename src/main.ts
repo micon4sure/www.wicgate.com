@@ -109,10 +109,25 @@ export const createApp = ViteSSG(
       return { top: 0 };
     },
   },
-  ({ app }) => {
+  ({ app, isClient }) => {
     // Setup Pinia state management (must be before router for guards to work)
     const pinia = createPinia();
     app.use(pinia);
+
+    // Initialize stores on client side only (after Pinia is registered)
+    if (isClient) {
+      // Import stores dynamically to avoid SSR issues
+      import('./stores/appDataStore').then(({ useAppDataStore }) => {
+        const appDataStore = useAppDataStore();
+        appDataStore.init();
+      });
+
+      import('./stores/auth').then(({ useAuthStore }) => {
+        const authStore = useAuthStore();
+        // Check auth in background (non-blocking)
+        authStore.checkAuth();
+      });
+    }
 
     // Setup head management
     const head = createHead();

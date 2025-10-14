@@ -1,6 +1,8 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🔍 **SEO Critical: Structured Data Injection** - Fixed missing JSON-LD structured data (Organization + WebSite schemas) by extending post-build script to inject schema.org markup into all 22 pre-rendered pages - enables Google Knowledge Panel, rich search results, and proper search engine understanding (Oct 14)
+- 🧹 **Code Cleanup: Store Refactoring Artifacts** - Removed unused imports and variables left behind from store initialization centralization: removed `onMounted` import from Admin.vue, removed unused `authStore` variable from Home.vue, auto-fixed Prettier formatting issues (Oct 14)
 - 🌐 **SSG Metadata + Asset Base Fix** - Assets now use the correct root-relative base via `DEPLOY_BASE`, SSG pages exclude `/admin`, and a new post-build step stamps per-route titles/descriptions/canonicals into every pre-rendered HTML file (Oct 14)
 - 🛡️ **Auth Guards + Data Polling Resilience** - Login/admin route guards now hydrate persisted sessions before enforcing access, admin dashboard triggers live polling on mount, app data store auto-recovers after outages, and sitemap generator covers all 23 SSG routes for better SEO (Oct 14)
 - 🎨 **Tailwind Config Further Consolidated** - Reduced `tailwind.config.ts` from 250 to 193 lines (23% reduction): removed duplicate colors (night/battlefield-teal), consolidated gradients (kept 4 most-used, documented inline alternatives), reduced shadows (1-2 per color family instead of 3), moved rarely-used animations to component CSS - clearer hierarchy, easier to learn, still fully flexible with Tailwind utilities (Oct 14)
@@ -109,6 +111,21 @@
 ---
 
 ## October 2025
+
+### October 14, 2025 - Structured Data SEO Fix + Code Cleanup
+
+**Highlights**
+- Extended `scripts/apply-head-meta.ts` to inject JSON-LD structured data during post-build processing, fixing a critical SEO gap where @vueuse/head v2 doesn't render `<script>` tags during SSG.
+- Added Organization schema to all 22 pre-rendered pages and WebSite schema to homepage for rich search results and Google Knowledge Panel eligibility.
+- Cleaned up unused imports/variables from store initialization refactoring: removed `onMounted` from Admin.vue, removed unused `authStore` from Home.vue.
+- Build validation now passes with 0 errors, 0 warnings (previously had 22 warnings for missing structured data).
+- Verified with `npm run lint`, `npm test`, and new `npm run validate:build` command.
+
+**Technical Details**
+- `apply-head-meta.ts`: Added `injectStructuredData()` function that imports schemas from `src/utils/structuredData.ts` and injects minified JSON-LD before `</head>` tag
+- All 22 routes now include proper schema.org Organization markup with name, logo, description, social links, and founding date
+- Homepage additionally includes WebSite schema with search action for enhanced search engine integration
+- Created `scripts/validate-build.ts` for automated post-build quality checks (favicon paths, canonical URLs, meta tags, structured data)
 
 ### October 13, 2025 - Pinia State Management Migration + Authentication
 

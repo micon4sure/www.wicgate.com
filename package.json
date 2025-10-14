@@ -9,6 +9,7 @@
     "build:icons": "tsx scripts/generate-pwa-icons.ts",
     "build:sitemap": "tsx scripts/generate-sitemap.ts",
     "postbuild:head": "tsx scripts/apply-head-meta.ts",
+    "validate:build": "tsx scripts/validate-build.ts",
     "prepare": "husky",
     "preview": "vite preview",
     "lint": "eslint --ext .ts,.vue src",

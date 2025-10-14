@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import { useAppDataStore } from '../stores/appDataStore';
@@ -12,10 +12,6 @@ const currentUser = computed(() => authStore.currentUser);
 const isAdmin = computed(() => authStore.isAdmin);
 const playerCount = computed(() => appDataStore.playerCount);
 const playersOnline = computed(() => appDataStore.playersOnline);
-
-onMounted(() => {
-  appDataStore.init();
-});
 
 function handleLogout() {
   authStore.logout();

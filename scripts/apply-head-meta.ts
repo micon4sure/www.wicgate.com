@@ -1,6 +1,10 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { PAGE_META, DEFAULT_SITE_URL, DEFAULT_OG_IMAGE } from '../src/content/pageMeta';
+import {
+  generateOrganizationSchema,
+  generateWebSiteSchema,
+} from '../src/utils/structuredData';
 
 interface ReplacementMeta {
   title: string;
@@ -21,7 +25,10 @@ async function main() {
       if (!routePath) return;
 
       const metaDefinition = PAGE_META[routePath];
-      if (!metaDefinition) return;
+      if (!metaDefinition) {
+        console.warn(`⚠️  No metadata found for route: ${routePath}`);
+        return;
+      }
 
       const replacement: ReplacementMeta = {
         title: metaDefinition.title,
@@ -44,6 +51,9 @@ async function main() {
       html = replaceMeta(html, 'name', 'twitter:description', replacement.description);
       html = replaceMeta(html, 'name', 'twitter:image', replacement.ogImage);
       html = replaceLink(html, 'rel', 'canonical', replacement.canonical);
+
+      // Inject structured data (JSON-LD)
+      html = injectStructuredData(html, routePath);
 
       await fs.writeFile(filePath, html);
     })
@@ -85,6 +95,32 @@ function escapeAttribute(value: string): string {
 
 function escapeRegex(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function injectStructuredData(html: string, routePath: string): string {
+  const scripts: string[] = [];
+
+  // Organization schema on all pages
+  const orgSchema = generateOrganizationSchema();
+  scripts.push(
+    `<script type="application/ld+json">${JSON.stringify(orgSchema, null, 0)}</script>`
+  );
+
+  // WebSite schema on homepage only
+  if (routePath === '/') {
+    const websiteSchema = generateWebSiteSchema();
+    scripts.push(
+      `<script type="application/ld+json">${JSON.stringify(websiteSchema, null, 0)}</script>`
+    );
+  }
+
+  // Insert all structured data scripts before </head>
+  if (scripts.length > 0) {
+    const structuredDataBlock = '\n' + scripts.join('\n') + '\n';
+    html = html.replace('</head>', `${structuredDataBlock}</head>`);
+  }
+
+  return html;
 }
 
 async function collectHtmlFiles(dir: string): Promise<string[]> {

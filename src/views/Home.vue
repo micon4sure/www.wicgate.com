@@ -12,7 +12,6 @@ import About from '../screens/About.vue';
 import FAQ from '../screens/FAQ.vue';
 import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
 import { useAppDataStore } from '../stores/appDataStore';
-import { useAuthStore } from '../stores/auth';
 import { useFirstVisit } from '../composables/useFirstVisit';
 import { useActiveSection } from '../composables/useActiveSection';
 import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/structuredData';
@@ -21,7 +20,6 @@ import { getAllValidIds } from '../types/navigation';
 import { syncHeaderHeight } from '../utils/headerHeight';
 
 const store = useAppDataStore();
-const authStore = useAuthStore();
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
 
 // Get all valid section IDs for scroll tracking
@@ -74,8 +72,7 @@ const pageOgImage = computed(
 );
 
 const canonicalUrl = computed(() => {
-  const canonicalPath =
-    (matchedMeta.value.canonical as string | undefined) || route.fullPath || route.path || '/';
+  const canonicalPath = (matchedMeta.value.canonical as string | undefined) || route.path || '/';
   return `https://wicgate.com${
     canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`
   }`;
@@ -188,13 +185,6 @@ onMounted(() => {
 
   // Initialize performance monitoring
   initWebVitals();
-
-  // Initialize store data
-  store.init();
-
-  // Initialize auth (check for existing session from localStorage)
-  // Non-blocking - runs in background
-  authStore.checkAuth();
 
   // Sync header height with CSS variable for pixel-perfect scroll positioning
   // This measures actual rendered header height and updates --header-height
