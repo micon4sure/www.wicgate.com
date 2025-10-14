@@ -15,7 +15,7 @@ function getCategoryId(categoryName: string): string {
     'Getting Started': 'faq-getting-started',
     'Technical Issues': 'faq-technical',
     'Gameplay & Features': 'faq-gameplay',
-    'Server & Community': 'faq-community',
+    'Server & Community': 'faq-server-community',
   };
   return categoryMap[categoryName] || `faq-${categoryName.toLowerCase().replace(/\s+/g, '-')}`;
 }
