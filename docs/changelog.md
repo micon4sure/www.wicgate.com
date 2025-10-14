@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🔄 **MAJOR: @unhead/vue Migration** - Migrated from deprecated @vueuse/head to modern @unhead/vue (official successor, maintained, integrated with vite-ssg v28+), changed `children` → `textContent` property for proper JSON-LD rendering during SSG, removed manual head setup (vite-ssg handles it automatically), all 44 tests passing, belt-and-suspenders approach with post-build script as safety net ensures structured data always works (Oct 14)
 - 🔍 **SEO Critical: Structured Data Injection** - Fixed missing JSON-LD structured data (Organization + WebSite schemas) by extending post-build script to inject schema.org markup into all 22 pre-rendered pages - enables Google Knowledge Panel, rich search results, and proper search engine understanding (Oct 14)
 - 🧹 **Code Cleanup: Store Refactoring Artifacts** - Removed unused imports and variables left behind from store initialization centralization: removed `onMounted` import from Admin.vue, removed unused `authStore` variable from Home.vue, auto-fixed Prettier formatting issues (Oct 14)
 - 🌐 **SSG Metadata + Asset Base Fix** - Assets now use the correct root-relative base via `DEPLOY_BASE`, SSG pages exclude `/admin`, and a new post-build step stamps per-route titles/descriptions/canonicals into every pre-rendered HTML file (Oct 14)
@@ -111,6 +112,27 @@
 ---
 
 ## October 2025
+
+### October 14, 2025 - @unhead/vue Migration (Head Management Library)
+
+**Highlights**
+- Migrated from deprecated `@vueuse/head@2.0.0` to modern `@unhead/vue@1.11.18` (official successor maintained by the Unhead team).
+- Fixed critical API difference: changed `children` property to `textContent` in all `useHead()` script blocks for proper JSON-LD rendering during ViteSSG build.
+- Removed manual head setup from `src/main.ts` since vite-ssg v28+ automatically integrates @unhead/vue (no `createHead()` needed).
+- Verified structured data renders correctly during SSG: both @unhead/vue AND post-build script now inject JSON-LD (belt-and-suspenders approach).
+- All 44 tests passing, build successful, structured data properly formatted in all 22 pre-rendered pages.
+
+**Technical Details**
+- `package.json`: Replaced `@vueuse/head@2.0.0` with `@unhead/vue@1.11.18` in devDependencies
+- `src/main.ts`: Removed `import { createHead } from '@vueuse/head'` and manual head setup (lines 132-134), added comment explaining vite-ssg v28+ auto-integration
+- `src/views/Home.vue`: Changed import to `@unhead/vue`, replaced `children:` with `textContent:` in both Organization and WebSite schema script blocks
+- Result: Structured data now renders during SSG via @unhead/vue, with post-build script as backup safety net
+
+**Why This Matters**
+- @vueuse/head is officially sunset/deprecated, @unhead/vue is the maintained successor integrated with modern build tools
+- Using `children` property with @unhead/vue produces malformed HTML attributes instead of proper JSON-LD content
+- Future-proof foundation: when tailwind branch merges to master, it brings modern, maintained library with correct API usage
+- Belt-and-suspenders approach ensures structured data works even if library behavior changes
 
 ### October 14, 2025 - Structured Data SEO Fix + Code Cleanup
 

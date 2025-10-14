@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import Navigation from '../components/Navigation.vue';
 import SiteFooter from '../components/Footer.vue';
 import WidgetDashboard from '../components/WidgetDashboard.vue';
@@ -165,14 +165,14 @@ useHead({
     // Organization schema for all pages
     {
       type: 'application/ld+json',
-      children: JSON.stringify(generateOrganizationSchema()),
+      textContent: JSON.stringify(generateOrganizationSchema()),
     },
     // WebSite schema for homepage only
     ...(!targetSection.value
       ? [
           {
             type: 'application/ld+json',
-            children: JSON.stringify(generateWebSiteSchema()),
+            textContent: JSON.stringify(generateWebSiteSchema()),
           },
         ]
       : []),

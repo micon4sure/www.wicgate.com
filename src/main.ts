@@ -1,7 +1,6 @@
 /// <reference types="vite-plugin-pwa/client" />
 
 import { ViteSSG } from 'vite-ssg';
-import { createHead } from '@vueuse/head';
 import { createPinia } from 'pinia';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './assets/styles/tailwind.css';
@@ -129,9 +128,8 @@ export const createApp = ViteSSG(
       });
     }
 
-    // Setup head management
-    const head = createHead();
-    app.use(head);
+    // Note: vite-ssg v28+ automatically sets up @unhead/vue
+    // No manual head management setup needed
 
     // Provide the app base so components can construct asset URLs
     const runtimeBase = getRuntimeBase();
