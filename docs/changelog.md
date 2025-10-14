@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🛠️ **Shared Data Types + Leaderboard Stability** - Unified community event and YouTube video typings in `api-types`, rewired events/videos composables + widgets to use them, and hardened leaderboard data handling/tests so SSR + TypeScript builds run warning-free (Oct 14)
 - 🎨 **Navigation & Leaderboards: Unified Massgate Orange Hover States** - Shifted primary navigation tabs (desktop + mobile), login CTA, dropdown items, and all leaderboard tab/row hover treatments to the same `massgate-orange` design tokens for consistent interactions. Added helper CSS vars in Tailwind base for RGB math so borders, glows, and gradients share the palette (Oct 13)
 
 - 🎨 **Leaderboard Headers: Red Gradient + White Text** - Updated leaderboard headers to use red gradient background with white text for strong military command center aesthetic: red gradient (`from-massgate-red to-massgate-red-dark` = #c62828 → #8b0000), dark red border (`border-massgate-red-dark`), white text with subtle shadow - affects all leaderboards (High Scores, Total Scores, Player Leaderboard, Clan Leaderboard) - creates bold, commanding presence matching military tactical UI (Oct 13)
