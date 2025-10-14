@@ -61,6 +61,6 @@ npm run build        # Production build (SSG + PWA)
 
 ---
 
-**Stack:** Vue 3 + TypeScript, Vite, ViteSSG, Tailwind CSS, Pinia, Vitest
+**Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
 **Updated:** October 14, 2025

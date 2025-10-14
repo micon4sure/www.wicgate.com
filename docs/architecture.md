@@ -4,9 +4,9 @@
 
 WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation for SEO with Single Page Application behavior for user experience.
 
-**Stack:** Vue 3 + TypeScript, ViteSSG, Tailwind CSS, Pinia, Vitest
+**Stack:** Vue 3 + TypeScript, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](../src/main.ts)
-**Routing:** 27 pre-rendered routes (1 homepage + 5 sections + 21 subsections)
+**Routing:** 27 routes total (23 pre-rendered for SSG, /admin excluded)
 
 ---
 
@@ -15,7 +15,7 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 ### Rendering Strategy
 
 **Build Time (SSG):**
-- ViteSSG pre-renders 27 unique HTML files
+- ViteSSG pre-renders 23 unique HTML files (excludes /admin)
 - Each route serves focused content with unique meta tags
 - Conditional rendering: `shouldRenderSection()` renders only target section per route
 
@@ -226,6 +226,60 @@ onMounted(() => {
 
 ---
 
+## Head Management & Meta Tags
+
+**Library:** @unhead/vue (official successor to deprecated @vueuse/head)
+
+**Integration:**
+- ViteSSG v28+ automatically sets up @unhead/vue (no manual `createHead()` needed)
+- Used in Home.vue for dynamic meta tags based on route
+- JSON-LD structured data for SEO (Organization + WebSite schemas)
+
+**Belt-and-Suspenders Approach:**
+
+1. **Runtime (Primary):** `useHead()` in components injects meta tags during SSG build
+2. **Build-time (Safety Net):** Post-build script ensures metadata in all pre-rendered HTML
+
+**Pattern:**
+```typescript
+// Home.vue
+import { useHead } from '@unhead/vue';
+
+useHead({
+  title: pageTitle,
+  meta: [
+    { name: 'description', content: pageDescription },
+    { property: 'og:title', content: pageTitle },
+    // ...
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      textContent: JSON.stringify(generateOrganizationSchema()), // ⚠️ Use textContent, NOT children
+    },
+  ],
+});
+```
+
+**Critical API Difference from @vueuse/head:**
+- ✅ Use `textContent` property for script blocks
+- ❌ Do NOT use `children` property (produces malformed HTML)
+
+**Files:**
+- [Home.vue](../src/views/Home.vue) - Dynamic head management with `useHead()`
+- [pageMeta.ts](../src/content/pageMeta.ts) - Single source of truth for meta tags
+- [structuredData.ts](../src/utils/structuredData.ts) - JSON-LD schema generation
+- [scripts/apply-head-meta.ts](../scripts/apply-head-meta.ts) - Post-build meta injection
+
+**Meta Tags Per Route:**
+- Unique title, description, keywords for each of 23 pre-rendered pages
+- OpenGraph tags for social sharing
+- Twitter Card tags
+- Canonical URLs
+- JSON-LD structured data (Organization schema on all pages, WebSite schema on homepage)
+
+---
+
 ## PWA Architecture
 
 **File:** [vite.config.ts](../vite.config.ts)
@@ -400,12 +454,13 @@ Use CSS variable for spacing:
 
 **Steps:**
 1. Generate PWA icons from `public/favicon.svg` (4 sizes)
-2. ViteSSG build - Pre-render 27 routes
-3. Generate sitemap.xml from routes
-4. PWA service worker generation (~49 precached entries)
-5. Asset optimization (code splitting, tree shaking, content hashing)
+2. ViteSSG build - Pre-render 23 routes (excludes /admin)
+3. Apply head meta - Inject route-specific titles/descriptions/structured data
+4. Generate sitemap.xml from routes
+5. PWA service worker generation (~49 precached entries)
+6. Asset optimization (code splitting, tree shaking, content hashing)
 
-**Output:** `dist/` with 27 unique HTML files + optimized assets
+**Output:** `dist/` with 23 unique HTML files + optimized assets
 
 ### Configuration
 
@@ -485,7 +540,7 @@ src/
 ├── main.ts                    # ViteSSG entry
 ├── router/
 │   ├── index.ts               # Router config
-│   └── routes.ts              # Route definitions (27 routes)
+│   └── routes.ts              # Route definitions (27 routes, 23 pre-rendered)
 ├── stores/
 │   ├── appDataStore.ts        # Game data
 │   └── auth.ts                # Authentication

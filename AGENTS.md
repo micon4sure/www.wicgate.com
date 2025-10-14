@@ -21,7 +21,7 @@
 
 **WiCGATE** - Community portal for World in Conflict multiplayer revival
 
-- **Stack:** Vue 3 + TypeScript, Vite + ViteSSG, Pinia, Vue Router, Tailwind CSS
+- **Stack:** Vue 3 + TypeScript, Vite + ViteSSG, @unhead/vue, Pinia, Vue Router, Tailwind CSS
 - **Architecture:** Hybrid SSG/SPA with PWA support
 - **Purpose:** Massgate-inspired UI with live player data and community tools
 - **Authentication:** Mock JWT system (admin/user roles)
@@ -102,7 +102,7 @@ All in [tailwind.config.ts](tailwind.config.ts):
 ## Key Features (October 2025)
 
 - **PWA:** Offline capability, installable, service worker
-- **SSG:** 29 unique pre-rendered HTML files for SEO (path-based nested routes)
+- **SSG:** 23 unique pre-rendered HTML files for SEO (path-based nested routes)
 - **Authentication:** Mock JWT with admin/user roles, protected routes
 - **State Management:** Pinia stores with SSR support
 - **Styling:** Tailwind CSS utility-first approach (80% code reduction)
@@ -120,7 +120,7 @@ All in [tailwind.config.ts](tailwind.config.ts):
 [src/main.ts](src/main.ts) - ViteSSG initialization + PWA registration
 
 ### Routing
-29 pre-rendered routes: 6 main sections + 21 subsections + 2 auth routes (path-based nested routes)
+27 routes total (23 pre-rendered for SSG, /admin excluded): 6 main sections + 21 subsections + 2 auth routes (path-based nested routes)
 
 ### State Management (Pinia)
 - [src/stores/appDataStore.ts](src/stores/appDataStore.ts) - API data with retry logic
