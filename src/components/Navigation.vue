@@ -143,12 +143,7 @@ function handleLogout() {
       class="flex flex-col items-start min-w-[200px] md:min-w-[200px] sm:min-w-[160px] xs:min-w-[140px]"
     >
       <div
-        class="font-military text-2xl font-bold text-massgate-red-bright uppercase tracking-[2px] select-none leading-none transition-all duration-300 hover:text-massgate-red-glow md:text-2xl sm:text-xl xs:text-lg"
-        style="
-          text-shadow:
-            0 0 20px rgba(229, 53, 53, 0.5),
-            0 0 40px rgba(198, 40, 40, 0.3);
-        "
+        class="font-military text-2xl font-bold text-teal uppercase tracking-[2px] select-none leading-none transition-all duration-300 hover:text-teal-bright md:text-2xl sm:text-xl xs:text-lg"
       >
         WICGATE
       </div>
