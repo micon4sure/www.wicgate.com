@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🎨 **Design System Consolidation: Single Source of Truth** - Removed ~80% of duplicate CSS variables from `tailwind.css` (95 lines → 20 lines), established `tailwind.config.ts` as single source of truth for all design tokens, refactored navigation styles to use Tailwind's `theme()` function instead of CSS variables, eliminated fragmentation between two parallel design systems - all colors now customizable in one place (Oct 14)
 - 🛠️ **Shared Data Types + Leaderboard Stability** - Unified community event and YouTube video typings in `api-types`, rewired events/videos composables + widgets to use them, and hardened leaderboard data handling/tests so SSR + TypeScript builds run warning-free (Oct 14)
 - 🎨 **Navigation & Leaderboards: Unified Massgate Orange Hover States** - Shifted primary navigation tabs (desktop + mobile), login CTA, dropdown items, and all leaderboard tab/row hover treatments to the same `massgate-orange` design tokens for consistent interactions. Added helper CSS vars in Tailwind base for RGB math so borders, glows, and gradients share the palette (Oct 13)
 

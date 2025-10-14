@@ -41,7 +41,10 @@ npm run build        # Production build (SSG + PWA)
 **Tailwind-First Approach:**
 - Use Tailwind utility classes directly in templates for 95% of styling
 - Only create custom CSS when truly necessary (complex animations, very specific states)
-- Design tokens defined in `tailwind.config.ts`, not CSS variables (except `--header-height` for JS sync)
+- **SINGLE SOURCE OF TRUTH**: All design tokens (colors, shadows, animations) in `tailwind.config.ts`
+- CSS variables in `tailwind.css` are ONLY for:
+  - JS synchronization (`--header-height`)
+  - Legacy component compatibility (being gradually migrated to Tailwind classes)
 - Use `@layer components` sparingly for truly reusable component patterns only
 - Prefer inline utilities over semantic CSS classes for maintainability and visibility
 
@@ -72,4 +75,4 @@ npm run build        # Production build (SSG + PWA)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** October 13, 2025
+**Updated:** October 14, 2025

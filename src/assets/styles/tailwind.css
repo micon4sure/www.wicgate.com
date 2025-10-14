@@ -6,101 +6,43 @@
 /* Base layer - Essential resets and HTML elements */
 @layer base {
   :root {
+    /* SINGLE SOURCE OF TRUTH: All colors defined in tailwind.config.ts */
+    /* Only keep CSS variables that need JS synchronization or legacy compatibility */
+
     --header-height: 80px; /* Dynamic - synced by headerHeight.ts */
 
-    /* Bridge CSS variables to Tailwind colors for backward compatibility */
-    /* Structural colors */
-    --mg: #1f2f3b;
-    --mg-dark: #101a22;
-    --mg-muted: #344654;
-    --mg-rgb: 15, 18, 21;
-    --mg-dark-rgb: 8, 9, 11;
-    --mg-muted-rgb: 52, 70, 84;
-
-    /* Accent colors */
-    --sw: #ff6600; /* Original Massgate orange */
-    --sw-light: #ff8533;
-    --sw-rgb: 255, 102, 0;
-    --sw-light-rgb: 255, 133, 51;
-    /* Massgate orange tokens */
-    --massgate-orange: #f37c2b;
-    --massgate-orange-light: #f8a85e;
-    --massgate-orange-dark: #e06820;
+    /* Legacy RGB variables (needed for rgba() with opacity in existing components) */
+    /* TODO: Migrate to Tailwind opacity utilities (e.g., bg-graphite/50) */
     --massgate-orange-rgb: 243, 124, 43;
-
-    /* Soviet/Orange (primary accent) */
-    --soviet: #ff6600;
-    --soviet-light: #ff8533;
-
-    /* Deep red accent */
-    --dl: #8b1d14; /* Deep Soviet red */
-    --dl-rgb: 139, 29, 20;
-
-    /* Graphite (dark navigation/tab backgrounds) */
-    --graphite: #0f1215;
-    --graphite-dark: #08090b;
-    --graphite-light: #1a1e22;
+    --mg-rgb: 31, 47, 59;           /* Used in LeaderboardGroup.vue */
+    --mg-dark-rgb: 16, 26, 34;      /* Used in LeaderboardGroup.vue */
     --graphite-rgb: 15, 18, 21;
     --graphite-dark-rgb: 8, 9, 11;
     --graphite-light-rgb: 26, 30, 34;
-
-    /* Backgrounds */
-    --bg: #050a0f;
-    --bg-rgb: 5, 10, 15;
-    --panel-main: #0f1215;
     --panel-main-rgb: 15, 18, 21;
-    --panel-dark: #08090b;
     --panel-dark-rgb: 8, 9, 11;
-    --panel-shadow-rgb: 8, 9, 11;
-    --s1: #0f1215;
-    --s2: #1a1e22;
 
-    /* Text colors */
-    --t: #f3f6f8;
-    --t2: #a7b7c3;
-    --t3: #6c7a85;
-    --t-rgb: 243, 246, 248;
-    --t2-rgb: 167, 183, 195;
-    --t3-rgb: 108, 122, 133;
+    /* Legacy shorthand variables (for existing component compatibility) */
+    /* TODO: Refactor components to use Tailwind classes directly */
+    --t: #f3f6f8;        /* Use theme('colors.t.DEFAULT') or text-t */
+    --t2: #a7b7c3;       /* Use text-t-secondary */
+    --t3: #6c7a85;       /* Used in LeaderboardGroup.vue, Footer.vue */
+    --sw: #ff6600;       /* Use text-soviet or bg-soviet */
+    --ink: #0b141a;      /* Use text-ink or bg-ink */
+    --g: #7cb342;        /* Online/success color - used in Footer.vue, useServerCapacity.ts */
+    --bg: #050a0f;       /* Used in Footer.vue */
+    --bd: #1f2f3b;       /* Border color - used in Footer.vue */
+    --s1: #0f1215;       /* Background surface 1 - not currently used, but kept for consistency */
+    --s2: #1a1e22;       /* Background surface 2 - used in Twitch components & skeletons */
+    --mg-muted: #344654; /* Used in skeleton loading animations */
+    --dl: #8b1d14;       /* Deep red - used in ErrorBoundary.vue */
 
-    /* Functional colors */
-    --g: #7cb342; /* Online/success */
-    --g-rgb: 124, 179, 66;
-    --d: #4f7bd7; /* Discord classic blue */
-
-    /* Medal colors */
-    --medal-gold: #ffd700;
-    --medal-silver: #c0c0c0;
-    --medal-bronze: #cd7f32;
-
-    /* Extra functional colors */
-    --ink: #0b141a;
-    --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.3);
-    --panel-slate-rgb: 54, 81, 104;
-    --panel-slate-dark-rgb: 28, 44, 56;
-
-    /* Brand colors - YouTube */
-    --brand-youtube: #e53935;
-    --brand-youtube-bright: #ff5722;
-    --brand-youtube-rgb: 229, 57, 53;
-
-    /* Dividers */
-    --divider-strong: rgba(68, 117, 146, 0.7);
-    --divider-soft: rgba(68, 117, 146, 0.35);
-
-    /* Fonts */
-    --font-heading: 'Oswald', sans-serif;
-    --font-body: 'Rajdhani', sans-serif;
-
-    /* Transitions */
+    /* Transition helper (can't be expressed in Tailwind) */
     --tr: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-    /* Spacing shortcuts */
-    --spacing-xs: 0.5rem;
-    --spacing-sm: 1rem;
-    --spacing-md: 1.5rem;
-    --spacing-lg: 2rem;
-    --spacing-xl: 3rem;
+    /* Legacy dividers (used in LeaderboardGroup.vue, .card class) */
+    --divider-strong: rgba(68, 117, 146, 0.7);
+    --divider-soft: rgba(68, 117, 146, 0.35);
   }
 
   * {
@@ -278,27 +220,23 @@
 
   @media (hover: hover) {
     .nav-tab:hover {
-      color: var(--ink);
-      background: linear-gradient(180deg, var(--massgate-orange-light) 0%, var(--massgate-orange) 100%);
-      border-color: rgba(var(--massgate-orange-rgb), 0.7);
+      @apply text-ink border-massgate-orange/70;
+      background: linear-gradient(180deg, theme('colors.massgate-orange.light') 0%, theme('colors.massgate-orange.DEFAULT') 100%);
       transform: scale(1.02) translateY(-2px);
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 24px rgba(var(--massgate-orange-rgb), 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
   }
 
   .nav-tab:active {
-    color: var(--ink);
-    background: linear-gradient(180deg, var(--massgate-orange) 0%, var(--massgate-orange-dark) 100%);
-    border-color: rgba(var(--massgate-orange-rgb), 0.75);
+    @apply text-ink border-massgate-orange/75;
+    background: linear-gradient(180deg, theme('colors.massgate-orange.DEFAULT') 0%, theme('colors.massgate-orange.dark') 100%);
     transform: scale(1.01) translateY(-1px);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(var(--massgate-orange-rgb), 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .nav-tab.active {
-    color: var(--ink);
-    background: linear-gradient(180deg, var(--massgate-orange-light) 0%, var(--massgate-orange) 100%);
-    font-weight: 600;
-    border-color: rgba(var(--massgate-orange-rgb), 0.85);
+    @apply text-ink font-semibold border-massgate-orange/85;
+    background: linear-gradient(180deg, theme('colors.massgate-orange.light') 0%, theme('colors.massgate-orange.DEFAULT') 100%);
     transform: scale(1.02) translateY(-2px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 32px rgba(var(--massgate-orange-rgb), 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
