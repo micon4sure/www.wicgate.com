@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🔒 **SECURITY: ESLint 9 Migration** - Upgraded from ESLint 8 (end-of-life October 2024) to ESLint 9 with flat config format for continued security patches: migrated `.eslintrc.json` to `eslint.config.js`, upgraded all plugins (eslint-plugin-vue 9→10, @typescript-eslint 8.44→8.46, vue-eslint-parser→10.2), added comprehensive browser/Node.js globals, all 44 tests passing, linting verified, TypeScript compilation clean, Prettier integration working, zero breaking changes to development workflow (Oct 15)
 - 📚 **Architecture Documentation Update** - Updated architecture.md to reflect @unhead/vue migration: added @unhead/vue to stack listing, added comprehensive "Head Management & Meta Tags" section documenting belt-and-suspenders approach (runtime `useHead()` + build-time post-build script), clarified API differences from @vueuse/head (`textContent` vs `children`), corrected route counts (27 routes total, 23 pre-rendered for SSG with /admin excluded), updated build pipeline documentation (Oct 14)
 - 🎨 **Homepage Widget Icon Badges** - Updated all 6 widget icons to use consistent orange circular badges matching site-wide design: solid orange gradient backgrounds (`from-massgate-orange-light to-massgate-orange`) with dark icons (`text-ink`), rounded full circles with orange borders - removed brand color overrides (Discord, YouTube) for unified visual language - matches FAQ category icons, About section icons, Getting Started badges while preserving unique glassmorphism widget containers (Oct 14)
 - 🐛 **FAQ Routing Fix: Server & Community Subsection** - Fixed navigation link redirecting to home instead of scrolling to FAQ section by correcting ID mismatch: navigation/router used `faq-server-community` but FAQ component element used `faq-community`, causing `document.getElementById()` to return null - aligned FAQ component to use `faq-server-community` matching router configuration, all 44 tests passing (Oct 14)
@@ -116,6 +117,30 @@
 ---
 
 ## October 2025
+
+### October 15, 2025 - ESLint 9 Migration (Security Update)
+
+**Highlights**
+- Upgraded from ESLint 8.57.1 (end-of-life October 5, 2024) to ESLint 9.37.0 for continued security patch support.
+- Migrated from deprecated `.eslintrc.json` format to modern flat config (`eslint.config.js`) as required by ESLint 9.
+- Upgraded all ESLint-related packages: `eslint-plugin-vue` (9.33.0 → 10.5.0), `@typescript-eslint/eslint-plugin` and `@typescript-eslint/parser` (8.44.0 → 8.46.1), `vue-eslint-parser` (→ 10.2.0).
+- Added comprehensive browser globals (DOM, Fetch API, Service Workers) and Node.js globals to flat config to eliminate `no-undef` errors.
+- Verified zero breaking changes: all 44 tests passing (`npm run test:thorough`), TypeScript compilation clean (`npx tsc --noEmit`), linting passes with 0 errors, Prettier integration working, build scripts functional.
+- Configuration files (`*.config.ts/js`) and `scripts/**` properly ignored by ESLint as intended.
+
+**Technical Details**
+- `package.json`: Updated ESLint and related plugins to latest compatible versions with `--legacy-peer-deps` flag for peer dependency resolution
+- `eslint.config.js`: Created new flat config with ESM imports, explicit plugin registration, comprehensive globals definition, preserved all custom rules (unused var patterns, Prettier integration, Vue-specific overrides)
+- `.eslintrc.json`: Deleted deprecated config file after successful migration
+- All source files (`.ts`, `.vue`) lint cleanly with new configuration
+- Pre-commit hooks continue to work without modification
+- `npm run lint` and `npm run lint:fix` commands unchanged
+
+**Why This Matters**
+- ESLint 8 reached end-of-life on October 5, 2024 and no longer receives security patches for newly discovered vulnerabilities
+- Flat config is the future of ESLint configuration and will be the only format supported in ESLint 10 (expected early 2025)
+- Proactive migration ensures continued security support and compatibility with future ESLint ecosystem updates
+- Zero disruption to development workflow - all existing scripts, hooks, and IDE integrations continue to work
 
 ### October 14, 2025 - @unhead/vue Migration (Head Management Library)
 
