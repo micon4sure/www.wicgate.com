@@ -339,5 +339,3 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
     </div>
   </section>
 </template>
-
-<style scoped></style>

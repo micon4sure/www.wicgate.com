@@ -210,5 +210,3 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
     </div>
   </section>
 </template>
-
-<style scoped></style>

@@ -929,6 +929,38 @@
   #getting-started-advanced a:active {
     @apply text-soviet-dark;
   }
+
+  /* ========== SKELETON LOADERS ========== */
+
+  /* Shared skeleton animation */
+  @keyframes skeleton-loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Skeleton shimmer effect base */
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, var(--s2) 0%, var(--mg-muted) 50%, var(--s2) 100%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+  }
+
+  /* SEO content styling for skeletons */
+  .seo-content {
+    @apply p-10 max-w-3xl mx-auto text-t-secondary leading-relaxed;
+  }
+
+  .seo-content h3 {
+    @apply text-t font-military text-2xl uppercase tracking-wider mb-5;
+  }
+
+  .seo-content p {
+    @apply mb-4 font-body text-base;
+  }
 }
 
 /* Utility layer - Additional helpers */

@@ -221,7 +221,7 @@ onUnmounted(() => {
                   'text-[var(--medal-bronze)]': index === 2,
                 }"
               >
-                {{ e.high?.toLocaleString?.() }}
+                {{ e.high.toLocaleString() }}
               </td>
             </tr>
           </tbody>
@@ -313,7 +313,7 @@ onUnmounted(() => {
                 'text-[var(--medal-bronze)]': index === 2,
               }"
             >
-              {{ e.high?.toLocaleString?.() }}
+              {{ e.high.toLocaleString() }}
             </td>
           </tr>
         </tbody>
@@ -324,6 +324,3 @@ onUnmounted(() => {
     <slot />
   </div>
 </template>
-<style scoped>
-/* All styles converted to Tailwind utilities */
-</style>

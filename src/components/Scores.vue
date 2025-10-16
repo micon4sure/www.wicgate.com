@@ -23,12 +23,9 @@ defineProps<{ title: string; entries?: LeaderboardEntry[]; best?: boolean }>();
             <RankInsignia :rank="e.rank" :size="18" />
           </td>
           <td>{{ e.profileName || e.shortName || e.tagFormat || 'Unknown' }}</td>
-          <td>{{ e.high?.toLocaleString?.() }}</td>
+          <td>{{ e.high.toLocaleString() }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
-<style scoped>
-/* uses shared classes */
-</style>

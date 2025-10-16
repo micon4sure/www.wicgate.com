@@ -39,7 +39,7 @@ function openVideo(url: string) {
         <div
           v-for="video in latestVideos"
           :key="video.id"
-          class="video-item"
+          class="video-item cursor-pointer"
           @click.stop="openVideo(video.videoUrl)"
         >
           <img :src="video.thumbnailUrl" :alt="video.title" loading="lazy" />
@@ -50,9 +50,3 @@ function openVideo(url: string) {
     </template>
   </WidgetBase>
 </template>
-
-<style scoped>
-.video-item {
-  cursor: pointer;
-}
-</style>

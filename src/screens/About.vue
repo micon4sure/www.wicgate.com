@@ -188,5 +188,3 @@ import { aboutProject, teamMembers, projectValues } from '../content/content';
     </div>
   </section>
 </template>
-
-<style scoped></style>

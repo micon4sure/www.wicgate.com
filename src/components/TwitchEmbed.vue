@@ -34,43 +34,21 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="embedContainer" class="twitch-embed">
+  <div
+    ref="embedContainer"
+    class="relative w-full pb-[56.25%] bg-[var(--s2)] border border-[var(--bd)] rounded-none overflow-hidden"
+  >
     <iframe
       v-if="isVisible"
       :src="`https://player.twitch.tv/?channel=${props.channel}&parent=${host}&muted=${props.muted !== false}`"
+      class="absolute inset-0 w-full h-full border-0"
       allowfullscreen
       loading="lazy"
       title="Twitch stream"
       referrerpolicy="strict-origin-when-cross-origin"
     />
-    <div v-else class="twitch-embed-loading text-muted">Loading…</div>
+    <div v-else class="absolute inset-0 flex items-center justify-center text-muted text-[0.85rem]">
+      Loading…
+    </div>
   </div>
 </template>
-<style scoped>
-.twitch-embed {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
-  background: var(--s2);
-  border: 1px solid var(--bd);
-  border-radius: 0;
-  overflow: hidden;
-}
-
-.twitch-embed iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.twitch-embed-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  inset: 0;
-  font-size: 0.85rem;
-}
-</style>

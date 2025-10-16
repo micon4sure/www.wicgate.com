@@ -1,5 +1,5 @@
 <template>
-  <div class="events-placeholder">
+  <div class="min-h-[380px] m-5">
     <!-- SEO-friendly static content -->
     <noscript>
       <div class="seo-content">
@@ -19,134 +19,23 @@
     </noscript>
 
     <!-- Animated loading skeleton -->
-    <div class="skeleton-events" aria-label="Loading community events">
-      <div v-for="n in 3" :key="n" class="skeleton-event-card">
-        <div class="skeleton-event-image"></div>
-        <div class="skeleton-event-content">
-          <div class="skeleton-event-title"></div>
-          <div class="skeleton-event-desc"></div>
-          <div class="skeleton-event-desc short"></div>
-          <div class="skeleton-event-meta"></div>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-4"
+      aria-label="Loading community events"
+    >
+      <div
+        v-for="n in 3"
+        :key="n"
+        class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-[var(--divider-strong)] rounded-none overflow-hidden shadow-[0_12px_28px_rgba(4,9,14,0.55)] min-h-[340px] md:min-h-80 flex flex-col"
+      >
+        <div class="h-[220px] md:h-[180px] skeleton-shimmer"></div>
+        <div class="p-4 flex flex-col gap-3">
+          <div class="h-7 w-[70%] skeleton-shimmer" :style="{ animationDelay: '0.1s' }"></div>
+          <div class="h-[18px] w-full skeleton-shimmer" :style="{ animationDelay: '0.2s' }"></div>
+          <div class="h-[18px] w-[60%] skeleton-shimmer" :style="{ animationDelay: '0.3s' }"></div>
+          <div class="h-4 w-[40%] mt-2 skeleton-shimmer" :style="{ animationDelay: '0.4s' }"></div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.events-placeholder {
-  /* Reserve exact space to match real content - prevents layout shift */
-  min-height: 380px; /* Height of 3 event cards in grid: ~340px + gap */
-  margin: 20px 0;
-}
-
-.seo-content {
-  padding: 40px 20px;
-  max-width: 800px;
-  margin: 0 auto;
-  color: var(--t2);
-  line-height: 1.6;
-}
-
-.seo-content h3 {
-  color: var(--t);
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.seo-content p {
-  margin-bottom: 15px;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 1rem;
-}
-
-.skeleton-events {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.skeleton-event-card {
-  background: linear-gradient(
-    180deg,
-    rgba(var(--panel-main-rgb), 0.96) 0%,
-    rgba(var(--panel-dark-rgb), 0.98) 100%
-  );
-  border: 1px solid var(--divider-strong);
-  border-radius: 0;
-  overflow: hidden;
-  box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
-  /* Match exact height of real event cards to prevent layout shift */
-  min-height: 340px;
-}
-
-.skeleton-event-image {
-  height: 220px; /* Match real event-image height */
-  background: linear-gradient(90deg, var(--s2) 0%, var(--mg-muted) 50%, var(--s2) 100%);
-  background-size: 200% 100%;
-  animation: skeleton-loading 1.5s ease-in-out infinite;
-}
-
-.skeleton-event-content {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.skeleton-event-title {
-  height: 28px;
-  width: 70%;
-  background: linear-gradient(90deg, var(--s2) 0%, var(--mg-muted) 50%, var(--s2) 100%);
-  background-size: 200% 100%;
-  animation: skeleton-loading 1.5s ease-in-out infinite;
-  animation-delay: 0.1s;
-}
-
-.skeleton-event-desc {
-  height: 18px;
-  width: 100%;
-  background: linear-gradient(90deg, var(--s2) 0%, var(--mg-muted) 50%, var(--s2) 100%);
-  background-size: 200% 100%;
-  animation: skeleton-loading 1.5s ease-in-out infinite;
-  animation-delay: 0.2s;
-}
-
-.skeleton-event-desc.short {
-  width: 60%;
-  animation-delay: 0.3s;
-}
-
-.skeleton-event-meta {
-  height: 16px;
-  width: 40%;
-  margin-top: 8px;
-  background: linear-gradient(90deg, var(--s2) 0%, var(--mg-muted) 50%, var(--s2) 100%);
-  background-size: 200% 100%;
-  animation: skeleton-loading 1.5s ease-in-out infinite;
-  animation-delay: 0.4s;
-}
-
-@keyframes skeleton-loading {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .skeleton-events {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .skeleton-event-image {
-    height: 180px;
-  }
-}
-</style>
