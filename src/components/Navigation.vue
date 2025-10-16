@@ -370,37 +370,3 @@ function handleLogout() {
     </Transition>
   </Teleport>
 </template>
-<style scoped>
-header {
-  width: 100%;
-}
-
-/* Vue transition animations */
-.backdrop-enter-active,
-.backdrop-leave-active {
-  transition: all 0.3s ease;
-}
-
-.backdrop-enter-from,
-.backdrop-leave-to {
-  opacity: 0;
-  backdrop-filter: blur(0px);
-}
-
-.mobile-nav-enter-active,
-.mobile-nav-leave-active {
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.mobile-nav-enter-from > div,
-.mobile-nav-leave-to > div {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
-.mobile-nav-enter-to > div,
-.mobile-nav-leave-from > div {
-  transform: translateY(0);
-  opacity: 1;
-}
-</style>

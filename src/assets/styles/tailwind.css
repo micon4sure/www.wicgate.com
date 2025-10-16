@@ -36,6 +36,8 @@
     --s2: #1a1e22;       /* Background surface 2 - used in Twitch components & skeletons */
     --mg-muted: #344654; /* Used in skeleton loading animations */
     --dl: #8b1d14;       /* Deep red - used in ErrorBoundary.vue */
+    --dl-rgb: 139, 29, 20;    /* Deep red RGB for rgba() usage in ErrorBoundary.vue */
+    --bg-rgb: 5, 10, 15;      /* Background RGB for rgba() usage in ErrorBoundary.vue */
 
     /* Transition helper (can't be expressed in Tailwind) */
     --tr: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -960,6 +962,262 @@
 
   .seo-content p {
     @apply mb-4 font-body text-base;
+  }
+
+  /* ========== VUE TRANSITIONS (Navigation.vue) ========== */
+
+  /* Backdrop transition for mobile menu overlay */
+  .backdrop-enter-active,
+  .backdrop-leave-active {
+    transition: all 0.3s ease;
+  }
+
+  .backdrop-enter-from,
+  .backdrop-leave-to {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+
+  /* Mobile nav transition for menu slide-up animation */
+  .mobile-nav-enter-active,
+  .mobile-nav-leave-active {
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .mobile-nav-enter-from > div,
+  .mobile-nav-leave-to > div {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  .mobile-nav-enter-to > div,
+  .mobile-nav-leave-from > div {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* ========== ERROR BOUNDARY ========== */
+
+  .error-boundary {
+    @apply min-h-[400px] flex items-center justify-center px-5 py-10;
+    background: linear-gradient(135deg, rgba(var(--dl-rgb), 0.05) 0%, rgba(var(--bg-rgb), 0.95) 100%);
+  }
+
+  .error-content {
+    @apply max-w-[600px] text-center bg-[var(--grad-card)] p-10 rounded-lg border border-massgate-red/20;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .error-icon {
+    @apply text-[64px] text-massgate-red-bright mb-5 animate-pulse;
+  }
+
+  .error-content h2 {
+    @apply font-[Oswald,sans-serif] text-3xl text-t uppercase tracking-wider mb-4;
+  }
+
+  .error-message {
+    @apply text-t-secondary text-base mb-8 leading-relaxed;
+  }
+
+  .error-actions {
+    @apply flex gap-4 justify-center flex-wrap mb-6 md:flex-col;
+  }
+
+  .error-actions .btn {
+    @apply md:w-full;
+  }
+
+  .error-details {
+    @apply mt-6 text-left bg-black/30 border border-mg/30 rounded p-4;
+  }
+
+  .error-details summary {
+    @apply cursor-pointer text-t-secondary font-[Rajdhani,sans-serif] font-semibold mb-3;
+  }
+
+  .error-details pre {
+    @apply text-t-dim text-xs overflow-x-auto whitespace-pre-wrap break-words;
+  }
+
+  /* ========== FIRST VISIT OVERLAY ========== */
+
+  .first-visit-overlay {
+    @apply fixed inset-0 z-[10000] flex items-center justify-center p-5;
+  }
+
+  .overlay-backdrop {
+    @apply absolute inset-0 bg-black/85 backdrop-blur-md;
+  }
+
+  .overlay-card {
+    @apply relative bg-gradient-to-b from-graphite-light to-graphite-dark border border-t-dim/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-massgate-panel;
+  }
+
+  .overlay-header {
+    @apply py-6 px-6 border-b border-t-dim/20 flex items-center justify-between;
+  }
+
+  .slide-indicators {
+    @apply flex gap-2;
+  }
+
+  .indicator {
+    @apply w-2 h-2 rounded-full bg-t-dim/30 transition-all duration-300;
+  }
+
+  .indicator.active {
+    @apply w-8 bg-soviet;
+    box-shadow: 0 0 15px rgba(255, 102, 0, 0.5);
+  }
+
+  .overlay-close {
+    @apply bg-transparent border-0 text-t-dim text-2xl cursor-pointer p-1 rounded transition-all duration-200 leading-none hover:bg-white/10 hover:text-t active:scale-90;
+  }
+
+  .overlay-content {
+    @apply py-8 px-8 max-h-[calc(90vh-140px)] overflow-y-auto;
+  }
+
+  .slide {
+    @apply min-h-[400px] flex flex-col items-center;
+  }
+
+  .slide-icon {
+    @apply w-20 h-20 flex items-center justify-center bg-gradient-to-br from-soviet/30 to-soviet/15 border-2 border-soviet/50 rounded-2xl text-4xl text-soviet mb-6;
+    box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
+  }
+
+  .slide-icon.wicgate {
+    @apply from-massgate-red/30 to-massgate-red-dark/20 border-massgate-red/50 text-massgate-red-bright;
+    box-shadow: 0 0 20px rgba(198, 40, 40, 0.4);
+  }
+
+  .slide-icon.ready {
+    @apply from-massgate-gold/30 to-massgate-gold-dark/20 border-massgate-gold/60 text-massgate-gold;
+    box-shadow: 0 0 25px rgba(255, 202, 40, 0.5);
+  }
+
+  .slide-title {
+    @apply text-3xl font-military font-bold text-t uppercase tracking-wide mb-4 text-center;
+  }
+
+  .slide-body {
+    @apply w-full space-y-4;
+  }
+
+  .slide-text {
+    @apply text-lg text-t-secondary leading-relaxed text-center font-body;
+  }
+
+  .feature-list {
+    @apply space-y-3 mt-6;
+  }
+
+  .feature-item {
+    @apply flex items-start gap-3 p-3 bg-texture-panel/40 border border-t-dim/10 rounded-lg;
+  }
+
+  .feature-item i {
+    @apply text-xl text-soviet flex-shrink-0 mt-0.5;
+  }
+
+  .feature-item span {
+    @apply text-t-secondary font-body leading-relaxed;
+  }
+
+  .highlight-box {
+    @apply bg-gradient-to-br from-massgate-red-dark/20 to-massgate-red-dark/10 border-l-4 border-massgate-red p-4 rounded-lg flex gap-4 items-start;
+    box-shadow: 0 0 15px rgba(198, 40, 40, 0.2), inset 0 0 10px rgba(198, 40, 40, 0.02);
+  }
+
+  .highlight-box i {
+    @apply text-2xl text-massgate-red-bright flex-shrink-0 mt-1;
+  }
+
+  .highlight-box p {
+    @apply text-base text-t-secondary leading-relaxed font-body m-0;
+  }
+
+  .cta-box {
+    @apply bg-gradient-to-br from-texture-panel to-texture-dark border border-massgate-gold/30 rounded-xl p-6;
+    box-shadow: 0 4px 20px rgba(255, 202, 40, 0.3), inset 0 -1px 10px rgba(255, 213, 79, 0.09);
+  }
+
+  .cta-steps {
+    @apply space-y-4;
+  }
+
+  .cta-step {
+    @apply flex items-center gap-4 p-3 bg-texture-lighter/50 rounded-lg border border-t-dim/10;
+  }
+
+  .step-number {
+    @apply w-10 h-10 flex items-center justify-center bg-gradient-to-br from-massgate-gold to-massgate-gold-dark text-ink font-military font-bold text-xl rounded-lg flex-shrink-0;
+    box-shadow: 0 0 20px rgba(255, 202, 40, 0.4);
+  }
+
+  .cta-step span:last-child {
+    @apply text-t font-body font-medium;
+  }
+
+  .overlay-actions {
+    @apply flex gap-3 mt-8 justify-end;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10 border border-white/20 text-t-secondary py-3 px-6 rounded-lg cursor-pointer transition-all duration-200 font-medium font-body hover:bg-white/15 hover:text-t hover:border-white/30;
+  }
+
+  .overlay-actions .btn {
+    @apply px-8;
+  }
+
+  @media (max-width: 768px) {
+    .overlay-card {
+      @apply m-3 max-w-none;
+    }
+
+    .overlay-header,
+    .overlay-content {
+      @apply py-5 px-5;
+    }
+
+    .slide {
+      @apply min-h-[350px];
+    }
+
+    .slide-title {
+      @apply text-2xl;
+    }
+
+    .slide-icon {
+      @apply w-16 h-16 text-3xl;
+    }
+
+    .overlay-actions {
+      @apply flex-col;
+    }
+
+    .overlay-actions .btn,
+    .btn-secondary {
+      @apply w-full;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .overlay-header,
+    .overlay-content {
+      @apply py-4 px-4;
+    }
+
+    .slide-title {
+      @apply text-xl;
+    }
+
+    .slide-text {
+      @apply text-base;
+    }
   }
 }
 
