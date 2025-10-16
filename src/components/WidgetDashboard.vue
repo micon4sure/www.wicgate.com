@@ -29,7 +29,7 @@ function goToSection(sectionOrSubsectionId: string) {
 <template>
   <section
     id="hero"
-    class="relative min-h-[100vh] pt-[calc(var(--header-height)+40px)] pb-24 overflow-hidden 2xl:pt-[calc(var(--header-height)+40px)] xl:pt-[calc(var(--header-height)+30px)] md:pt-[calc(var(--header-height)+20px)] sm:pt-[calc(var(--header-height)+10px)] md:pb-20 sm:pb-12 sm:min-h-[85vh]"
+    class="relative min-h-[100vh] pt-[var(--header-height)] pb-24 overflow-hidden md:pb-20 sm:pb-12 sm:min-h-[85vh]"
   >
     <!-- Video Background (Client-side only, hidden on mobile for performance) -->
     <video
