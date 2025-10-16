@@ -37,17 +37,9 @@ function onErr() {
     :src="src"
     :alt="`Rank ${rankNum}`"
     :title="`Rank ${rankNum}`"
-    class="rank-insignia"
+    class="inline-block align-middle"
     decoding="async"
-    :style="{ height: `${size}px` }"
+    :style="{ height: `${size}px`, imageRendering: 'auto' }"
     @error="onErr"
   />
 </template>
-
-<style scoped>
-.rank-insignia {
-  display: inline-block;
-  vertical-align: middle;
-  image-rendering: auto;
-}
-</style>

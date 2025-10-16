@@ -15,20 +15,40 @@ function loadEmbed() {
 </script>
 
 <template>
-  <div class="twitch-facade">
-    <div v-if="!isLoaded" class="twitch-preview" @click="loadEmbed">
-      <img :src="previewUrl" :alt="`${channel} Twitch stream preview`" loading="lazy" />
-      <div class="preview-overlay">
-        <div class="play-button">
-          <i class="fa-brands fa-twitch" aria-hidden="true"></i>
-          <span>Watch Live</span>
-        </div>
+  <div
+    class="relative w-full pb-[56.25%] bg-[var(--s2)] border border-[var(--bd)] rounded-none overflow-hidden"
+  >
+    <div
+      v-if="!isLoaded"
+      class="absolute inset-0 cursor-pointer transition-[var(--tr)] group"
+      @click="loadEmbed"
+    >
+      <img
+        :src="previewUrl"
+        :alt="`${channel} Twitch stream preview`"
+        loading="lazy"
+        class="w-full h-full object-cover block"
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-black/30 to-black/60 flex items-center justify-center transition-[var(--tr)] group-hover:from-black/50 group-hover:to-black/75"
+      >
+        <button
+          type="button"
+          class="flex flex-col items-center gap-3 px-8 py-6 md:px-7 md:py-5 md:gap-3 sm:px-6 sm:py-4 sm:text-sm xs:px-6 xs:py-4 xs:text-[0.9rem] xs:gap-2 bg-twitch text-white rounded-none border-2 border-white/30 font-military font-semibold text-lg uppercase tracking-widest transition-[var(--tr)] shadow-[0_0_20px_rgba(var(--brand-twitch-rgb),0.5)] group-hover:scale-110 group-hover:bg-twitch-bright group-hover:shadow-[0_0_30px_rgba(var(--brand-twitch-rgb),0.8)] active:scale-[0.95]"
+        >
+          <i
+            class="fa-brands fa-twitch text-2.5xl md:text-2xl sm:text-2rem xs:text-[1.75rem]"
+            aria-hidden="true"
+          ></i>
+          <span class="leading-none">Watch Live</span>
+        </button>
       </div>
     </div>
 
     <iframe
       v-else
       :src="`https://player.twitch.tv/?channel=${props.channel}&parent=${host}&muted=${props.muted !== false}`"
+      class="absolute inset-0 w-full h-full border-0"
       allowfullscreen
       loading="lazy"
       title="Twitch stream"
@@ -36,112 +56,3 @@ function loadEmbed() {
     />
   </div>
 </template>
-
-<style scoped>
-.twitch-facade {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
-  background: var(--s2);
-  border: 1px solid var(--bd);
-  border-radius: 0;
-  overflow: hidden;
-}
-
-.twitch-facade iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.twitch-preview {
-  position: absolute;
-  inset: 0;
-  cursor: pointer;
-  transition: var(--tr);
-}
-
-.twitch-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.preview-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--tr);
-}
-
-@media (hover: hover) {
-  .twitch-preview:hover .preview-overlay {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.75) 100%);
-  }
-
-  .twitch-preview:hover .play-button {
-    transform: scale(1.1);
-    background: var(--brand-twitch-bright);
-    box-shadow: 0 0 30px rgba(var(--brand-twitch-rgb), 0.8);
-  }
-}
-
-.twitch-preview:active .play-button {
-  transform: scale(0.95);
-}
-
-.play-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 24px 32px;
-  background: var(--brand-twitch);
-  color: #fff;
-  border-radius: 0;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  transition: var(--tr);
-  box-shadow: 0 0 20px rgba(var(--brand-twitch-rgb), 0.5);
-}
-
-.play-button i {
-  font-size: 2.5rem;
-}
-
-.play-button span {
-  line-height: 1;
-}
-
-@media (max-width: 768px) {
-  .play-button {
-    padding: 20px 28px;
-    font-size: 1rem;
-  }
-
-  .play-button i {
-    font-size: 2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .play-button {
-    padding: 16px 24px;
-    font-size: 0.9rem;
-  }
-
-  .play-button i {
-    font-size: 1.75rem;
-  }
-}
-</style>

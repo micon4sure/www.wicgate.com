@@ -69,6 +69,3 @@ const ladderData = computed<LeaderboardDataRecord>(() => ({
     </div>
   </div>
 </template>
-<style scoped>
-/* inherits global */
-</style>

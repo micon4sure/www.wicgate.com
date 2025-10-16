@@ -49,96 +49,52 @@ function handleClick() {
           v-for="(player, i) in topLadderPlayers"
           :key="player.profileId"
           class="ladder-item"
-          :class="`rank-${i + 1}`"
+          :class="[
+            'flex items-center gap-3 p-3 bg-mg/15 border border-mg/25 rounded-none transition-all duration-200',
+            {
+              '[&_.ladder-rank]:text-medal-gold [&_.ladder-rank]:text-shadow-sm [&_.ladder-score]:text-medal-gold':
+                i === 0,
+              '[&_.ladder-rank]:text-medal-silver [&_.ladder-rank]:text-shadow-sm [&_.ladder-score]:text-medal-silver':
+                i === 1,
+              '[&_.ladder-rank]:text-medal-bronze [&_.ladder-rank]:text-shadow-sm [&_.ladder-score]:text-medal-bronze':
+                i === 2,
+            },
+          ]"
         >
-          <span class="ladder-rank">{{ i + 1 }}</span>
-          <div class="player-cell-content">
-            <RankInsignia :rank="player.rank || 0" :size="20" />
-            <span v-if="formatClanTag(player)" class="clan-tag">{{ formatClanTag(player) }}</span>
-            <span class="player-name">{{ player.profileName }}</span>
+          <span
+            class="ladder-rank w-7 h-7 flex items-center justify-center bg-mg/40 text-sm font-bold font-military flex-shrink-0 rounded-none"
+            :class="{
+              'text-[1.05rem]': i === 0,
+              'text-base': i === 1,
+              'text-[0.95rem]': i === 2,
+            }"
+          >
+            {{ i + 1 }}
+          </span>
+          <div class="flex items-center flex-1 overflow-hidden leading-none gap-0">
+            <RankInsignia
+              :rank="player.rank || 0"
+              :size="20"
+              class="inline-block flex-shrink-0 mr-1.5"
+            />
+            <span
+              v-if="formatClanTag(player)"
+              class="font-mono text-soviet font-semibold text-[0.75rem] tracking-[0.3px] flex-shrink-0"
+            >
+              {{ formatClanTag(player) }}
+            </span>
+            <span
+              class="font-body text-t font-semibold text-[0.9rem] tracking-[0.3px] overflow-hidden text-ellipsis whitespace-nowrap"
+            >
+              {{ player.profileName }}
+            </span>
           </div>
-          <span class="ladder-score">{{ player.high }}</span>
+          <span class="ladder-score text-sm font-military font-bold flex-shrink-0">{{
+            player.high
+          }}</span>
         </div>
       </div>
       <div v-else class="widget-empty">No rankings yet</div>
     </template>
   </WidgetBase>
 </template>
-
-<style scoped>
-/* Podium styling for rank numbers */
-.ladder-item.rank-1 .ladder-rank {
-  color: var(--medal-gold);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  font-size: 1.05rem;
-}
-
-.ladder-item.rank-2 .ladder-rank {
-  color: var(--medal-silver);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  font-size: 1rem;
-}
-
-.ladder-item.rank-3 .ladder-rank {
-  color: var(--medal-bronze);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  font-size: 0.95rem;
-}
-
-/* Podium styling for scores - matches leaderboard */
-.ladder-item.rank-1 .ladder-score {
-  color: var(--medal-gold);
-  font-weight: 600;
-  font-family: 'Oswald', sans-serif;
-  letter-spacing: 0.5px;
-}
-
-.ladder-item.rank-2 .ladder-score {
-  color: var(--medal-silver);
-  font-weight: 600;
-  font-family: 'Oswald', sans-serif;
-  letter-spacing: 0.5px;
-}
-
-.ladder-item.rank-3 .ladder-score {
-  color: var(--medal-bronze);
-  font-weight: 600;
-  font-family: 'Oswald', sans-serif;
-  letter-spacing: 0.5px;
-}
-
-/* Player cell content - matches leaderboard layout */
-.player-cell-content {
-  display: flex;
-  align-items: center;
-  /* NO gap property - matches leaderboard */
-  flex: 1;
-  overflow: hidden;
-  line-height: 1;
-}
-
-.player-cell-content .rank-insignia {
-  flex-shrink: 0;
-  margin: 0 6px 0 0; /* Only rank insignia gets right margin */
-}
-
-.clan-tag {
-  font-family: 'Courier New', monospace;
-  color: var(--sw);
-  font-weight: 600;
-  font-size: 0.75rem;
-  letter-spacing: 0.3px;
-  flex-shrink: 0;
-}
-
-.player-name {
-  font-family: 'Rajdhani', sans-serif;
-  color: var(--t);
-  font-weight: 600;
-  font-size: 0.9rem;
-  letter-spacing: 0.3px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-</style>
