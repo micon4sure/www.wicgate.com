@@ -35,6 +35,7 @@ npm run build        # Production build (SSG + PWA)
 7. ❌ NEVER use `bun test` → ✅ ALWAYS use `bun run test`
 8. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
 9. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, etc.)
+10. ⚠️ Security considerations → See [docs/security.md](docs/security.md) for XSS prevention, auth best practices
 
 ---
 
@@ -45,6 +46,7 @@ npm run build        # Production build (SSG + PWA)
 - Design tokens → Update [tailwind.config.ts](tailwind.config.ts) or [tailwind.css](src/assets/styles/tailwind.css)
 - New features → Update [docs/changelog.md](docs/changelog.md)
 - API changes → Update [docs/api.md](docs/api.md)
+- Security concerns → Update [docs/security.md](docs/security.md)
 - Testing changes → Update [docs/testing.md](docs/testing.md)
 - Common issues → Update [docs/troubleshooting.md](docs/troubleshooting.md)
 - Preference changes → Update THIS file only

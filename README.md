@@ -19,7 +19,7 @@ WiCGATE delivers a Massgate-inspired experience for the World in Conflict reviva
 - **Styling:** Tailwind CSS utility-first with design tokens
 - **Authentication:** Mock JWT with localStorage persistence
 - **PWA:** Service worker with offline capability
-- **Testing:** Vitest + Vue Test Utils (43 tests, 50%+ coverage)
+- **Testing:** Vitest + Vue Test Utils (44 tests, 50%+ coverage)
 - **Analytics:** Custom type-safe event tracking
 - **CI/CD:** GitHub Actions + GitHub Pages
 
@@ -109,6 +109,7 @@ Regular User:
 - **[Tailwind Config](tailwind.config.ts)** - Design tokens (colors, shadows, animations, breakpoints)
 - **[Testing Guide](docs/testing.md)** - Test commands, coverage thresholds, strategies, CI/CD integration
 - **[API Documentation](docs/api.md)** - Endpoints, data structures, error handling, integration patterns
+- **[Security Guide](docs/security.md)** - XSS prevention, authentication security, API security, deployment checklist
 - **[Troubleshooting](docs/troubleshooting.md)** - Common issues, known bugs, SSR guards, solutions
 - **[Changelog](docs/changelog.md)** - Recent changes, feature history, technical deep dives
 
