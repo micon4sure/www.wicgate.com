@@ -27,13 +27,13 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 ### Routing System
 
 **Path-Based Nested Routes:**
-- **Main (6):** `/`, `/getting-started`, `/multiplayer`, `/community`, `/about`, `/faq`
-- **Subsections (21):** `/multiplayer/servers`, `/community/videos`, `/faq/technical`, etc.
+- **Main (6):** `/`, `/downloads`, `/statistics`, `/community`, `/about`, `/faq`
+- **Subsections (18):** `/downloads/quick`, `/downloads/server`, `/downloads/manual`, `/statistics/leaderboards`, `/community/streams`, `/community/videos`, `/faq/technical`, etc.
 
 **Navigation Helper:** [src/types/navigation.ts](../src/types/navigation.ts) - `getRoutePath()` converts IDs to paths
 
 **Benefits:**
-- Clean URLs (`/multiplayer/statistics` vs `/#multiplayer-statistics`)
+- Clean URLs (`/statistics/leaderboards` vs `/#statistics-leaderboards`)
 - Unique meta tags per subsection
 - Proper browser back/forward support
 - All routes pre-rendered for SEO
@@ -436,11 +436,11 @@ Use CSS variable for spacing:
 
 ### Screen Components
 
-**[GettingStarted.vue](../src/screens/GettingStarted.vue)** - Timeline UI, collapsible advanced sections
-**[Multiplayer.vue](../src/screens/Multiplayer.vue)** - Live servers, leaderboards
-**[Community.vue](../src/screens/Community.vue)** - Events, videos, streams, creator badges
-**[About.vue](../src/screens/About.vue)** - Project information
-**[FAQ.vue](../src/screens/FAQ.vue)** - Frequently asked questions
+**[Downloads.vue](../src/screens/Downloads.vue)** - 3-tab installation guide (Quick Install, Dedicated Server, Manual Install)
+**[Statistics.vue](../src/screens/Statistics.vue)** - Player rankings and competitive leaderboards
+**[Community.vue](../src/screens/Community.vue)** - Community links, live streams, latest videos
+**[About.vue](../src/screens/About.vue)** - Project information with 4-tab structure
+**[FAQ.vue](../src/screens/FAQ.vue)** - 4-category tabbed FAQ (Getting Started, Technical Issues, Gameplay & Features, Server & Community)
 
 ### Other Components
 
@@ -556,11 +556,11 @@ src/
 │   ├── skeletons/             # SEO-friendly loaders
 │   └── ...
 ├── screens/                   # Section components
-│   ├── GettingStarted.vue
-│   ├── Multiplayer.vue
-│   ├── Community.vue
-│   ├── About.vue
-│   └── FAQ.vue
+│   ├── Downloads.vue          # 3-tab installation guide
+│   ├── Statistics.vue         # Player leaderboards
+│   ├── Community.vue          # Streams, videos, links
+│   ├── About.vue              # Project info (4 tabs)
+│   └── FAQ.vue                # FAQ (4 categories)
 ├── views/
 │   └── Home.vue               # Main SPA
 ├── composables/               # Composition functions

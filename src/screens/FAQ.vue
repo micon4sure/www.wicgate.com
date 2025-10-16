@@ -2,6 +2,7 @@
 import { faq } from '../content/content';
 import { ref, computed, onMounted } from 'vue';
 import { generateFAQSchema } from '../utils/structuredData';
+import TabContainer from '../components/TabContainer.vue';
 
 const openQuestion = ref<string | null>(null);
 
@@ -31,6 +32,15 @@ function getCategoryIcon(categoryName: string): string {
   return iconMap[categoryName] || 'fa-solid fa-question';
 }
 
+// Create tabs from FAQ categories
+const tabs = computed(() =>
+  faq.map((cat) => ({
+    id: getCategoryId(cat.cat),
+    label: cat.cat,
+    icon: getCategoryIcon(cat.cat),
+  }))
+);
+
 // Flatten all FAQ items for structured data
 const allFaqItems = computed(() => {
   return faq.flatMap((category) => category.items);
@@ -56,7 +66,7 @@ onMounted(() => {
   <section id="faq" class="section bg-gradient-to-b from-graphite/30 to-graphite-dark/50">
     <div class="container max-w-5xl">
       <!-- Header -->
-      <div class="text-center mb-20">
+      <div class="text-center mb-12">
         <h2
           class="text-5xl md:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
@@ -67,99 +77,86 @@ onMounted(() => {
         </p>
       </div>
 
-      <!-- FAQ Categories -->
-      <div class="flex flex-col gap-12">
-        <div v-for="cat in faq" :id="getCategoryId(cat.cat)" :key="cat.cat" class="relative">
-          <!-- Category Header -->
-          <div class="flex items-center gap-4 mb-6">
-            <div
-              class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center flex-shrink-0"
-            >
-              <i
-                :class="getCategoryIcon(cat.cat)"
-                class="text-ink text-xl md:text-2xl"
-                aria-hidden="true"
-              ></i>
-            </div>
-            <h3
-              class="text-2xl md:text-3xl font-military font-bold text-massgate-orange uppercase tracking-wider"
-            >
-              {{ cat.cat }}
-            </h3>
-          </div>
-
-          <!-- Questions -->
-          <div class="flex flex-col gap-4">
-            <div
-              v-for="item in cat.items"
-              :key="item.q"
-              class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300"
-              :class="
-                openQuestion === item.q
-                  ? 'border-teal/60 shadow-teal-subtle'
-                  : 'hover:border-teal/50'
-              "
-            >
-              <!-- Question Header (Clickable) -->
-              <button
-                class="w-full flex items-center justify-between p-5 md:p-6 text-left transition-all duration-300 relative group"
+      <!-- Tab Container -->
+      <TabContainer :tabs="tabs" analytics-category="FAQ" aria-label="FAQ categories">
+        <!-- Tab for each FAQ category -->
+        <template v-for="cat in faq" :key="cat.cat" #[getCategoryId(cat.cat)]>
+          <div class="p-8 md:p-10">
+            <!-- Questions -->
+            <div class="flex flex-col gap-4">
+              <div
+                v-for="item in cat.items"
+                :key="item.q"
+                class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300"
                 :class="
                   openQuestion === item.q
-                    ? 'bg-teal/10 border-b-2 border-teal/40'
-                    : 'hover:bg-teal/5'
+                    ? 'border-teal/60 shadow-teal-subtle'
+                    : 'hover:border-teal/50'
                 "
-                @click="toggleQuestion(item.q)"
               >
-                <!-- Left border accent -->
-                <div
-                  class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b transition-all duration-300"
+                <!-- Question Header (Clickable) -->
+                <button
+                  class="w-full flex items-center justify-between p-5 md:p-6 text-left transition-all duration-300 relative group"
                   :class="
                     openQuestion === item.q
-                      ? 'from-massgate-orange/80 to-massgate-orange/40'
-                      : 'from-transparent to-transparent group-hover:from-massgate-orange/50 group-hover:to-massgate-orange/20'
+                      ? 'bg-teal/10 border-b-2 border-teal/40'
+                      : 'hover:bg-teal/5'
                   "
-                ></div>
-
-                <h4
-                  class="text-lg md:text-xl font-military font-bold text-t uppercase tracking-wide pr-4"
+                  @click="toggleQuestion(item.q)"
                 >
-                  {{ item.q }}
-                </h4>
+                  <!-- Left border accent -->
+                  <div
+                    class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b transition-all duration-300"
+                    :class="
+                      openQuestion === item.q
+                        ? 'from-massgate-orange/80 to-massgate-orange/40'
+                        : 'from-transparent to-transparent group-hover:from-massgate-orange/50 group-hover:to-massgate-orange/20'
+                    "
+                  ></div>
 
-                <!-- Chevron Icon -->
-                <div
-                  class="text-teal text-xl transition-transform duration-300 flex-shrink-0"
-                  :class="openQuestion === item.q ? 'rotate-180' : ''"
-                >
-                  <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-                </div>
-              </button>
+                  <h4
+                    class="text-lg md:text-xl font-military font-bold text-t uppercase tracking-wide pr-4"
+                  >
+                    {{ item.q }}
+                  </h4>
 
-              <!-- Answer (Collapsible) -->
-              <transition
-                enter-active-class="transition-all duration-300 ease-out"
-                leave-active-class="transition-all duration-300 ease-in"
-                enter-from-class="max-h-0 opacity-0"
-                enter-to-class="max-h-[600px] opacity-100"
-                leave-from-class="max-h-[600px] opacity-100"
-                leave-to-class="max-h-0 opacity-0"
-              >
-                <div v-show="openQuestion === item.q" class="overflow-hidden">
-                  <div class="p-5 md:p-6 bg-graphite-dark/40">
-                    <p class="text-base md:text-lg text-t-secondary font-body leading-relaxed m-0">
-                      {{ item.a }}
-                    </p>
+                  <!-- Chevron Icon -->
+                  <div
+                    class="text-teal text-xl transition-transform duration-300 flex-shrink-0"
+                    :class="openQuestion === item.q ? 'rotate-180' : ''"
+                  >
+                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
                   </div>
-                </div>
-              </transition>
+                </button>
+
+                <!-- Answer (Collapsible) -->
+                <transition
+                  enter-active-class="transition-all duration-300 ease-out"
+                  leave-active-class="transition-all duration-300 ease-in"
+                  enter-from-class="max-h-0 opacity-0"
+                  enter-to-class="max-h-[600px] opacity-100"
+                  leave-from-class="max-h-[600px] opacity-100"
+                  leave-to-class="max-h-0 opacity-0"
+                >
+                  <div v-show="openQuestion === item.q" class="overflow-hidden">
+                    <div class="p-5 md:p-6 bg-graphite-dark/40">
+                      <p
+                        class="text-base md:text-lg text-t-secondary font-body leading-relaxed m-0"
+                      >
+                        {{ item.a }}
+                      </p>
+                    </div>
+                  </div>
+                </transition>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </template>
+      </TabContainer>
 
       <!-- Help CTA -->
       <div
-        class="mt-16 bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/40 rounded-none p-6 md:p-8 text-center"
+        class="mt-8 bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/40 rounded-none p-6 md:p-8 text-center"
       >
         <div class="flex justify-center mb-4">
           <div

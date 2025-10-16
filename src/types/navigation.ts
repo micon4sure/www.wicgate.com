@@ -22,20 +22,18 @@ export const NAVIGATION_STRUCTURE: NavigationSection[] = [
     label: 'Home',
   },
   {
-    id: 'getting-started',
-    label: 'Getting Started',
+    id: 'downloads',
+    label: 'Downloads',
     subsections: [
-      { id: 'getting-started-quick', label: 'Quick Installation' },
-      { id: 'getting-started-advanced', label: 'Advanced Setup' },
+      { id: 'downloads-quick', label: 'Quick Install' },
+      { id: 'downloads-server', label: 'Dedicated Server' },
+      { id: 'downloads-manual', label: 'Manual Install' },
     ],
   },
   {
-    id: 'multiplayer',
-    label: 'Multiplayer',
-    subsections: [
-      { id: 'multiplayer-servers', label: 'Servers Online' },
-      { id: 'multiplayer-statistics', label: 'Statistics' },
-    ],
+    id: 'statistics',
+    label: 'Statistics',
+    subsections: [{ id: 'statistics-leaderboards', label: 'Leaderboards' }],
   },
   {
     id: 'community',
@@ -159,9 +157,7 @@ export function getRoutePath(id: string): string {
   if (id === 'hero') return '/';
 
   // Special case mappings for IDs that don't match URL patterns
-  const specialCases: Record<string, string> = {
-    'faq-server-community': '/faq/community',
-  };
+  const specialCases: Record<string, string> = {};
 
   if (specialCases[id]) {
     return specialCases[id];

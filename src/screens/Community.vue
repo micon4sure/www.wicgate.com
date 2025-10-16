@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useYoutube } from '../composables/useYoutube';
-import { useEvents } from '../composables/useEvents';
 import TwitchFacade from '../components/TwitchFacade.vue';
-import EventsSkeleton from '../components/skeletons/EventsSkeleton.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
 
 // SSR detection
@@ -15,9 +13,6 @@ const {
   videosSorted: ytVideosSorted,
   loading: ytVidsLoading,
 } = useYoutube();
-
-// Events integration
-const { events, isLoading: eventsLoading, formatDate, getCountdown } = useEvents();
 
 // Show top 6 latest videos
 const top6NYTVideos = computed(() => ytVideosSorted.value.slice(0, 6));
@@ -79,97 +74,6 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
             <i class="fa-brands fa-twitch" aria-hidden="true"></i>
             Live Streams
           </a>
-        </div>
-      </div>
-
-      <!-- Events Section -->
-      <div id="community-events" class="mb-20">
-        <!-- Subsection Header -->
-        <div class="text-center mb-8">
-          <h3
-            class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-2"
-          >
-            Events
-          </h3>
-          <p class="text-sm md:text-base text-t-secondary font-body m-0">
-            Tournaments, community nights, and special operations
-          </p>
-        </div>
-
-        <!-- Events Content -->
-        <EventsSkeleton v-if="isSSR || eventsLoading" />
-        <div v-else-if="events.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <component
-            :is="e.link ? 'a' : 'div'"
-            v-for="e in events"
-            :key="e.id"
-            :href="e.link"
-            target="_blank"
-            class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300 hover:border-teal/75 hover:shadow-[0_0_30px_rgba(0,217,255,0.32)] hover:-translate-y-0.5 active:scale-[0.98] no-underline text-inherit flex flex-col"
-          >
-            <!-- Event Image -->
-            <div
-              v-if="e.coverUrl"
-              class="relative h-56 bg-cover bg-center bg-graphite-dark flex items-start justify-end p-3 border-b border-teal/20"
-              :style="{ backgroundImage: 'url(' + e.coverUrl + ')' }"
-            >
-              <div class="absolute inset-0 bg-gradient-to-br from-black/10 to-black/40"></div>
-              <div
-                class="relative z-10 px-4 py-1.5 rounded-none text-xs font-bold tracking-wider uppercase font-military border"
-                :class="
-                  new Date(e.start).getTime() <= Date.now()
-                    ? 'bg-youtube text-white border-youtube-bright shadow-[0_0_20px_rgba(229,57,53,0.6)] animate-pulse'
-                    : 'bg-graphite-light/90 text-t border-teal/50'
-                "
-              >
-                {{ new Date(e.start).getTime() <= Date.now() ? 'LIVE NOW' : getCountdown(e.start) }}
-              </div>
-            </div>
-
-            <!-- Event Content -->
-            <div class="flex-1 flex flex-col gap-2 p-4">
-              <!-- Status badge for no-image events -->
-              <div
-                v-if="!e.coverUrl"
-                class="self-start px-4 py-1.5 rounded-none text-xs font-bold tracking-wider uppercase font-military border mb-2"
-                :class="
-                  new Date(e.start).getTime() <= Date.now()
-                    ? 'bg-youtube text-white border-youtube-bright shadow-[0_0_20px_rgba(229,57,53,0.6)] animate-pulse'
-                    : 'bg-graphite-light/90 text-t border-teal/50'
-                "
-              >
-                {{ new Date(e.start).getTime() <= Date.now() ? 'LIVE NOW' : getCountdown(e.start) }}
-              </div>
-
-              <h4
-                class="m-0 text-lg md:text-xl font-military font-medium text-t uppercase tracking-wide leading-snug"
-              >
-                {{ e.name }}
-              </h4>
-              <p class="m-0 text-sm md:text-base text-t-secondary font-body leading-relaxed flex-1">
-                {{ e.description }}
-              </p>
-              <div class="flex justify-between items-center mt-3 pt-3 border-t border-teal/10">
-                <span class="text-xs text-t3 flex items-center gap-2 font-body">
-                  <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-                  {{ formatDate(e.start) }}
-                </span>
-                <span v-if="e.link" class="text-massgate-orange text-xs">
-                  <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                </span>
-              </div>
-            </div>
-          </component>
-        </div>
-        <div
-          v-else-if="!eventsLoading"
-          class="text-center py-10 text-t3 border border-teal/10 bg-gradient-to-b from-graphite-light/85 to-graphite-dark/90 rounded-none"
-        >
-          <i
-            class="fa-regular fa-calendar-xmark text-4xl mb-4 text-teal/70 opacity-85"
-            aria-hidden="true"
-          ></i>
-          <p class="m-0 text-base font-body">No events scheduled at the moment</p>
         </div>
       </div>
 

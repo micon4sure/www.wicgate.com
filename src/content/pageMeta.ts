@@ -18,48 +18,49 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'world in conflict, wic multiplayer, massgate, wic online, world in conflict servers, wic revival',
     ogImage: '/og-home.jpg',
   },
-  '/getting-started': {
-    title: 'Getting Started - Download & Install WiC Multiplayer | WICGATE',
+  '/downloads': {
+    title: 'Downloads - Get WiC Multiplayer | WICGATE',
     description:
       'Download and install World in Conflict multiplayer in minutes. Step-by-step guide to join WICGATE community servers with WIC LIVE installer.',
     keywords:
       'world in conflict download, wic install, wic multiplayer setup, wic live, how to play world in conflict online',
     ogImage: '/og-getting-started.jpg',
   },
-  '/getting-started/quick': {
-    title: 'Quick Installation - Getting Started | WICGATE',
+  '/downloads/quick': {
+    title: 'Quick Install - Downloads | WICGATE',
     description:
       'Quick 3-step installation guide for World in Conflict multiplayer. Get playing in under 5 minutes with WIC LIVE installer.',
     keywords: 'wic quick install, wic live installer, world in conflict setup',
     ogImage: '/og-getting-started.jpg',
   },
-  '/getting-started/advanced': {
-    title: 'Advanced Setup - Dedicated Servers & Manual Install | WICGATE',
+  '/downloads/server': {
+    title: 'Dedicated Server Setup - Downloads | WICGATE',
     description:
-      'Advanced setup options for World in Conflict: dedicated server hosting, manual installation, and network configuration.',
-    keywords: 'wic dedicated server, wic manual install, world in conflict server hosting',
+      'Host your own 24/7 World in Conflict dedicated server. Complete setup guide with network configuration and port forwarding.',
+    keywords: 'wic dedicated server, world in conflict server hosting, wic server setup',
     ogImage: '/og-getting-started.jpg',
   },
-  '/multiplayer': {
-    title: 'Multiplayer - Live Servers & Rankings | WICGATE',
+  '/downloads/manual': {
+    title: 'Manual Install - Downloads | WICGATE',
     description:
-      'View live World in Conflict multiplayer servers with online players and competitive leaderboards. Track top players and see real-time server activity.',
+      'Advanced manual installation for World in Conflict multiplayer. Install WICGATE components individually for custom configurations.',
+    keywords: 'wic manual install, world in conflict advanced setup, wic custom install',
+    ogImage: '/og-getting-started.jpg',
+  },
+  '/statistics': {
+    title: 'Statistics - Player Rankings & Leaderboards | WICGATE',
+    description:
+      'View World in Conflict player rankings, competitive leaderboards, and match statistics. See top players across all game modes and roles.',
     keywords:
-      'wic multiplayer, wic servers, wic online players, wic leaderboards, world in conflict rankings, wic stats, world in conflict live servers',
+      'wic leaderboards, world in conflict rankings, wic player stats, wic top players, world in conflict statistics',
     ogImage: '/og-statistics.jpg',
   },
-  '/multiplayer/servers': {
-    title: 'Live Servers - Players Online Now | WICGATE',
+  '/statistics/leaderboards': {
+    title: 'Leaderboards - Top Players & Rankings | WICGATE',
     description:
-      'See live World in Conflict servers with current player counts. Join active games and find opponents in real-time.',
-    keywords: 'wic live servers, wic players online, world in conflict active games',
-    ogImage: '/og-statistics.jpg',
-  },
-  '/multiplayer/statistics': {
-    title: 'Player Statistics & Leaderboards | WICGATE',
-    description:
-      'View World in Conflict player rankings, competitive leaderboards, and match statistics. See top players across all game modes.',
-    keywords: 'wic leaderboards, world in conflict rankings, wic player stats, wic top players',
+      'Competitive leaderboards for World in Conflict. View top players by total score, infantry, armor, air, and support roles.',
+    keywords:
+      'wic leaderboards, world in conflict rankings, wic top players, wic competitive stats',
     ogImage: '/og-statistics.jpg',
   },
   '/community': {
@@ -156,7 +157,7 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
     keywords: 'wic gameplay, wic features, world in conflict game modes, wic ranking',
     ogImage: '/og-faq.jpg',
   },
-  '/faq/community': {
+  '/faq/server-community': {
     title: 'FAQ - Server Hosting & Community | WICGATE',
     description:
       'Questions about hosting dedicated World in Conflict servers, player population, tournaments, and community information.',

@@ -5,6 +5,7 @@
 
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
+import { getSectionFromSubsection } from '../types/navigation';
 
 export function useActiveSection(sectionIds: string[] = []) {
   const route = useRoute();
@@ -39,12 +40,26 @@ export function useActiveSection(sectionIds: string[] = []) {
     for (const id of sectionIds) {
       const element = document.getElementById(id);
       if (element) {
+        // Skip hidden elements (tab panels that aren't currently active)
+        // offsetParent is null for elements with display:none
+        if (element.hidden || element.offsetParent === null) {
+          continue;
+        }
+
         const rect = element.getBoundingClientRect();
         const elementTop = rect.top + window.scrollY;
 
         if (scrollPosition >= elementTop) {
           foundSection = id;
         }
+      }
+    }
+
+    // Map subsection IDs to their parent section (tabs should not affect navigation)
+    if (foundSection) {
+      const parentSection = getSectionFromSubsection(foundSection);
+      if (parentSection) {
+        foundSection = parentSection;
       }
     }
 
@@ -105,8 +120,11 @@ export function useActiveSection(sectionIds: string[] = []) {
   });
 
   // Current active section - prioritizes route (for clicks), falls back to scroll
+  // IMPORTANT: Only track section-level, not subsection/tabs
+  // Tabs are local UI state and shouldn't affect main navigation highlighting
   const currentSection = computed(() => {
-    const routeSection = (route.meta.subsection || route.meta.section) as string | undefined;
+    // Always use section, never subsection (tabs should not affect nav highlighting)
+    const routeSection = route.meta.section as string | undefined;
 
     // During/after programmatic navigation, use route
     if (isProgrammaticScroll.value && routeSection) {

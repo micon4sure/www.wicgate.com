@@ -29,7 +29,7 @@ function goToSection(sectionOrSubsectionId: string) {
 <template>
   <section
     id="hero"
-    class="relative min-h-[85vh] pt-[calc(var(--header-height)+40px)] pb-20 overflow-hidden 2xl:pt-[calc(var(--header-height)+40px)] xl:pt-[calc(var(--header-height)+30px)] md:pt-[calc(var(--header-height)+20px)] sm:pt-[calc(var(--header-height)+10px)] md:pb-20 sm:pb-12 sm:min-h-0"
+    class="relative min-h-[100vh] pt-[calc(var(--header-height)+40px)] pb-24 overflow-hidden 2xl:pt-[calc(var(--header-height)+40px)] xl:pt-[calc(var(--header-height)+30px)] md:pt-[calc(var(--header-height)+20px)] sm:pt-[calc(var(--header-height)+10px)] md:pb-20 sm:pb-12 sm:min-h-[85vh]"
   >
     <!-- Video Background (Client-side only, hidden on mobile for performance) -->
     <video
@@ -44,15 +44,15 @@ function goToSection(sectionOrSubsectionId: string) {
       <source src="/hero-background.mp4" type="video/mp4" />
     </video>
 
-    <!-- Light overlay for text readability (much lighter to show video) -->
-    <div class="absolute inset-0 bg-black/20 md:bg-black/15"></div>
+    <!-- Light overlay for text readability (even lighter to show video) -->
+    <div class="absolute inset-0 bg-black/10 md:bg-black/8"></div>
 
-    <!-- Subtle Atmospheric Gradients (reduced opacity) -->
+    <!-- Subtle Atmospheric Gradients (further reduced opacity) -->
     <div
-      class="absolute inset-0 bg-gradient-to-b from-texture-dark/30 via-transparent to-graphite/60"
+      class="absolute inset-0 bg-gradient-to-b from-texture-dark/20 via-transparent to-graphite/50"
     ></div>
     <div
-      class="absolute inset-0 bg-gradient-to-br from-massgate-red-dark/8 via-transparent to-soviet/5"
+      class="absolute inset-0 bg-gradient-to-br from-massgate-red-dark/5 via-transparent to-soviet/3"
     ></div>
 
     <!-- Subtle animated glow effects -->
@@ -66,7 +66,7 @@ function goToSection(sectionOrSubsectionId: string) {
 
     <div class="container relative z-10">
       <!-- Hero Header -->
-      <div class="text-center mb-12 2xl:mb-12 xl:mb-10 md:mb-9 sm:mb-7">
+      <div class="text-center mb-16 2xl:mb-16 xl:mb-14 md:mb-12 sm:mb-10">
         <div
           class="inline-block py-1.5 px-4 bg-gradient-to-b from-mg/40 to-mg-dark/60 border border-soviet/40 text-soviet font-military text-xs font-bold tracking-widest uppercase mb-5 shadow-soviet-glow/30 sm:py-[5px] sm:px-3 sm:text-[11px] sm:mb-4"
         >
@@ -100,7 +100,7 @@ function goToSection(sectionOrSubsectionId: string) {
         </div>
 
         <!-- Key features badges -->
-        <div class="flex flex-wrap items-center justify-center gap-3 mb-8 sm:gap-2 sm:mb-6">
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-6 sm:gap-2 sm:mb-5">
           <div
             class="inline-flex items-center gap-2 py-2 px-4 bg-black/50 border border-t-dim/30 text-t text-sm font-body font-semibold backdrop-blur-md shadow-lg sm:py-1.5 sm:px-3 sm:text-xs"
           >
@@ -119,6 +119,17 @@ function goToSection(sectionOrSubsectionId: string) {
             <i class="fa-solid fa-download text-massgate-gold" aria-hidden="true"></i>
             <span>Free to Play</span>
           </div>
+        </div>
+
+        <!-- Primary CTA -->
+        <div class="flex justify-center mb-8 sm:mb-6">
+          <button
+            class="btn-red inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-black no-underline animate-red-pulse shadow-[0_8px_24px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-300 sm:px-6 sm:py-3 sm:text-base"
+            @click="goToSection('downloads-quick')"
+          >
+            <i class="fa-solid fa-download text-xl sm:text-lg" aria-hidden="true"></i>
+            <span>DOWNLOAD NOW</span>
+          </button>
         </div>
       </div>
 

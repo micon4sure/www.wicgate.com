@@ -6,7 +6,7 @@ const emit = defineEmits<{
 }>();
 
 function handleClick() {
-  emit('navigate', 'getting-started');
+  emit('navigate', 'downloads');
 }
 </script>
 
