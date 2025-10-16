@@ -8,6 +8,14 @@ export const API_POLLING_INTERVAL = 90_000; // 90 seconds
 export const API_RETRY_DELAYS = [1000, 2000, 4000]; // Exponential backoff
 export const MAX_API_RETRIES = 3;
 
+// Server Configuration
+export const SERVER_MAX_CAPACITY = 16; // Maximum players per server
+export const SERVER_CAPACITY_THRESHOLDS = {
+  FULL: 0.9, // 90% = red (nearly full)
+  MEDIUM: 0.5, // 50% = orange (moderate)
+  LOW: 0, // <50% = green (plenty of space)
+} as const;
+
 // UI Performance
 export const DEBOUNCE_RESIZE = 150; // Resize handler debounce (ms)
 

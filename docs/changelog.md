@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🔒 **Code Quality & Security Improvements** - Fixed missing @vitest/coverage-v8 test dependency, added prominent mock authentication warnings to Admin/Login views with production safety checks in auth store, created comprehensive docs/security.md covering XSS prevention, authentication security, API security, and deployment checklist, extracted magic numbers to constants.ts (SERVER_MAX_CAPACITY, thresholds), migrated 3 legacy CSS variables (--g, --t3, --bd) to Tailwind across 8 files for better maintainability - all 44 tests passing, TypeScript strict mode clean, ESLint zero errors (Oct 16)
 - 🎨 **MAJOR: 100% Scoped Styles to Tailwind Conversion** - Complete elimination of all `<style scoped>` blocks (19 files → 0) achieving full CLAUDE.md compliance: converted final 3 components (ErrorBoundary, FirstVisitOverlay, Navigation) from scoped CSS to centralized Tailwind classes in `@layer components`, added 252 lines of component CSS to tailwind.css while removing 324 lines from Vue files (66 line net reduction), fixed critical regressions (Vue transition animations for Navigation mobile menu, RGB CSS variables for ErrorBoundary gradient), 621+ total lines of scoped CSS eliminated across all phases, all 44 tests passing, 22 SSG pages render successfully, zero styling breaks - achieved perfect CLAUDE.md constraint adherence with maintainable, DRY, utility-first architecture (Oct 16)
 - 🔒 **SECURITY: ESLint 9 Migration** - Upgraded from ESLint 8 (end-of-life October 2024) to ESLint 9 with flat config format for continued security patches: migrated `.eslintrc.json` to `eslint.config.js`, upgraded all plugins (eslint-plugin-vue 9→10, @typescript-eslint 8.44→8.46, vue-eslint-parser→10.2), added comprehensive browser/Node.js globals, all 44 tests passing, linting verified, TypeScript compilation clean, Prettier integration working, zero breaking changes to development workflow (Oct 15)
 - 📚 **Architecture Documentation Update** - Updated architecture.md to reflect @unhead/vue migration: added @unhead/vue to stack listing, added comprehensive "Head Management & Meta Tags" section documenting belt-and-suspenders approach (runtime `useHead()` + build-time post-build script), clarified API differences from @vueuse/head (`textContent` vs `children`), corrected route counts (27 routes total, 23 pre-rendered for SSG with /admin excluded), updated build pipeline documentation (Oct 14)
@@ -118,6 +119,43 @@
 ---
 
 ## October 2025
+
+### October 16, 2025 - Code Quality & Security Improvements
+
+**Highlights**
+- Fixed missing @vitest/coverage-v8 dependency causing test coverage to fail (critical blocker for CI/CD pipelines)
+- Added prominent mock authentication warnings to production builds: visual banner in Admin dashboard, demo mode notice in Login page, console error in auth store
+- Created comprehensive security documentation (docs/security.md) covering XSS prevention strategies, authentication security concerns, API security best practices, storage security, and deployment checklist
+- Extracted magic numbers to constants.ts: SERVER_MAX_CAPACITY (16 players), SERVER_CAPACITY_THRESHOLDS (90% full, 50% medium, 0% low)
+- Migrated 3 most-used legacy CSS variables to Tailwind utilities across 8 files: --g → bg-online, --t3 → text-t-tertiary, --bd → border-mg
+- Added security comments to usePlayerDisplay.ts documenting hex validation preventing CSS injection
+- All 44 tests passing, TypeScript strict mode clean, ESLint zero errors
+
+**Technical Details**
+
+**Phase 1 - Critical Fixes:**
+- `package.json`: Installed @vitest/coverage-v8@3.0.0 as dev dependency (required by vitest.config.ts)
+- `src/views/Admin.vue`: Added prominent mock auth warning banner with red border/background, icon, and bold text after line 82
+- `src/views/Login.vue`: Added demo mode warning notice with red styling and Flask icon after line 65
+- `src/stores/auth.ts`: Added production environment check logging critical error when mock auth detected in production build (after line 11)
+- `docs/security.md`: Created 250+ line comprehensive security guide covering XSS prevention (v-html usage analysis, sanitization strategies), authentication security (mock auth risks, production recommendations), API security (CORS, rate limiting), storage security (localStorage risks), vulnerability reporting, and deployment security checklist
+- `src/composables/usePlayerDisplay.ts`: Added inline security comment at hex validation documenting CSS injection prevention (line 75-77)
+
+**Phase 2 - High Priority:**
+- `src/constants.ts`: Added SERVER_MAX_CAPACITY constant (16) and SERVER_CAPACITY_THRESHOLDS object (FULL: 0.9, MEDIUM: 0.5, LOW: 0) after line 9
+- `src/screens/Multiplayer.vue`: Updated player count display to use SERVER_MAX_CAPACITY constant instead of hard-coded 16 (line 139)
+- `tailwind.config.ts`: Added t-tertiary color (#6c7a85) to text hierarchy for muted text (line 88)
+- `src/components/Footer.vue`: Migrated 4 CSS variable usages to Tailwind classes (bg-graphite-dark, border-mg, text-t-tertiary, bg-online)
+- `src/components/LeaderboardGroup.vue`: Replaced var(--t3) with text-t-tertiary in 2 locations (lines 173, 265)
+- `src/components/TwitchFacade.vue` & `src/components/TwitchEmbed.vue`: Migrated var(--s2) → bg-graphite-light, var(--bd) → border-mg
+- `src/composables/useServerCapacity.ts`: Changed getCapacityColor() to return hex colors directly (#e53935 red, #ff6600 orange, #7cb342 green) instead of CSS variables (lines 53-55)
+
+**Why This Matters**
+- Test coverage now works in CI/CD pipelines (previously failed with "Cannot find dependency" error)
+- Mock authentication now has visible warnings preventing accidental production deployment
+- Security documentation provides clear guidance for production hardening (real auth backend, XSS prevention, deployment checklist)
+- Magic number extraction improves maintainability (single source of truth for server capacity)
+- CSS variable migration reduces technical debt and improves type safety (Tailwind IntelliSense works better with utility classes)
 
 ### October 15, 2025 - ESLint 9 Migration (Security Update)
 

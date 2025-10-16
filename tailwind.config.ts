@@ -85,6 +85,7 @@ export default {
           DEFAULT: '#ffffff',      // Pure white for maximum contrast on steel blue
           secondary: '#c5d5e0',    // Brighter gray-blue for better visibility
           dim: '#8a9aa8',          // Brightened tertiary text
+          tertiary: '#6c7a85',     // Muted text (replaces --t3)
         },
 
         // Functional colors

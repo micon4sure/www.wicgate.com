@@ -10,6 +10,14 @@ const MOCK_USERS = {
   user: { username: 'user', password: 'user123', role: 'user' as const },
 };
 
+// Production safety check
+if (!import.meta.env.DEV && typeof window !== 'undefined') {
+  console.error(
+    '[AUTH] ⚠️ CRITICAL: Mock authentication detected in production build! ' +
+      'Replace with real authentication backend before deploying.'
+  );
+}
+
 /**
  * Mock API delay to simulate network latency
  */

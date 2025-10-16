@@ -65,6 +65,15 @@ function handleKeyPress(event: KeyboardEvent) {
         <p class="font-body text-sm text-battlefield-mist uppercase tracking-wide">Admin Login</p>
       </div>
 
+      <!-- DEV MODE WARNING -->
+      <div
+        class="mb-6 bg-massgate-red/10 border border-massgate-red/40 rounded p-3 text-xs text-t-secondary font-body"
+      >
+        <i class="fa-solid fa-flask text-massgate-red-bright mr-2"></i>
+        <strong class="text-massgate-red-bright">Demo Mode:</strong> Using mock authentication
+        (admin/admin123)
+      </div>
+
       <!-- Error Message -->
       <div
         v-if="errorMessage"

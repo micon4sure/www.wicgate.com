@@ -81,6 +81,26 @@ function handleLogout() {
         </p>
       </div>
 
+      <!-- MOCK AUTH WARNING -->
+      <div
+        class="mb-8 bg-massgate-red/15 border-2 border-massgate-red-bright rounded-lg p-4 flex gap-3 items-start shadow-massgate-border"
+      >
+        <i
+          class="fa-solid fa-triangle-exclamation text-massgate-red-bright text-2xl flex-shrink-0"
+          aria-hidden="true"
+        ></i>
+        <div>
+          <h3 class="text-massgate-red-bright font-military font-bold uppercase text-lg mb-2 m-0">
+            Mock Authentication Active
+          </h3>
+          <p class="text-t-secondary font-body text-sm leading-relaxed m-0">
+            This is a demonstration using hardcoded credentials (admin/admin123).
+            <strong class="text-massgate-red-bright">DO NOT use in production.</strong>
+            Replace with proper authentication backend before deploying.
+          </p>
+        </div>
+      </div>
+
       <!-- Stats Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <!-- Player Count Widget -->

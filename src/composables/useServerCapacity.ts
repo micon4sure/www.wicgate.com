@@ -34,25 +34,25 @@ export function useServerCapacity(options: ServerCapacityOptions = {}) {
   const { fullThreshold = 90, busyThreshold = 50 } = options;
 
   /**
-   * Get color token based on server capacity percentage
+   * Get color hex based on server capacity percentage
    *
    * @param count - Current player count
    * @param max - Maximum server capacity (default: 16)
-   * @returns CSS variable token for color
+   * @returns Hex color string
    *
    * @example
    * ```typescript
-   * getCapacityColor(15, 16); // 'var(--dl-light)' - red (≥90%)
-   * getCapacityColor(10, 16); // 'var(--sw)' - orange (≥50%)
-   * getCapacityColor(5, 16);  // 'var(--g)' - green (<50%)
+   * getCapacityColor(15, 16); // '#e53935' - red (≥90%)
+   * getCapacityColor(10, 16); // '#ff6600' - orange (≥50%)
+   * getCapacityColor(5, 16);  // '#7cb342' - green (<50%)
    * ```
    */
   function getCapacityColor(count: number, max: number = 16): string {
     const percentage = (count / max) * 100;
 
-    if (percentage >= fullThreshold) return 'var(--dl-light)'; // Red - nearly full
-    if (percentage >= busyThreshold) return 'var(--sw)'; // Orange - half full
-    return 'var(--g)'; // Green - plenty of space
+    if (percentage >= fullThreshold) return '#e53935'; // Red - nearly full (massgate-red-bright)
+    if (percentage >= busyThreshold) return '#ff6600'; // Orange - half full (soviet)
+    return '#7cb342'; // Green - plenty of space (online)
   }
 
   /**

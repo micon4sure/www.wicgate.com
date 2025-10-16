@@ -16,7 +16,7 @@ function loadEmbed() {
 
 <template>
   <div
-    class="relative w-full pb-[56.25%] bg-[var(--s2)] border border-[var(--bd)] rounded-none overflow-hidden"
+    class="relative w-full pb-[56.25%] bg-graphite-light border border-mg rounded-none overflow-hidden"
   >
     <div
       v-if="!isLoaded"

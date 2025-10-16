@@ -72,7 +72,9 @@ export function usePlayerDisplay() {
       last = regex.lastIndex;
 
       if (m[1]) {
-        // Validate hex color to prevent CSS injection
+        // Security: Strict hex validation prevents CSS injection
+        // Only allows valid hex colors (3-6 characters, alphanumeric)
+        // For user-generated content, add DOMPurify sanitization (see docs/security.md)
         const hexColor = m[1];
         if (/^[\da-f]{3,6}$/i.test(hexColor)) {
           if (open) out += '</span>';

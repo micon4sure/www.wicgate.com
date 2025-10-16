@@ -13,6 +13,7 @@
 - **[tailwind.config.ts](tailwind.config.ts)** - Design tokens (colors, shadows, animations)
 - **[docs/testing.md](docs/testing.md)** - Testing guide
 - **[docs/api.md](docs/api.md)** - API endpoints and data structures
+- **[docs/security.md](docs/security.md)** - Security guidelines (XSS, auth, deployment)
 - **[docs/changelog.md](docs/changelog.md)** - Recent changes
 
 ---
@@ -135,6 +136,7 @@ All in [tailwind.config.ts](tailwind.config.ts):
 - [useActiveSection.ts](src/composables/useActiveSection.ts) - Nav highlighting (hybrid: route + scroll position)
 
 ### Utilities
+- [constants.ts](src/constants.ts) - Application constants (SERVER_MAX_CAPACITY, thresholds, API config)
 - [headerHeight.ts](src/utils/headerHeight.ts) - Dynamic header height sync
 - [memoize.ts](src/utils/memoize.ts) - Memoization toolkit
 - [features.ts](src/utils/features.ts) - Feature flag system (11 flags)
@@ -177,6 +179,14 @@ src/
 ---
 
 ## Recent Major Updates
+
+### October 16, 2025 - Code Quality & Security Improvements
+- **Test Infrastructure:** Fixed missing @vitest/coverage-v8 dependency
+- **Security Warnings:** Added prominent mock auth warnings (Admin/Login/auth store)
+- **Security Documentation:** Created comprehensive docs/security.md (XSS, auth, deployment)
+- **Code Cleanup:** Extracted magic numbers to constants.ts (SERVER_MAX_CAPACITY)
+- **CSS Migration:** Migrated 3 legacy CSS variables to Tailwind (--g, --t3, --bd)
+- **Testing:** All 44 tests passing, ESLint zero errors, TypeScript strict mode clean
 
 ### October 13, 2025 - Pinia Migration + Authentication
 - **State Management:** Migrated from composables to Pinia stores
@@ -234,4 +244,4 @@ src/
 **For complete operational rules, see [CLAUDE.md](CLAUDE.md)**
 **For detailed documentation, see [docs/](docs/)**
 
-**Last Updated:** October 14, 2025 (Design System Consolidation)
+**Last Updated:** October 16, 2025 (Code Quality & Security)

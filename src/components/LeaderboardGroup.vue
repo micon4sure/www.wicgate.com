@@ -170,7 +170,7 @@ onUnmounted(() => {
             <tr v-if="entriesFor(c).length === 0">
               <td
                 colspan="3"
-                class="text-center italic text-[var(--t3)] font-[Rajdhani,sans-serif] p-[30px]"
+                class="text-center italic text-t-tertiary font-[Rajdhani,sans-serif] p-[30px]"
               >
                 No data
               </td>
@@ -262,7 +262,7 @@ onUnmounted(() => {
           <tr v-if="entriesFor(active).length === 0">
             <td
               colspan="3"
-              class="text-center italic text-[var(--t3)] font-[Rajdhani,sans-serif] p-[30px]"
+              class="text-center italic text-t-tertiary font-[Rajdhani,sans-serif] p-[30px]"
             >
               No data
             </td>

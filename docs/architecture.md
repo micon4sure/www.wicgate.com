@@ -389,6 +389,11 @@ Use CSS variable for spacing:
 - `getHeaderHeightWithBuffer()` - Detection tolerance
 - `scrollToSection()` - Pixel-perfect positioning
 
+**[constants.ts](../src/constants.ts)** - Application-wide constants:
+- `SERVER_MAX_CAPACITY` - Max players per server (16)
+- `SERVER_CAPACITY_THRESHOLDS` - Capacity color thresholds (90% red, 50% orange, <50% green)
+- `API_POLLING_INTERVAL`, `API_RETRY_DELAYS` - Network configuration
+
 **[analytics.ts](../src/utils/analytics.ts)** - Type-safe event tracking (15 categories)
 **[performance.ts](../src/utils/performance.ts)** - Core Web Vitals (CLS, FCP, INP, LCP, TTFB)
 **[structuredData.ts](../src/utils/structuredData.ts)** - JSON-LD schemas for SEO
@@ -488,7 +493,7 @@ Use CSS variable for spacing:
 **Pipeline:**
 1. Checkout → Setup Node.js (v20)
 2. Install dependencies → Lint check → Type check
-3. Test (thorough with real timers, 27 tests)
+3. Test (thorough with real timers, 44 tests)
 4. Build → Bundle size check (<5MB)
 5. 404 fallback (copy index.html to 404.html)
 6. CNAME setup (www.wicgate.com)
@@ -571,6 +576,7 @@ docs/
 ├── api.md                     # API documentation
 ├── testing.md                 # Test strategies
 ├── troubleshooting.md         # Common issues
+├── security.md                # Security guidelines (XSS, auth, deployment)
 └── changelog.md               # Feature history
 
 Configuration:

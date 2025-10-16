@@ -5,6 +5,7 @@ import LeaderboardSkeleton from '../components/skeletons/LeaderboardSkeleton.vue
 import type { DataResponse, LeaderboardEntry, LadderEntry } from '../api-types';
 import { useServerCapacity } from '../composables/useServerCapacity';
 import { usePlayerDisplay } from '../composables/usePlayerDisplay';
+import { SERVER_MAX_CAPACITY } from '../constants';
 
 const props = defineProps<{
   data: Partial<DataResponse>;
@@ -135,7 +136,7 @@ const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
                     class="text-base md:text-lg font-military font-bold tracking-wide flex-shrink-0"
                     :style="{ color: getCapacityColor(group.players.length) }"
                   >
-                    {{ group.players.length }}/16
+                    {{ group.players.length }}/{{ SERVER_MAX_CAPACITY }}
                   </div>
                 </div>
               </div>

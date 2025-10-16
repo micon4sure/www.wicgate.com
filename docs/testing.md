@@ -22,11 +22,11 @@ WiCGATE uses a comprehensive testing infrastructure with **Vitest** and **Vue Te
 
 ```json
 {
-  "vitest": "^2.1.8",           // Fast unit test framework
+  "vitest": "^3.2.4",           // Fast unit test framework
   "vue-test-utils": "^2.4.6",   // Vue component testing
-  "happy-dom": "^15.11.6",      // Fast DOM simulation
-  "@vitest/coverage-v8": "^2.1.8", // Coverage reporting
-  "@vitest/ui": "^2.1.8"        // Web UI for debugging
+  "happy-dom": "^19.0.2",       // Fast DOM simulation
+  "@vitest/coverage-v8": "^3.2.4", // Coverage reporting
+  "@vitest/ui": "^3.2.4"        // Web UI for debugging
 }
 ```
 
