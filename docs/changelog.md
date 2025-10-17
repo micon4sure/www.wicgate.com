@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🎨 **UI: Leaderboard Divider Cleanup** - Removed unintended white divider borders from leaderboard headers and body cells so statistics cards keep a solid dark panel appearance; hover treatments still rely on orange gradient utilities for focus. (Oct 17)
 - 🎨 **MAJOR: CSS Variable to Tailwind Migration Complete** - Eliminated 89% of CSS variables (56 → 6 usages), migrated all legacy variables to Tailwind utilities achieving full CLAUDE.md compliance: removed all spacing variables (--spacing-xs/sm/md/lg/xl), color shortcuts (--t, --t2, --sw, --ink), RGB triplets (--massgate-orange-rgb, --graphite-rgb, etc.), transition helpers (--tr), skeleton colors (--s2, --mg-muted), and gradient variables (--grad-card), fixed 8 critical bugs from undefined variables (player-neutral, spacing classes, error gradients), only retained --header-height (JS-synced via headerHeight.ts for dynamic layout), all quality gates passing (44/44 tests, clean lint, TypeScript strict mode, successful build), divider colors migrated to tailwind.config.ts with proper rgba definitions, build output confirms zero project CSS variables except header-height - cleaner codebase, better type safety, improved maintainability, maximum Tailwind utility usage (Oct 17)
 - 🎨 **MAJOR: Teal/Orange Color System Refinement** - Completed color hierarchy clarification with teal for structural elements and orange for interactive states: icon badges now use teal gradients (teal-bright → teal-glow with darker teal borders) across all sections (widgets, Downloads timeline, FAQ categories, Network Ports), all card/widget hover effects changed from teal to orange (widgets, server items, player lists, ladder items, generic cards, FAQ target highlights), creator badges in Community section now match navigation tabs with orange hover (orange gradient background + ink text on hover), download links use orange with underline on hover, FAQ copy link icons changed to orange, removed excessive glow from Downloads Quick Install timeline steps, section headers in Downloads changed to white for cleaner hierarchy - creates clear visual language: teal = structure/badges/accents, orange = interactive/hover states (Oct 17)
 - 🔗 **FAQ Copy Link Feature** - Added industry-standard copy link buttons to all 21 FAQ questions following GitHub/MDN/Stack Overflow pattern: hover over any question reveals link icon (🔗), clicking copies category-specific URL to clipboard (e.g., `/faq/server#technical-advantages`), icon changes to checkmark (✓) with toast notification "Link copied to clipboard!" (auto-dismiss after 2s), questions now shareable via proper URLs encoding both category and question ID, :target CSS animation provides visual feedback on deep-link arrival (2s orange border pulse), SSR-safe with `navigator.clipboard` guard, full keyboard accessibility with ARIA labels - enables precise question sharing in Discord/support contexts, better SEO discoverability, follows modern documentation site UX patterns (Oct 17)
@@ -169,6 +170,14 @@
 - Security documentation provides clear guidance for production hardening (real auth backend, XSS prevention, deployment checklist)
 - Magic number extraction improves maintainability (single source of truth for server capacity)
 - CSS variable migration reduces technical debt and improves type safety (Tailwind IntelliSense works better with utility classes)
+
+### October 17, 2025 - Leaderboard Divider Cleanup
+
+- Removed table header and body border utilities from the statistics leaderboard so the cards no longer show unintended white seams between cells.
+- Kept hover highlights using existing orange gradient utilities; no changes to data fetching or row rendering.
+
+**Files**
+- `src/components/LeaderboardGroup.vue`
 
 ### October 15, 2025 - ESLint 9 Migration (Security Update)
 
