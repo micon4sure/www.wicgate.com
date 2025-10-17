@@ -37,18 +37,35 @@ function copyQuestionLink(questionId: string) {
     ? `${window.location.origin}/faq/${categorySlug}#${questionId}`
     : `${window.location.origin}/faq#${questionId}`;
 
-  navigator.clipboard.writeText(url).then(() => {
-    copiedQuestionId.value = questionId;
-    showCopiedToast.value = true;
+  navigator.clipboard
+    .writeText(url)
+    .then(() => {
+      copiedQuestionId.value = questionId;
+      showCopiedToast.value = true;
 
-    // Auto-hide toast after 2 seconds
-    setTimeout(() => {
-      showCopiedToast.value = false;
+      // Auto-hide toast after 2 seconds
       setTimeout(() => {
-        copiedQuestionId.value = null;
-      }, 300); // Wait for fade-out transition
-    }, 2000);
-  });
+        showCopiedToast.value = false;
+        setTimeout(() => {
+          copiedQuestionId.value = null;
+        }, 300); // Wait for fade-out transition
+      }, 2000);
+    })
+    .catch((error: unknown) => {
+      // Graceful degradation: log error but don't crash
+      console.error('Failed to copy link to clipboard:', error);
+
+      // Still show visual feedback to user (they may need to copy manually)
+      copiedQuestionId.value = questionId;
+      showCopiedToast.value = true;
+
+      setTimeout(() => {
+        showCopiedToast.value = false;
+        setTimeout(() => {
+          copiedQuestionId.value = null;
+        }, 300);
+      }, 2000);
+    });
 }
 
 // Generate subsection ID from category name
@@ -305,7 +322,8 @@ onMounted(() => {
     >
       <div
         v-show="showCopiedToast"
-        class="fixed top-24 right-6 z-50 bg-gradient-to-br from-teal/95 to-teal-dark/95 backdrop-blur-sm border-2 border-teal-bright/50 rounded px-5 py-3 shadow-lg shadow-teal/30"
+        class="fixed right-6 z-50 bg-gradient-to-br from-teal/95 to-teal-dark/95 backdrop-blur-sm border-2 border-teal-bright/50 rounded px-5 py-3 shadow-lg shadow-teal/30"
+        style="top: calc(var(--header-height) + 16px)"
         role="alert"
         aria-live="polite"
       >
