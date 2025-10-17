@@ -416,7 +416,7 @@ function copyQuestionLink(questionId: string) {
 - Click copies full category URL: `/faq/server#technical-advantages`
 - Icon changes to checkmark (✓) for 2 seconds
 - Toast notification: "Link copied to clipboard!" (top-right, auto-dismiss)
-- :target CSS animation: 2s teal border pulse on deep-link arrival
+- :target CSS animation: 2s orange border pulse on deep-link arrival
 - Keyboard accessible: ARIA labels, focus states, works without mouse
 
 **Technical Implementation:**
@@ -462,12 +462,20 @@ function copyQuestionLink(questionId: string) {
 
 **Migration (October 2025):** 80% code reduction (8,154 deletions vs 1,569 additions)
 
+**CSS Variable Elimination (October 2025):** 89% reduction (56 → 6 usages)
+- Eliminated all legacy CSS variables except `--header-height` (JS-synced for dynamic layout)
+- Migrated spacing, colors, RGB triplets, transitions, and gradients to Tailwind utilities
+- Fixed 8 critical bugs from undefined variables (--player-neutral, --spacing-*, --grad-card)
+- Only exception: `--header-height` in `tailwind.css:8-11` (dynamically updated by `headerHeight.ts`)
+
 ### Configuration
 
 **File:** [tailwind.config.ts](../tailwind.config.ts)
 
-**All design tokens defined here:**
-- Colors: `massgate-red`, `teal`, `soviet`, `graphite`, `mg`, texture variants
+**All design tokens defined here (single source of truth):**
+- Colors: `massgate-red`, `teal` (structure/badges), `soviet`/`massgate-orange` (interactive/hover), `graphite`, `mg`, texture variants
+- Color Hierarchy: Teal for structural elements (icon badges, borders, accents), Orange for interactive states (hover, active, links)
+- Dividers: `divider` (DEFAULT, strong, soft) with rgba values for opacity control
 - Shadows: `teal-glow`, `orange-glow`, `massgate-glow`, `gold-glow`
 - Animations: `red-pulse`, `gold-shimmer`, `teal-glow`
 - Breakpoints: xs(360px), sm(480px), md(768px), lg(900px), xl(1024px), 2xl+(1200px+)
