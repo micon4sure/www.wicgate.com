@@ -6,7 +6,7 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 
 **Stack:** Vue 3 + TypeScript, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](../src/main.ts)
-**Routing:** 27 routes total (23 pre-rendered for SSG, /admin excluded)
+**Routing:** 26 routes total (18 pre-rendered for SSG)
 
 ---
 
@@ -15,7 +15,7 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 ### Rendering Strategy
 
 **Build Time (SSG):**
-- ViteSSG pre-renders 23 unique HTML files (excludes /admin)
+- ViteSSG pre-renders 18 unique HTML files
 - Each route serves focused content with unique meta tags
 - Conditional rendering: `shouldRenderSection()` renders only target section per route
 
@@ -27,8 +27,8 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 ### Routing System
 
 **Path-Based Nested Routes:**
-- **Main (6):** `/`, `/downloads`, `/statistics`, `/community`, `/about`, `/faq`
-- **Subsections (18):** `/downloads/quick`, `/downloads/server`, `/downloads/manual`, `/statistics/leaderboards`, `/community/streams`, `/community/videos`, `/faq/technical`, etc.
+- **Main (5):** `/`, `/downloads`, `/statistics`, `/community`, `/faq`
+- **Subsections (12):** `/downloads/quick`, `/downloads/server`, `/downloads/manual`, `/statistics/leaderboards`, `/community/events`, `/community/streams`, `/community/videos`, `/faq/about`, `/faq/getting-started`, `/faq/technical`, `/faq/gameplay`, `/faq/server-community`
 
 **Navigation Helper:** [src/types/navigation.ts](../src/types/navigation.ts) - `getRoutePath()` converts IDs to paths
 
@@ -272,7 +272,7 @@ useHead({
 - [scripts/apply-head-meta.ts](../scripts/apply-head-meta.ts) - Post-build meta injection
 
 **Meta Tags Per Route:**
-- Unique title, description, keywords for each of 23 pre-rendered pages
+- Unique title, description, keywords for each of 18 pre-rendered pages
 - OpenGraph tags for social sharing
 - Twitter Card tags
 - Canonical URLs
@@ -439,8 +439,7 @@ Use CSS variable for spacing:
 **[Downloads.vue](../src/screens/Downloads.vue)** - 3-tab installation guide (Quick Install, Dedicated Server, Manual Install)
 **[Statistics.vue](../src/screens/Statistics.vue)** - Player rankings and competitive leaderboards
 **[Community.vue](../src/screens/Community.vue)** - Community links, live streams, latest videos
-**[About.vue](../src/screens/About.vue)** - Project information with 4-tab structure
-**[FAQ.vue](../src/screens/FAQ.vue)** - 4-category tabbed FAQ (Getting Started, Technical Issues, Gameplay & Features, Server & Community)
+**[FAQ.vue](../src/screens/FAQ.vue)** - 5-category tabbed FAQ (About WICGATE, Getting Started, Technical Issues, Gameplay & Features, Server & Community)
 
 ### Other Components
 
@@ -459,13 +458,13 @@ Use CSS variable for spacing:
 
 **Steps:**
 1. Generate PWA icons from `public/favicon.svg` (4 sizes)
-2. ViteSSG build - Pre-render 23 routes (excludes /admin)
+2. ViteSSG build - Pre-render 18 routes
 3. Apply head meta - Inject route-specific titles/descriptions/structured data
 4. Generate sitemap.xml from routes
 5. PWA service worker generation (~49 precached entries)
 6. Asset optimization (code splitting, tree shaking, content hashing)
 
-**Output:** `dist/` with 23 unique HTML files + optimized assets
+**Output:** `dist/` with 18 unique HTML files + optimized assets
 
 ### Configuration
 
@@ -545,7 +544,7 @@ src/
 ├── main.ts                    # ViteSSG entry
 ├── router/
 │   ├── index.ts               # Router config
-│   └── routes.ts              # Route definitions (27 routes, 23 pre-rendered)
+│   └── routes.ts              # Route definitions (26 routes, 18 pre-rendered)
 ├── stores/
 │   ├── appDataStore.ts        # Game data
 │   └── auth.ts                # Authentication
@@ -559,8 +558,7 @@ src/
 │   ├── Downloads.vue          # 3-tab installation guide
 │   ├── Statistics.vue         # Player leaderboards
 │   ├── Community.vue          # Streams, videos, links
-│   ├── About.vue              # Project info (4 tabs)
-│   └── FAQ.vue                # FAQ (4 categories)
+│   └── FAQ.vue                # FAQ (5 categories: About, Getting Started, Technical, Gameplay, Server & Community)
 ├── views/
 │   └── Home.vue               # Main SPA
 ├── composables/               # Composition functions
