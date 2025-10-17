@@ -138,7 +138,7 @@ function handleLogout() {
     </div>
 
     <!-- Desktop navigation (left-aligned) -->
-    <nav class="hidden lg:flex gap-2 items-center h-full ml-5 flex-1">
+    <nav class="hidden lg:flex gap-1 xl:gap-2 items-center h-full ml-4 xl:ml-5 flex-1">
       <router-link
         v-for="section in navSections"
         :key="section.id"
@@ -152,12 +152,12 @@ function handleLogout() {
     </nav>
 
     <!-- Auth & Social Buttons (Desktop) -->
-    <div class="hidden lg:flex items-center gap-3 ml-auto">
+    <div class="hidden lg:flex items-center gap-2 xl:gap-3 ml-auto">
       <!-- Admin Link (if admin) -->
       <router-link
         v-if="isAdmin"
         to="/admin"
-        class="flex items-center gap-2 px-4 py-2 bg-massgate-gold/15 border border-massgate-gold/40 text-massgate-gold font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-massgate-gold hover:border-massgate-gold-bright hover:text-ink hover:shadow-gold-glow hover:-translate-y-0.5 active:translate-y-0"
+        class="flex items-center gap-2 px-3 xl:px-4 py-2 bg-massgate-gold/15 border border-massgate-gold/40 text-massgate-gold font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-massgate-gold hover:border-massgate-gold-bright hover:text-ink hover:shadow-gold-glow hover:-translate-y-0.5 active:translate-y-0"
       >
         <i class="fa-solid fa-crown"></i>
         Admin
@@ -166,7 +166,7 @@ function handleLogout() {
       <!-- Logout Button (if authenticated) -->
       <button
         v-if="isAuthenticated"
-        class="flex items-center gap-2 px-4 py-2 bg-massgate-red/15 border border-massgate-red/40 text-massgate-red-bright font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-massgate-red hover:border-massgate-red-bright hover:text-white hover:shadow-massgate-border hover:-translate-y-0.5 active:translate-y-0"
+        class="flex items-center gap-2 px-3 xl:px-4 py-2 bg-massgate-red/15 border border-massgate-red/40 text-massgate-red-bright font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-massgate-red hover:border-massgate-red-bright hover:text-white hover:shadow-massgate-border hover:-translate-y-0.5 active:translate-y-0"
         @click="handleLogout"
       >
         <i class="fa-solid fa-right-from-bracket"></i>
@@ -177,7 +177,7 @@ function handleLogout() {
       <router-link
         v-if="!isAuthenticated"
         to="/login"
-        class="flex items-center gap-2 px-4 py-2 bg-graphite border-2 border-teal/30 text-t-secondary font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-b hover:from-massgate-orange-light hover:to-massgate-orange hover:border-massgate-orange hover:text-ink hover:-translate-y-0.5 hover:shadow-orange-border active:bg-gradient-to-b active:from-massgate-orange active:to-massgate-orange-dark active:border-massgate-orange-dark active:text-ink active:translate-y-0 active:shadow-orange-border"
+        class="flex items-center gap-2 px-3 xl:px-4 py-2 bg-graphite border-2 border-teal/30 text-t-secondary font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-b hover:from-massgate-orange-light hover:to-massgate-orange hover:border-massgate-orange hover:text-ink hover:-translate-y-0.5 hover:shadow-orange-border active:bg-gradient-to-b active:from-massgate-orange active:to-massgate-orange-dark active:border-massgate-orange-dark active:text-ink active:translate-y-0 active:shadow-orange-border"
       >
         <i class="fa-solid fa-right-to-bracket"></i>
         Login
@@ -188,7 +188,7 @@ function handleLogout() {
         href="https://discord.gg/WnxwfMTyBe"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center gap-2 px-4 py-2 bg-discord border-2 border-discord-dark rounded text-white font-body text-sm uppercase tracking-wide transition-all duration-300 cursor-pointer no-underline hover:bg-discord-light hover:border-discord hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(88,101,242,0.5),0_0_36px_rgba(88,101,242,0.35)] active:translate-y-0 active:bg-discord-dark active:shadow-[0_4px_16px_rgba(88,101,242,0.4),0_0_24px_rgba(88,101,242,0.3)]"
+        class="flex items-center gap-2 px-3 xl:px-4 py-2 bg-discord/90 border-2 border-discord-dark rounded text-white font-body text-sm uppercase tracking-wide transition-all duration-300 cursor-pointer no-underline hover:bg-discord hover:border-discord-light hover:shadow-[0_4px_16px_rgba(88,101,242,0.6),0_0_24px_rgba(88,101,242,0.4)] hover:scale-[1.02] active:scale-100 active:bg-discord-dark active:border-discord-darker"
         aria-label="Join Discord Server"
       >
         <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="w-5 h-5">
@@ -196,7 +196,7 @@ function handleLogout() {
             d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"
           />
         </svg>
-        Join Discord
+        Discord
       </a>
     </div>
 

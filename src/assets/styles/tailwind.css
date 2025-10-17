@@ -170,13 +170,22 @@
   }
 
   /* Navigation tab - Desktop (Massgate orange hover/active states) */
+  /* Progressive Reduction Pattern: Compact at lg (850px), expands gradually to 3xl (1100px+) */
   .nav-tab {
-    @apply no-underline font-military font-medium text-sm uppercase tracking-wider;
-    @apply relative cursor-pointer h-full px-4 flex items-center justify-center text-center;
+    @apply no-underline font-military font-medium uppercase tracking-wider;
+    @apply relative cursor-pointer h-full flex items-center justify-center text-center;
     @apply rounded-none;
-    @apply transition-all duration-300 select-none flex-1 min-w-[80px] max-w-[160px];
+    @apply transition-all duration-300 select-none;
     @apply whitespace-nowrap overflow-hidden text-ellipsis origin-[center_bottom];
     @apply text-t-secondary;
+    /* Tier 1 (lg 850-900px): Most compact - tight quarters */
+    @apply text-xs px-2.5 min-w-[70px] max-w-[110px];
+    /* Tier 2 (xl 900-1000px): Slightly more room */
+    @apply xl:px-3 xl:min-w-[75px] xl:max-w-[120px];
+    /* Tier 3 (2xl 1000-1100px): Getting comfortable - restore normal font size */
+    @apply 2xl:text-sm 2xl:min-w-[80px] 2xl:max-w-[130px];
+    /* Tier 4 (3xl 1100px+): Full comfort - original sizing */
+    @apply 3xl:px-4 3xl:min-w-[85px] 3xl:max-w-[145px];
     background: linear-gradient(180deg, rgba(15, 18, 21, 0.9) 0%, rgba(8, 9, 11, 0.92) 100%);
     border: 2px solid rgba(0, 217, 255, 0.3);
     border-bottom: 0;
