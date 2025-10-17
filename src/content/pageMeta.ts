@@ -93,47 +93,26 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
     ogImage: '/og-community.jpg',
   },
   '/about': {
+    title: 'About - Redirecting to FAQ | WICGATE',
+    description:
+      'Information about WICGATE has moved to the FAQ section. You will be redirected automatically.',
+    keywords: 'about wicgate, massgate',
+    canonical: '/faq/about',
+  },
+  '/faq': {
+    title: 'FAQ - Help, About & Troubleshooting | WICGATE',
+    description:
+      'Frequently asked questions about WICGATE, installing, troubleshooting, and playing World in Conflict. Learn about the project, get help with crashes and server connectivity.',
+    keywords:
+      'wic help, world in conflict troubleshooting, wic faq, about wicgate, massgate, wic crashes, wic server issues, world in conflict support',
+    ogImage: '/og-faq.jpg',
+  },
+  '/faq/about': {
     title: 'About WICGATE - Official Massgate Server Revival | WICGATE',
     description:
       'Learn about the community-driven initiative to preserve World in Conflict multiplayer using the official Massgate source code released by Ubisoft.',
     keywords:
-      'massgate, wic revival, world in conflict servers, massgate source code, wic community project',
-    ogImage: '/og-about.jpg',
-  },
-  '/about/mission': {
-    title: 'Our Mission - Preserving WiC Multiplayer | WICGATE',
-    description:
-      'Our mission to preserve and revitalize World in Conflict multiplayer using the official Massgate source code for current and future generations.',
-    keywords: 'wic preservation, massgate revival, world in conflict mission',
-    ogImage: '/og-about.jpg',
-  },
-  '/about/story': {
-    title: 'The Story - How WICGATE Began | WICGATE',
-    description:
-      'The story of how WICGATE started when Ubisoft open-sourced Massgate server code, enabling authentic WiC multiplayer restoration.',
-    keywords: 'wic history, massgate open source, world in conflict story',
-    ogImage: '/og-about.jpg',
-  },
-  '/about/values': {
-    title: 'Our Values - What Drives WICGATE | WICGATE',
-    description:
-      'WICGATE core values: authentic experience, community-driven development, fair competition, and open source spirit.',
-    keywords: 'wic values, community project, open source gaming',
-    ogImage: '/og-about.jpg',
-  },
-  '/about/team': {
-    title: 'The Team - Meet WICGATE Contributors | WICGATE',
-    description:
-      'Meet the WICGATE team: developers, moderators, and community contributors keeping World in Conflict multiplayer alive.',
-    keywords: 'wic team, wic developers, wic community',
-    ogImage: '/og-about.jpg',
-  },
-  '/faq': {
-    title: 'FAQ - Help & Troubleshooting | WICGATE',
-    description:
-      'Frequently asked questions about installing, troubleshooting, and playing World in Conflict on WICGATE servers. Get help with crashes, server connectivity, and gameplay.',
-    keywords:
-      'wic help, world in conflict troubleshooting, wic faq, wic crashes, wic server issues, world in conflict support',
+      'massgate, wic revival, world in conflict servers, massgate source code, wic community project, about wicgate',
     ogImage: '/og-faq.jpg',
   },
   '/faq/getting-started': {

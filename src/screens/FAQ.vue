@@ -13,6 +13,7 @@ function toggleQuestion(q: string) {
 // Generate subsection ID from category name
 function getCategoryId(categoryName: string): string {
   const categoryMap: Record<string, string> = {
+    'About WICGATE': 'faq-about',
     'Getting Started': 'faq-getting-started',
     'Technical Issues': 'faq-technical',
     'Gameplay & Features': 'faq-gameplay',
@@ -24,6 +25,7 @@ function getCategoryId(categoryName: string): string {
 // Get icon for category
 function getCategoryIcon(categoryName: string): string {
   const iconMap: Record<string, string> = {
+    'About WICGATE': 'fa-solid fa-book',
     'Getting Started': 'fa-solid fa-graduation-cap',
     'Technical Issues': 'fa-solid fa-wrench',
     'Gameplay & Features': 'fa-solid fa-gamepad',

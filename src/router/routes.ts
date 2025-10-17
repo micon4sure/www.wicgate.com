@@ -131,58 +131,7 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/about',
-    component: Home,
-    children: [
-      {
-        path: '',
-        name: 'about',
-        component: Home,
-        meta: {
-          ...PAGE_META['/about'],
-          section: 'about',
-        },
-      },
-      {
-        path: 'mission',
-        name: 'about-mission',
-        component: Home,
-        meta: {
-          ...PAGE_META['/about/mission'],
-          section: 'about',
-          subsection: 'about-mission',
-        },
-      },
-      {
-        path: 'story',
-        name: 'about-story',
-        component: Home,
-        meta: {
-          ...PAGE_META['/about/story'],
-          section: 'about',
-          subsection: 'about-story',
-        },
-      },
-      {
-        path: 'values',
-        name: 'about-values',
-        component: Home,
-        meta: {
-          ...PAGE_META['/about/values'],
-          section: 'about',
-          subsection: 'about-values',
-        },
-      },
-      {
-        path: 'team',
-        name: 'about-team',
-        component: Home,
-        meta: {
-          ...PAGE_META['/about/team'],
-          section: 'about',
-          subsection: 'about-team',
-        },
-      },
-    ],
+    redirect: '/faq',
   },
   {
     path: '/faq',
@@ -195,6 +144,16 @@ export const routes: RouteRecordRaw[] = [
         meta: {
           ...PAGE_META['/faq'],
           section: 'faq',
+        },
+      },
+      {
+        path: 'about',
+        name: 'faq-about',
+        component: Home,
+        meta: {
+          ...PAGE_META['/faq/about'],
+          section: 'faq',
+          subsection: 'faq-about',
         },
       },
       {

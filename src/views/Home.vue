@@ -8,7 +8,6 @@ import WidgetDashboard from '../components/WidgetDashboard.vue';
 import Downloads from '../screens/Downloads.vue';
 import Statistics from '../screens/Statistics.vue';
 import Community from '../screens/Community.vue';
-import About from '../screens/About.vue';
 import FAQ from '../screens/FAQ.vue';
 import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
 import EventsSkeleton from '../components/skeletons/EventsSkeleton.vue';
@@ -456,7 +455,6 @@ function handleContinue() {
           :loading="store.loading"
         />
         <Community v-if="shouldRenderSection('community')" />
-        <About v-if="shouldRenderSection('about')" />
         <FAQ v-if="shouldRenderSection('faq')" />
       </div>
       <SiteFooter />

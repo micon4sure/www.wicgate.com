@@ -82,6 +82,31 @@ export interface FaqCategory {
 }
 export const faq: FaqCategory[] = [
   {
+    cat: 'About WICGATE',
+    items: [
+      {
+        q: 'What is WICGATE?',
+        a: "WICGATE is a community-driven initiative to preserve and revitalize World in Conflict multiplayer. Using the official Massgate source code released by Ubisoft, we've rebuilt the complete server infrastructure to ensure the authentic multiplayer experience lives on for current and future generations of players.",
+      },
+      {
+        q: 'How did WICGATE start?',
+        a: 'When Ubisoft shut down the original Massgate servers in 2015, they made the unprecedented decision to open-source the server code. Our community saw an opportunity to not just emulate, but fully restore the multiplayer experience using the actual production codebase that powered millions of matches.',
+      },
+      {
+        q: 'What makes WICGATE different from other revival projects?',
+        a: "Unlike other revival projects that rely on reverse-engineering or emulation, WICGATE uses Ubisoft's official Massgate source code. This means 100% feature parity: complete friends lists, clan systems, matchmaking, leaderboards, and every game mode functions exactly as intended.",
+      },
+      {
+        q: "What are WICGATE's core values?",
+        a: "WICGATE is built on four core principles: Authentic Experience - Using official Massgate code ensures every feature works exactly as originally designed. Community Driven - All decisions and development priorities are guided by active community feedback. Fair Competition - Fresh start for all players with transparent ranking system and regular tournaments. Open Source Spirit - Following Ubisoft's example of open-sourcing Massgate, we believe in transparent development.",
+      },
+      {
+        q: 'Who maintains WICGATE?',
+        a: 'WICGATE is maintained by a dedicated team: micon4sure (Lead Developer & Infrastructure) is the project founder responsible for server architecture and game client integration. Our Community Team consists of volunteers who manage Discord, organize tournaments, and provide player support. Contributors from the community help with bug fixes, feature improvements, and testing to ensure server stability.',
+      },
+    ],
+  },
+  {
     cat: 'Getting Started',
     items: [
       {
@@ -145,7 +170,7 @@ export const faq: FaqCategory[] = [
     items: [
       {
         q: 'What are the technical advantages of WICGATE?',
-        a: 'WICGATE uses the official Massgate source code released by Ubisoft, ensuring: 1) 100% feature parity with original servers, 2) Proper friends lists, clans, and matchmaking, 3) Better stability and performance than emulated servers, 4) No missing functionality or workarounds. For more about our project and mission, see the About section.',
+        a: 'WICGATE uses the official Massgate source code released by Ubisoft, ensuring: 1) 100% feature parity with original servers, 2) Proper friends lists, clans, and matchmaking, 3) Better stability and performance than emulated servers, 4) No missing functionality or workarounds.',
       },
       {
         q: 'How many players are online?',
@@ -160,73 +185,6 @@ export const faq: FaqCategory[] = [
         a: "Yes! You can host dedicated servers through the game interface just like in the original. We also provide dedicated server files for 24/7 hosting. Server requirements are minimal - any modern PC or VPS can handle it. Check our Discord's #server-hosting channel for setup guides and the community helps with configuration.",
       },
     ],
-  },
-];
-
-// About section content
-export interface TeamMember {
-  name: string;
-  role: string;
-  description: string;
-  avatar?: string;
-}
-
-export const aboutProject = {
-  mission:
-    "WICGATE is a community-driven initiative to preserve and revitalize World in Conflict multiplayer. Using the official Massgate source code released by Ubisoft, we've rebuilt the complete server infrastructure to ensure the authentic multiplayer experience lives on for current and future generations of players.",
-
-  story:
-    'When Ubisoft shut down the original Massgate servers in 2015, they made the unprecedented decision to open-source the server code. Our community saw an opportunity to not just emulate, but fully restore the multiplayer experience using the actual production codebase that powered millions of matches.',
-
-  approach:
-    "Unlike other revival projects that rely on reverse-engineering or emulation, WICGATE uses Ubisoft's official Massgate source code. This means 100% feature parity: complete friends lists, clan systems, matchmaking, leaderboards, and every game mode functions exactly as intended.",
-};
-
-export const teamMembers: TeamMember[] = [
-  {
-    name: 'micon4sure',
-    role: 'Lead Developer & Infrastructure',
-    description:
-      'Project founder and lead developer responsible for server architecture, game client integration, and community infrastructure.',
-  },
-  {
-    name: 'Community Team',
-    role: 'Moderation & Events',
-    description:
-      'Dedicated volunteers who manage Discord, organize tournaments, provide player support, and maintain the competitive community.',
-  },
-  {
-    name: 'Contributors',
-    role: 'Development & Testing',
-    description:
-      'Community developers contributing bug fixes, feature improvements, and extensive testing to ensure server stability.',
-  },
-];
-
-export const projectValues = [
-  {
-    title: 'Authentic Experience',
-    description:
-      'Using official Massgate code ensures every feature works exactly as originally designed.',
-    icon: 'fa-solid fa-shield-check',
-  },
-  {
-    title: 'Community Driven',
-    description:
-      'All decisions and development priorities are guided by active community feedback.',
-    icon: 'fa-solid fa-users',
-  },
-  {
-    title: 'Fair Competition',
-    description:
-      'Fresh start for all players with transparent ranking system and regular tournaments.',
-    icon: 'fa-solid fa-trophy',
-  },
-  {
-    title: 'Open Source Spirit',
-    description:
-      "Following Ubisoft's example of open-sourcing Massgate, we believe in transparent development.",
-    icon: 'fa-solid fa-code',
   },
 ];
 
@@ -352,19 +310,12 @@ export const sectionMeta: Record<string, SectionMeta> = {
       'Join the World in Conflict community on Discord, watch tournaments on YouTube and Twitch, and participate in events.',
     keywords: 'wic discord, world in conflict community, wic tournaments, wic youtube, wic twitch',
   },
-  about: {
-    id: 'about',
-    title: 'About WICGATE - Official Massgate Server Revival',
-    description:
-      'Learn about the community-driven initiative to preserve World in Conflict multiplayer using official Massgate source code.',
-    keywords: 'massgate, wic revival, world in conflict servers, massgate source code',
-  },
   faq: {
     id: 'faq',
-    title: 'FAQ - Help & Troubleshooting',
+    title: 'FAQ - Help, About & Troubleshooting',
     description:
-      'Frequently asked questions about installing, troubleshooting, and playing World in Conflict on WICGATE servers.',
+      'Frequently asked questions about WICGATE, installing, troubleshooting, and playing World in Conflict. Learn about the project and get help.',
     keywords:
-      'wic help, world in conflict troubleshooting, wic faq, wic crashes, world in conflict support',
+      'wic help, about wicgate, massgate, world in conflict troubleshooting, wic faq, wic crashes, world in conflict support',
   },
 };

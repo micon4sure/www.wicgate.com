@@ -45,19 +45,10 @@ export const NAVIGATION_STRUCTURE: NavigationSection[] = [
     ],
   },
   {
-    id: 'about',
-    label: 'About',
-    subsections: [
-      { id: 'about-mission', label: 'Our Mission' },
-      { id: 'about-story', label: 'The Story' },
-      { id: 'about-values', label: 'What Drives Us' },
-      { id: 'about-team', label: 'The Team' },
-    ],
-  },
-  {
     id: 'faq',
     label: 'FAQ',
     subsections: [
+      { id: 'faq-about', label: 'About WICGATE' },
       { id: 'faq-getting-started', label: 'Getting Started' },
       { id: 'faq-technical', label: 'Technical Issues' },
       { id: 'faq-gameplay', label: 'Gameplay & Features' },
