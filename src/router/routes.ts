@@ -34,7 +34,7 @@ export const routes: RouteRecordRaw[] = [
         meta: {
           ...PAGE_META['/downloads/quick'],
           section: 'downloads',
-          subsection: 'downloads-quick',
+          subsection: 'quick',
         },
       },
       {
@@ -44,7 +44,7 @@ export const routes: RouteRecordRaw[] = [
         meta: {
           ...PAGE_META['/downloads/server'],
           section: 'downloads',
-          subsection: 'downloads-server',
+          subsection: 'server',
         },
       },
       {
@@ -54,80 +54,28 @@ export const routes: RouteRecordRaw[] = [
         meta: {
           ...PAGE_META['/downloads/manual'],
           section: 'downloads',
-          subsection: 'downloads-manual',
+          subsection: 'manual',
         },
       },
     ],
   },
   {
     path: '/statistics',
+    name: 'statistics',
     component: Home,
-    children: [
-      {
-        path: '',
-        name: 'statistics',
-        component: Home,
-        meta: {
-          ...PAGE_META['/statistics'],
-          section: 'statistics',
-        },
-      },
-      {
-        path: 'leaderboards',
-        name: 'statistics-leaderboards',
-        component: Home,
-        meta: {
-          ...PAGE_META['/statistics/leaderboards'],
-          section: 'statistics',
-          subsection: 'statistics-leaderboards',
-        },
-      },
-    ],
+    meta: {
+      ...PAGE_META['/statistics'],
+      section: 'statistics',
+    },
   },
   {
     path: '/community',
+    name: 'community',
     component: Home,
-    children: [
-      {
-        path: '',
-        name: 'community',
-        component: Home,
-        meta: {
-          ...PAGE_META['/community'],
-          section: 'community',
-        },
-      },
-      {
-        path: 'events',
-        name: 'community-events',
-        component: Home,
-        meta: {
-          ...PAGE_META['/community/events'],
-          section: 'community',
-          subsection: 'community-events',
-        },
-      },
-      {
-        path: 'streams',
-        name: 'community-streams',
-        component: Home,
-        meta: {
-          ...PAGE_META['/community/streams'],
-          section: 'community',
-          subsection: 'community-streams',
-        },
-      },
-      {
-        path: 'videos',
-        name: 'community-videos',
-        component: Home,
-        meta: {
-          ...PAGE_META['/community/videos'],
-          section: 'community',
-          subsection: 'community-videos',
-        },
-      },
-    ],
+    meta: {
+      ...PAGE_META['/community'],
+      section: 'community',
+    },
   },
   {
     path: '/faq',
@@ -149,7 +97,7 @@ export const routes: RouteRecordRaw[] = [
         meta: {
           ...PAGE_META['/faq/about'],
           section: 'faq',
-          subsection: 'faq-about',
+          subsection: 'about',
         },
       },
       {
@@ -159,7 +107,7 @@ export const routes: RouteRecordRaw[] = [
         meta: {
           ...PAGE_META['/faq/getting-started'],
           section: 'faq',
-          subsection: 'faq-getting-started',
+          subsection: 'getting-started',
         },
       },
       {
@@ -169,7 +117,7 @@ export const routes: RouteRecordRaw[] = [
         meta: {
           ...PAGE_META['/faq/technical'],
           section: 'faq',
-          subsection: 'faq-technical',
+          subsection: 'technical',
         },
       },
       {
@@ -179,17 +127,17 @@ export const routes: RouteRecordRaw[] = [
         meta: {
           ...PAGE_META['/faq/gameplay'],
           section: 'faq',
-          subsection: 'faq-gameplay',
+          subsection: 'gameplay',
         },
       },
       {
-        path: 'server-community',
-        name: 'faq-server-community',
+        path: 'server',
+        name: 'faq-server',
         component: Home,
         meta: {
-          ...PAGE_META['/faq/server-community'],
+          ...PAGE_META['/faq/server'],
           section: 'faq',
-          subsection: 'faq-server-community',
+          subsection: 'server',
         },
       },
     ],

@@ -101,7 +101,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
       </div>
 
       <!-- Live Streams -->
-      <div id="community-streams" class="mb-20">
+      <div id="streams" class="mb-20">
         <!-- Subsection Header -->
         <div class="text-center mb-8">
           <h3 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider">
@@ -130,7 +130,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
       </div>
 
       <!-- Latest Videos -->
-      <div id="community-videos" class="mb-20">
+      <div id="videos" class="mb-20">
         <!-- Subsection Header -->
         <div class="text-center mb-8">
           <h3 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider">
@@ -148,7 +148,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
           aria-label="Video categories"
         >
           <!-- Tab: Latest Videos -->
-          <template #community-videos-latest>
+          <template #videos-latest>
             <div class="p-8 md:p-10">
               <div v-if="ytVideosSorted.length === 0" class="text-t3 text-center py-10">
                 No videos available
@@ -197,11 +197,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
           </template>
 
           <!-- Tabs: Content Creators -->
-          <template
-            v-for="ch in channelsList"
-            :key="ch.channelId"
-            #[`community-videos-${ch.channelId}`]
-          >
+          <template v-for="ch in channelsList" :key="ch.channelId" #[`videos-${ch.channelId}`]>
             <div class="p-8 md:p-10">
               <!-- Creator Channel Link -->
               <div class="flex justify-center mb-6">

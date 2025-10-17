@@ -6,7 +6,7 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 
 **Stack:** Vue 3 + TypeScript, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](../src/main.ts)
-**Routing:** 26 routes total (18 pre-rendered for SSG)
+**Routing:** 15 total routes (14 pre-rendered for SSG), path-based nested routing for subsections
 
 ---
 
@@ -15,32 +15,52 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 ### Rendering Strategy
 
 **Build Time (SSG):**
-- ViteSSG pre-renders 18 unique HTML files
+- ViteSSG pre-renders 13 unique HTML files (main sections + subsections)
 - Each route serves focused content with unique meta tags
 - Conditional rendering: `shouldRenderSection()` renders only target section per route
 
 **Runtime (SPA):**
 - JavaScript hydrates after initial load
-- All sections render for smooth scrolling
-- No page reloads during navigation
+- Tab navigation triggers route changes (except Community videos which use local state)
+- No page reloads during navigation (Vue Router SPA behavior)
+- Hash fragments handle FAQ question deep-linking
 
 ### Routing System
 
-**Path-Based Nested Routes:**
-- **Main (5):** `/`, `/downloads`, `/statistics`, `/community`, `/faq`
-- **Subsections (12):** `/downloads/quick`, `/downloads/server`, `/downloads/manual`, `/statistics/leaderboards`, `/community/events`, `/community/streams`, `/community/videos`, `/faq/about`, `/faq/getting-started`, `/faq/technical`, `/faq/gameplay`, `/faq/server-community`
+**Path-Based Nested Routes (October 2025):**
+- **Main Routes (5):** `/`, `/downloads`, `/statistics`, `/community`, `/faq`
+- **System Routes (2):** `/login`, `/admin` (not pre-rendered, protected by auth guards)
+- **Downloads Subsections (3):** `/downloads/quick`, `/downloads/server`, `/downloads/manual`
+- **FAQ Subsections (5):** `/faq/about`, `/faq/getting-started`, `/faq/technical`, `/faq/gameplay`, `/faq/server`
+- **Pre-rendered (13):** All main routes + subsections (excluding /login and /admin)
+- **FAQ Question Anchors:** Hash fragments within FAQ routes (e.g., `/faq/technical#black-screen`)
 
-**Navigation Helper:** [src/types/navigation.ts](../src/types/navigation.ts) - `getRoutePath()` converts IDs to paths
+**Why Path-Based Routing for Subsections:**
+- **Granular SEO:** Each subsection targets specific search queries with unique meta tags
+- **Better Entry Points:** Users can land directly on relevant subsections from search results
+- **Prevents Cannibalization:** Distinct keywords/descriptions for each route (e.g., "install WiC" vs "host WiC server")
+- **Shareable URLs:** Full paths are more descriptive than hash anchors
+- **FAQ Question Deep-Linking:** Individual questions have shareable URLs (e.g., `/faq/technical#cant-see-servers`)
 
-**Benefits:**
-- Clean URLs (`/statistics/leaderboards` vs `/#statistics-leaderboards`)
-- Unique meta tags per subsection
-- Proper browser back/forward support
-- All routes pre-rendered for SEO
+**Examples:**
+- Downloads subsections: `/downloads/quick`, `/downloads/server`, `/downloads/manual`
+- FAQ categories: `/faq/about`, `/faq/getting-started`, `/faq/technical`, `/faq/gameplay`, `/faq/server`
+- FAQ question anchors: `/faq/technical#game-crashes-on-startup`, `/faq/about#what-is-wicgate`
+- Community videos: Local tab state (no routes for dynamic YouTube channels)
+
+**Navigation Helper:** [src/types/navigation.ts](../src/types/navigation.ts) - `getRoutePath()` converts IDs to full paths
+
+**TabContainer Implementation:**
+- **Hybrid Approach:** Uses `router.hasRoute()` to detect if tab has a matching route
+- **Route Tabs:** Navigates via `router.push()` (Downloads, FAQ)
+- **Local Tabs:** Uses local state (Community videos - dynamic YouTube channels)
+- **Auto-URL updates:** Clicking any tab (including active) updates hash
+- **Analytics tracking:** Only tracks actual tab switches (not re-clicking active tab)
 
 **Files:**
-- [src/router/routes.ts](../src/router/routes.ts) - Route definitions
-- [src/main.ts](../src/main.ts) - Router configuration with scrollBehavior
+- [src/router/routes.ts](../src/router/routes.ts) - Route definitions (7 routes)
+- [src/main.ts](../src/main.ts) - Router configuration with hash scrollBehavior
+- [src/components/TabContainer.vue](../src/components/TabContainer.vue) - Tab management with hash sync
 
 ---
 
@@ -98,22 +118,64 @@ if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
 #### 3. Router scrollBehavior
 
 ```typescript
-scrollBehavior(to, _from, savedPosition) {
+scrollBehavior(to, from, savedPosition) {
   if (savedPosition) return savedPosition; // Browser back/forward
 
-  const targetId = to.meta.subsection || to.meta.section;
+  // Hash anchor navigation (e.g., /downloads#quick)
+  if (to.hash) {
+    return new Promise((resolve) => {
+      const isDirectNavigation = !from.name;
+      const scrollBehavior = isDirectNavigation ? 'auto' : 'smooth';
+      const delay = isDirectNavigation ? 600 : 100;
+
+      setTimeout(() => {
+        const targetId = to.hash.slice(1); // Remove #
+        const element = document.getElementById(targetId);
+        if (!element) {
+          resolve({ top: 0 });
+          return;
+        }
+
+        const headerHeight = parseInt(getComputedStyle(document.documentElement)
+          .getPropertyValue('--header-height').trim()) || 80;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - headerHeight;
+
+        resolve({ top: offsetPosition, behavior: scrollBehavior });
+      }, delay);
+    });
+  }
+
+  // Section route navigation
+  const targetId = to.meta.section as string | undefined;
   if (targetId) {
-    return {
-      el: `#${targetId}`,
-      behavior: 'smooth', // Uses CSS scroll-behavior
-    };
+    return new Promise((resolve) => {
+      const isDirectNavigation = !from.name;
+      const scrollBehavior = isDirectNavigation ? 'auto' : 'smooth';
+      const delay = isDirectNavigation ? 400 : 100;
+
+      setTimeout(() => {
+        const element = document.getElementById(targetId);
+        if (!element) {
+          resolve({ top: 0 });
+          return;
+        }
+
+        const headerHeight = parseInt(getComputedStyle(document.documentElement)
+          .getPropertyValue('--header-height').trim()) || 80;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - headerHeight;
+
+        resolve({ top: offsetPosition, behavior: scrollBehavior });
+      }, delay);
+    });
   }
 
   return { top: 0 }; // Default: scroll to top
 }
 ```
 
-**Reduced from 60+ lines to 15 lines** by leveraging browser APIs.
+**Handles both hash anchors and section routes** with proper delays and header offset calculation.
 
 #### 4. Navigation Highlighting
 
@@ -179,6 +241,12 @@ const { data, loading } = storeToRefs(useAppDataStore());
 
 **Required for:** Browser APIs (`window`, `document`, `localStorage`, `navigator`)
 
+**Critical Areas:**
+1. **Router scrollBehavior** - Runs during SSG build, needs guards for DOM APIs
+2. **Component script setup** - Top-level code executes during SSR
+3. **Lifecycle hooks** - Only `onMounted`/`onBeforeUnmount` are client-only
+4. **Event handlers** - Never need guards (@click, @keydown, etc. don't run during SSR)
+
 **Pattern:**
 ```typescript
 // Guard entire function
@@ -188,7 +256,26 @@ if (import.meta.env.SSR) return;
 if (!import.meta.env.SSR) {
   window.setInterval(fetchData, 90000);
 }
+
+// scrollBehavior guard (critical!)
+scrollBehavior(to, from, savedPosition) {
+  if (to.hash) {
+    return new Promise((resolve) => {
+      // SSR guard - scrollBehavior runs during SSG build
+      if (typeof window === 'undefined') {
+        resolve({ top: 0 });
+        return;
+      }
+      // DOM operations safe here
+    });
+  }
+}
 ```
+
+**What DON'T Need Guards:**
+- Event handlers (`@click`, `@submit`, `@keydown`, etc.)
+- `onMounted()` lifecycle hook content
+- `onBeforeUnmount()` lifecycle hook content
 
 ### Hydration Best Practices
 
@@ -261,9 +348,34 @@ useHead({
 });
 ```
 
+**FAQ Schema Best Practice (October 2025):**
+```typescript
+// FAQ.vue - SSR-compatible structured data
+const faqSchema = computed(() => generateFAQSchema(allFaqItems.value));
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      textContent: () => JSON.stringify(faqSchema.value), // Function for reactivity
+      key: 'faq-schema', // Prevents duplicates
+    },
+  ],
+});
+
+// ❌ WRONG - Manual DOM injection in onMounted
+onMounted(() => {
+  const script = document.createElement('script');
+  script.textContent = JSON.stringify(schema);
+  document.head.appendChild(script); // Not SSR-compatible
+});
+```
+
 **Critical API Difference from @vueuse/head:**
 - ✅ Use `textContent` property for script blocks
 - ❌ Do NOT use `children` property (produces malformed HTML)
+- ✅ Use `textContent: () => value` for reactive computed schemas
+- ✅ Use `key` property to prevent duplicate schema injection
 
 **Files:**
 - [Home.vue](../src/views/Home.vue) - Dynamic head management with `useHead()`
@@ -272,11 +384,12 @@ useHead({
 - [scripts/apply-head-meta.ts](../scripts/apply-head-meta.ts) - Post-build meta injection
 
 **Meta Tags Per Route:**
-- Unique title, description, keywords for each of 18 pre-rendered pages
+- Unique title, description, keywords for each of 5 pre-rendered pages
 - OpenGraph tags for social sharing
 - Twitter Card tags
 - Canonical URLs
 - JSON-LD structured data (Organization schema on all pages, WebSite schema on homepage)
+- Noindex meta tags for login/admin pages
 
 ---
 
@@ -436,10 +549,10 @@ Use CSS variable for spacing:
 
 ### Screen Components
 
-**[Downloads.vue](../src/screens/Downloads.vue)** - 3-tab installation guide (Quick Install, Dedicated Server, Manual Install)
-**[Statistics.vue](../src/screens/Statistics.vue)** - Player rankings and competitive leaderboards
-**[Community.vue](../src/screens/Community.vue)** - Community links, live streams, latest videos
-**[FAQ.vue](../src/screens/FAQ.vue)** - 5-category tabbed FAQ (About WICGATE, Getting Started, Technical Issues, Gameplay & Features, Server & Community)
+**[Downloads.vue](../src/screens/Downloads.vue)** - 3-tab installation guide (Quick Install, Dedicated Server, Manual Install) using TabContainer with hash navigation
+**[Statistics.vue](../src/screens/Statistics.vue)** - Player rankings and competitive leaderboards with tabbed interface
+**[Community.vue](../src/screens/Community.vue)** - Community links, live streams, dynamic content creator video tabs
+**[FAQ.vue](../src/screens/FAQ.vue)** - 5-category tabbed FAQ (About WICGATE, Getting Started, Technical Issues, Gameplay & Features, Server & Community) with SSR-compatible structured data via `useHead()`
 
 ### Other Components
 
@@ -458,13 +571,13 @@ Use CSS variable for spacing:
 
 **Steps:**
 1. Generate PWA icons from `public/favicon.svg` (4 sizes)
-2. ViteSSG build - Pre-render 18 routes
-3. Apply head meta - Inject route-specific titles/descriptions/structured data
-4. Generate sitemap.xml from routes
-5. PWA service worker generation (~49 precached entries)
+2. Generate sitemap.xml (14 URLs - all main sections + subsections)
+3. ViteSSG build - Pre-render 14 routes (main sections + subsections)
+4. Apply head meta - Inject route-specific titles/descriptions/structured data
+5. PWA service worker generation (~54 precached entries)
 6. Asset optimization (code splitting, tree shaking, content hashing)
 
-**Output:** `dist/` with 18 unique HTML files + optimized assets
+**Output:** `dist/` with 14 unique HTML files + optimized assets
 
 ### Configuration
 
@@ -544,7 +657,7 @@ src/
 ├── main.ts                    # ViteSSG entry
 ├── router/
 │   ├── index.ts               # Router config
-│   └── routes.ts              # Route definitions (26 routes, 18 pre-rendered)
+│   └── routes.ts              # Route definitions (7 routes, 5 pre-rendered)
 ├── stores/
 │   ├── appDataStore.ts        # Game data
 │   └── auth.ts                # Authentication

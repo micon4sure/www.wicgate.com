@@ -13,24 +13,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://wicgate.com/community/events</loc>
-    <lastmod>2025-10-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://wicgate.com/community/streams</loc>
-    <lastmod>2025-10-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://wicgate.com/community/videos</loc>
-    <lastmod>2025-10-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://wicgate.com/downloads</loc>
     <lastmod>2025-10-17</lastmod>
     <changefreq>monthly</changefreq>
@@ -79,7 +61,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://wicgate.com/faq/server-community</loc>
+    <loc>https://wicgate.com/faq/server</loc>
     <lastmod>2025-10-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -101,11 +83,5 @@
     <lastmod>2025-10-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://wicgate.com/statistics/leaderboards</loc>
-    <lastmod>2025-10-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
   </url>
 </urlset>

@@ -66,10 +66,15 @@ export const createApp = ViteSSG(
         return savedPosition;
       }
 
-      // 2. Section or subsection route - scroll to element with manual offset
-      const targetId = to.meta.subsection || to.meta.section;
-      if (targetId && typeof targetId === 'string') {
+      // 2. Hash anchor navigation - scroll to element with manual offset
+      if (to.hash) {
         return new Promise((resolve) => {
+          // SSR guard - scrollBehavior runs during SSG build
+          if (typeof window === 'undefined') {
+            resolve({ top: 0 });
+            return;
+          }
+
           // Detect direct navigation (page reload/bookmark) vs SPA navigation
           const isDirectNavigation = !from.name;
 
@@ -80,7 +85,9 @@ export const createApp = ViteSSG(
           const delay = isDirectNavigation ? 600 : 100; // Longer delay for content stability on reload
 
           setTimeout(() => {
-            const element = document.getElementById(targetId as string);
+            // Remove the # from hash to get element ID
+            const targetId = to.hash.slice(1);
+            const element = document.getElementById(targetId);
             if (!element) {
               resolve({ top: 0 });
               return;
@@ -104,7 +111,46 @@ export const createApp = ViteSSG(
         });
       }
 
-      // 3. Default - scroll to top
+      // 3. Section route - scroll to section element
+      const targetSection = to.meta.section;
+      if (targetSection && typeof targetSection === 'string') {
+        return new Promise((resolve) => {
+          // SSR guard - scrollBehavior runs during SSG build
+          if (typeof window === 'undefined') {
+            resolve({ top: 0 });
+            return;
+          }
+
+          const isDirectNavigation = !from.name;
+          const scrollBehavior = isDirectNavigation ? 'auto' : 'smooth';
+          const delay = isDirectNavigation ? 600 : 100;
+
+          setTimeout(() => {
+            const element = document.getElementById(targetSection);
+            if (!element) {
+              resolve({ top: 0 });
+              return;
+            }
+
+            const headerHeight =
+              parseInt(
+                getComputedStyle(document.documentElement)
+                  .getPropertyValue('--header-height')
+                  .trim()
+              ) || 80;
+
+            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition - headerHeight;
+
+            resolve({
+              top: offsetPosition,
+              behavior: scrollBehavior,
+            });
+          }, delay);
+        });
+      }
+
+      // 4. Default - scroll to top
       return { top: 0 };
     },
   },

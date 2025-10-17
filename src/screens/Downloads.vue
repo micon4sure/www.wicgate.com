@@ -34,7 +34,7 @@ const tabs = [
       <!-- Tab Container -->
       <TabContainer :tabs="tabs" analytics-category="Downloads" aria-label="Download methods">
         <!-- Tab 1: Quick Install -->
-        <template #downloads-quick>
+        <template #quick>
           <div class="p-8 md:p-12 max-w-4xl mx-auto">
             <div class="text-center mb-10">
               <h3
@@ -104,7 +104,7 @@ const tabs = [
         </template>
 
         <!-- Tab 2: Dedicated Server -->
-        <template #downloads-server>
+        <template #server>
           <div class="p-8 md:p-12">
             <div class="text-center mb-10">
               <h3
@@ -185,7 +185,7 @@ const tabs = [
         </template>
 
         <!-- Tab 3: Manual Install -->
-        <template #downloads-manual>
+        <template #manual>
           <div class="p-8 md:p-12 max-w-4xl mx-auto">
             <div class="text-center mb-10">
               <h3

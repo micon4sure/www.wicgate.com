@@ -73,6 +73,7 @@ export const communityCards: CommunityCard[] = [
   },
 ];
 export interface FaqItem {
+  id: string;
   q: string;
   a: string;
 }
@@ -85,22 +86,27 @@ export const faq: FaqCategory[] = [
     cat: 'About WICGATE',
     items: [
       {
+        id: 'what-is-wicgate',
         q: 'What is WICGATE?',
         a: "WICGATE is a community-driven initiative to preserve and revitalize World in Conflict multiplayer. Using the official Massgate source code released by Ubisoft, we've rebuilt the complete server infrastructure to ensure the authentic multiplayer experience lives on for current and future generations of players.",
       },
       {
+        id: 'how-did-wicgate-start',
         q: 'How did WICGATE start?',
         a: 'When Ubisoft shut down the original Massgate servers in 2015, they made the unprecedented decision to open-source the server code. Our community saw an opportunity to not just emulate, but fully restore the multiplayer experience using the actual production codebase that powered millions of matches.',
       },
       {
+        id: 'what-makes-wicgate-different',
         q: 'What makes WICGATE different from other revival projects?',
         a: "Unlike other revival projects that rely on reverse-engineering or emulation, WICGATE uses Ubisoft's official Massgate source code. This means 100% feature parity: complete friends lists, clan systems, matchmaking, leaderboards, and every game mode functions exactly as intended.",
       },
       {
+        id: 'core-values',
         q: "What are WICGATE's core values?",
         a: "WICGATE is built on four core principles: Authentic Experience - Using official Massgate code ensures every feature works exactly as originally designed. Community Driven - All decisions and development priorities are guided by active community feedback. Fair Competition - Fresh start for all players with transparent ranking system and regular tournaments. Open Source Spirit - Following Ubisoft's example of open-sourcing Massgate, we believe in transparent development.",
       },
       {
+        id: 'who-maintains-wicgate',
         q: 'Who maintains WICGATE?',
         a: 'WICGATE is maintained by a dedicated team: micon4sure (Lead Developer & Infrastructure) is the project founder responsible for server architecture and game client integration. Our Community Team consists of volunteers who manage Discord, organize tournaments, and provide player support. Contributors from the community help with bug fixes, feature improvements, and testing to ensure server stability.',
       },
@@ -110,14 +116,17 @@ export const faq: FaqCategory[] = [
     cat: 'Getting Started',
     items: [
       {
+        id: 'do-i-need-to-own-wic',
         q: 'Do I need to own World in Conflict?',
         a: "Yes, you need a legitimate copy of World in Conflict. The game is available on Steam, GOG, and you can still use retail DVD versions. WICGATE only provides the multiplayer server infrastructure - we don't distribute the game itself. The Complete Edition (which includes Soviet Assault) is recommended but not required.",
       },
       {
+        id: 'lost-cd-key',
         q: 'I lost my CD key. Can I still play?',
         a: "Yes! If you own the game but lost your CD key, we can help. Join our Discord server and contact a moderator in the #cd-key-support channel. Provide proof of ownership (Steam library screenshot, photo of retail box, receipt, etc.) and we'll issue you a replacement key. We have a pool of unused keys specifically for helping legitimate owners get back into the game.",
       },
       {
+        id: 'how-to-connect',
         q: 'How do I connect to WICGATE servers?',
         a: 'Download and run the WICGATE client installer. It automatically detects your WiC installation and patches it to connect to our servers instead of the defunct Ubisoft ones. After installation, just launch World in Conflict normally, go to Multiplayer, and create your WICGATE account. The server browser will show all available games.',
       },
@@ -127,18 +136,22 @@ export const faq: FaqCategory[] = [
     cat: 'Technical Issues',
     items: [
       {
+        id: 'game-crashes-on-startup',
         q: 'The game crashes on startup. How do I fix it?',
         a: 'This is usually a DirectX compatibility issue with modern systems. Navigate to Documents/World in Conflict/ and open "Game Options.txt" in notepad. Find the line "myDX10Flag" and change its value to 0. Also: 1) Right-click wic.exe, go to Properties > Compatibility, 2) Check "Run as administrator", 3) Check "Disable fullscreen optimizations", 4) Set compatibility mode to Windows 7. This fixes 90% of crash issues.',
       },
       {
+        id: 'cant-see-servers',
         q: "I can't see any servers in the browser",
         a: 'First, make sure you\'ve installed the WICGATE client. Then: 1) Check Windows Firewall - add wic.exe as an exception, 2) Reset your server filters by clicking "Reset Filter" in the server browser, 3) Verify your internet connection isn\'t blocking port 1066, 4) Try running the game as administrator. If you still see no servers, join our Discord for live support.',
       },
       {
+        id: 'poor-performance',
         q: 'The game runs poorly on my modern PC',
         a: 'WiC wasn\'t optimized for modern multi-core CPUs. Try these fixes: 1) In Game Options.txt, set "myDX10Flag 0" to use DX9 mode, 2) Disable V-Sync in game settings, 3) Set wic.exe CPU affinity to 2 cores only (Task Manager > Details > Set Affinity), 4) Update graphics drivers, 5) Disable any overlay software (Discord, Steam, etc.). The game should run smoothly even on modest modern hardware with these tweaks.',
       },
       {
+        id: 'black-screen',
         q: 'Black screen but audio still plays',
         a: 'This is a fullscreen issue with Windows 10/11. Solutions: 1) Press Alt+Enter to switch to windowed mode, then back to fullscreen, 2) In your graphics card control panel, disable GPU scaling, 3) Set your desktop resolution to match your in-game resolution before launching, 4) Try borderless windowed mode instead of exclusive fullscreen.',
       },
@@ -148,18 +161,22 @@ export const faq: FaqCategory[] = [
     cat: 'Gameplay & Features',
     items: [
       {
+        id: 'game-modes',
         q: 'Do all game modes work?',
         a: 'Yes! All multiplayer modes work exactly as they did on original Massgate: Domination, Assault, Tug of War, and all their variants. Ranked matches, custom games, clan matches - everything is fully functional. Even the less common modes like Dual Assault work perfectly. Soviet Assault content is also fully supported for those who own it.',
       },
       {
+        id: 'version-compatibility',
         q: 'Can I play with friends using different versions?',
         a: 'Yes! WICGATE ensures compatibility between all versions: Steam, GOG, retail DVD, Complete Edition, with or without Soviet Assault. Everyone just needs the WICGATE client installed. The only limitation is that Soviet Assault maps require all players to have that expansion.',
       },
       {
+        id: 'stats-transfer',
         q: 'Do my old stats and rank transfer?',
         a: "No, original Massgate statistics were permanently deleted when Ubisoft shut down the servers. There's no way to recover them. Everyone starts fresh on WICGATE with new accounts. Think of it as a new competitive season - it gives newer players a fair chance to compete on the leaderboards alongside veterans.",
       },
       {
+        id: 'ranking-system',
         q: 'How does ranking work?',
         a: "The ranking system works identically to original Massgate. You gain or lose points based on match results, with the amount depending on your opponent's rank. Win against higher-ranked players for more points. Ranks range from Private to General, with subdivisions in between. Your rank is separate for each game mode.",
       },
@@ -169,18 +186,22 @@ export const faq: FaqCategory[] = [
     cat: 'Server & Community',
     items: [
       {
+        id: 'technical-advantages',
         q: 'What are the technical advantages of WICGATE?',
         a: 'WICGATE uses the official Massgate source code released by Ubisoft, ensuring: 1) 100% feature parity with original servers, 2) Proper friends lists, clans, and matchmaking, 3) Better stability and performance than emulated servers, 4) No missing functionality or workarounds.',
       },
       {
+        id: 'player-population',
         q: 'How many players are online?',
         a: 'We typically have 30-60 players online during peak hours (evenings EU/US time), with more on weekends. While smaller than the original community, games are easy to find and the skill level is generally higher since most players are experienced. Our Discord helps coordinate games when server population is lower.',
       },
       {
+        id: 'tournaments',
         q: 'Are there tournaments?',
         a: 'Yes! We run regular tournaments: weekly 2v2 events, monthly championships, and special holiday tournaments. Prizes include Steam gift cards and custom forum/Discord roles. Tournament announcements are posted in Discord and on the website. Both competitive and casual skill brackets ensure everyone can participate.',
       },
       {
+        id: 'host-own-server',
         q: 'Can I host my own server?',
         a: "Yes! You can host dedicated servers through the game interface just like in the original. We also provide dedicated server files for 24/7 hosting. Server requirements are minimal - any modern PC or VPS can handle it. Check our Discord's #server-hosting channel for setup guides and the community helps with configuration.",
       },

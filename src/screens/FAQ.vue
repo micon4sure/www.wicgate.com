@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { faq } from '../content/content';
 import { ref, computed, onMounted } from 'vue';
+import { useHead } from '@unhead/vue';
 import { generateFAQSchema } from '../utils/structuredData';
 import TabContainer from '../components/TabContainer.vue';
 
@@ -17,9 +18,14 @@ function getCategoryId(categoryName: string): string {
     'Getting Started': 'faq-getting-started',
     'Technical Issues': 'faq-technical',
     'Gameplay & Features': 'faq-gameplay',
-    'Server & Community': 'faq-server-community',
+    'Server & Community': 'faq-server',
   };
   return categoryMap[categoryName] || `faq-${categoryName.toLowerCase().replace(/\s+/g, '-')}`;
+}
+
+// Get short anchor name for slot (removes 'faq-' prefix)
+function getCategoryAnchor(categoryName: string): string {
+  return getCategoryId(categoryName).replace('faq-', '');
 }
 
 // Get icon for category
@@ -48,19 +54,56 @@ const allFaqItems = computed(() => {
   return faq.flatMap((category) => category.items);
 });
 
-// Inject FAQ schema for SEO
+// FAQ Schema for SEO (SSR-compatible via useHead)
+const faqSchema = computed(() => generateFAQSchema(allFaqItems.value));
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      textContent: () => JSON.stringify(faqSchema.value),
+      key: 'faq-schema',
+    },
+  ],
+});
+
+// Scroll to question if hash is present in URL
+function scrollToQuestion(questionId: string) {
+  if (typeof window === 'undefined') return;
+
+  // Wait for DOM to update
+  setTimeout(() => {
+    const element = document.getElementById(questionId);
+    if (!element) return;
+
+    const headerHeight =
+      parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim()
+      ) || 80;
+    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = elementPosition - headerHeight - 20; // Extra padding
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    });
+
+    // Auto-expand the question
+    const questionText = element.querySelector('h4')?.textContent || '';
+    if (questionText) {
+      openQuestion.value = questionText;
+    }
+  }, 300); // Wait for tab content to render
+}
+
+// Handle question deep-linking on mount
 onMounted(() => {
-  if (import.meta.env.SSR || typeof document === 'undefined') return;
+  if (typeof window === 'undefined') return;
 
-  const existingScript = document.querySelector('script[data-faq-schema]');
-  if (existingScript) return; // Already injected
-
-  const schema = generateFAQSchema(allFaqItems.value);
-  const script = document.createElement('script');
-  script.type = 'application/ld+json';
-  script.setAttribute('data-faq-schema', 'true');
-  script.textContent = JSON.stringify(schema);
-  document.head.appendChild(script);
+  const hash = window.location.hash.slice(1); // Remove #
+  if (hash) {
+    scrollToQuestion(hash);
+  }
 });
 </script>
 
@@ -82,12 +125,13 @@ onMounted(() => {
       <!-- Tab Container -->
       <TabContainer :tabs="tabs" analytics-category="FAQ" aria-label="FAQ categories">
         <!-- Tab for each FAQ category -->
-        <template v-for="cat in faq" :key="cat.cat" #[getCategoryId(cat.cat)]>
+        <template v-for="cat in faq" :key="cat.cat" #[getCategoryAnchor(cat.cat)]>
           <div class="p-8 md:p-10">
             <!-- Questions -->
             <div class="flex flex-col gap-4">
               <div
                 v-for="item in cat.items"
+                :id="item.id"
                 :key="item.q"
                 class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300"
                 :class="

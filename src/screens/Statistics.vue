@@ -47,7 +47,7 @@ const leaderboardData = computed<LeaderboardDataRecord>(() => ({
       </div>
 
       <!-- Leaderboards Section -->
-      <div id="statistics-leaderboards">
+      <div id="leaderboards">
         <!-- SSG/Loading: Render skeleton placeholder -->
         <LeaderboardSkeleton v-if="showPlaceholder" />
 

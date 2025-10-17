@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, computed, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { trackEvent } from '../utils/analytics';
 
 interface Tab {
-  id: string; // The subsection ID (e.g., 'downloads-quick')
+  id: string; // The route name (e.g., 'downloads-quick', 'faq-about') or local tab ID
   label: string; // Display label (e.g., 'Quick Install')
   icon?: string; // Optional FontAwesome icon class
 }
@@ -20,58 +20,87 @@ const props = withDefaults(defineProps<Props>(), {
   ariaLabel: 'Tab navigation',
 });
 
+const router = useRouter();
 const route = useRoute();
 
-// Active tab - pure local state
-const activeTabId = ref<string>(props.tabs[0]?.id || '');
+// Local active tab for non-route tabs
+const localActiveTabId = ref<string>(props.tabs[0]?.id || '');
 
-// Initialize active tab from route or default to first tab (supports deep-linking)
-onMounted(() => {
-  const routeSubsection = route.meta.subsection as string | undefined;
-  if (routeSubsection && props.tabs.some((t) => t.id === routeSubsection)) {
-    activeTabId.value = routeSubsection;
-  } else {
-    activeTabId.value = props.tabs[0]?.id || '';
+// Check if a tab matches a route name
+function isRouteTab(tabId: string): boolean {
+  return router.hasRoute(tabId);
+}
+
+// Active tab - derived from current route if route tab, otherwise use local state
+const activeTabId = computed(() => {
+  // If current route matches a tab, use it
+  const routeMatchingTab = props.tabs.find((t) => t.id === route.name);
+  if (routeMatchingTab) {
+    return routeMatchingTab.id;
   }
+
+  // If first tab is a route tab, default to it
+  if (props.tabs.length > 0 && isRouteTab(props.tabs[0].id)) {
+    return props.tabs[0].id;
+  }
+
+  // Otherwise use local state (for non-route tabs like Community videos)
+  return localActiveTabId.value;
 });
 
-// Watch route changes to sync active tab (supports deep-linking)
+// Watch route changes to update local state
 watch(
-  () => route.meta.subsection,
-  (newSubsection) => {
-    if (newSubsection && typeof newSubsection === 'string') {
-      const matchingTab = props.tabs.find((t) => t.id === newSubsection);
-      if (matchingTab) {
-        activeTabId.value = newSubsection;
-      }
+  () => route.name,
+  (newRouteName) => {
+    const matchingTab = props.tabs.find((t) => t.id === newRouteName);
+    if (matchingTab) {
+      localActiveTabId.value = matchingTab.id;
     }
   }
 );
 
-// Get route path for a tab
-function getTabRoute(tabId: string): string {
-  const section = route.meta.section as string;
-  const baseRoute = `/${section}`;
-  // Extract the subsection suffix (e.g., 'quick' from 'downloads-quick')
-  const subsectionSuffix = tabId.replace(`${section}-`, '');
-  return `${baseRoute}/${subsectionSuffix}`;
-}
+// Extract anchor from tab ID by finding common prefix from all tabs
+// e.g., 'downloads-quick' → 'quick', 'faq-about' → 'about'
+function getAnchor(tabId: string): string {
+  if (props.tabs.length === 0) return tabId;
 
-// Handle tab click
-function switchTab(tab: Tab) {
-  if (activeTabId.value === tab.id) return;
+  const firstTabId = props.tabs[0].id;
+  const firstHyphen = firstTabId.indexOf('-');
 
-  activeTabId.value = tab.id;
+  if (firstHyphen === -1) return tabId;
 
-  // Update URL for sharing/bookmarking without triggering Vue Router
-  // Preserve Vue Router's internal state to avoid routing conflicts
-  if (typeof window !== 'undefined') {
-    const newUrl = getTabRoute(tab.id);
-    window.history.replaceState(window.history.state, '', newUrl);
+  // Get section prefix (everything before first hyphen)
+  const sectionPrefix = firstTabId.substring(0, firstHyphen + 1); // Include the hyphen
+
+  // Strip this prefix from the current tabId
+  if (tabId.startsWith(sectionPrefix)) {
+    return tabId.substring(sectionPrefix.length);
   }
 
-  // Track analytics if category provided
-  if (props.analyticsCategory) {
+  return tabId;
+}
+
+// Handle tab click - navigate to route if it exists, otherwise update local state
+async function switchTab(tab: Tab) {
+  const isAlreadyActive = activeTabId.value === tab.id;
+
+  // Check if this tab corresponds to a route
+  if (isRouteTab(tab.id)) {
+    // Navigate to the route
+    try {
+      await router.push({ name: tab.id });
+    } catch (error) {
+      // Route navigation failed, fall back to local state
+      console.warn(`Failed to navigate to route: ${tab.id}`, error);
+      localActiveTabId.value = tab.id;
+    }
+  } else {
+    // Local tab (no route), just update local state
+    localActiveTabId.value = tab.id;
+  }
+
+  // Track analytics only when switching to a different tab
+  if (!isAlreadyActive && props.analyticsCategory) {
     trackEvent({
       category: props.analyticsCategory,
       action: 'Tab Switch',
@@ -87,8 +116,8 @@ const formatLabel = (label: string): string => {
 
 // Generate ARIA IDs
 const getTabId = (tabId: string) => `tab-${tabId}`;
-// Use raw tabId for panel so router scrollBehavior can find it (e.g., 'downloads-quick')
-const getPanelId = (tabId: string) => tabId;
+// Use anchor for panel ID (e.g., 'quick' not 'downloads-quick')
+const getPanelId = (tabId: string) => getAnchor(tabId);
 </script>
 
 <template>
@@ -148,7 +177,7 @@ const getPanelId = (tabId: string) => tabId;
       class="tab-panel"
       :class="{ hidden: activeTabId !== tab.id, block: activeTabId === tab.id }"
     >
-      <slot :name="tab.id" />
+      <slot :name="getAnchor(tab.id)" />
     </div>
   </div>
 </template>

@@ -33,16 +33,10 @@ export const NAVIGATION_STRUCTURE: NavigationSection[] = [
   {
     id: 'statistics',
     label: 'Statistics',
-    subsections: [{ id: 'statistics-leaderboards', label: 'Leaderboards' }],
   },
   {
     id: 'community',
     label: 'Community',
-    subsections: [
-      { id: 'community-events', label: 'Events' },
-      { id: 'community-streams', label: 'Live Streams' },
-      { id: 'community-videos', label: 'Latest Videos' },
-    ],
   },
   {
     id: 'faq',
@@ -52,7 +46,7 @@ export const NAVIGATION_STRUCTURE: NavigationSection[] = [
       { id: 'faq-getting-started', label: 'Getting Started' },
       { id: 'faq-technical', label: 'Technical Issues' },
       { id: 'faq-gameplay', label: 'Gameplay & Features' },
-      { id: 'faq-server-community', label: 'Server & Community' },
+      { id: 'faq-server', label: 'Server & Community' },
     ],
   },
 ];
@@ -129,39 +123,32 @@ export function getAllValidIds(): string[] {
 
 /**
  * Get route path for a section or subsection
- * Converts navigation IDs to Vue Router paths with proper nested structure.
- * Handles special cases where the URL pattern doesn't match the ID pattern.
+ * Converts navigation IDs to Vue Router paths.
+ * Main sections and subsections use full paths.
  *
  * @param id - Section or subsection ID
- * @returns Route path (e.g., '/multiplayer/statistics')
+ * @returns Route path (e.g., '/downloads' or '/downloads/quick')
  *
  * @example
  * ```typescript
  * getRoutePath('hero');                  // '/'
- * getRoutePath('multiplayer');           // '/multiplayer'
- * getRoutePath('multiplayer-servers');   // '/multiplayer/servers'
- * getRoutePath('faq-server-community');  // '/faq/community' (special case)
+ * getRoutePath('downloads');             // '/downloads'
+ * getRoutePath('downloads-quick');       // '/downloads/quick'
+ * getRoutePath('faq-technical');         // '/faq/technical'
  * ```
  */
 export function getRoutePath(id: string): string {
   // Handle hero/home
   if (id === 'hero') return '/';
 
-  // Special case mappings for IDs that don't match URL patterns
-  const specialCases: Record<string, string> = {};
-
-  if (specialCases[id]) {
-    return specialCases[id];
-  }
-
   // Check if it's a subsection
   for (const section of NAVIGATION_STRUCTURE) {
     if (section.subsections) {
       const subsection = section.subsections.find((sub) => sub.id === id);
       if (subsection) {
-        // Extract subsection path from ID (e.g., 'multiplayer-statistics' → 'statistics')
-        const subsectionPath = id.replace(`${section.id}-`, '');
-        return `/${section.id}/${subsectionPath}`;
+        // Extract path from ID (e.g., 'downloads-quick' → 'quick')
+        const subpath = id.replace(`${section.id}-`, '');
+        return `/${section.id}/${subpath}`;
       }
     }
   }

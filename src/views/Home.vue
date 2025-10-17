@@ -103,6 +103,7 @@ const pageKeywords = computed(
 const pageOgImage = computed(
   () => (matchedMeta.value.ogImage as string | undefined) || defaultOgImage
 );
+const pageRobots = computed(() => matchedMeta.value.robots as string | undefined);
 
 const canonicalUrl = computed(() => {
   const canonicalPath = (matchedMeta.value.canonical as string | undefined) || route.path || '/';
@@ -140,6 +141,16 @@ useHead({
       name: 'keywords',
       content: pageKeywords,
     },
+    // Robots meta tag (only if specified)
+    ...(pageRobots.value
+      ? [
+          {
+            key: 'robots',
+            name: 'robots',
+            content: pageRobots.value,
+          },
+        ]
+      : []),
     // Open Graph
     {
       key: 'og:title',
