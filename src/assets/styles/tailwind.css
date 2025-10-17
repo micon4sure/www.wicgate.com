@@ -754,6 +754,35 @@
     @apply text-massgate-red-bright flex-shrink-0;
   }
 
+  /* ========== FAQ COMPONENTS ========== */
+
+  /* FAQ question item with :target highlight animation */
+  .faq-question-item {
+    @apply transition-all duration-300;
+  }
+
+  .faq-question-item:target {
+    animation: faq-target-highlight 2s ease-out;
+  }
+
+  @keyframes faq-target-highlight {
+    0% {
+      @apply border-teal bg-teal/20 shadow-lg;
+      box-shadow: 0 0 0 0 rgba(0, 217, 255, 0.7),
+                  0 0 20px rgba(0, 217, 255, 0.4);
+    }
+    50% {
+      @apply border-teal-bright/80;
+      box-shadow: 0 0 0 8px rgba(0, 217, 255, 0),
+                  0 0 30px rgba(0, 217, 255, 0.6);
+    }
+    100% {
+      @apply border-teal/30;
+      box-shadow: 0 0 0 8px rgba(0, 217, 255, 0),
+                  0 0 0 rgba(0, 217, 255, 0);
+    }
+  }
+
   /* ========== GLOBAL UTILITY PATTERNS ========== */
 
   /* Typography helpers */

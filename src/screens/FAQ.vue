@@ -6,9 +6,49 @@ import { generateFAQSchema } from '../utils/structuredData';
 import TabContainer from '../components/TabContainer.vue';
 
 const openQuestion = ref<string | null>(null);
+const showCopiedToast = ref(false);
+const copiedQuestionId = ref<string | null>(null);
 
 function toggleQuestion(q: string) {
   openQuestion.value = openQuestion.value === q ? null : q;
+}
+
+// Find which category a question belongs to
+function getQuestionCategory(questionId: string): string | null {
+  for (const category of faq) {
+    const found = category.items.find((item) => item.id === questionId);
+    if (found) {
+      return getCategoryAnchor(category.cat);
+    }
+  }
+  return null;
+}
+
+// Copy question link to clipboard
+function copyQuestionLink(questionId: string) {
+  // SSR guard - clipboard API only available in browser
+  if (typeof window === 'undefined' || !navigator.clipboard) return;
+
+  // Find the category this question belongs to
+  const categorySlug = getQuestionCategory(questionId);
+
+  // Build URL with category: /faq/{category}#{questionId}
+  const url = categorySlug
+    ? `${window.location.origin}/faq/${categorySlug}#${questionId}`
+    : `${window.location.origin}/faq#${questionId}`;
+
+  navigator.clipboard.writeText(url).then(() => {
+    copiedQuestionId.value = questionId;
+    showCopiedToast.value = true;
+
+    // Auto-hide toast after 2 seconds
+    setTimeout(() => {
+      showCopiedToast.value = false;
+      setTimeout(() => {
+        copiedQuestionId.value = null;
+      }, 300); // Wait for fade-out transition
+    }, 2000);
+  });
 }
 
 // Generate subsection ID from category name
@@ -133,7 +173,7 @@ onMounted(() => {
                 v-for="item in cat.items"
                 :id="item.id"
                 :key="item.q"
-                class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300"
+                class="faq-question-item bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300"
                 :class="
                   openQuestion === item.q
                     ? 'border-teal/60 shadow-teal-subtle'
@@ -160,11 +200,35 @@ onMounted(() => {
                     "
                   ></div>
 
-                  <h4
-                    class="text-lg md:text-xl font-military font-bold text-t uppercase tracking-wide pr-4"
-                  >
-                    {{ item.q }}
-                  </h4>
+                  <!-- Question text and copy link button -->
+                  <div class="flex items-center gap-3 flex-1 min-w-0">
+                    <h4
+                      class="text-lg md:text-xl font-military font-bold text-t uppercase tracking-wide flex-1 min-w-0"
+                    >
+                      {{ item.q }}
+                    </h4>
+
+                    <!-- Copy Link Button -->
+                    <button
+                      class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded transition-all duration-200 opacity-0 group-hover:opacity-100 hover:bg-teal/20 hover:text-teal-bright focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-teal/50"
+                      :class="
+                        copiedQuestionId === item.id
+                          ? 'opacity-100 text-teal-bright'
+                          : 'text-teal/70'
+                      "
+                      :title="`Copy link to this question`"
+                      :aria-label="`Copy link to ${item.q}`"
+                      @click.stop="copyQuestionLink(item.id)"
+                    >
+                      <i
+                        class="text-sm transition-all duration-200"
+                        :class="
+                          copiedQuestionId === item.id ? 'fa-solid fa-check' : 'fa-solid fa-link'
+                        "
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                  </div>
 
                   <!-- Chevron Icon -->
                   <div
@@ -229,5 +293,27 @@ onMounted(() => {
         </p>
       </div>
     </div>
+
+    <!-- Copy Link Toast Notification -->
+    <transition
+      enter-active-class="transition-all duration-300 ease-out"
+      leave-active-class="transition-all duration-300 ease-in"
+      enter-from-class="opacity-0 translate-y-2"
+      enter-to-class="opacity-100 translate-y-0"
+      leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 -translate-y-2"
+    >
+      <div
+        v-show="showCopiedToast"
+        class="fixed top-24 right-6 z-50 bg-gradient-to-br from-teal/95 to-teal-dark/95 backdrop-blur-sm border-2 border-teal-bright/50 rounded px-5 py-3 shadow-lg shadow-teal/30"
+        role="alert"
+        aria-live="polite"
+      >
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-check text-ink text-lg" aria-hidden="true"></i>
+          <span class="text-ink font-body font-semibold">Link copied to clipboard!</span>
+        </div>
+      </div>
+    </transition>
   </section>
 </template>

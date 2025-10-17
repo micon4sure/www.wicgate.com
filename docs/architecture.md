@@ -377,6 +377,50 @@ onMounted(() => {
 - ✅ Use `textContent: () => value` for reactive computed schemas
 - ✅ Use `key` property to prevent duplicate schema injection
 
+**FAQ Copy Link Feature (October 2025):**
+
+Industry-standard pattern for question sharing, following GitHub/MDN/Stack Overflow documentation sites:
+
+```typescript
+// FAQ.vue - Copy link with category detection
+function getQuestionCategory(questionId: string): string | null {
+  for (const category of faq) {
+    const found = category.items.find((item) => item.id === questionId);
+    if (found) {
+      return getCategoryAnchor(category.cat); // Returns 'server', 'technical', etc.
+    }
+  }
+  return null;
+}
+
+function copyQuestionLink(questionId: string) {
+  if (typeof window === 'undefined' || !navigator.clipboard) return; // SSR guard
+
+  const categorySlug = getQuestionCategory(questionId);
+  const url = categorySlug
+    ? `${window.location.origin}/faq/${categorySlug}#${questionId}`
+    : `${window.location.origin}/faq#${questionId}`;
+
+  navigator.clipboard.writeText(url); // Copy to clipboard
+}
+```
+
+**UX Features:**
+- Link icon (🔗) appears on question hover (hidden by default)
+- Click copies full category URL: `/faq/server#technical-advantages`
+- Icon changes to checkmark (✓) for 2 seconds
+- Toast notification: "Link copied to clipboard!" (top-right, auto-dismiss)
+- :target CSS animation: 2s teal border pulse on deep-link arrival
+- Keyboard accessible: ARIA labels, focus states, works without mouse
+
+**Technical Implementation:**
+- `@click.stop` prevents parent accordion toggle
+- `opacity-0 group-hover:opacity-100` for progressive disclosure
+- `copiedQuestionId` state tracks which button was clicked
+- Toast uses Vue Transition with translate animations
+- CSS keyframe animation for :target highlighting
+- All 21 questions automatically get copy buttons
+
 **Files:**
 - [Home.vue](../src/views/Home.vue) - Dynamic head management with `useHead()`
 - [pageMeta.ts](../src/content/pageMeta.ts) - Single source of truth for meta tags
@@ -552,7 +596,12 @@ Use CSS variable for spacing:
 **[Downloads.vue](../src/screens/Downloads.vue)** - 3-tab installation guide (Quick Install, Dedicated Server, Manual Install) using TabContainer with hash navigation
 **[Statistics.vue](../src/screens/Statistics.vue)** - Player rankings and competitive leaderboards with tabbed interface
 **[Community.vue](../src/screens/Community.vue)** - Community links, live streams, dynamic content creator video tabs
-**[FAQ.vue](../src/screens/FAQ.vue)** - 5-category tabbed FAQ (About WICGATE, Getting Started, Technical Issues, Gameplay & Features, Server & Community) with SSR-compatible structured data via `useHead()`
+**[FAQ.vue](../src/screens/FAQ.vue)** - 5-category tabbed FAQ (About WICGATE, Getting Started, Technical Issues, Gameplay & Features, Server & Community) with:
+  - SSR-compatible structured data via `useHead()`
+  - Copy link buttons on all 21 questions (industry-standard pattern)
+  - Category-specific URLs (e.g., `/faq/server#technical-advantages`)
+  - Toast notifications and :target CSS animations
+  - Full keyboard accessibility (ARIA labels, focus states)
 
 ### Other Components
 
