@@ -166,7 +166,7 @@ onMounted(() => {
 
 <template>
   <section id="faq" class="section bg-gradient-to-b from-graphite/30 to-graphite-dark/50">
-    <div class="container max-w-5xl">
+    <div class="container">
       <!-- Header -->
       <div class="text-center mb-12">
         <h2
@@ -183,7 +183,7 @@ onMounted(() => {
       <TabContainer :tabs="tabs" analytics-category="FAQ" aria-label="FAQ categories">
         <!-- Tab for each FAQ category -->
         <template v-for="cat in faq" :key="cat.cat" #[getCategoryAnchor(cat.cat)]>
-          <div class="p-8 md:p-10">
+          <div class="py-8 md:py-10">
             <!-- Questions -->
             <div class="flex flex-col gap-4">
               <div

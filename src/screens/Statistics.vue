@@ -33,7 +33,7 @@ const leaderboardData = computed<LeaderboardDataRecord>(() => ({
 
 <template>
   <section id="statistics" class="section bg-gradient-to-b from-graphite/30 to-graphite-dark/50">
-    <div class="container max-w-7xl">
+    <div class="container">
       <!-- Header -->
       <div class="text-center mb-20">
         <h2

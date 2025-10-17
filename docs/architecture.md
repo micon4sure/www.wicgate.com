@@ -480,6 +480,51 @@ function copyQuestionLink(questionId: string) {
 - Animations: `red-pulse`, `gold-shimmer`, `teal-glow`
 - Breakpoints: xs(360px), sm(480px), md(768px), lg(900px), xl(1024px), 2xl+(1200px+)
 
+### Layout Width Standard (October 2025)
+
+**Standardized Container Width:** All content sections use consistent **1280px (max-w-7xl)** maximum width.
+
+**Base Container Class:**
+```css
+/* tailwind.css - @layer components */
+.container {
+  @apply max-w-7xl mx-auto px-5;
+}
+```
+
+**Effective Content Width:** 1240px (1280px - 20px padding each side)
+
+**Pattern for Tab Content:**
+```vue
+<!-- ✅ CORRECT - Vertical padding only -->
+<template #tab-name>
+  <div class="py-8 md:py-12">
+    <!-- Full 1240px width content with vertical spacing -->
+  </div>
+</template>
+
+<!-- ❌ WRONG - Horizontal padding reduces width -->
+<template #tab-name>
+  <div class="p-8 md:p-12">
+    <!-- Content 64-96px narrower than non-tabbed sections -->
+  </div>
+</template>
+```
+
+**Benefits:**
+- No visual width jumping between sections during scroll
+- Consistent 1240px effective width across all pages (Home, Downloads, Statistics, Community, FAQ)
+- Tab content no longer narrower than non-tabbed content
+- Full-width leaderboard tables for better readability
+- Professional, polished appearance
+
+**Files:**
+- [tailwind.css](../src/assets/styles/tailwind.css) - `.container` definition (line 127-129)
+- [Downloads.vue](../src/screens/Downloads.vue) - Vertical-only padding on tabs (lines 38, 98, 183)
+- [Community.vue](../src/screens/Community.vue) - Vertical-only padding on tabs (lines 152, 201)
+- [FAQ.vue](../src/screens/FAQ.vue) - Vertical-only padding on tabs (line 186)
+- [Leaderboards.vue](../src/components/Leaderboards.vue) - Single-column layout (line 32)
+
 ### Usage Philosophy
 
 **95% utility classes in templates:**

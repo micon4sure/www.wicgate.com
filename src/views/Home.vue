@@ -267,10 +267,7 @@ function handleContinue() {
       <WidgetDashboard v-if="shouldRenderSection('hero')" />
 
       <!-- Events & Live Activity (Main page content) -->
-      <div
-        v-if="!targetSection || targetSection === 'hero'"
-        class="container max-w-7xl py-12 md:py-16"
-      >
+      <div v-if="!targetSection || targetSection === 'hero'" class="container py-12 md:py-16">
         <!-- Events Section -->
         <div id="events" class="mb-16 md:mb-20">
           <div class="text-center mb-10">

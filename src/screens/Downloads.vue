@@ -18,7 +18,7 @@ const tabs = [
 
 <template>
   <section id="downloads" class="section bg-gradient-to-b from-graphite/30 to-graphite-dark/50">
-    <div class="container max-w-6xl">
+    <div class="container">
       <!-- Header -->
       <div class="text-center mb-12">
         <h2
@@ -35,7 +35,7 @@ const tabs = [
       <TabContainer :tabs="tabs" analytics-category="Downloads" aria-label="Download methods">
         <!-- Tab 1: Quick Install -->
         <template #quick>
-          <div class="p-8 md:p-12">
+          <div class="py-8 md:py-12">
             <div class="text-center mb-10">
               <h3
                 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
@@ -95,7 +95,7 @@ const tabs = [
 
         <!-- Tab 2: Dedicated Server -->
         <template #server>
-          <div class="p-8 md:p-12">
+          <div class="py-8 md:py-12">
             <div class="text-center mb-10">
               <h3
                 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
@@ -180,7 +180,7 @@ const tabs = [
 
         <!-- Tab 3: Manual Install -->
         <template #manual>
-          <div class="p-8 md:p-12 max-w-4xl mx-auto">
+          <div class="py-8 md:py-12 max-w-4xl mx-auto">
             <div class="text-center mb-10">
               <h3
                 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"

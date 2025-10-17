@@ -56,7 +56,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 <template>
   <section id="community" class="section bg-gradient-to-b from-graphite/30 to-graphite-dark/50">
-    <div class="container max-w-7xl">
+    <div class="container">
       <!-- Header -->
       <div class="text-center mb-20">
         <h2
@@ -149,7 +149,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
         >
           <!-- Tab: Latest Videos -->
           <template #videos-latest>
-            <div class="p-8 md:p-10">
+            <div class="py-8 md:py-10">
               <div v-if="ytVideosSorted.length === 0" class="text-t3 text-center py-10">
                 No videos available
               </div>
@@ -198,7 +198,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
           <!-- Tabs: Content Creators -->
           <template v-for="ch in channelsList" :key="ch.channelId" #[`videos-${ch.channelId}`]>
-            <div class="p-8 md:p-10">
+            <div class="py-8 md:py-10">
               <!-- Creator Channel Link -->
               <div class="flex justify-center mb-6">
                 <a

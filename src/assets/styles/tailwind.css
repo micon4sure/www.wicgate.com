@@ -125,7 +125,7 @@
 
   /* Container */
   .container {
-    @apply max-w-[1400px] mx-auto px-5;
+    @apply max-w-7xl mx-auto px-5;
   }
 
   /* Section spacing */
