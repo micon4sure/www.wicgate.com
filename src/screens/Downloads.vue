@@ -35,7 +35,7 @@ const tabs = [
       <TabContainer :tabs="tabs" analytics-category="Downloads" aria-label="Download methods">
         <!-- Tab 1: Quick Install -->
         <template #quick>
-          <div class="p-8 md:p-12 max-w-4xl mx-auto">
+          <div class="p-8 md:p-12">
             <div class="text-center mb-10">
               <h3
                 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
@@ -47,55 +47,45 @@ const tabs = [
               </p>
             </div>
 
-            <!-- Timeline Steps -->
-            <div class="relative flex flex-col gap-8">
-              <div v-for="(s, index) in steps" :key="s.n" class="relative flex items-start gap-0">
-                <!-- Timeline Line -->
-                <div
-                  v-if="index < steps.length - 1"
-                  class="absolute left-[29px] top-[60px] bottom-[-32px] w-[3px] bg-gradient-to-b from-teal/50 via-teal/30 to-teal/50 z-0"
-                  aria-hidden="true"
-                ></div>
-
-                <!-- Step Badge -->
-                <div class="flex-shrink-0 relative z-20 mr-6 md:mr-8">
-                  <div
-                    class="w-[60px] h-[60px] rounded-full border-[3px] border-teal-darker bg-gradient-to-b from-teal-bright to-teal-glow flex items-center justify-center font-military font-bold text-3xl text-ink md:w-[60px] md:h-[60px] max-md:w-14 max-md:h-14 max-md:text-2xl"
+            <!-- Installation Steps -->
+            <div class="flex flex-col gap-4">
+              <div
+                v-for="s in steps"
+                :key="s.n"
+                class="bg-graphite/50 border border-teal/20 p-5 rounded-none"
+              >
+                <div class="flex items-start gap-4">
+                  <span
+                    class="flex-shrink-0 w-10 h-10 bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker rounded-full flex items-center justify-center font-military font-bold text-xl text-ink"
                   >
                     {{ s.n }}
-                  </div>
-                </div>
+                  </span>
+                  <div class="flex-1">
+                    <h5 class="font-military font-semibold text-2xl uppercase text-t mb-2">
+                      {{ s.t }}
+                    </h5>
+                    <div class="text-lg text-t-secondary font-body leading-relaxed">
+                      <template v-if="s.n === 2">
+                        WIC LIVE updates your game for WICGATE servers, installs community maps, and
+                        adds quality of life fixes for modern systems. After installation, click the
+                        "INSTALL UPDATE" button.
+                      </template>
+                      <template v-else>
+                        <div v-html="s.c"></div>
+                      </template>
+                    </div>
 
-                <!-- Step Card -->
-                <div
-                  class="flex-1 relative z-10 bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 border-l-4 border-l-massgate-orange/70 rounded-none p-6 md:p-8"
-                >
-                  <h4
-                    class="font-military font-bold text-2xl md:text-3xl uppercase tracking-wide text-t mb-4 leading-tight"
-                  >
-                    {{ s.t }}
-                  </h4>
-                  <div class="text-base md:text-lg text-t-secondary font-body leading-relaxed mb-6">
-                    <template v-if="s.n === 2">
-                      WIC LIVE updates your game for WICGATE servers, installs community maps, and
-                      adds quality of life fixes for modern systems. After installation, click the
-                      "INSTALL UPDATE" button.
-                    </template>
-                    <template v-else>
-                      <div v-html="s.c"></div>
-                    </template>
-                  </div>
-
-                  <!-- Download Button (Step 2 only) -->
-                  <div v-if="s.n === 2" class="mt-6">
-                    <a
-                      id="downloadClientBtn"
-                      href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe"
-                      class="btn-red inline-flex items-center justify-center gap-3 px-8 py-4 text-lg md:text-xl no-underline animate-red-pulse"
-                    >
-                      <i class="fa-solid fa-download text-xl" aria-hidden="true"></i>
-                      <span class="font-black">DOWNLOAD WIC LIVE</span>
-                    </a>
+                    <!-- Download Button (Step 2 only) -->
+                    <div v-if="s.n === 2" class="mt-4">
+                      <a
+                        id="downloadClientBtn"
+                        href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe"
+                        class="btn-red inline-flex items-center justify-center gap-3 px-8 py-4 text-lg md:text-xl no-underline animate-red-pulse"
+                      >
+                        <i class="fa-solid fa-download text-2xl" aria-hidden="true"></i>
+                        <span class="font-black">DOWNLOAD WIC LIVE</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -132,11 +122,11 @@ const tabs = [
                       {{ step.n }}
                     </span>
                     <div class="flex-1">
-                      <h5 class="font-military font-semibold text-lg uppercase text-t mb-2">
+                      <h5 class="font-military font-semibold text-xl uppercase text-t mb-2">
                         {{ step.t }}
                       </h5>
                       <div
-                        class="text-sm text-t-secondary font-body leading-relaxed"
+                        class="text-base text-t-secondary font-body leading-relaxed"
                         v-html="step.c"
                       ></div>
                     </div>
@@ -158,7 +148,7 @@ const tabs = [
                   </div>
                   Network Ports
                 </h5>
-                <p class="text-t-secondary text-sm mb-4 font-body leading-relaxed">
+                <p class="text-t-secondary text-base mb-4 font-body leading-relaxed">
                   Forward these ports to your server:
                 </p>
                 <div class="space-y-3">
@@ -177,7 +167,7 @@ const tabs = [
                     </div>
                     <p
                       v-if="port.description"
-                      class="text-t-secondary text-xs font-body leading-relaxed m-0"
+                      class="text-t-secondary text-sm font-body leading-relaxed m-0"
                     >
                       {{ port.description }}
                     </p>
@@ -215,7 +205,7 @@ const tabs = [
                 >
                   {{ manualInstallWarning.title }}
                 </h5>
-                <p class="m-0 text-t-secondary text-sm font-body leading-relaxed">
+                <p class="m-0 text-t-secondary text-base font-body leading-relaxed">
                   {{ manualInstallWarning.message }}
                 </p>
               </div>
@@ -235,11 +225,11 @@ const tabs = [
                     {{ step.n }}
                   </span>
                   <div class="flex-1">
-                    <h5 class="font-military font-semibold text-lg uppercase text-t mb-2">
+                    <h5 class="font-military font-semibold text-xl uppercase text-t mb-2">
                       {{ step.t }}
                     </h5>
                     <div
-                      class="text-sm text-t-secondary font-body leading-relaxed"
+                      class="text-base text-t-secondary font-body leading-relaxed"
                       v-html="step.c"
                     ></div>
                   </div>
