@@ -180,7 +180,7 @@ const tabs = [
 
         <!-- Tab 3: Manual Install -->
         <template #manual>
-          <div class="py-8 md:py-12 max-w-4xl mx-auto">
+          <div class="py-8 md:py-12">
             <div class="text-center mb-10">
               <h3
                 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
