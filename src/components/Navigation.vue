@@ -177,7 +177,7 @@ function handleLogout() {
       <router-link
         v-if="!isAuthenticated"
         to="/login"
-        class="flex items-center gap-2 px-4 py-2 bg-graphite border-2 border-massgate-orange/35 text-t-secondary font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-b hover:from-massgate-orange-light hover:to-massgate-orange hover:border-massgate-orange hover:text-ink hover:-translate-y-0.5 hover:shadow-orange-border active:bg-gradient-to-b active:from-massgate-orange active:to-massgate-orange-dark active:border-massgate-orange-dark active:text-ink active:translate-y-0 active:shadow-orange-border"
+        class="flex items-center gap-2 px-4 py-2 bg-graphite border-2 border-teal/30 text-t-secondary font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-b hover:from-massgate-orange-light hover:to-massgate-orange hover:border-massgate-orange hover:text-ink hover:-translate-y-0.5 hover:shadow-orange-border active:bg-gradient-to-b active:from-massgate-orange active:to-massgate-orange-dark active:border-massgate-orange-dark active:text-ink active:translate-y-0 active:shadow-orange-border"
       >
         <i class="fa-solid fa-right-to-bracket"></i>
         Login
@@ -283,7 +283,7 @@ function handleLogout() {
           <router-link
             v-if="!isAuthenticated"
             to="/login"
-            class="flex items-center gap-3 w-full py-5 px-8 min-h-[70px] text-t-secondary no-underline font-military text-base font-semibold uppercase tracking-wider bg-graphite border-t border-b border-massgate-orange/35 transition-all duration-300 hover:bg-gradient-to-r hover:from-massgate-orange-light hover:to-massgate-orange hover:text-ink hover:pl-10 hover:border-massgate-orange hover:shadow-orange-border"
+            class="flex items-center gap-3 w-full py-5 px-8 min-h-[70px] text-t-secondary no-underline font-military text-base font-semibold uppercase tracking-wider bg-graphite border-t border-b border-teal/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-massgate-orange-light hover:to-massgate-orange hover:text-ink hover:pl-10 hover:border-massgate-orange hover:shadow-orange-border"
             @click="closeMobileMenu"
           >
             <i class="fa-solid fa-right-to-bracket w-5 h-5 flex-shrink-0"></i>

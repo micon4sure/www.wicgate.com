@@ -214,7 +214,7 @@
     @apply transition-all duration-300 select-none flex-1 min-w-[80px] max-w-[160px];
     @apply whitespace-nowrap overflow-hidden text-ellipsis origin-[center_bottom];
     background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.92) 100%);
-    border: 2px solid rgba(var(--massgate-orange-rgb), 0.35);
+    border: 2px solid rgba(0, 217, 255, 0.3);
     border-bottom: 0;
     color: var(--t2);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
