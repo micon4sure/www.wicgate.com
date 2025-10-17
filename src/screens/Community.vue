@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useYoutube } from '../composables/useYoutube';
 import TwitchFacade from '../components/TwitchFacade.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
+import TabContainer from '../components/TabContainer.vue';
 
 // SSR detection
 const isSSR = import.meta.env.SSR;
@@ -26,6 +27,28 @@ const channelsList = computed(() => {
       videos: group.videos.slice(0, 6),
     }))
     .sort((a, b) => a.channelTitle.localeCompare(b.channelTitle));
+});
+
+// Video tabs configuration
+const videoTabs = computed(() => {
+  const tabs = [
+    {
+      id: 'community-videos-latest',
+      label: 'Latest Videos',
+      icon: 'fa-solid fa-fire',
+    },
+  ];
+
+  // Add one tab per content creator
+  channelsList.value.forEach((channel) => {
+    tabs.push({
+      id: `community-videos-${channel.channelId}`,
+      label: channel.channelTitle,
+      icon: 'fa-brands fa-youtube',
+    });
+  });
+
+  return tabs;
 });
 
 const twitchUsernames = ['kickapoo149', 'pontertwitch'];
@@ -117,63 +140,71 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
         <VideosSkeleton v-if="isSSR || ytVidsLoading" />
 
-        <div v-else class="min-h-[340px]">
-          <!-- Latest 6 Videos -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-            <div
-              v-for="v in top6NYTVideos"
-              :key="v.id || v.videoUrl"
-              class="card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(4,9,14,0.6)] active:scale-[0.98]"
-            >
-              <a
-                :href="v.videoUrl"
-                target="_blank"
-                class="no-underline text-inherit block"
-                rel="noopener noreferrer"
-              >
-                <div class="relative w-full pb-[56.25%] bg-graphite-dark overflow-hidden">
-                  <img
-                    :src="v.thumbnailUrl"
-                    :alt="`${v.title} - ${v.author || 'WiCGATE'} video thumbnail`"
-                    loading="lazy"
-                    class="absolute inset-0 w-full h-full object-cover"
-                  />
-                  <div class="play-over">
-                    <i class="fa-solid fa-play" aria-hidden="true"></i>
-                  </div>
-                </div>
-                <div class="p-3 md:p-4">
-                  <h4
-                    class="m-0 mb-1.5 text-sm md:text-base leading-snug text-t font-body font-semibold line-clamp-2"
+        <!-- Tab Container for Videos -->
+        <TabContainer
+          v-else
+          :tabs="videoTabs"
+          analytics-category="Community Videos"
+          aria-label="Video categories"
+        >
+          <!-- Tab: Latest Videos -->
+          <template #community-videos-latest>
+            <div class="p-8 md:p-10">
+              <div v-if="ytVideosSorted.length === 0" class="text-t3 text-center py-10">
+                No videos available
+              </div>
+              <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div
+                  v-for="v in top6NYTVideos"
+                  :key="v.id || v.videoUrl"
+                  class="card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(4,9,14,0.6)] active:scale-[0.98]"
+                >
+                  <a
+                    :href="v.videoUrl"
+                    target="_blank"
+                    class="no-underline text-inherit block"
+                    rel="noopener noreferrer"
                   >
-                    {{ v.title }}
-                  </h4>
-                  <div class="text-xs text-t3 font-body">
-                    <span v-if="v.author">{{ v.author }}</span>
-                    <span v-if="v.views != null"> • {{ v.views.toLocaleString() }} views</span>
-                    <span v-if="v.publishedAt">
-                      • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
-                    >
-                  </div>
+                    <div class="relative w-full pb-[56.25%] bg-graphite-dark overflow-hidden">
+                      <img
+                        :src="v.thumbnailUrl"
+                        :alt="`${v.title} - ${v.author || 'WiCGATE'} video thumbnail`"
+                        loading="lazy"
+                        class="absolute inset-0 w-full h-full object-cover"
+                      />
+                      <div class="play-over">
+                        <i class="fa-solid fa-play" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                    <div class="p-3 md:p-4">
+                      <h4
+                        class="m-0 mb-1.5 text-sm md:text-base leading-snug text-t font-body font-semibold line-clamp-2"
+                      >
+                        {{ v.title }}
+                      </h4>
+                      <div class="text-xs text-t3 font-body">
+                        <span v-if="v.author">{{ v.author }}</span>
+                        <span v-if="v.views != null"> • {{ v.views.toLocaleString() }} views</span>
+                        <span v-if="v.publishedAt">
+                          • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
+                        >
+                      </div>
+                    </div>
+                  </a>
                 </div>
-              </a>
+              </div>
             </div>
-          </div>
+          </template>
 
-          <!-- By Content Creator -->
-          <div v-if="channelsList.length">
-            <!-- Subsection Header -->
-            <div class="text-center mb-8 mt-12">
-              <h3
-                class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider"
-              >
-                By Content Creator
-              </h3>
-            </div>
-
-            <div v-for="ch in channelsList" :key="ch.channelId" class="mb-12">
-              <!-- Creator Card (KEEP TEAL HOVER) -->
-              <div class="flex justify-center mb-5">
+          <!-- Tabs: Content Creators -->
+          <template
+            v-for="ch in channelsList"
+            :key="ch.channelId"
+            #[`community-videos-${ch.channelId}`]
+          >
+            <div class="p-8 md:p-10">
+              <!-- Creator Channel Link -->
+              <div class="flex justify-center mb-6">
                 <a
                   :href="`https://www.youtube.com/channel/${ch.channelId}`"
                   target="_blank"
@@ -183,7 +214,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                   <span
                     class="flex-1 text-center text-t-secondary font-military font-bold uppercase tracking-wide text-base whitespace-nowrap overflow-hidden text-ellipsis group-hover:text-graphite-dark"
                   >
-                    {{ ch.channelTitle }}
+                    Visit {{ ch.channelTitle }} Channel
                   </span>
                   <i
                     class="fa-solid fa-external-link text-teal text-sm transition-all duration-300 group-hover:text-graphite-dark group-hover:translate-x-1"
@@ -233,12 +264,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                 </div>
               </div>
             </div>
-          </div>
-
-          <div v-if="ytVideosSorted.length === 0" class="text-t3 text-center py-10">
-            No videos available
-          </div>
-        </div>
+          </template>
+        </TabContainer>
       </div>
     </div>
   </section>
