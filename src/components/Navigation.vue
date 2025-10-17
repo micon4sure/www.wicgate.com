@@ -6,13 +6,11 @@ import { AnalyticsEvents } from '../utils/analytics';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_RESIZE } from '../constants';
 import { NAVIGATION_STRUCTURE, getRoutePath } from '../types/navigation';
-import type { NavigationSection } from '../types/navigation';
 
 const router = useRouter();
 const authStore = useAuthStore();
 
 const mobileOpen = ref(false);
-const openDropdown = ref<string | null>(null);
 
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 const isAdmin = computed(() => authStore.isAdmin);
@@ -27,21 +25,8 @@ const lastWindowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 
 
 const isActive = (section: string) => activeSection.value === section;
 
-// Check if a section or any of its subsections is active
-const isSectionOrSubsectionActive = (section: NavigationSection): boolean => {
-  if (isActive(section.id)) return true;
-  if (section.subsections && activeSection.value) {
-    return section.subsections.some((sub) => activeSection.value === sub.id);
-  }
-  return false;
-};
-
 // Get navigation sections
 const navSections = computed(() => NAVIGATION_STRUCTURE);
-
-function closeDropdown() {
-  openDropdown.value = null;
-}
 
 // Enhanced mobile menu functionality
 function toggleMobileMenu() {
@@ -57,7 +42,6 @@ function toggleMobileMenu() {
 function closeMobileMenu() {
   mobileOpen.value = false;
   document.body.style.overflow = '';
-  closeDropdown();
 }
 
 // Close menu when clicking outside
@@ -117,7 +101,6 @@ function handleNavigation(sectionId: string) {
   AnalyticsEvents.sectionView(sectionName);
 
   closeMobileMenu();
-  closeDropdown();
 
   // Navigate using router - browser handles scrolling via scrollBehavior + CSS
   router.push(getRoutePath(sectionId));
@@ -156,51 +139,16 @@ function handleLogout() {
 
     <!-- Desktop navigation (left-aligned) -->
     <nav class="hidden lg:flex gap-2 items-center h-full ml-5 flex-1">
-      <template v-for="section in navSections" :key="section.id">
-        <!-- Sections without subsections -->
-        <router-link
-          v-if="!section.subsections"
-          :to="getRoutePath(section.id)"
-          :class="{ active: section.id === 'hero' ? !activeSection : isActive(section.id) }"
-          class="nav-tab"
-          @click.prevent="handleNavigation(section.id)"
-        >
-          {{ section.label }}
-        </router-link>
-
-        <!-- Sections with subsections (dropdown) -->
-        <div
-          v-else
-          class="relative h-full flex items-center"
-          @mouseenter="openDropdown = section.id"
-          @mouseleave="closeDropdown"
-        >
-          <router-link
-            :to="getRoutePath(section.id)"
-            :class="{ active: isSectionOrSubsectionActive(section) }"
-            class="nav-tab gap-1.5"
-            @click.prevent="handleNavigation(section.id)"
-          >
-            {{ section.label }}
-            <i
-              class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300"
-              aria-hidden="true"
-            ></i>
-          </router-link>
-          <div v-show="openDropdown === section.id" class="nav-dropdown">
-            <router-link
-              v-for="subsection in section.subsections"
-              :key="subsection.id"
-              :to="getRoutePath(subsection.id)"
-              :class="{ active: isActive(subsection.id) }"
-              class="nav-dropdown-item"
-              @click.prevent="handleNavigation(subsection.id)"
-            >
-              {{ subsection.label }}
-            </router-link>
-          </div>
-        </div>
-      </template>
+      <router-link
+        v-for="section in navSections"
+        :key="section.id"
+        :to="getRoutePath(section.id)"
+        :class="{ active: section.id === 'hero' ? !activeSection : isActive(section.id) }"
+        class="nav-tab"
+        @click.prevent="handleNavigation(section.id)"
+      >
+        {{ section.label }}
+      </router-link>
     </nav>
 
     <!-- Auth & Social Buttons (Desktop) -->
@@ -299,20 +247,18 @@ function handleLogout() {
             );
           "
         >
-          <template v-for="section in navSections" :key="section.id">
-            <!-- All sections as simple links -->
-            <router-link
-              :to="getRoutePath(section.id)"
-              :class="{
-                active:
-                  section.id === 'hero' ? !activeSection : isSectionOrSubsectionActive(section),
-              }"
-              class="nav-mobile-link"
-              @click.prevent="handleNavigation(section.id)"
-            >
-              {{ section.label }}
-            </router-link>
-          </template>
+          <router-link
+            v-for="section in navSections"
+            :key="section.id"
+            :to="getRoutePath(section.id)"
+            :class="{
+              active: section.id === 'hero' ? !activeSection : isActive(section.id),
+            }"
+            class="nav-mobile-link"
+            @click.prevent="handleNavigation(section.id)"
+          >
+            {{ section.label }}
+          </router-link>
 
           <!-- Auth Links in Mobile Menu -->
           <router-link

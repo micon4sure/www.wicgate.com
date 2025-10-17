@@ -262,44 +262,6 @@
     background: linear-gradient(90deg, rgba(var(--massgate-orange-rgb), 0.98) 0%, rgba(var(--massgate-orange-rgb), 0.7) 100%);
   }
 
-  /* Navigation dropdown (Massgate orange active states) */
-  .nav-dropdown {
-    @apply absolute top-full left-0 min-w-[200px];
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(5, 5, 5, 0.99) 100%);
-    border: 2px solid rgba(var(--massgate-orange-rgb), 0.7);
-    border-top: 2px solid rgba(var(--massgate-orange-rgb), 0.8);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-    @apply z-[1001] py-1;
-  }
-
-  .nav-dropdown-item {
-    @apply block w-full py-3 px-5 no-underline font-body text-sm font-semibold normal-case tracking-wide;
-    @apply border-0 bg-transparent transition-all duration-200 text-left cursor-pointer whitespace-nowrap;
-    @apply relative;
-    color: var(--t2);
-  }
-
-  @media (hover: hover) {
-    .nav-dropdown-item:hover {
-      background: linear-gradient(90deg, rgba(var(--massgate-orange-rgb), 0.95) 0%, rgba(var(--massgate-orange-rgb), 0.75) 100%);
-      color: var(--ink);
-      padding-left: 28px;
-    }
-  }
-
-  .nav-dropdown-item.active {
-    background: linear-gradient(90deg, theme('colors.massgate-orange.light') 0%, theme('colors.massgate-orange.DEFAULT') 100%);
-    color: var(--ink);
-    @apply font-bold;
-    padding-left: 28px;
-  }
-
-  .nav-dropdown-item.active::before {
-    content: '';
-    @apply absolute left-0 top-0 bottom-0 w-1;
-    background: linear-gradient(180deg, rgba(var(--massgate-orange-rgb), 0.95) 0%, rgba(var(--massgate-orange-rgb), 0.65) 100%);
-  }
-
   /* Mobile navigation link (Massgate orange hover/active states) */
   .nav-mobile-link {
     @apply flex items-center w-full py-6 px-8 min-h-[72px];

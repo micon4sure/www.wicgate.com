@@ -50,6 +50,12 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 
 **Navigation Helper:** [src/types/navigation.ts](../src/types/navigation.ts) - `getRoutePath()` converts IDs to full paths
 
+**Navigation Structure (October 2025):**
+- **Simplified navbar:** Main sections only (Home, Downloads, Statistics, Community, FAQ)
+- **No dropdown menus:** Subsections accessed via internal TabContainer components
+- **Desktop & Mobile:** Consistent navigation - all sections shown as simple links
+- **Helper functions:** Still used for routing, active section tracking, and subsection-to-section mapping
+
 **TabContainer Implementation:**
 - **Hybrid Approach:** Uses `router.hasRoute()` to detect if tab has a matching route
 - **Route Tabs:** Navigates via `router.push()` (Downloads, FAQ)
@@ -570,8 +576,10 @@ Use CSS variable for spacing:
 - `ApiResponse<T>`, `PaginatedResponse<T>`, `FetchResult<T>`
 - Type guards: `isDefined()`, `isNullish()`, `isString()`, etc.
 
-**[navigation.ts](../src/types/navigation.ts)** - Navigation structure & helpers
-- `getSectionFromSubsection()`, `isSubsection()`, `getAllValidIds()`, `getRoutePath()`
+**[navigation.ts](../src/types/navigation.ts)** - Navigation structure & routing helpers
+- Main sections only in NAVIGATION_STRUCTURE (no subsections)
+- Helper functions: `getSectionFromSubsection()`, `isSubsection()`, `getAllValidIds()`, `getRoutePath()`
+- Subsection mappings maintained for routing and active section tracking
 
 ---
 
@@ -605,7 +613,7 @@ Use CSS variable for spacing:
 
 ### Other Components
 
-**[Navigation.vue](../src/components/Navigation.vue)** - Desktop left-aligned nav (gaming industry standard), mobile hamburger
+**[Navigation.vue](../src/components/Navigation.vue)** - Simplified navigation with main sections only (no dropdown menus), desktop left-aligned nav (gaming industry standard), mobile hamburger
 **[WidgetDashboard.vue](../src/components/WidgetDashboard.vue)** - Homepage hero grid (6 widgets)
 **[ErrorBoundary.vue](../src/components/ErrorBoundary.vue)** - Error handling with retry
 **Skeletons** - SEO-friendly loading states with `<noscript>` fallbacks

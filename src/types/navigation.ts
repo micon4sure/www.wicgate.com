@@ -14,7 +14,11 @@ export interface NavigationSection {
 }
 
 /**
- * Complete navigation structure with all sections and subsections
+ * Complete navigation structure with all sections.
+ * Note: Subsections (e.g., Downloads tabs, FAQ categories) are handled via:
+ * - Internal TabContainer components within sections
+ * - Direct URL routing (e.g., /downloads/quick, /faq/about)
+ * - Helper functions below for routing and active section tracking
  */
 export const NAVIGATION_STRUCTURE: NavigationSection[] = [
   {
@@ -24,11 +28,6 @@ export const NAVIGATION_STRUCTURE: NavigationSection[] = [
   {
     id: 'downloads',
     label: 'Downloads',
-    subsections: [
-      { id: 'downloads-quick', label: 'Quick Install' },
-      { id: 'downloads-server', label: 'Dedicated Server' },
-      { id: 'downloads-manual', label: 'Manual Install' },
-    ],
   },
   {
     id: 'statistics',
@@ -41,13 +40,6 @@ export const NAVIGATION_STRUCTURE: NavigationSection[] = [
   {
     id: 'faq',
     label: 'FAQ',
-    subsections: [
-      { id: 'faq-about', label: 'About WICGATE' },
-      { id: 'faq-getting-started', label: 'Getting Started' },
-      { id: 'faq-technical', label: 'Technical Issues' },
-      { id: 'faq-gameplay', label: 'Gameplay & Features' },
-      { id: 'faq-server', label: 'Server & Community' },
-    ],
   },
 ];
 
@@ -56,25 +48,35 @@ export const NAVIGATION_STRUCTURE: NavigationSection[] = [
  * Useful for navigation logic when you need to determine the parent section
  * of a given subsection (e.g., for breadcrumbs or active section highlighting).
  *
- * @param subsectionId - Full subsection ID (e.g., 'multiplayer-servers')
- * @returns Parent section ID (e.g., 'multiplayer') or undefined if not found
+ * Note: Subsections are defined in routes and section components, not in NAVIGATION_STRUCTURE.
+ * This mapping is maintained manually to support routing and active section tracking.
+ *
+ * @param subsectionId - Full subsection ID (e.g., 'downloads-quick', 'faq-about')
+ * @returns Parent section ID (e.g., 'downloads', 'faq') or undefined if not found
  *
  * @example
  * ```typescript
- * getSectionFromSubsection('multiplayer-servers'); // 'multiplayer'
- * getSectionFromSubsection('community-events');    // 'community'
+ * getSectionFromSubsection('downloads-quick');     // 'downloads'
+ * getSectionFromSubsection('faq-about');           // 'faq'
  * getSectionFromSubsection('invalid-id');          // undefined
  * ```
  */
 export function getSectionFromSubsection(subsectionId: string): string | undefined {
-  for (const section of NAVIGATION_STRUCTURE) {
-    if (section.subsections) {
-      if (section.subsections.some((sub) => sub.id === subsectionId)) {
-        return section.id;
-      }
-    }
-  }
-  return undefined;
+  // Subsection to section mapping (synchronized with routes.ts)
+  const subsectionMap: Record<string, string> = {
+    // Downloads subsections
+    'downloads-quick': 'downloads',
+    'downloads-server': 'downloads',
+    'downloads-manual': 'downloads',
+    // FAQ subsections
+    'faq-about': 'faq',
+    'faq-getting-started': 'faq',
+    'faq-technical': 'faq',
+    'faq-gameplay': 'faq',
+    'faq-server': 'faq',
+  };
+
+  return subsectionMap[subsectionId];
 }
 
 /**
@@ -86,13 +88,13 @@ export function getSectionFromSubsection(subsectionId: string): string | undefin
  *
  * @example
  * ```typescript
- * isSubsection('multiplayer-servers'); // true
- * isSubsection('multiplayer');         // false
- * isSubsection('hero');                // false
+ * isSubsection('downloads-quick'); // true
+ * isSubsection('downloads');       // false
+ * isSubsection('hero');            // false
  * ```
  */
 export function isSubsection(id: string): boolean {
-  return NAVIGATION_STRUCTURE.some((section) => section.subsections?.some((sub) => sub.id === id));
+  return getSectionFromSubsection(id) !== undefined;
 }
 
 /**
@@ -104,21 +106,29 @@ export function isSubsection(id: string): boolean {
  * @example
  * ```typescript
  * const allIds = getAllValidIds();
- * // ['hero', 'getting-started', 'getting-started-quick', 'getting-started-advanced', ...]
+ * // ['hero', 'downloads', 'downloads-quick', 'downloads-server', ...]
  *
  * // Validate user input
  * const isValid = getAllValidIds().includes(userInput);
  * ```
  */
 export function getAllValidIds(): string[] {
-  const ids: string[] = [];
-  for (const section of NAVIGATION_STRUCTURE) {
-    ids.push(section.id);
-    if (section.subsections) {
-      ids.push(...section.subsections.map((sub) => sub.id));
-    }
-  }
-  return ids;
+  // Main sections
+  const sectionIds = NAVIGATION_STRUCTURE.map((section) => section.id);
+
+  // All known subsections (synchronized with routes.ts)
+  const subsectionIds = [
+    'downloads-quick',
+    'downloads-server',
+    'downloads-manual',
+    'faq-about',
+    'faq-getting-started',
+    'faq-technical',
+    'faq-gameplay',
+    'faq-server',
+  ];
+
+  return [...sectionIds, ...subsectionIds];
 }
 
 /**
@@ -142,15 +152,11 @@ export function getRoutePath(id: string): string {
   if (id === 'hero') return '/';
 
   // Check if it's a subsection
-  for (const section of NAVIGATION_STRUCTURE) {
-    if (section.subsections) {
-      const subsection = section.subsections.find((sub) => sub.id === id);
-      if (subsection) {
-        // Extract path from ID (e.g., 'downloads-quick' → 'quick')
-        const subpath = id.replace(`${section.id}-`, '');
-        return `/${section.id}/${subpath}`;
-      }
-    }
+  const parentSection = getSectionFromSubsection(id);
+  if (parentSection) {
+    // Extract path from ID (e.g., 'downloads-quick' → 'quick')
+    const subpath = id.replace(`${parentSection}-`, '');
+    return `/${parentSection}/${subpath}`;
   }
 
   // It's a main section
