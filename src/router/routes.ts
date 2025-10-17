@@ -130,10 +130,6 @@ export const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/about',
-    redirect: '/faq',
-  },
-  {
     path: '/faq',
     component: Home,
     children: [

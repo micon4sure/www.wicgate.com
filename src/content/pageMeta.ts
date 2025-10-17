@@ -92,13 +92,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
     keywords: 'wic youtube, world in conflict videos, wic tutorials, wic gameplay',
     ogImage: '/og-community.jpg',
   },
-  '/about': {
-    title: 'About - Redirecting to FAQ | WICGATE',
-    description:
-      'Information about WICGATE has moved to the FAQ section. You will be redirected automatically.',
-    keywords: 'about wicgate, massgate',
-    canonical: '/faq/about',
-  },
   '/faq': {
     title: 'FAQ - Help, About & Troubleshooting | WICGATE',
     description:
