@@ -20,7 +20,7 @@ function loadEmbed() {
   >
     <div
       v-if="!isLoaded"
-      class="absolute inset-0 cursor-pointer transition-[var(--tr)] group"
+      class="absolute inset-0 cursor-pointer transition-all duration-300 ease-out group"
       @click="loadEmbed"
     >
       <img
@@ -30,11 +30,11 @@ function loadEmbed() {
         class="w-full h-full object-cover block"
       />
       <div
-        class="absolute inset-0 bg-gradient-to-br from-black/30 to-black/60 flex items-center justify-center transition-[var(--tr)] group-hover:from-black/50 group-hover:to-black/75"
+        class="absolute inset-0 bg-gradient-to-br from-black/30 to-black/60 flex items-center justify-center transition-all duration-300 ease-out group-hover:from-black/50 group-hover:to-black/75"
       >
         <button
           type="button"
-          class="flex flex-col items-center gap-3 px-8 py-6 md:px-7 md:py-5 md:gap-3 sm:px-6 sm:py-4 sm:text-sm xs:px-6 xs:py-4 xs:text-[0.9rem] xs:gap-2 bg-twitch text-white rounded-none border-2 border-white/30 font-military font-semibold text-lg uppercase tracking-widest transition-[var(--tr)] shadow-[0_0_20px_rgba(var(--brand-twitch-rgb),0.5)] group-hover:scale-110 group-hover:bg-twitch-bright group-hover:shadow-[0_0_30px_rgba(var(--brand-twitch-rgb),0.8)] active:scale-[0.95]"
+          class="flex flex-col items-center gap-3 px-8 py-6 md:px-7 md:py-5 md:gap-3 sm:px-6 sm:py-4 sm:text-sm xs:px-6 xs:py-4 xs:text-[0.9rem] xs:gap-2 bg-twitch text-white rounded-none border-2 border-white/30 font-military font-semibold text-lg uppercase tracking-widest transition-all duration-300 ease-out shadow-[0_0_20px_rgba(145,70,255,0.5)] group-hover:scale-110 group-hover:bg-twitch-bright group-hover:shadow-[0_0_30px_rgba(145,70,255,0.8)] active:scale-[0.95]"
         >
           <i
             class="fa-brands fa-twitch text-2.5xl md:text-2xl sm:text-2rem xs:text-[1.75rem]"

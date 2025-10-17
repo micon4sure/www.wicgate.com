@@ -25,7 +25,7 @@
       <div
         v-for="n in 3"
         :key="n"
-        class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-[var(--divider-strong)] rounded-none p-5 md:p-4 shadow-[0_12px_28px_rgba(4,9,14,0.55)]"
+        class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-divider-strong rounded-none p-5 md:p-4 shadow-[0_12px_28px_rgba(4,9,14,0.55)]"
       >
         <div class="h-[50px] skeleton-shimmer mb-5 rounded-none"></div>
         <div class="flex flex-col gap-3">

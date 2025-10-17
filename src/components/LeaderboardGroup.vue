@@ -89,7 +89,7 @@ onUnmounted(() => {
 </script>
 <template>
   <div
-    class="bg-gradient-to-b from-[rgba(15,18,21,0.96)] to-[rgba(8,9,11,0.98)] border border-[var(--divider-strong)] rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-[var(--tr)]"
+    class="bg-gradient-to-b from-[rgba(15,18,21,0.96)] to-[rgba(8,9,11,0.98)] border border-divider-strong rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-all duration-300 ease-out"
   >
     <div
       class="p-[15px_20px] bg-gradient-to-b from-massgate-red to-massgate-red-dark border-[3px] border-massgate-red-dark relative max-[768px]:p-[12px_15px] max-[480px]:p-[10px_12px] max-[360px]:p-[0.625rem_0.75rem]"
@@ -114,11 +114,11 @@ onUnmounted(() => {
       <button
         v-for="c in categories"
         :key="c"
-        class="flex-1 p-[12px_16px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-0 text-[var(--t2)] cursor-pointer font-[Oswald,sans-serif] font-medium text-[0.875rem] uppercase tracking-[1px] transition-[var(--tr)] relative mr-px max-[768px]:p-[10px_12px] max-[768px]:text-[0.8rem] max-[480px]:p-[8px_10px] max-[480px]:text-[0.75rem] max-[360px]:p-[0.5rem_0.625rem] max-[360px]:text-[0.7rem]"
+        class="flex-1 p-[12px_16px] border border-graphite-dark/60 border-b-0 text-t-secondary cursor-pointer font-[Oswald,sans-serif] font-medium text-[0.875rem] uppercase tracking-[1px] transition-all duration-300 ease-out relative mr-px max-[768px]:p-[10px_12px] max-[768px]:text-[0.8rem] max-[480px]:p-[8px_10px] max-[480px]:text-[0.75rem] max-[360px]:p-[0.5rem_0.625rem] max-[360px]:text-[0.7rem]"
         :class="{
-          'bg-gradient-to-b from-massgate-orange-light to-massgate-orange !text-[var(--ink)] font-semibold border-[rgba(var(--massgate-orange-rgb),0.85)] z-10 shadow-[0_0_18px_rgba(var(--massgate-orange-rgb),0.45)]':
+          'bg-gradient-to-b from-massgate-orange-light to-massgate-orange !text-ink font-semibold border-massgate-orange/85 z-10 shadow-[0_0_18px_rgba(243,124,43,0.45)]':
             active === c,
-          'bg-gradient-to-b from-[rgba(var(--graphite-rgb),0.9)] to-[rgba(var(--graphite-dark-rgb),0.92)] hover:!bg-gradient-to-b hover:!from-massgate-orange-light hover:!to-massgate-orange hover:!text-[var(--ink)] hover:border-[rgba(var(--massgate-orange-rgb),0.65)] hover:shadow-[0_0_16px_rgba(var(--massgate-orange-rgb),0.4)] hover:-translate-y-px':
+          'bg-gradient-to-b from-graphite/90 to-graphite-dark/92 hover:!bg-gradient-to-b hover:!from-massgate-orange-light hover:!to-massgate-orange hover:!text-ink hover:border-massgate-orange/65 hover:shadow-[0_0_16px_rgba(243,124,43,0.4)] hover:-translate-y-px':
             active !== c,
         }"
         @click="
@@ -150,17 +150,17 @@ onUnmounted(() => {
           <thead>
             <tr>
               <th
-                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+                class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-graphite-dark/60 align-baseline leading-[1.4] first:border-l-divider-soft last:border-r-divider-soft max-[768px]:text-[0.8rem]"
               >
                 Rank
               </th>
               <th
-                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+                class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-graphite-dark/60 align-baseline leading-[1.4] first:border-l-divider-soft last:border-r-divider-soft max-[768px]:text-[0.8rem]"
               >
                 Player
               </th>
               <th
-                class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+                class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-graphite-dark/60 align-baseline leading-[1.4] first:border-l-divider-soft last:border-r-divider-soft max-[768px]:text-[0.8rem]"
               >
                 {{ thirdLabel }}
               </th>
@@ -178,23 +178,23 @@ onUnmounted(() => {
             <tr
               v-for="(e, index) in entriesFor(c)"
               :key="e.rank + (e.profileName || '')"
-              class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-[rgba(var(--massgate-orange-rgb),0.22)] hover:[&>td]:to-[rgba(var(--massgate-orange-rgb),0.15)] hover:[&>td]:!border-[rgba(var(--massgate-orange-rgb),0.4)] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
+              class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-massgate-orange/22 hover:[&>td]:to-massgate-orange/15 hover:[&>td]:!border-massgate-orange/40 max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
             >
               <td
-                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
+                class="p-3 text-t border-b border-b-mg/25 border-l border-l-mg/12 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-mg/12 last:border-r last:border-r-mg/12 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
                 :class="{
-                  'text-[var(--medal-gold)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.1rem] max-[360px]:text-[1rem]':
+                  'text-gold [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.1rem] max-[360px]:text-[1rem]':
                     index === 0,
-                  'text-[var(--medal-silver)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.05rem] max-[360px]:text-[0.95rem]':
+                  'text-silver [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.05rem] max-[360px]:text-[0.95rem]':
                     index === 1,
-                  'text-[var(--medal-bronze)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1rem] max-[360px]:text-[0.9rem]':
+                  'text-bronze [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1rem] max-[360px]:text-[0.9rem]':
                     index === 2,
                 }"
               >
                 {{ index + 1 }}
               </td>
               <td
-                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+                class="p-3 text-t border-b border-b-mg/25 border-l border-l-mg/12 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-mg/12 last:border-r last:border-r-mg/12 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
               >
                 <div class="flex items-center leading-none">
                   <RankInsignia
@@ -208,17 +208,17 @@ onUnmounted(() => {
                     >{{ formatClanTag(e) }}</span
                   >
                   <span
-                    class="font-[Rajdhani,sans-serif] text-[var(--t)] font-semibold text-[1.1rem] tracking-[0.3px] inline align-middle leading-[1.2] m-0 max-[1024px]:text-[1.05rem] max-[768px]:text-[1rem] max-[480px]:text-[0.95rem] max-[360px]:text-[0.9rem]"
+                    class="font-[Rajdhani,sans-serif] text-t font-semibold text-[1.1rem] tracking-[0.3px] inline align-middle leading-[1.2] m-0 max-[1024px]:text-[1.05rem] max-[768px]:text-[1rem] max-[480px]:text-[0.95rem] max-[360px]:text-[0.9rem]"
                     >{{ e.profileName || 'Unknown' }}</span
                   >
                 </div>
               </td>
               <td
-                class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+                class="p-3 text-t border-b border-b-mg/25 border-l border-l-mg/12 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-mg/12 last:border-r last:border-r-mg/12 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
                 :class="{
-                  'text-[var(--medal-gold)]': index === 0,
-                  'text-[var(--medal-silver)]': index === 1,
-                  'text-[var(--medal-bronze)]': index === 2,
+                  'text-gold': index === 0,
+                  'text-silver': index === 1,
+                  'text-bronze': index === 2,
                 }"
               >
                 {{ e.high.toLocaleString() }}
@@ -242,17 +242,17 @@ onUnmounted(() => {
         <thead>
           <tr>
             <th
-              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+              class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-graphite-dark/60 align-baseline leading-[1.4] first:border-l-divider-soft last:border-r-divider-soft max-[768px]:text-[0.8rem]"
             >
               Rank
             </th>
             <th
-              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+              class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-graphite-dark/60 align-baseline leading-[1.4] first:border-l-divider-soft last:border-r-divider-soft max-[768px]:text-[0.8rem]"
             >
               Player
             </th>
             <th
-              class="bg-gradient-to-b from-[rgba(var(--mg-rgb),0.92)] to-[rgba(var(--mg-dark-rgb),0.95)] text-[var(--t)] p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-[rgba(var(--graphite-dark-rgb),0.6)] align-baseline leading-[1.4] first:border-l-[var(--divider-soft)] last:border-r-[var(--divider-soft)] max-[768px]:text-[0.8rem]"
+              class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] border border-graphite-dark/60 align-baseline leading-[1.4] first:border-l-divider-soft last:border-r-divider-soft max-[768px]:text-[0.8rem]"
             >
               {{ thirdLabel }}
             </th>
@@ -270,23 +270,23 @@ onUnmounted(() => {
           <tr
             v-for="(e, index) in entriesFor(active)"
             :key="e.rank + (e.profileName || '')"
-            class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-[rgba(var(--massgate-orange-rgb),0.22)] hover:[&>td]:to-[rgba(var(--massgate-orange-rgb),0.15)] hover:[&>td]:!border-[rgba(var(--massgate-orange-rgb),0.4)] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
+            class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-massgate-orange/22 hover:[&>td]:to-massgate-orange/15 hover:[&>td]:!border-massgate-orange/40 max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
           >
             <td
-              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
+              class="p-3 text-t border-b border-b-mg/25 border-l border-l-mg/12 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-mg/12 last:border-r last:border-r-mg/12 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
               :class="{
-                'text-[var(--medal-gold)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.1rem] max-[360px]:text-[1rem]':
+                'text-gold [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.1rem] max-[360px]:text-[1rem]':
                   index === 0,
-                'text-[var(--medal-silver)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.05rem] max-[360px]:text-[0.95rem]':
+                'text-silver [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.05rem] max-[360px]:text-[0.95rem]':
                   index === 1,
-                'text-[var(--medal-bronze)] [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1rem] max-[360px]:text-[0.9rem]':
+                'text-bronze [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1rem] max-[360px]:text-[0.9rem]':
                   index === 2,
               }"
             >
               {{ index + 1 }}
             </td>
             <td
-              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+              class="p-3 text-t border-b border-b-mg/25 border-l border-l-mg/12 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-mg/12 last:border-r last:border-r-mg/12 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
             >
               <div class="flex items-center leading-none">
                 <RankInsignia
@@ -300,17 +300,17 @@ onUnmounted(() => {
                   >{{ formatClanTag(e) }}</span
                 >
                 <span
-                  class="font-[Rajdhani,sans-serif] text-[var(--t)] font-semibold text-[1.1rem] tracking-[0.3px] inline align-middle leading-[1.2] m-0 max-[1024px]:text-[1.05rem] max-[768px]:text-[1rem] max-[480px]:text-[0.95rem] max-[360px]:text-[0.9rem]"
+                  class="font-[Rajdhani,sans-serif] text-t font-semibold text-[1.1rem] tracking-[0.3px] inline align-middle leading-[1.2] m-0 max-[1024px]:text-[1.05rem] max-[768px]:text-[1rem] max-[480px]:text-[0.95rem] max-[360px]:text-[0.9rem]"
                   >{{ e.profileName || 'Unknown' }}</span
                 >
               </div>
             </td>
             <td
-              class="p-3 text-[var(--t)] border-b border-b-[rgba(var(--mg-rgb),0.25)] border-l border-l-[rgba(var(--mg-rgb),0.12)] font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-[rgba(var(--mg-rgb),0.12)] last:border-r last:border-r-[rgba(var(--mg-rgb),0.12)] last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+              class="p-3 text-t border-b border-b-mg/25 border-l border-l-mg/12 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 first:border-l-mg/12 last:border-r last:border-r-mg/12 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
               :class="{
-                'text-[var(--medal-gold)]': index === 0,
-                'text-[var(--medal-silver)]': index === 1,
-                'text-[var(--medal-bronze)]': index === 2,
+                'text-gold': index === 0,
+                'text-silver': index === 1,
+                'text-bronze': index === 2,
               }"
             >
               {{ e.high.toLocaleString() }}

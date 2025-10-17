@@ -54,7 +54,7 @@ const ladderData = computed<LeaderboardDataRecord>(() => ({
       third-label="Rating"
     />
     <div
-      class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-[var(--divider-strong)] rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-all duration-300"
+      class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-divider-strong rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-all duration-300"
     >
       <div
         class="p-[15px_20px] bg-gradient-to-b from-massgate-red to-massgate-red-dark border-[3px] border-massgate-red-dark relative"
@@ -65,7 +65,9 @@ const ladderData = computed<LeaderboardDataRecord>(() => ({
           Clan Leaderboard
         </h3>
       </div>
-      <div class="text-center italic text-t3 font-[Rajdhani,sans-serif] p-[30px]">Coming soon</div>
+      <div class="text-center italic text-t-tertiary font-[Rajdhani,sans-serif] p-[30px]">
+        Coming soon
+      </div>
     </div>
   </div>
 </template>

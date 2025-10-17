@@ -103,6 +103,13 @@ export default {
         'silver': '#c0c0c0',
         'bronze': '#cd7f32',
 
+        // Dividers
+        'divider': {
+          DEFAULT: '#447592',                    // Base divider color (steel blue)
+          strong: 'rgba(68, 117, 146, 0.7)',    // Strong divider borders
+          soft: 'rgba(68, 117, 146, 0.35)',     // Soft divider borders
+        },
+
         // Brand colors
         'youtube': {
           DEFAULT: '#e53935',

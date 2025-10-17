@@ -347,6 +347,30 @@
     @apply -translate-x-0;
   }
 
+  /* ========== HOME PAGE SECTION STYLING ========== */
+
+  /* Section stacking with military-themed subtle variations */
+  #screens > * {
+    @apply pt-12;
+    border-top: 2px solid rgba(31, 47, 59, 0.1);
+  }
+
+  /* Even-indexed screens: subtle mg military tint */
+  #screens > *:nth-child(even) {
+    background: linear-gradient(180deg, rgba(31, 47, 59, 0.02) 0%, rgba(15, 15, 15, 0.95) 100%);
+  }
+
+  /* Odd-indexed screens: subtle soviet orange tint */
+  #screens > *:nth-child(odd) {
+    background: linear-gradient(180deg, rgba(255, 102, 0, 0.06) 0%, rgba(10, 16, 21, 0.96) 100%);
+  }
+
+  /* Military typography for hero content */
+  .military-title {
+    @apply font-military font-bold uppercase tracking-wider text-t;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
   /* ========== MASSGATE NOSTALGIC COMPONENTS ========== */
 
   /* Massgate Red Header Bar */
@@ -473,10 +497,10 @@
   @media (hover: hover) and (min-width: 768px) {
     .widget:hover {
       @apply md:bg-black/40;
-      /* Teal border on hover */
-      border-color: rgba(0, 217, 255, 0.7);
+      /* Orange border on hover */
+      border-color: rgba(255, 102, 0, 0.7);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
-                  0 0 30px rgba(0, 217, 255, 0.4),
+                  0 0 30px rgba(255, 102, 0, 0.4),
                   inset 0 1px 0 rgba(255, 255, 255, 0.15);
       transform: translateY(-4px) scale(1.02);
     }
@@ -488,19 +512,19 @@
     }
   }
 
-  /* Widget with teal border on desktop (for special widgets) */
+  /* Widget with orange border on desktop (for special widgets) */
   @media (min-width: 768px) {
     .widget-primary {
-      border-color: rgba(0, 217, 255, 0.4);
+      border-color: rgba(255, 102, 0, 0.4);
     }
   }
 
   @media (hover: hover) and (min-width: 768px) {
     .widget-primary:hover {
-      /* Teal border hover */
-      border-color: rgba(0, 217, 255, 0.7);
+      /* Orange border hover */
+      border-color: rgba(255, 102, 0, 0.7);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
-                  0 0 30px rgba(0, 217, 255, 0.4),
+                  0 0 30px rgba(255, 102, 0, 0.4),
                   inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
   }
@@ -566,8 +590,8 @@
 
   @media (hover: hover) {
     .server-item:hover {
-      background: rgba(0, 217, 255, 0.08);
-      border-color: rgba(0, 217, 255, 0.35);
+      background: rgba(255, 102, 0, 0.08);
+      border-color: rgba(255, 102, 0, 0.35);
     }
   }
 
@@ -619,8 +643,8 @@
 
   @media (hover: hover) {
     .player-list-item:hover {
-      background: rgba(0, 217, 255, 0.08);
-      border-color: rgba(0, 217, 255, 0.35);
+      background: rgba(255, 102, 0, 0.08);
+      border-color: rgba(255, 102, 0, 0.35);
     }
   }
 
@@ -675,8 +699,8 @@
 
   @media (hover: hover) {
     .ladder-item:hover {
-      background: rgba(0, 217, 255, 0.08);
-      border-color: rgba(0, 217, 255, 0.35);
+      background: rgba(255, 102, 0, 0.08);
+      border-color: rgba(255, 102, 0, 0.35);
     }
   }
 
@@ -729,19 +753,19 @@
 
   @keyframes faq-target-highlight {
     0% {
-      @apply border-teal bg-teal/20 shadow-lg;
-      box-shadow: 0 0 0 0 rgba(0, 217, 255, 0.7),
-                  0 0 20px rgba(0, 217, 255, 0.4);
+      @apply border-soviet bg-soviet/20 shadow-lg;
+      box-shadow: 0 0 0 0 rgba(255, 102, 0, 0.7),
+                  0 0 20px rgba(255, 102, 0, 0.4);
     }
     50% {
-      @apply border-teal-bright/80;
-      box-shadow: 0 0 0 8px rgba(0, 217, 255, 0),
-                  0 0 30px rgba(0, 217, 255, 0.6);
+      @apply border-soviet-light/80;
+      box-shadow: 0 0 0 8px rgba(255, 102, 0, 0),
+                  0 0 30px rgba(255, 102, 0, 0.6);
     }
     100% {
       @apply border-teal/30;
-      box-shadow: 0 0 0 8px rgba(0, 217, 255, 0),
-                  0 0 0 rgba(0, 217, 255, 0);
+      box-shadow: 0 0 0 8px rgba(255, 102, 0, 0),
+                  0 0 0 rgba(255, 102, 0, 0);
     }
   }
 
@@ -865,15 +889,15 @@
       rgba(var(--panel-main-rgb), 0.96) 0%,
       rgba(var(--panel-dark-rgb), 0.98) 100%
     );
-    @apply border border-[var(--divider-strong)] rounded-none overflow-hidden;
+    @apply border border-divider-strong rounded-none overflow-hidden;
     @apply shadow-[0_12px_28px_rgba(4,9,14,0.55)] transition-all duration-300;
   }
 
   @media (hover: hover) {
     .card:hover {
-      border-color: rgba(0, 217, 255, 0.6);
+      border-color: rgba(255, 102, 0, 0.6);
       box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55),
-                  0 0 25px rgba(0, 217, 255, 0.35);
+                  0 0 25px rgba(255, 102, 0, 0.35);
     }
   }
 
@@ -921,6 +945,28 @@
 
   #getting-started-advanced a:active {
     @apply text-soviet-dark;
+  }
+
+  /* ========== DOWNLOADS SECTION ========== */
+
+  /* Download links in Dedicated Server & Manual Install tabs - Orange with underline on hover */
+  /* Exclude buttons (like the Quick Install download button) */
+  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal) {
+    @apply text-soviet font-semibold no-underline transition-all duration-200;
+  }
+
+  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal):hover {
+    @apply text-soviet-light underline;
+    text-underline-offset: 3px;
+  }
+
+  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal):active {
+    @apply text-soviet-dark;
+  }
+
+  /* Non-link text (like .text-bold spans) - Teal for emphasis */
+  #downloads .text-bold {
+    @apply text-teal font-bold;
   }
 
   /* ========== SKELETON LOADERS ========== */
@@ -1075,8 +1121,8 @@
   }
 
   .slide-icon {
-    @apply w-20 h-20 flex items-center justify-center bg-gradient-to-br from-soviet/30 to-soviet/15 border-2 border-soviet/50 rounded-2xl text-4xl text-soviet mb-6;
-    box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
+    @apply w-20 h-20 flex items-center justify-center bg-gradient-to-br from-teal-bright/30 to-teal-glow/15 border-2 border-teal-darker rounded-2xl text-4xl text-teal mb-6;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
   }
 
   .slide-icon.wicgate {

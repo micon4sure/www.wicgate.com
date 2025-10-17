@@ -126,7 +126,7 @@ const getPanelId = (tabId: string) => getAnchor(tabId);
     <div
       role="tablist"
       :aria-label="ariaLabel"
-      class="flex bg-gradient-to-b from-[rgba(15,18,21,0.95)] to-[rgba(8,9,11,0.95)] relative border-t border-t-[rgba(var(--graphite-dark-rgb),0.6)]"
+      class="flex bg-gradient-to-b from-[rgba(15,18,21,0.95)] to-[rgba(8,9,11,0.95)] relative border-t border-t-graphite-dark/60"
     >
       <button
         v-for="tab in tabs"
@@ -136,11 +136,11 @@ const getPanelId = (tabId: string) => getAnchor(tabId);
         :aria-selected="activeTabId === tab.id"
         :aria-controls="getPanelId(tab.id)"
         :tabindex="activeTabId === tab.id ? 0 : -1"
-        class="flex-1 p-[12px_16px] border border-[rgba(var(--graphite-dark-rgb),0.6)] border-b-0 text-[var(--t2)] cursor-pointer font-[Oswald,sans-serif] font-medium text-[0.875rem] uppercase tracking-[1px] transition-[var(--tr)] relative mr-px max-[768px]:p-[10px_12px] max-[768px]:text-[0.8rem] max-[480px]:p-[8px_10px] max-[480px]:text-[0.75rem] max-[360px]:p-[0.5rem_0.625rem] max-[360px]:text-[0.7rem]"
+        class="flex-1 p-[12px_16px] border border-graphite-dark/60 border-b-0 text-t-secondary cursor-pointer font-[Oswald,sans-serif] font-medium text-[0.875rem] uppercase tracking-[1px] transition-all duration-300 ease-out relative mr-px max-[768px]:p-[10px_12px] max-[768px]:text-[0.8rem] max-[480px]:p-[8px_10px] max-[480px]:text-[0.75rem] max-[360px]:p-[0.5rem_0.625rem] max-[360px]:text-[0.7rem]"
         :class="{
-          'bg-gradient-to-b from-massgate-orange-light to-massgate-orange !text-[var(--ink)] font-semibold border-[rgba(var(--massgate-orange-rgb),0.85)] z-10 shadow-[0_0_18px_rgba(var(--massgate-orange-rgb),0.45)]':
+          'bg-gradient-to-b from-massgate-orange-light to-massgate-orange !text-ink font-semibold border-massgate-orange/85 z-10 shadow-[0_0_18px_rgba(243,124,43,0.45)]':
             activeTabId === tab.id,
-          'bg-gradient-to-b from-[rgba(var(--graphite-rgb),0.9)] to-[rgba(var(--graphite-dark-rgb),0.92)] hover:!bg-gradient-to-b hover:!from-massgate-orange-light hover:!to-massgate-orange hover:!text-[var(--ink)] hover:border-[rgba(var(--massgate-orange-rgb),0.65)] hover:shadow-[0_0_16px_rgba(var(--massgate-orange-rgb),0.4)] hover:-translate-y-px':
+          'bg-gradient-to-b from-graphite/90 to-graphite-dark/92 hover:!bg-gradient-to-b hover:!from-massgate-orange-light hover:!to-massgate-orange hover:!text-ink hover:border-massgate-orange/65 hover:shadow-[0_0_16px_rgba(243,124,43,0.4)] hover:-translate-y-px':
             activeTabId !== tab.id,
         }"
         @click="switchTab(tab)"

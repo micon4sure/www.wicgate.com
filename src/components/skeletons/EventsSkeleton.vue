@@ -26,7 +26,7 @@
       <div
         v-for="n in 3"
         :key="n"
-        class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-[var(--divider-strong)] rounded-none overflow-hidden shadow-[0_12px_28px_rgba(4,9,14,0.55)] min-h-[340px] md:min-h-80 flex flex-col"
+        class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-divider-strong rounded-none overflow-hidden shadow-[0_12px_28px_rgba(4,9,14,0.55)] min-h-[340px] md:min-h-80 flex flex-col"
       >
         <div class="h-[220px] md:h-[180px] skeleton-shimmer"></div>
         <div class="p-4 flex flex-col gap-3">
