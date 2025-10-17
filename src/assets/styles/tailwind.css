@@ -6,45 +6,8 @@
 /* Base layer - Essential resets and HTML elements */
 @layer base {
   :root {
-    /* SINGLE SOURCE OF TRUTH: All colors defined in tailwind.config.ts */
-    /* Only keep CSS variables that need JS synchronization or legacy compatibility */
-
+    /* CRITICAL: DO NOT REMOVE - Synced by JavaScript */
     --header-height: 80px; /* Dynamic - synced by headerHeight.ts */
-
-    /* Legacy RGB variables (needed for rgba() with opacity in existing components) */
-    /* TODO: Migrate to Tailwind opacity utilities (e.g., bg-graphite/50) */
-    --massgate-orange-rgb: 243, 124, 43;
-    --mg-rgb: 31, 47, 59;           /* Used in LeaderboardGroup.vue */
-    --mg-dark-rgb: 16, 26, 34;      /* Used in LeaderboardGroup.vue */
-    --graphite-rgb: 15, 18, 21;
-    --graphite-dark-rgb: 8, 9, 11;
-    --graphite-light-rgb: 26, 30, 34;
-    --panel-main-rgb: 15, 18, 21;
-    --panel-dark-rgb: 8, 9, 11;
-
-    /* Legacy shorthand variables (for existing component compatibility) */
-    /* TODO: Refactor components to use Tailwind classes directly */
-    --t: #f3f6f8;        /* Use theme('colors.t.DEFAULT') or text-t */
-    --t2: #a7b7c3;       /* Use text-t-secondary */
-    --t3: #6c7a85;       /* Used in LeaderboardGroup.vue, Footer.vue */
-    --sw: #ff6600;       /* Use text-soviet or bg-soviet */
-    --ink: #0b141a;      /* Use text-ink or bg-ink */
-    --g: #7cb342;        /* Online/success color - used in Footer.vue, useServerCapacity.ts */
-    --bg: #050a0f;       /* Used in Footer.vue */
-    --bd: #1f2f3b;       /* Border color - used in Footer.vue */
-    --s1: #0f1215;       /* Background surface 1 - not currently used, but kept for consistency */
-    --s2: #1a1e22;       /* Background surface 2 - used in Twitch components & skeletons */
-    --mg-muted: #344654; /* Used in skeleton loading animations */
-    --dl: #8b1d14;       /* Deep red - used in ErrorBoundary.vue */
-    --dl-rgb: 139, 29, 20;    /* Deep red RGB for rgba() usage in ErrorBoundary.vue */
-    --bg-rgb: 5, 10, 15;      /* Background RGB for rgba() usage in ErrorBoundary.vue */
-
-    /* Transition helper (can't be expressed in Tailwind) */
-    --tr: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-
-    /* Legacy dividers (used in LeaderboardGroup.vue, .card class) */
-    --divider-strong: rgba(68, 117, 146, 0.7);
-    --divider-soft: rgba(68, 117, 146, 0.35);
   }
 
   * {
@@ -125,11 +88,11 @@
 
   @media (hover: hover) {
     .btn-teal:hover {
+      @apply text-t;
       transform: scale(1.05);
       background: rgba(0, 217, 255, 0.15);
       border-color: rgba(0, 217, 255, 0.85);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 217, 255, 0.5);
-      color: var(--t);
     }
   }
 
@@ -198,12 +161,12 @@
     width: 100%;
     z-index: 1000;
     background: linear-gradient(180deg,
-      rgba(var(--graphite-light-rgb), 0.95) 0%,
-      rgba(var(--graphite-dark-rgb), 0.98) 100%);
-    border-bottom: 3px solid rgba(var(--graphite-rgb), 0.85);
+      rgba(26, 30, 34, 0.95) 0%,
+      rgba(8, 9, 11, 0.98) 100%);
+    border-bottom: 3px solid rgba(15, 18, 21, 0.85);
     box-shadow:
       0 2px 24px rgba(0, 0, 0, 0.75),
-      0 0 36px rgba(var(--graphite-rgb), 0.35);
+      0 0 36px rgba(15, 18, 21, 0.35);
   }
 
   /* Navigation tab - Desktop (Massgate orange hover/active states) */
@@ -213,10 +176,10 @@
     @apply rounded-none;
     @apply transition-all duration-300 select-none flex-1 min-w-[80px] max-w-[160px];
     @apply whitespace-nowrap overflow-hidden text-ellipsis origin-[center_bottom];
-    background: linear-gradient(180deg, rgba(var(--graphite-rgb), 0.9) 0%, rgba(var(--graphite-dark-rgb), 0.92) 100%);
+    @apply text-t-secondary;
+    background: linear-gradient(180deg, rgba(15, 18, 21, 0.9) 0%, rgba(8, 9, 11, 0.92) 100%);
     border: 2px solid rgba(0, 217, 255, 0.3);
     border-bottom: 0;
-    color: var(--t2);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
@@ -225,7 +188,7 @@
       @apply text-ink border-massgate-orange/70;
       background: linear-gradient(180deg, theme('colors.massgate-orange.light') 0%, theme('colors.massgate-orange.DEFAULT') 100%);
       transform: scale(1.02) translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 24px rgba(var(--massgate-orange-rgb), 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 24px rgba(243, 124, 43, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
   }
 
@@ -233,22 +196,22 @@
     @apply text-ink border-massgate-orange/75;
     background: linear-gradient(180deg, theme('colors.massgate-orange.DEFAULT') 0%, theme('colors.massgate-orange.dark') 100%);
     transform: scale(1.01) translateY(-1px);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(var(--massgate-orange-rgb), 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(243, 124, 43, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .nav-tab.active {
     @apply text-ink font-semibold border-massgate-orange/85;
     background: linear-gradient(180deg, theme('colors.massgate-orange.light') 0%, theme('colors.massgate-orange.DEFAULT') 100%);
     transform: scale(1.02) translateY(-2px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 32px rgba(var(--massgate-orange-rgb), 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 32px rgba(243, 124, 43, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
   .nav-tab::before {
     content: '';
     @apply absolute left-0 right-0 h-[3px] opacity-0;
     bottom: -3px;
-    background: linear-gradient(90deg, rgba(var(--massgate-orange-rgb), 0.95) 0%, rgba(var(--massgate-orange-rgb), 0.6) 100%);
-    transition: var(--tr);
+    background: linear-gradient(90deg, rgba(243, 124, 43, 0.95) 0%, rgba(243, 124, 43, 0.6) 100%);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   @media (hover: hover) {
@@ -259,7 +222,7 @@
 
   .nav-tab.active::before {
     opacity: 1;
-    background: linear-gradient(90deg, rgba(var(--massgate-orange-rgb), 0.98) 0%, rgba(var(--massgate-orange-rgb), 0.7) 100%);
+    background: linear-gradient(90deg, rgba(243, 124, 43, 0.98) 0%, rgba(243, 124, 43, 0.7) 100%);
   }
 
   /* Mobile navigation link (Massgate orange hover/active states) */
@@ -271,14 +234,14 @@
     @apply md:min-h-[68px] md:py-5 md:px-7 md:text-[17px];
     @apply sm:min-h-16 sm:py-[18px] sm:px-6 sm:text-base;
     @apply xs:min-h-[60px] xs:py-4 xs:px-5 xs:text-[15px] xs:tracking-wider;
-    color: var(--t2);
-    border-bottom: 1px solid rgba(var(--massgate-orange-rgb), 0.2);
+    @apply text-t-secondary;
+    @apply border-b border-b-massgate-orange/20;
   }
 
   @media (hover: hover) {
     .nav-mobile-link:hover {
       background: linear-gradient(90deg, theme('colors.massgate-orange.light') 0%, theme('colors.massgate-orange.DEFAULT') 100%);
-      color: var(--ink);
+      @apply text-ink;
       padding-left: 40px;
     }
 
@@ -302,8 +265,8 @@
   }
 
   .nav-mobile-link:active {
-    background: linear-gradient(90deg, theme('colors.massgate-orange.DEFAULT') 0%, rgba(var(--massgate-orange-rgb), 0.85) 100%);
-    color: var(--ink);
+    background: linear-gradient(90deg, theme('colors.massgate-orange.DEFAULT') 0%, rgba(243, 124, 43, 0.85) 100%);
+    @apply text-ink;
   }
 
   .nav-mobile-link::before {
@@ -311,7 +274,7 @@
     @apply absolute left-0 top-0 bottom-0 -translate-x-full;
     @apply transition-transform duration-300;
     width: 6px;
-    background: linear-gradient(180deg, rgba(var(--massgate-orange-rgb), 0.95) 0%, rgba(var(--massgate-orange-rgb), 0.65) 100%);
+    background: linear-gradient(180deg, rgba(243, 124, 43, 0.95) 0%, rgba(243, 124, 43, 0.65) 100%);
   }
 
   .nav-mobile-link:hover::before {
@@ -320,8 +283,7 @@
 
   .nav-mobile-link.active {
     background: linear-gradient(90deg, theme('colors.massgate-orange.light') 0%, theme('colors.massgate-orange.DEFAULT') 100%);
-    color: var(--ink);
-    @apply font-semibold;
+    @apply text-ink font-semibold;
     padding-left: 40px;
   }
 
@@ -548,8 +510,7 @@
   }
 
   .stat-number {
-    @apply text-2xl font-bold font-military;
-    color: var(--sw);
+    @apply text-2xl font-bold font-military text-soviet;
   }
 
   .stat-label {
@@ -670,8 +631,7 @@
   }
 
   .player-rating {
-    @apply text-sm font-military font-bold flex-shrink-0;
-    color: var(--sw);
+    @apply text-sm font-military font-bold flex-shrink-0 text-soviet;
   }
 
   /* Icon color overrides for widgets */
@@ -710,8 +670,7 @@
   }
 
   .ladder-score {
-    @apply text-sm font-military font-bold flex-shrink-0;
-    color: var(--sw);
+    @apply text-sm font-military font-bold flex-shrink-0 text-soviet;
   }
 
   /* Help list */
@@ -726,8 +685,7 @@
   }
 
   .help-item i {
-    @apply flex-shrink-0;
-    color: var(--sw);
+    @apply flex-shrink-0 text-soviet;
   }
 
   /* Widget highlight (for events, etc.) */
@@ -783,13 +741,6 @@
   .section-lead {
     @apply text-base text-t-secondary font-body leading-relaxed max-w-2xl mx-auto;
   }
-
-  /* Spacing utilities */
-  .mb-xs { margin-bottom: var(--spacing-xs); }
-  .mb-sm { margin-bottom: var(--spacing-sm); }
-  .mb-md { margin-bottom: var(--spacing-md); }
-  .mb-lg { margin-bottom: var(--spacing-lg); }
-  .mb-xl { margin-bottom: var(--spacing-xl); }
 
   /* Grid utilities */
   .grid-2 {
@@ -886,8 +837,8 @@
   .card {
     background: linear-gradient(
       180deg,
-      rgba(var(--panel-main-rgb), 0.96) 0%,
-      rgba(var(--panel-dark-rgb), 0.98) 100%
+      rgba(15, 18, 21, 0.96) 0%,
+      rgba(8, 9, 11, 0.98) 100%
     );
     @apply border border-divider-strong rounded-none overflow-hidden;
     @apply shadow-[0_12px_28px_rgba(4,9,14,0.55)] transition-all duration-300;
@@ -983,7 +934,7 @@
 
   /* Skeleton shimmer effect base */
   .skeleton-shimmer {
-    background: linear-gradient(90deg, var(--s2) 0%, var(--mg-muted) 50%, var(--s2) 100%);
+    background: linear-gradient(90deg, #1a1e22 0%, #344654 50%, #1a1e22 100%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s ease-in-out infinite;
   }
@@ -1037,11 +988,11 @@
 
   .error-boundary {
     @apply min-h-[400px] flex items-center justify-center px-5 py-10;
-    background: linear-gradient(135deg, rgba(var(--dl-rgb), 0.05) 0%, rgba(var(--bg-rgb), 0.95) 100%);
+    background: linear-gradient(135deg, rgba(139, 29, 20, 0.05) 0%, rgba(5, 10, 15, 0.95) 100%);
   }
 
   .error-content {
-    @apply max-w-[600px] text-center bg-[var(--grad-card)] p-10 rounded-lg border border-massgate-red/20;
+    @apply max-w-[600px] text-center bg-gradient-to-b from-graphite-light to-graphite-dark p-10 rounded-lg border border-massgate-red/20;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   }
 

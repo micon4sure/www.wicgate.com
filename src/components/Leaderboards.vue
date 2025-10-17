@@ -29,7 +29,7 @@ const ladderData = computed<LeaderboardDataRecord>(() => ({
 }));
 </script>
 <template>
-  <div class="grid grid-2 mb-lg">
+  <div class="grid grid-2 mb-6">
     <LeaderboardGroup
       title="High Scores"
       subtitle="Best individual match performances"

@@ -204,16 +204,16 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                 <a
                   :href="`https://www.youtube.com/channel/${ch.channelId}`"
                   target="_blank"
-                  class="bg-gradient-to-b from-graphite-light/96 to-graphite-dark/98 border border-teal/40 rounded-none px-6 py-3 no-underline transition-all duration-300 flex items-center justify-center gap-2.5 shadow-[0_12px_28px_rgba(4,9,14,0.55)] min-h-[50px] min-w-[250px] max-w-[350px] w-full hover:bg-gradient-to-b hover:from-teal-bright hover:to-teal hover:border-teal/60 hover:shadow-[0_4px_16px_rgba(0,0,0,0.3),0_0_24px_rgba(0,217,255,0.4)] hover:-translate-y-0.5 active:scale-[0.98] group"
+                  class="bg-gradient-to-b from-graphite-light/96 to-graphite-dark/98 border-2 border-teal/30 rounded-none px-6 py-3 no-underline transition-all duration-300 flex items-center justify-center gap-2.5 shadow-[0_12px_28px_rgba(4,9,14,0.55)] min-h-[50px] min-w-[250px] max-w-[350px] w-full hover:bg-gradient-to-b hover:from-massgate-orange-light hover:to-massgate-orange hover:border-massgate-orange/70 hover:shadow-[0_4px_16px_rgba(0,0,0,0.3),0_0_24px_rgba(255,102,0,0.45)] hover:-translate-y-0.5 active:scale-[0.98] group"
                   :aria-label="`View ${ch.channelTitle} YouTube channel`"
                 >
                   <span
-                    class="flex-1 text-center text-t-secondary font-military font-bold uppercase tracking-wide text-base whitespace-nowrap overflow-hidden text-ellipsis group-hover:text-graphite-dark"
+                    class="flex-1 text-center text-t-secondary font-military font-bold uppercase tracking-wide text-base whitespace-nowrap overflow-hidden text-ellipsis group-hover:text-ink"
                   >
                     Visit {{ ch.channelTitle }} Channel
                   </span>
                   <i
-                    class="fa-solid fa-external-link text-teal text-sm transition-all duration-300 group-hover:text-graphite-dark group-hover:translate-x-1"
+                    class="fa-solid fa-external-link text-t-secondary text-sm transition-all duration-300 group-hover:text-ink group-hover:translate-x-1"
                     aria-hidden="true"
                   ></i>
                 </a>

@@ -227,11 +227,11 @@ onMounted(() => {
 
                     <!-- Copy Link Button -->
                     <button
-                      class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded transition-all duration-200 opacity-0 group-hover:opacity-100 hover:bg-teal/20 hover:text-teal-bright focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-teal/50"
+                      class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded transition-all duration-200 opacity-0 group-hover:opacity-100 hover:bg-soviet/20 hover:text-soviet-light focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-soviet/50"
                       :class="
                         copiedQuestionId === item.id
-                          ? 'opacity-100 text-teal-bright'
-                          : 'text-teal/70'
+                          ? 'opacity-100 text-soviet-light'
+                          : 'text-soviet/70'
                       "
                       :title="`Copy link to this question`"
                       :aria-label="`Copy link to ${item.q}`"
@@ -249,7 +249,7 @@ onMounted(() => {
 
                   <!-- Chevron Icon -->
                   <div
-                    class="text-teal text-xl transition-transform duration-300 flex-shrink-0"
+                    class="text-teal text-xl transition-transform duration-300 flex-shrink-0 ml-4"
                     :class="openQuestion === item.q ? 'rotate-180' : ''"
                   >
                     <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
@@ -287,7 +287,7 @@ onMounted(() => {
       >
         <div class="flex justify-center mb-4">
           <div
-            class="w-12 h-12 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center"
+            class="w-12 h-12 rounded-full bg-gradient-to-b from-teal-bright to-teal-glow border-2 border-teal-darker flex items-center justify-center"
           >
             <i class="fa-brands fa-discord text-ink text-xl" aria-hidden="true"></i>
           </div>
@@ -303,7 +303,7 @@ onMounted(() => {
             href="https://discord.gg/WnxwfMTyBe"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-teal font-semibold no-underline transition-all duration-200 hover:text-teal-bright hover:underline"
+            class="text-soviet font-semibold no-underline transition-all duration-200 hover:text-soviet-light hover:underline"
             >Discord community</a
           >
           for live support and chat with other players!

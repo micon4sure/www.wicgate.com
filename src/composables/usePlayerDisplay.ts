@@ -61,7 +61,7 @@ export function usePlayerDisplay() {
       return colorizeCache.get(name)!;
     }
 
-    let out = '<span style="color:var(--player-neutral)">';
+    let out = '<span style="color:#f3f6f8">';
     let last = 0;
     let open = false;
     const regex = /<#([\da-f]{3,6})>|<\/>/gi;

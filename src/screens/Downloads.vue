@@ -38,7 +38,7 @@ const tabs = [
           <div class="p-8 md:p-12 max-w-4xl mx-auto">
             <div class="text-center mb-10">
               <h3
-                class="text-2xl md:text-3xl font-military font-bold text-massgate-orange uppercase tracking-wider mb-3"
+                class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
               >
                 Recommended for Most Users
               </h3>
@@ -53,14 +53,14 @@ const tabs = [
                 <!-- Timeline Line -->
                 <div
                   v-if="index < steps.length - 1"
-                  class="absolute left-[29px] top-[60px] bottom-[-32px] w-[3px] bg-gradient-to-b from-massgate-orange/50 via-massgate-orange/30 to-massgate-orange/50 z-0"
+                  class="absolute left-[29px] top-[60px] bottom-[-32px] w-[3px] bg-gradient-to-b from-teal/50 via-teal/30 to-teal/50 z-0"
                   aria-hidden="true"
                 ></div>
 
                 <!-- Step Badge -->
                 <div class="flex-shrink-0 relative z-20 mr-6 md:mr-8">
                   <div
-                    class="w-[60px] h-[60px] rounded-full border-[3px] border-massgate-orange bg-gradient-to-b from-massgate-orange-light to-massgate-orange flex items-center justify-center font-military font-bold text-3xl text-ink shadow-massgate-orange-glow md:w-[60px] md:h-[60px] max-md:w-14 max-md:h-14 max-md:text-2xl"
+                    class="w-[60px] h-[60px] rounded-full border-[3px] border-teal-darker bg-gradient-to-b from-teal-bright to-teal-glow flex items-center justify-center font-military font-bold text-3xl text-ink md:w-[60px] md:h-[60px] max-md:w-14 max-md:h-14 max-md:text-2xl"
                   >
                     {{ s.n }}
                   </div>
@@ -108,7 +108,7 @@ const tabs = [
           <div class="p-8 md:p-12">
             <div class="text-center mb-10">
               <h3
-                class="text-2xl md:text-3xl font-military font-bold text-massgate-orange uppercase tracking-wider mb-3"
+                class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
               >
                 Host Your Own 24/7 Server
               </h3>
@@ -127,7 +127,7 @@ const tabs = [
                 >
                   <div class="flex items-start gap-4">
                     <span
-                      class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-massgate-orange-light to-massgate-orange border border-massgate-orange rounded-full flex items-center justify-center font-military font-bold text-lg text-ink"
+                      class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker rounded-full flex items-center justify-center font-military font-bold text-lg text-ink"
                     >
                       {{ step.n }}
                     </span>
@@ -149,9 +149,13 @@ const tabs = [
                 class="bg-graphite/70 border border-teal/20 p-5 rounded-none h-fit lg:sticky lg:top-24"
               >
                 <h5
-                  class="font-military font-bold uppercase tracking-wider text-lg mb-4 text-massgate-orange flex items-center gap-2"
+                  class="font-military font-bold uppercase tracking-wider text-lg mb-4 text-t flex items-center gap-3"
                 >
-                  <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
+                  <div
+                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker rounded-full flex items-center justify-center"
+                  >
+                    <i class="fa-solid fa-network-wired text-ink text-xs" aria-hidden="true"></i>
+                  </div>
                   Network Ports
                 </h5>
                 <p class="text-t-secondary text-sm mb-4 font-body leading-relaxed">
@@ -164,7 +168,7 @@ const tabs = [
                     class="bg-graphite-dark/60 border border-teal/10 p-3 rounded-none"
                   >
                     <div class="flex items-baseline gap-2 mb-1">
-                      <span class="font-mono font-bold text-massgate-orange text-base">
+                      <span class="font-mono font-bold text-teal text-base">
                         {{ port.port }}
                       </span>
                       <span class="text-t-secondary text-xs uppercase font-body">
@@ -189,7 +193,7 @@ const tabs = [
           <div class="p-8 md:p-12 max-w-4xl mx-auto">
             <div class="text-center mb-10">
               <h3
-                class="text-2xl md:text-3xl font-military font-bold text-massgate-orange uppercase tracking-wider mb-3"
+                class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
               >
                 Advanced Users Only
               </h3>
@@ -226,7 +230,7 @@ const tabs = [
               >
                 <div class="flex items-start gap-4">
                   <span
-                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-massgate-orange-light to-massgate-orange border border-massgate-orange rounded-full flex items-center justify-center font-military font-bold text-lg text-ink"
+                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker rounded-full flex items-center justify-center font-military font-bold text-lg text-ink"
                   >
                     {{ step.n }}
                   </span>

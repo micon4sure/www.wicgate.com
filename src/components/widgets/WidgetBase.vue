@@ -53,7 +53,7 @@ function handleClick() {
     >
       <div
         :class="[iconClass || 'text-ink']"
-        class="w-10 h-10 rounded-full bg-gradient-to-b from-massgate-orange-light to-massgate-orange border-2 border-massgate-orange flex items-center justify-center text-xl flex-shrink-0 max-[480px]:w-9 max-[480px]:h-9 max-[480px]:text-lg"
+        class="w-10 h-10 rounded-full bg-gradient-to-b from-teal-bright to-teal-glow border-2 border-teal-darker flex items-center justify-center text-xl flex-shrink-0 max-[480px]:w-9 max-[480px]:h-9 max-[480px]:text-lg"
       >
         <i :class="icon" aria-hidden="true"></i>
       </div>

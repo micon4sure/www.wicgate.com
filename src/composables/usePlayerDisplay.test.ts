@@ -159,7 +159,7 @@ describe('usePlayerDisplay', () => {
 
       const result = colorize('PlainName');
 
-      expect(result).toBe('<span style="color:var(--player-neutral)">PlainName</span>');
+      expect(result).toBe('<span style="color:#f3f6f8">PlainName</span>');
     });
 
     it('should handle color tags', () => {
