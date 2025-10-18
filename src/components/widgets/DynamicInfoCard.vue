@@ -106,10 +106,6 @@ function formatPlayerClanTag(player: {
   return '';
 }
 
-function handlePlayersOnlineClick() {
-  emit('navigate', 'community');
-}
-
 function handleTopPlayersClick() {
   emit('navigate', 'statistics-leaderboards');
 }
@@ -132,12 +128,6 @@ function handleTopPlayersClick() {
               Players Online
             </h3>
           </div>
-          <button
-            class="text-sm text-teal hover:text-teal-bright font-body font-semibold transition-colors"
-            @click="handlePlayersOnlineClick"
-          >
-            View All →
-          </button>
         </div>
 
         <div class="flex-1 overflow-y-auto p-5 custom-scrollbar">
