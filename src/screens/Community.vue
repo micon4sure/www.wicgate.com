@@ -1,12 +1,45 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useYoutube } from '../composables/useYoutube';
+import { useAppDataStore } from '../stores/appDataStore';
+import { useServerCapacity } from '../composables/useServerCapacity';
+import { usePlayerDisplay } from '../composables/usePlayerDisplay';
 import TwitchFacade from '../components/TwitchFacade.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
 import TabContainer from '../components/TabContainer.vue';
+import { SERVER_MAX_CAPACITY } from '../constants';
 
 // SSR detection
 const isSSR = import.meta.env.SSR;
+
+// App data store for server/player data
+const store = useAppDataStore();
+
+// Server and player data
+const players = computed(() => store.data.profiles || []);
+const servers = computed(() => store.data.servers || []);
+const totalPlayers = computed(() => players.value.length);
+
+// Utility composables
+const { getCapacityColor } = useServerCapacity();
+const { colorize, parseClanTag, groupPlayersByServer } = usePlayerDisplay();
+
+// Group players by server and sort by player count
+const serverGroups = computed(() => {
+  const groups = groupPlayersByServer(players.value, servers.value);
+  return groups.sort((a, b) => {
+    const countA = a.players.length;
+    const countB = b.players.length;
+    if (countA === 0 && countB === 0) return a.serverName.localeCompare(b.serverName);
+    if (countA === 0) return 1;
+    if (countB === 0) return -1;
+    return countB - countA;
+  });
+});
+
+const activeServerCount = computed(
+  () => serverGroups.value.filter((g) => g.players.length > 0).length
+);
 
 // Get videos data from composable
 const {
@@ -97,6 +130,113 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
             <i class="fa-brands fa-twitch" aria-hidden="true"></i>
             Live Streams
           </a>
+        </div>
+      </div>
+
+      <!-- Live Activity (Servers & Players Online) -->
+      <div id="live-activity" class="mb-20">
+        <!-- Subsection Header -->
+        <div class="text-center mb-8">
+          <h3
+            class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-2"
+          >
+            Servers & Players Online
+          </h3>
+          <p class="text-sm md:text-base text-t-secondary font-body">
+            {{ totalPlayers }} {{ totalPlayers === 1 ? 'player' : 'players' }} across
+            {{ activeServerCount }} {{ activeServerCount === 1 ? 'server' : 'servers' }}
+          </p>
+        </div>
+
+        <!-- Server Cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <!-- Skeleton Loading State -->
+          <div
+            v-if="isSSR || store.loading"
+            class="bg-gradient-to-b from-panel/90 to-panel-dark/95 border border-teal/20 rounded-none p-5 min-h-[180px]"
+          >
+            <div class="h-6 bg-graphite/30 mb-4 w-2/3"></div>
+            <div class="space-y-2">
+              <div class="h-4 bg-graphite/20 w-full"></div>
+              <div class="h-4 bg-graphite/20 w-4/5"></div>
+              <div class="h-4 bg-graphite/20 w-3/5"></div>
+            </div>
+          </div>
+
+          <!-- Server Cards -->
+          <template v-else>
+            <div
+              v-for="group in serverGroups"
+              :key="group.serverId"
+              class="bg-gradient-to-b from-panel/90 to-panel-dark/95 border border-teal/20 border-l-2 border-l-massgate-orange rounded-none overflow-hidden transition-all duration-300 hover:border-teal/40"
+              :class="{ 'opacity-60': group.players.length === 0 }"
+            >
+              <!-- Server Header -->
+              <div class="p-4 md:p-5 border-b border-teal/10">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-2.5 flex-1 min-w-0">
+                    <span
+                      class="w-2 h-2 rounded-full flex-shrink-0"
+                      :class="
+                        group.players.length > 0
+                          ? 'bg-green shadow-[0_0_8px_rgba(52,211,153,0.5)] animate-pulse'
+                          : 'bg-graphite opacity-40'
+                      "
+                    ></span>
+                    <h4
+                      class="m-0 font-military text-lg md:text-xl font-bold text-t uppercase tracking-wide truncate"
+                      v-html="colorize(group.serverName)"
+                    ></h4>
+                  </div>
+                  <div
+                    class="text-base md:text-lg font-military font-bold tracking-wide flex-shrink-0"
+                    :style="{ color: getCapacityColor(group.players.length) }"
+                  >
+                    {{ group.players.length }}/{{ SERVER_MAX_CAPACITY }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Player List (Vertical) -->
+              <div class="p-4 md:p-5">
+                <div
+                  v-if="group.players.length === 0"
+                  class="text-center text-t3 text-sm py-3 font-body"
+                >
+                  No players online
+                </div>
+                <div v-else class="space-y-1.5">
+                  <div
+                    v-for="player in group.players"
+                    :key="(player.profileName || 'Unknown') + String(player.serverId)"
+                    class="flex items-center gap-2.5 px-3 py-2 bg-graphite/10 border-l-2 border-graphite/20 transition-all duration-200 hover:bg-graphite/20 hover:border-l-teal/50"
+                  >
+                    <span
+                      v-if="parseClanTag(player).clanTag"
+                      class="font-mono text-massgate-orange font-semibold text-xs flex-shrink-0"
+                    >
+                      {{ parseClanTag(player).clanTag }}
+                    </span>
+                    <span class="font-body text-t text-sm md:text-base tracking-wide truncate">
+                      {{ parseClanTag(player).playerName }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Empty State -->
+            <div
+              v-if="serverGroups.length === 0"
+              class="col-span-full text-center py-12 text-t3 border border-teal/10 bg-gradient-to-b from-graphite/20 to-graphite-dark/30 rounded-none"
+            >
+              <i
+                class="fa-solid fa-server text-3xl mb-3 text-teal/50 opacity-70"
+                aria-hidden="true"
+              ></i>
+              <p class="m-0 text-sm md:text-base font-body">No servers available</p>
+            </div>
+          </template>
         </div>
       </div>
 

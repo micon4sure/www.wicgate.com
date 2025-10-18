@@ -48,8 +48,8 @@ const activeServers = computed(() => {
 const activeServerCount = computed(() => activeServers.value.length);
 
 function handleClick() {
-  // Servers are now on the main page in "Live Activity" section
-  emit('navigate', 'hero');
+  // Navigate to Live Activity subsection in Community section
+  emit('navigate', 'community');
 }
 </script>
 
