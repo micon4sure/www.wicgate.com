@@ -17,7 +17,7 @@ const tabs = [
 </script>
 
 <template>
-  <section id="downloads" class="section bg-gradient-to-b from-graphite/30 to-graphite-dark/50">
+  <section id="downloads" class="section bg-downloads-section">
     <div class="container">
       <!-- Header -->
       <div class="text-center mb-12">

@@ -50,6 +50,7 @@ export default [
         Event: 'readonly',
         MouseEvent: 'readonly',
         KeyboardEvent: 'readonly',
+        TouchEvent: 'readonly',
         CustomEvent: 'readonly',
         fetch: 'readonly',
         Response: 'readonly',

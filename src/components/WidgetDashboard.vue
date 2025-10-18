@@ -25,7 +25,7 @@ function goToSection(sectionOrSubsectionId: string) {
 <template>
   <section
     id="hero"
-    class="relative min-h-[100vh] pt-[var(--header-height)] pb-24 overflow-hidden md:pb-20 sm:pb-12 sm:min-h-[85vh]"
+    class="bg-hero-section relative min-h-[100vh] pt-[var(--header-height)] pb-24 overflow-hidden md:pb-20 sm:pb-12 sm:min-h-[85vh]"
   >
     <!-- Video Background (Client-side only, hidden on mobile for performance) -->
     <video

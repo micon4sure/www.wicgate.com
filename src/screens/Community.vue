@@ -88,7 +88,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 </script>
 
 <template>
-  <section id="community" class="section bg-gradient-to-b from-graphite/30 to-graphite-dark/50">
+  <section id="community" class="section bg-community-section">
     <div class="container">
       <!-- Header -->
       <div class="text-center mb-20">

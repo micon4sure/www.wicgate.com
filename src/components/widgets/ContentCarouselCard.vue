@@ -18,15 +18,40 @@ const isPaused = ref(false);
 const totalSlides = 4;
 let autoRotateTimer: ReturnType<typeof setInterval> | null = null;
 
+// Touch/swipe support
+const touchStartX = ref(0);
+const touchEndX = ref(0);
+
 // Latest videos (top 3)
 const latestVideos = computed(() => props.videos.slice(0, 3));
 
-// Next event
-const nextEvent = computed(() => {
-  if (!props.events || props.events.length === 0) return null;
-  const upcoming = props.events.find((e) => new Date(e.start).getTime() > Date.now());
-  return upcoming || props.events[0];
-});
+// Format date helper
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+// Get countdown or "LIVE NOW" status
+function getCountdown(startDate: string): string {
+  const now = Date.now();
+  const start = new Date(startDate).getTime();
+  const diff = start - now;
+
+  if (diff < 0) return 'LIVE NOW';
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+  if (days > 0) return `${days}d ${hours}h`;
+  if (hours > 0) return `${hours}h`;
+
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  return `${minutes}m`;
+}
 
 // Carousel navigation
 function nextSlide() {
@@ -74,6 +99,34 @@ function handleMouseLeave() {
   isPaused.value = false;
 }
 
+// Touch/Swipe handlers
+function handleTouchStart(event: TouchEvent) {
+  touchStartX.value = event.touches[0].clientX;
+}
+
+function handleTouchMove(event: TouchEvent) {
+  touchEndX.value = event.touches[0].clientX;
+}
+
+function handleTouchEnd() {
+  if (!touchStartX.value || !touchEndX.value) return;
+
+  const swipeDistance = touchEndX.value - touchStartX.value;
+  const swipeThreshold = 50; // Minimum distance for a swipe
+
+  if (swipeDistance > swipeThreshold) {
+    // Swiped right - go to previous slide
+    prevSlide();
+  } else if (swipeDistance < -swipeThreshold) {
+    // Swiped left - go to next slide
+    nextSlide();
+  }
+
+  // Reset touch positions
+  touchStartX.value = 0;
+  touchEndX.value = 0;
+}
+
 // Navigation handlers
 function handleQuickStartClick() {
   emit('navigate', 'downloads');
@@ -87,8 +140,8 @@ function handleHelpClick() {
   emit('navigate', 'faq');
 }
 
-function handleCommunityClick() {
-  emit('navigate', 'community-events');
+function handleEventsClick() {
+  emit('navigate', 'community');
 }
 
 function openVideo(url: string) {
@@ -114,7 +167,12 @@ onBeforeUnmount(() => {
     @mouseleave="handleMouseLeave"
   >
     <!-- Carousel Container -->
-    <div class="relative h-[400px] sm:h-[450px]">
+    <div
+      class="relative h-[400px] sm:h-[450px]"
+      @touchstart="handleTouchStart"
+      @touchmove="handleTouchMove"
+      @touchend="handleTouchEnd"
+    >
       <!-- Slide 1: Quick Start -->
       <div
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
@@ -271,63 +329,132 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <!-- Slide 4: Community Events -->
+      <!-- Slide 4: Upcoming Events -->
       <div
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
         :class="currentSlide === 3 ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
         <div class="flex items-center justify-between p-5 border-b border-teal/20">
           <div class="flex items-center gap-3">
-            <i class="fa-brands fa-discord text-discord text-xl" aria-hidden="true"></i>
+            <i class="fa-regular fa-calendar text-teal text-xl" aria-hidden="true"></i>
             <h3 class="text-xl font-military font-bold text-t uppercase tracking-wide m-0">
-              Community
+              Upcoming Events
             </h3>
           </div>
           <button
             class="text-sm text-teal hover:text-teal-bright font-body font-semibold transition-colors"
-            @click="handleCommunityClick"
+            @click="handleEventsClick"
           >
-            Explore →
+            View All →
           </button>
         </div>
-        <div class="flex-1 flex flex-col justify-center items-center p-8 text-center space-y-6">
-          <div
-            class="inline-flex items-center gap-4 px-8 py-4 bg-discord/20 border-2 border-discord/40"
-          >
-            <i class="fa-brands fa-discord text-discord text-3xl" aria-hidden="true"></i>
-            <div class="text-left">
-              <div class="text-3xl font-military font-bold text-t">287</div>
-              <div class="text-sm text-t-secondary font-body uppercase tracking-wide">
-                Discord Members
-              </div>
-            </div>
+        <div class="flex-1 overflow-y-auto p-4 custom-scrollbar">
+          <!-- Loading State -->
+          <div v-if="isSSR" class="space-y-3">
+            <div class="h-24 bg-mg/15 border border-mg/25 animate-pulse"></div>
+            <div class="h-24 bg-mg/15 border border-mg/25 animate-pulse"></div>
+            <div class="h-24 bg-mg/15 border border-mg/25 animate-pulse"></div>
           </div>
 
-          <div v-if="nextEvent" class="w-full max-w-md">
-            <div class="mb-2 flex items-center justify-center gap-2 text-t3 text-sm font-body">
-              <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-              <span>Next Event</span>
-            </div>
-            <div
-              class="p-4 bg-gradient-to-br from-mg/25 to-mg-dark/30 border-2 border-teal/30 shadow-[0_0_20px_rgba(0,217,255,0.15)]"
+          <!-- Events List -->
+          <div v-else-if="events.length > 0" class="space-y-3">
+            <component
+              :is="event.link ? 'a' : 'div'"
+              v-for="event in events"
+              :key="event.id"
+              :href="event.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block bg-gradient-to-br from-mg/20 to-mg-dark/30 border border-teal/20 overflow-hidden transition-all duration-200 hover:border-teal/50 hover:shadow-[0_0_15px_rgba(0,217,255,0.2)] no-underline"
             >
-              <h4 class="text-lg font-military font-bold text-t uppercase tracking-wide m-0 mb-2">
-                {{ nextEvent.name }}
-              </h4>
-              <p class="text-sm text-t-secondary font-body m-0">{{ nextEvent.description }}</p>
-            </div>
+              <!-- Event with Cover Image -->
+              <div v-if="event.coverUrl" class="flex flex-col">
+                <div
+                  class="relative h-28 bg-cover bg-center"
+                  :style="{ backgroundImage: `url(${event.coverUrl})` }"
+                >
+                  <div class="absolute inset-0 bg-gradient-to-br from-black/20 to-black/50"></div>
+                  <div class="absolute top-2 right-2 z-10">
+                    <div
+                      class="px-3 py-1 text-xs font-bold tracking-wider uppercase font-military border"
+                      :class="
+                        new Date(event.start).getTime() <= Date.now()
+                          ? 'bg-youtube text-white border-youtube-bright shadow-[0_0_12px_rgba(229,57,53,0.6)] animate-pulse'
+                          : 'bg-graphite-light/90 text-t border-teal/50'
+                      "
+                    >
+                      {{ getCountdown(event.start) }}
+                    </div>
+                  </div>
+                </div>
+                <div class="p-3">
+                  <h4
+                    class="text-base font-military font-bold text-t uppercase tracking-wide m-0 mb-1 line-clamp-1"
+                  >
+                    {{ event.name }}
+                  </h4>
+                  <p
+                    class="text-xs text-t-secondary font-body m-0 mb-2 line-clamp-2 leading-relaxed"
+                  >
+                    {{ event.description }}
+                  </p>
+                  <div class="text-xs text-t3 font-body flex items-center gap-1.5">
+                    <i class="fa-regular fa-calendar text-teal" aria-hidden="true"></i>
+                    {{ formatDate(event.start) }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Event without Cover Image -->
+              <div v-else class="p-3">
+                <div class="mb-2">
+                  <div
+                    class="inline-block px-3 py-1 text-xs font-bold tracking-wider uppercase font-military border"
+                    :class="
+                      new Date(event.start).getTime() <= Date.now()
+                        ? 'bg-youtube text-white border-youtube-bright shadow-[0_0_12px_rgba(229,57,53,0.6)] animate-pulse'
+                        : 'bg-graphite-light/90 text-t border-teal/50'
+                    "
+                  >
+                    {{ getCountdown(event.start) }}
+                  </div>
+                </div>
+                <h4
+                  class="text-base font-military font-bold text-t uppercase tracking-wide m-0 mb-1 line-clamp-1"
+                >
+                  {{ event.name }}
+                </h4>
+                <p class="text-xs text-t-secondary font-body m-0 mb-2 line-clamp-2 leading-relaxed">
+                  {{ event.description }}
+                </p>
+                <div class="text-xs text-t3 font-body flex items-center gap-1.5">
+                  <i class="fa-regular fa-calendar text-teal" aria-hidden="true"></i>
+                  {{ formatDate(event.start) }}
+                </div>
+              </div>
+            </component>
           </div>
-          <div v-else class="text-base text-t3 font-body">Join our active community on Discord</div>
+
+          <!-- Empty State -->
+          <div v-else class="h-full flex flex-col items-center justify-center text-center py-8">
+            <i
+              class="fa-regular fa-calendar-xmark text-4xl mb-3 text-teal/50"
+              aria-hidden="true"
+            ></i>
+            <p class="text-sm text-t3 font-body m-0">No events scheduled at the moment</p>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Navigation Controls -->
-    <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+    <div
+      class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent z-20"
+    >
       <div class="flex items-center justify-between">
         <!-- Previous Button -->
         <button
-          class="w-10 h-10 flex items-center justify-center bg-mg/40 border border-teal/30 text-t hover:bg-mg/60 hover:border-teal/50 transition-all duration-200"
+          class="w-10 h-10 hidden md:flex items-center justify-center bg-mg/40 border border-teal/30 text-t hover:bg-mg/60 hover:border-teal/50 transition-all duration-200"
           aria-label="Previous slide"
           @click="prevSlide"
         >
@@ -352,7 +479,7 @@ onBeforeUnmount(() => {
 
         <!-- Next Button -->
         <button
-          class="w-10 h-10 flex items-center justify-center bg-mg/40 border border-teal/30 text-t hover:bg-mg/60 hover:border-teal/50 transition-all duration-200"
+          class="w-10 h-10 hidden md:flex items-center justify-center bg-mg/40 border border-teal/30 text-t hover:bg-mg/60 hover:border-teal/50 transition-all duration-200"
           aria-label="Next slide"
           @click="nextSlide"
         >

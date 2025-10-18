@@ -772,6 +772,153 @@
     }
   }
 
+  /* ========== SECTION BACKGROUNDS ========== */
+
+  /* Hero Section - Enhanced Video Overlay */
+  .bg-hero-section {
+    @apply relative;
+  }
+
+  .bg-hero-section::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(0, 217, 255, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(0, 217, 255, 0.06) 0%, transparent 50%);
+  }
+
+  .bg-hero-section::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none opacity-[0.015];
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300d9ff' fill-opacity='1'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Events Section - Teal/Cyan Theme (Future-focused) */
+  .bg-events-section {
+    @apply relative overflow-hidden;
+    background: linear-gradient(
+      180deg,
+      rgba(10, 16, 21, 0.97) 0%,
+      rgba(0, 31, 47, 0.94) 50%,
+      rgba(8, 9, 11, 0.96) 100%
+    );
+  }
+
+  .bg-events-section::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background:
+      radial-gradient(circle at 50% 20%, rgba(0, 217, 255, 0.12) 0%, transparent 60%),
+      radial-gradient(circle at 20% 80%, rgba(77, 208, 225, 0.08) 0%, transparent 50%);
+  }
+
+  .bg-events-section::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none opacity-[0.02];
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%2300d9ff' stroke-width='0.5'%3E%3Cpath d='M0 0h80v80H0z'/%3E%3Cpath d='M20 0v80M40 0v80M60 0v80M0 20h80M0 40h80M0 60h80'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Downloads Section - Orange/Soviet Theme (Action-oriented) */
+  .bg-downloads-section {
+    @apply relative overflow-hidden;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 18, 21, 0.96) 0%,
+      rgba(31, 20, 10, 0.93) 50%,
+      rgba(8, 9, 11, 0.97) 100%
+    );
+  }
+
+  .bg-downloads-section::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background:
+      radial-gradient(circle at 30% 80%, rgba(255, 102, 0, 0.10) 0%, transparent 60%),
+      radial-gradient(circle at 70% 20%, rgba(255, 133, 51, 0.08) 0%, transparent 50%);
+  }
+
+  .bg-downloads-section::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none opacity-[0.015];
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23ff6600' stroke-width='0.4' opacity='0.5'%3E%3Cpath d='M10 10l80 80M90 10L10 90'/%3E%3Cpath d='M50 0v100M0 50h100'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Statistics Section - Red/Massgate Theme (Competitive) */
+  .bg-statistics-section {
+    @apply relative overflow-hidden;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 18, 21, 0.96) 0%,
+      rgba(31, 15, 15, 0.92) 50%,
+      rgba(8, 9, 11, 0.97) 100%
+    );
+  }
+
+  .bg-statistics-section::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background:
+      radial-gradient(circle at 80% 30%, rgba(229, 53, 53, 0.10) 0%, transparent 55%),
+      radial-gradient(circle at 20% 70%, rgba(198, 40, 40, 0.08) 0%, transparent 50%);
+  }
+
+  .bg-statistics-section::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none opacity-[0.018];
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23e53935' stroke-width='0.5'%3E%3Cpath d='M0 0h80v80H0z'/%3E%3Cpath d='M20 0v80M40 0v80M60 0v80M0 20h80M0 40h80M0 60h80'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Community Section - Warm Orange Theme (Social & Welcoming) */
+  .bg-community-section {
+    @apply relative overflow-hidden;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 18, 21, 0.96) 0%,
+      rgba(28, 18, 12, 0.93) 50%,
+      rgba(8, 9, 11, 0.96) 100%
+    );
+  }
+
+  .bg-community-section::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background:
+      radial-gradient(circle at 40% 30%, rgba(255, 102, 0, 0.09) 0%, transparent 55%),
+      radial-gradient(circle at 60% 70%, rgba(229, 53, 53, 0.07) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(255, 133, 51, 0.06) 0%, transparent 45%);
+  }
+
+  .bg-community-section::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none opacity-[0.02];
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff6600' fill-opacity='1'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* FAQ Section - Cool Teal/Blue Theme (Informational & Calm) */
+  .bg-faq-section {
+    @apply relative overflow-hidden;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 18, 21, 0.97) 0%,
+      rgba(8, 21, 31, 0.94) 50%,
+      rgba(8, 9, 11, 0.96) 100%
+    );
+  }
+
+  .bg-faq-section::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background:
+      radial-gradient(circle at 70% 20%, rgba(0, 217, 255, 0.09) 0%, transparent 55%),
+      radial-gradient(circle at 30% 80%, rgba(0, 184, 212, 0.07) 0%, transparent 50%);
+  }
+
+  .bg-faq-section::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none opacity-[0.02];
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%2300d9ff' stroke-width='0.5'%3E%3Cpath d='M0 0h80v80H0z'/%3E%3Cpath d='M20 0v80M40 0v80M60 0v80M0 20h80M0 40h80M0 60h80'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
   /* ========== GLOBAL UTILITY PATTERNS ========== */
 
   /* Typography helpers */

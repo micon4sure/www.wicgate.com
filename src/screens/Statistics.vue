@@ -32,7 +32,7 @@ const leaderboardData = computed<LeaderboardDataRecord>(() => ({
 </script>
 
 <template>
-  <section id="statistics" class="section bg-gradient-to-b from-graphite/30 to-graphite-dark/50">
+  <section id="statistics" class="section bg-statistics-section">
     <div class="container">
       <!-- Header -->
       <div class="text-center mb-20">

@@ -646,9 +646,11 @@ Use CSS variable for spacing:
 
 1. **[ContentCarouselCard.vue](../src/components/widgets/ContentCarouselCard.vue)** (364 lines)
    - Auto-rotating 4-slide carousel (5-second intervals)
-   - Slides: Quick Start, Latest Videos, Getting Help, Community Events
-   - Hybrid rotation: auto-rotates with pause-on-hover
-   - Manual controls: prev/next buttons + dot indicators
+   - Slides: Quick Start, Latest Videos, Getting Help, Upcoming Events (full scrollable list)
+   - Hybrid rotation: auto-rotates with pause-on-hover (also pauses during touch interaction)
+   - Manual controls: prev/next arrow buttons (desktop only) + dot indicators (all devices)
+   - Touch/swipe support: 50px threshold for left/right swipes on mobile
+   - Navigation: arrows hidden on mobile (<768px), visible on desktop with z-20 layering
    - Integrated with useYoutube() and useEvents() composables
    - SSR-safe guards for timer initialization
 
