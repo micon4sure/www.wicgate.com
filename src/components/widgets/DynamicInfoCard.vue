@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useServerCapacity } from '../../composables/useServerCapacity';
 import { usePlayerDisplay } from '../../composables/usePlayerDisplay';
 import RankInsignia from '../RankInsignia.vue';
 import type { DataResponse, LadderEntry } from '../../api-types';
@@ -16,35 +15,66 @@ const emit = defineEmits<{
   navigate: [section: string];
 }>();
 
-const { getCapacityColor } = useServerCapacity();
 const { colorize } = usePlayerDisplay();
 
-// Active servers with player counts
-const activeServers = computed(() => {
+// Group players by server
+const serverGroups = computed(() => {
   if (!props.data.servers || !props.data.profiles) return [];
 
-  const serverMap = new Map<number, { name: string; count: number }>();
+  type PlayerInfo = {
+    profileId: number | string;
+    profileName: string;
+    rank?: number;
+    shortName?: string | null;
+    tagFormat?: string | null;
+  };
+
+  // Create a map of serverId -> { serverName, players[] }
+  const serverMap = new Map<
+    number,
+    { serverName: string; players: PlayerInfo[]; isLobby: boolean }
+  >();
 
   props.data.profiles.forEach((profile) => {
     const serverId = Number(profile.serverId);
     const server = props.data.servers?.find((s) => s.serverId === serverId);
-    if (server) {
-      const existing = serverMap.get(serverId);
-      if (existing) {
-        existing.count++;
-      } else {
-        serverMap.set(serverId, { name: server.serverName, count: 1 });
-      }
+    const serverName = server?.serverName || 'Lobby';
+    const isLobby = !server?.serverName;
+
+    if (!serverMap.has(serverId)) {
+      serverMap.set(serverId, {
+        serverName,
+        players: [],
+        isLobby,
+      });
     }
+
+    serverMap.get(serverId)?.players.push({
+      profileId: profile.profileId,
+      profileName: profile.profileName,
+      rank: profile.rank,
+      shortName: profile.shortName,
+      tagFormat: profile.tagFormat,
+    });
   });
 
+  // Convert to array and sort: actual servers by player count (desc), then lobby at the end
   return Array.from(serverMap.entries())
-    .map(([id, info]) => ({ id, ...info }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 4);
+    .map(([serverId, data]) => ({
+      serverId,
+      serverName: data.serverName,
+      players: data.players,
+      playerCount: data.players.length,
+      isLobby: data.isLobby,
+    }))
+    .sort((a, b) => {
+      // Lobby always goes to the bottom
+      if (a.isLobby && !b.isLobby) return 1;
+      if (!a.isLobby && b.isLobby) return -1;
+      // Otherwise sort by player count (descending)
+      return b.playerCount - a.playerCount;
+    });
 });
-
-const activeServerCount = computed(() => activeServers.value.length);
 
 // Top ladder players
 const topLadderPlayers = computed(() => {
@@ -52,12 +82,12 @@ const topLadderPlayers = computed(() => {
   return props.data.ladder.slice(0, 5);
 });
 
-// Smart switching: show servers when there's ANY activity
-const shouldShowServers = computed(() => {
-  return props.playerCount > 0 || activeServerCount.value > 0;
+// Smart switching: show players when there's ANY activity
+const shouldShowPlayers = computed(() => {
+  return props.playerCount > 0;
 });
 
-// Format clan tag
+// Format clan tag for ladder entries
 function formatClanTag(entry: LadderEntry): string {
   if (entry.tagFormat && entry.shortName) {
     return entry.tagFormat.replace('C', entry.shortName).replace('P', '');
@@ -65,7 +95,18 @@ function formatClanTag(entry: LadderEntry): string {
   return '';
 }
 
-function handleLiveServersClick() {
+// Format clan tag for online players
+function formatPlayerClanTag(player: {
+  tagFormat?: string | null;
+  shortName?: string | null;
+}): string {
+  if (player.tagFormat && player.shortName) {
+    return player.tagFormat.replace('C', player.shortName).replace('P', '');
+  }
+  return '';
+}
+
+function handlePlayersOnlineClick() {
   emit('navigate', 'community');
 }
 
@@ -79,88 +120,87 @@ function handleTopPlayersClick() {
     class="relative bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 overflow-hidden transition-all duration-300 hover:border-teal/50 hover:shadow-[0_0_30px_rgba(0,217,255,0.25)]"
   >
     <div class="relative h-[400px] sm:h-[450px]">
-      <!-- Live Servers View -->
+      <!-- Players Online View -->
       <div
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
-        :class="shouldShowServers ? 'opacity-100 z-10' : 'opacity-0 z-0'"
+        :class="shouldShowPlayers ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
         <div class="flex items-center justify-between p-5 border-b border-teal/20">
           <div class="flex items-center gap-3">
-            <i class="fa-solid fa-server text-online text-xl" aria-hidden="true"></i>
+            <i class="fa-solid fa-users text-online text-xl" aria-hidden="true"></i>
             <h3 class="text-xl font-military font-bold text-t uppercase tracking-wide m-0">
-              Live Servers
+              Players Online
             </h3>
           </div>
           <button
             class="text-sm text-teal hover:text-teal-bright font-body font-semibold transition-colors"
-            @click="handleLiveServersClick"
+            @click="handlePlayersOnlineClick"
           >
             View All →
           </button>
         </div>
 
-        <div class="flex-1 flex flex-col p-5">
-          <div v-if="isSSR || loading" class="space-y-4 flex-1">
-            <div class="grid grid-cols-2 gap-4 mb-4">
-              <div class="h-16 bg-mg/15 border border-mg/25 animate-pulse"></div>
-              <div class="h-16 bg-mg/15 border border-mg/25 animate-pulse"></div>
-            </div>
-            <div class="h-20 bg-mg/15 border border-mg/25 animate-pulse"></div>
-            <div class="h-20 bg-mg/15 border border-mg/25 animate-pulse"></div>
+        <div class="flex-1 overflow-y-auto p-5">
+          <div v-if="isSSR || loading" class="space-y-4">
+            <div class="h-24 bg-mg/15 border border-mg/25 animate-pulse"></div>
+            <div class="h-24 bg-mg/15 border border-mg/25 animate-pulse"></div>
           </div>
 
           <template v-else>
-            <!-- Stats Row -->
-            <div class="grid grid-cols-2 gap-4 mb-6">
+            <!-- Server Groups with Players -->
+            <div v-if="serverGroups.length > 0" class="space-y-4">
               <div
-                class="flex flex-col items-center justify-center p-4 bg-gradient-to-br from-mg/25 to-mg-dark/30 border-2 border-online/40 shadow-[0_0_15px_rgba(0,217,255,0.1)]"
+                v-for="server in serverGroups"
+                :key="server.serverId"
+                class="bg-mg/15 border border-mg/25 overflow-hidden transition-all duration-200 hover:border-teal/40 hover:shadow-[0_0_15px_rgba(0,217,255,0.1)]"
               >
-                <div class="text-3xl font-military font-bold text-online mb-1">
-                  {{ playerCount }}
-                </div>
-                <div class="text-xs text-t-secondary font-body uppercase tracking-wide">
-                  Players Online
-                </div>
-              </div>
-
-              <div
-                class="flex flex-col items-center justify-center p-4 bg-gradient-to-br from-mg/25 to-mg-dark/30 border-2 border-teal/40 shadow-[0_0_15px_rgba(0,217,255,0.1)]"
-              >
-                <div class="text-3xl font-military font-bold text-teal mb-1">
-                  {{ activeServerCount }}
-                </div>
-                <div class="text-xs text-t-secondary font-body uppercase tracking-wide">
-                  Active Servers
-                </div>
-              </div>
-            </div>
-
-            <!-- Server List -->
-            <div v-if="activeServers.length > 0" class="space-y-3 flex-1 overflow-y-auto">
-              <div
-                v-for="server in activeServers"
-                :key="server.id"
-                class="flex items-center justify-between gap-3 p-3 bg-mg/15 border border-mg/25 transition-all duration-200 hover:bg-mg/25 hover:border-teal/40 hover:shadow-[0_0_15px_rgba(0,217,255,0.1)]"
-              >
-                <div class="flex items-center gap-2 flex-1 overflow-hidden">
-                  <span
-                    class="w-2 h-2 bg-online shadow-[0_0_8px_rgba(0,217,255,0.8)] flex-shrink-0"
-                  ></span>
-                  <span
-                    class="text-sm font-body font-semibold text-t overflow-hidden text-ellipsis whitespace-nowrap"
-                    v-html="colorize(server.name)"
-                  ></span>
-                </div>
-                <span
-                  class="text-sm font-military font-bold flex-shrink-0 min-w-[3rem] text-right"
-                  :style="{ color: getCapacityColor(server.count) }"
+                <!-- Server Header -->
+                <div
+                  class="flex items-center justify-between gap-2 px-3 py-2 bg-mg/25 border-b border-mg/30"
                 >
-                  {{ server.count }}/16
-                </span>
+                  <div class="flex items-center gap-2 flex-1 overflow-hidden">
+                    <span
+                      class="text-sm font-body font-semibold text-t overflow-hidden text-ellipsis whitespace-nowrap"
+                      v-html="colorize(server.serverName)"
+                    ></span>
+                  </div>
+                  <span
+                    v-if="!server.isLobby"
+                    class="text-xs font-military font-bold text-online flex-shrink-0"
+                  >
+                    {{ server.playerCount }}/16
+                  </span>
+                </div>
+
+                <!-- Players List -->
+                <div class="px-3 py-2 space-y-1">
+                  <div
+                    v-for="player in server.players"
+                    :key="player.profileId"
+                    class="flex items-center gap-1.5 py-1"
+                  >
+                    <RankInsignia
+                      :rank="player.rank || 0"
+                      :size="16"
+                      class="inline-block flex-shrink-0"
+                    />
+                    <span
+                      v-if="formatPlayerClanTag(player)"
+                      class="font-mono text-soviet font-semibold text-[0.6875rem] tracking-[0.2px] flex-shrink-0"
+                    >
+                      {{ formatPlayerClanTag(player) }}
+                    </span>
+                    <span
+                      class="font-body text-t text-[0.8125rem] tracking-[0.2px] overflow-hidden text-ellipsis whitespace-nowrap"
+                    >
+                      {{ player.profileName }}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div v-else class="flex-1 flex items-center justify-center text-t3 font-body text-sm">
-              No active servers
+            <div v-else class="h-full flex items-center justify-center text-t3 font-body text-sm">
+              No players online
             </div>
           </template>
         </div>
@@ -169,7 +209,7 @@ function handleTopPlayersClick() {
       <!-- Top Players View -->
       <div
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
-        :class="!shouldShowServers ? 'opacity-100 z-10' : 'opacity-0 z-0'"
+        :class="!shouldShowPlayers ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
         <div class="flex items-center justify-between p-5 border-b border-teal/20">
           <div class="flex items-center gap-3">
