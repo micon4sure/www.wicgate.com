@@ -3,12 +3,8 @@ import { useRouter } from 'vue-router';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useEvents } from '../composables/useEvents';
 import { useYoutube } from '../composables/useYoutube';
-import QuickStartWidget from './widgets/QuickStartWidget.vue';
-import LiveServersWidget from './widgets/LiveServersWidget.vue';
-import CommunityWidget from './widgets/CommunityWidget.vue';
-import TopPlayersWidget from './widgets/TopPlayersWidget.vue';
-import LatestVideosWidget from './widgets/LatestVideosWidget.vue';
-import GettingHelpWidget from './widgets/GettingHelpWidget.vue';
+import ContentCarouselCard from './widgets/ContentCarouselCard.vue';
+import DynamicInfoCard from './widgets/DynamicInfoCard.vue';
 import { getRoutePath } from '../types/navigation';
 
 const router = useRouter();
@@ -133,32 +129,22 @@ function goToSection(sectionOrSubsectionId: string) {
         </div>
       </div>
 
-      <!-- Widget Grid -->
-      <div
-        class="grid grid-cols-1 gap-4 mb-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 sm:gap-4 md:gap-5 xl:gap-6 md:mb-12 xl:mb-16"
-      >
-        <QuickStartWidget @navigate="goToSection" />
+      <!-- Streamlined Widget Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 md:mb-12 xl:mb-16">
+        <ContentCarouselCard
+          :videos="videosSorted"
+          :events="events"
+          :is-s-s-r="isSSR"
+          @navigate="goToSection"
+        />
 
-        <LiveServersWidget
+        <DynamicInfoCard
           :data="store.data"
           :player-count="store.playerCount"
           :loading="store.loading"
           :is-s-s-r="isSSR"
           @navigate="goToSection"
         />
-
-        <CommunityWidget :events="events" @navigate="goToSection" />
-
-        <TopPlayersWidget
-          :ladder="store.data.ladder || []"
-          :loading="store.loading"
-          :is-s-s-r="isSSR"
-          @navigate="goToSection"
-        />
-
-        <LatestVideosWidget :videos="videosSorted" :is-s-s-r="isSSR" @navigate="goToSection" />
-
-        <GettingHelpWidget @navigate="goToSection" />
       </div>
     </div>
   </section>
