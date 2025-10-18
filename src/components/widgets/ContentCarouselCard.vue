@@ -166,7 +166,7 @@ onBeforeUnmount(() => {
             Watch More →
           </button>
         </div>
-        <div class="flex-1 overflow-y-auto p-5">
+        <div class="flex-1 overflow-y-auto p-5 custom-scrollbar">
           <div v-if="isSSR" class="space-y-4">
             <div class="h-20 bg-mg/15 border border-mg/25 animate-pulse"></div>
             <div class="h-20 bg-mg/15 border border-mg/25 animate-pulse"></div>

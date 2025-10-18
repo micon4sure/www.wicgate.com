@@ -140,7 +140,7 @@ function handleTopPlayersClick() {
           </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto p-5">
+        <div class="flex-1 overflow-y-auto p-5 custom-scrollbar">
           <div v-if="isSSR || loading" class="space-y-4">
             <div class="h-24 bg-mg/15 border border-mg/25 animate-pulse"></div>
             <div class="h-24 bg-mg/15 border border-mg/25 animate-pulse"></div>
@@ -226,7 +226,7 @@ function handleTopPlayersClick() {
           </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto p-5">
+        <div class="flex-1 overflow-y-auto p-5 custom-scrollbar">
           <div v-if="isSSR || loading" class="space-y-3">
             <div class="h-16 bg-mg/15 border border-mg/25 animate-pulse"></div>
             <div class="h-16 bg-mg/15 border border-mg/25 animate-pulse"></div>
