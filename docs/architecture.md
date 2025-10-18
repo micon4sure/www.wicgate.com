@@ -638,19 +638,36 @@ Use CSS variable for spacing:
 
 ## Component Architecture
 
-### Widget System
+### Widget System (October 2025: Streamlined to 2-Card System)
 
-**[WidgetBase.vue](../src/components/widgets/WidgetBase.vue)** - Base component enforcing consistent structure
+**[WidgetDashboard.vue](../src/components/WidgetDashboard.vue)** - Homepage hero with 2 large interactive carousel cards in side-by-side layout (md:grid-cols-2)
 
-**Widgets:**
-1. **QuickStartWidget** - Installation quick links
-2. **LiveServersWidget** - Real-time server status with capacity colors
-3. **TopPlayersWidget** - Top 5 leaderboard preview
-4. **CommunityWidget** - Upcoming events countdown
-5. **LatestVideosWidget** - Latest 3 YouTube videos
-6. **GettingHelpWidget** - FAQ quick links
+**New Card Components:**
 
-**Reduced WidgetDashboard.vue from 376 lines to 77 lines (80% reduction).**
+1. **[ContentCarouselCard.vue](../src/components/widgets/ContentCarouselCard.vue)** (364 lines)
+   - Auto-rotating 4-slide carousel (5-second intervals)
+   - Slides: Quick Start, Latest Videos, Getting Help, Community Events
+   - Hybrid rotation: auto-rotates with pause-on-hover
+   - Manual controls: prev/next buttons + dot indicators
+   - Integrated with useYoutube() and useEvents() composables
+   - SSR-safe guards for timer initialization
+
+2. **[DynamicInfoCard.vue](../src/components/widgets/DynamicInfoCard.vue)** (254 lines)
+   - Smart conditional rendering based on player activity
+   - **Players Online view** (when playerCount > 0): Groups individual players by server, shows server names with player lists underneath, compact formatting (13px names, 11px clan tags, 16px rank insignias), "Lobby" always at bottom without player count
+   - **Top Players view** (when no activity): Displays top 5 ladder entries, podium styling for top 3 (gold/silver/bronze)
+   - Custom military-themed scrollbar for overflow content
+
+**Custom Scrollbar Styling:**
+- Utility class `.custom-scrollbar` in tailwind.css (lines 710-744)
+- Teal gradient thumb (#00d9ff), dark track, glow effects on hover/active
+- Applied across 3 scrollable areas in both cards
+- Cross-browser support (Webkit + Firefox)
+
+**Migration from 6-Widget System (October 2025):**
+- Previous system: 6 separate widgets (QuickStartWidget, LiveServersWidget, TopPlayersWidget, CommunityWidget, LatestVideosWidget, GettingHelpWidget)
+- New system: 2 large interactive cards consolidating all functionality
+- Benefits: Better engagement, compact player display optimized for small communities, rotating content keeps homepage fresh, cohesive military aesthetics
 
 ### Screen Components
 

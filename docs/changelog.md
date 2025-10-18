@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🎨 **MAJOR: Homepage Widget Dashboard Streamlining** - Complete redesign from 6 separate widgets to 2 large interactive carousel cards for better user engagement: created ContentCarouselCard.vue (364 lines) with 4-slide auto-rotating carousel (Quick Start, Latest Videos, Getting Help, Community Events) featuring 5-second intervals, hybrid auto-rotation (pauses on hover), manual navigation (prev/next + dot indicators), created DynamicInfoCard.vue (254 lines) with smart switching between Players Online (when playerCount > 0) and Top Players views, Players Online view shows individual players grouped by server with compact formatting (13px names, 11px clan tags, 16px rank insignias), server grouping logic sorts game servers by player count with "Lobby" always at bottom (no player count shown for lobby), custom military-themed scrollbar with teal gradient thumb (#00d9ff), dark semi-transparent track, glow effects on hover/active, applied across 3 scrollable areas (DynamicInfoCard both views + ContentCarouselCard videos), updated WidgetDashboard.vue to side-by-side layout (md:grid-cols-2), removed old 6-widget system - creates engaging homepage experience with rotating content and real-time player activity, optimized for small community with server-focused player display, cohesive military tactical aesthetics throughout (Oct 18)
 - 🔧 **Husky v9 Modernization** - Updated git hooks to modern Husky v9 format eliminating deprecation warnings: removed deprecated `#!/usr/bin/env sh` and `. "$(dirname "$0")/_/husky.sh"` boilerplate from pre-commit hook, updated pre-commit checks to match CLAUDE.md quality gates (`npm run lint && npm test && npx tsc --noEmit`), deleted 17 deprecated sample hooks from `.husky/_/` directory, fixed git hooks path configuration from `.husky/_` to `.husky` - hooks now use plain command format compatible with Husky v10, enforce all quality gates before commits (linting, tests, type checking), zero deprecation warnings (Oct 18)
 - 🎨 **CRITICAL: Layout Width Consistency Fix** - Eliminated jarring width variations across all pages and sections by standardizing to 1280px (max-w-7xl): updated base `.container` class from 1400px to 1280px, removed all inline max-width overrides (Home, Downloads, Statistics, Community, FAQ), refactored tab content padding from horizontal+vertical (`p-8 md:p-12`) to vertical-only (`py-8 md:py-12`) maintaining 32-48px breathing room while achieving full 1240px effective width (1280px - 20px each side), changed Statistics leaderboards from 2-column grid (`grid-2`) to full-width single column (`grid-cols-1 gap-6`) for better table readability - **Result:** consistent 1240px content width site-wide, no visual jumping between sections, tabbed content no longer 80-176px narrower than non-tabbed content, leaderboards display at proper width instead of cramped ~600px columns - professional, polished layout with unified width standard throughout entire site (Oct 17)
 - 🎨 **UI: Downloads Section Redesign** - Unified all three tabs (Quick Install, Dedicated Server, Manual Install) with consistent compact layout: moved step badges inside boxes (32px circles with numbers), removed decorative timeline connectors, increased font sizes across all tabs (titles: text-xl 20px, content: text-base 16px) for better readability, Quick Install tab enhanced with larger fonts (titles: text-2xl 24px, content: text-lg 18px) and icons (badges: 40px, download icon: text-2xl) to emphasize recommended option, eliminated unnecessary scrolling, significantly improved mobile experience with badges properly contained within cards for better touch targets - creates visual hierarchy guiding users to primary installation method while maintaining professional balance (Oct 17)
@@ -34,6 +35,64 @@
 - 🎨 **Design System Consolidation: Single Source of Truth** - Removed ~80% of duplicate CSS variables from `tailwind.css` (95 lines → 20 lines), established `tailwind.config.ts` as single source of truth for all design tokens, refactored navigation styles to use Tailwind's `theme()` function instead of CSS variables, eliminated fragmentation between two parallel design systems - all colors now customizable in one place (Oct 14)
 - 🛠️ **Shared Data Types + Leaderboard Stability** - Unified community event and YouTube video typings in `api-types`, rewired events/videos composables + widgets to use them, and hardened leaderboard data handling/tests so SSR + TypeScript builds run warning-free (Oct 14)
 - 🎨 **Navigation & Leaderboards: Unified Massgate Orange Hover States** - Shifted primary navigation tabs (desktop + mobile), login CTA, dropdown items, and all leaderboard tab/row hover treatments to the same `massgate-orange` design tokens for consistent interactions. Added helper CSS vars in Tailwind base for RGB math so borders, glows, and gradients share the palette (Oct 13)
+
+### October 18, 2025 - Homepage Widget Dashboard Streamlining
+
+**Highlights**
+- Complete redesign from 6 separate widgets to 2 large interactive carousel cards optimized for better engagement and compact player community display
+- Created ContentCarouselCard.vue (364 lines) with 4-slide auto-rotating carousel featuring Quick Start, Latest Videos, Getting Help, and Community Events
+- Created DynamicInfoCard.vue (254 lines) with smart conditional rendering: Players Online view when any activity detected (playerCount > 0), switches to Top Players when servers offline
+- Players Online view groups individual players under their respective servers with compact formatting (13px player names, 11px clan tags, 16px rank insignias)
+- Server grouping logic: game servers sorted by player count (descending), "Lobby" (formerly "Unknown Server") always placed at bottom without player count display
+- Custom military-themed scrollbar with teal gradient thumb (#00d9ff), dark semi-transparent track, glow effects on hover/active states
+- Updated WidgetDashboard.vue to side-by-side layout (md:grid-cols-2) with proper event delegation to both cards
+- All 44 tests passing, linting clean, TypeScript compilation clean
+
+**Technical Details**
+
+**ContentCarouselCard.vue (New Component):**
+- 4-slide carousel with auto-rotation every 5000ms
+- Hybrid rotation mode: auto-rotates by default, pauses on mouse hover
+- Manual controls: previous/next buttons + dot indicators for direct slide access
+- Slides: Quick Start (with "Install WICGATE" CTA), Latest Videos (top 3 with thumbnails), Getting Help (installation guide, troubleshooting, community support), Community Events (Discord member count + next event)
+- SSR-safe guards for auto-rotation timer initialization
+- Navigation emission: all slides emit `navigate` events to proper section routes
+- Integrated with `useYoutube()` and `useEvents()` composables for live data
+
+**DynamicInfoCard.vue (New Component):**
+- Smart switching logic: `shouldShowPlayers = computed(() => props.playerCount > 0)`
+- Players Online view: groups profiles by serverId using Map data structure, displays server name with colorized formatting (via `usePlayerDisplay.colorize()`), lists all players under each server with RankInsignia + clan tag + player name
+- Server grouping: maps profiles to servers, identifies lobby (serverId with no matching server in servers array), sorts by player count (descending) with lobby exception always at bottom
+- Player display: conditional player count display ("X/16" for game servers, none for lobby), compact player items with rank insignia (16px), clan tag formatting (11px soviet orange), player names (13px white)
+- Top Players view: displays top 5 ladder entries when no online activity, podium styling for top 3 (gold, silver, bronze colors), rank insignia + clan tag + player name + high score
+- Custom scrollbar applied to both views for overflow content
+
+**Custom Scrollbar Styling:**
+- Added `.custom-scrollbar` utility class to tailwind.css (lines 710-744)
+- Webkit scrollbar: 8px width, dark track (rgba(31, 47, 59, 0.3)), teal gradient thumb (rgba(0, 217, 255, 0.6) → rgba(0, 217, 255, 0.4))
+- Firefox scrollbar: thin width, matching teal/dark color scheme
+- Hover/active states: increased thumb opacity (0.8 → 0.6), stronger border (rgba(0, 217, 255, 0.6)), glow effect (0 0 8px rgba(0, 217, 255, 0.6))
+- Applied to: DynamicInfoCard Players Online view, DynamicInfoCard Top Players view, ContentCarouselCard Latest Videos view
+
+**WidgetDashboard.vue Updates:**
+- Replaced 6-widget grid with 2-card system: `grid grid-cols-1 md:grid-cols-2 gap-6`
+- Integrated both cards with proper props: videos (from `useYoutube()`), events (from `useEvents()`), data/playerCount/loading (from appDataStore), isSSR flag
+- Event delegation: both cards emit `navigate` events handled by `goToSection()` using `getRoutePath()` helper
+- Removed old widget imports: QuickStartWidget, LiveServersWidget, TopPlayersWidget, CommunityWidget, LatestVideosWidget, GettingHelpWidget
+
+**Files Modified:**
+- `src/components/widgets/ContentCarouselCard.vue` (new, 364 lines)
+- `src/components/widgets/DynamicInfoCard.vue` (new, 254 lines)
+- `src/components/WidgetDashboard.vue` (updated, removed old widgets, integrated 2-card system)
+- `src/assets/styles/tailwind.css` (added `.custom-scrollbar` utility class, lines 710-744)
+
+**Why This Matters**
+- Better user engagement: interactive carousel keeps content fresh with auto-rotation
+- Compact community display: optimized for small player communities, shows individual players grouped by server at a glance
+- Smart data presentation: automatically switches between online players and leaderboard based on activity
+- Enhanced UX: custom scrollbar matches military theme, pause-on-hover prevents disrupting user interaction
+- Cleaner homepage: 2 large cards create focused experience vs scattered 6-widget grid
+- Production-ready: all quality gates passing, SSR-safe, proper event handling, type-safe
 
 ### October 14, 2025 - Auth Guard + Data Polling Resilience
 
