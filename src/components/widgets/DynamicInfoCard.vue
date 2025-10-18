@@ -160,7 +160,7 @@ function handleTopPlayersClick() {
                 >
                   <div class="flex items-center gap-2 flex-1 overflow-hidden">
                     <span
-                      class="text-sm font-body font-semibold text-t overflow-hidden text-ellipsis whitespace-nowrap"
+                      class="text-base font-body font-semibold text-t overflow-hidden text-ellipsis whitespace-nowrap"
                       v-html="colorize(server.serverName)"
                     ></span>
                   </div>
@@ -177,23 +177,24 @@ function handleTopPlayersClick() {
                   <div
                     v-for="player in server.players"
                     :key="player.profileId"
-                    class="flex items-center gap-1.5 py-1"
+                    class="flex items-center gap-0 py-1 leading-none"
                   >
                     <RankInsignia
                       :rank="player.rank || 0"
-                      :size="16"
-                      class="inline-block flex-shrink-0"
-                    />
-                    <span
-                      v-if="formatPlayerClanTag(player)"
-                      class="font-mono text-soviet font-semibold text-[0.6875rem] tracking-[0.2px] flex-shrink-0"
+                      :size="18"
+                      class="inline-block flex-shrink-0 align-middle"
+                    /><!--
+                 --><span
+                      class="inline align-middle leading-none overflow-hidden text-ellipsis whitespace-nowrap"
                     >
-                      {{ formatPlayerClanTag(player) }}
-                    </span>
-                    <span
-                      class="font-body text-t text-[0.8125rem] tracking-[0.2px] overflow-hidden text-ellipsis whitespace-nowrap"
-                    >
-                      {{ player.profileName }}
+                      <span
+                        v-if="formatPlayerClanTag(player)"
+                        class="font-mono text-soviet font-semibold text-[0.75rem] tracking-[0.2px] align-middle"
+                        >{{ formatPlayerClanTag(player) }}</span
+                      ><span
+                        class="font-body text-t text-[0.875rem] tracking-[0.2px] align-middle"
+                        >{{ player.profileName }}</span
+                      >
                     </span>
                   </div>
                 </div>
