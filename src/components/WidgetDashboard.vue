@@ -27,23 +27,10 @@ function goToSection(sectionOrSubsectionId: string) {
     id="hero"
     class="bg-hero-section relative min-h-[100vh] pt-[var(--header-height)] pb-24 overflow-hidden md:pb-20 sm:pb-12 sm:min-h-[85vh]"
   >
-    <!-- Video Background (Client-side only, hidden on mobile for performance) -->
-    <video
-      v-if="!isSSR"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="metadata"
-      class="absolute inset-0 w-full h-full object-cover hidden md:block"
-    >
-      <source src="/hero-background.mp4" type="video/mp4" />
-    </video>
-
-    <!-- Light overlay for text readability (even lighter to show video) -->
+    <!-- Light overlay for text readability -->
     <div class="absolute inset-0 bg-black/10 md:bg-black/8"></div>
 
-    <!-- Subtle Atmospheric Gradients (further reduced opacity) -->
+    <!-- Subtle Atmospheric Gradients -->
     <div
       class="absolute inset-0 bg-gradient-to-b from-texture-dark/20 via-transparent to-graphite/50"
     ></div>
