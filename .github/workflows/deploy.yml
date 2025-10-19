@@ -57,9 +57,6 @@ jobs:
       - name: Create SPA fallback (404.html)
         run: cp dist/index.html dist/404.html
 
-      - name: Create .nojekyll file
-        run: touch dist/.nojekyll
-
       - name: Add CNAME
         run: |
           echo "www.wicgate.com" > dist/CNAME
