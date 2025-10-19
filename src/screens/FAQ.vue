@@ -226,7 +226,9 @@ onMounted(() => {
                     </h4>
 
                     <!-- Copy Link Button -->
-                    <button
+                    <span
+                      role="button"
+                      tabindex="0"
                       class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded transition-all duration-200 opacity-0 group-hover:opacity-100 hover:bg-soviet/20 hover:text-soviet-light focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-soviet/50"
                       :class="
                         copiedQuestionId === item.id
@@ -236,6 +238,8 @@ onMounted(() => {
                       :title="`Copy link to this question`"
                       :aria-label="`Copy link to ${item.q}`"
                       @click.stop="copyQuestionLink(item.id)"
+                      @keydown.enter.stop.prevent="copyQuestionLink(item.id)"
+                      @keydown.space.stop.prevent="copyQuestionLink(item.id)"
                     >
                       <i
                         class="text-sm transition-all duration-200"
@@ -244,7 +248,7 @@ onMounted(() => {
                         "
                         aria-hidden="true"
                       ></i>
-                    </button>
+                    </span>
                   </div>
 
                   <!-- Chevron Icon -->
