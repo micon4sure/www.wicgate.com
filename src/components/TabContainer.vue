@@ -173,7 +173,6 @@ const getPanelId = (tabId: string) => getAnchor(tabId);
       :key="tab.id"
       role="tabpanel"
       :aria-labelledby="getTabId(tab.id)"
-      :hidden="activeTabId !== tab.id"
       class="tab-panel"
       :class="{ hidden: activeTabId !== tab.id, block: activeTabId === tab.id }"
     >
