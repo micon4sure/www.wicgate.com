@@ -52,7 +52,7 @@ const tabs = [
               <div
                 v-for="s in steps"
                 :key="s.n"
-                class="bg-graphite/50 border border-teal/20 p-5 rounded-none"
+                class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 p-5 rounded-none"
               >
                 <div class="flex items-start gap-4">
                   <span
@@ -113,7 +113,7 @@ const tabs = [
                 <div
                   v-for="step in dedicatedServerSteps"
                   :key="step.n"
-                  class="bg-graphite/50 border border-teal/20 p-5 rounded-none"
+                  class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 p-5 rounded-none"
                 >
                   <div class="flex items-start gap-4">
                     <span
@@ -136,7 +136,7 @@ const tabs = [
 
               <!-- Network Configuration Sidebar -->
               <div
-                class="bg-graphite/70 border border-teal/20 p-5 rounded-none h-fit lg:sticky lg:top-24"
+                class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 p-5 rounded-none h-fit lg:sticky lg:top-24"
               >
                 <h5
                   class="font-military font-bold uppercase tracking-wider text-lg mb-4 text-t flex items-center gap-3"
@@ -216,7 +216,7 @@ const tabs = [
               <div
                 v-for="step in manualInstallSteps"
                 :key="step.n"
-                class="bg-graphite/50 border border-teal/20 p-5 rounded-none"
+                class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 p-5 rounded-none"
               >
                 <div class="flex items-start gap-4">
                   <span

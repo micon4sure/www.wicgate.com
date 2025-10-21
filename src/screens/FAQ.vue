@@ -190,32 +190,21 @@ onMounted(() => {
                 v-for="item in cat.items"
                 :id="item.id"
                 :key="item.q"
-                class="faq-question-item bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 rounded-none overflow-hidden transition-all duration-300"
-                :class="
-                  openQuestion === item.q
-                    ? 'border-teal/60 shadow-teal-subtle'
-                    : 'hover:border-teal/50'
-                "
+                class="faq-question-item bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 rounded-none overflow-hidden transition-all duration-300"
+                :class="openQuestion === item.q ? 'border-teal/40' : 'hover:border-teal/30'"
               >
                 <!-- Question Header (Clickable) -->
                 <button
-                  class="w-full flex items-center justify-between p-5 md:p-6 text-left transition-all duration-300 relative group"
-                  :class="
-                    openQuestion === item.q
-                      ? 'bg-teal/10 border-b-2 border-teal/40'
-                      : 'hover:bg-teal/5'
-                  "
+                  class="w-full flex items-start gap-4 p-5 md:p-6 text-left transition-all duration-200 group"
                   @click="toggleQuestion(item.q)"
                 >
-                  <!-- Left border accent -->
-                  <div
-                    class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b transition-all duration-300"
-                    :class="
-                      openQuestion === item.q
-                        ? 'from-massgate-orange/80 to-massgate-orange/40'
-                        : 'from-transparent to-transparent group-hover:from-massgate-orange/50 group-hover:to-massgate-orange/20'
-                    "
-                  ></div>
+                  <!-- Question Icon Badge (similar to Downloads numbered badges) -->
+                  <span
+                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker rounded-full flex items-center justify-center transition-all duration-200"
+                    :class="openQuestion === item.q ? 'scale-110' : ''"
+                  >
+                    <i class="fa-solid fa-question text-ink text-sm" aria-hidden="true"></i>
+                  </span>
 
                   <!-- Question text and copy link button -->
                   <div class="flex items-center gap-3 flex-1 min-w-0">
@@ -229,11 +218,11 @@ onMounted(() => {
                     <span
                       role="button"
                       tabindex="0"
-                      class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded transition-all duration-200 opacity-0 group-hover:opacity-100 hover:bg-soviet/20 hover:text-soviet-light focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-soviet/50"
+                      class="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded transition-all duration-200 opacity-0 group-hover:opacity-100 hover:bg-teal/20 hover:text-teal-bright focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-teal/50"
                       :class="
                         copiedQuestionId === item.id
-                          ? 'opacity-100 text-soviet-light'
-                          : 'text-soviet/70'
+                          ? 'opacity-100 text-teal-bright'
+                          : 'text-teal/70'
                       "
                       :title="`Copy link to this question`"
                       :aria-label="`Copy link to ${item.q}`"
@@ -253,7 +242,7 @@ onMounted(() => {
 
                   <!-- Chevron Icon -->
                   <div
-                    class="text-teal text-xl transition-transform duration-300 flex-shrink-0 ml-4"
+                    class="text-teal text-lg transition-transform duration-200 flex-shrink-0"
                     :class="openQuestion === item.q ? 'rotate-180' : ''"
                   >
                     <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
@@ -262,15 +251,18 @@ onMounted(() => {
 
                 <!-- Answer (Collapsible) -->
                 <transition
-                  enter-active-class="transition-all duration-300 ease-out"
-                  leave-active-class="transition-all duration-300 ease-in"
+                  enter-active-class="transition-all duration-200 ease-out"
+                  leave-active-class="transition-all duration-200 ease-in"
                   enter-from-class="max-h-0 opacity-0"
                   enter-to-class="max-h-[600px] opacity-100"
                   leave-from-class="max-h-[600px] opacity-100"
                   leave-to-class="max-h-0 opacity-0"
                 >
-                  <div v-show="openQuestion === item.q" class="overflow-hidden">
-                    <div class="p-5 md:p-6 bg-graphite-dark/40">
+                  <div
+                    v-show="openQuestion === item.q"
+                    class="overflow-hidden border-t border-teal/10"
+                  >
+                    <div class="p-5 md:p-6 bg-graphite-dark/30">
                       <p
                         class="text-base md:text-lg text-t-secondary font-body leading-relaxed m-0"
                       >
@@ -287,11 +279,11 @@ onMounted(() => {
 
       <!-- Help CTA -->
       <div
-        class="mt-8 bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/40 rounded-none p-6 md:p-8 text-center"
+        class="mt-8 bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 rounded-none p-6 md:p-8 text-center"
       >
         <div class="flex justify-center mb-4">
           <div
-            class="w-12 h-12 rounded-full bg-gradient-to-b from-teal-bright to-teal-glow border-2 border-teal-darker flex items-center justify-center"
+            class="w-12 h-12 rounded-full bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker flex items-center justify-center"
           >
             <i class="fa-brands fa-discord text-ink text-xl" aria-hidden="true"></i>
           </div>
