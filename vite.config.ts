@@ -149,9 +149,11 @@ export default defineConfig(({ mode }) => ({
     crittersOptions: {
       reduceInlineStyles: false,
     },
-    // Pre-render all routes automatically
+    // Pre-render only main routes (not subsections) to avoid thin content pages
+    // Subsections are client-side tab navigation within main pages
     includedRoutes(paths) {
-      return paths.filter((path) => path !== '/admin');
+      const mainRoutes = ['/', '/downloads', '/statistics', '/community', '/faq', '/login'];
+      return paths.filter((path) => mainRoutes.includes(path));
     },
   },
   css: {

@@ -13,7 +13,17 @@ import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useFirstVisit } from '../composables/useFirstVisit';
 import { useActiveSection } from '../composables/useActiveSection';
-import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/structuredData';
+import {
+  generateOrganizationSchema,
+  generateWebSiteSchema,
+  generateBreadcrumbSchema,
+  generateSoftwareApplicationSchema,
+  generateHowToSchema,
+  generateVideoGameSchema,
+  generateWebPageSchema,
+  type BreadcrumbItem,
+  type HowToStep,
+} from '../utils/structuredData';
 import { initWebVitals } from '../utils/performance';
 import { getAllValidIds } from '../types/navigation';
 import { syncHeaderHeight } from '../utils/headerHeight';
@@ -44,7 +54,30 @@ watch(
 const isSSR = import.meta.env.SSR;
 const targetSection = computed(() => route.meta.section as string | undefined);
 
+// Determine effective path for SEO (subsections use parent section)
+const effectiveSeoPath = computed(() => {
+  // If this is a subsection route, use parent section path for SEO
+  if (route.meta.subsection) {
+    // Extract parent path: /downloads/quick → /downloads, /faq/about → /faq
+    const pathParts = route.path.split('/').filter(Boolean);
+    return pathParts.length > 1 ? `/${pathParts[0]}` : route.path;
+  }
+  return route.path;
+});
+
 const matchedMeta = computed(() => {
+  // For subsections, find parent section meta for consolidated SEO
+  if (route.meta.subsection) {
+    const matched = [...route.matched].reverse();
+    // Find the parent route (one without subsection property)
+    for (const record of matched) {
+      if (record.meta && !record.meta.subsection && Object.keys(record.meta).length > 0) {
+        return record.meta;
+      }
+    }
+  }
+
+  // Default: use current route meta
   const matched = [...route.matched].reverse();
   for (const record of matched) {
     if (record.meta && Object.keys(record.meta).length > 0) {
@@ -72,7 +105,9 @@ const pageOgImage = computed(
 const pageRobots = computed(() => matchedMeta.value.robots as string | undefined);
 
 const canonicalUrl = computed(() => {
-  const canonicalPath = (matchedMeta.value.canonical as string | undefined) || route.path || '/';
+  // Use effective SEO path (parent for subsections) for canonical URL
+  const canonicalPath =
+    (matchedMeta.value.canonical as string | undefined) || effectiveSeoPath.value || '/';
   return `https://wicgate.com${
     canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`
   }`;
@@ -92,6 +127,49 @@ function shouldRenderSection(sectionId: string): boolean {
   // Specific section page: render only that section for SEO
   return targetSection.value === sectionId;
 }
+
+// Breadcrumb generation for structured data
+const breadcrumbs = computed((): BreadcrumbItem[] => {
+  const crumbs: BreadcrumbItem[] = [{ name: 'Home', url: 'https://wicgate.com/' }];
+
+  const section = route.meta.section as string | undefined;
+  if (section) {
+    const sectionNames: Record<string, string> = {
+      downloads: 'Downloads',
+      statistics: 'Statistics',
+      community: 'Community',
+      faq: 'FAQ',
+    };
+    const sectionName = sectionNames[section] || section;
+    crumbs.push({
+      name: sectionName,
+      url: `https://wicgate.com/${section}`,
+    });
+  }
+
+  return crumbs;
+});
+
+// HowTo steps for Downloads page
+const downloadHowToSteps: HowToStep[] = [
+  {
+    name: 'Download WIC LIVE Installer',
+    text: 'Download the WIC LIVE installer from the official GitHub releases page. This installer handles all setup automatically.',
+    url: 'https://github.com/wic-live/launcher/releases/latest',
+  },
+  {
+    name: 'Run the Installer',
+    text: 'Run the downloaded installer. WIC LIVE will update your game for WICGATE servers, install community maps, and add quality of life fixes for modern systems.',
+  },
+  {
+    name: 'Launch the Game',
+    text: 'After installation, launch World in Conflict and navigate to Multiplayer. You will see WICGATE servers in the server browser.',
+  },
+  {
+    name: 'Join a Server',
+    text: 'Select a server from the list and click Join. Create your account when prompted and start playing!',
+  },
+];
 
 // Dynamic meta tags based on route
 useHead({
@@ -176,6 +254,7 @@ useHead({
     {
       type: 'application/ld+json',
       textContent: JSON.stringify(generateOrganizationSchema()),
+      key: 'organization-schema',
     },
     // WebSite schema for homepage only
     ...(!targetSection.value
@@ -183,6 +262,65 @@ useHead({
           {
             type: 'application/ld+json',
             textContent: JSON.stringify(generateWebSiteSchema()),
+            key: 'website-schema',
+          },
+          // VideoGame schema for homepage
+          {
+            type: 'application/ld+json',
+            textContent: JSON.stringify(generateVideoGameSchema()),
+            key: 'videogame-schema',
+          },
+        ]
+      : []),
+    // Breadcrumb schema for section pages
+    ...(breadcrumbs.value.length > 1
+      ? [
+          {
+            type: 'application/ld+json',
+            textContent: JSON.stringify(generateBreadcrumbSchema(breadcrumbs.value)),
+            key: 'breadcrumb-schema',
+          },
+        ]
+      : []),
+    // WebPage schema for all pages (with ImageObject for OG images)
+    {
+      type: 'application/ld+json',
+      textContent: JSON.stringify(
+        generateWebPageSchema(
+          effectiveSeoPath.value,
+          pageTitle.value,
+          pageDescription.value,
+          breadcrumbs.value.length > 1
+            ? `https://wicgate.com${effectiveSeoPath.value}#breadcrumb`
+            : undefined,
+          pageOgImage.value // Add OG image for primaryImageOfPage
+        )
+      ),
+      key: 'webpage-schema',
+    },
+    // SoftwareApplication schema for Downloads page
+    ...(targetSection.value === 'downloads'
+      ? [
+          {
+            type: 'application/ld+json',
+            textContent: JSON.stringify(generateSoftwareApplicationSchema()),
+            key: 'software-schema',
+          },
+        ]
+      : []),
+    // HowTo schema for Downloads page
+    ...(targetSection.value === 'downloads'
+      ? [
+          {
+            type: 'application/ld+json',
+            textContent: JSON.stringify(
+              generateHowToSchema(
+                'How to Install World in Conflict Multiplayer',
+                'Step-by-step guide to install World in Conflict multiplayer and connect to WICGATE servers using WIC LIVE.',
+                downloadHowToSteps
+              )
+            ),
+            key: 'howto-schema',
           },
         ]
       : []),

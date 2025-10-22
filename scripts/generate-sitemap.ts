@@ -41,27 +41,17 @@ function addRoute(path: string, priority: number, changefreq: RouteEntry['change
   routeMap.set(path, { path, priority: normalizedPriority, changefreq });
 }
 
-// Generate routes from navigation structure (covers main sections + subsections)
+// Generate routes from navigation structure (main sections only, no subsections)
+// Subsections are client-side tab navigation and don't need separate sitemap entries
 for (const section of NAVIGATION_STRUCTURE) {
   const meta = SECTION_META[section.id] ?? DEFAULT_META;
   addRoute(getRoutePath(section.id), meta.priority, meta.changefreq);
 
-  if (section.subsections) {
-    const subsectionPriority =
-      meta.subsectionPriority ?? Math.max(meta.priority - 0.1, 0.3);
-
-    for (const subsection of section.subsections) {
-      addRoute(
-        getRoutePath(subsection.id),
-        subsectionPriority,
-        meta.changefreq
-      );
-    }
-  }
+  // Skip subsections - they're included in parent page content
+  // This avoids thin content pages and consolidates SEO signals
 }
 
-// Auth route (login) is public; admin dashboard stays off the sitemap
-addRoute('/login', 0.4, 'monthly');
+// Note: Excluding /login as it's noindex anyway (auth page)
 
 const routes = Array.from(routeMap.values()).sort((a, b) => a.path.localeCompare(b.path));
 

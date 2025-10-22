@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:icons && npm run build:sitemap && vite-ssg build && npm run postbuild:head",
+    "build": "npm run build:icons && npm run build:sitemap && vite-ssg build && npm run postbuild:head && npm run validate:schemas",
     "build:icons": "tsx scripts/generate-pwa-icons.ts",
     "build:sitemap": "tsx scripts/generate-sitemap.ts",
     "postbuild:head": "tsx scripts/apply-head-meta.ts",
     "validate:build": "tsx scripts/validate-build.ts",
+    "validate:schemas": "tsx scripts/validate-schemas.ts",
     "prepare": "husky",
     "preview": "vite preview",
     "lint": "eslint --ext .ts,.vue src",

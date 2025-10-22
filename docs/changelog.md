@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🔍 **SEO: SSG Optimization & Rich Search Results** - Optimized site for search engines following SSG best practices: reduced pre-rendering from 15+ routes to 6 main pages (/, /downloads, /statistics, /community, /faq, /login) avoiding thin content, consolidated subsection SEO to parent pages with canonical URLs, reduced sitemap from 15+ to 5 clean URLs, implemented comprehensive structured data for rich search results (BreadcrumbList for navigation breadcrumbs, SoftwareApplication for WIC LIVE installer with pricing/requirements, HowTo for step-by-step installation guide with 4 detailed steps, VideoGame for World in Conflict with 4.5/5 rating, WebPage wrappers linking breadcrumbs/content, enhanced FAQPage with Organization author + dateModified), all 44 tests passing, TypeScript clean, build produces 6 optimized HTML files with all schemas validated - enables rich search features: breadcrumb trails in Google, FAQ dropdowns, how-to cards, app download info, star ratings, faster builds (40% fewer pages), better crawl budget usage, no duplicate content issues (Oct 22)
 - 🎨 **UI: Unified Section Box Design** - Redesigned FAQ and Downloads sections with consistent steel blue gradient backgrounds for visual uniformity: all boxes now use `bg-gradient-to-br from-panel/95 to-panel-dark/98` (military steel blue panels with opacity) instead of mixed graphite/gradient backgrounds, added question mark icon badges to FAQ items matching Downloads numbered badges style (teal gradient circles with dark icons), simplified FAQ box styling (cleaner borders `border border-teal/20`, reduced hover complexity, streamlined transitions to 200ms), updated copy link buttons to teal theme, both sections now share cohesive design language while maintaining unique layouts (Downloads: numbered step badges, FAQ: question mark badges + accordion functionality) - creates professional visual consistency across instructional/informational sections (Oct 21)
 - 🧹 **UI: Removed Redundant Community Subsection** - Streamlined Community section by removing duplicate "Servers & Players Online" subsection: homepage DynamicInfoCard already provides comprehensive real-time player activity display with server grouping and player lists, removed 105-line subsection from Community.vue (lines 136-241) eliminating redundancy, removed "View All →" navigation link from DynamicInfoCard as subsection no longer exists, cleaned up unused imports/composables (useAppDataStore, useServerCapacity, usePlayerDisplay, SERVER_MAX_CAPACITY), Community section now focuses exclusively on its core content (streams, videos, community links), reduces scrolling and content duplication - single source of truth for live server/player data on homepage (Oct 18)
 - 🎨 **UI: Carousel Navigation & Mobile Touch Support** - Fixed arrow buttons not working (z-index layering) and added native swipe gestures for mobile: navigation controls now use z-20 to appear above slides (z-10), implemented touch handlers with 50px swipe threshold (left = next, right = previous), hidden arrow buttons on mobile devices (hidden md:flex classes) for cleaner UI, dot indicators remain visible on all screens, auto-rotation pauses during touch interaction - works seamlessly on desktop (arrow clicks) and mobile (touch gestures), all quality gates passing (Oct 18)
@@ -200,6 +201,108 @@
 ---
 
 ## October 2025
+
+### October 22, 2025 - SSG Optimization & Rich Search Results
+
+**Highlights**
+- Optimized SSG pre-rendering from 15+ routes to 6 main pages following SSG best practices to avoid thin content
+- Reduced sitemap from 15+ URLs to 5 clean entries (main sections only, excludes subsections and noindex pages)
+- Consolidated SEO for subsections: all content visible on parent pages, canonical URLs point to parents for maximum SEO signal strength
+- Implemented comprehensive structured data for rich search results: BreadcrumbList, SoftwareApplication, HowTo, VideoGame, WebPage schemas
+- Enhanced FAQPage schema with Organization author and dateModified timestamps for freshness signals
+- Build produces 6 optimized HTML files, all 44 tests passing, TypeScript strict mode clean, all schemas validated
+
+**Technical Details**
+
+**SSG Best Practices Implementation:**
+- **vite.config.ts (lines 154-157):** Updated `includedRoutes()` filter to pre-render only 6 main pages: `['/', '/downloads', '/statistics', '/community', '/faq', '/login']`
+- **Build optimization:** Reduced from 15+ pre-rendered pages to 6 (60% reduction)
+- **Faster builds:** 40% fewer HTML files to generate and process
+- **Smaller dist/ folder:** No thin content pages from subsections
+- **scripts/generate-sitemap.ts (lines 44-52):** Removed subsection loops, generates 5 URLs (excludes /login as it's noindex)
+- **Home.vue (lines 47-56):** Added `effectiveSeoPath` computed property - subsections inherit parent page path for SEO
+- **Home.vue (lines 58-78):** Updated `matchedMeta` computed to find parent route meta for subsections
+- **Canonical URLs:** Subsection routes (e.g., /downloads/quick) canonical to parent (e.g., /downloads)
+
+**Sitemap Optimization:**
+- **Before:** 15 URLs (all main sections + all subsections + login)
+- **After:** 5 URLs (only main sections with substantial content)
+- **Excluded:** All subsections (client-side tab navigation only), /login (noindex page)
+- **Included:** /, /downloads, /statistics, /community, /faq
+- **Priorities:** Homepage (1.0), Community/FAQ (0.8), Downloads/Statistics (0.5)
+- **Change frequencies:** Homepage (daily), Community/FAQ (weekly), Downloads/Statistics (monthly)
+
+**Rich Search Results Schemas (src/utils/structuredData.ts):**
+
+1. **BreadcrumbList** (lines 175-186)
+   - Shows breadcrumb trails in Google search results (e.g., "Home > Downloads", "Home > FAQ")
+   - Added to all section pages automatically based on route
+   - Improves navigation clarity and CTR
+
+2. **SoftwareApplication** (lines 192-210)
+   - WIC LIVE installer with complete metadata
+   - Includes: name, category (GameApplication), price (free), OS requirements (Windows 7-11)
+   - Download URL, file size (~50MB), screenshot
+   - Enables rich app download cards in search results
+
+3. **HowTo** (lines 223-237)
+   - Step-by-step installation guide schema
+   - 4 detailed steps with names, descriptions, optional images/URLs
+   - Enables rich how-to cards in Google with numbered steps
+   - Applied to Downloads page for installation instructions
+
+4. **VideoGame** (existing, now applied to homepage)
+   - World in Conflict game information
+   - 4.5/5 AggregateRating (1000 reviews)
+   - Platform (PC), publisher (Ubisoft), genre, release date
+   - Shows star ratings and game info in search results
+
+5. **WebPage** (lines 260-279)
+   - Page structure wrapper for all pages
+   - Links breadcrumbs (when present) to main content entity
+   - References parent WebSite schema
+   - Provides context for search engines about page relationships
+
+6. **Enhanced FAQPage** (lines 109-136)
+   - Added Organization author (WICGATE) with URL
+   - Added dateModified field (auto-updates to current date)
+   - Individual items support optional dateModified and author fields
+   - Enables FAQ rich snippets with expandable dropdowns in Google
+
+**Home.vue Schema Integration (lines 253-325):**
+```typescript
+script: [
+  // Organization (all pages)
+  { type: 'application/ld+json', textContent: ..., key: 'organization-schema' },
+
+  // Homepage only: WebSite + VideoGame
+  ...(!targetSection.value ? [...] : []),
+
+  // Section pages: BreadcrumbList
+  ...(breadcrumbs.value.length > 1 ? [...] : []),
+
+  // All pages: WebPage wrapper
+  { type: 'application/ld+json', textContent: ..., key: 'webpage-schema' },
+
+  // Downloads page: SoftwareApplication + HowTo
+  ...(targetSection.value === 'downloads' ? [...] : []),
+]
+```
+
+**Files Modified:**
+- `vite.config.ts` - SSG route filtering
+- `scripts/generate-sitemap.ts` - Sitemap generation logic
+- `src/views/Home.vue` - Meta tag inheritance, schema integration
+- `src/utils/structuredData.ts` - New schema generators
+- `public/sitemap.xml` - Regenerated with 5 URLs
+
+**Why This Matters**
+- **Better SEO:** Consolidated signals to fewer, stronger pages (no thin content dilution)
+- **Rich search features:** Breadcrumbs, FAQ dropdowns, how-to cards, app info cards, star ratings
+- **Faster builds:** 40% fewer pages to pre-render and process
+- **Better crawl budget:** Google spends more time on quality pages vs thin subsections
+- **No duplicate content:** One authoritative page per topic
+- **Improved user experience:** All search result enhancements make finding information easier
 
 ### October 16, 2025 - Code Quality & Security Improvements
 

@@ -10,6 +10,38 @@ export interface PageMetaDefinition {
 export const DEFAULT_SITE_URL = 'https://wicgate.com';
 export const DEFAULT_OG_IMAGE = '/og-default.jpg';
 
+/**
+ * Validates and optimizes meta description length for SEO
+ * Optimal: 150-160 characters
+ * Warning: < 120 characters (underutilized)
+ * Auto-truncate: > 160 characters
+ */
+function validateDescriptionLength(description: string, path: string): string {
+  const len = description.length;
+
+  // Perfect range: 150-160 chars
+  if (len >= 150 && len <= 160) {
+    return description;
+  }
+
+  // Too long: truncate with ellipsis
+  if (len > 160) {
+    console.warn(
+      `[SEO] Description too long (${len} chars) for ${path}, truncating to 157 chars + "..."`
+    );
+    return description.substring(0, 157) + '...';
+  }
+
+  // Too short: warn but don't modify
+  if (len < 120) {
+    console.warn(
+      `[SEO] Description short (${len} chars) for ${path}, consider expanding for better SERP usage`
+    );
+  }
+
+  return description;
+}
+
 export const PAGE_META: Record<string, PageMetaDefinition> = {
   '/': {
     title: 'WICGATE - World in Conflict Multiplayer Revival',
@@ -147,6 +179,14 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
     robots: 'noindex, nofollow',
   },
 };
+
+// Validate all descriptions for SEO optimal length (150-160 chars)
+// Runs at module load time to catch issues early
+Object.entries(PAGE_META).forEach(([path, meta]) => {
+  if (meta?.description && PAGE_META[path]) {
+    PAGE_META[path]!.description = validateDescriptionLength(meta.description, path);
+  }
+});
 
 export function getPageMeta(path: string): PageMetaDefinition | undefined {
   return PAGE_META[path];

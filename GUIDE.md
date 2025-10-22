@@ -20,6 +20,7 @@
 - [docs/api.md](docs/api.md) - API endpoints, data structures, integration
 - [docs/troubleshooting.md](docs/troubleshooting.md) - Common issues and solutions
 - [docs/changelog.md](docs/changelog.md) - Feature history
+- [docs/SEO_NEXT_STEPS.md](docs/SEO_NEXT_STEPS.md) - SEO enhancement roadmap
 
 **Quick Reference:**
 - [AGENTS.md](AGENTS.md) - Condensed summary
@@ -210,4 +211,4 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 ---
 
-*Last Updated: October 14, 2025 (Design System Consolidation)*
+*Last Updated: October 22, 2025 (SSG Optimization & SEO)*

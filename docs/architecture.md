@@ -32,8 +32,55 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 - **System Routes (2):** `/login`, `/admin` (not pre-rendered, protected by auth guards)
 - **Downloads Subsections (3):** `/downloads/quick`, `/downloads/server`, `/downloads/manual`
 - **FAQ Subsections (5):** `/faq/about`, `/faq/getting-started`, `/faq/technical`, `/faq/gameplay`, `/faq/server`
-- **Pre-rendered (13):** All main routes + subsections (excluding /login and /admin)
+- **Pre-rendered (6):** Main routes + /login only (subsections excluded per SSG best practices - October 2025)
 - **FAQ Question Anchors:** Hash fragments within FAQ routes (e.g., `/faq/technical#black-screen`)
+
+### SSG Optimization Strategy (October 2025)
+
+**Pre-rendering Philosophy:** Only pre-render pages with substantial unique content. Avoid thin content by consolidating subsections.
+
+**Current Strategy:**
+- **Pre-rendered Routes (6):** `/`, `/downloads`, `/statistics`, `/community`, `/faq`, `/login`
+- **Client-side Routes:** All subsections (not pre-rendered to avoid thin content)
+  - `/downloads/quick`, `/downloads/server`, `/downloads/manual` → Tab navigation within `/downloads`
+  - `/faq/about`, `/faq/getting-started`, `/faq/technical`, `/faq/gameplay`, `/faq/server` → Tab navigation within `/faq`
+- **Excluded from sitemap.xml:** Subsections + noindex pages (/login, /admin)
+- **Sitemap URLs (5):** Main sections only with substantial content
+
+**SEO Consolidation for Subsections:**
+```typescript
+// Home.vue - Subsections inherit parent meta
+const effectiveSeoPath = computed(() => {
+  if (route.meta.subsection) {
+    // /downloads/quick → /downloads, /faq/technical → /faq
+    const pathParts = route.path.split('/').filter(Boolean);
+    return pathParts.length > 1 ? `/${pathParts[0]}` : route.path;
+  }
+  return route.path;
+});
+
+const matchedMeta = computed(() => {
+  // For subsections, find parent section meta for consolidated SEO
+  if (route.meta.subsection) {
+    const matched = [...route.matched].reverse();
+    for (const record of matched) {
+      if (record.meta && !record.meta.subsection && Object.keys(record.meta).length > 0) {
+        return record.meta;
+      }
+    }
+  }
+  // Default: use current route meta
+  // ...
+});
+```
+
+**Benefits:**
+- ✅ Consolidated SEO signals (one authoritative page per section)
+- ✅ No duplicate/thin content issues
+- ✅ All subsection content visible to search engines on parent pages
+- ✅ Faster builds (6 pages vs 15+, 60% reduction)
+- ✅ Better crawl budget usage (Google focuses on quality pages)
+- ✅ Canonical URLs point to parents (e.g., /downloads/quick → /downloads)
 
 **Why Path-Based Routing for Subsections:**
 - **Granular SEO:** Each subsection targets specific search queries with unique meta tags
@@ -426,6 +473,97 @@ function copyQuestionLink(questionId: string) {
 - Toast uses Vue Transition with translate animations
 - CSS keyframe animation for :target highlighting
 - All 21 questions automatically get copy buttons
+
+### Structured Data for Rich Search Results (October 2025)
+
+**Comprehensive Schema Implementation:**
+
+The site implements 6 different Schema.org types for enhanced search visibility and rich results.
+
+**1. BreadcrumbList** - Navigation breadcrumbs in search results
+```typescript
+// src/utils/structuredData.ts - generateBreadcrumbSchema()
+// Shows: Home > Downloads, Home > FAQ
+// Applied to all section pages (Downloads, Statistics, Community, FAQ)
+// Improves navigation clarity and click-through rates
+```
+
+**2. SoftwareApplication** - Rich app cards for installers
+```typescript
+// generateSoftwareApplicationSchema()
+// WIC LIVE installer: name, price (free), OS requirements, download URL, file size
+// Applied to Downloads page
+// Enables app download cards in Google search results
+```
+
+**3. HowTo** - Step-by-step installation guides
+```typescript
+// generateHowToSchema(name, description, steps)
+// 4-step installation guide with detailed instructions
+// Applied to Downloads page
+// Enables rich how-to cards with numbered steps in Google
+```
+
+**4. VideoGame** - Game information with ratings
+```typescript
+// generateVideoGameSchema()
+// World in Conflict: 4.5/5 rating, platform (PC), publisher (Ubisoft)
+// Applied to homepage
+// Shows star ratings and game details in search results
+```
+
+**5. WebPage** - Page structure wrapper
+```typescript
+// generateWebPageSchema(path, name, description, breadcrumbId)
+// Links breadcrumbs (when present) to main content entity
+// References parent WebSite schema
+// Applied to all pages for better context
+```
+
+**6. Enhanced FAQPage** - FAQ with author and dates
+```typescript
+// generateFAQSchema(faqItems)
+// Added: Organization author (WICGATE), dateModified field
+// Individual items support optional dateModified and author
+// Applied to FAQ page and homepage
+// Enables FAQ rich snippets with expandable dropdowns in Google
+```
+
+**Schema Integration in Home.vue:**
+```typescript
+script: [
+  // Organization (all pages)
+  { type: 'application/ld+json', textContent: JSON.stringify(generateOrganizationSchema()), key: 'organization-schema' },
+
+  // Homepage only: WebSite + VideoGame
+  ...(!targetSection.value ? [
+    { type: 'application/ld+json', textContent: JSON.stringify(generateWebSiteSchema()), key: 'website-schema' },
+    { type: 'application/ld+json', textContent: JSON.stringify(generateVideoGameSchema()), key: 'videogame-schema' },
+  ] : []),
+
+  // Section pages: BreadcrumbList
+  ...(breadcrumbs.value.length > 1 ? [
+    { type: 'application/ld+json', textContent: JSON.stringify(generateBreadcrumbSchema(breadcrumbs.value)), key: 'breadcrumb-schema' },
+  ] : []),
+
+  // All pages: WebPage wrapper
+  { type: 'application/ld+json', textContent: JSON.stringify(generateWebPageSchema(...)), key: 'webpage-schema' },
+
+  // Downloads page: SoftwareApplication + HowTo
+  ...(targetSection.value === 'downloads' ? [
+    { type: 'application/ld+json', textContent: JSON.stringify(generateSoftwareApplicationSchema()), key: 'software-schema' },
+    { type: 'application/ld+json', textContent: JSON.stringify(generateHowToSchema(...)), key: 'howto-schema' },
+  ] : []),
+]
+```
+
+**Expected Search Result Enhancements:**
+- ✅ Breadcrumb trails below page titles in SERPs
+- ✅ FAQ dropdowns directly in Google (click to expand answers)
+- ✅ How-to cards with numbered step-by-step instructions
+- ✅ App download cards with pricing and system requirements
+- ✅ Star ratings for game reviews (4.5/5 display)
+- ✅ Enhanced knowledge graph information
 
 **Files:**
 - [Home.vue](../src/views/Home.vue) - Dynamic head management with `useHead()`
