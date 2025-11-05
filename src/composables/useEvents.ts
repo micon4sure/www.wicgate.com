@@ -33,8 +33,11 @@ export function useEvents() {
 
       isLoading.value = false;
       if (import.meta.env.DEV) console.log(`Fetched ${events.value.length} events from ${url}`);
-    } catch (err: any) {
-      if (import.meta.env.DEV) console.error('Failed to fetch events:', err.message, err);
+    } catch (err: unknown) {
+      if (import.meta.env.DEV) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.error('Failed to fetch events:', message, err);
+      }
       isLoading.value = false;
     }
 

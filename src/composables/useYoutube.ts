@@ -41,8 +41,11 @@ export function useYoutube() {
       videos.value = parsed;
       if (import.meta.env.DEV)
         console.log(`Fetched and parsed ${Object.keys(parsed).length} channels from ${url}`);
-    } catch (err: any) {
-      if (import.meta.env.DEV) console.error('Failed to fetch videos:', err?.message ?? err);
+    } catch (err: unknown) {
+      if (import.meta.env.DEV) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.error('Failed to fetch videos:', message);
+      }
     } finally {
       loading.value = false;
     }
