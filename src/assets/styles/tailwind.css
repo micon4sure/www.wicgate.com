@@ -1144,7 +1144,47 @@
     @apply mb-4 font-body text-base;
   }
 
-  /* ========== VUE TRANSITIONS (Navigation.vue) ========== */
+  /* ========== VUE TRANSITIONS ========== */
+
+  /* Tab content transitions (TabContainer.vue) */
+  .tab-slide-left-enter-active,
+  .tab-slide-left-leave-active,
+  .tab-slide-right-enter-active,
+  .tab-slide-right-leave-active {
+    transition: all 0.2s ease-out;
+  }
+
+  .tab-slide-left-enter-from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  .tab-slide-left-leave-to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  .tab-slide-right-enter-from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  .tab-slide-right-leave-to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  /* Scroll-to-top button transition */
+  .scroll-top-enter-active,
+  .scroll-top-leave-active {
+    transition: all 0.3s ease;
+  }
+
+  .scroll-top-enter-from,
+  .scroll-top-leave-to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
 
   /* Backdrop transition for mobile menu overlay */
   .backdrop-enter-active,
