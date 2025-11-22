@@ -232,22 +232,9 @@ function handleTopPlayersClick() {
                 v-for="(player, i) in topLadderPlayers"
                 :key="player.profileId"
                 class="flex items-center gap-3 p-3 bg-mg/15 border border-mg/25 transition-all duration-200 hover:bg-mg/25 hover:border-teal/40 hover:shadow-[0_0_15px_rgba(0,217,255,0.1)]"
-                :class="{
-                  '[&_.ladder-rank]:text-medal-gold [&_.ladder-rank]:text-shadow-sm [&_.ladder-score]:text-medal-gold':
-                    i === 0,
-                  '[&_.ladder-rank]:text-medal-silver [&_.ladder-rank]:text-shadow-sm [&_.ladder-score]:text-medal-silver':
-                    i === 1,
-                  '[&_.ladder-rank]:text-medal-bronze [&_.ladder-rank]:text-shadow-sm [&_.ladder-score]:text-medal-bronze':
-                    i === 2,
-                }"
               >
                 <span
-                  class="ladder-rank w-8 h-8 flex items-center justify-center bg-mg/40 text-sm font-bold font-military flex-shrink-0"
-                  :class="{
-                    'text-base': i === 0,
-                    'text-[0.9375rem]': i === 1,
-                    'text-[0.875rem]': i === 2,
-                  }"
+                  class="ladder-rank w-8 h-8 flex items-center justify-center bg-mg/40 text-sm font-bold font-military flex-shrink-0 text-white"
                 >
                   {{ i + 1 }}
                 </span>
@@ -255,7 +242,7 @@ function handleTopPlayersClick() {
                   <RankInsignia
                     :rank="player.rank || 0"
                     :size="20"
-                    class="inline-block flex-shrink-0 mr-1.5"
+                    class="inline-block flex-shrink-0"
                   />
                   <span
                     v-if="formatClanTag(player)"
@@ -269,7 +256,7 @@ function handleTopPlayersClick() {
                     {{ player.profileName }}
                   </span>
                 </div>
-                <span class="ladder-score text-sm font-military font-bold flex-shrink-0">
+                <span class="ladder-score text-sm font-military font-bold flex-shrink-0 text-white">
                   {{ player.high }}
                 </span>
               </div>

@@ -48,26 +48,10 @@ function handleClick() {
         <div
           v-for="(player, i) in topLadderPlayers"
           :key="player.profileId"
-          class="ladder-item"
-          :class="[
-            'flex items-center gap-3 p-3 bg-mg/15 border border-mg/25 rounded-none transition-all duration-200',
-            {
-              '[&_.ladder-rank]:text-medal-gold [&_.ladder-rank]:text-shadow-sm [&_.ladder-score]:text-medal-gold':
-                i === 0,
-              '[&_.ladder-rank]:text-medal-silver [&_.ladder-rank]:text-shadow-sm [&_.ladder-score]:text-medal-silver':
-                i === 1,
-              '[&_.ladder-rank]:text-medal-bronze [&_.ladder-rank]:text-shadow-sm [&_.ladder-score]:text-medal-bronze':
-                i === 2,
-            },
-          ]"
+          class="ladder-item flex items-center gap-3 p-3 bg-mg/15 border border-mg/25 rounded-none transition-all duration-200"
         >
           <span
-            class="ladder-rank w-7 h-7 flex items-center justify-center bg-mg/40 text-sm font-bold font-military flex-shrink-0 rounded-none"
-            :class="{
-              'text-[1.05rem]': i === 0,
-              'text-base': i === 1,
-              'text-[0.95rem]': i === 2,
-            }"
+            class="ladder-rank w-7 h-7 flex items-center justify-center bg-mg/40 text-sm font-bold font-military flex-shrink-0 rounded-none text-white"
           >
             {{ i + 1 }}
           </span>
@@ -89,7 +73,7 @@ function handleClick() {
               {{ player.profileName }}
             </span>
           </div>
-          <span class="ladder-score text-sm font-military font-bold flex-shrink-0">{{
+          <span class="ladder-score text-sm font-military font-bold flex-shrink-0 text-white">{{
             player.high
           }}</span>
         </div>
