@@ -65,39 +65,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
           Community
         </h2>
         <p class="text-lg md:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
-          Join the conversation across all platforms
+          Watch live streams and videos from the WiC community
         </p>
-
-        <!-- Community links (keep existing) -->
-        <div class="community-links">
-          <a
-            href="https://discord.gg/WnxwfMTyBe"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="community-link discord"
-          >
-            <i class="fa-brands fa-discord" aria-hidden="true"></i>
-            Join Discord (287 members)
-          </a>
-          <a
-            href="https://youtube.com/@wicgate"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="community-link youtube"
-          >
-            <i class="fa-brands fa-youtube" aria-hidden="true"></i>
-            Watch Videos (1.2K subs)
-          </a>
-          <a
-            href="https://twitch.tv/directory/game/World%20in%20Conflict"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="community-link twitch"
-          >
-            <i class="fa-brands fa-twitch" aria-hidden="true"></i>
-            Live Streams
-          </a>
-        </div>
       </div>
 
       <!-- Live Streams -->
