@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useEvents } from '../composables/useEvents';
 import { useYoutube } from '../composables/useYoutube';
-import ContentCarouselCard from './widgets/ContentCarouselCard.vue';
+import MediaEventCard from './widgets/MediaEventCard.vue';
 import DynamicInfoCard from './widgets/DynamicInfoCard.vue';
 import { getRoutePath } from '../types/navigation';
 
@@ -36,15 +36,6 @@ function goToSection(sectionOrSubsectionId: string) {
     ></div>
     <div
       class="absolute inset-0 bg-gradient-to-br from-massgate-red-dark/5 via-transparent to-soviet/3"
-    ></div>
-
-    <!-- Subtle animated glow effects -->
-    <div
-      class="absolute top-0 left-1/4 w-96 h-96 bg-massgate-red/5 rounded-full blur-[120px] animate-pulse-slow"
-    ></div>
-    <div
-      class="absolute bottom-0 right-1/4 w-96 h-96 bg-soviet/5 rounded-full blur-[120px] animate-pulse-slow"
-      style="animation-delay: 1s"
     ></div>
 
     <div class="container relative z-10">
@@ -82,28 +73,6 @@ function goToSection(sectionOrSubsectionId: string) {
           </p>
         </div>
 
-        <!-- Key features badges -->
-        <div class="flex flex-wrap items-center justify-center gap-3 mb-6 sm:gap-2 sm:mb-5">
-          <div
-            class="inline-flex items-center gap-2 py-2 px-4 bg-black/50 border border-t-dim/30 text-t text-sm font-body font-semibold backdrop-blur-md shadow-lg sm:py-1.5 sm:px-3 sm:text-xs"
-          >
-            <i class="fa-solid fa-server text-online" aria-hidden="true"></i>
-            <span>Official Servers</span>
-          </div>
-          <div
-            class="inline-flex items-center gap-2 py-2 px-4 bg-black/50 border border-t-dim/30 text-t text-sm font-body font-semibold backdrop-blur-md shadow-lg sm:py-1.5 sm:px-3 sm:text-xs"
-          >
-            <i class="fa-solid fa-users text-soviet" aria-hidden="true"></i>
-            <span>Active Community</span>
-          </div>
-          <div
-            class="inline-flex items-center gap-2 py-2 px-4 bg-black/50 border border-t-dim/30 text-t text-sm font-body font-semibold backdrop-blur-md shadow-lg sm:py-1.5 sm:px-3 sm:text-xs"
-          >
-            <i class="fa-solid fa-download text-massgate-gold" aria-hidden="true"></i>
-            <span>Free to Play</span>
-          </div>
-        </div>
-
         <!-- Primary CTA -->
         <div class="flex justify-center mb-8 sm:mb-6">
           <button
@@ -118,7 +87,7 @@ function goToSection(sectionOrSubsectionId: string) {
 
       <!-- Streamlined Widget Cards -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 md:mb-12 xl:mb-16">
-        <ContentCarouselCard
+        <MediaEventCard
           :videos="videosSorted"
           :events="events"
           :is-s-s-r="isSSR"

@@ -4,6 +4,7 @@
 node_modules
 dist
 dev-dist
+.idea
 coverage
 .vite-ssg-temp
 *.log

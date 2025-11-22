@@ -3,9 +3,6 @@ import { ref, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { trackEvent } from '../utils/analytics';
 
-// Track transition direction for slide animation
-const transitionName = ref('tab-fade');
-
 interface Tab {
   id: string; // The route name (e.g., 'downloads-quick', 'faq-about') or local tab ID
   label: string; // Display label (e.g., 'Quick Install')
@@ -51,11 +48,6 @@ const activeTabId = computed(() => {
   return localActiveTabId.value;
 });
 
-// Get the active tab object for rendering
-const activeTab = computed(() => {
-  return props.tabs.find((t) => t.id === activeTabId.value);
-});
-
 // Watch route changes to update local state
 watch(
   () => route.name,
@@ -91,13 +83,6 @@ function getAnchor(tabId: string): string {
 // Handle tab click - navigate to route if it exists, otherwise update local state
 async function switchTab(tab: Tab) {
   const isAlreadyActive = activeTabId.value === tab.id;
-
-  // Determine transition direction based on tab index
-  if (!isAlreadyActive) {
-    const currentIndex = props.tabs.findIndex((t) => t.id === activeTabId.value);
-    const newIndex = props.tabs.findIndex((t) => t.id === tab.id);
-    transitionName.value = newIndex > currentIndex ? 'tab-slide-left' : 'tab-slide-right';
-  }
 
   // Check if this tab corresponds to a route
   if (isRouteTab(tab.id)) {
@@ -181,20 +166,18 @@ const getPanelId = (tabId: string) => getAnchor(tabId);
       </button>
     </div>
 
-    <!-- Tab Panels with Transition -->
-    <div class="tab-panels-container relative overflow-hidden">
-      <Transition :name="transitionName" mode="out-in">
-        <div
-          v-if="activeTab"
-          :id="getPanelId(activeTab.id)"
-          :key="activeTab.id"
-          role="tabpanel"
-          :aria-labelledby="getTabId(activeTab.id)"
-          class="tab-panel"
-        >
-          <slot :name="getAnchor(activeTab.id)" />
-        </div>
-      </Transition>
+    <!-- Tab Panels -->
+    <div
+      v-for="tab in tabs"
+      :id="getPanelId(tab.id)"
+      :key="tab.id"
+      role="tabpanel"
+      :aria-labelledby="getTabId(tab.id)"
+      :hidden="activeTabId !== tab.id"
+      class="tab-panel"
+      :class="{ hidden: activeTabId !== tab.id, block: activeTabId === tab.id }"
+    >
+      <slot :name="getAnchor(tab.id)" />
     </div>
   </div>
 </template>
