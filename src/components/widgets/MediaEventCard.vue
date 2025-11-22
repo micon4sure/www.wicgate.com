@@ -197,19 +197,40 @@ function openVideo(url: string) {
               <div
                 v-for="video in latestVideos"
                 :key="video.id"
-                class="flex items-start gap-4 p-3 bg-mg/15 border border-mg/25 cursor-pointer transition-all duration-200 hover:bg-mg/25 hover:border-teal/40 hover:shadow-[0_0_15px_rgba(0,217,255,0.15)]"
+                class="group flex items-start gap-4 p-3 bg-mg/15 border border-mg/25 cursor-pointer transition-all duration-200 hover:bg-mg/25 hover:border-teal/40 hover:shadow-[0_0_15px_rgba(0,217,255,0.15)]"
                 @click="openVideo(video.videoUrl)"
               >
-                <img
-                  :src="video.thumbnailUrl"
-                  :alt="video.title"
-                  class="w-24 h-16 object-cover flex-shrink-0"
-                  loading="lazy"
-                />
+                <div class="relative w-24 h-16 flex-shrink-0">
+                  <img
+                    :src="video.thumbnailUrl"
+                    :alt="video.title"
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  <div
+                    class="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                  >
+                    <div class="w-6 h-6 rounded-full bg-youtube flex items-center justify-center">
+                      <i
+                        class="fa-solid fa-play text-white text-[8px] ml-0.5"
+                        aria-hidden="true"
+                      ></i>
+                    </div>
+                  </div>
+                </div>
                 <div class="flex-1 overflow-hidden">
                   <p class="text-sm font-body font-semibold text-t m-0 line-clamp-2 leading-snug">
                     {{ video.title }}
                   </p>
+                  <div class="text-xs text-t3 font-body mt-1">
+                    <span v-if="video.author">{{ video.author }}</span>
+                    <span v-if="video.views != null">
+                      {{ video.author ? ' • ' : '' }}{{ video.views.toLocaleString() }} views</span
+                    >
+                    <span v-if="video.publishedAt">
+                      • {{ new Date(video.publishedAt).toLocaleDateString() }}</span
+                    >
+                  </div>
                 </div>
               </div>
             </div>
