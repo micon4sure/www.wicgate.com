@@ -126,7 +126,7 @@ function handleLogout() {
       class="flex flex-col items-start min-w-[200px] md:min-w-[200px] sm:min-w-[160px] xs:min-w-[140px]"
     >
       <div
-        class="font-military text-2xl font-bold text-teal uppercase tracking-[2px] select-none leading-none transition-all duration-300 hover:text-teal-bright md:text-2xl sm:text-xl xs:text-lg"
+        class="font-military text-2xl font-bold text-teal uppercase tracking-[2px] select-none leading-none md:text-2xl sm:text-xl xs:text-lg"
       >
         WICGATE
       </div>
