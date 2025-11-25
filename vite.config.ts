@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import VueDevTools from 'vite-plugin-vue-devtools';
 import { resolve } from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
@@ -13,6 +14,8 @@ export default defineConfig(({ mode }) => ({
   base: DEPLOY_BASE,
   plugins: [
     vue(),
+    // Vue DevTools - only in development
+    mode === 'development' && VueDevTools(),
     // PWA configuration
     VitePWA({
       registerType: 'autoUpdate',
