@@ -59,7 +59,9 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
     <div class="container">
       <!-- Header -->
       <div class="text-center mb-20">
-        <h2 class="text-5xl md:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6">
+        <h2
+          class="text-5xl md:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
+        >
           Community
         </h2>
         <p class="text-lg md:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
@@ -77,13 +79,20 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <a v-for="u in twitchUsernames" :key="u" :href="`https://twitch.tv/${u}`" target="_blank"
-            class="card p-0 overflow-hidden no-underline text-inherit" :aria-label="`Watch ${u} live on Twitch`">
+          <a
+            v-for="u in twitchUsernames"
+            :key="u"
+            :href="`https://twitch.tv/${u}`"
+            target="_blank"
+            class="card p-0 overflow-hidden no-underline text-inherit"
+            :aria-label="`Watch ${u} live on Twitch`"
+          >
             <TwitchFacade :channel="u" muted />
             <div class="p-3 md:p-4 flex justify-center items-center border-t border-teal/10">
               <strong
-                class="text-massgate-orange font-military font-semibold uppercase tracking-wide text-sm md:text-base">{{
-                  u }}</strong>
+                class="text-massgate-orange font-military font-semibold uppercase tracking-wide text-sm md:text-base"
+                >{{ u }}</strong
+              >
             </div>
           </a>
         </div>
@@ -101,8 +110,13 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
         <VideosSkeleton v-if="isSSR || ytVidsLoading" />
 
         <!-- Tab Container for Videos -->
-        <TabContainer v-else :tabs="videoTabs" :tab-class="'tab-btn-s'" analytics-category="Community Videos"
-          aria-label="Video categories">
+        <TabContainer
+          v-else
+          :tabs="videoTabs"
+          :tab-class="'tab-btn-s'"
+          analytics-category="Community Videos"
+          aria-label="Video categories"
+        >
           <!-- Tab: Latest Videos -->
           <template #videos-latest>
             <div class="py-8 md:py-10">
@@ -111,11 +125,19 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
               </div>
               <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <div v-for="v in top6NYTVideos" :key="v.id || v.videoUrl" class="video-card">
-                  <a :href="v.videoUrl" target="_blank" class="no-underline text-inherit block"
-                    rel="noopener noreferrer">
+                  <a
+                    :href="v.videoUrl"
+                    target="_blank"
+                    class="no-underline text-inherit block"
+                    rel="noopener noreferrer"
+                  >
                     <div class="relative w-full pb-[56.25%] bg-graphite-dark overflow-hidden">
-                      <img :src="v.thumbnailUrl" :alt="`${v.title} - ${v.author || 'WiCGATE'} video thumbnail`"
-                        loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
+                      <img
+                        :src="v.thumbnailUrl"
+                        :alt="`${v.title} - ${v.author || 'WiCGATE'} video thumbnail`"
+                        loading="lazy"
+                        class="absolute inset-0 w-full h-full object-cover"
+                      />
                       <div class="play-over">
                         <i class="fa-solid fa-play" aria-hidden="true"></i>
                       </div>
@@ -128,7 +150,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                         <span v-if="v.author">{{ v.author }}</span>
                         <span v-if="v.views != null"> • {{ v.views.toLocaleString() }} views</span>
                         <span v-if="v.publishedAt">
-                          • {{ new Date(v.publishedAt).toLocaleDateString() }}</span>
+                          • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
+                        >
                       </div>
                     </div>
                   </a>
@@ -142,8 +165,12 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
             <div class="py-8 md:py-10">
               <!-- Creator Channel Link -->
               <div class="flex justify-center mb-6">
-                <a :href="`https://www.youtube.com/channel/${ch.channelId}`" target="_blank" class="channel-link group"
-                  :aria-label="`View ${ch.channelTitle} YouTube channel`">
+                <a
+                  :href="`https://www.youtube.com/channel/${ch.channelId}`"
+                  target="_blank"
+                  class="channel-link group"
+                  :aria-label="`View ${ch.channelTitle} YouTube channel`"
+                >
                   <span class="channel-link-text"> Visit {{ ch.channelTitle }} Channel </span>
                   <i class="channel-link-icon fa-solid fa-external-link" aria-hidden="true"></i>
                 </a>
@@ -152,11 +179,19 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
               <!-- Creator Videos -->
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <div v-for="v in ch.videos" :key="v.id" class="video-card">
-                  <a :href="v.videoUrl" target="_blank" class="no-underline text-inherit block"
-                    rel="noopener noreferrer">
+                  <a
+                    :href="v.videoUrl"
+                    target="_blank"
+                    class="no-underline text-inherit block"
+                    rel="noopener noreferrer"
+                  >
                     <div class="relative w-full pb-[56.25%] bg-graphite-dark overflow-hidden">
-                      <img :src="v.thumbnailUrl" :alt="`${v.title} - ${ch.channelTitle} video thumbnail`" loading="lazy"
-                        class="absolute inset-0 w-full h-full object-cover" />
+                      <img
+                        :src="v.thumbnailUrl"
+                        :alt="`${v.title} - ${ch.channelTitle} video thumbnail`"
+                        loading="lazy"
+                        class="absolute inset-0 w-full h-full object-cover"
+                      />
                       <div class="play-over">
                         <i class="fa-solid fa-play" aria-hidden="true"></i>
                       </div>
@@ -168,7 +203,8 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                       <div class="video-card-meta">
                         <span v-if="v.views != null">{{ v.views.toLocaleString() }} views</span>
                         <span v-if="v.publishedAt">
-                          • {{ new Date(v.publishedAt).toLocaleDateString() }}</span>
+                          • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
+                        >
                       </div>
                     </div>
                   </a>
