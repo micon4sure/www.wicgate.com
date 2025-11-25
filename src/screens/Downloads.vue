@@ -49,15 +49,9 @@ const tabs = [
 
             <!-- Installation Steps -->
             <div class="flex flex-col gap-4">
-              <div
-                v-for="s in steps"
-                :key="s.n"
-                class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 p-5 rounded-none"
-              >
+              <div v-for="s in steps" :key="s.n" class="step-card">
                 <div class="flex items-start gap-4">
-                  <span
-                    class="flex-shrink-0 w-10 h-10 bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker rounded-full flex items-center justify-center font-military font-bold text-xl text-ink"
-                  >
+                  <span class="step-number-badge-lg">
                     {{ s.n }}
                   </span>
                   <div class="flex-1">
@@ -75,12 +69,11 @@ const tabs = [
                       </template>
                     </div>
 
-                    <!-- Download Button (Step 2 only) -->
                     <div v-if="s.n === 2" class="mt-4">
                       <a
                         id="downloadClientBtn"
                         href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe"
-                        class="btn-red inline-flex items-center justify-center gap-3 px-8 py-4 text-lg md:text-xl no-underline animate-red-pulse"
+                        class="download-btn"
                       >
                         <i class="fa-solid fa-download text-2xl" aria-hidden="true"></i>
                         <span class="font-black">DOWNLOAD WIC LIVE</span>
@@ -110,15 +103,9 @@ const tabs = [
             <div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
               <!-- Server Steps -->
               <div class="flex flex-col gap-4">
-                <div
-                  v-for="step in dedicatedServerSteps"
-                  :key="step.n"
-                  class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 p-5 rounded-none"
-                >
+                <div v-for="step in dedicatedServerSteps" :key="step.n" class="step-card">
                   <div class="flex items-start gap-4">
-                    <span
-                      class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker rounded-full flex items-center justify-center font-military font-bold text-lg text-ink"
-                    >
+                    <span class="step-number-badge-sm">
                       {{ step.n }}
                     </span>
                     <div class="flex-1">
@@ -135,9 +122,7 @@ const tabs = [
               </div>
 
               <!-- Network Configuration Sidebar -->
-              <div
-                class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 p-5 rounded-none h-fit lg:sticky lg:top-24"
-              >
+              <div class="step-card-sticky">
                 <h5
                   class="font-military font-bold uppercase tracking-wider text-lg mb-4 text-t flex items-center gap-3"
                 >
@@ -213,15 +198,9 @@ const tabs = [
 
             <!-- Manual Installation Steps -->
             <div class="flex flex-col gap-4">
-              <div
-                v-for="step in manualInstallSteps"
-                :key="step.n"
-                class="bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 p-5 rounded-none"
-              >
+              <div v-for="step in manualInstallSteps" :key="step.n" class="step-card">
                 <div class="flex items-start gap-4">
-                  <span
-                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker rounded-full flex items-center justify-center font-military font-bold text-lg text-ink"
-                  >
+                  <span class="step-number-badge-sm">
                     {{ step.n }}
                   </span>
                   <div class="flex-1">

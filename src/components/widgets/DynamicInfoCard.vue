@@ -112,42 +112,32 @@ function handleTopPlayersClick() {
 </script>
 
 <template>
-  <div
-    class="relative bg-gradient-to-br from-panel/95 to-panel-dark/98 border-2 border-teal/30 overflow-hidden transition-all duration-300 hover:border-teal/50 hover:shadow-[0_0_30px_rgba(0,217,255,0.25)]"
-  >
+  <div class="dashboard-card">
     <div class="relative h-[400px] sm:h-[450px]">
       <!-- Players Online View -->
       <div
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
         :class="shouldShowPlayers ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
-        <div class="flex items-center justify-between p-5 border-b border-teal/20">
-          <div class="flex items-center gap-3">
+        <div class="dashboard-card-header">
+          <div class="dashboard-card-header-title">
             <i class="fa-solid fa-users text-online text-xl" aria-hidden="true"></i>
-            <h3 class="text-xl font-military font-bold text-t uppercase tracking-wide m-0">
-              Players Online
-            </h3>
+            <h3>Players Online</h3>
           </div>
         </div>
 
-        <div class="flex-1 overflow-y-auto p-5 custom-scrollbar">
+        <div class="dashboard-card-body custom-scrollbar">
           <div v-if="isSSR || loading" class="space-y-4">
-            <div class="h-24 bg-mg/15 border border-mg/25 animate-pulse"></div>
-            <div class="h-24 bg-mg/15 border border-mg/25 animate-pulse"></div>
+            <div class="skeleton-placeholder h-24"></div>
+            <div class="skeleton-placeholder h-24"></div>
           </div>
 
           <template v-else>
             <!-- Server Groups with Players -->
             <div v-if="serverGroups.length > 0" class="space-y-4">
-              <div
-                v-for="server in serverGroups"
-                :key="server.serverId"
-                class="bg-mg/15 border border-mg/25 overflow-hidden transition-all duration-200 hover:border-teal/40 hover:shadow-[0_0_15px_rgba(0,217,255,0.1)]"
-              >
+              <div v-for="server in serverGroups" :key="server.serverId" class="server-group-card">
                 <!-- Server Header -->
-                <div
-                  class="flex items-center justify-between gap-2 px-3 py-2 bg-mg/25 border-b border-mg/30"
-                >
+                <div class="server-group-header">
                   <div class="flex items-center gap-2 flex-1 overflow-hidden">
                     <span
                       class="text-base font-body font-semibold text-t overflow-hidden text-ellipsis whitespace-nowrap"
@@ -177,14 +167,10 @@ function handleTopPlayersClick() {
                  --><span
                       class="inline align-middle leading-none overflow-hidden text-ellipsis whitespace-nowrap"
                     >
-                      <span
-                        v-if="formatPlayerClanTag(player)"
-                        class="font-mono text-soviet font-semibold text-[0.75rem] tracking-[0.2px] align-middle"
-                        >{{ formatPlayerClanTag(player) }}</span
-                      ><span
-                        class="font-body text-t text-[0.875rem] tracking-[0.2px] align-middle"
-                        >{{ player.profileName }}</span
-                      >
+                      <span v-if="formatPlayerClanTag(player)" class="widget-clan-tag-sm">{{
+                        formatPlayerClanTag(player)
+                      }}</span
+                      ><span class="widget-player-name-sm">{{ player.profileName }}</span>
                     </span>
                   </div>
                 </div>
@@ -202,28 +188,23 @@ function handleTopPlayersClick() {
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
         :class="!shouldShowPlayers ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
-        <div class="flex items-center justify-between p-5 border-b border-teal/20">
-          <div class="flex items-center gap-3">
+        <div class="dashboard-card-header">
+          <div class="dashboard-card-header-title">
             <i class="fa-solid fa-trophy text-massgate-gold text-xl" aria-hidden="true"></i>
-            <h3 class="text-xl font-military font-bold text-t uppercase tracking-wide m-0">
-              Top Players
-            </h3>
+            <h3>Top Players</h3>
           </div>
-          <button
-            class="text-sm text-teal hover:text-teal-bright font-body font-semibold transition-colors"
-            @click="handleTopPlayersClick"
-          >
+          <button class="dashboard-card-header-action" @click="handleTopPlayersClick">
             Leaderboards →
           </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto p-5 custom-scrollbar">
+        <div class="dashboard-card-body custom-scrollbar">
           <div v-if="isSSR || loading" class="space-y-3">
-            <div class="h-16 bg-mg/15 border border-mg/25 animate-pulse"></div>
-            <div class="h-16 bg-mg/15 border border-mg/25 animate-pulse"></div>
-            <div class="h-16 bg-mg/15 border border-mg/25 animate-pulse"></div>
-            <div class="h-16 bg-mg/15 border border-mg/25 animate-pulse"></div>
-            <div class="h-16 bg-mg/15 border border-mg/25 animate-pulse"></div>
+            <div class="skeleton-placeholder h-16"></div>
+            <div class="skeleton-placeholder h-16"></div>
+            <div class="skeleton-placeholder h-16"></div>
+            <div class="skeleton-placeholder h-16"></div>
+            <div class="skeleton-placeholder h-16"></div>
           </div>
 
           <template v-else>
@@ -231,11 +212,9 @@ function handleTopPlayersClick() {
               <div
                 v-for="(player, i) in topLadderPlayers"
                 :key="player.profileId"
-                class="flex items-center gap-3 p-3 bg-mg/15 border border-mg/25 transition-all duration-200 hover:bg-mg/25 hover:border-teal/40 hover:shadow-[0_0_15px_rgba(0,217,255,0.1)]"
+                class="ladder-player-item"
               >
-                <span
-                  class="ladder-rank w-8 h-8 flex items-center justify-center bg-mg/40 text-sm font-bold font-military flex-shrink-0 text-white"
-                >
+                <span class="ladder-rank">
                   {{ i + 1 }}
                 </span>
                 <div class="flex items-center flex-1 overflow-hidden leading-none gap-0">
@@ -244,19 +223,14 @@ function handleTopPlayersClick() {
                     :size="20"
                     class="inline-block flex-shrink-0"
                   />
-                  <span
-                    v-if="formatClanTag(player)"
-                    class="font-mono text-soviet font-semibold text-[0.75rem] tracking-[0.3px] flex-shrink-0"
-                  >
+                  <span v-if="formatClanTag(player)" class="widget-clan-tag">
                     {{ formatClanTag(player) }}
                   </span>
-                  <span
-                    class="font-body text-t font-semibold text-[0.9rem] tracking-[0.3px] overflow-hidden text-ellipsis whitespace-nowrap"
-                  >
+                  <span class="widget-player-name">
                     {{ player.profileName }}
                   </span>
                 </div>
-                <span class="ladder-score text-sm font-military font-bold flex-shrink-0 text-white">
+                <span class="ladder-score">
                   {{ player.high }}
                 </span>
               </div>

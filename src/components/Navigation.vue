@@ -118,23 +118,11 @@ function handleLogout() {
 </script>
 <template>
   <!-- Header content within container -->
-  <div
-    class="h-20 min-h-[80px] px-5 container flex items-center max-[1024px]:h-[70px] max-[1024px]:min-h-[70px] max-[1024px]:justify-between max-[768px]:h-[65px] max-[768px]:min-h-[65px] max-[768px]:px-[18px] max-[480px]:h-[60px] max-[480px]:min-h-[60px] max-[480px]:px-4 max-[360px]:px-3"
-  >
+  <div class="header-container">
     <!-- Logo on left side -->
-    <div
-      class="flex flex-col items-start min-w-[200px] md:min-w-[200px] sm:min-w-[160px] xs:min-w-[140px]"
-    >
-      <div
-        class="font-military text-2xl font-bold text-teal uppercase tracking-[2px] select-none leading-none md:text-2xl sm:text-xl xs:text-lg"
-      >
-        WICGATE
-      </div>
-      <div
-        class="font-body text-[11px] font-medium text-battlefield-mist uppercase tracking-[1px] mt-0.5 leading-none md:text-[11px] sm:text-[10px] xs:text-[9px]"
-      >
-        Community Hosted Multiplayer
-      </div>
+    <div class="logo-wrapper">
+      <div class="logo-title">WICGATE</div>
+      <div class="logo-subtitle">Community Hosted Multiplayer</div>
     </div>
 
     <!-- Desktop navigation (left-aligned) -->
@@ -154,31 +142,19 @@ function handleLogout() {
     <!-- Auth & Social Buttons (Desktop) -->
     <div class="hidden lg:flex items-center gap-2 xl:gap-3 ml-auto">
       <!-- Admin Link (if admin) -->
-      <router-link
-        v-if="isAdmin"
-        to="/admin"
-        class="flex items-center gap-2 px-3 xl:px-4 py-2 bg-massgate-gold/15 border border-massgate-gold/40 text-massgate-gold font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-massgate-gold hover:border-massgate-gold-bright hover:text-ink hover:shadow-gold-glow hover:-translate-y-0.5 active:translate-y-0"
-      >
+      <router-link v-if="isAdmin" to="/admin" class="auth-btn-admin">
         <i class="fa-solid fa-crown"></i>
         Admin
       </router-link>
 
       <!-- Logout Button (if authenticated) -->
-      <button
-        v-if="isAuthenticated"
-        class="flex items-center gap-2 px-3 xl:px-4 py-2 bg-massgate-red/15 border border-massgate-red/40 text-massgate-red-bright font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-massgate-red hover:border-massgate-red-bright hover:text-white hover:shadow-massgate-border hover:-translate-y-0.5 active:translate-y-0"
-        @click="handleLogout"
-      >
+      <button v-if="isAuthenticated" class="auth-btn-logout" @click="handleLogout">
         <i class="fa-solid fa-right-from-bracket"></i>
         Logout
       </button>
 
       <!-- Login Link (if not authenticated) -->
-      <router-link
-        v-if="!isAuthenticated"
-        to="/login"
-        class="flex items-center gap-2 px-3 xl:px-4 py-2 bg-graphite border-2 border-teal/30 text-t-secondary font-body text-sm uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-b hover:from-massgate-orange-light hover:to-massgate-orange hover:border-massgate-orange hover:text-ink hover:-translate-y-0.5 hover:shadow-orange-border active:bg-gradient-to-b active:from-massgate-orange active:to-massgate-orange-dark active:border-massgate-orange-dark active:text-ink active:translate-y-0 active:shadow-orange-border"
-      >
+      <router-link v-if="!isAuthenticated" to="/login" class="auth-btn-login">
         <i class="fa-solid fa-right-to-bracket"></i>
         Login
       </router-link>
@@ -188,7 +164,7 @@ function handleLogout() {
         href="https://discord.gg/WnxwfMTyBe"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center gap-2 px-3 xl:px-4 py-2 bg-discord/90 border-2 border-discord-dark rounded text-white font-body text-sm uppercase tracking-wide transition-all duration-300 cursor-pointer no-underline hover:bg-discord hover:border-discord-light hover:shadow-[0_4px_16px_rgba(88,101,242,0.6),0_0_24px_rgba(88,101,242,0.4)] hover:scale-[1.02] active:scale-100 active:bg-discord-dark active:border-discord-darker"
+        class="auth-btn-discord"
         aria-label="Join Discord Server"
       >
         <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="w-5 h-5">
@@ -203,20 +179,14 @@ function handleLogout() {
     <!-- Enhanced hamburger menu button -->
     <button
       :class="{ active: mobileOpen }"
-      class="flex lg:hidden bg-gradient-to-br from-texture-panel/95 to-texture-dark/95 border-2 border-teal/60 rounded-none p-3 cursor-pointer transition-all duration-300 relative w-12 h-12 justify-center items-center flex-col gap-1 [-webkit-tap-highlight-color:transparent] z-[1001] hover:bg-teal/10 hover:border-teal sm:w-11 sm:h-11 sm:p-2.5 xs:w-10 xs:h-10 xs:p-2"
+      class="hamburger-btn lg:hidden"
       aria-label="Toggle mobile menu"
       :aria-expanded="mobileOpen"
       @click="toggleMobileMenu"
     >
-      <span
-        class="block w-6 h-[3px] bg-t-secondary rounded-none transition-all duration-300 origin-center sm:w-5 sm:h-0.5 xs:w-[18px] [.active_&]:translate-y-[7px] [.active_&]:rotate-45 [.active_&]:bg-t [.active_&:hover]:bg-teal-bright sm:[.active_&]:translate-y-1.5"
-      ></span>
-      <span
-        class="block w-6 h-[3px] bg-t-secondary rounded-none transition-all duration-300 origin-center sm:w-5 sm:h-0.5 xs:w-[18px] [.active_&]:opacity-0 [.active_&]:scale-0"
-      ></span>
-      <span
-        class="block w-6 h-[3px] bg-t-secondary rounded-none transition-all duration-300 origin-center sm:w-5 sm:h-0.5 xs:w-[18px] [.active_&]:-translate-y-[7px] [.active_&]:-rotate-45 [.active_&]:bg-t [.active_&:hover]:bg-teal-bright sm:[.active_&]:-translate-y-1.5"
-      ></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
     </button>
   </div>
 
@@ -264,18 +234,14 @@ function handleLogout() {
           <router-link
             v-if="isAdmin"
             to="/admin"
-            class="flex items-center gap-3 w-full py-5 px-8 min-h-[70px] text-massgate-gold no-underline font-military text-base font-semibold uppercase tracking-wider bg-gradient-to-r from-massgate-gold/15 to-massgate-gold/5 border-t border-b border-massgate-gold/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-massgate-gold hover:to-massgate-gold/30 hover:via-massgate-gold-dark hover:text-ink hover:pl-10 hover:border-massgate-gold-bright"
+            class="mobile-auth-admin"
             @click="closeMobileMenu"
           >
             <i class="fa-solid fa-crown w-5 h-5 flex-shrink-0"></i>
             Admin Dashboard
           </router-link>
 
-          <button
-            v-if="isAuthenticated"
-            class="flex items-center gap-3 w-full py-5 px-8 min-h-[70px] text-massgate-red-bright no-underline font-military text-base font-semibold uppercase tracking-wider bg-gradient-to-r from-massgate-red/15 to-massgate-red/5 border-t border-b border-massgate-red/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-massgate-red hover:to-massgate-red/30 hover:via-massgate-red-dark hover:text-white hover:pl-10 hover:border-massgate-red-bright text-left"
-            @click="handleLogout"
-          >
+          <button v-if="isAuthenticated" class="mobile-auth-logout" @click="handleLogout">
             <i class="fa-solid fa-right-from-bracket w-5 h-5 flex-shrink-0"></i>
             Logout
           </button>
@@ -283,7 +249,7 @@ function handleLogout() {
           <router-link
             v-if="!isAuthenticated"
             to="/login"
-            class="flex items-center gap-3 w-full py-5 px-8 min-h-[70px] text-t-secondary no-underline font-military text-base font-semibold uppercase tracking-wider bg-graphite border-t border-b border-teal/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-massgate-orange-light hover:to-massgate-orange hover:text-ink hover:pl-10 hover:border-massgate-orange hover:shadow-orange-border"
+            class="mobile-auth-login"
             @click="closeMobileMenu"
           >
             <i class="fa-solid fa-right-to-bracket w-5 h-5 flex-shrink-0"></i>
@@ -295,7 +261,7 @@ function handleLogout() {
             href="https://discord.gg/WnxwfMTyBe"
             target="_blank"
             rel="noopener noreferrer"
-            class="flex items-center gap-3 w-full py-5 px-8 min-h-[70px] text-discord no-underline font-military text-base font-semibold uppercase tracking-wider bg-gradient-to-r from-discord/15 to-discord/5 border-t border-b border-discord/30 mt-auto transition-all duration-300 hover:bg-gradient-to-r hover:from-discord hover:to-discord/30 hover:via-discord-dark hover:text-white hover:pl-10 hover:border-discord-dark"
+            class="mobile-auth-discord"
             @click="closeMobileMenu"
           >
             <svg

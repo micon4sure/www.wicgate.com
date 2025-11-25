@@ -22,11 +22,7 @@
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-4 py-5"
       aria-label="Loading player statistics"
     >
-      <div
-        v-for="n in 3"
-        :key="n"
-        class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-divider-strong rounded-none p-5 md:p-4 shadow-[0_12px_28px_rgba(4,9,14,0.55)]"
-      >
+      <div v-for="n in 3" :key="n" class="skeleton-card">
         <div class="h-[50px] skeleton-shimmer mb-5 rounded-none"></div>
         <div class="flex flex-col gap-3">
           <div

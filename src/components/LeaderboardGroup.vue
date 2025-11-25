@@ -88,39 +88,22 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <div
-    class="bg-gradient-to-b from-[rgba(15,18,21,0.96)] to-[rgba(8,9,11,0.98)] border border-divider-strong rounded-none overflow-hidden relative shadow-[0_12px_30px_rgba(4,9,14,0.55),inset_0_1px_0_rgba(255,255,255,0.04)] mb-6 transition-all duration-300 ease-out"
-  >
-    <div
-      class="p-[15px_20px] bg-gradient-to-b from-massgate-red to-massgate-red-dark border-[3px] border-massgate-red-dark relative max-[768px]:p-[12px_15px] max-[480px]:p-[10px_12px] max-[360px]:p-[0.625rem_0.75rem]"
-    >
-      <h3
-        class="font-[Oswald,sans-serif] text-[1.25rem] font-bold text-white uppercase tracking-[1px] m-0 [text-shadow:0_1px_3px_rgba(0,0,0,0.5)] max-[768px]:text-[1.1rem]"
-      >
+  <div class="leaderboard-container">
+    <div class="leaderboard-header">
+      <h3 class="leaderboard-header-title">
         {{ title }}
       </h3>
-      <p
-        v-if="subtitle"
-        class="font-[Rajdhani,sans-serif] font-medium m-[5px_0_0_0] text-white/90 uppercase tracking-[0.5px] text-[0.85rem] [text-shadow:0_1px_2px_rgba(0,0,0,0.4)]"
-      >
+      <p v-if="subtitle" class="leaderboard-header-subtitle">
         {{ subtitle }}
       </p>
     </div>
 
-    <div
-      v-if="categories.length > 1"
-      class="flex bg-gradient-to-b from-[rgba(15,18,21,0.95)] to-[rgba(8,9,11,0.95)] relative"
-    >
+    <div v-if="categories.length > 1" class="leaderboard-tabs">
       <button
         v-for="c in categories"
         :key="c"
-        class="flex-1 p-[12px_16px] border border-graphite-dark/60 border-b-0 text-t-secondary cursor-pointer font-[Oswald,sans-serif] font-medium text-[0.875rem] uppercase tracking-[1px] transition-all duration-300 ease-out relative mr-px max-[768px]:p-[10px_12px] max-[768px]:text-[0.8rem] max-[480px]:p-[8px_10px] max-[480px]:text-[0.75rem] max-[360px]:p-[0.5rem_0.625rem] max-[360px]:text-[0.7rem]"
-        :class="{
-          'bg-gradient-to-b from-massgate-orange-light to-massgate-orange !text-ink font-semibold border-massgate-orange/85 z-10 shadow-[0_0_18px_rgba(243,124,43,0.45)]':
-            active === c,
-          'bg-gradient-to-b from-graphite/90 to-graphite-dark/92 hover:!bg-gradient-to-b hover:!from-massgate-orange-light hover:!to-massgate-orange hover:!text-ink hover:border-massgate-orange/65 hover:shadow-[0_0_16px_rgba(243,124,43,0.4)] hover:-translate-y-px':
-            active !== c,
-        }"
+        class="leaderboard-tab"
+        :class="{ active: active === c }"
         @click="
           () => {
             active = c;
@@ -135,35 +118,17 @@ onUnmounted(() => {
     <!-- If categories provided, render tab containers; else single table -->
     <template v-if="categories.length > 0">
       <div v-for="c in categories" :key="c" :class="{ hidden: active !== c, block: active === c }">
-        <table
-          class="w-full [border-collapse:separate] border-spacing-0 font-[Rajdhani,sans-serif]"
-        >
+        <table class="leaderboard-table">
           <colgroup>
-            <col
-              class="w-[72px] min-w-[72px] max-[1024px]:w-16 max-[1024px]:min-w-16 max-[768px]:w-[3.75rem] max-[768px]:min-w-[3.75rem] max-[480px]:w-[3.375rem] max-[480px]:min-w-[3.375rem] max-[360px]:w-12 max-[360px]:min-w-12"
-            />
+            <col class="col-rank" />
             <col class="w-auto" />
-            <col
-              class="w-[140px] min-w-[140px] max-[1024px]:w-36 max-[1024px]:min-w-36 max-[768px]:w-[7.5rem] max-[768px]:min-w-[7.5rem] max-[480px]:w-[6.25rem] max-[480px]:min-w-[6.25rem] max-[360px]:w-[5.5rem] max-[360px]:min-w-[5.5rem]"
-            />
+            <col class="col-score" />
           </colgroup>
           <thead>
             <tr>
-              <th
-                class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] align-baseline leading-[1.4] max-[768px]:text-[0.8rem]"
-              >
-                Rank
-              </th>
-              <th
-                class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] align-baseline leading-[1.4] max-[768px]:text-[0.8rem]"
-              >
-                Player
-              </th>
-              <th
-                class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] align-baseline leading-[1.4] max-[768px]:text-[0.8rem]"
-              >
-                {{ thirdLabel }}
-              </th>
+              <th class="leaderboard-th">Rank</th>
+              <th class="leaderboard-th">Player</th>
+              <th class="leaderboard-th">{{ thirdLabel }}</th>
             </tr>
           </thead>
           <tbody>
@@ -178,43 +143,31 @@ onUnmounted(() => {
             <tr
               v-for="(e, index) in entriesFor(c)"
               :key="e.rank + (e.profileName || '')"
-              class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-massgate-orange/22 hover:[&>td]:to-massgate-orange/15 hover:[&>td]:!border-massgate-orange/40 max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
+              class="lb-row"
             >
               <td
-                class="p-3 text-t border-b border-b-mg/25 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
+                class="lb-cell-rank"
                 :class="{
-                  'text-gold [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.1rem] max-[360px]:text-[1rem]':
-                    index === 0,
-                  'text-silver [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.05rem] max-[360px]:text-[0.95rem]':
-                    index === 1,
-                  'text-bronze [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1rem] max-[360px]:text-[0.9rem]':
-                    index === 2,
+                  'lb-medal-gold': index === 0,
+                  'lb-medal-silver': index === 1,
+                  'lb-medal-bronze': index === 2,
                 }"
               >
                 {{ index + 1 }}
               </td>
-              <td
-                class="p-3 text-t border-b border-b-mg/25 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
-              >
+              <td class="lb-cell-player">
                 <div class="flex items-center leading-none">
                   <RankInsignia
                     :rank="e.rank ?? null"
                     :size="rankInsigniaSize"
                     class="inline-block !align-middle flex-shrink-0 m-0 leading-none"
                   />
-                  <span
-                    v-if="formatClanTag(e)"
-                    class="font-[Courier_New,monospace] text-massgate-orange font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
-                    >{{ formatClanTag(e) }}</span
-                  >
-                  <span
-                    class="font-[Rajdhani,sans-serif] text-t font-semibold text-[1.1rem] tracking-[0.3px] inline align-middle leading-[1.2] m-0 max-[1024px]:text-[1.05rem] max-[768px]:text-[1rem] max-[480px]:text-[0.95rem] max-[360px]:text-[0.9rem]"
-                    >{{ e.profileName || 'Unknown' }}</span
-                  >
+                  <span v-if="formatClanTag(e)" class="lb-clan-tag">{{ formatClanTag(e) }}</span>
+                  <span class="lb-player-name">{{ e.profileName || 'Unknown' }}</span>
                 </div>
               </td>
               <td
-                class="p-3 text-t border-b border-b-mg/25 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+                class="lb-cell-score"
                 :class="{
                   'text-gold': index === 0,
                   'text-silver': index === 1,
@@ -229,33 +182,17 @@ onUnmounted(() => {
       </div>
     </template>
     <template v-else>
-      <table class="w-full [border-collapse:separate] border-spacing-0 font-[Rajdhani,sans-serif]">
+      <table class="leaderboard-table">
         <colgroup>
-          <col
-            class="w-[72px] min-w-[72px] max-[1024px]:w-16 max-[1024px]:min-w-16 max-[768px]:w-[3.75rem] max-[768px]:min-w-[3.75rem] max-[480px]:w-[3.375rem] max-[480px]:min-w-[3.375rem] max-[360px]:w-12 max-[360px]:min-w-12"
-          />
+          <col class="col-rank" />
           <col class="w-auto" />
-          <col
-            class="w-[140px] min-w-[140px] max-[1024px]:w-36 max-[1024px]:min-w-36 max-[768px]:w-[7.5rem] max-[768px]:min-w-[7.5rem] max-[480px]:w-[6.25rem] max-[480px]:min-w-[6.25rem] max-[360px]:w-[5.5rem] max-[360px]:min-w-[5.5rem]"
-          />
+          <col class="col-score" />
         </colgroup>
         <thead>
           <tr>
-            <th
-              class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] align-baseline leading-[1.4] max-[768px]:text-[0.8rem]"
-            >
-              Rank
-            </th>
-            <th
-              class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] align-baseline leading-[1.4] max-[768px]:text-[0.8rem]"
-            >
-              Player
-            </th>
-            <th
-              class="bg-gradient-to-b from-mg/92 to-mg-dark/95 text-t p-3 text-left font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px] align-baseline leading-[1.4] max-[768px]:text-[0.8rem]"
-            >
-              {{ thirdLabel }}
-            </th>
+            <th class="leaderboard-th">Rank</th>
+            <th class="leaderboard-th">Player</th>
+            <th class="leaderboard-th">{{ thirdLabel }}</th>
           </tr>
         </thead>
         <tbody>
@@ -270,43 +207,31 @@ onUnmounted(() => {
           <tr
             v-for="(e, index) in entriesFor(active)"
             :key="e.rank + (e.profileName || '')"
-            class="min-h-14 h-14 hover:[&>td]:bg-gradient-to-r hover:[&>td]:from-massgate-orange/22 hover:[&>td]:to-massgate-orange/15 hover:[&>td]:!border-massgate-orange/40 max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[360px]:min-h-10 max-[360px]:h-10"
+            class="lb-row"
           >
             <td
-              class="p-3 text-t border-b border-b-mg/25 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:w-[3.75rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:w-[3.5rem] max-[768px]:text-[1.1rem] max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:w-[3.125rem] max-[480px]:text-[1rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:w-[2.75rem] max-[360px]:text-[0.9rem] max-[360px]:last:text-[0.85rem]"
+              class="lb-cell-rank"
               :class="{
-                'text-gold [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.1rem] max-[360px]:text-[1rem]':
-                  index === 0,
-                'text-silver [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1.05rem] max-[360px]:text-[0.95rem]':
-                  index === 1,
-                'text-bronze [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] max-[480px]:text-[1rem] max-[360px]:text-[0.9rem]':
-                  index === 2,
+                'lb-medal-gold': index === 0,
+                'lb-medal-silver': index === 1,
+                'lb-medal-bronze': index === 2,
               }"
             >
               {{ index + 1 }}
             </td>
-            <td
-              class="p-3 text-t border-b border-b-mg/25 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 relative max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
-            >
+            <td class="lb-cell-player">
               <div class="flex items-center leading-none">
                 <RankInsignia
                   :rank="e.rank ?? null"
                   :size="rankInsigniaSize"
                   class="inline-block !align-middle flex-shrink-0 m-0 leading-none"
                 />
-                <span
-                  v-if="formatClanTag(e)"
-                  class="font-[Courier_New,monospace] text-massgate-orange font-semibold text-[0.8rem] inline align-middle leading-[1.2] m-0 p-0 max-[768px]:text-[0.7rem] max-[360px]:text-[0.65rem]"
-                  >{{ formatClanTag(e) }}</span
-                >
-                <span
-                  class="font-[Rajdhani,sans-serif] text-t font-semibold text-[1.1rem] tracking-[0.3px] inline align-middle leading-[1.2] m-0 max-[1024px]:text-[1.05rem] max-[768px]:text-[1rem] max-[480px]:text-[0.95rem] max-[360px]:text-[0.9rem]"
-                  >{{ e.profileName || 'Unknown' }}</span
-                >
+                <span v-if="formatClanTag(e)" class="lb-clan-tag">{{ formatClanTag(e) }}</span>
+                <span class="lb-player-name">{{ e.profileName || 'Unknown' }}</span>
               </div>
             </td>
             <td
-              class="p-3 text-t border-b border-b-mg/25 font-medium bg-gradient-to-r from-panel/75 to-panel-dark/85 align-middle leading-[1.2] min-h-14 h-14 last:font-[Oswald,sans-serif] last:font-semibold last:text-right last:text-[1.15rem] last:tracking-[0.5px] last:whitespace-nowrap [tr:nth-child(even)>&]:bg-gradient-to-r [tr:nth-child(even)>&]:from-panel-striped/78 [tr:nth-child(even)>&]:to-panel-striped-dark/88 transition-all duration-200 max-[1024px]:p-[0.675rem] max-[1024px]:min-h-[3.25rem] max-[1024px]:h-[3.25rem] max-[1024px]:last:text-[1.1rem] max-[768px]:p-[0.625rem] max-[768px]:min-h-12 max-[768px]:h-12 max-[768px]:last:text-[1rem] max-[480px]:p-2 max-[480px]:min-h-[2.75rem] max-[480px]:h-[2.75rem] max-[480px]:last:text-[0.95rem] max-[360px]:p-1.5 max-[360px]:min-h-10 max-[360px]:h-10 max-[360px]:last:text-[0.85rem]"
+              class="lb-cell-score"
               :class="{
                 'text-gold': index === 0,
                 'text-silver': index === 1,

@@ -190,8 +190,8 @@ onMounted(() => {
                 v-for="item in cat.items"
                 :id="item.id"
                 :key="item.q"
-                class="faq-question-item bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 rounded-none overflow-hidden transition-all duration-300"
-                :class="openQuestion === item.q ? 'border-teal/40' : 'hover:border-teal/30'"
+                class="faq-question-item faq-item"
+                :class="openQuestion === item.q ? 'faq-item-open' : ''"
               >
                 <!-- Question Header (Clickable) -->
                 <button
@@ -200,7 +200,7 @@ onMounted(() => {
                 >
                   <!-- Question Icon Badge (similar to Downloads numbered badges) -->
                   <span
-                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker rounded-full flex items-center justify-center transition-all duration-200"
+                    class="step-number-badge-sm transition-all duration-200"
                     :class="openQuestion === item.q ? 'scale-110' : ''"
                   >
                     <i class="fa-solid fa-question text-ink text-sm" aria-hidden="true"></i>
@@ -218,12 +218,8 @@ onMounted(() => {
                     <span
                       role="button"
                       tabindex="0"
-                      class="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded transition-all duration-200 opacity-0 group-hover:opacity-100 hover:bg-teal/20 hover:text-teal-bright focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-teal/50"
-                      :class="
-                        copiedQuestionId === item.id
-                          ? 'opacity-100 text-teal-bright'
-                          : 'text-teal/70'
-                      "
+                      class="faq-copy-link-btn"
+                      :class="copiedQuestionId === item.id ? 'is-copied' : ''"
                       :title="`Copy link to this question`"
                       :aria-label="`Copy link to ${item.q}`"
                       @click.stop="copyQuestionLink(item.id)"
@@ -278,13 +274,9 @@ onMounted(() => {
       </TabContainer>
 
       <!-- Help CTA -->
-      <div
-        class="mt-8 bg-gradient-to-br from-panel/95 to-panel-dark/98 border border-teal/20 rounded-none p-6 md:p-8 text-center"
-      >
+      <div class="help-cta-box">
         <div class="flex justify-center mb-4">
-          <div
-            class="w-12 h-12 rounded-full bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker flex items-center justify-center"
-          >
+          <div class="teal-icon-badge">
             <i class="fa-brands fa-discord text-ink text-xl" aria-hidden="true"></i>
           </div>
         </div>
@@ -299,7 +291,7 @@ onMounted(() => {
             href="https://discord.gg/WnxwfMTyBe"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-soviet font-semibold no-underline transition-all duration-200 hover:text-soviet-light hover:underline"
+            class="inline-link"
             >Discord community</a
           >
           for live support and chat with other players!
@@ -318,7 +310,7 @@ onMounted(() => {
     >
       <div
         v-show="showCopiedToast"
-        class="fixed right-6 z-50 bg-gradient-to-br from-teal/95 to-teal-dark/95 backdrop-blur-sm border-2 border-teal-bright/50 rounded px-5 py-3 shadow-lg shadow-teal/30"
+        class="toast-notification"
         style="top: calc(var(--header-height) + 16px)"
         role="alert"
         aria-live="polite"

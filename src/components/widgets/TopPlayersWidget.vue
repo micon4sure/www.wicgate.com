@@ -61,15 +61,10 @@ function handleClick() {
               :size="20"
               class="inline-block flex-shrink-0 mr-1.5"
             />
-            <span
-              v-if="formatClanTag(player)"
-              class="font-mono text-soviet font-semibold text-[0.75rem] tracking-[0.3px] flex-shrink-0"
-            >
+            <span v-if="formatClanTag(player)" class="widget-clan-tag">
               {{ formatClanTag(player) }}
             </span>
-            <span
-              class="font-body text-t font-semibold text-[0.9rem] tracking-[0.3px] overflow-hidden text-ellipsis whitespace-nowrap"
-            >
+            <span class="widget-player-name">
               {{ player.profileName }}
             </span>
           </div>

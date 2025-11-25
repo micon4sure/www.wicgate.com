@@ -23,11 +23,7 @@
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-4"
       aria-label="Loading community events"
     >
-      <div
-        v-for="n in 3"
-        :key="n"
-        class="bg-gradient-to-b from-panel/96 to-panel-dark/98 border border-divider-strong rounded-none overflow-hidden shadow-[0_12px_28px_rgba(4,9,14,0.55)] min-h-[340px] md:min-h-80 flex flex-col"
-      >
+      <div v-for="n in 3" :key="n" class="skeleton-card min-h-[340px] md:min-h-80 flex flex-col">
         <div class="h-[220px] md:h-[180px] skeleton-shimmer"></div>
         <div class="p-4 flex flex-col gap-3">
           <div class="h-7 w-[70%] skeleton-shimmer" :style="{ animationDelay: '0.1s' }"></div>

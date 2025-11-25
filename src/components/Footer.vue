@@ -45,30 +45,10 @@ const socialLinks = [
           target="_blank"
           rel="noopener noreferrer"
           :aria-label="link.name"
-          class="w-11 h-11 flex items-center justify-center bg-mg/30 border border-mg/50 rounded-none transition-all duration-300 hover:scale-110 hover:-translate-y-0.5"
-          :class="{
-            'hover:bg-discord/20 hover:border-discord/60 hover:shadow-[0_0_15px_rgba(88,101,242,0.4)]':
-              link.color === 'discord',
-            'hover:bg-youtube/20 hover:border-youtube/60 hover:shadow-[0_0_15px_rgba(229,57,53,0.4)]':
-              link.color === 'youtube',
-            'hover:bg-twitch/20 hover:border-twitch/60 hover:shadow-[0_0_15px_rgba(145,70,255,0.4)]':
-              link.color === 'twitch',
-            'hover:bg-white/10 hover:border-white/50 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)]':
-              link.color === 'x',
-          }"
+          class="social-link"
+          :class="`social-link-${link.color}`"
         >
-          <i
-            :class="[
-              link.icon,
-              'text-lg transition-colors duration-300',
-              {
-                'text-t-dim hover:text-discord': link.color === 'discord',
-                'text-t-dim hover:text-youtube': link.color === 'youtube',
-                'text-t-dim hover:text-twitch': link.color === 'twitch',
-                'text-t-dim hover:text-white': link.color === 'x',
-              },
-            ]"
-          ></i>
+          <i :class="link.icon"></i>
         </a>
       </div>
 

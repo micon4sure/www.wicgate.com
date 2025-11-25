@@ -123,11 +123,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                 No videos available
               </div>
               <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <div
-                  v-for="v in top6NYTVideos"
-                  :key="v.id || v.videoUrl"
-                  class="card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(4,9,14,0.6)] active:scale-[0.98]"
-                >
+                <div v-for="v in top6NYTVideos" :key="v.id || v.videoUrl" class="video-card">
                   <a
                     :href="v.videoUrl"
                     target="_blank"
@@ -146,12 +142,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                       </div>
                     </div>
                     <div class="p-3 md:p-4">
-                      <h4
-                        class="m-0 mb-1.5 text-sm md:text-base leading-snug text-t font-body font-semibold line-clamp-2"
-                      >
+                      <h4 class="video-card-title">
                         {{ v.title }}
                       </h4>
-                      <div class="text-xs text-t3 font-body">
+                      <div class="video-card-meta">
                         <span v-if="v.author">{{ v.author }}</span>
                         <span v-if="v.views != null"> • {{ v.views.toLocaleString() }} views</span>
                         <span v-if="v.publishedAt">
@@ -173,28 +167,17 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                 <a
                   :href="`https://www.youtube.com/channel/${ch.channelId}`"
                   target="_blank"
-                  class="bg-gradient-to-b from-graphite-light/96 to-graphite-dark/98 border-2 border-teal/30 rounded-none px-6 py-3 no-underline transition-all duration-300 flex items-center justify-center gap-2.5 shadow-[0_12px_28px_rgba(4,9,14,0.55)] min-h-[50px] min-w-[250px] max-w-[350px] w-full hover:bg-gradient-to-b hover:from-massgate-orange-light hover:to-massgate-orange hover:border-massgate-orange/70 hover:shadow-[0_4px_16px_rgba(0,0,0,0.3),0_0_24px_rgba(255,102,0,0.45)] hover:-translate-y-0.5 active:scale-[0.98] group"
+                  class="channel-link group"
                   :aria-label="`View ${ch.channelTitle} YouTube channel`"
                 >
-                  <span
-                    class="flex-1 text-center text-t-secondary font-military font-bold uppercase tracking-wide text-base whitespace-nowrap overflow-hidden text-ellipsis group-hover:text-ink"
-                  >
-                    Visit {{ ch.channelTitle }} Channel
-                  </span>
-                  <i
-                    class="fa-solid fa-external-link text-t-secondary text-sm transition-all duration-300 group-hover:text-ink group-hover:translate-x-1"
-                    aria-hidden="true"
-                  ></i>
+                  <span class="channel-link-text"> Visit {{ ch.channelTitle }} Channel </span>
+                  <i class="channel-link-icon fa-solid fa-external-link" aria-hidden="true"></i>
                 </a>
               </div>
 
               <!-- Creator Videos -->
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <div
-                  v-for="v in ch.videos"
-                  :key="v.id"
-                  class="card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(4,9,14,0.6)] active:scale-[0.98]"
-                >
+                <div v-for="v in ch.videos" :key="v.id" class="video-card">
                   <a
                     :href="v.videoUrl"
                     target="_blank"
@@ -213,12 +196,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                       </div>
                     </div>
                     <div class="p-3 md:p-4">
-                      <h4
-                        class="m-0 mb-1.5 text-sm md:text-base leading-snug text-t font-body font-semibold line-clamp-2"
-                      >
+                      <h4 class="video-card-title">
                         {{ v.title }}
                       </h4>
-                      <div class="text-xs text-t3 font-body">
+                      <div class="video-card-meta">
                         <span v-if="v.views != null">{{ v.views.toLocaleString() }} views</span>
                         <span v-if="v.publishedAt">
                           • {{ new Date(v.publishedAt).toLocaleDateString() }}</span
