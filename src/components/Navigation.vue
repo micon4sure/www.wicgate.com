@@ -121,7 +121,7 @@ function handleLogout() {
   <div class="header-container">
     <!-- Logo on left side -->
     <div class="logo-wrapper">
-      <div class="logo-title">WICGATE</div>
+      <img src="/wicgate-flag.png" alt="WICGATE" class="logo-image" />
       <div class="logo-subtitle">Community Hosted Multiplayer</div>
     </div>
 

@@ -478,11 +478,11 @@
   }
 
   .dashboard-card-header-action {
-    @apply text-sm text-teal font-body font-semibold transition-colors;
+    @apply text-sm text-massgate-orange font-body font-semibold uppercase tracking-[0.5px] transition-all duration-200;
   }
 
   .dashboard-card-header-action:hover {
-    @apply text-teal-bright;
+    @apply text-massgate-orange-light;
   }
 
   /* Dashboard card body */
@@ -643,7 +643,7 @@
   }
 
   .widget-footer-action {
-    @apply flex items-center justify-between text-teal font-military text-sm font-semibold uppercase tracking-[0.5px] transition-all duration-200;
+    @apply flex items-center justify-between text-soviet font-military text-sm font-semibold uppercase tracking-[0.5px] transition-all duration-200;
   }
 
   /* ========== NAVIGATION COMPONENTS ========== */
@@ -707,6 +707,22 @@
   @media (max-width: 480px) {
     .logo-title {
       @apply text-lg;
+    }
+  }
+
+  .logo-image {
+    @apply h-8 w-auto select-none;
+  }
+
+  @media (max-width: 768px) {
+    .logo-image {
+      @apply h-7;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo-image {
+      @apply h-6;
     }
   }
 
