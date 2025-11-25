@@ -11,6 +11,7 @@ interface Tab {
 
 interface Props {
   tabs: Tab[];
+  tabClass?: string; // Additional CSS classes for the tab container
   analyticsCategory?: string; // Category for analytics tracking (e.g., 'Downloads')
   ariaLabel?: string; // ARIA label for tablist
 }
@@ -18,6 +19,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   analyticsCategory: '',
   ariaLabel: 'Tab navigation',
+  tabClass: 'tab-btn',
 });
 
 const router = useRouter();
@@ -124,50 +126,31 @@ const getPanelId = (tabId: string) => getAnchor(tabId);
   <div class="tab-container">
     <!-- Tab Navigation -->
     <div role="tablist" :aria-label="ariaLabel" class="tab-nav">
-      <button
-        v-for="tab in tabs"
-        :id="getTabId(tab.id)"
-        :key="tab.id"
-        role="tab"
-        :aria-selected="activeTabId === tab.id"
-        :aria-controls="getPanelId(tab.id)"
-        :tabindex="activeTabId === tab.id ? 0 : -1"
-        class="tab-btn"
-        :class="{ 'tab-btn-active': activeTabId === tab.id }"
-        @click="switchTab(tab)"
-        @keydown.arrow-right.prevent="
+      <button v-for="tab in tabs" :id="getTabId(tab.id)" :key="tab.id" role="tab"
+        :aria-selected="activeTabId === tab.id" :aria-controls="getPanelId(tab.id)"
+        :tabindex="activeTabId === tab.id ? 0 : -1" :class="[{ 'tab-btn-active': activeTabId === tab.id }, tabClass]"
+        @click="switchTab(tab)" @keydown.arrow-right.prevent="
           () => {
             const currentIndex = tabs.findIndex((t) => t.id === tab.id);
             const nextIndex = (currentIndex + 1) % tabs.length;
             switchTab(tabs[nextIndex]);
           }
-        "
-        @keydown.arrow-left.prevent="
+        " @keydown.arrow-left.prevent="
           () => {
             const currentIndex = tabs.findIndex((t) => t.id === tab.id);
             const prevIndex = (currentIndex - 1 + tabs.length) % tabs.length;
             switchTab(tabs[prevIndex]);
           }
-        "
-        @keydown.home.prevent="switchTab(tabs[0])"
-        @keydown.end.prevent="switchTab(tabs[tabs.length - 1])"
-      >
+        " @keydown.home.prevent="switchTab(tabs[0])" @keydown.end.prevent="switchTab(tabs[tabs.length - 1])">
         <i v-if="tab.icon" :class="tab.icon" class="mr-2" aria-hidden="true"></i>
         {{ formatLabel(tab.label) }}
       </button>
     </div>
 
     <!-- Tab Panels -->
-    <div
-      v-for="tab in tabs"
-      :id="getPanelId(tab.id)"
-      :key="tab.id"
-      role="tabpanel"
-      :aria-labelledby="getTabId(tab.id)"
-      :hidden="activeTabId !== tab.id"
-      class="tab-panel"
-      :class="{ hidden: activeTabId !== tab.id, block: activeTabId === tab.id }"
-    >
+    <div v-for="tab in tabs" :id="getPanelId(tab.id)" :key="tab.id" role="tabpanel" :aria-labelledby="getTabId(tab.id)"
+      :hidden="activeTabId !== tab.id" class="tab-panel"
+      :class="{ hidden: activeTabId !== tab.id, block: activeTabId === tab.id }">
       <slot :name="getAnchor(tab.id)" />
     </div>
   </div>

@@ -102,8 +102,8 @@ onUnmounted(() => {
       <button
         v-for="c in categories"
         :key="c"
-        class="leaderboard-tab"
-        :class="{ active: active === c }"
+        class="tab-btn"
+        :class="{ 'tab-btn-active': active === c }"
         @click="
           () => {
             active = c;

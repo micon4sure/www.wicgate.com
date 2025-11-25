@@ -169,9 +169,7 @@ onMounted(() => {
     <div class="container">
       <!-- Header -->
       <div class="text-center mb-12">
-        <h2
-          class="text-5xl md:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
-        >
+        <h2 class="text-5xl md:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6">
           Frequently Asked Questions
         </h2>
         <p class="text-lg md:text-xl text-t-secondary max-w-3xl mx-auto font-body leading-relaxed">
@@ -180,88 +178,56 @@ onMounted(() => {
       </div>
 
       <!-- Tab Container -->
-      <TabContainer :tabs="tabs" analytics-category="FAQ" aria-label="FAQ categories">
+      <TabContainer :tabs="tabs" :tab-class="'tab-btn-xs'" analytics-category="FAQ" aria-label="FAQ categories">
         <!-- Tab for each FAQ category -->
         <template v-for="cat in faq" :key="cat.cat" #[getCategoryAnchor(cat.cat)]>
           <div class="py-8 md:py-10">
             <!-- Questions -->
             <div class="flex flex-col gap-4">
-              <div
-                v-for="item in cat.items"
-                :id="item.id"
-                :key="item.q"
-                class="faq-question-item faq-item"
-                :class="openQuestion === item.q ? 'faq-item-open' : ''"
-              >
+              <div v-for="item in cat.items" :id="item.id" :key="item.q" class="faq-question-item faq-item"
+                :class="openQuestion === item.q ? 'faq-item-open' : ''">
                 <!-- Question Header (Clickable) -->
-                <button
-                  class="w-full flex items-start gap-4 p-5 md:p-6 text-left transition-all duration-200 group"
-                  @click="toggleQuestion(item.q)"
-                >
+                <button class="w-full flex items-start gap-4 p-5 md:p-6 text-left transition-all duration-200 group"
+                  @click="toggleQuestion(item.q)">
                   <!-- Question Icon Badge (similar to Downloads numbered badges) -->
-                  <span
-                    class="step-number-badge-sm transition-all duration-200"
-                    :class="openQuestion === item.q ? 'scale-110' : ''"
-                  >
+                  <span class="step-number-badge-sm transition-all duration-200"
+                    :class="openQuestion === item.q ? 'scale-110' : ''">
                     <i class="fa-solid fa-question text-ink text-sm" aria-hidden="true"></i>
                   </span>
 
                   <!-- Question text and copy link button -->
                   <div class="flex items-center gap-3 flex-1 min-w-0">
                     <h4
-                      class="text-lg md:text-xl font-military font-bold text-t uppercase tracking-wide flex-1 min-w-0"
-                    >
+                      class="text-lg md:text-xl font-military font-bold text-t uppercase tracking-wide flex-1 min-w-0">
                       {{ item.q }}
                     </h4>
 
                     <!-- Copy Link Button -->
-                    <span
-                      role="button"
-                      tabindex="0"
-                      class="faq-copy-link-btn"
-                      :class="copiedQuestionId === item.id ? 'is-copied' : ''"
-                      :title="`Copy link to this question`"
-                      :aria-label="`Copy link to ${item.q}`"
-                      @click.stop="copyQuestionLink(item.id)"
+                    <span role="button" tabindex="0" class="faq-copy-link-btn"
+                      :class="copiedQuestionId === item.id ? 'is-copied' : ''" :title="`Copy link to this question`"
+                      :aria-label="`Copy link to ${item.q}`" @click.stop="copyQuestionLink(item.id)"
                       @keydown.enter.stop.prevent="copyQuestionLink(item.id)"
-                      @keydown.space.stop.prevent="copyQuestionLink(item.id)"
-                    >
-                      <i
-                        class="text-sm transition-all duration-200"
-                        :class="
-                          copiedQuestionId === item.id ? 'fa-solid fa-check' : 'fa-solid fa-link'
-                        "
-                        aria-hidden="true"
-                      ></i>
+                      @keydown.space.stop.prevent="copyQuestionLink(item.id)">
+                      <i class="text-sm transition-all duration-200" :class="copiedQuestionId === item.id ? 'fa-solid fa-check' : 'fa-solid fa-link'
+                        " aria-hidden="true"></i>
                     </span>
                   </div>
 
                   <!-- Chevron Icon -->
-                  <div
-                    class="text-teal text-lg transition-transform duration-200 flex-shrink-0"
-                    :class="openQuestion === item.q ? 'rotate-180' : ''"
-                  >
+                  <div class="text-teal text-lg transition-transform duration-200 flex-shrink-0"
+                    :class="openQuestion === item.q ? 'rotate-180' : ''">
                     <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
                   </div>
                 </button>
 
                 <!-- Answer (Collapsible) -->
-                <transition
-                  enter-active-class="transition-all duration-200 ease-out"
-                  leave-active-class="transition-all duration-200 ease-in"
-                  enter-from-class="max-h-0 opacity-0"
-                  enter-to-class="max-h-[600px] opacity-100"
-                  leave-from-class="max-h-[600px] opacity-100"
-                  leave-to-class="max-h-0 opacity-0"
-                >
-                  <div
-                    v-show="openQuestion === item.q"
-                    class="overflow-hidden border-t border-teal/10"
-                  >
+                <transition enter-active-class="transition-all duration-200 ease-out"
+                  leave-active-class="transition-all duration-200 ease-in" enter-from-class="max-h-0 opacity-0"
+                  enter-to-class="max-h-[600px] opacity-100" leave-from-class="max-h-[600px] opacity-100"
+                  leave-to-class="max-h-0 opacity-0">
+                  <div v-show="openQuestion === item.q" class="overflow-hidden border-t border-teal/10">
                     <div class="p-5 md:p-6 bg-graphite-dark/30">
-                      <p
-                        class="text-base md:text-lg text-t-secondary font-body leading-relaxed m-0"
-                      >
+                      <p class="text-base md:text-lg text-t-secondary font-body leading-relaxed m-0">
                         {{ item.a }}
                       </p>
                     </div>
@@ -280,41 +246,25 @@ onMounted(() => {
             <i class="fa-brands fa-discord text-ink text-xl" aria-hidden="true"></i>
           </div>
         </div>
-        <h4
-          class="text-xl md:text-2xl font-military font-bold text-t uppercase tracking-wider mb-4"
-        >
+        <h4 class="text-xl md:text-2xl font-military font-bold text-t uppercase tracking-wider mb-4">
           Still Have Questions?
         </h4>
         <p class="text-base md:text-lg text-t-secondary font-body leading-relaxed m-0">
           Join our
-          <a
-            href="https://discord.gg/WnxwfMTyBe"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-link"
-            >Discord community</a
-          >
+          <a href="https://discord.gg/WnxwfMTyBe" target="_blank" rel="noopener noreferrer" class="inline-link">Discord
+            community</a>
           for live support and chat with other players!
         </p>
       </div>
     </div>
 
     <!-- Copy Link Toast Notification -->
-    <transition
-      enter-active-class="transition-all duration-300 ease-out"
-      leave-active-class="transition-all duration-300 ease-in"
-      enter-from-class="opacity-0 translate-y-2"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 -translate-y-2"
-    >
-      <div
-        v-show="showCopiedToast"
-        class="toast-notification"
-        style="top: calc(var(--header-height) + 16px)"
-        role="alert"
-        aria-live="polite"
-      >
+    <transition enter-active-class="transition-all duration-300 ease-out"
+      leave-active-class="transition-all duration-300 ease-in" enter-from-class="opacity-0 translate-y-2"
+      enter-to-class="opacity-100 translate-y-0" leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 -translate-y-2">
+      <div v-show="showCopiedToast" class="toast-notification" style="top: calc(var(--header-height) + 16px)"
+        role="alert" aria-live="polite">
         <div class="flex items-center gap-3">
           <i class="fa-solid fa-check text-ink text-lg" aria-hidden="true"></i>
           <span class="text-ink font-body font-semibold">Link copied to clipboard!</span>
