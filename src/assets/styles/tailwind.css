@@ -576,7 +576,7 @@
   /* Widget header icon */
   .widget-header-icon {
     @apply w-10 h-10 rounded-full flex items-center justify-center text-xl flex-shrink-0;
-    @apply bg-gradient-to-b from-teal-bright to-teal-glow border-2 border-teal-darker text-ink;
+    @apply bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border-2 border-massgate-orange-dark text-ink;
   }
 
   @media (max-width: 480px) {
@@ -849,14 +849,14 @@
 
   /* Tab button active state */
   .tab-btn-active {
-    @apply text-massgate-orange font-semibold z-10;
+    @apply text-teal font-semibold z-10;
     background: rgba(255, 255, 255, 0.05);
   }
 
   /* Tab button hover (inactive only) */
   @media (hover: hover) {
     .tab-btn:not(.tab-btn-active):hover {
-      @apply text-massgate-orange -translate-y-px;
+      @apply text-teal -translate-y-px;
       background: rgba(255, 255, 255, 0.03);
     }
   }
@@ -866,9 +866,9 @@
     content: '';
     @apply absolute left-0 right-0 h-[2px] opacity-0;
     bottom: 0;
-    background: theme('colors.massgate-orange.DEFAULT');
+    background: theme('colors.teal.DEFAULT');
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 -2px 8px rgba(243, 124, 43, 0.4);
+    box-shadow: 0 -2px 8px rgba(0, 217, 255, 0.4);
   }
 
   .tab-btn-active::before {
@@ -898,7 +898,7 @@
   /* Step number badge */
   .step-number-badge {
     @apply flex-shrink-0 flex items-center justify-center font-military font-bold text-ink;
-    @apply bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker rounded-full;
+    @apply bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border border-massgate-orange-dark rounded-full;
   }
 
   .step-number-badge-lg {
@@ -3019,15 +3019,15 @@
 
   .teal-icon-badge {
     @apply w-12 h-12 rounded-full;
-    @apply bg-gradient-to-b from-teal-bright to-teal-glow;
-    @apply border border-teal-darker;
+    @apply bg-gradient-to-b from-massgate-orange to-massgate-orange-dark;
+    @apply border border-massgate-orange-dark;
     @apply flex items-center justify-center;
   }
 
   .teal-icon-badge-sm {
     @apply w-8 h-8;
-    @apply bg-gradient-to-b from-teal-bright to-teal-glow;
-    @apply border border-teal-darker rounded-full;
+    @apply bg-gradient-to-b from-massgate-orange to-massgate-orange-dark;
+    @apply border border-massgate-orange-dark rounded-full;
     @apply flex items-center justify-center;
   }
 

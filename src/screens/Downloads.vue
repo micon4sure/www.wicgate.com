@@ -127,7 +127,7 @@ const tabs = [
                   class="font-military font-bold uppercase tracking-wider text-lg mb-4 text-t flex items-center gap-3"
                 >
                   <div
-                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-teal-bright to-teal-glow border border-teal-darker rounded-full flex items-center justify-center"
+                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border border-massgate-orange-dark rounded-full flex items-center justify-center"
                   >
                     <i class="fa-solid fa-network-wired text-ink text-xs" aria-hidden="true"></i>
                   </div>
@@ -143,7 +143,7 @@ const tabs = [
                     class="bg-graphite-dark/60 border border-teal/10 p-3 rounded-none"
                   >
                     <div class="flex items-baseline gap-2 mb-1">
-                      <span class="font-mono font-bold text-teal text-base">
+                      <span class="font-mono font-bold text-massgate-orange text-base">
                         {{ port.port }}
                       </span>
                       <span class="text-t-secondary text-xs uppercase font-body">
