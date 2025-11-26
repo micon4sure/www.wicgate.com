@@ -38,7 +38,7 @@
     padding-top: var(--header-height); /* Prevent content from hiding under fixed header */
   }
 
-  /* Add subtle noise texture to body */
+  /* Add subtle diagonal stripe texture to body */
   body::before {
     content: '';
     position: fixed;
@@ -46,10 +46,16 @@
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.03;
+    opacity: 0.7;
     pointer-events: none;
     z-index: -1;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(255, 255, 255, 0.03) 10px,
+      rgba(255, 255, 255, 0.03) 11px
+    );
   }
 }
 
@@ -343,14 +349,14 @@
     border-top: 2px solid rgba(31, 47, 59, 0.1);
   }
 
-  /* Even-indexed screens: subtle mg military tint */
+  /* Even-indexed screens: subtle teal tint */
   #screens > *:nth-child(even) {
-    background: linear-gradient(180deg, rgba(31, 47, 59, 0.02) 0%, rgba(15, 15, 15, 0.95) 100%);
+    background: linear-gradient(180deg, rgba(0, 40, 50, 0.04) 0%, rgba(10, 14, 18, 0.96) 100%);
   }
 
-  /* Odd-indexed screens: subtle soviet orange tint */
+  /* Odd-indexed screens: subtle green-blue tint */
   #screens > *:nth-child(odd) {
-    background: linear-gradient(180deg, rgba(255, 102, 0, 0.06) 0%, rgba(10, 16, 21, 0.96) 100%);
+    background: linear-gradient(180deg, rgba(0, 4, 255, 0.08) 0%, rgba(255, 0, 0, 0.08) 100%);
   }
 
   /* Military typography for hero content */
@@ -2483,105 +2489,28 @@
     background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%2300d9ff' stroke-width='0.5'%3E%3Cpath d='M0 0h80v80H0z'/%3E%3Cpath d='M20 0v80M40 0v80M60 0v80M0 20h80M0 40h80M0 60h80'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
-  /* Downloads Section - Orange/Soviet Theme (Action-oriented) */
+  /* Downloads Section */
   .bg-downloads-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(
-      180deg,
-      rgba(15, 18, 21, 0.96) 0%,
-      rgba(31, 20, 10, 0.93) 50%,
-      rgba(8, 9, 11, 0.97) 100%
-    );
+    background: linear-gradient(180deg, #0f1215 0%, #0a0c0f 50%, #08090b 100%);
   }
 
-  .bg-downloads-section::before {
-    content: '';
-    @apply absolute inset-0 pointer-events-none;
-    background:
-      radial-gradient(circle at 30% 80%, rgba(255, 102, 0, 0.10) 0%, transparent 60%),
-      radial-gradient(circle at 70% 20%, rgba(255, 133, 51, 0.08) 0%, transparent 50%);
-  }
-
-  .bg-downloads-section::after {
-    content: '';
-    @apply absolute inset-0 pointer-events-none opacity-[0.015];
-    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23ff6600' stroke-width='0.4' opacity='0.5'%3E%3Cpath d='M10 10l80 80M90 10L10 90'/%3E%3Cpath d='M50 0v100M0 50h100'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-
-  /* Statistics Section - Red/Massgate Theme (Competitive) */
+  /* Statistics Section */
   .bg-statistics-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(
-      180deg,
-      rgba(15, 18, 21, 0.96) 0%,
-      rgba(31, 15, 15, 0.92) 50%,
-      rgba(8, 9, 11, 0.97) 100%
-    );
+    background: linear-gradient(180deg, #0f1215 0%, #0c0e12 50%, #08090b 100%);
   }
 
-  .bg-statistics-section::before {
-    content: '';
-    @apply absolute inset-0 pointer-events-none;
-    background:
-      radial-gradient(circle at 80% 30%, rgba(229, 53, 53, 0.10) 0%, transparent 55%),
-      radial-gradient(circle at 20% 70%, rgba(198, 40, 40, 0.08) 0%, transparent 50%);
-  }
-
-  .bg-statistics-section::after {
-    content: '';
-    @apply absolute inset-0 pointer-events-none opacity-[0.018];
-    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23e53935' stroke-width='0.5'%3E%3Cpath d='M0 0h80v80H0z'/%3E%3Cpath d='M20 0v80M40 0v80M60 0v80M0 20h80M0 40h80M0 60h80'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-
-  /* Community Section - Warm Orange Theme (Social & Welcoming) */
+  /* Community Section */
   .bg-community-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(
-      180deg,
-      rgba(15, 18, 21, 0.96) 0%,
-      rgba(28, 18, 12, 0.93) 50%,
-      rgba(8, 9, 11, 0.96) 100%
-    );
+    background: transparent;
   }
 
-  .bg-community-section::before {
-    content: '';
-    @apply absolute inset-0 pointer-events-none;
-    background:
-      radial-gradient(circle at 40% 30%, rgba(255, 102, 0, 0.09) 0%, transparent 55%),
-      radial-gradient(circle at 60% 70%, rgba(229, 53, 53, 0.07) 0%, transparent 50%),
-      radial-gradient(circle at 80% 50%, rgba(255, 133, 51, 0.06) 0%, transparent 45%);
-  }
-
-  .bg-community-section::after {
-    content: '';
-    @apply absolute inset-0 pointer-events-none opacity-[0.02];
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff6600' fill-opacity='1'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-
-  /* FAQ Section - Cool Teal/Blue Theme (Informational & Calm) */
+  /* FAQ Section */
   .bg-faq-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(
-      180deg,
-      rgba(15, 18, 21, 0.97) 0%,
-      rgba(8, 21, 31, 0.94) 50%,
-      rgba(8, 9, 11, 0.96) 100%
-    );
-  }
-
-  .bg-faq-section::before {
-    content: '';
-    @apply absolute inset-0 pointer-events-none;
-    background:
-      radial-gradient(circle at 70% 20%, rgba(0, 217, 255, 0.09) 0%, transparent 55%),
-      radial-gradient(circle at 30% 80%, rgba(0, 184, 212, 0.07) 0%, transparent 50%);
-  }
-
-  .bg-faq-section::after {
-    content: '';
-    @apply absolute inset-0 pointer-events-none opacity-[0.02];
-    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%2300d9ff' stroke-width='0.5'%3E%3Cpath d='M0 0h80v80H0z'/%3E%3Cpath d='M20 0v80M40 0v80M60 0v80M0 20h80M0 40h80M0 60h80'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background: linear-gradient(180deg, #0f1215 0%, #0a0d10 50%, #08090b 100%);
   }
 
   /* ========== GLOBAL UTILITY PATTERNS ========== */
