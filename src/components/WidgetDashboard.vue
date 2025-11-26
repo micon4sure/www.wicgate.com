@@ -32,11 +32,9 @@ function goToSection(sectionOrSubsectionId: string) {
     <div class="container relative z-10">
       <!-- Hero Header -->
       <div class="text-center mb-16 2xl:mb-16 xl:mb-14 md:mb-12 sm:mb-10">
-        <div class="hero-badge">THE WAR CONTINUES</div>
-
         <h1 class="hero-title">
-          World in Conflict<br />
-          <span class="hero-subtitle">Multiplayer Reborn</span>
+          <img src="/wic.png" alt="World in Conflict" class="h-48 md:h-64 lg:h-80 mx-auto" />
+          <span class="hero-subtitle text-soviet block mt-2">WICGATE: Multiplayer Reborn</span>
         </h1>
 
         <div class="max-w-3xl mx-auto space-y-3 mb-6">
@@ -44,9 +42,8 @@ function goToSection(sectionOrSubsectionId: string) {
             Experience the critically acclaimed 2007 Cold War RTS masterpiece online again.
           </p>
           <p class="hero-desc-secondary">
-            Using the <strong class="text-soviet">official Massgate server code</strong>, WiCGate
-            delivers authentic WiC multiplayer with all original features intact. Command Soviet or
-            Western forces in intense tactical battles across dedicated WiCGate servers.
+            Using the official Massgate server code, WiCGate delivers authentic WiC multiplayer with
+            all original features intact on stable dedicated servers!
           </p>
         </div>
 

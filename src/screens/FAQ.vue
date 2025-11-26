@@ -243,7 +243,7 @@ onMounted(() => {
 
                   <!-- Chevron Icon -->
                   <div
-                    class="text-massgate-orange text-lg transition-transform duration-200 flex-shrink-0"
+                    class="text-t-secondary text-lg transition-transform duration-200 flex-shrink-0"
                     :class="openQuestion === item.q ? 'rotate-180' : ''"
                   >
                     <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>

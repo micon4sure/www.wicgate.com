@@ -140,7 +140,7 @@ function handleLogout() {
     </nav>
 
     <!-- Auth & Social Buttons (Desktop) -->
-    <div class="hidden lg:flex items-center gap-2 xl:gap-3 ml-auto">
+    <div class="hidden lg:flex items-center gap-2 xl:gap-3">
       <!-- Admin Link (if admin) -->
       <router-link v-if="isAdmin" to="/admin" class="auth-btn-admin">
         <i class="fa-solid fa-crown"></i>
@@ -152,12 +152,6 @@ function handleLogout() {
         <i class="fa-solid fa-right-from-bracket"></i>
         Logout
       </button>
-
-      <!-- Login Link (if not authenticated) -->
-      <router-link v-if="!isAuthenticated" to="/login" class="auth-btn-login">
-        <i class="fa-solid fa-right-to-bracket"></i>
-        Login
-      </router-link>
 
       <!-- Discord Social Button -->
       <a
@@ -175,6 +169,16 @@ function handleLogout() {
         Discord
       </a>
     </div>
+
+    <!-- Login Button (Desktop - Far Right) -->
+    <router-link
+      v-if="!isAuthenticated"
+      to="/login"
+      class="auth-btn-login hidden lg:flex ml-8 xl:ml-12"
+    >
+      <i class="fa-solid fa-right-to-bracket"></i>
+      Login
+    </router-link>
 
     <!-- Enhanced hamburger menu button -->
     <button

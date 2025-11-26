@@ -107,7 +107,7 @@ function formatPlayerClanTag(player: {
 }
 
 function handleTopPlayersClick() {
-  emit('navigate', 'statistics-leaderboards');
+  emit('navigate', 'statistics');
 }
 </script>
 
@@ -190,7 +190,7 @@ function handleTopPlayersClick() {
       >
         <div class="dashboard-card-header">
           <div class="dashboard-card-header-title">
-            <i class="fa-solid fa-trophy text-massgate-gold text-xl" aria-hidden="true"></i>
+            <i class="fa-solid fa-trophy text-t text-xl" aria-hidden="true"></i>
             <h3>Top Players</h3>
           </div>
           <button class="dashboard-card-header-action" @click="handleTopPlayersClick">
@@ -214,7 +214,7 @@ function handleTopPlayersClick() {
                 :key="player.profileId"
                 class="ladder-player-item"
               >
-                <span class="ladder-rank">
+                <span class="ladder-rank" :class="`rank-${i + 1}`">
                   {{ i + 1 }}
                 </span>
                 <div class="flex items-center flex-1 overflow-hidden leading-none gap-0">
@@ -230,7 +230,7 @@ function handleTopPlayersClick() {
                     {{ player.profileName }}
                   </span>
                 </div>
-                <span class="ladder-score">
+                <span class="ladder-score" :class="`rank-${i + 1}`">
                   {{ player.high }}
                 </span>
               </div>

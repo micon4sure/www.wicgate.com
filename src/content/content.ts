@@ -14,7 +14,7 @@ export const steps = [
   {
     n: 2,
     t: 'Install & Run WIC LIVE',
-    c: 'WIC LIVE updates your game for WICGATE servers, installs community maps, and adds quality of life fixes for modern systems. After installation, click the "INSTALL UPDATE" button. <br><a href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe" class="btn btn-download mt-md" id="downloadClientBtn">Download WIC LIVE</a>',
+    c: 'WIC LIVE updates your game for WICGATE servers, installs community maps, and adds quality of life fixes for modern systems. After installation, click the "INSTALL UPDATE" button.',
   },
   {
     n: 3,
@@ -231,7 +231,7 @@ export const dedicatedServerSteps: DedicatedServerStep[] = [
   {
     n: 2,
     t: 'Extract Server Package',
-    c: 'Extract <span class="text-bold">MatchMode.zip</span> to your chosen directory.',
+    c: 'Extract <span class="text-bold">MatchMode.zip</span> or <span class="text-bold">Ranked.zip</span> to your chosen directory.',
   },
   {
     n: 3,

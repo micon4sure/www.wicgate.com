@@ -123,6 +123,29 @@
     background: linear-gradient(180deg, #c62828 0%, #8b0000 100%);
   }
 
+  /* Gold/Yellow button variant */
+  .btn-gold {
+    @apply px-6 py-3 text-white font-military font-bold uppercase tracking-wider rounded-none transition-all duration-300;
+    background: linear-gradient(180deg, #ffd54f 0%, #ffa000 100%);
+    border: 2px solid rgba(255, 160, 0, 0.7);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 202, 40, 0.4);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6), 0 2px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  @media (hover: hover) {
+    .btn-gold:hover {
+      transform: scale(1.05);
+      background: linear-gradient(180deg, #ffecb3 0%, #ffd54f 100%);
+      border-color: rgba(255, 202, 40, 0.9);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 202, 40, 0.6);
+    }
+  }
+
+  .btn-gold:active {
+    transform: scale(1);
+    background: linear-gradient(180deg, #ffa000 0%, #ff8f00 100%);
+  }
+
   /* Container */
   .container {
     @apply max-w-7xl mx-auto px-5;
@@ -192,30 +215,30 @@
 
   @media (hover: hover) {
     .nav-tab:hover {
-      @apply text-massgate-orange;
+      @apply text-t;
       background: rgba(255, 255, 255, 0.03);
       transform: translateY(-1px);
     }
   }
 
   .nav-tab:active {
-    @apply text-massgate-orange;
+    @apply text-t;
     background: rgba(255, 255, 255, 0.05);
     transform: translateY(0);
   }
 
   .nav-tab.active {
-    @apply text-massgate-orange font-semibold;
-    background: rgba(255, 255, 255, 0.05);
+    @apply text-white font-semibold;
+    background: linear-gradient(to bottom, #c62828, #8b0000);
   }
 
   .nav-tab::before {
     content: '';
     @apply absolute left-0 right-0 h-[2px] opacity-0;
     bottom: 0;
-    background: theme('colors.massgate-orange.DEFAULT');
+    background: theme('colors.massgate-red.bright');
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 -2px 8px rgba(243, 124, 43, 0.4);
+    box-shadow: 0 -2px 8px rgba(229, 57, 53, 0.4);
   }
 
   @media (hover: hover) {
@@ -472,11 +495,11 @@
   }
 
   .dashboard-card-header-action {
-    @apply text-sm text-massgate-orange font-body font-semibold uppercase tracking-[0.5px] transition-all duration-200;
+    @apply text-sm text-t-secondary font-body font-semibold uppercase tracking-[0.5px] transition-all duration-200;
   }
 
   .dashboard-card-header-action:hover {
-    @apply text-massgate-orange-light;
+    @apply text-t;
   }
 
   /* Dashboard card body */
@@ -813,7 +836,7 @@
   /* Tab button base */
   .tab-btn {
     @apply flex-1 cursor-pointer relative mr-px;
-    @apply font-[Oswald,sans-serif] font-medium text-[1.1rem] uppercase tracking-[1px];
+    @apply font-[Oswald,sans-serif] font-medium text-[0.95rem] uppercase tracking-[1px];
     @apply border-none;
     @apply text-t-secondary;
     @apply transition-all duration-300 ease-out;
@@ -849,14 +872,14 @@
 
   /* Tab button active state */
   .tab-btn-active {
-    @apply text-teal font-semibold z-10;
-    background: rgba(255, 255, 255, 0.05);
+    @apply text-white font-semibold z-10;
+    background: linear-gradient(to bottom, #c62828, #8b0000);
   }
 
   /* Tab button hover (inactive only) */
   @media (hover: hover) {
     .tab-btn:not(.tab-btn-active):hover {
-      @apply text-teal -translate-y-px;
+      @apply text-massgate-red-bright -translate-y-px;
       background: rgba(255, 255, 255, 0.03);
     }
   }
@@ -866,9 +889,9 @@
     content: '';
     @apply absolute left-0 right-0 h-[2px] opacity-0;
     bottom: 0;
-    background: theme('colors.teal.DEFAULT');
+    background: theme('colors.massgate-red.bright');
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 -2px 8px rgba(0, 217, 255, 0.4);
+    box-shadow: 0 -2px 8px rgba(229, 57, 53, 0.4);
   }
 
   .tab-btn-active::before {
@@ -916,16 +939,16 @@
     @apply transition-all duration-300;
     @apply flex items-center justify-center gap-2.5;
     @apply min-h-[50px] min-w-[250px] max-w-[350px] w-full;
-    @apply border-2 border-teal/30;
-    background: linear-gradient(to bottom, rgba(58, 74, 88, 0.96), rgba(35, 43, 52, 0.98));
+    @apply border-2 border-massgate-gold/50;
+    background: linear-gradient(to bottom, rgba(18, 24, 30, 0.98), rgba(10, 14, 18, 0.99));
     box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
   }
 
   @media (hover: hover) {
     .channel-link:hover {
-      @apply border-massgate-orange/70 -translate-y-0.5;
-      background: linear-gradient(to bottom, #f5a24f, #f37c2b);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 24px rgba(255, 102, 0, 0.45);
+      @apply border-massgate-gold -translate-y-0.5;
+      background: linear-gradient(to bottom, rgba(25, 32, 40, 0.98), rgba(15, 20, 25, 0.99));
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 202, 40, 0.3);
     }
   }
 
@@ -935,22 +958,22 @@
 
   .channel-link-text {
     @apply flex-1 text-center font-military font-bold uppercase tracking-wide text-base;
-    @apply text-t-secondary whitespace-nowrap overflow-hidden text-ellipsis;
+    @apply text-massgate-gold whitespace-nowrap overflow-hidden text-ellipsis;
     @apply transition-colors duration-300;
   }
 
   .group:hover .channel-link-text,
   .channel-link:hover .channel-link-text {
-    @apply text-ink;
+    @apply text-massgate-gold-bright;
   }
 
   .channel-link-icon {
-    @apply text-t-secondary text-sm transition-all duration-300;
+    @apply text-massgate-gold text-sm transition-all duration-300;
   }
 
   .group:hover .channel-link-icon,
   .channel-link:hover .channel-link-icon {
-    @apply text-ink translate-x-1;
+    @apply text-massgate-gold-bright translate-x-1;
   }
 
   /* ========== FOOTER SOCIAL LINKS ========== */
@@ -1274,16 +1297,30 @@
     box-shadow: 0 12px 30px rgba(4, 9, 14, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
 
-  /* Red header bar */
+  /* Header row - contains title and tabs inline */
+  .leaderboard-header-row {
+    @apply flex items-stretch;
+  }
+
+  @media (max-width: 768px) {
+    .leaderboard-header-row {
+      @apply flex-col;
+    }
+  }
+
+  /* Header bar */
   .leaderboard-header {
-    @apply p-[15px_20px] relative;
-    @apply border-[3px] border-massgate-red-dark;
-    background: linear-gradient(to bottom, #c62828, #8b0000);
+    @apply p-[15px_20px] relative w-1/4 flex-shrink-0;
+    background: linear-gradient(to bottom, #1f2f3b, #151f28);
+  }
+
+  .leaderboard-header-full {
+    @apply w-full;
   }
 
   @media (max-width: 768px) {
     .leaderboard-header {
-      @apply p-[12px_15px];
+      @apply p-[12px_15px] w-full;
     }
   }
 
@@ -1300,25 +1337,25 @@
   }
 
   .leaderboard-header-title {
-    @apply m-0 text-[1.25rem] font-bold text-white uppercase tracking-[1px];
+    @apply m-0 text-[1.5rem] font-bold text-teal uppercase tracking-[1px];
     @apply font-[Oswald,sans-serif];
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
 
   @media (max-width: 768px) {
     .leaderboard-header-title {
-      @apply text-[1.1rem];
+      @apply text-[1.25rem];
     }
   }
 
   .leaderboard-header-subtitle {
-    @apply font-[Rajdhani,sans-serif] font-medium m-[5px_0_0_0] text-white/90 uppercase tracking-[0.5px] text-[0.85rem];
+    @apply font-[Rajdhani,sans-serif] font-medium m-[5px_0_0_0] text-t-secondary uppercase tracking-[0.5px] text-[0.85rem];
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 
   /* Tab bar container */
   .leaderboard-tabs {
-    @apply flex relative;
+    @apply flex flex-1 items-stretch relative;
     background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
   }
 
@@ -1807,12 +1844,36 @@
   }
 
   .ladder-rank {
-    @apply w-7 h-7 flex items-center justify-center bg-mg/40 text-massgate-gold text-sm font-bold;
+    @apply w-7 h-7 flex items-center justify-center bg-mg/40 text-t text-sm font-bold;
     @apply font-military flex-shrink-0 rounded-none;
   }
 
+  .ladder-rank.rank-1 {
+    @apply bg-gold/20 text-gold;
+  }
+
+  .ladder-rank.rank-2 {
+    @apply bg-silver/20 text-silver;
+  }
+
+  .ladder-rank.rank-3 {
+    @apply bg-bronze/20 text-bronze;
+  }
+
   .ladder-score {
-    @apply text-sm font-military font-bold flex-shrink-0 text-soviet;
+    @apply text-sm font-military font-bold flex-shrink-0 text-t;
+  }
+
+  .ladder-score.rank-1 {
+    @apply text-gold;
+  }
+
+  .ladder-score.rank-2 {
+    @apply text-silver;
+  }
+
+  .ladder-score.rank-3 {
+    @apply text-bronze;
   }
 
   /* Help list */
@@ -1844,7 +1905,7 @@
 
   .hero-section {
     @apply bg-hero-section relative overflow-hidden;
-    @apply min-h-[100vh] pt-[var(--header-height)] pb-24;
+    @apply min-h-[100vh] pb-24;
   }
 
   @media (max-width: 768px) {
@@ -1902,49 +1963,37 @@
 
   /* Hero title */
   .hero-title {
-    @apply text-6xl leading-tight mb-4 font-military font-bold text-t uppercase tracking-wide;
+    @apply mb-4 font-military font-bold text-t uppercase tracking-wide;
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.9));
-  }
-
-  @media (max-width: 1536px) {
-    .hero-title {
-      @apply text-6xl;
-    }
-  }
-
-  @media (max-width: 1280px) {
-    .hero-title {
-      @apply text-5xl;
-    }
   }
 
   @media (max-width: 768px) {
     .hero-title {
-      @apply text-[2.5rem];
+      @apply mb-3;
     }
   }
 
   @media (max-width: 640px) {
     .hero-title {
-      @apply text-3xl;
+      @apply mb-2;
     }
   }
 
   /* Hero subtitle (Multiplayer Reborn) */
   .hero-subtitle {
-    @apply inline text-2xl text-massgate-red-bright font-bold;
+    @apply inline text-4xl text-massgate-red-bright font-bold;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
   }
 
   @media (max-width: 1280px) {
     .hero-subtitle {
-      @apply text-xl;
+      @apply text-3xl;
     }
   }
 
   @media (max-width: 640px) {
     .hero-subtitle {
-      @apply text-lg;
+      @apply text-2xl;
     }
   }
 
@@ -1991,8 +2040,8 @@
 
   /* Hero CTA button */
   .hero-cta {
-    @apply btn-red inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-black no-underline;
-    @apply animate-red-pulse transition-transform duration-300;
+    @apply btn-gold inline-flex items-center justify-center gap-4 px-10 py-5 text-xl font-black no-underline;
+    @apply animate-gold-pulse transition-transform duration-300;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   }
 
@@ -2004,19 +2053,7 @@
 
   @media (max-width: 640px) {
     .hero-cta {
-      @apply px-6 py-3 text-base;
-    }
-  }
-
-  /* Download button (Downloads page) - similar to hero-cta */
-  .download-btn {
-    @apply btn-red inline-flex items-center justify-center gap-3 px-8 py-4 text-lg no-underline;
-    @apply animate-red-pulse;
-  }
-
-  @media (max-width: 768px) {
-    .download-btn {
-      @apply text-xl;
+      @apply px-8 py-4 text-lg;
     }
   }
 
@@ -2076,17 +2113,15 @@
 
   @media (hover: hover) {
     .auth-btn-login:hover {
-      @apply text-ink -translate-y-0.5;
-      background: linear-gradient(to bottom, #f5a24f, #f37c2b);
-      border-color: #f37c2b;
-      box-shadow: 0 0 15px rgba(255, 102, 0, 0.4);
+      @apply text-teal -translate-y-0.5;
+      @apply bg-teal/10 border-teal;
+      box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
     }
   }
 
   .auth-btn-login:active {
-    @apply text-ink translate-y-0;
-    background: linear-gradient(to bottom, #f37c2b, #d46825);
-    border-color: #d46825;
+    @apply text-teal translate-y-0;
+    @apply bg-teal/15 border-teal-dark;
   }
 
   /* Discord button */
@@ -2631,9 +2666,9 @@
 
   @media (hover: hover) {
     .card:hover {
-      border-color: rgba(255, 102, 0, 0.6);
+      border-color: rgba(255, 202, 40, 0.6);
       box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55),
-                  0 0 25px rgba(255, 102, 0, 0.35);
+                  0 0 25px rgba(255, 202, 40, 0.35);
     }
   }
 
@@ -2669,35 +2704,35 @@
 
   /* ========== GETTING STARTED SECTION ========== */
 
-  /* Download/setup links in advanced sections - Orange with underline on hover */
+  /* Download/setup links in advanced sections - Yellow with underline on hover */
   #getting-started-advanced a {
-    @apply text-soviet font-semibold no-underline transition-all duration-200;
+    @apply text-massgate-gold font-semibold no-underline transition-all duration-200;
   }
 
   #getting-started-advanced a:hover {
-    @apply text-soviet-light underline;
+    @apply text-massgate-gold-bright underline;
     text-underline-offset: 3px;
   }
 
   #getting-started-advanced a:active {
-    @apply text-soviet-dark;
+    @apply text-massgate-gold-dark;
   }
 
   /* ========== DOWNLOADS SECTION ========== */
 
-  /* Download links in Dedicated Server & Manual Install tabs - Orange with underline on hover */
+  /* Download links in Dedicated Server & Manual Install tabs - Yellow with underline on hover */
   /* Exclude buttons (like the Quick Install download button) */
-  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal) {
-    @apply text-soviet font-semibold no-underline transition-all duration-200;
+  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal):not(.hero-cta) {
+    @apply text-massgate-gold font-semibold no-underline transition-all duration-200;
   }
 
-  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal):hover {
-    @apply text-soviet-light underline;
+  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal):not(.hero-cta):hover {
+    @apply text-massgate-gold-bright underline;
     text-underline-offset: 3px;
   }
 
-  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal):active {
-    @apply text-soviet-dark;
+  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal):not(.hero-cta):active {
+    @apply text-massgate-gold-dark;
   }
 
   /* Non-link text (like .text-bold spans) - Teal for emphasis */
@@ -3041,9 +3076,9 @@
   /* ========== INLINE LINK ========== */
 
   .inline-link {
-    @apply text-soviet font-semibold no-underline;
+    @apply text-massgate-gold font-semibold no-underline;
     @apply transition-all duration-200;
-    @apply hover:text-soviet-light hover:underline;
+    @apply hover:text-massgate-gold-bright hover:underline;
   }
 
   @media (max-width: 768px) {
@@ -3153,4 +3188,17 @@
 
 .animate-red-pulse {
   animation: redPulse 2.5s ease-in-out infinite;
+}
+
+.animate-gold-pulse {
+  animation: goldPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes goldPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 202, 40, 0.4), 0 0 40px rgba(255, 160, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 213, 79, 0.6), 0 0 60px rgba(255, 202, 40, 0.4);
+  }
 }

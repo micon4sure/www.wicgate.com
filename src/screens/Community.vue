@@ -90,7 +90,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
             <TwitchFacade :channel="u" muted />
             <div class="p-3 md:p-4 flex justify-center items-center border-t border-teal/10">
               <strong
-                class="text-massgate-orange font-military font-semibold uppercase tracking-wide text-sm md:text-base"
+                class="text-massgate-gold font-military font-semibold uppercase tracking-wide text-sm md:text-base"
                 >{{ u }}</strong
               >
             </div>

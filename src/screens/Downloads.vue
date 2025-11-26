@@ -73,10 +73,10 @@ const tabs = [
                       <a
                         id="downloadClientBtn"
                         href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe"
-                        class="download-btn"
+                        class="hero-cta"
                       >
-                        <i class="fa-solid fa-download text-2xl" aria-hidden="true"></i>
-                        <span class="font-black">DOWNLOAD WIC LIVE</span>
+                        <i class="fa-solid fa-download text-xl sm:text-lg" aria-hidden="true"></i>
+                        <span>DOWNLOAD NOW</span>
                       </a>
                     </div>
                   </div>
@@ -143,7 +143,7 @@ const tabs = [
                     class="bg-graphite-dark/60 border border-teal/10 p-3 rounded-none"
                   >
                     <div class="flex items-baseline gap-2 mb-1">
-                      <span class="font-mono font-bold text-massgate-orange text-base">
+                      <span class="font-mono font-bold text-teal text-base">
                         {{ port.port }}
                       </span>
                       <span class="text-t-secondary text-xs uppercase font-body">
@@ -179,14 +179,14 @@ const tabs = [
 
             <!-- Warning Banner -->
             <div
-              class="bg-massgate-red/10 border-2 border-massgate-red/40 rounded-none p-4 flex gap-3 items-start mb-8"
+              class="bg-teal/10 border-2 border-teal/40 rounded-none p-4 flex gap-3 items-start mb-8"
             >
-              <div class="text-massgate-red-bright text-xl flex-shrink-0 mt-0.5">
+              <div class="text-teal text-xl flex-shrink-0 mt-0.5">
                 <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
               </div>
               <div>
                 <h5
-                  class="m-0 mb-2 text-t text-base font-military font-bold uppercase tracking-wide"
+                  class="m-0 mb-2 text-teal text-base font-military font-bold uppercase tracking-wide"
                 >
                   {{ manualInstallWarning.title }}
                 </h5>

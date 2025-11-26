@@ -89,30 +89,35 @@ onUnmounted(() => {
 </script>
 <template>
   <div class="leaderboard-container">
-    <div class="leaderboard-header">
-      <h3 class="leaderboard-header-title">
-        {{ title }}
-      </h3>
-      <p v-if="subtitle" class="leaderboard-header-subtitle">
-        {{ subtitle }}
-      </p>
-    </div>
-
-    <div v-if="categories.length > 1" class="leaderboard-tabs">
-      <button
-        v-for="c in categories"
-        :key="c"
-        class="tab-btn"
-        :class="{ 'tab-btn-active': active === c }"
-        @click="
-          () => {
-            active = c;
-            AnalyticsEvents.leaderboardTabSwitch(c);
-          }
-        "
+    <div class="leaderboard-header-row">
+      <div
+        class="leaderboard-header"
+        :class="{ 'leaderboard-header-full': categories.length <= 1 }"
       >
-        {{ formatCategoryLabel(c) }}
-      </button>
+        <h3 class="leaderboard-header-title">
+          {{ title }}
+        </h3>
+        <p v-if="subtitle" class="leaderboard-header-subtitle">
+          {{ subtitle }}
+        </p>
+      </div>
+
+      <div v-if="categories.length > 1" class="leaderboard-tabs">
+        <button
+          v-for="c in categories"
+          :key="c"
+          class="tab-btn"
+          :class="{ 'tab-btn-active': active === c }"
+          @click="
+            () => {
+              active = c;
+              AnalyticsEvents.leaderboardTabSwitch(c);
+            }
+          "
+        >
+          {{ formatCategoryLabel(c) }}
+        </button>
+      </div>
     </div>
 
     <!-- If categories provided, render tab containers; else single table -->

@@ -55,7 +55,7 @@ function getCountdown(startDate: string): string {
 
 // Navigation handlers
 function handleVideosClick() {
-  emit('navigate', 'community-videos');
+  emit('navigate', 'community');
 }
 
 function openVideo(url: string) {

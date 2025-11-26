@@ -28,7 +28,7 @@ function formatClanTag(entry: LadderEntry): string {
 }
 
 function handleClick() {
-  emit('navigate', 'statistics-leaderboards');
+  emit('navigate', 'statistics');
 }
 </script>
 

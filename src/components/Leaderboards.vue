@@ -48,16 +48,20 @@ const ladderData = computed<LeaderboardDataRecord>(() => ({
     />
     <LeaderboardGroup
       title="Player Leaderboard"
+      subtitle="Top performers over the past 2 weeks"
       :data="ladderData"
       :categories="[]"
       :keys="{ default: 'ladder' }"
       third-label="Rating"
     />
-    <div class="leaderboard-panel">
-      <div class="leaderboard-panel-header">
-        <h3 class="leaderboard-panel-title">Clan Leaderboard</h3>
+    <div class="leaderboard-container">
+      <div class="leaderboard-header-row">
+        <div class="leaderboard-header leaderboard-header-full">
+          <h3 class="leaderboard-header-title">Clan Leaderboard</h3>
+          <p class="leaderboard-header-subtitle">Coming soon</p>
+        </div>
       </div>
-      <div class="leaderboard-panel-placeholder">Coming soon</div>
+      <div class="leaderboard-panel-placeholder">Clan rankings are in development</div>
     </div>
   </div>
 </template>

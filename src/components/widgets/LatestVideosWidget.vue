@@ -15,7 +15,7 @@ const emit = defineEmits<{
 const latestVideos = computed(() => props.videos.slice(0, 3));
 
 function handleClick() {
-  emit('navigate', 'community-videos');
+  emit('navigate', 'community');
 }
 
 function openVideo(url: string) {
