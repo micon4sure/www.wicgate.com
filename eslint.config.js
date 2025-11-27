@@ -48,6 +48,7 @@ export default [
         Element: 'readonly',
         Node: 'readonly',
         Event: 'readonly',
+        WebSocket: 'readonly',
         MouseEvent: 'readonly',
         KeyboardEvent: 'readonly',
         TouchEvent: 'readonly',

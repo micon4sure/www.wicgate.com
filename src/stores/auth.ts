@@ -1,91 +1,13 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import type { User, LoginResponse, LoginCredentials, AuthError } from '../types/auth';
+import axios from 'axios';
+import type { User, LoginCredentials, AuthError } from '../types/auth';
 
 const AUTH_TOKEN_KEY = 'wicgate_auth_token';
+const AUTH_USERNAME_KEY = 'wicgate_username';
 
-// Mock users database
-const MOCK_USERS = {
-  admin: { username: 'admin', password: 'admin123', role: 'admin' as const },
-  user: { username: 'user', password: 'user123', role: 'user' as const },
-};
-
-// Production safety check
-if (!import.meta.env.DEV && typeof window !== 'undefined') {
-  console.error(
-    '[AUTH] ⚠️ CRITICAL: Mock authentication detected in production build! ' +
-      'Replace with real authentication backend before deploying.'
-  );
-}
-
-/**
- * Mock API delay to simulate network latency
- */
-function mockDelay(ms: number = 500): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-/**
- * Mock POST /api/auth/login
- * Validates credentials and returns user + token
- */
-async function mockLogin(credentials: LoginCredentials): Promise<LoginResponse> {
-  await mockDelay();
-
-  const mockUser = Object.values(MOCK_USERS).find(
-    (u) => u.username === credentials.username && u.password === credentials.password
-  );
-
-  if (!mockUser) {
-    throw {
-      message: 'Invalid username or password',
-      code: 'INVALID_CREDENTIALS',
-    } as AuthError;
-  }
-
-  // Generate mock JWT token (just a simple string for demo)
-  const token = `mock_jwt_${mockUser.username}_${Date.now()}`;
-
-  return {
-    user: {
-      username: mockUser.username,
-      role: mockUser.role,
-    },
-    token,
-  };
-}
-
-/**
- * Mock GET /api/auth/me
- * Validates token and returns user info
- */
-async function mockGetMe(token: string): Promise<User> {
-  await mockDelay(200);
-
-  // Parse mock token to extract username
-  const match = token.match(/^mock_jwt_(\w+)_\d+$/);
-  if (!match) {
-    throw {
-      message: 'Invalid or expired token',
-      code: 'INVALID_TOKEN',
-    } as AuthError;
-  }
-
-  const username = match[1];
-  const mockUser = Object.values(MOCK_USERS).find((u) => u.username === username);
-
-  if (!mockUser) {
-    throw {
-      message: 'User not found',
-      code: 'USER_NOT_FOUND',
-    } as AuthError;
-  }
-
-  return {
-    username: mockUser.username,
-    role: mockUser.role,
-  };
-}
+// Server URL - use proxy in dev, direct in production
+export const SERVER_URL = import.meta.env.DEV ? '/admin-api' : 'https://www.wicgate.com:8080';
 
 export const useAuthStore = defineStore('auth', () => {
   const currentUser = ref<User | null>(null);
@@ -99,7 +21,7 @@ export const useAuthStore = defineStore('auth', () => {
   const userName = computed(() => currentUser.value?.username);
 
   /**
-   * Login with username and password
+   * Login with username and password via real backend
    */
   async function login(credentials: LoginCredentials): Promise<void> {
     // Never run during SSR
@@ -109,19 +31,29 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
 
     try {
-      const response = await mockLogin(credentials);
+      const response = await axios.post(SERVER_URL + '/login', {
+        username: credentials.username,
+        password: credentials.password,
+      });
 
-      currentUser.value = response.user;
-      authToken.value = response.token;
+      const token = response.data.token;
 
-      // Persist token to localStorage
+      currentUser.value = {
+        username: credentials.username,
+        role: 'admin', // Backend doesn't return role, assume admin if login succeeds
+      };
+      authToken.value = token;
+
+      // Persist to localStorage
       if (typeof window !== 'undefined') {
-        localStorage.setItem(AUTH_TOKEN_KEY, response.token);
+        localStorage.setItem(AUTH_TOKEN_KEY, token);
+        localStorage.setItem(AUTH_USERNAME_KEY, credentials.username);
       }
     } catch (e: unknown) {
-      const authError = e as AuthError;
-      error.value = authError.message || 'Login failed';
-      throw authError;
+      const axiosError = e as { response?: { data?: { error?: string } }; message?: string };
+      const message = axiosError.response?.data?.error || axiosError.message || 'Login failed';
+      error.value = message;
+      throw { message, code: 'LOGIN_FAILED' } as AuthError;
     } finally {
       loading.value = false;
     }
@@ -138,9 +70,10 @@ export const useAuthStore = defineStore('auth', () => {
     authToken.value = null;
     error.value = null;
 
-    // Clear token from localStorage
+    // Clear from localStorage
     if (typeof window !== 'undefined') {
       localStorage.removeItem(AUTH_TOKEN_KEY);
+      localStorage.removeItem(AUTH_USERNAME_KEY);
     }
   }
 
@@ -158,34 +91,31 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
 
     try {
-      // Try to restore token from localStorage
       const token = typeof window !== 'undefined' ? localStorage.getItem(AUTH_TOKEN_KEY) : null;
+      const username =
+        typeof window !== 'undefined' ? localStorage.getItem(AUTH_USERNAME_KEY) : null;
 
-      if (!token) {
-        // No token found, user is not logged in
+      if (!token || !username) {
         loading.value = false;
         return;
       }
 
-      // Validate token with mock API
-      const user = await mockGetMe(token);
+      // Validate token by making a simple API call
+      await axios.get(SERVER_URL + '/servers', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-      currentUser.value = user;
+      // Token is valid
+      currentUser.value = { username, role: 'admin' };
       authToken.value = token;
-    } catch (e: unknown) {
-      // Token is invalid or expired, clear it
-      const authError = e as AuthError;
-      const errorMessage = authError.message || 'Session expired';
-
-      // Clear auth state but preserve error message
+    } catch {
+      // Token is invalid, clear it
       currentUser.value = null;
       authToken.value = null;
       if (typeof window !== 'undefined') {
         localStorage.removeItem(AUTH_TOKEN_KEY);
+        localStorage.removeItem(AUTH_USERNAME_KEY);
       }
-
-      // Set error AFTER clearing state
-      error.value = errorMessage;
     } finally {
       loading.value = false;
     }

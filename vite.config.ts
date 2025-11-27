@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import VueDevTools from 'vite-plugin-vue-devtools';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 import { resolve } from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
@@ -16,6 +17,8 @@ export default defineConfig(({ mode }) => ({
     vue(),
     // Vue DevTools - only in development
     mode === 'development' && VueDevTools(),
+    // Local HTTPS with self-signed cert
+    mode === 'development' && basicSsl(),
     // PWA configuration
     VitePWA({
       registerType: 'autoUpdate',
@@ -145,7 +148,18 @@ export default defineConfig(({ mode }) => ({
       },
     }),
   ],
-  server: { port: 5173 },
+  server: {
+    port: 5173,
+    https: true,
+    proxy: {
+      '/admin-api': {
+        target: 'https://www.wicgate.com:8080',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/admin-api/, ''),
+      },
+    },
+  },
   ssgOptions: {
     script: 'async',
     formatting: 'minify',
