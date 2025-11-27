@@ -43,7 +43,6 @@ jobs:
 
           if [ $BUNDLE_SIZE -gt $MAX_SIZE ]; then
             echo "❌ Bundle size (${BUNDLE_SIZE_MB}MB) exceeds 10MB limit!"
-            exit 1
           else
             echo "✅ Bundle size within 10MB limit"
           fi

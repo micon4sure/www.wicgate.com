@@ -169,7 +169,7 @@ describe('appDataStore', () => {
       // Error format changed with typed errors: "API Error (500): Internal Server Error"
       expect(store.error).toContain('Internal Server Error');
       expect(store.loading).toBe(false);
-      expect(mockFetch).toHaveBeenCalledTimes(4); // Initial + 3 retries
+      expect(mockFetch).toHaveBeenCalledTimes(5); // Initial + 3 retries + 1 clan fetch
 
       if (!useRealTimers) {
         vi.useRealTimers();
@@ -202,7 +202,7 @@ describe('appDataStore', () => {
 
       expect(store.error).toBe('Network failure');
       expect(store.loading).toBe(false);
-      expect(mockFetch).toHaveBeenCalledTimes(4); // Initial + 3 retries
+      expect(mockFetch).toHaveBeenCalledTimes(5); // Initial + 3 retries + 1 clan fetch
 
       if (!useRealTimers) {
         vi.useRealTimers();
@@ -210,6 +210,8 @@ describe('appDataStore', () => {
     });
 
     it('should not fetch if already loading', async () => {
+      vi.useFakeTimers();
+
       // Mock a slow fetch to simulate an in-progress request
       mockFetch.mockImplementationOnce(
         () =>
@@ -222,18 +224,29 @@ describe('appDataStore', () => {
             }, 100);
           })
       );
+      // Mock for clan fetch
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ clans: [] }),
+      });
 
       // Start first fetch (won't complete for 100ms)
       const firstFetch = store.fetchData();
 
       // Try to start second fetch while first is still loading
-      await store.fetchData();
+      const secondFetch = store.fetchData();
 
-      // Wait for first fetch to complete
+      // Advance timers to complete the fetch
+      await vi.advanceTimersByTimeAsync(200);
+
+      // Wait for fetches to complete
       await firstFetch;
+      await secondFetch;
 
-      // Should only have been called once (second call blocked by loading guard)
-      expect(mockFetch).toHaveBeenCalledTimes(1);
+      // Should have 2 calls: 1 data fetch + 1 clan fetch (second fetchData blocked by loading guard)
+      expect(mockFetch).toHaveBeenCalledTimes(2);
+
+      vi.useRealTimers();
     });
 
     it('should clear error on successful fetch', async () => {
@@ -294,13 +307,13 @@ describe('appDataStore', () => {
       });
 
       store.init();
-      await vi.waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
+      await vi.waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2)); // data + clans
 
       store.init();
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      // Should still only be called once
-      expect(mockFetch).toHaveBeenCalledTimes(1);
+      // Should still only be 2 calls (data + clans from first init)
+      expect(mockFetch).toHaveBeenCalledTimes(2);
     });
 
     it('should stop polling on stop()', async () => {
@@ -326,7 +339,7 @@ describe('appDataStore', () => {
       store.init();
 
       // Wait for async operations
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await vi.waitFor(() => expect(mockFetch).toHaveBeenCalled());
 
       expect(mockFetch).toHaveBeenCalled();
       expect(store.isInitialized).toBe(true);
