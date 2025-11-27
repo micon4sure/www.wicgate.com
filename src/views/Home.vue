@@ -25,7 +25,6 @@ import {
   type BreadcrumbItem,
   type HowToStep,
 } from '../utils/structuredData';
-import { initWebVitals } from '../utils/performance';
 import { getAllValidIds } from '../types/navigation';
 import { syncHeaderHeight } from '../utils/headerHeight';
 
@@ -331,9 +330,6 @@ useHead({
 onMounted(() => {
   // Skip client-side initialization during SSG
   if (isSSR) return;
-
-  // Initialize performance monitoring
-  initWebVitals();
 
   // Sync header height with CSS variable for pixel-perfect scroll positioning
   // This measures actual rendered header height and updates --header-height

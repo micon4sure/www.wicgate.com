@@ -2,7 +2,6 @@
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 import type { LeaderboardEntry, LadderEntry } from '../api-types';
 import RankInsignia from './RankInsignia.vue';
-import { AnalyticsEvents } from '../utils/analytics';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_RESIZE, MOBILE_BREAKPOINT, TABLET_BREAKPOINT } from '../constants';
 
@@ -108,12 +107,7 @@ onUnmounted(() => {
           :key="c"
           class="tab-btn"
           :class="{ 'tab-btn-active': active === c }"
-          @click="
-            () => {
-              active = c;
-              AnalyticsEvents.leaderboardTabSwitch(c);
-            }
-          "
+          @click="active = c"
         >
           {{ formatCategoryLabel(c) }}
         </button>

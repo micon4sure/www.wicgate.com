@@ -118,7 +118,7 @@ export default defineConfig(({ mode }) => ({
         ],
       },
       devOptions: {
-        enabled: true, // Enable PWA in development for testing
+        enabled: false, // Disable PWA in development to suppress workbox logs
         type: 'module',
       },
     }),

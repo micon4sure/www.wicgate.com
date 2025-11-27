@@ -114,7 +114,6 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
           v-else
           :tabs="videoTabs"
           :tab-class="'tab-btn-s'"
-          analytics-category="Community Videos"
           aria-label="Video categories"
         >
           <!-- Tab: Latest Videos -->

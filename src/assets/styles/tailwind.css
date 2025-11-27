@@ -1093,8 +1093,8 @@
   }
 
   @media (hover: hover) {
-    .lb-row:hover > td {
-      background: linear-gradient(to right, rgba(255, 102, 0, 0.22), rgba(255, 102, 0, 0.15));
+    .lb-row:hover > .lb-cell {
+      background: linear-gradient(to right, rgba(255, 102, 0, 0.22), rgba(255, 102, 0, 0.15)) !important;
       border-color: rgba(255, 102, 0, 0.4) !important;
     }
   }
@@ -2051,7 +2051,7 @@
 
   /* Hero CTA button */
   .hero-cta {
-    @apply btn-gold inline-flex items-center justify-center gap-4 px-10 py-5 text-xl font-black no-underline;
+    @apply btn-gold inline-flex items-center justify-center gap-4 px-10 py-5 text-xl font-black no-underline mt-5;
     @apply animate-gold-pulse transition-transform duration-300;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   }

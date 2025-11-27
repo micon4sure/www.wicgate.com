@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref, onErrorCaptured } from 'vue';
-import { AnalyticsEvents } from '../utils/analytics';
-import * as Sentry from '@sentry/vue';
 
 const hasError = ref(false);
 const errorMessage = ref('');
@@ -13,9 +11,6 @@ onErrorCaptured((err, instance, info) => {
   errorMessage.value = err.message || 'An unexpected error occurred';
   errorStack.value = err.stack || '';
 
-  // Track error in analytics
-  AnalyticsEvents.errorBoundary(errorMessage.value);
-
   // Log to console in development
   if (import.meta.env.DEV) {
     console.error('[ErrorBoundary] Caught error:', {
@@ -23,19 +18,6 @@ onErrorCaptured((err, instance, info) => {
       stack: err.stack,
       component: instance,
       info,
-    });
-  }
-
-  // Send to Sentry in production
-  if (import.meta.env.PROD) {
-    Sentry.captureException(err, {
-      contexts: {
-        vue: {
-          componentName: instance?.$options.name || 'Unknown',
-          propsData: instance?.$props,
-          lifecycleHook: info,
-        },
-      },
     });
   }
 

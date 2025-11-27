@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { trackEvent } from '../utils/analytics';
 
 interface Tab {
   id: string; // The route name (e.g., 'downloads-quick', 'faq-about') or local tab ID
@@ -12,12 +11,10 @@ interface Tab {
 interface Props {
   tabs: Tab[];
   tabClass?: string; // Additional CSS classes for the tab container
-  analyticsCategory?: string; // Category for analytics tracking (e.g., 'Downloads')
   ariaLabel?: string; // ARIA label for tablist
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  analyticsCategory: '',
   ariaLabel: 'Tab navigation',
   tabClass: 'tab-btn',
 });
@@ -84,8 +81,6 @@ function getAnchor(tabId: string): string {
 
 // Handle tab click - navigate to route if it exists, otherwise update local state
 async function switchTab(tab: Tab) {
-  const isAlreadyActive = activeTabId.value === tab.id;
-
   // Check if this tab corresponds to a route
   if (isRouteTab(tab.id)) {
     // Navigate to the route
@@ -99,15 +94,6 @@ async function switchTab(tab: Tab) {
   } else {
     // Local tab (no route), just update local state
     localActiveTabId.value = tab.id;
-  }
-
-  // Track analytics only when switching to a different tab
-  if (!isAlreadyActive && props.analyticsCategory) {
-    trackEvent({
-      category: props.analyticsCategory,
-      action: 'Tab Switch',
-      label: tab.label,
-    });
   }
 }
 

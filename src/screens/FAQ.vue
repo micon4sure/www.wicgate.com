@@ -180,12 +180,7 @@ onMounted(() => {
       </div>
 
       <!-- Tab Container -->
-      <TabContainer
-        :tabs="tabs"
-        :tab-class="'tab-btn-xs'"
-        analytics-category="FAQ"
-        aria-label="FAQ categories"
-      >
+      <TabContainer :tabs="tabs" :tab-class="'tab-btn-xs'" aria-label="FAQ categories">
         <!-- Tab for each FAQ category -->
         <template v-for="cat in faq" :key="cat.cat" #[getCategoryAnchor(cat.cat)]>
           <div class="py-8 md:py-10">

@@ -32,7 +32,7 @@ const tabs = [
       </div>
 
       <!-- Tab Container -->
-      <TabContainer :tabs="tabs" analytics-category="Downloads" aria-label="Download methods">
+      <TabContainer :tabs="tabs" aria-label="Download methods">
         <!-- Tab 1: Quick Install -->
         <template #quick>
           <div class="py-8 md:py-12">

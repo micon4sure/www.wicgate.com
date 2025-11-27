@@ -1,9 +1,8 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import type { DataResponse } from '../api-types';
-import { AnalyticsEvents } from '../utils/analytics';
 import { API_POLLING_INTERVAL, API_RETRY_DELAYS, MAX_API_RETRIES } from '../constants';
-import { isApiError, getErrorMessage, apiErrorFromResponse } from '../types/errors';
+import { getErrorMessage, apiErrorFromResponse } from '../types/errors';
 
 const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 
@@ -68,13 +67,6 @@ export const useAppDataStore = defineStore('appData', () => {
       // Use typed error handling to extract user-friendly message
       error.value = getErrorMessage(e);
       isOnline.value = false;
-
-      // Log error with context for analytics
-      if (isApiError(e)) {
-        AnalyticsEvents.apiError(`/api/data (${e.statusCode || 'unknown'})`);
-      } else {
-        AnalyticsEvents.apiError('/api/data');
-      }
 
       // Stop polling when offline to prevent unnecessary requests
       if (intervalId) {

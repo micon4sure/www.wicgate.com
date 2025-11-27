@@ -2,7 +2,6 @@
 import { ref, toRef, onMounted, onUnmounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
-import { AnalyticsEvents } from '../utils/analytics';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_RESIZE } from '../constants';
 import { NAVIGATION_STRUCTURE, getRoutePath } from '../types/navigation';
@@ -97,9 +96,6 @@ onUnmounted(() => {
 });
 
 function handleNavigation(sectionId: string) {
-  const sectionName = sectionId === 'hero' ? 'Home' : sectionId;
-  AnalyticsEvents.sectionView(sectionName);
-
   closeMobileMenu();
 
   // Navigate using router - browser handles scrolling via scrollBehavior + CSS
@@ -176,20 +172,20 @@ function handleLogout() {
           Discord
         </a>
       </div>
-
-      <!-- Enhanced hamburger menu button -->
-      <button
-        :class="{ active: mobileOpen }"
-        class="hamburger-btn lg:hidden"
-        aria-label="Toggle mobile menu"
-        :aria-expanded="mobileOpen"
-        @click="toggleMobileMenu"
-      >
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-      </button>
     </div>
+
+    <!-- Enhanced hamburger menu button (Mobile - Far Right) -->
+    <button
+      :class="{ active: mobileOpen }"
+      class="hamburger-btn lg:hidden ml-auto"
+      aria-label="Toggle mobile menu"
+      :aria-expanded="mobileOpen"
+      @click="toggleMobileMenu"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
 
     <!-- Login Button (Desktop - Far Right) -->
     <router-link v-if="!isAuthenticated" to="/login" class="auth-btn-login hidden lg:flex">
