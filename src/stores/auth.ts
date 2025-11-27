@@ -5,33 +5,39 @@ import type { User, LoginCredentials, AuthError } from '../types/auth';
 
 const AUTH_TOKEN_KEY = 'wicgate_auth_token';
 const AUTH_USERNAME_KEY = 'wicgate_username';
+const AUTH_TYPE_KEY = 'wicgate_auth_type';
 
-// Server URL - use proxy in dev, direct in production
-export const SERVER_URL = import.meta.env.DEV ? '/admin-api' : 'https://www.wicgate.com:8080';
+// Server URLs - always use production server for admin API (no local admin server)
+export const ADMIN_API_URL = 'https://www.wicgate.com:8080';
+export const USER_API_URL = 'https://www.wicgate.com';
+
+// For backwards compatibility
+export const SERVER_URL = ADMIN_API_URL;
 
 export const useAuthStore = defineStore('auth', () => {
   const currentUser = ref<User | null>(null);
   const authToken = ref<string | null>(null);
+  const authType = ref<'admin' | 'user' | null>(null);
   const loading = ref(false);
   const error = ref<string | null>(null);
 
   // Getters
   const isAuthenticated = computed(() => !!currentUser.value && !!authToken.value);
-  const isAdmin = computed(() => currentUser.value?.role === 'admin');
+  const isAdmin = computed(() => authType.value === 'admin');
+  const isUser = computed(() => authType.value === 'user');
   const userName = computed(() => currentUser.value?.username);
 
   /**
-   * Login with username and password via real backend
+   * Login as admin (username/password against admin API)
    */
-  async function login(credentials: LoginCredentials): Promise<void> {
-    // Never run during SSR
+  async function loginAdmin(credentials: LoginCredentials): Promise<void> {
     if (import.meta.env.SSR) return;
 
     loading.value = true;
     error.value = null;
 
     try {
-      const response = await axios.post(SERVER_URL + '/login', {
+      const response = await axios.post(ADMIN_API_URL + '/login', {
         username: credentials.username,
         password: credentials.password,
       });
@@ -40,14 +46,55 @@ export const useAuthStore = defineStore('auth', () => {
 
       currentUser.value = {
         username: credentials.username,
-        role: 'admin', // Backend doesn't return role, assume admin if login succeeds
+        role: 'admin',
       };
       authToken.value = token;
+      authType.value = 'admin';
 
-      // Persist to localStorage
       if (typeof window !== 'undefined') {
         localStorage.setItem(AUTH_TOKEN_KEY, token);
         localStorage.setItem(AUTH_USERNAME_KEY, credentials.username);
+        localStorage.setItem(AUTH_TYPE_KEY, 'admin');
+      }
+    } catch (e: unknown) {
+      const axiosError = e as { response?: { data?: { error?: string } }; message?: string };
+      const message = axiosError.response?.data?.error || axiosError.message || 'Login failed';
+      error.value = message;
+      throw { message, code: 'LOGIN_FAILED' } as AuthError;
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  /**
+   * Login as user (email/password against user API)
+   */
+  async function loginUser(credentials: LoginCredentials): Promise<void> {
+    if (import.meta.env.SSR) return;
+
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const response = await axios.post(USER_API_URL + '/api/user/login', {
+        email: credentials.username,
+        password: credentials.password,
+      });
+
+      const token = response.data.token;
+      const email = response.data.email;
+
+      currentUser.value = {
+        username: email,
+        role: 'user',
+      };
+      authToken.value = token;
+      authType.value = 'user';
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(AUTH_TOKEN_KEY, token);
+        localStorage.setItem(AUTH_USERNAME_KEY, email);
+        localStorage.setItem(AUTH_TYPE_KEY, 'user');
       }
     } catch (e: unknown) {
       const axiosError = e as { response?: { data?: { error?: string } }; message?: string };
@@ -68,12 +115,14 @@ export const useAuthStore = defineStore('auth', () => {
 
     currentUser.value = null;
     authToken.value = null;
+    authType.value = null;
     error.value = null;
 
     // Clear from localStorage
     if (typeof window !== 'undefined') {
       localStorage.removeItem(AUTH_TOKEN_KEY);
       localStorage.removeItem(AUTH_USERNAME_KEY);
+      localStorage.removeItem(AUTH_TYPE_KEY);
     }
   }
 
@@ -94,28 +143,21 @@ export const useAuthStore = defineStore('auth', () => {
       const token = typeof window !== 'undefined' ? localStorage.getItem(AUTH_TOKEN_KEY) : null;
       const username =
         typeof window !== 'undefined' ? localStorage.getItem(AUTH_USERNAME_KEY) : null;
+      const storedAuthType =
+        typeof window !== 'undefined' ? localStorage.getItem(AUTH_TYPE_KEY) : null;
 
-      if (!token || !username) {
+      if (!token || !username || !storedAuthType) {
         loading.value = false;
         return;
       }
 
-      // Validate token by making a simple API call
-      await axios.get(SERVER_URL + '/servers', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      // Token is valid
-      currentUser.value = { username, role: 'admin' };
+      // Restore session from localStorage (token validity checked on API calls)
+      currentUser.value = {
+        username,
+        role: storedAuthType === 'admin' ? 'admin' : 'user',
+      };
       authToken.value = token;
-    } catch {
-      // Token is invalid, clear it
-      currentUser.value = null;
-      authToken.value = null;
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem(AUTH_TOKEN_KEY);
-        localStorage.removeItem(AUTH_USERNAME_KEY);
-      }
+      authType.value = storedAuthType as 'admin' | 'user';
     } finally {
       loading.value = false;
     }
@@ -125,14 +167,17 @@ export const useAuthStore = defineStore('auth', () => {
     // State
     currentUser,
     authToken,
+    authType,
     loading,
     error,
     // Getters
     isAuthenticated,
     isAdmin,
+    isUser,
     userName,
     // Actions
-    login,
+    loginAdmin,
+    loginUser,
     logout,
     checkAuth,
   };

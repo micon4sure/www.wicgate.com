@@ -158,6 +158,11 @@ export default defineConfig(({ mode }) => ({
         secure: false,
         rewrite: (path) => path.replace(/^\/admin-api/, ''),
       },
+      '/api': {
+        target: 'https://www.wicgate.com',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
   ssgOptions: {

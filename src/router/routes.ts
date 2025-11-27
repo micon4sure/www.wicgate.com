@@ -2,6 +2,7 @@ import type { RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Admin from '../views/Admin.vue';
+import UserAdmin from '../views/UserAdmin.vue';
 import { useAuthStore } from '../stores/auth';
 import { PAGE_META } from '../content/pageMeta';
 
@@ -146,17 +147,41 @@ export const routes: RouteRecordRaw[] = [
     path: '/login',
     name: 'login',
     component: Login,
+    props: { mode: 'user' },
     meta: {
       ...PAGE_META['/login'],
     },
     beforeEnter: async (_to, _from, next) => {
-      // Redirect to admin if already logged in
+      // Redirect to user panel if already logged in as user
       const authStore = useAuthStore();
       if (!authStore.isAuthenticated && !import.meta.env.SSR) {
         await authStore.checkAuth();
       }
 
-      if (authStore.isAuthenticated) {
+      if (authStore.isAuthenticated && authStore.isUser) {
+        next({ name: 'user' });
+      } else {
+        next();
+      }
+    },
+  },
+  {
+    path: '/admin-login',
+    name: 'admin-login',
+    component: Login,
+    props: { mode: 'admin' },
+    meta: {
+      title: 'WICGATE | Admin Login',
+      description: 'Admin login for WICGATE',
+    },
+    beforeEnter: async (_to, _from, next) => {
+      // Redirect to admin panel if already logged in as admin
+      const authStore = useAuthStore();
+      if (!authStore.isAuthenticated && !import.meta.env.SSR) {
+        await authStore.checkAuth();
+      }
+
+      if (authStore.isAuthenticated && authStore.isAdmin) {
         next({ name: 'admin' });
       } else {
         next();
@@ -180,16 +205,41 @@ export const routes: RouteRecordRaw[] = [
       }
 
       if (!authStore.isAuthenticated) {
-        // Not logged in, redirect to login with return URL
-        next({
-          name: 'login',
-          query: { redirect: '/admin' },
-        });
+        // Not logged in, redirect to admin login
+        next({ name: 'admin-login' });
       } else if (!authStore.isAdmin) {
-        // Logged in but not admin, redirect to home
-        next({ name: 'home' });
+        // Logged in but not admin, redirect to user panel
+        next({ name: 'user' });
       } else {
         // Admin authenticated, proceed
+        next();
+      }
+    },
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: UserAdmin,
+    meta: {
+      title: 'WICGATE | Account Panel',
+      description: 'Manage your WICGATE account',
+      requiresAuth: true,
+    },
+    beforeEnter: async (_to, _from, next) => {
+      const authStore = useAuthStore();
+
+      if (!authStore.isAuthenticated && !import.meta.env.SSR) {
+        await authStore.checkAuth();
+      }
+
+      if (!authStore.isAuthenticated) {
+        // Not logged in, redirect to login
+        next({ name: 'login' });
+      } else if (authStore.isAdmin) {
+        // Admin logged in, redirect to admin panel
+        next({ name: 'admin' });
+      } else {
+        // User authenticated, proceed
         next();
       }
     },

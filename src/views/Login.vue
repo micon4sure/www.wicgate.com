@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import type { LoginCredentials } from '../types/auth';
 
+const props = withDefaults(
+  defineProps<{
+    mode?: 'user' | 'admin';
+  }>(),
+  {
+    mode: 'user',
+  }
+);
+
 const router = useRouter();
-const route = useRoute();
 const authStore = useAuthStore();
 
 const username = ref('');
@@ -14,6 +22,13 @@ const showPassword = ref(false);
 
 const isLoading = computed(() => authStore.loading);
 const errorMessage = computed(() => authStore.error);
+
+const isAdminMode = computed(() => props.mode === 'admin');
+const loginLabel = computed(() => (isAdminMode.value ? 'Username' : 'Email'));
+const loginPlaceholder = computed(() =>
+  isAdminMode.value ? 'Enter admin username' : 'Enter your email'
+);
+const pageTitle = computed(() => (isAdminMode.value ? 'Admin Login' : 'User Login'));
 
 async function handleLogin() {
   if (!username.value || !password.value) {
@@ -27,13 +42,14 @@ async function handleLogin() {
   };
 
   try {
-    await authStore.login(credentials);
-
-    // Redirect to intended page or admin dashboard
-    const redirect = (route.query.redirect as string) || '/admin';
-    router.push(redirect);
+    if (isAdminMode.value) {
+      await authStore.loginAdmin(credentials);
+      router.push('/admin');
+    } else {
+      await authStore.loginUser(credentials);
+      router.push('/user');
+    }
   } catch (e) {
-    // Error is already set in the store
     console.error('Login failed:', e);
   }
 }
@@ -62,7 +78,9 @@ function handleKeyPress(event: KeyboardEvent) {
         >
           WICGATE
         </h1>
-        <p class="font-body text-sm text-battlefield-mist uppercase tracking-wide">Admin Login</p>
+        <p class="font-body text-sm text-battlefield-mist uppercase tracking-wide">
+          {{ pageTitle }}
+        </p>
       </div>
 
       <!-- Error Message -->
@@ -81,7 +99,7 @@ function handleKeyPress(event: KeyboardEvent) {
             for="username"
             class="block text-sm font-semibold text-battlefield-mist mb-2 font-body uppercase tracking-wide"
           >
-            Username
+            {{ loginLabel }}
           </label>
           <input
             id="username"
@@ -90,7 +108,7 @@ function handleKeyPress(event: KeyboardEvent) {
             autocomplete="username"
             :disabled="isLoading"
             class="w-full bg-texture-dark/80 border-2 border-massgate-red/60 text-t p-3 font-body focus:outline-none focus:border-massgate-red-bright focus:shadow-massgate-border transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-            placeholder="Enter username"
+            :placeholder="loginPlaceholder"
             @keypress="handleKeyPress"
           />
         </div>

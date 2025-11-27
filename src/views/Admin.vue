@@ -335,6 +335,7 @@ onBeforeUnmount(() => {
         <router-link to="/" class="admin-logo">WICGATE</router-link>
         <div class="admin-user">
           <span class="admin-username">{{ currentUser?.username }}</span>
+
           <button class="admin-logout" @click="handleLogout">
             <i class="fa-solid fa-right-from-bracket"></i> Logout
           </button>
