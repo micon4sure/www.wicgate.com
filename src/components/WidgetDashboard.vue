@@ -26,7 +26,7 @@ function goToSection(sectionOrSubsectionId: string) {
   <section id="hero" class="hero-section">
     <!-- Video Background -->
     <video class="hero-video-bg" autoplay muted loop playsinline poster="/wic.png">
-      <source src="/intro.mp4" type="video/mp4" />
+      <source src="/seattle.mp4" type="video/mp4" />
     </video>
 
     <!-- Atmospheric overlays -->

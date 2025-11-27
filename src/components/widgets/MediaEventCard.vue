@@ -2,6 +2,9 @@
 import { computed, ref, watch, onMounted } from 'vue';
 import type { YouTubeVideo, CommunityEvent } from '../../api-types';
 
+// Track which event is expanded (by index)
+const expandedEventIndex = ref(0);
+
 const props = defineProps<{
   videos: YouTubeVideo[];
   events: CommunityEvent[];
@@ -63,10 +66,15 @@ const shouldShowEvent = computed(() => {
   return props.events.length > 0;
 });
 
-// Get the first (next) upcoming event
-const nextEvent = computed(() => {
-  return props.events[0] || null;
-});
+// Expand an event by index
+function expandEvent(index: number) {
+  expandedEventIndex.value = index;
+}
+
+// Check if an event is expanded
+function isExpanded(index: number): boolean {
+  return expandedEventIndex.value === index;
+}
 
 // Switch to videos view
 function showVideos() {
@@ -155,80 +163,71 @@ function openVideo(url: string) {
             <div class="skeleton-placeholder h-48"></div>
           </div>
 
-          <template v-else-if="nextEvent">
-            <component
-              :is="nextEvent.link ? 'a' : 'div'"
-              :href="nextEvent.link"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="event-card"
-            >
-              <!-- Event with Cover Image -->
-              <div v-if="nextEvent.coverUrl" class="flex flex-col">
-                <div
-                  class="relative h-40 bg-cover bg-center"
-                  :style="{ backgroundImage: `url(${nextEvent.coverUrl})` }"
-                >
-                  <div class="absolute inset-0 bg-gradient-to-br from-black/20 to-black/50"></div>
-                  <div class="absolute top-2 right-2 z-10">
-                    <div
-                      class="countdown-badge"
-                      :class="
-                        new Date(nextEvent.start).getTime() <= Date.now()
-                          ? 'countdown-badge-live'
-                          : 'countdown-badge-upcoming'
-                      "
-                    >
-                      {{ getCountdown(nextEvent.start) }}
-                    </div>
-                  </div>
-                </div>
-                <div class="p-4">
-                  <h4
-                    class="text-lg font-military font-bold text-t uppercase tracking-wide m-0 mb-2 line-clamp-2"
-                  >
-                    {{ nextEvent.name }}
-                  </h4>
-                  <p
-                    class="text-sm text-t-secondary font-body m-0 mb-3 line-clamp-3 leading-relaxed"
-                  >
-                    {{ nextEvent.description }}
-                  </p>
-                  <div class="text-sm text-t3 font-body flex items-center gap-1.5">
-                    <i class="fa-regular fa-calendar text-teal" aria-hidden="true"></i>
-                    {{ formatDate(nextEvent.start) }}
-                  </div>
-                </div>
-              </div>
-
-              <!-- Event without Cover Image -->
-              <div v-else class="p-4">
-                <div class="mb-3">
+          <template v-else-if="events.length > 0">
+            <div class="events-accordion">
+              <div
+                v-for="(event, index) in events"
+                :key="event.name"
+                class="event-accordion-item"
+                :class="{ 'event-accordion-expanded': isExpanded(index) }"
+              >
+                <!-- Compact header (always visible) -->
+                <div class="event-accordion-header" @click="expandEvent(index)">
                   <div
-                    class="countdown-badge inline-block"
+                    class="countdown-badge"
                     :class="
-                      new Date(nextEvent.start).getTime() <= Date.now()
+                      new Date(event.start).getTime() <= Date.now()
                         ? 'countdown-badge-live'
                         : 'countdown-badge-upcoming'
                     "
                   >
-                    {{ getCountdown(nextEvent.start) }}
+                    {{ getCountdown(event.start) }}
                   </div>
+                  <span class="event-accordion-title">{{ event.name }}</span>
+                  <span class="event-accordion-date">
+                    <i class="fa-regular fa-calendar text-soviet" aria-hidden="true"></i>
+                    {{ formatDate(event.start) }}
+                  </span>
                 </div>
-                <h4
-                  class="text-lg font-military font-bold text-t uppercase tracking-wide m-0 mb-2 line-clamp-2"
-                >
-                  {{ nextEvent.name }}
-                </h4>
-                <p class="text-sm text-t-secondary font-body m-0 mb-3 line-clamp-3 leading-relaxed">
-                  {{ nextEvent.description }}
-                </p>
-                <div class="text-sm text-t3 font-body flex items-center gap-1.5">
-                  <i class="fa-regular fa-calendar text-teal" aria-hidden="true"></i>
-                  {{ formatDate(nextEvent.start) }}
+
+                <!-- Expanded content -->
+                <div v-if="isExpanded(index)" class="event-accordion-content">
+                  <component
+                    :is="event.link ? 'a' : 'div'"
+                    :href="event.link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="event-card"
+                  >
+                    <!-- Event with Cover Image -->
+                    <div v-if="event.coverUrl" class="flex flex-col">
+                      <div
+                        class="relative h-40 bg-cover bg-center"
+                        :style="{ backgroundImage: `url(${event.coverUrl})` }"
+                      >
+                        <div
+                          class="absolute inset-0 bg-gradient-to-br from-black/20 to-black/50"
+                        ></div>
+                      </div>
+                      <div class="p-4">
+                        <p
+                          class="text-sm text-t-secondary font-body m-0 mb-3 line-clamp-3 leading-relaxed"
+                        >
+                          {{ event.description }}
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- Event without Cover Image -->
+                    <div v-else class="p-4">
+                      <p class="text-sm text-t-secondary font-body m-0 leading-relaxed">
+                        {{ event.description }}
+                      </p>
+                    </div>
+                  </component>
                 </div>
               </div>
-            </component>
+            </div>
           </template>
         </div>
       </div>

@@ -528,6 +528,40 @@
     }
   }
 
+  /* Event accordion */
+  .events-accordion {
+    @apply flex flex-col gap-2;
+  }
+
+  .event-accordion-item {
+    @apply transition-all duration-200 border border-mg/30 bg-mg/15;
+  }
+
+  .event-accordion-header {
+    @apply flex items-center gap-3 p-2 cursor-pointer transition-colors;
+
+  }
+
+  .event-accordion-header:hover {
+    @apply bg-mg/20;
+  }
+
+  .event-accordion-expanded .event-accordion-header {
+    @apply bg-mg/30;
+  }
+
+  .event-accordion-title {
+    @apply text-sm font-body text-t truncate flex-1;
+  }
+
+  .event-accordion-date {
+    @apply text-xs text-t-tertiary font-body whitespace-nowrap flex items-center gap-1;
+  }
+
+  .event-accordion-content {
+    @apply overflow-hidden;
+  }
+
   /* Ladder player item */
   .ladder-player-item {
     @apply flex items-center gap-3 p-3 bg-mg/15 border border-mg/25 transition-all duration-200;
@@ -546,8 +580,8 @@
   }
 
   .countdown-badge-live {
-    @apply bg-youtube text-white border-youtube-bright animate-pulse;
-    box-shadow: 0 0 12px rgba(229, 57, 53, 0.6);
+    @apply bg-teal/20 text-teal border-teal animate-pulse;
+    box-shadow: 0 0 12px rgba(66, 176, 176, 0.6);
   }
 
   .countdown-badge-upcoming {
