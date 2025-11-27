@@ -891,6 +891,17 @@
     }
   }
 
+  /* Leaderboard-specific tab sizing - smaller on wide screens when side-by-side */
+  .tab-btn-leaderboard {
+    @apply tab-btn;
+  }
+
+  @media (min-width: 1280px) {
+    .tab-btn-leaderboard {
+      @apply text-[0.85rem] p-[16px_24px];
+    }
+  }
+
   /* Tab button active state */
   .tab-btn-active {
     @apply text-white font-semibold z-10;
@@ -1193,6 +1204,11 @@
     }
   }
 
+  /* Insignia cell */
+  .lb-cell-insignia {
+    @apply lb-cell text-center px-1;
+  }
+
   /* Player name cell (middle column) */
   .lb-cell-player {
     @apply lb-cell relative;
@@ -1309,6 +1325,31 @@
 
   /* ========== LEADERBOARD GROUP COMPONENTS ========== */
 
+  /* Dual leaderboard layout - side by side on wide screens */
+  .leaderboard-dual-container {
+    @apply grid grid-cols-1 gap-6;
+  }
+
+  @media (min-width: 1280px) {
+    .leaderboard-dual-container {
+      @apply grid-cols-2;
+    }
+
+    /* When side by side, stack header and tabs vertically */
+    .leaderboard-dual-container .leaderboard-header-row {
+      @apply flex-col;
+    }
+
+    /* Header takes full width when stacked */
+    .leaderboard-dual-container .leaderboard-header {
+      @apply w-full;
+    }
+
+    /* Reduce tab padding when side by side */
+    .leaderboard-dual-container .tab-btn-leaderboard {
+    }
+  }
+
   /* Main leaderboard container */
   .leaderboard-container {
     @apply rounded-none overflow-hidden relative mb-6;
@@ -1382,35 +1423,57 @@
 
   /* Column width utilities for leaderboard tables */
   .col-rank {
-    width: 72px;
-    min-width: 72px;
+    width: 40px;
+    min-width: 40px;
+  }
+
+  .col-insignia {
+    width: 32px;
+    min-width: 32px;
+    text-align: center;
   }
 
   @media (max-width: 1024px) {
     .col-rank {
-      width: 4rem;
-      min-width: 4rem;
+      width: 36px;
+      min-width: 36px;
+    }
+    .col-insignia {
+      width: 28px;
+      min-width: 28px;
     }
   }
 
   @media (max-width: 768px) {
     .col-rank {
-      width: 3.75rem;
-      min-width: 3.75rem;
+      width: 32px;
+      min-width: 32px;
+    }
+    .col-insignia {
+      width: 26px;
+      min-width: 26px;
     }
   }
 
   @media (max-width: 480px) {
     .col-rank {
-      width: 3.375rem;
-      min-width: 3.375rem;
+      width: 28px;
+      min-width: 28px;
+    }
+    .col-insignia {
+      width: 24px;
+      min-width: 24px;
     }
   }
 
   @media (max-width: 360px) {
     .col-rank {
-      width: 3rem;
-      min-width: 3rem;
+      width: 24px;
+      min-width: 24px;
+    }
+    .col-insignia {
+      width: 20px;
+      min-width: 20px;
     }
   }
 

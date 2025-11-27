@@ -2,11 +2,12 @@
 import { computed } from 'vue';
 import Leaderboards from '../components/Leaderboards.vue';
 import LeaderboardSkeleton from '../components/skeletons/LeaderboardSkeleton.vue';
-import type { DataResponse, LeaderboardEntry, LadderEntry } from '../api-types';
+import type { DataResponse, LeaderboardEntry, LadderEntry, ClanEntry } from '../api-types';
 
 const props = defineProps<{
   data: Partial<DataResponse>;
   loading: boolean;
+  clans?: ClanEntry[];
 }>();
 
 type LeaderboardRow = LeaderboardEntry | LadderEntry;
@@ -52,7 +53,7 @@ const leaderboardData = computed<LeaderboardDataRecord>(() => ({
         <LeaderboardSkeleton v-if="showPlaceholder" />
 
         <!-- Runtime: Render live data -->
-        <Leaderboards v-else :data="leaderboardData" />
+        <Leaderboards v-else :data="leaderboardData" :clans="props.clans" />
       </div>
     </div>
   </section>

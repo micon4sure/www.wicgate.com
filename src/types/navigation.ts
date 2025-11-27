@@ -26,16 +26,16 @@ export const NAVIGATION_STRUCTURE: NavigationSection[] = [
     label: 'Home',
   },
   {
-    id: 'downloads',
-    label: 'Downloads',
+    id: 'community',
+    label: 'Community',
   },
   {
     id: 'statistics',
     label: 'Statistics',
   },
   {
-    id: 'community',
-    label: 'Community',
+    id: 'downloads',
+    label: 'Downloads',
   },
   {
     id: 'faq',

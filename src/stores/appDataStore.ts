@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import type { DataResponse } from '../api-types';
+import type { DataResponse, ClanEntry } from '../api-types';
 import { API_POLLING_INTERVAL, API_RETRY_DELAYS, MAX_API_RETRIES } from '../constants';
 import { getErrorMessage, apiErrorFromResponse } from '../types/errors';
 
@@ -8,6 +8,7 @@ const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 
 export const useAppDataStore = defineStore('appData', () => {
   const data = ref<Partial<DataResponse>>({});
+  const clans = ref<ClanEntry[]>([]);
   const loadingInternal = ref(false);
   const isInitialLoad = ref(true);
   const loading = computed(() => loadingInternal.value && isInitialLoad.value);
@@ -96,7 +97,19 @@ export const useAppDataStore = defineStore('appData', () => {
 
     loadingInternal.value = true;
     await fetchDataWithRetry();
+    await fetchClans();
     loadingInternal.value = false;
+  }
+
+  async function fetchClans(): Promise<void> {
+    try {
+      const r = await fetch(`${API}/leaderboard/clans`, { cache: 'no-store' });
+      if (!r.ok) return;
+      const json = await r.json();
+      clans.value = json.clans || [];
+    } catch {
+      // Silently fail - clan data is supplementary
+    }
   }
 
   function init() {
@@ -166,6 +179,7 @@ export const useAppDataStore = defineStore('appData', () => {
 
   return {
     data,
+    clans,
     loading,
     error,
     playerCount,

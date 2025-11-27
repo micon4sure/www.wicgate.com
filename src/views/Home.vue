@@ -368,13 +368,14 @@ function handleContinue() {
       <WidgetDashboard v-if="shouldRenderSection('hero')" />
 
       <div id="screens">
-        <Downloads v-if="shouldRenderSection('downloads')" />
+        <Community v-if="shouldRenderSection('community')" />
         <Statistics
           v-if="shouldRenderSection('statistics')"
           :data="store.data"
           :loading="store.loading"
+          :clans="store.clans"
         />
-        <Community v-if="shouldRenderSection('community')" />
+        <Downloads v-if="shouldRenderSection('downloads')" />
         <FAQ v-if="shouldRenderSection('faq')" />
       </div>
       <SiteFooter />

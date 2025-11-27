@@ -22,6 +22,22 @@ export interface LadderEntry {
   tagFormat?: string | null;
 }
 
+export interface ClanEntry {
+  position: number;
+  clanId: number;
+  fullName: string;
+  shortName: string;
+  tagFormat: string;
+  score: number;
+  rating: number;
+  deviation: number;
+  gracePeriodEnd: number;
+}
+
+export interface ClanLeaderboardResponse {
+  clans: ClanEntry[];
+}
+
 export interface OnlineProfile {
   profileId: number | string;
   serverId: number | string;

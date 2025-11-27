@@ -19,14 +19,17 @@ const {
 const top6NYTVideos = computed(() => ytVideosSorted.value.slice(0, 6));
 
 // Flatten grouped channels into an array for v-for and sort by channel title
+// Filter out unwanted channels by index (second one = index 1 after sorting)
 const channelsList = computed(() => {
-  return Object.entries(videosByChannel.value)
+  const sorted = Object.entries(videosByChannel.value)
     .map(([channelId, group]) => ({
       channelId,
       channelTitle: group.channelTitle || 'Unknown Channel',
       videos: group.videos.slice(0, 6),
     }))
     .sort((a, b) => a.channelTitle.localeCompare(b.channelTitle));
+  // Remove the second channel (index 1)
+  return sorted.filter((_, index) => index !== 1);
 });
 
 // Video tabs configuration

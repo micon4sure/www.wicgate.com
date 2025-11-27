@@ -105,7 +105,7 @@ onUnmounted(() => {
         <button
           v-for="c in categories"
           :key="c"
-          class="tab-btn"
+          class="tab-btn-leaderboard"
           :class="{ 'tab-btn-active': active === c }"
           @click="active = c"
         >
@@ -120,12 +120,13 @@ onUnmounted(() => {
         <table class="leaderboard-table">
           <colgroup>
             <col class="col-rank" />
+            <col class="col-insignia" />
             <col class="w-auto" />
             <col class="col-score" />
           </colgroup>
           <thead>
             <tr>
-              <th class="leaderboard-th">Rank</th>
+              <th class="leaderboard-th" colspan="2">Rank</th>
               <th class="leaderboard-th">Player</th>
               <th class="leaderboard-th">{{ thirdLabel }}</th>
             </tr>
@@ -133,7 +134,7 @@ onUnmounted(() => {
           <tbody>
             <tr v-if="entriesFor(c).length === 0">
               <td
-                colspan="3"
+                colspan="4"
                 class="text-center italic text-t-tertiary font-[Rajdhani,sans-serif] p-[30px]"
               >
                 No data
@@ -154,13 +155,15 @@ onUnmounted(() => {
               >
                 {{ index + 1 }}
               </td>
+              <td class="lb-cell-insignia">
+                <RankInsignia
+                  :rank="e.rank ?? null"
+                  :size="rankInsigniaSize"
+                  class="inline-block"
+                />
+              </td>
               <td class="lb-cell-player">
                 <div class="flex items-center leading-none">
-                  <RankInsignia
-                    :rank="e.rank ?? null"
-                    :size="rankInsigniaSize"
-                    class="inline-block !align-middle flex-shrink-0 m-0 leading-none"
-                  />
                   <span v-if="formatClanTag(e)" class="lb-clan-tag">{{ formatClanTag(e) }}</span>
                   <span class="lb-player-name">{{ e.profileName || 'Unknown' }}</span>
                 </div>
@@ -184,12 +187,13 @@ onUnmounted(() => {
       <table class="leaderboard-table">
         <colgroup>
           <col class="col-rank" />
+          <col class="col-insignia" />
           <col class="w-auto" />
           <col class="col-score" />
         </colgroup>
         <thead>
           <tr>
-            <th class="leaderboard-th">Rank</th>
+            <th class="leaderboard-th" colspan="2">Rank</th>
             <th class="leaderboard-th">Player</th>
             <th class="leaderboard-th">{{ thirdLabel }}</th>
           </tr>
@@ -197,7 +201,7 @@ onUnmounted(() => {
         <tbody>
           <tr v-if="entriesFor(active).length === 0">
             <td
-              colspan="3"
+              colspan="4"
               class="text-center italic text-t-tertiary font-[Rajdhani,sans-serif] p-[30px]"
             >
               No data
@@ -218,13 +222,11 @@ onUnmounted(() => {
             >
               {{ index + 1 }}
             </td>
+            <td class="lb-cell-insignia">
+              <RankInsignia :rank="e.rank ?? null" :size="rankInsigniaSize" class="inline-block" />
+            </td>
             <td class="lb-cell-player">
               <div class="flex items-center leading-none">
-                <RankInsignia
-                  :rank="e.rank ?? null"
-                  :size="rankInsigniaSize"
-                  class="inline-block !align-middle flex-shrink-0 m-0 leading-none"
-                />
                 <span v-if="formatClanTag(e)" class="lb-clan-tag">{{ formatClanTag(e) }}</span>
                 <span class="lb-player-name">{{ e.profileName || 'Unknown' }}</span>
               </div>
