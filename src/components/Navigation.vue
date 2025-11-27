@@ -119,79 +119,83 @@ function handleLogout() {
 <template>
   <!-- Header content within container -->
   <div class="header-container">
-    <!-- Logo on left side -->
-    <div class="logo-wrapper">
-      <img src="/wicgate-flag.png" alt="WICGATE" class="logo-image" />
-      <div class="logo-subtitle">Community Hosted Multiplayer</div>
-    </div>
+    <!-- WIC Logo - Far Left -->
+    <img src="/wic-logo.png" alt="World in Conflict" class="h-10 hidden lg:block" />
 
-    <!-- Desktop navigation (left-aligned) -->
-    <nav class="hidden lg:flex gap-1 xl:gap-2 items-center h-full ml-4 xl:ml-5 flex-1">
-      <router-link
-        v-for="section in navSections"
-        :key="section.id"
-        :to="getRoutePath(section.id)"
-        :class="{ active: section.id === 'hero' ? !activeSection : isActive(section.id) }"
-        class="nav-tab"
-        @click.prevent="handleNavigation(section.id)"
+    <!-- Inner container for main content -->
+    <div class="header-inner">
+      <!-- WICGATE Logo -->
+      <div class="logo-wrapper">
+        <img src="/wicgate-flag.png" alt="WICGATE" class="logo-image" />
+        <div class="logo-subtitle">Community Hosted Multiplayer</div>
+      </div>
+
+      <!-- Desktop navigation (left-aligned) -->
+      <nav class="hidden lg:flex gap-1 xl:gap-2 items-center h-full ml-4 xl:ml-5 flex-1">
+        <router-link
+          v-for="section in navSections"
+          :key="section.id"
+          :to="getRoutePath(section.id)"
+          :class="{
+            'tab-btn-active': section.id === 'hero' ? !activeSection : isActive(section.id),
+          }"
+          class="tab-btn tab-btn-nav"
+          @click.prevent="handleNavigation(section.id)"
+        >
+          {{ section.label }}
+        </router-link>
+      </nav>
+
+      <!-- Auth & Social Buttons (Desktop) -->
+      <div class="hidden lg:flex items-center gap-2 xl:gap-3">
+        <!-- Admin Link (if admin) -->
+        <router-link v-if="isAdmin" to="/admin" class="auth-btn-admin">
+          <i class="fa-solid fa-crown"></i>
+          Admin
+        </router-link>
+
+        <!-- Logout Button (if authenticated) -->
+        <button v-if="isAuthenticated" class="auth-btn-logout" @click="handleLogout">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Logout
+        </button>
+
+        <!-- Discord Social Button -->
+        <a
+          href="https://discord.gg/Udbv9UDBBb"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="auth-btn-discord"
+          aria-label="Join Discord Server"
+        >
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="w-5 h-5">
+            <path
+              d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"
+            />
+          </svg>
+          Discord
+        </a>
+      </div>
+
+      <!-- Enhanced hamburger menu button -->
+      <button
+        :class="{ active: mobileOpen }"
+        class="hamburger-btn lg:hidden"
+        aria-label="Toggle mobile menu"
+        :aria-expanded="mobileOpen"
+        @click="toggleMobileMenu"
       >
-        {{ section.label }}
-      </router-link>
-    </nav>
-
-    <!-- Auth & Social Buttons (Desktop) -->
-    <div class="hidden lg:flex items-center gap-2 xl:gap-3">
-      <!-- Admin Link (if admin) -->
-      <router-link v-if="isAdmin" to="/admin" class="auth-btn-admin">
-        <i class="fa-solid fa-crown"></i>
-        Admin
-      </router-link>
-
-      <!-- Logout Button (if authenticated) -->
-      <button v-if="isAuthenticated" class="auth-btn-logout" @click="handleLogout">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Logout
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
       </button>
-
-      <!-- Discord Social Button -->
-      <a
-        href="https://discord.gg/WnxwfMTyBe"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="auth-btn-discord"
-        aria-label="Join Discord Server"
-      >
-        <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="w-5 h-5">
-          <path
-            d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"
-          />
-        </svg>
-        Discord
-      </a>
     </div>
 
     <!-- Login Button (Desktop - Far Right) -->
-    <router-link
-      v-if="!isAuthenticated"
-      to="/login"
-      class="auth-btn-login hidden lg:flex ml-8 xl:ml-12"
-    >
+    <router-link v-if="!isAuthenticated" to="/login" class="auth-btn-login hidden lg:flex">
       <i class="fa-solid fa-right-to-bracket"></i>
       Login
     </router-link>
-
-    <!-- Enhanced hamburger menu button -->
-    <button
-      :class="{ active: mobileOpen }"
-      class="hamburger-btn lg:hidden"
-      aria-label="Toggle mobile menu"
-      :aria-expanded="mobileOpen"
-      @click="toggleMobileMenu"
-    >
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </button>
   </div>
 
   <!-- Mobile navigation (full-screen, outside container) -->
@@ -262,7 +266,7 @@ function handleLogout() {
 
           <!-- Discord Link in Mobile Menu -->
           <a
-            href="https://discord.gg/WnxwfMTyBe"
+            href="https://discord.gg/Udbv9UDBBb"
             target="_blank"
             rel="noopener noreferrer"
             class="mobile-auth-discord"

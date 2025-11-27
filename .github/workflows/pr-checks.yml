@@ -32,7 +32,7 @@ jobs:
         run: npx cross-env TEST_REAL_TIMERS=true npm run test:coverage
 
       - name: Build verification (staging mode)
-        run: npm run build -- --mode staging
+        run: npm run build:staging
 
       - name: Check bundle size
         run: |

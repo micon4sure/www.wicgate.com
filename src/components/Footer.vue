@@ -4,7 +4,7 @@ const year = new Date().getFullYear();
 const socialLinks = [
   {
     name: 'Discord',
-    href: 'https://discord.gg/wicgate',
+    href: 'https://discord.gg/Udbv9UDBBb',
     icon: 'fab fa-discord',
     color: 'discord',
   },

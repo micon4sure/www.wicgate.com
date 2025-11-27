@@ -266,9 +266,8 @@ onMounted(() => {
                     <div class="p-5 md:p-6 bg-graphite-dark/30">
                       <p
                         class="text-base md:text-lg text-t-secondary font-body leading-relaxed m-0"
-                      >
-                        {{ item.a }}
-                      </p>
+                        v-html="item.a"
+                      ></p>
                     </div>
                   </div>
                 </transition>
@@ -293,7 +292,7 @@ onMounted(() => {
         <p class="text-base md:text-lg text-t-secondary font-body leading-relaxed m-0">
           Join our
           <a
-            href="https://discord.gg/WnxwfMTyBe"
+            href="https://discord.gg/Udbv9UDBBb"
             target="_blank"
             rel="noopener noreferrer"
             class="inline-link"

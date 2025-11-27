@@ -43,7 +43,7 @@ export function generateOrganizationSchema() {
     description:
       'Community-driven initiative to preserve World in Conflict multiplayer using the official Massgate source code.',
     sameAs: [
-      'https://discord.gg/WnxwfMTyBe',
+      'https://discord.gg/Udbv9UDBBb',
       'https://youtube.com/@wicgate',
       'https://github.com/wicgate',
     ],
@@ -91,7 +91,7 @@ export function generateEventSchema(event: Event) {
     eventStatus: 'https://schema.org/EventScheduled',
     location: {
       '@type': 'VirtualLocation',
-      url: event.link || 'https://discord.gg/WnxwfMTyBe',
+      url: event.link || 'https://discord.gg/Udbv9UDBBb',
     },
     organizer: {
       '@type': 'Organization',

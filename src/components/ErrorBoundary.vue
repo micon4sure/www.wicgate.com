@@ -66,7 +66,7 @@ function retry() {
           Reload Page
         </button>
         <a
-          href="https://discord.gg/WnxwfMTyBe"
+          href="https://discord.gg/Udbv9UDBBb"
           target="_blank"
           rel="noopener noreferrer"
           class="btn btn-d"

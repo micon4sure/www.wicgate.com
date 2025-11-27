@@ -24,40 +24,47 @@ function goToSection(sectionOrSubsectionId: string) {
 
 <template>
   <section id="hero" class="hero-section">
+    <!-- Video Background -->
+    <video class="hero-video-bg" autoplay muted loop playsinline poster="/wic.png">
+      <source src="/intro.mp4" type="video/mp4" />
+    </video>
+
     <!-- Atmospheric overlays -->
     <div class="hero-overlay-dark"></div>
     <div class="hero-overlay-gradient"></div>
     <div class="hero-overlay-atmospheric"></div>
 
-    <div class="container relative z-10">
+    <div class="container flex flex-col justify-center min-h-screen">
       <!-- Hero Header -->
-      <div class="text-center mb-16 2xl:mb-16 xl:mb-14 md:mb-12 sm:mb-10">
-        <h1 class="hero-title">
-          <img src="/wic.png" alt="World in Conflict" class="h-48 md:h-64 lg:h-80 mx-auto" />
-          <span class="hero-subtitle text-soviet block mt-2">WICGATE: Multiplayer Reborn</span>
-        </h1>
+      <div class="text-center mb-8">
+        <!-- Card with title, description and CTA -->
+        <div class="hero-main-card">
+          <h1 class="hero-title">
+            <span class="hero-subtitle text-soviet block">WICGATE: Multiplayer Reborn</span>
+          </h1>
 
-        <div class="max-w-3xl mx-auto space-y-3 mb-6">
-          <p class="hero-desc">
-            Experience the critically acclaimed 2007 Cold War RTS masterpiece online again.
-          </p>
-          <p class="hero-desc-secondary">
-            Using the official Massgate server code, WiCGate delivers authentic WiC multiplayer with
-            all original features intact on stable dedicated servers!
-          </p>
-        </div>
+          <div class="space-y-3 mb-6">
+            <p class="hero-desc">
+              Experience the critically acclaimed 2007 Cold War RTS masterpiece online again.
+            </p>
+            <p class="hero-desc-secondary">
+              Using the official Massgate server code, WiCGate delivers authentic WiC multiplayer
+              with all original features intact on stable dedicated servers!
+            </p>
+          </div>
 
-        <!-- Primary CTA -->
-        <div class="flex justify-center mb-8 sm:mb-6">
-          <button class="hero-cta" @click="goToSection('downloads-quick')">
-            <i class="fa-solid fa-download text-xl sm:text-lg" aria-hidden="true"></i>
-            <span>DOWNLOAD NOW</span>
-          </button>
+          <!-- Primary CTA -->
+          <div class="flex justify-center">
+            <button class="hero-cta" @click="goToSection('downloads-quick')">
+              <i class="fa-solid fa-download text-xl sm:text-lg" aria-hidden="true"></i>
+              <span>DOWNLOAD NOW</span>
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Streamlined Widget Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 md:mb-12 xl:mb-16">
+      <div class="hero-widget-grid">
         <MediaEventCard
           :videos="videosSorted"
           :events="events"

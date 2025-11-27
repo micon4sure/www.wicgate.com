@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { usePlayerDisplay } from '../../composables/usePlayerDisplay';
 import RankInsignia from '../RankInsignia.vue';
 import type { DataResponse, LadderEntry } from '../../api-types';
@@ -16,6 +16,9 @@ const emit = defineEmits<{
 }>();
 
 const { colorize } = usePlayerDisplay();
+
+// Manual override for view switching
+const manualView = ref<'auto' | 'players' | 'leaderboard'>('auto');
 
 // Group players by server
 const serverGroups = computed(() => {
@@ -82,10 +85,22 @@ const topLadderPlayers = computed(() => {
   return props.data.ladder.slice(0, 5);
 });
 
-// Smart switching: show players when there's ANY activity
+// Smart switching: show players when there's ANY activity (unless manually overridden)
 const shouldShowPlayers = computed(() => {
+  if (manualView.value === 'leaderboard') return false;
+  if (manualView.value === 'players') return true;
   return props.playerCount > 0;
 });
+
+// Switch to players view
+function showPlayers() {
+  manualView.value = 'players';
+}
+
+// Switch to leaderboard view
+function showLeaderboard() {
+  manualView.value = 'leaderboard';
+}
 
 // Format clan tag for ladder entries
 function formatClanTag(entry: LadderEntry): string {
@@ -113,19 +128,33 @@ function handleTopPlayersClick() {
 
 <template>
   <div class="dashboard-card">
-    <div class="relative h-[400px] sm:h-[450px]">
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button
+        class="tab-btn-xs flex items-center justify-center gap-2"
+        :class="{ 'tab-btn-active': !shouldShowPlayers }"
+        @click="showLeaderboard"
+      >
+        <i class="fa-solid fa-trophy" aria-hidden="true"></i>
+        Top Players
+      </button>
+      <button
+        class="tab-btn-xs flex items-center justify-center gap-2"
+        :class="{ 'tab-btn-active': shouldShowPlayers }"
+        @click="showPlayers"
+      >
+        <i class="fa-solid fa-users" aria-hidden="true"></i>
+        Online
+        <span v-if="playerCount > 0" class="widget-badge-count">{{ playerCount }}</span>
+      </button>
+    </div>
+
+    <div class="relative h-[360px] sm:h-[410px]">
       <!-- Players Online View -->
       <div
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
         :class="shouldShowPlayers ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
-        <div class="dashboard-card-header">
-          <div class="dashboard-card-header-title">
-            <i class="fa-solid fa-users text-online text-xl" aria-hidden="true"></i>
-            <h3>Players Online</h3>
-          </div>
-        </div>
-
         <div class="dashboard-card-body custom-scrollbar">
           <div v-if="isSSR || loading" class="space-y-4">
             <div class="skeleton-placeholder h-24"></div>
@@ -188,16 +217,6 @@ function handleTopPlayersClick() {
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
         :class="!shouldShowPlayers ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
-        <div class="dashboard-card-header">
-          <div class="dashboard-card-header-title">
-            <i class="fa-solid fa-trophy text-t text-xl" aria-hidden="true"></i>
-            <h3>Top Players</h3>
-          </div>
-          <button class="dashboard-card-header-action" @click="handleTopPlayersClick">
-            Leaderboards →
-          </button>
-        </div>
-
         <div class="dashboard-card-body custom-scrollbar">
           <div v-if="isSSR || loading" class="space-y-3">
             <div class="skeleton-placeholder h-16"></div>
@@ -239,6 +258,12 @@ function handleTopPlayersClick() {
               No rankings yet
             </div>
           </template>
+        </div>
+        <!-- Footer with link -->
+        <div class="px-5 pb-4">
+          <button class="dashboard-card-header-action" @click="handleTopPlayersClick">
+            Leaderboards →
+          </button>
         </div>
       </div>
     </div>

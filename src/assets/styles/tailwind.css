@@ -133,7 +133,7 @@
   .btn-gold {
     @apply px-6 py-3 text-white font-military font-bold uppercase tracking-wider rounded-none transition-all duration-300;
     background: linear-gradient(180deg, #ffd54f 0%, #ffa000 100%);
-    border: 2px solid rgba(255, 160, 0, 0.7);
+    border: 2px solid #ffd54f;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 202, 40, 0.4);
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6), 0 2px 10px rgba(0, 0, 0, 0.4);
   }
@@ -142,7 +142,7 @@
     .btn-gold:hover {
       transform: scale(1.05);
       background: linear-gradient(180deg, #ffecb3 0%, #ffd54f 100%);
-      border-color: rgba(255, 202, 40, 0.9);
+      border-color: #ffecb3;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 202, 40, 0.6);
     }
   }
@@ -200,61 +200,18 @@
 
   /* Navigation tab - Desktop (Clean & Premium) */
   /* Progressive Reduction Pattern: Compact at lg (850px), expands gradually to 3xl (1100px+) */
-  .nav-tab {
-    @apply no-underline font-military font-medium uppercase tracking-wider;
-    @apply relative cursor-pointer h-full flex items-center justify-center text-center;
-    @apply rounded-none;
-    @apply transition-all duration-300 select-none;
-    @apply whitespace-nowrap overflow-hidden text-ellipsis origin-[center_bottom];
-    @apply text-t-secondary;
-    /* Tier 1 (lg 850-900px): Most compact - tight quarters */
+  /* Navigation-specific tab sizing (extends tab-btn) */
+  .tab-btn-nav {
+    @apply h-full flex items-center justify-center text-center;
+    @apply whitespace-nowrap overflow-hidden text-ellipsis;
+    /* Tier 1 (lg 850-900px): Most compact */
     @apply text-xs px-2.5 min-w-[70px] max-w-[110px];
     /* Tier 2 (xl 900-1000px): Slightly more room */
     @apply xl:px-3 xl:min-w-[75px] xl:max-w-[120px];
-    /* Tier 3 (2xl 1000-1100px): Getting comfortable - restore normal font size */
+    /* Tier 3 (2xl 1000-1100px): Getting comfortable */
     @apply 2xl:text-sm 2xl:min-w-[80px] 2xl:max-w-[130px];
-    /* Tier 4 (3xl 1100px+): Full comfort - original sizing */
+    /* Tier 4 (3xl 1100px+): Full comfort */
     @apply 3xl:px-4 3xl:min-w-[85px] 3xl:max-w-[145px];
-    background: transparent;
-    border: none;
-  }
-
-  @media (hover: hover) {
-    .nav-tab:hover {
-      @apply text-t;
-      background: rgba(255, 255, 255, 0.03);
-      transform: translateY(-1px);
-    }
-  }
-
-  .nav-tab:active {
-    @apply text-t;
-    background: rgba(255, 255, 255, 0.05);
-    transform: translateY(0);
-  }
-
-  .nav-tab.active {
-    @apply text-white font-semibold;
-    background: linear-gradient(to bottom, #c62828, #8b0000);
-  }
-
-  .nav-tab::before {
-    content: '';
-    @apply absolute left-0 right-0 h-[2px] opacity-0;
-    bottom: 0;
-    background: theme('colors.massgate-red.bright');
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 -2px 8px rgba(229, 57, 53, 0.4);
-  }
-
-  @media (hover: hover) {
-    .nav-tab:hover::before {
-      opacity: 0.5;
-    }
-  }
-
-  .nav-tab.active::before {
-    opacity: 1;
   }
 
   /* Mobile navigation link (Red gradient active states like desktop) */
@@ -500,12 +457,29 @@
     @apply text-xl font-military font-bold text-t uppercase tracking-wide m-0;
   }
 
-  .dashboard-card-header-action {
-    @apply text-sm text-t-secondary font-body font-semibold uppercase tracking-[0.5px] transition-all duration-200;
+  /* Internal navigation link (silver, underlined, Rajdhani, uppercase) */
+  .internal-link {
+    @apply text-t-secondary font-body font-semibold uppercase tracking-wide underline;
+    @apply transition-all duration-200 cursor-pointer;
   }
 
-  .dashboard-card-header-action:hover {
+  .internal-link:hover {
     @apply text-t;
+  }
+
+  .dashboard-card-header-action {
+    @apply internal-link text-sm tracking-[0.5px];
+    @apply flex items-center gap-1.5;
+  }
+
+  /* New badge for unseen items */
+  .widget-badge-new {
+    @apply bg-youtube text-white text-[10px] font-bold px-1.5 py-0.5 rounded-sm uppercase;
+  }
+
+  /* Count badge for inactive tab */
+  .widget-badge-count {
+    @apply bg-white/15 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-sm;
   }
 
   /* Dashboard card body */
@@ -673,7 +647,11 @@
 
   /* Header container */
   .header-container {
-    @apply h-20 min-h-[80px] px-5 container flex items-center;
+    @apply h-20 min-h-[80px] px-6 w-full flex items-center justify-between;
+  }
+
+  .header-inner {
+    @apply container flex items-center flex-1;
   }
 
   @media (max-width: 1024px) {
@@ -943,7 +921,7 @@
 
   @media (hover: hover) {
     .tab-btn:not(.tab-btn-active):hover::before {
-      opacity: 0.5;
+      opacity: 1;
     }
   }
 
@@ -1400,50 +1378,6 @@
   .leaderboard-tabs {
     @apply flex flex-1 items-stretch relative;
     background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
-  }
-
-  /* Individual tab button */
-  .leaderboard-tab {
-    @apply flex-1 p-[12px_16px] cursor-pointer;
-    @apply font-[Oswald,sans-serif] font-medium text-[0.875rem] uppercase tracking-[1px];
-    @apply border border-graphite-dark/60 border-b-0;
-    @apply text-t-secondary;
-    @apply transition-all duration-300 ease-out relative mr-px;
-    background: linear-gradient(to bottom, rgba(45, 55, 65, 0.9), rgba(35, 43, 52, 0.92));
-  }
-
-  @media (max-width: 768px) {
-    .leaderboard-tab {
-      @apply p-[10px_12px] text-[0.8rem];
-    }
-  }
-
-  @media (max-width: 480px) {
-    .leaderboard-tab {
-      @apply p-[8px_10px] text-[0.75rem];
-    }
-  }
-
-  @media (max-width: 360px) {
-    .leaderboard-tab {
-      @apply p-[0.5rem_0.625rem] text-[0.7rem];
-    }
-  }
-
-  .leaderboard-tab.active {
-    @apply text-ink font-semibold z-10;
-    @apply border-massgate-orange/85;
-    background: linear-gradient(to bottom, #f5a24f, #f37c2b);
-    box-shadow: 0 0 18px rgba(243, 124, 43, 0.45);
-  }
-
-  @media (hover: hover) {
-    .leaderboard-tab:not(.active):hover {
-      @apply text-ink -translate-y-px;
-      @apply border-massgate-orange/65;
-      background: linear-gradient(to bottom, #f5a24f, #f37c2b);
-      box-shadow: 0 0 16px rgba(243, 124, 43, 0.4);
-    }
   }
 
   /* Column width utilities for leaderboard tables */
@@ -1948,22 +1882,56 @@
 
   .hero-section {
     @apply bg-hero-section relative overflow-hidden;
-    @apply min-h-[100vh] pb-24;
+    @apply min-h-screen flex flex-col;
+  }
+
+  .hero-video-bg {
+    @apply absolute inset-0 w-full h-full object-cover;
+    z-index: 0;
   }
 
   @media (max-width: 768px) {
     .hero-section {
-      @apply pb-20;
     }
   }
 
   @media (max-width: 640px) {
     .hero-section {
-      @apply pb-12 min-h-[85vh];
+      @apply min-h-[85vh];
     }
   }
 
   /* ========== HERO SECTION COMPONENTS ========== */
+
+  /* Hero main card (title, description, CTA) */
+  .hero-main-card {
+    @apply dashboard-card px-8 py-16;
+  }
+
+  /* Add extra vertical padding when viewport height > 1100px */
+  @media (min-height: 1100px) {
+    .hero-main-card {
+      padding-top: calc(4rem + (100vh - 1100px) / 3);
+      padding-bottom: calc(4rem + (100vh - 1100px) / 3);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-main-card {
+      @apply px-6 py-12;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-main-card {
+      @apply px-4 py-8;
+    }
+  }
+
+  /* Hero widget grid (media/event and info cards) */
+  .hero-widget-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 md:mb-12 xl:mb-16;
+  }
 
   /* Hero atmospheric overlay (gradient backgrounds) */
   .hero-overlay {
@@ -2024,19 +1992,19 @@
 
   /* Hero subtitle (Multiplayer Reborn) */
   .hero-subtitle {
-    @apply inline text-4xl text-massgate-red-bright font-bold;
+    @apply inline text-5xl text-massgate-red-bright font-bold;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
   }
 
   @media (max-width: 1280px) {
     .hero-subtitle {
-      @apply text-3xl;
+      @apply text-4xl;
     }
   }
 
   @media (max-width: 640px) {
     .hero-subtitle {
-      @apply text-2xl;
+      @apply text-3xl;
     }
   }
 
@@ -2841,7 +2809,12 @@
   }
 
   .overlay-header {
-    @apply py-6 px-6 border-b border-t-dim/20 flex items-center justify-between;
+    @apply py-4 px-6 border-b border-t-dim/20 flex items-center justify-between;
+  }
+
+  .overlay-header .slide-title {
+    @apply text-xl uppercase tracking-wider text-t m-0;
+    font-family: 'Oswald', sans-serif;
   }
 
   .slide-indicators {
@@ -2939,8 +2912,17 @@
   }
 
   .step-number {
-    @apply w-10 h-10 flex items-center justify-center bg-gradient-to-br from-massgate-gold to-massgate-gold-dark text-ink font-military font-bold text-xl rounded-lg flex-shrink-0;
-    box-shadow: 0 0 20px rgba(255, 202, 40, 0.4);
+    @apply w-10 h-10 flex items-center justify-center bg-gradient-to-br from-soviet to-soviet-dark text-ink font-military font-bold text-xl rounded-lg flex-shrink-0;
+    box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
+  }
+
+  .step-number-small {
+    @apply w-7 h-7 text-sm;
+    box-shadow: 0 0 10px rgba(255, 102, 0, 0.3);
+  }
+
+  .cta-step-small {
+    @apply text-sm opacity-80;
   }
 
   .cta-step span:last-child {

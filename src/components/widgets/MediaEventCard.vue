@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import type { YouTubeVideo, CommunityEvent } from '../../api-types';
 
 const props = defineProps<{
@@ -12,11 +12,54 @@ const emit = defineEmits<{
   navigate: [section: string];
 }>();
 
+// Manual override for view switching
+const manualView = ref<'auto' | 'videos' | 'events'>('auto');
+
+// Track seen video IDs in localStorage
+const seenVideoIds = ref<Set<string>>(new Set());
+
+onMounted(() => {
+  // Load seen videos from localStorage
+  const stored = localStorage.getItem('seenVideoIds');
+  if (stored) {
+    try {
+      seenVideoIds.value = new Set(JSON.parse(stored));
+    } catch {
+      seenVideoIds.value = new Set();
+    }
+  }
+});
+
+// Mark videos as seen when viewing
+watch(
+  () => props.videos,
+  (videos) => {
+    if (videos.length > 0 && manualView.value !== 'events') {
+      const ids = videos.slice(0, 3).map((v) => v.id);
+      ids.forEach((id) => seenVideoIds.value.add(id));
+      localStorage.setItem('seenVideoIds', JSON.stringify([...seenVideoIds.value]));
+    }
+  },
+  { immediate: true }
+);
+
 // Latest videos (top 3)
 const latestVideos = computed(() => props.videos.slice(0, 3));
 
-// Smart switching: show event when there's ANY upcoming event
+// Count of unseen videos
+const unseenCount = computed(() => {
+  return latestVideos.value.filter((v) => !seenVideoIds.value.has(v.id)).length;
+});
+
+// Check if a video is new (unseen)
+function isNewVideo(videoId: string): boolean {
+  return !seenVideoIds.value.has(videoId);
+}
+
+// Smart switching: show event when there's ANY upcoming event (unless manually overridden)
 const shouldShowEvent = computed(() => {
+  if (manualView.value === 'videos') return false;
+  if (manualView.value === 'events') return true;
   return props.events.length > 0;
 });
 
@@ -24,6 +67,19 @@ const shouldShowEvent = computed(() => {
 const nextEvent = computed(() => {
   return props.events[0] || null;
 });
+
+// Switch to videos view
+function showVideos() {
+  manualView.value = 'videos';
+  // Mark current videos as seen
+  latestVideos.value.forEach((v) => seenVideoIds.value.add(v.id));
+  localStorage.setItem('seenVideoIds', JSON.stringify([...seenVideoIds.value]));
+}
+
+// Switch to events view
+function showEvents() {
+  manualView.value = 'events';
+}
 
 // Format date helper
 function formatDate(dateString: string): string {
@@ -53,7 +109,6 @@ function getCountdown(startDate: string): string {
   return `${minutes}m`;
 }
 
-// Navigation handlers
 function handleVideosClick() {
   emit('navigate', 'community');
 }
@@ -65,19 +120,36 @@ function openVideo(url: string) {
 
 <template>
   <div class="dashboard-card">
-    <div class="relative h-[400px] sm:h-[450px]">
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button
+        class="tab-btn-xs flex items-center justify-center gap-2"
+        :class="{ 'tab-btn-active': !shouldShowEvent }"
+        @click="showVideos"
+      >
+        <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+        Videos
+        <span v-if="shouldShowEvent && unseenCount > 0" class="widget-badge-new">{{
+          unseenCount
+        }}</span>
+      </button>
+      <button
+        class="tab-btn-xs flex items-center justify-center gap-2"
+        :class="{ 'tab-btn-active': shouldShowEvent }"
+        @click="showEvents"
+      >
+        <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+        Events
+        <span v-if="events.length > 0" class="widget-badge-count">{{ events.length }}</span>
+      </button>
+    </div>
+
+    <div class="relative h-[360px] sm:h-[410px]">
       <!-- Upcoming Event View -->
       <div
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
         :class="shouldShowEvent ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
-        <div class="dashboard-card-header">
-          <div class="dashboard-card-header-title">
-            <i class="fa-regular fa-calendar text-teal text-xl" aria-hidden="true"></i>
-            <h3>Upcoming Event</h3>
-          </div>
-        </div>
-
         <div class="dashboard-card-body custom-scrollbar">
           <div v-if="isSSR" class="space-y-4">
             <div class="skeleton-placeholder h-48"></div>
@@ -166,16 +238,6 @@ function openVideo(url: string) {
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
         :class="!shouldShowEvent ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
-        <div class="dashboard-card-header">
-          <div class="dashboard-card-header-title">
-            <i class="fa-brands fa-youtube text-youtube text-xl" aria-hidden="true"></i>
-            <h3>Latest Videos</h3>
-          </div>
-          <button class="dashboard-card-header-action" @click="handleVideosClick">
-            Watch More →
-          </button>
-        </div>
-
         <div class="dashboard-card-body custom-scrollbar">
           <div v-if="isSSR" class="space-y-4">
             <div class="skeleton-placeholder h-20"></div>
@@ -206,6 +268,10 @@ function openVideo(url: string) {
                       ></i>
                     </div>
                   </div>
+                  <!-- New video indicator -->
+                  <div v-if="isNewVideo(video.id)" class="absolute top-0 left-0">
+                    <span class="widget-badge-new text-[9px] px-1 py-0.5">NEW</span>
+                  </div>
                 </div>
                 <div class="flex-1 overflow-hidden">
                   <p class="text-sm font-body font-semibold text-t m-0 line-clamp-2 leading-snug">
@@ -227,6 +293,12 @@ function openVideo(url: string) {
               No videos yet
             </div>
           </template>
+        </div>
+        <!-- Footer with link -->
+        <div class="px-5 pb-4">
+          <button class="dashboard-card-header-action" @click="handleVideosClick">
+            Watch More →
+          </button>
         </div>
       </div>
     </div>
