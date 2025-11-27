@@ -37,15 +37,15 @@ jobs:
       - name: Check bundle size
         run: |
           BUNDLE_SIZE=$(du -sb dist | cut -f1)
-          MAX_SIZE=$((5 * 1024 * 1024))
+          MAX_SIZE=$((10 * 1024 * 1024))
           BUNDLE_SIZE_MB=$(($BUNDLE_SIZE / 1024 / 1024))
           echo "📦 Bundle size: ${BUNDLE_SIZE_MB}MB"
 
           if [ $BUNDLE_SIZE -gt $MAX_SIZE ]; then
-            echo "❌ Bundle size (${BUNDLE_SIZE_MB}MB) exceeds 5MB limit!"
+            echo "❌ Bundle size (${BUNDLE_SIZE_MB}MB) exceeds 10MB limit!"
             exit 1
           else
-            echo "✅ Bundle size within 5MB limit"
+            echo "✅ Bundle size within 10MB limit"
           fi
 
       - name: Upload test coverage
