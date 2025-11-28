@@ -1125,6 +1125,11 @@
   /* Leaderboard data row */
   .lb-row {
     @apply min-h-14 h-14;
+    background: linear-gradient(to right, rgba(18, 30, 39, 0.75), rgba(9, 15, 20, 0.85));
+  }
+
+  .lb-row:nth-child(even) {
+    background: linear-gradient(to right, rgba(24, 38, 48, 0.78), rgba(14, 24, 31, 0.88));
   }
 
   @media (max-width: 1024px) {
@@ -1163,11 +1168,7 @@
     @apply p-3 text-t border-b border-b-mg/25 font-medium;
     @apply align-middle leading-[1.2] min-h-14 h-14;
     @apply transition-all duration-200;
-    background: linear-gradient(to right, rgba(18, 30, 39, 0.75), rgba(9, 15, 20, 0.85));
-  }
-
-  tr:nth-child(even) > .lb-cell {
-    background: linear-gradient(to right, rgba(24, 38, 48, 0.78), rgba(14, 24, 31, 0.88));
+    background: transparent;
   }
 
   @media (max-width: 1024px) {
