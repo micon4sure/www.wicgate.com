@@ -1335,7 +1335,9 @@
   @media (hover: hover) {
     .video-card:hover {
       @apply -translate-y-0.5;
-      box-shadow: 0 12px 30px rgba(4, 9, 14, 0.6);
+      border-color: rgba(255, 202, 40, 0.6);
+      box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55),
+                  0 0 25px rgba(255, 202, 40, 0.35);
     }
   }
 
@@ -2834,6 +2836,7 @@
 
   @media (hover: hover) {
     .card:hover {
+      @apply -translate-y-0.5;
       border-color: rgba(255, 202, 40, 0.6);
       box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55),
                   0 0 25px rgba(255, 202, 40, 0.35);
