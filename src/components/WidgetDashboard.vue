@@ -36,9 +36,9 @@ function goToSection(sectionOrSubsectionId: string) {
     <div class="hero-overlay-gradient"></div>
     <div class="hero-overlay-atmospheric"></div>
 
-    <div class="container flex flex-col justify-center min-h-screen">
+    <div class="hero-container">
       <!-- Hero Header -->
-      <div class="text-center mb-8">
+      <div class="hero-main-card-wrapper">
         <!-- Card with title, description and CTA -->
         <div class="hero-main-card">
           <h1 class="hero-title">

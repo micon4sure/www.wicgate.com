@@ -681,11 +681,25 @@
 
   /* Header container */
   .header-container {
-    @apply h-20 min-h-[80px] px-6 w-full flex items-center justify-between;
+    @apply h-20 min-h-[80px] px-5 w-full flex items-center justify-center;
+  }
+
+  .header-side {
+    @apply hidden lg:flex items-center flex-1;
+  }
+
+  .header-side-left {
+    @apply justify-start;
+  }
+
+  .header-side-right {
+    @apply justify-end;
   }
 
   .header-inner {
-    @apply container flex items-center flex-1;
+    @apply max-w-7xl w-full flex items-center;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
   @media (max-width: 1024px) {
@@ -2031,7 +2045,20 @@
 
   /* ========== HERO SECTION COMPONENTS ========== */
 
+  /* Hero container */
+  .hero-container {
+    @apply container flex flex-col justify-center min-h-screen;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
   /* Hero main card (title, description, CTA) */
+  .hero-main-card-wrapper {
+    @apply text-center mb-8;
+  }
+
   .hero-main-card {
     @apply dashboard-card px-8 py-16 relative;
   }

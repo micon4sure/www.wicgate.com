@@ -115,8 +115,10 @@ function handleLogout() {
 <template>
   <!-- Header content within container -->
   <div class="header-container">
-    <!-- WIC Logo - Far Left -->
-    <img src="/wic-logo.png" alt="World in Conflict" class="h-10 hidden lg:block" />
+    <!-- Left side wrapper (logo) -->
+    <div class="header-side header-side-left">
+      <img src="/wic-logo.png" alt="World in Conflict" class="h-10" />
+    </div>
 
     <!-- Inner container for main content -->
     <div class="header-inner">
@@ -181,15 +183,17 @@ function handleLogout() {
       <span class="hamburger-line"></span>
     </button>
 
-    <!-- Login/Account Button (Desktop - Far Right) -->
-    <router-link v-if="isAuthenticated" to="/user" class="auth-btn-account hidden lg:flex">
-      <i class="fa-solid fa-user"></i>
-      Account
-    </router-link>
-    <router-link v-else to="/login" class="auth-btn-login hidden lg:flex">
-      <i class="fa-solid fa-right-to-bracket"></i>
-      Login
-    </router-link>
+    <!-- Right side wrapper (login/account) -->
+    <div class="header-side header-side-right">
+      <router-link v-if="isAuthenticated" to="/user" class="auth-btn-account invisible">
+        <i class="fa-solid fa-user"></i>
+        Account
+      </router-link>
+      <router-link v-else to="/login" class="auth-btn-login invisible">
+        <i class="fa-solid fa-right-to-bracket"></i>
+        Login
+      </router-link>
+    </div>
   </div>
 
   <!-- Mobile navigation (full-screen, outside container) -->
