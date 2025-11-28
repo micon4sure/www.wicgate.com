@@ -86,8 +86,20 @@ export const createApp = ViteSSG(
 
           setTimeout(() => {
             // Remove the # from hash to get element ID
-            const targetId = to.hash.slice(1);
-            const element = document.getElementById(targetId);
+            let targetId = to.hash.slice(1);
+            let element = document.getElementById(targetId);
+
+            // If element not found, try parsing as compound hash (e.g., "total-scores-armor" -> "total-scores")
+            if (!element) {
+              const categories = ['overall', 'infantry', 'armor', 'air', 'support'];
+              const parts = targetId.split('-');
+              const lastPart = parts[parts.length - 1] ?? '';
+              if (categories.includes(lastPart) && parts.length > 2) {
+                targetId = parts.slice(0, -1).join('-');
+                element = document.getElementById(targetId);
+              }
+            }
+
             if (!element) {
               resolve({ top: 0 });
               return;

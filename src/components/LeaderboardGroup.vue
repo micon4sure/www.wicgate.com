@@ -5,9 +5,38 @@ import RankInsignia from './RankInsignia.vue';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_RESIZE, MOBILE_BREAKPOINT, TABLET_BREAKPOINT } from '../constants';
 
+// Copy link state
+const showCopiedToast = ref(false);
+const copied = ref(false);
+
+function copyLeaderboardLink() {
+  if (typeof window === 'undefined' || !navigator.clipboard) return;
+
+  // Build URL with current tab if applicable
+  let hash = props.id;
+  if (props.categories.length > 1 && active.value !== 'overall') {
+    hash = `${props.id}-${active.value}`;
+  }
+
+  const url = `${window.location.origin}/statistics#${hash}`;
+
+  navigator.clipboard.writeText(url).then(() => {
+    copied.value = true;
+    showCopiedToast.value = true;
+
+    setTimeout(() => {
+      showCopiedToast.value = false;
+      setTimeout(() => {
+        copied.value = false;
+      }, 200);
+    }, 2000);
+  });
+}
+
 type LeaderboardRow = LeaderboardEntry | LadderEntry;
 
 interface Props {
+  id?: string; // ID for deep linking
   title: string;
   subtitle?: string;
   categories?: string[]; // Tab categories; if 0 or 1, tabs hidden
@@ -18,6 +47,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  id: '',
   subtitle: '',
   categories: () => [],
   keys: () => ({}),
@@ -35,6 +65,14 @@ watch(
     }
   }
 );
+
+// Expose method to set active tab from parent
+function setActiveTab(tab: string) {
+  if (props.categories.includes(tab)) {
+    active.value = tab;
+  }
+}
+defineExpose({ setActiveTab });
 
 function rows(list?: LeaderboardRow[]) {
   return (list || []).slice(0, props.maxRows);
@@ -87,18 +125,39 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <div class="leaderboard-container">
+  <div :id="id || undefined" class="leaderboard-container">
     <div class="leaderboard-header-row">
       <div
-        class="leaderboard-header"
+        class="leaderboard-header group relative"
         :class="{ 'leaderboard-header-full': categories.length <= 1 }"
       >
-        <h3 class="leaderboard-header-title">
-          {{ title }}
-        </h3>
-        <p v-if="subtitle" class="leaderboard-header-subtitle">
-          {{ subtitle }}
-        </p>
+        <div>
+          <h3 class="leaderboard-header-title">
+            {{ title }}
+          </h3>
+          <p v-if="subtitle" class="leaderboard-header-subtitle">
+            {{ subtitle }}
+          </p>
+        </div>
+        <!-- Copy Link Button - positioned right -->
+        <span
+          v-if="id"
+          role="button"
+          tabindex="0"
+          class="lb-copy-link-btn absolute right-3 top-1/2 -translate-y-1/2"
+          :class="copied ? 'is-copied' : ''"
+          :title="`Copy link to ${title}${categories.length > 1 && active !== 'overall' ? ': ' + active.charAt(0).toUpperCase() + active.slice(1) : ''}`"
+          :aria-label="`Copy link to ${title}${categories.length > 1 && active !== 'overall' ? ': ' + active.charAt(0).toUpperCase() + active.slice(1) : ''}`"
+          @click.stop="copyLeaderboardLink"
+          @keydown.enter.stop.prevent="copyLeaderboardLink"
+          @keydown.space.stop.prevent="copyLeaderboardLink"
+        >
+          <i
+            class="text-sm transition-all duration-200"
+            :class="copied ? 'fa-solid fa-check' : 'fa-solid fa-link'"
+            aria-hidden="true"
+          ></i>
+        </span>
       </div>
 
       <div v-if="categories.length > 1" class="leaderboard-tabs">

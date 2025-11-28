@@ -1,19 +1,56 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import type { ClanEntry } from '../api-types';
 
-defineProps<{ clans: ClanEntry[] }>();
+const props = defineProps<{ clans: ClanEntry[]; id?: string }>();
+
+const copied = ref(false);
 
 function formatClanTag(clan: ClanEntry): string {
   return clan.tagFormat.replace('C', clan.shortName).replace('P', '');
 }
+
+function copyLeaderboardLink() {
+  if (typeof window === 'undefined' || !navigator.clipboard || !props.id) return;
+
+  const url = `${window.location.origin}/statistics#${props.id}`;
+
+  navigator.clipboard.writeText(url).then(() => {
+    copied.value = true;
+    setTimeout(() => {
+      copied.value = false;
+    }, 2200);
+  });
+}
 </script>
 
 <template>
-  <div class="leaderboard-container">
+  <div :id="id || undefined" class="leaderboard-container">
     <div class="leaderboard-header-row">
-      <div class="leaderboard-header leaderboard-header-full">
-        <h3 class="leaderboard-header-title">Clan Leaderboard</h3>
-        <p class="leaderboard-header-subtitle">Top ranked clans</p>
+      <div class="leaderboard-header leaderboard-header-full group relative">
+        <div>
+          <h3 class="leaderboard-header-title">Clan Leaderboard</h3>
+          <p class="leaderboard-header-subtitle">Top ranked clans</p>
+        </div>
+        <!-- Copy Link Button - positioned right -->
+        <span
+          v-if="id"
+          role="button"
+          tabindex="0"
+          class="lb-copy-link-btn absolute right-3 top-1/2 -translate-y-1/2"
+          :class="copied ? 'is-copied' : ''"
+          title="Copy link to Clan Leaderboard"
+          aria-label="Copy link to Clan Leaderboard"
+          @click.stop="copyLeaderboardLink"
+          @keydown.enter.stop.prevent="copyLeaderboardLink"
+          @keydown.space.stop.prevent="copyLeaderboardLink"
+        >
+          <i
+            class="text-sm transition-all duration-200"
+            :class="copied ? 'fa-solid fa-check' : 'fa-solid fa-link'"
+            aria-hidden="true"
+          ></i>
+        </span>
       </div>
     </div>
     <table class="leaderboard-table">

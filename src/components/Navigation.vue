@@ -106,7 +106,7 @@ function handleNavigation(sectionId: string) {
   window.dispatchEvent(event);
 }
 
-function handleLogout() {
+function _handleLogout() {
   authStore.logout();
   closeMobileMenu();
   router.push('/');

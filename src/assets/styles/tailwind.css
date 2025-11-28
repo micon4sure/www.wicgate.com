@@ -3165,18 +3165,21 @@
     @apply font-body text-t text-[0.875rem] tracking-[0.2px] align-middle;
   }
 
-  /* ========== FAQ COPY LINK BUTTON ========== */
+  /* ========== COPY LINK BUTTONS ========== */
 
-  .faq-copy-link-btn {
+  .faq-copy-link-btn,
+  .lb-copy-link-btn {
     @apply flex-shrink-0 w-7 h-7 flex items-center justify-center rounded;
     @apply transition-all duration-200;
     @apply opacity-0 group-hover:opacity-100;
     @apply hover:bg-teal/20 hover:text-teal-bright;
     @apply focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-teal/50;
     @apply text-teal/70;
+    @apply cursor-pointer;
   }
 
-  .faq-copy-link-btn.is-copied {
+  .faq-copy-link-btn.is-copied,
+  .lb-copy-link-btn.is-copied {
     @apply opacity-100 text-teal-bright;
   }
 
