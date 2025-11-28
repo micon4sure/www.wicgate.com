@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { WICLIVE_URL, DISCORD_URL, GOG_URL } from '@/constants';
+
 defineProps<{
   currentSection?: string | undefined;
 }>();
@@ -36,7 +38,7 @@ const emit = defineEmits<{
                     <span
                       >Buy & install World in Conflict on
                       <a
-                        href="https://www.gog.com/game/world_in_conflict_complete_edition"
+                        :href="GOG_URL"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="inline-link"
@@ -52,11 +54,7 @@ const emit = defineEmits<{
                   <span class="step-number">2</span>
                   <span
                     >Download & run
-                    <a
-                      href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe"
-                      class="inline-link"
-                      >WIC LIVE</a
-                    >
+                    <a :href="WICLIVE_URL" class="inline-link">WIC LIVE</a>
                     - our all-in-one launcher</span
                   >
                 </div>
@@ -72,7 +70,7 @@ const emit = defineEmits<{
                   <span
                     >Join us on
                     <a
-                      href="https://discord.gg/Udbv9UDBBb"
+                      :href="DISCORD_URL"
                       target="_blank"
                       rel="noopener noreferrer"
                       class="inline-link"

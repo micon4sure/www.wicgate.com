@@ -1371,6 +1371,39 @@
     @apply border-teal/40;
   }
 
+  /* FAQ list styling */
+  .faq-item ol {
+    @apply pl-0 my-3 space-y-2;
+    counter-reset: faq-list;
+  }
+
+  .faq-item ol li {
+    @apply flex items-start gap-3 pl-0;
+    list-style: none;
+  }
+
+  .faq-item ol li::before {
+    counter-increment: faq-list;
+    content: counter(faq-list);
+    @apply flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-sm font-bold;
+    background: linear-gradient(135deg, #ff6600, #ff8c00);
+    color: #0a0f14;
+  }
+
+  .faq-item ul {
+    @apply pl-0 my-3 space-y-2;
+  }
+
+  .faq-item ul li {
+    @apply flex items-start gap-3 pl-0;
+    list-style: none;
+  }
+
+  .faq-item ul li::before {
+    content: '›';
+    @apply flex-shrink-0 text-soviet font-bold text-lg leading-none;
+  }
+
   /* ========== LEADERBOARD GROUP COMPONENTS ========== */
 
   /* Dual leaderboard layout - side by side on wide screens */

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TabContainer from '../components/TabContainer.vue';
+import { WICLIVE_URL } from '@/constants';
 import {
   steps,
   dedicatedServerSteps,
@@ -70,11 +71,7 @@ const tabs = [
                     </div>
 
                     <div v-if="s.n === 2" class="mt-4">
-                      <a
-                        id="downloadClientBtn"
-                        href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe"
-                        class="hero-cta"
-                      >
+                      <a id="downloadClientBtn" :href="WICLIVE_URL" class="hero-cta">
                         <i class="fa-solid fa-download text-xl sm:text-lg" aria-hidden="true"></i>
                         <span>DOWNLOAD NOW</span>
                       </a>

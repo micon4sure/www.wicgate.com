@@ -32,3 +32,9 @@ export const STORAGE_KEYS = {
   FIRST_VISIT: 'wicgate_visited',
   PANEL_OPEN: 'wicgate_panel_open',
 } as const;
+
+// External URLs
+export const WICLIVE_URL =
+  'https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe';
+export const GOG_URL = 'https://www.gog.com/game/world_in_conflict_complete_edition';
+export const DISCORD_URL = 'https://discord.gg/Udbv9UDBBb';
