@@ -1716,6 +1716,11 @@
     background: linear-gradient(to bottom, rgba(31, 47, 59, 0.92), rgba(18, 30, 39, 0.95));
   }
 
+  /* Score header - align to right */
+  .leaderboard-th:last-child {
+    @apply text-right;
+  }
+
   @media (max-width: 768px) {
     .leaderboard-th {
       @apply text-[0.8rem];
