@@ -1,8 +1,11 @@
 <script setup lang="ts">
+/* global File, FileReader, Blob */
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore, USER_API_URL } from '../stores/auth';
 import axios from 'axios';
+import { Cropper } from 'vue-advanced-cropper';
+import 'vue-advanced-cropper/dist/style.css';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -31,6 +34,13 @@ const error = ref<string | null>(null);
 const uploadingProfileId = ref<number | null>(null);
 const uploadError = ref<string | null>(null);
 const uploadSuccess = ref<string | null>(null);
+
+// Cropper state
+const showCropModal = ref(false);
+const cropImageSrc = ref<string | null>(null);
+const cropProfileId = ref<number | null>(null);
+const cropperRef = ref<InstanceType<typeof Cropper> | null>(null);
+const originalFile = ref<File | null>(null);
 
 async function fetchAccountData() {
   loading.value = true;
@@ -67,33 +77,63 @@ function formatDate(dateStr: string | null): string {
   });
 }
 
-async function uploadProfilePicture(profileId: number, event: Event) {
+function openCropModal(profileId: number, event: Event) {
   const input = event.target as HTMLInputElement;
   if (!input.files || input.files.length === 0) return;
 
   const file = input.files[0];
-  uploadingProfileId.value = profileId;
+  originalFile.value = file;
+  cropProfileId.value = profileId;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    cropImageSrc.value = e.target?.result as string;
+    showCropModal.value = true;
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+function closeCropModal() {
+  showCropModal.value = false;
+  cropImageSrc.value = null;
+  cropProfileId.value = null;
+  originalFile.value = null;
+}
+
+async function confirmCrop() {
+  if (!cropperRef.value || !cropProfileId.value || !originalFile.value) return;
+
+  const { canvas } = cropperRef.value.getResult();
+  if (!canvas) return;
+
+  uploadingProfileId.value = cropProfileId.value;
   uploadError.value = null;
   uploadSuccess.value = null;
 
+  // Convert canvas to blob
+  const blob = await new Promise<Blob>((resolve) => {
+    canvas.toBlob((b: Blob | null) => resolve(b!), 'image/png');
+  });
+
   const formData = new FormData();
-  formData.append('picture', file);
+  formData.append('picture', blob, 'cropped.png');
 
   try {
-    await axios.post(`${USER_API_URL}/api/user/profile/${profileId}/picture`, formData, {
+    await axios.post(`${USER_API_URL}/api/user/profile/${cropProfileId.value}/picture`, formData, {
       headers: {
         Authorization: `Bearer ${authStore.authToken}`,
         'Content-Type': 'multipart/form-data',
       },
     });
-    uploadSuccess.value = `Profile picture updated for profile ${profileId}`;
+    uploadSuccess.value = `Profile picture updated for profile ${cropProfileId.value}`;
+    closeCropModal();
   } catch (e: unknown) {
     const axiosError = e as { response?: { data?: { error?: string } }; message?: string };
     uploadError.value =
       axiosError.response?.data?.error || axiosError.message || 'Failed to upload';
   } finally {
     uploadingProfileId.value = null;
-    input.value = '';
   }
 }
 
@@ -251,7 +291,7 @@ onMounted(() => {
                     accept="image/png,image/jpeg,image/gif,image/bmp,image/webp"
                     class="hidden"
                     :disabled="uploadingProfileId !== null"
-                    @change="uploadProfilePicture(profile.profileId, $event)"
+                    @change="openCropModal(profile.profileId, $event)"
                   />
                 </label>
                 <div class="text-right">
@@ -264,5 +304,78 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
+    <!-- Crop Modal -->
+    <div
+      v-if="showCropModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+    >
+      <div class="bg-texture-panel border-2 border-massgate-red/50 p-6 max-w-2xl w-full mx-4">
+        <h3 class="font-military text-xl text-teal uppercase tracking-wide mb-4">
+          <i class="fa-solid fa-crop mr-2"></i>
+          Adjust Profile Picture
+        </h3>
+
+        <div class="mb-4 bg-texture-dark cropper-container" style="max-height: 400px">
+          <Cropper
+            ref="cropperRef"
+            :src="cropImageSrc"
+            :stencil-props="{
+              aspectRatio: 1,
+            }"
+            :resize-image="{
+              adjustStencil: false,
+            }"
+            image-restriction="stencil"
+            :min-width="64"
+            :min-height="64"
+            class="cropper-fit"
+          />
+        </div>
+
+        <p class="text-battlefield-mist/60 text-sm font-body mb-4">
+          Drag to position, scroll to zoom. The image will be cropped to a square.
+        </p>
+
+        <div class="flex justify-end gap-4">
+          <button
+            class="px-4 py-2 bg-texture-dark border border-battlefield-mist/30 text-battlefield-mist hover:bg-texture-panel transition-colors font-body uppercase text-sm"
+            @click="closeCropModal"
+          >
+            Cancel
+          </button>
+          <button
+            class="px-4 py-2 bg-teal/20 border border-teal text-teal hover:bg-teal/30 transition-colors font-body uppercase text-sm"
+            :disabled="uploadingProfileId !== null"
+            @click="confirmCrop"
+          >
+            <i v-if="uploadingProfileId !== null" class="fa-solid fa-spinner fa-spin mr-2"></i>
+            {{ uploadingProfileId !== null ? 'Uploading...' : 'Apply' }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.cropper-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cropper-fit {
+  max-height: 400px;
+  max-width: 100%;
+}
+
+.cropper-fit :deep(.vue-advanced-cropper__image-wrapper) {
+  max-height: 400px;
+}
+
+.cropper-fit :deep(.vue-advanced-cropper__background),
+.cropper-fit :deep(.vue-advanced-cropper__foreground) {
+  background: transparent;
+}
+</style>

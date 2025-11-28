@@ -120,13 +120,14 @@ onUnmounted(() => {
         <table class="leaderboard-table">
           <colgroup>
             <col class="col-rank" />
+            <col class="col-avatar" />
             <col class="col-insignia" />
             <col class="w-auto" />
             <col class="col-score" />
           </colgroup>
           <thead>
             <tr>
-              <th class="leaderboard-th" colspan="2">Rank</th>
+              <th class="leaderboard-th" colspan="3">Rank</th>
               <th class="leaderboard-th">Player</th>
               <th class="leaderboard-th">{{ thirdLabel }}</th>
             </tr>
@@ -134,7 +135,7 @@ onUnmounted(() => {
           <tbody>
             <tr v-if="entriesFor(c).length === 0">
               <td
-                colspan="4"
+                colspan="5"
                 class="text-center italic text-t-tertiary font-[Rajdhani,sans-serif] p-[30px]"
               >
                 No data
@@ -154,6 +155,18 @@ onUnmounted(() => {
                 }"
               >
                 {{ index + 1 }}
+              </td>
+              <td class="lb-cell-avatar">
+                <div class="lb-avatar">
+                  <img
+                    v-if="e.profileId"
+                    :src="`https://www.wicgate.com/pcc/${e.profileId}.webp`"
+                    :alt="e.profileName"
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                    @error="($event.target as HTMLImageElement).style.display = 'none'"
+                  />
+                </div>
               </td>
               <td class="lb-cell-insignia">
                 <RankInsignia
@@ -187,13 +200,14 @@ onUnmounted(() => {
       <table class="leaderboard-table">
         <colgroup>
           <col class="col-rank" />
+          <col class="col-avatar" />
           <col class="col-insignia" />
           <col class="w-auto" />
           <col class="col-score" />
         </colgroup>
         <thead>
           <tr>
-            <th class="leaderboard-th" colspan="2">Rank</th>
+            <th class="leaderboard-th" colspan="3">Rank</th>
             <th class="leaderboard-th">Player</th>
             <th class="leaderboard-th">{{ thirdLabel }}</th>
           </tr>
@@ -201,7 +215,7 @@ onUnmounted(() => {
         <tbody>
           <tr v-if="entriesFor(active).length === 0">
             <td
-              colspan="4"
+              colspan="5"
               class="text-center italic text-t-tertiary font-[Rajdhani,sans-serif] p-[30px]"
             >
               No data
@@ -221,6 +235,18 @@ onUnmounted(() => {
               }"
             >
               {{ index + 1 }}
+            </td>
+            <td class="lb-cell-avatar">
+              <div class="lb-avatar">
+                <img
+                  v-if="e.profileId"
+                  :src="`https://www.wicgate.com/pcc/${e.profileId}.webp`"
+                  :alt="e.profileName"
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                  @error="($event.target as HTMLImageElement).style.display = 'none'"
+                />
+              </div>
             </td>
             <td class="lb-cell-insignia">
               <RankInsignia :rank="e.rank ?? null" :size="rankInsigniaSize" class="inline-block" />

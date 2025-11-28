@@ -6,6 +6,7 @@ export interface ServerEntry {
 }
 
 export interface LeaderboardEntry {
+  profileId?: number | string;
   rank: number;
   high: number;
   profileName: string;

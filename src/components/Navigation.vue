@@ -150,12 +150,6 @@ function handleLogout() {
           Admin
         </router-link>
 
-        <!-- Logout Button (if authenticated) -->
-        <button v-if="isAuthenticated" class="auth-btn-logout" @click="handleLogout">
-          <i class="fa-solid fa-right-from-bracket"></i>
-          Logout
-        </button>
-
         <!-- Discord Social Button -->
         <a
           href="https://discord.gg/Udbv9UDBBb"
@@ -187,8 +181,12 @@ function handleLogout() {
       <span class="hamburger-line"></span>
     </button>
 
-    <!-- Login Button (Desktop - Far Right) -->
-    <router-link v-if="!isAuthenticated" to="/login" class="auth-btn-login hidden lg:flex">
+    <!-- Login/Account Button (Desktop - Far Right) -->
+    <router-link v-if="isAuthenticated" to="/user" class="auth-btn-account hidden lg:flex">
+      <i class="fa-solid fa-user"></i>
+      Account
+    </router-link>
+    <router-link v-else to="/login" class="auth-btn-login hidden lg:flex">
       <i class="fa-solid fa-right-to-bracket"></i>
       Login
     </router-link>
@@ -245,17 +243,17 @@ function handleLogout() {
             Admin Dashboard
           </router-link>
 
-          <button v-if="isAuthenticated" class="mobile-auth-logout" @click="handleLogout">
-            <i class="fa-solid fa-right-from-bracket w-5 h-5 flex-shrink-0"></i>
-            Logout
-          </button>
-
           <router-link
-            v-if="!isAuthenticated"
-            to="/login"
-            class="mobile-auth-login"
+            v-if="isAuthenticated"
+            to="/user"
+            class="mobile-auth-account"
             @click="closeMobileMenu"
           >
+            <i class="fa-solid fa-user w-5 h-5 flex-shrink-0"></i>
+            Account
+          </router-link>
+
+          <router-link v-else to="/login" class="mobile-auth-login" @click="closeMobileMenu">
             <i class="fa-solid fa-right-to-bracket w-5 h-5 flex-shrink-0"></i>
             Login
           </router-link>

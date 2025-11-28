@@ -41,6 +41,10 @@ export function useFirstVisit() {
     markAsVisited();
   }
 
+  function openPrimer() {
+    showFirstVisitOverlay.value = true;
+  }
+
   return {
     showFirstVisitOverlay,
     checkFirstVisit,
@@ -48,6 +52,7 @@ export function useFirstVisit() {
     shouldShowOverlay,
     initFirstVisitCheck,
     dismissOverlay,
+    openPrimer,
   };
 }
 

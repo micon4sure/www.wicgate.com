@@ -1467,6 +1467,21 @@
     text-align: center;
   }
 
+  .col-avatar {
+    width: 24px;
+    min-width: 24px;
+  }
+
+  .lb-cell-avatar {
+    @apply lb-cell px-0;
+  }
+
+  .lb-avatar {
+    @apply rounded-sm overflow-hidden mx-1;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+  }
+
   @media (max-width: 1024px) {
     .col-rank {
       width: 36px;
@@ -1475,6 +1490,10 @@
     .col-insignia {
       width: 28px;
       min-width: 28px;
+    }
+    .col-avatar {
+      width: 22px;
+      min-width: 22px;
     }
   }
 
@@ -1487,6 +1506,10 @@
       width: 26px;
       min-width: 26px;
     }
+    .col-avatar {
+      width: 20px;
+      min-width: 20px;
+    }
   }
 
   @media (max-width: 480px) {
@@ -1498,6 +1521,10 @@
       width: 24px;
       min-width: 24px;
     }
+    .col-avatar {
+      width: 18px;
+      min-width: 18px;
+    }
   }
 
   @media (max-width: 360px) {
@@ -1508,6 +1535,10 @@
     .col-insignia {
       width: 20px;
       min-width: 20px;
+    }
+    .col-avatar {
+      width: 16px;
+      min-width: 16px;
     }
   }
 
@@ -2002,7 +2033,7 @@
 
   /* Hero main card (title, description, CTA) */
   .hero-main-card {
-    @apply dashboard-card px-8 py-16;
+    @apply dashboard-card px-8 py-16 relative;
   }
 
   /* Add extra vertical padding when viewport height > 1100px */
@@ -2153,6 +2184,18 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   }
 
+  .hero-primer-link {
+    @apply absolute bottom-4 right-4 inline-flex items-center gap-2 px-4 py-2 text-sm font-bold no-underline;
+    @apply bg-slate-700/60 text-slate-300 border border-slate-500/40;
+    @apply transition-all duration-300;
+  }
+
+  @media (hover: hover) {
+    .hero-primer-link:hover {
+      @apply bg-slate-600/80 text-white border-slate-400/60;
+    }
+  }
+
   @media (hover: hover) {
     .hero-cta:hover {
       @apply scale-105;
@@ -2232,6 +2275,25 @@
     @apply bg-teal/15 border-teal-dark;
   }
 
+  /* Account button (green - when logged in) */
+  .auth-btn-account {
+    @apply auth-btn text-emerald-400;
+    @apply bg-emerald-900/30 border-2 border-emerald-600/50;
+  }
+
+  @media (hover: hover) {
+    .auth-btn-account:hover {
+      @apply text-emerald-300 -translate-y-0.5;
+      @apply bg-emerald-800/40 border-emerald-500;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    }
+  }
+
+  .auth-btn-account:active {
+    @apply text-emerald-300 translate-y-0;
+    @apply bg-emerald-800/50 border-emerald-600;
+  }
+
   /* Discord button */
   .auth-btn-discord {
     @apply auth-btn text-white rounded;
@@ -2301,6 +2363,21 @@
       @apply text-ink pl-10 border-massgate-orange;
       background: linear-gradient(to right, #f5a24f, #f37c2b);
       box-shadow: 0 0 15px rgba(255, 102, 0, 0.4);
+    }
+  }
+
+  /* Account button (green - when logged in) */
+  .mobile-auth-account {
+    @apply mobile-auth-link text-emerald-400;
+    @apply border-t border-b border-emerald-600/30;
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+  }
+
+  @media (hover: hover) {
+    .mobile-auth-account:hover {
+      @apply text-white pl-10 border-emerald-500;
+      background: linear-gradient(to right, #10b981, rgba(16, 185, 129, 0.3));
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
     }
   }
 

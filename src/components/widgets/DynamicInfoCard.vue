@@ -186,8 +186,17 @@ function handleTopPlayersClick() {
                   <div
                     v-for="player in server.players"
                     :key="player.profileId"
-                    class="flex items-center gap-0 py-1 leading-none"
+                    class="flex items-center gap-1 py-1 leading-none"
                   >
+                    <div class="w-4 h-4 rounded-sm flex-shrink-0 overflow-hidden">
+                      <img
+                        :src="`https://www.wicgate.com/pcc/${player.profileId}.webp`"
+                        :alt="player.profileName"
+                        class="w-full h-full object-cover"
+                        loading="lazy"
+                        @error="($event.target as HTMLImageElement).style.display = 'none'"
+                      />
+                    </div>
                     <RankInsignia
                       :rank="player.rank || 0"
                       :size="18"

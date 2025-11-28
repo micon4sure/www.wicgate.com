@@ -3,12 +3,14 @@ import { useRouter } from 'vue-router';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useEvents } from '../composables/useEvents';
 import { useYoutube } from '../composables/useYoutube';
+import { useFirstVisit } from '../composables/useFirstVisit';
 import MediaEventCard from './widgets/MediaEventCard.vue';
 import DynamicInfoCard from './widgets/DynamicInfoCard.vue';
 import { getRoutePath } from '../types/navigation';
 
 const router = useRouter();
 const store = useAppDataStore();
+const { openPrimer } = useFirstVisit();
 
 const { events } = useEvents();
 const { videosSorted } = useYoutube();
@@ -54,12 +56,18 @@ function goToSection(sectionOrSubsectionId: string) {
           </div>
 
           <!-- Primary CTA -->
-          <div class="flex justify-center">
+          <div class="flex justify-center items-center">
             <button class="hero-cta" @click="goToSection('downloads-quick')">
               <i class="fa-solid fa-download text-xl sm:text-lg" aria-hidden="true"></i>
               <span>DOWNLOAD NOW</span>
             </button>
           </div>
+
+          <!-- Quick Start link -->
+          <button class="hero-primer-link" @click="openPrimer">
+            <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+            Quick Start
+          </button>
         </div>
       </div>
 

@@ -83,6 +83,122 @@ export interface FaqCategory {
 }
 export const faq: FaqCategory[] = [
   {
+    cat: 'Technical Issues',
+    items: [
+      {
+        id: 'game-crashes-on-startup',
+        q: 'The game crashes on startup. How do I fix it?',
+        a: `This is usually a DirectX compatibility issue with modern systems.
+<ol class="list-decimal list-inside mt-2 space-y-1">
+  <li>Navigate to Documents/World in Conflict/ and open "Game Options.txt" in notepad</li>
+  <li>Find the line "myDX10Flag" and change its value to 0</li>
+  <li>Right-click wic.exe, go to Properties > Compatibility</li>
+  <li>Check "Run as administrator"</li>
+  <li>Check "Disable fullscreen optimizations"</li>
+  <li>Set compatibility mode to Windows 7</li>
+</ol>
+This fixes 90% of crash issues.`,
+      },
+      {
+        id: 'black-screen',
+        q: 'Black screen but audio still plays',
+        a: `This is a fullscreen issue with Windows 10/11. Solutions:
+<ol class="list-decimal list-inside mt-2 space-y-1">
+  <li>Press Alt+Enter to switch to windowed mode, then back to fullscreen</li>
+  <li>In your graphics card control panel, disable GPU scaling</li>
+  <li>Set your desktop resolution to match your in-game resolution before launching</li>
+  <li>Try borderless windowed mode instead of exclusive fullscreen</li>
+</ol>`,
+      },
+      {
+        id: 'vcredist-missing',
+        q: 'VCRUNTIME140.dll, MSVCP140.dll or mss32.dll not found',
+        a: `This error means you're missing the Visual C++ Redistributable.
+<img src="/wic-vcredist-missing.png" alt="VCRedist error message" class="my-3 rounded border border-mg-muted max-w-md" />
+<p class="mt-2">This is automatically fixed by <a href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe" class="inline-link">WIC LIVE</a>.</p>`,
+      },
+      {
+        id: 'faultrep-error',
+        q: 'SymInitialize / FaultRep.dll Entry Point Not Found',
+        a: `This error occurs on systems with high core counts.
+<img src="/faultrep.png" alt="FaultRep.dll error message" class="my-3 rounded border border-mg-muted max-w-md" />
+<p class="mt-2">This is automatically fixed by <a href="https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe" class="inline-link">WIC LIVE</a>.</p>`,
+      },
+
+      {
+        id: 'cant-see-servers',
+        q: "I can't see any servers in the browser",
+        a: `<ol class="list-decimal list-inside mt-2 space-y-1">
+  <li>Check Windows Firewall - add wic.exe as an exception</li>
+  <li>Reset your server filters by clicking "Reset Filter" in the server browser</li>
+  <li>Verify your internet connection isn't blocking port 1066</li>
+  <li>Try running the game as administrator</li>
+</ol>
+If you still see no servers, join our <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="inline-link">Discord</a> for live support.`,
+      },
+
+      {
+        id: 'poor-performance',
+        q: 'The game runs poorly on my modern PC',
+        a: `WiC wasn't optimized for modern multi-core CPUs. Try these fixes:
+<ol class="list-decimal list-inside mt-2 space-y-1">
+  <li>In Game Options.txt, set "myDX10Flag 0" to use DX9 mode</li>
+  <li>Disable V-Sync in game settings</li>
+  <li>Set wic.exe CPU affinity to 2 cores only (Task Manager > Details > Set Affinity)</li>
+  <li>Update graphics drivers</li>
+  <li>Disable any overlay software (Discord, Steam, etc.)</li>
+</ol>
+The game should run smoothly even on modest modern hardware with these tweaks.`,
+      },
+    ],
+  },
+  {
+    cat: 'Gameplay & Features',
+    items: [
+      {
+        id: 'campaign-differences',
+        q: "What's the difference between Vanilla and Soviet Assault campaign?",
+        a: `The vanilla edition features the original US/NATO campaign following the Soviet invasion of America.
+<p class="mt-2">Soviet Assault adds additional missions interwoven into the main story, letting you experience key battles from the Russian perspective. These missions expand the narrative and provide context for the Soviet side of the conflict.</p>`,
+      },
+      {
+        id: 'version-compatibility',
+        q: 'Can I play with friends using different versions?',
+        a: 'Yes! WICGATE ensures compatibility between all versions: Steam, GOG, retail DVD, Complete Edition, with or without Soviet Assault. Everyone just needs the WICGATE client installed. The only limitation is that Soviet Assault maps require all players to have that expansion.',
+      },
+      {
+        id: 'stats-transfer',
+        q: 'Do my old stats and rank transfer?',
+        a: "No, original Massgate statistics were permanently deleted when Ubisoft shut down the servers. There's no way to recover them. Everyone starts fresh on WICGATE with new accounts. Think of it as a new competitive season - it gives newer players a fair chance to compete on the leaderboards alongside veterans.",
+      },
+      {
+        id: 'ranking-system',
+        q: 'How does ranking work?',
+        a: "The ranking system works identically to original Massgate. You gain or lose points based on match results, with the amount depending on your opponent's rank. Win against higher-ranked players for more points. Ranks range from Private to General, with subdivisions in between. Your rank is separate for each game mode.",
+      },
+    ],
+  },
+  {
+    cat: 'Getting Started',
+    items: [
+      {
+        id: 'do-i-need-to-own-wic',
+        q: 'Do I need to own World in Conflict?',
+        a: 'Yes, you need a legitimate copy of World in Conflict. The game is available on Steam, <a href="https://www.gog.com/game/world_in_conflict_complete_edition" target="_blank" rel="noopener noreferrer" class="inline-link">GOG</a>, and you can still use retail DVD versions. WICGATE only provides the multiplayer server infrastructure - we don\'t distribute the game itself. The Complete Edition (which includes Soviet Assault) is recommended but not required.',
+      },
+      {
+        id: 'lost-cd-key',
+        q: 'I lost my CD key. Can I still play?',
+        a: 'Yes! Just run WIC LIVE, it will sort it out any CD key related issues!',
+      },
+      {
+        id: 'how-to-connect',
+        q: 'How do I connect to WICGATE servers?',
+        a: 'Run the steps outlined in the <a href="#downloads" class="internal-link">QUICK START</a> section and you\'re good to go!',
+      },
+    ],
+  },
+  {
     cat: 'About WICGATE',
     items: [
       {
@@ -109,91 +225,6 @@ export const faq: FaqCategory[] = [
         id: 'host-own-server',
         q: 'Can I host my own server?',
         a: `Yes! You can host dedicated servers through the game interface just like in the original. We also provide dedicated server files for 24/7 hosting. Server requirements are minimal - any modern PC or VPS can handle it. Check our <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="inline-link">Discord's</a> #support channel for setup guides and the community helps with configuration.`,
-      },
-    ],
-  },
-  {
-    cat: 'Getting Started',
-    items: [
-      {
-        id: 'do-i-need-to-own-wic',
-        q: 'Do I need to own World in Conflict?',
-        a: 'Yes, you need a legitimate copy of World in Conflict. The game is available on Steam, <a href="https://www.gog.com/game/world_in_conflict_complete_edition" target="_blank" rel="noopener noreferrer" class="inline-link">GOG</a>, and you can still use retail DVD versions. WICGATE only provides the multiplayer server infrastructure - we don\'t distribute the game itself. The Complete Edition (which includes Soviet Assault) is recommended but not required.',
-      },
-      {
-        id: 'lost-cd-key',
-        q: 'I lost my CD key. Can I still play?',
-        a: 'Yes! Just run WIC LIVE, it will sort it out any CD key related issues!',
-      },
-      {
-        id: 'how-to-connect',
-        q: 'How do I connect to WICGATE servers?',
-        a: 'Run the steps outlined in the <a href="#downloads" class="internal-link">QUICK START</a> section and you\'re good to go!',
-      },
-    ],
-  },
-  {
-    cat: 'Technical Issues',
-    items: [
-      {
-        id: 'game-crashes-on-startup',
-        q: 'The game crashes on startup. How do I fix it?',
-        a: 'This is usually a DirectX compatibility issue with modern systems. Navigate to Documents/World in Conflict/ and open "Game Options.txt" in notepad. Find the line "myDX10Flag" and change its value to 0. Also: 1) Right-click wic.exe, go to Properties > Compatibility, 2) Check "Run as administrator", 3) Check "Disable fullscreen optimizations", 4) Set compatibility mode to Windows 7. This fixes 90% of crash issues.',
-      },
-      {
-        id: 'cant-see-servers',
-        q: "I can't see any servers in the browser",
-        a: `<ol class="list-decimal list-inside mt-2 space-y-1">
-  <li>Check Windows Firewall - add wic.exe as an exception</li>
-  <li>Reset your server filters by clicking "Reset Filter" in the server browser</li>
-  <li>Verify your internet connection isn't blocking port 1066</li>
-  <li>Try running the game as administrator</li>
-</ol>
-If you still see no servers, join our <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="inline-link">Discord</a> for live support.`,
-      },
-      {
-        id: 'poor-performance',
-        q: 'The game runs poorly on my modern PC',
-        a: `WiC wasn't optimized for modern multi-core CPUs. Try these fixes:
-<ol class="list-decimal list-inside mt-2 space-y-1">
-  <li>In Game Options.txt, set "myDX10Flag 0" to use DX9 mode</li>
-  <li>Disable V-Sync in game settings</li>
-  <li>Set wic.exe CPU affinity to 2 cores only (Task Manager > Details > Set Affinity)</li>
-  <li>Update graphics drivers</li>
-  <li>Disable any overlay software (Discord, Steam, etc.)</li>
-</ol>
-The game should run smoothly even on modest modern hardware with these tweaks.`,
-      },
-      {
-        id: 'black-screen',
-        q: 'Black screen but audio still plays',
-        a: `This is a fullscreen issue with Windows 10/11. Solutions:
-<ol class="list-decimal list-inside mt-2 space-y-1">
-  <li>Press Alt+Enter to switch to windowed mode, then back to fullscreen</li>
-  <li>In your graphics card control panel, disable GPU scaling</li>
-  <li>Set your desktop resolution to match your in-game resolution before launching</li>
-  <li>Try borderless windowed mode instead of exclusive fullscreen</li>
-</ol>`,
-      },
-    ],
-  },
-  {
-    cat: 'Gameplay & Features',
-    items: [
-      {
-        id: 'version-compatibility',
-        q: 'Can I play with friends using different versions?',
-        a: 'Yes! WICGATE ensures compatibility between all versions: Steam, GOG, retail DVD, Complete Edition, with or without Soviet Assault. Everyone just needs the WICGATE client installed. The only limitation is that Soviet Assault maps require all players to have that expansion.',
-      },
-      {
-        id: 'stats-transfer',
-        q: 'Do my old stats and rank transfer?',
-        a: "No, original Massgate statistics were permanently deleted when Ubisoft shut down the servers. There's no way to recover them. Everyone starts fresh on WICGATE with new accounts. Think of it as a new competitive season - it gives newer players a fair chance to compete on the leaderboards alongside veterans.",
-      },
-      {
-        id: 'ranking-system',
-        q: 'How does ranking work?',
-        a: "The ranking system works identically to original Massgate. You gain or lose points based on match results, with the amount depending on your opponent's rank. Win against higher-ranked players for more points. Ranks range from Private to General, with subdivisions in between. Your rank is separate for each game mode.",
       },
     ],
   },
