@@ -25,12 +25,7 @@ function goToSection(sectionOrSubsectionId: string) {
 </script>
 
 <template>
-  <section id="hero" class="hero-section">
-    <!-- Video Background -->
-    <video class="hero-video-bg" autoplay muted loop playsinline poster="/wic.png">
-      <source src="/seattle.mp4" type="video/mp4" />
-    </video>
-
+  <section id="hero" class="hero-section hero-section-with-image-bg">
     <!-- Atmospheric overlays -->
     <div class="hero-overlay-dark"></div>
     <div class="hero-overlay-gradient"></div>
@@ -40,7 +35,18 @@ function goToSection(sectionOrSubsectionId: string) {
       <!-- Hero Header -->
       <div class="hero-main-card-wrapper">
         <!-- Card with title, description and CTA -->
-        <div class="hero-main-card">
+        <div class="hero-main-card hero-main-card-with-video">
+          <!-- Video Background -->
+          <video class="hero-card-video-bg" autoplay muted loop playsinline poster="/wic.png">
+            <source src="/seattle.mp4" type="video/mp4" />
+          </video>
+
+          <!-- Quick Start button - top right -->
+          <button class="hero-primer-link hero-primer-link-top-right" @click="openPrimer">
+            <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+            Quick Start
+          </button>
+
           <!-- WIC Logo -->
           <img src="/wic-logo.png" alt="World in Conflict" class="hero-wic-logo" />
 
@@ -65,12 +71,6 @@ function goToSection(sectionOrSubsectionId: string) {
               <span>DOWNLOAD NOW</span>
             </button>
           </div>
-
-          <!-- Quick Start link -->
-          <button class="hero-primer-link" @click="openPrimer">
-            <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
-            Quick Start
-          </button>
         </div>
       </div>
 

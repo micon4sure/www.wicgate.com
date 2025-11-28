@@ -2062,6 +2062,13 @@
     @apply min-h-screen flex flex-col;
   }
 
+  .hero-section-with-image-bg {
+    background-image: url('/hero_picture.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
   .hero-video-bg {
     @apply absolute inset-0 w-full h-full object-cover;
     z-index: 0;
@@ -2096,6 +2103,30 @@
 
   .hero-main-card {
     @apply dashboard-card px-8 py-16 relative;
+  }
+
+  .hero-main-card-with-video {
+    overflow: hidden;
+  }
+
+  .hero-card-video-bg {
+    @apply absolute inset-0 w-full h-full object-cover;
+    z-index: 0;
+    border-radius: inherit;
+  }
+
+  .hero-main-card-with-video::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+    border-radius: inherit;
+    z-index: 1;
+  }
+
+  .hero-main-card-with-video > *:not(.hero-card-video-bg) {
+    position: relative;
+    z-index: 2;
   }
 
   /* Add extra vertical padding when viewport height > 1100px */
@@ -2314,6 +2345,33 @@
     @apply absolute bottom-4 right-4 inline-flex items-center gap-2 px-4 py-2 text-sm font-bold no-underline;
     @apply bg-slate-700/60 text-slate-300 border border-slate-500/40;
     @apply transition-all duration-300;
+  }
+
+  .hero-primer-link-top-right {
+    position: absolute !important;
+    top: 1rem !important;
+    right: 1rem !important;
+    bottom: auto !important;
+    z-index: 10 !important;
+  }
+
+  @media (max-width: 768px) {
+    .hero-primer-link-top-right {
+      top: 0.75rem !important;
+      right: 0.75rem !important;
+      padding: 0.5rem 0.75rem !important;
+      font-size: 0.75rem !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-primer-link-top-right {
+      top: 0.5rem !important;
+      right: 0.5rem !important;
+      padding: 0.4rem 0.6rem !important;
+      font-size: 0.7rem !important;
+      gap: 0.25rem !important;
+    }
   }
 
   @media (hover: hover) {
