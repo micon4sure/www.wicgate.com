@@ -115,10 +115,8 @@ function _handleLogout() {
 <template>
   <!-- Header content within container -->
   <div class="header-container">
-    <!-- Left side wrapper (logo) -->
-    <div class="header-side header-side-left">
-      <img src="/wic-logo.png" alt="World in Conflict" class="h-10" />
-    </div>
+    <!-- Left side wrapper (empty spacer for symmetry) -->
+    <div class="header-side header-side-left"></div>
 
     <!-- Inner container for main content -->
     <div class="header-inner">

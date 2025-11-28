@@ -41,6 +41,9 @@ function goToSection(sectionOrSubsectionId: string) {
       <div class="hero-main-card-wrapper">
         <!-- Card with title, description and CTA -->
         <div class="hero-main-card">
+          <!-- WIC Logo -->
+          <img src="/wic-logo.png" alt="World in Conflict" class="hero-wic-logo" />
+
           <h1 class="hero-title">
             <span class="hero-subtitle text-soviet block">WICGATE: Multiplayer Reborn</span>
           </h1>

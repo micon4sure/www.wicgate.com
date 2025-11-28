@@ -2162,6 +2162,70 @@
     }
   }
 
+  /* Hero WIC Logo (above title) */
+  .hero-wic-logo {
+    @apply w-auto mx-auto mb-6 select-none;
+    height: 96px; /* h-24 equivalent */
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.95))
+            drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
+  }
+
+  @media (max-width: 1280px) {
+    .hero-wic-logo {
+      height: 80px; /* h-20 equivalent */
+      @apply mb-5;
+    }
+  }
+
+  /* Laptop-specific optimizations (1024px-1280px) to improve widget visibility */
+  @media (min-width: 1024px) and (max-width: 1280px) {
+    /* Reduce hero card vertical padding */
+    .hero-main-card {
+      @apply py-12; /* Reduced from py-16 (64px → 48px per side = -32px total) */
+    }
+
+    /* Optimize logo size and margin */
+    .hero-wic-logo {
+      height: 72px; /* Reduced from 80px (10% reduction = -8px) */
+      @apply mb-4; /* Reduced from mb-5 (20px → 16px = -4px) */
+    }
+
+    /* Tighten title spacing */
+    .hero-title {
+      @apply mb-3; /* Reduced from mb-4 (16px → 12px = -4px) */
+    }
+
+    /* Reduce spacing between description paragraphs */
+    .hero-main-card .space-y-3 {
+      @apply space-y-2; /* Reduced gap (12px → 8px = -4px per gap) */
+    }
+
+    /* Reduce margin before CTA button */
+    .hero-main-card .space-y-3.mb-6 {
+      @apply mb-5; /* Reduced from mb-6 (24px → 20px = -4px) */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-wic-logo {
+      height: 64px; /* h-16 equivalent */
+      @apply mb-4;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-wic-logo {
+      height: 56px; /* h-14 equivalent */
+      @apply mb-3;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-wic-logo {
+      height: 48px; /* h-12 equivalent */
+    }
+  }
+
   /* Hero title */
   .hero-title {
     @apply mb-4 font-military font-bold text-t uppercase tracking-wide;
@@ -2182,19 +2246,19 @@
 
   /* Hero subtitle (Multiplayer Reborn) */
   .hero-subtitle {
-    @apply inline text-5xl text-massgate-red-bright font-bold;
+    @apply inline text-4xl text-massgate-red-bright font-bold;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
   }
 
   @media (max-width: 1280px) {
     .hero-subtitle {
-      @apply text-4xl;
+      @apply text-3xl;
     }
   }
 
   @media (max-width: 640px) {
     .hero-subtitle {
-      @apply text-3xl;
+      @apply text-2xl;
     }
   }
 
