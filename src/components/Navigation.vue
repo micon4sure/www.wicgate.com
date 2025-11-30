@@ -115,9 +115,6 @@ function _handleLogout() {
 <template>
   <!-- Header content within container -->
   <div class="header-container">
-    <!-- Left side wrapper (empty spacer for symmetry) -->
-    <div class="header-side header-side-left"></div>
-
     <!-- Inner container for main content -->
     <div class="header-inner">
       <!-- WICGATE Logo -->
@@ -180,18 +177,6 @@ function _handleLogout() {
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
     </button>
-
-    <!-- Right side wrapper (login/account) -->
-    <div class="header-side header-side-right">
-      <router-link v-if="isAuthenticated" to="/user" class="auth-btn-account invisible">
-        <i class="fa-solid fa-user"></i>
-        Account
-      </router-link>
-      <router-link v-else to="/login" class="auth-btn-login invisible">
-        <i class="fa-solid fa-right-to-bracket"></i>
-        Login
-      </router-link>
-    </div>
   </div>
 
   <!-- Mobile navigation (full-screen, outside container) -->

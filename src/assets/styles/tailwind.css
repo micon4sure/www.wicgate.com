@@ -684,22 +684,8 @@
     @apply h-20 min-h-[80px] px-5 w-full flex items-center justify-center;
   }
 
-  .header-side {
-    @apply hidden lg:flex items-center flex-1;
-  }
-
-  .header-side-left {
-    @apply justify-start;
-  }
-
-  .header-side-right {
-    @apply justify-end;
-  }
-
   .header-inner {
-    @apply max-w-7xl w-full flex items-center;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    @apply max-w-7xl w-full flex items-center px-5;
   }
 
   @media (max-width: 1024px) {
