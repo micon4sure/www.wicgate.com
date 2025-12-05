@@ -126,6 +126,23 @@ export const createApp = ViteSSG(
       // 3. Section route - scroll to section element
       const targetSection = to.meta.section;
       if (targetSection && typeof targetSection === 'string') {
+        const sourceSection = from.meta.section;
+        const targetSubsection = to.meta.subsection;
+        const isDirectNavigation = !from.name;
+
+        // Only preserve scroll when navigating TO a subsection within same section
+        // Main nav clicks go to base routes (subsection = undefined), so they always scroll
+        const isSubsectionNavigation =
+          sourceSection === targetSection && targetSubsection !== undefined && !isDirectNavigation;
+
+        if (isSubsectionNavigation) {
+          // Preserve current scroll position during tab switches
+          if (typeof window !== 'undefined') {
+            return { top: window.scrollY };
+          }
+          return { top: 0 }; // SSR fallback
+        }
+
         return new Promise((resolve) => {
           // SSR guard - scrollBehavior runs during SSG build
           if (typeof window === 'undefined') {
@@ -133,7 +150,6 @@ export const createApp = ViteSSG(
             return;
           }
 
-          const isDirectNavigation = !from.name;
           const scrollBehavior = isDirectNavigation ? 'auto' : 'smooth';
           const delay = isDirectNavigation ? 600 : 100;
 
