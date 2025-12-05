@@ -580,8 +580,8 @@
   }
 
   .countdown-badge-live {
-    @apply bg-teal/20 text-teal border-teal animate-pulse;
-    box-shadow: 0 0 12px rgba(66, 176, 176, 0.6);
+    @apply bg-online/20 text-online border-online animate-pulse;
+    box-shadow: 0 0 12px rgba(124, 179, 66, 0.6);
   }
 
   .countdown-badge-upcoming {
