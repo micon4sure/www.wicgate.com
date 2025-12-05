@@ -2810,25 +2810,41 @@
   /* Downloads Section */
   .bg-downloads-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, #0f1215 0%, #0a0c0f 50%, #08090b 100%);
+    background-image: linear-gradient(180deg, rgba(15, 18, 21, 0.75) 0%, rgba(10, 12, 15, 0.7) 50%, rgba(8, 9, 11, 0.75) 100%),
+                      url('/ru_pr_6_pic_2.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
   }
 
   /* Statistics Section */
   .bg-statistics-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, #0f1215 0%, #0c0e12 50%, #08090b 100%);
+    background-image: linear-gradient(180deg, rgba(15, 18, 21, 0.75) 0%, rgba(12, 14, 18, 0.7) 50%, rgba(8, 9, 11, 0.75) 100%),
+                      url('/pr_14_final.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
   }
 
   /* Community Section */
   .bg-community-section {
     @apply relative overflow-hidden;
-    background: transparent;
+    background-image: linear-gradient(180deg, rgba(15, 18, 21, 0.75) 0%, rgba(10, 13, 16, 0.7) 50%, rgba(8, 9, 11, 0.75) 100%),
+                      url('/ru_pr_4_final_picture.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
   }
 
   /* FAQ Section */
   .bg-faq-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, #0f1215 0%, #0a0d10 50%, #08090b 100%);
+    background-image: linear-gradient(180deg, rgba(15, 18, 21, 0.75) 0%, rgba(10, 13, 16, 0.7) 50%, rgba(8, 9, 11, 0.75) 100%),
+                      url('/ru_pr_6_pic_3.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
   }
 
   /* ========== GLOBAL UTILITY PATTERNS ========== */
