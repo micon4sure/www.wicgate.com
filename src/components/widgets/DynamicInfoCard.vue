@@ -55,9 +55,9 @@ const serverGroups = computed(() => {
     serverMap.get(serverId)?.players.push({
       profileId: profile.profileId,
       profileName: profile.profileName,
-      rank: profile.rank,
-      shortName: profile.shortName,
-      tagFormat: profile.tagFormat,
+      ...(profile.rank !== undefined && { rank: profile.rank }),
+      ...(profile.shortName !== undefined && { shortName: profile.shortName }),
+      ...(profile.tagFormat !== undefined && { tagFormat: profile.tagFormat }),
     });
   });
 
