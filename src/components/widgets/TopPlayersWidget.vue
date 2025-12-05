@@ -60,13 +60,11 @@ function handleClick() {
               :rank="player.rank || 0"
               :size="20"
               class="inline-block flex-shrink-0 mr-1.5"
-            />
-            <span v-if="formatClanTag(player)" class="widget-clan-tag">
-              {{ formatClanTag(player) }}
-            </span>
-            <span class="widget-player-name">
-              {{ player.profileName }}
-            </span>
+            /><!--
+         --><span v-if="formatClanTag(player)" class="widget-clan-tag">{{
+              formatClanTag(player)
+            }}</span
+            ><span class="widget-player-name">{{ player.profileName }}</span>
           </div>
           <span class="ladder-score text-sm font-military font-bold flex-shrink-0 text-white">{{
             player.high

@@ -200,7 +200,7 @@ function handleTopPlayersClick() {
                     <RankInsignia
                       :rank="player.rank || 0"
                       :size="18"
-                      class="inline-block flex-shrink-0 align-middle"
+                      class="inline-block flex-shrink-0 align-middle mr-1.5"
                     /><!--
                  --><span
                       class="inline align-middle leading-none overflow-hidden text-ellipsis whitespace-nowrap"
@@ -249,14 +249,12 @@ function handleTopPlayersClick() {
                   <RankInsignia
                     :rank="player.rank || 0"
                     :size="20"
-                    class="inline-block flex-shrink-0"
-                  />
-                  <span v-if="formatClanTag(player)" class="widget-clan-tag">
-                    {{ formatClanTag(player) }}
-                  </span>
-                  <span class="widget-player-name">
-                    {{ player.profileName }}
-                  </span>
+                    class="inline-block flex-shrink-0 mr-1.5"
+                  /><!--
+               --><span v-if="formatClanTag(player)" class="widget-clan-tag">{{
+                    formatClanTag(player)
+                  }}</span
+                  ><span class="widget-player-name">{{ player.profileName }}</span>
                 </div>
                 <span class="ladder-score" :class="`rank-${i + 1}`">
                   {{ player.high }}

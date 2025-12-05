@@ -1995,15 +1995,15 @@
   }
 
   .ladder-rank.rank-1 {
-    @apply bg-gold/20 text-gold;
+    @apply text-gold;
   }
 
   .ladder-rank.rank-2 {
-    @apply bg-silver/20 text-silver;
+    @apply text-silver;
   }
 
   .ladder-rank.rank-3 {
-    @apply bg-bronze/20 text-bronze;
+    @apply text-bronze;
   }
 
   .ladder-score {
