@@ -3532,16 +3532,3 @@
     box-shadow: 0 0 30px rgba(255, 213, 79, 0.6), 0 0 60px rgba(255, 202, 40, 0.4);
   }
 }
-
-.animate-soviet-pulse {
-  animation: sovietPulse 2.5s ease-in-out infinite;
-}
-
-@keyframes sovietPulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 102, 0, 0.4), 0 0 40px rgba(255, 102, 0, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(255, 133, 51, 0.6), 0 0 60px rgba(255, 102, 0, 0.4);
-  }
-}
