@@ -44,7 +44,7 @@ function validateDescriptionLength(description: string, path: string): string {
 
 export const PAGE_META: Record<string, PageMetaDefinition> = {
   '/': {
-    title: 'WICGATE | Multiplayer Reborn',
+    title: 'WICGATE | Multiplayer Reloaded',
     description:
       'Play World in Conflict online with restored multiplayer servers. Join our active community in epic Cold War battles using the real Massgate code.',
     keywords:

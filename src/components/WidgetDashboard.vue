@@ -51,7 +51,7 @@ function goToSection(sectionOrSubsectionId: string) {
           <img src="/wic-logo.png" alt="World in Conflict" class="hero-wic-logo" />
 
           <h1 class="hero-title">
-            <span class="hero-subtitle text-soviet block">WICGATE: Multiplayer Reborn</span>
+            <span class="hero-subtitle text-soviet block">WICGATE: Multiplayer Reloaded</span>
           </h1>
 
           <div class="space-y-3 mb-6">
@@ -76,17 +76,17 @@ function goToSection(sectionOrSubsectionId: string) {
 
       <!-- Streamlined Widget Cards -->
       <div class="hero-widget-grid">
-        <MediaEventCard
-          :videos="videosSorted"
-          :events="events"
-          :is-s-s-r="isSSR"
-          @navigate="goToSection"
-        />
-
         <DynamicInfoCard
           :data="store.data"
           :player-count="store.playerCount"
           :loading="store.loading"
+          :is-s-s-r="isSSR"
+          @navigate="goToSection"
+        />
+
+        <MediaEventCard
+          :videos="videosSorted"
+          :events="events"
           :is-s-s-r="isSSR"
           @navigate="goToSection"
         />

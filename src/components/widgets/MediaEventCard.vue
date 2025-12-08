@@ -132,23 +132,23 @@ function openVideo(url: string) {
     <div class="tab-nav">
       <button
         class="tab-btn-xs flex items-center justify-center gap-2"
-        :class="{ 'tab-btn-active': !shouldShowEvent }"
-        @click="showVideos"
-      >
-        <i class="fa-brands fa-youtube" aria-hidden="true"></i>
-        Videos
-        <span v-if="shouldShowEvent && unseenCount > 0" class="widget-badge-new">{{
-          unseenCount
-        }}</span>
-      </button>
-      <button
-        class="tab-btn-xs flex items-center justify-center gap-2"
         :class="{ 'tab-btn-active': shouldShowEvent }"
         @click="showEvents"
       >
         <i class="fa-regular fa-calendar" aria-hidden="true"></i>
         Events
         <span v-if="events.length > 0" class="widget-badge-count">{{ events.length }}</span>
+      </button>
+      <button
+        class="tab-btn-xs flex items-center justify-center gap-2"
+        :class="{ 'tab-btn-active': !shouldShowEvent }"
+        @click="showVideos"
+      >
+        <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+        Videos
+        <span v-if="!shouldShowEvent && unseenCount > 0" class="widget-badge-new">{{
+          unseenCount
+        }}</span>
       </button>
     </div>
 

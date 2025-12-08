@@ -2267,7 +2267,7 @@
     }
   }
 
-  /* Hero subtitle (Multiplayer Reborn) */
+  /* Hero subtitle (Multiplayer Reloaded) */
   .hero-subtitle {
     @apply inline text-4xl text-massgate-red-bright font-bold;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));

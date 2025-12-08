@@ -132,20 +132,20 @@ function handleTopPlayersClick() {
     <div class="tab-nav">
       <button
         class="tab-btn-xs flex items-center justify-center gap-2"
-        :class="{ 'tab-btn-active': !shouldShowPlayers }"
-        @click="showLeaderboard"
-      >
-        <i class="fa-solid fa-trophy" aria-hidden="true"></i>
-        Top Players
-      </button>
-      <button
-        class="tab-btn-xs flex items-center justify-center gap-2"
         :class="{ 'tab-btn-active': shouldShowPlayers }"
         @click="showPlayers"
       >
         <i class="fa-solid fa-users" aria-hidden="true"></i>
         Online
         <span v-if="playerCount > 0" class="widget-badge-count">{{ playerCount }}</span>
+      </button>
+      <button
+        class="tab-btn-xs flex items-center justify-center gap-2"
+        :class="{ 'tab-btn-active': !shouldShowPlayers }"
+        @click="showLeaderboard"
+      >
+        <i class="fa-solid fa-trophy" aria-hidden="true"></i>
+        Top Players
       </button>
     </div>
 
