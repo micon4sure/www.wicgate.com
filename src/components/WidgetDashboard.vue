@@ -51,7 +51,7 @@ function goToSection(sectionOrSubsectionId: string) {
           <img src="/wic-logo.png" alt="World in Conflict" class="hero-wic-logo" />
 
           <h1 class="hero-title">
-            <span class="hero-subtitle text-soviet block">Multiplayer Reloaded</span>
+            <span class="hero-subtitle text-teal block">Multiplayer Reloaded</span>
           </h1>
 
           <div class="space-y-3 mb-6">
