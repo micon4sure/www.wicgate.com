@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { usePlayerDisplay } from '../../composables/usePlayerDisplay';
 import RankInsignia from '../RankInsignia.vue';
+import OnlinePlayersModal from '../OnlinePlayersModal.vue';
 import type { DataResponse, LadderEntry } from '../../api-types';
 
 const props = defineProps<{
@@ -19,6 +20,17 @@ const { colorize } = usePlayerDisplay();
 
 // Manual override for view switching
 const manualView = ref<'auto' | 'players' | 'leaderboard'>('auto');
+
+// Modal state for expanded players view
+const showModal = ref(false);
+
+function openPlayersModal() {
+  showModal.value = true;
+}
+
+function closePlayersModal() {
+  showModal.value = false;
+}
 
 // Group players by server
 const serverGroups = computed(() => {
@@ -138,6 +150,17 @@ function handleTopPlayersClick() {
         <i class="fa-solid fa-users" aria-hidden="true"></i>
         Online
         <span v-if="playerCount > 0" class="widget-badge-count">{{ playerCount }}</span>
+        <span
+          v-if="playerCount > 0 && !isSSR"
+          class="widget-expand-btn"
+          title="Expand to full view"
+          role="button"
+          tabindex="0"
+          @click.stop="openPlayersModal"
+          @keydown.enter.stop="openPlayersModal"
+        >
+          <i class="fa-solid fa-expand" aria-hidden="true"></i>
+        </span>
       </button>
       <button
         class="tab-btn-xs flex items-center justify-center gap-2"
@@ -274,5 +297,13 @@ function handleTopPlayersClick() {
         </div>
       </div>
     </div>
+
+    <!-- Expanded Players Modal -->
+    <OnlinePlayersModal
+      v-if="showModal && !isSSR"
+      :server-groups="serverGroups"
+      :player-count="playerCount"
+      @close="closePlayersModal"
+    />
   </div>
 </template>

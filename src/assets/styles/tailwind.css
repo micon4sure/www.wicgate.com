@@ -482,6 +482,17 @@
     @apply bg-white/15 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-sm;
   }
 
+  /* Expand button for widget headers */
+  .widget-expand-btn {
+    @apply ml-2 p-1 rounded text-t-dim hover:text-t hover:bg-white/10
+           transition-all duration-200 cursor-pointer;
+  }
+
+  /* Players Modal Grid - screenshot-friendly layout */
+  .players-modal-grid {
+    @apply grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
   /* Dashboard card body */
   .dashboard-card-body {
     @apply flex-1 overflow-y-auto p-5;
