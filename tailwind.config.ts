@@ -125,6 +125,7 @@ export default {
         'military': ['Oswald', 'Impact', 'sans-serif'],
         'body': ['Rajdhani', 'sans-serif'],
         'mono': ['Courier New', 'monospace'],
+        'futuristic': ['Orbitron', 'sans-serif'],
       },
 
       backgroundImage: {

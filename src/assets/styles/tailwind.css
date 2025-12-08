@@ -2278,9 +2278,10 @@
     }
   }
 
-  /* Hero subtitle (Multiplayer Reloaded) */
+  /* Hero subtitle (Multiplayer Reloaded) - Orbitron futuristic font */
   .hero-subtitle {
-    @apply inline text-4xl text-massgate-red-bright font-bold;
+    @apply inline text-4xl text-massgate-red-bright font-futuristic font-bold uppercase tracking-wider;
+    font-style: italic;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
   }
 
