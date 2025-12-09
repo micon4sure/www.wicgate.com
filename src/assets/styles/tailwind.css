@@ -936,14 +936,27 @@
     }
   }
 
-  /* Leaderboard-specific tab sizing - smaller on wide screens when side-by-side */
+  /* Leaderboard-specific tab sizing - proportional across all breakpoints */
   .tab-btn-leaderboard {
     @apply tab-btn;
+    @apply text-[0.85rem] p-[12px_16px];
   }
 
-  @media (min-width: 1280px) {
+  @media (max-width: 768px) {
     .tab-btn-leaderboard {
-      @apply text-[0.85rem] p-[16px_24px];
+      @apply text-[0.8rem] p-[10px_12px];
+    }
+  }
+
+  @media (max-width: 480px) {
+    .tab-btn-leaderboard {
+      @apply text-[0.75rem] p-[8px_10px];
+    }
+  }
+
+  @media (max-width: 360px) {
+    .tab-btn-leaderboard {
+      @apply text-[0.7rem] p-[6px_8px];
     }
   }
 
@@ -1411,23 +1424,9 @@
     @apply grid grid-cols-1 gap-6;
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1024px) {
     .leaderboard-dual-container {
       @apply grid-cols-2;
-    }
-
-    /* When side by side, stack header and tabs vertically */
-    .leaderboard-dual-container .leaderboard-header-row {
-      @apply flex-col;
-    }
-
-    /* Header takes full width when stacked */
-    .leaderboard-dual-container .leaderboard-header {
-      @apply w-full;
-    }
-
-    /* Reduce tab padding when side by side */
-    .leaderboard-dual-container .tab-btn-leaderboard {
     }
   }
 
@@ -1440,20 +1439,14 @@
     box-shadow: 0 12px 30px rgba(4, 9, 14, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
 
-  /* Header row - contains title and tabs inline */
+  /* Header row - contains title and tabs stacked vertically */
   .leaderboard-header-row {
-    @apply flex items-stretch;
-  }
-
-  @media (max-width: 768px) {
-    .leaderboard-header-row {
-      @apply flex-col;
-    }
+    @apply flex flex-col;
   }
 
   /* Header bar */
   .leaderboard-header {
-    @apply p-[15px_20px] relative w-1/4 flex-shrink-0;
+    @apply p-[15px_20px] relative w-full flex-shrink-0;
     background: linear-gradient(to bottom, #1f2f3b, #151f28);
   }
 
@@ -1463,7 +1456,7 @@
 
   @media (max-width: 768px) {
     .leaderboard-header {
-      @apply p-[12px_15px] w-full;
+      @apply p-[12px_15px];
     }
   }
 
