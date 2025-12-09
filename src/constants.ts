@@ -25,6 +25,7 @@ export const EVENT_COUNTDOWN_INTERVAL = 1000; // Update countdown every second
 // Layout Breakpoints
 // Used in JavaScript responsive logic and CSS @media queries (often hardcoded in CSS)
 export const MOBILE_BREAKPOINT = 768; // Mobile/tablet breakpoint (px)
+export const DESKTOP_BREAKPOINT = 850; // Desktop/mobile responsive layout (matches Tailwind lg)
 export const TABLET_BREAKPOINT = 1024; // Tablet/desktop breakpoint (px)
 
 // Storage Keys

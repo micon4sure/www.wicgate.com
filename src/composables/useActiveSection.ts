@@ -6,9 +6,11 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
 import { getSectionFromSubsection } from '../types/navigation';
+import { useViewportMode } from './useViewportMode';
 
 export function useActiveSection(sectionIds: string[] = []) {
   const route = useRoute();
+  const { isDesktopMode } = useViewportMode();
   const scrollBasedSection = ref<string | undefined>();
   const isProgrammaticScroll = ref(false);
   const isHydrating = ref(true); // Track SSR → CSR hydration state
@@ -119,19 +121,23 @@ export function useActiveSection(sectionIds: string[] = []) {
     if (hydrationTimeout) clearTimeout(hydrationTimeout);
   });
 
-  // Current active section - prioritizes route (for clicks), falls back to scroll
-  // IMPORTANT: Only track section-level, not subsection/tabs
-  // Tabs are local UI state and shouldn't affect main navigation highlighting
+  // Current active section - viewport-aware highlighting
+  // Desktop: always use route-based section
+  // Mobile: use scroll-based tracking for manual scrolling
   const currentSection = computed(() => {
-    // Always use section, never subsection (tabs should not affect nav highlighting)
     const routeSection = route.meta.section as string | undefined;
 
-    // During/after programmatic navigation, use route
+    // Desktop: always use route-based section
+    if (isDesktopMode.value) {
+      return routeSection === 'hero' ? undefined : routeSection;
+    }
+
+    // Mobile: prioritize route during programmatic navigation, otherwise scroll-based
     if (isProgrammaticScroll.value && routeSection) {
       return routeSection === 'hero' ? undefined : routeSection;
     }
 
-    // For manual scrolling, use scroll-based tracking
+    // For manual scrolling on mobile, use scroll-based tracking
     return scrollBasedSection.value;
   });
 

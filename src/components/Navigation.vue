@@ -95,15 +95,16 @@ onUnmounted(() => {
   document.body.style.overflow = ''; // Clean up body scroll lock
 });
 
-function handleNavigation(sectionId: string) {
+async function handleNavigation(sectionId: string) {
   closeMobileMenu();
 
-  // Navigate using router - browser handles scrolling via scrollBehavior + CSS
-  router.push(getRoutePath(sectionId));
-
-  // Check if we're in game mode - if so, trigger home mode first
+  // Exit game mode if active
   const event = new CustomEvent('exitGameMode');
   window.dispatchEvent(event);
+
+  // Always update URL via router on both mobile and desktop
+  // Router's scrollBehavior (main.ts) handles scrolling to section automatically
+  await router.push(getRoutePath(sectionId));
 }
 
 function _handleLogout() {
@@ -206,18 +207,18 @@ function _handleLogout() {
             );
           "
         >
-          <router-link
+          <button
             v-for="section in navSections"
             :key="section.id"
-            :to="getRoutePath(section.id)"
+            type="button"
             :class="{
               active: section.id === 'hero' ? !activeSection : isActive(section.id),
             }"
             class="nav-mobile-link"
-            @click.prevent="handleNavigation(section.id)"
+            @click="handleNavigation(section.id)"
           >
             {{ section.label }}
-          </router-link>
+          </button>
 
           <!-- Auth Links in Mobile Menu -->
           <router-link

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, computed, watch } from 'vue';
+import { onMounted, onBeforeUnmount, computed, watch, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import { useHead } from '@unhead/vue';
 import Navigation from '../components/Navigation.vue';
@@ -14,6 +14,7 @@ import ScrollToTop from '../components/ScrollToTop.vue';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useFirstVisit } from '../composables/useFirstVisit';
 import { useActiveSection } from '../composables/useActiveSection';
+import { useViewportMode } from '../composables/useViewportMode';
 import {
   generateOrganizationSchema,
   generateWebSiteSchema,
@@ -30,6 +31,7 @@ import { syncHeaderHeight } from '../utils/headerHeight';
 
 const store = useAppDataStore();
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
+const { isMobileMode } = useViewportMode();
 
 // Get all valid section IDs for scroll tracking
 const ALL_VALID_IDS = getAllValidIds();
@@ -38,6 +40,10 @@ const ALL_VALID_IDS = getAllValidIds();
 const { currentSection, startProgrammaticScroll } = useActiveSection(ALL_VALID_IDS);
 
 const route = useRoute();
+
+// SSG conditional rendering
+const isSSR = import.meta.env.SSR;
+const targetSection = computed(() => route.meta.section as string | undefined);
 
 // Disable scroll tracking during programmatic navigation (clicks)
 watch(
@@ -50,9 +56,29 @@ watch(
   }
 );
 
-// SSG conditional rendering
-const isSSR = import.meta.env.SSR;
-const targetSection = computed(() => route.meta.section as string | undefined);
+// Helper to scroll to a section element
+function scrollToSection(sectionId: string) {
+  const element = document.getElementById(sectionId);
+  if (!element) return;
+
+  const headerHeight =
+    parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim()
+    ) || 80;
+
+  const top = element.getBoundingClientRect().top + window.scrollY - headerHeight;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+
+// When switching to mobile mode while on a section route, scroll to that section
+watch(isMobileMode, (nowMobile) => {
+  if (nowMobile && targetSection.value) {
+    // Wait for all sections to render, then scroll to current section
+    nextTick(() => {
+      scrollToSection(targetSection.value as string);
+    });
+  }
+});
 
 // Determine effective path for SEO (subsections use parent section)
 const effectiveSeoPath = computed(() => {
@@ -113,18 +139,19 @@ const canonicalUrl = computed(() => {
   }`;
 });
 
-// Determine which sections to render based on SSR vs CSR
+// Determine which sections to render based on SSR vs CSR and viewport
 function shouldRenderSection(sectionId: string): boolean {
-  // Client-side: always render all sections for smooth long-scroll
-  if (!isSSR) return true;
-
-  // Server-side/build-time rendering
-  if (!targetSection.value) {
-    // Homepage: render all sections
-    return true;
+  // SSR: render only target section (or hero for homepage)
+  if (isSSR) {
+    if (!targetSection.value) return sectionId === 'hero';
+    return targetSection.value === sectionId;
   }
 
-  // Specific section page: render only that section for SEO
+  // CSR Mobile: render all sections for scroll experience
+  if (isMobileMode.value) return true;
+
+  // CSR Desktop: render only target section (or hero for homepage)
+  if (!targetSection.value) return sectionId === 'hero';
   return targetSection.value === sectionId;
 }
 
