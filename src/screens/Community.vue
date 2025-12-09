@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useYoutube } from '../composables/useYoutube';
-import TwitchFacade from '../components/TwitchFacade.vue';
+import TwitchEmbed from '../components/TwitchEmbed.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
 import TabContainer from '../components/TabContainer.vue';
 
@@ -90,7 +90,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
             class="card p-0 overflow-hidden no-underline text-inherit"
             :aria-label="`Watch ${u} live on Twitch`"
           >
-            <TwitchFacade :channel="u" muted />
+            <TwitchEmbed :channel="u" muted />
             <div class="p-3 md:p-4 flex justify-center items-center border-t border-teal/10">
               <strong
                 class="text-massgate-gold font-military font-semibold uppercase tracking-wide text-sm md:text-base"
