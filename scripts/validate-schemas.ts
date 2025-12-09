@@ -15,7 +15,8 @@ interface ValidationIssue {
 }
 
 const REQUIRED_SCHEMA_TYPES = {
-  '/index.html': ['Organization', 'WebSite', 'VideoGame', 'WebPage', 'FAQPage'],
+  // Homepage only shows hero section (desktop multi-page layout)
+  '/index.html': ['Organization', 'WebSite', 'VideoGame', 'WebPage'],
   '/downloads.html': ['Organization', 'BreadcrumbList', 'SoftwareApplication', 'HowTo', 'WebPage'],
   '/faq.html': ['Organization', 'BreadcrumbList', 'FAQPage', 'WebPage'],
   '/statistics.html': ['Organization', 'BreadcrumbList', 'WebPage'],
