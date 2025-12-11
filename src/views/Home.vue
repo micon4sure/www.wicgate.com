@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, computed, watch, nextTick } from 'vue';
+import {
+  onMounted,
+  onBeforeUnmount,
+  computed,
+  watch,
+  nextTick,
+  type Component,
+  markRaw,
+} from 'vue';
 import { useRoute } from 'vue-router';
 import { useHead } from '@unhead/vue';
 import Navigation from '../components/Navigation.vue';
@@ -154,6 +162,39 @@ function shouldRenderSection(sectionId: string): boolean {
   if (!targetSection.value) return sectionId === 'hero';
   return targetSection.value === sectionId;
 }
+
+// Section component map for KeepAlive dynamic rendering (desktop only)
+// markRaw prevents Vue from making components reactive (performance optimization)
+const sectionComponents: Record<string, Component> = {
+  community: markRaw(Community),
+  statistics: markRaw(Statistics),
+  downloads: markRaw(Downloads),
+  faq: markRaw(FAQ),
+};
+
+// Current section component for desktop KeepAlive rendering
+const currentSectionComponent = computed(() => {
+  if (!targetSection.value) return null;
+  return sectionComponents[targetSection.value] || null;
+});
+
+// Props for the current section component
+const currentSectionProps = computed(() => {
+  if (targetSection.value === 'statistics') {
+    return {
+      data: store.data,
+      loading: store.loading,
+      clans: store.clans,
+    };
+  }
+  return {};
+});
+
+// Whether to use KeepAlive rendering (desktop CSR mode)
+// Must stay mounted even on homepage to preserve section cache
+const isDesktopCSR = computed(() => {
+  return !isSSR && !isMobileMode.value;
+});
 
 // Breadcrumb generation for structured data
 const breadcrumbs = computed((): BreadcrumbItem[] => {
@@ -395,15 +436,28 @@ function handleContinue() {
       <WidgetDashboard v-if="shouldRenderSection('hero')" />
 
       <div id="screens">
-        <Community v-if="shouldRenderSection('community')" />
-        <Statistics
-          v-if="shouldRenderSection('statistics')"
-          :data="store.data"
-          :loading="store.loading"
-          :clans="store.clans"
-        />
-        <Downloads v-if="shouldRenderSection('downloads')" />
-        <FAQ v-if="shouldRenderSection('faq')" />
+        <!-- Desktop CSR: KeepAlive stays mounted to preserve section cache -->
+        <KeepAlive v-if="isDesktopCSR">
+          <component
+            :is="currentSectionComponent"
+            v-if="currentSectionComponent"
+            :key="targetSection"
+            v-bind="currentSectionProps"
+          />
+        </KeepAlive>
+
+        <!-- SSR / Mobile: standard conditional rendering -->
+        <template v-if="!isDesktopCSR">
+          <Community v-if="shouldRenderSection('community')" />
+          <Statistics
+            v-if="shouldRenderSection('statistics')"
+            :data="store.data"
+            :loading="store.loading"
+            :clans="store.clans"
+          />
+          <Downloads v-if="shouldRenderSection('downloads')" />
+          <FAQ v-if="shouldRenderSection('faq')" />
+        </template>
       </div>
       <SiteFooter />
     </div>
