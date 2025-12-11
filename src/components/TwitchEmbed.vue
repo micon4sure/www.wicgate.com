@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, onActivated } from 'vue';
 
 const props = defineProps<{ channel: string; muted?: boolean }>();
 
 const isVisible = ref(false); // IntersectionObserver triggered
 const isLoaded = ref(false); // iframe onload fired
+const iframeKey = ref(0); // Increment to force iframe recreation on KeepAlive reactivation
 const host = typeof window !== 'undefined' ? window.location.hostname : 'wicgate.com';
 
 let observer: IntersectionObserver | null = null;
@@ -29,6 +30,12 @@ onMounted(() => {
   observer.observe(embedContainer.value);
 });
 
+// Force iframe recreation when component reactivates from KeepAlive cache
+onActivated(() => {
+  isLoaded.value = false;
+  iframeKey.value++;
+});
+
 onBeforeUnmount(() => {
   observer?.disconnect();
 });
@@ -42,6 +49,7 @@ onBeforeUnmount(() => {
     <!-- Iframe: render when visible, but hidden (opacity-0) until loaded -->
     <iframe
       v-if="isVisible"
+      :key="iframeKey"
       :src="`https://player.twitch.tv/?channel=${props.channel}&parent=${host}&muted=${props.muted !== false}`"
       :class="[
         'absolute inset-0 w-full h-full border-0 transition-opacity duration-300',
