@@ -220,7 +220,7 @@ function _handleLogout() {
             {{ section.label }}
           </button>
 
-          <!-- Auth Links in Mobile Menu -->
+          <!-- Admin Link in Mobile Menu (if admin) -->
           <router-link
             v-if="isAdmin"
             to="/admin"
@@ -229,21 +229,6 @@ function _handleLogout() {
           >
             <i class="fa-solid fa-crown w-5 h-5 flex-shrink-0"></i>
             Admin Dashboard
-          </router-link>
-
-          <router-link
-            v-if="isAuthenticated"
-            to="/user"
-            class="mobile-auth-account"
-            @click="closeMobileMenu"
-          >
-            <i class="fa-solid fa-user w-5 h-5 flex-shrink-0"></i>
-            Account
-          </router-link>
-
-          <router-link v-else to="/login" class="mobile-auth-login" @click="closeMobileMenu">
-            <i class="fa-solid fa-right-to-bracket w-5 h-5 flex-shrink-0"></i>
-            Login
           </router-link>
 
           <!-- Discord Link in Mobile Menu -->
