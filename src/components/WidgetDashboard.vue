@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, onActivated } from 'vue';
+import { ref, onActivated, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useEvents } from '../composables/useEvents';
 import { useYoutube } from '../composables/useYoutube';
 import { useFirstVisit } from '../composables/useFirstVisit';
+import { useViewportMode } from '../composables/useViewportMode';
 import MediaEventCard from './widgets/MediaEventCard.vue';
 import DynamicInfoCard from './widgets/DynamicInfoCard.vue';
 import { getRoutePath } from '../types/navigation';
@@ -12,6 +13,7 @@ import { getRoutePath } from '../types/navigation';
 const router = useRouter();
 const store = useAppDataStore();
 const { openPrimer } = useFirstVisit();
+const { isMobileMode } = useViewportMode();
 
 const { events } = useEvents();
 const { videosSorted } = useYoutube();
@@ -19,12 +21,40 @@ const { videosSorted } = useYoutube();
 // SSR detection
 const isSSR = import.meta.env.SSR;
 
-// Template ref for hero video (needed for KeepAlive resume)
+// Template refs
 const heroVideo = ref<HTMLVideoElement | null>(null);
+const heroSection = ref<HTMLElement | null>(null);
+let videoObserver: IntersectionObserver | null = null;
 
-// Resume video playback when component reactivates from KeepAlive cache
+// Resume video playback when component reactivates from KeepAlive cache (desktop)
 onActivated(() => {
   heroVideo.value?.play();
+});
+
+// Viewport-based video pause/resume (mobile scroll only)
+// Desktop uses KeepAlive's onActivated instead
+onMounted(() => {
+  if (typeof window === 'undefined' || !heroSection.value) return;
+  if (!isMobileMode.value) return; // Skip on desktop - KeepAlive handles it
+
+  videoObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          heroVideo.value?.play();
+        } else {
+          heroVideo.value?.pause();
+        }
+      });
+    },
+    { threshold: 0.1 } // Trigger when 10% visible
+  );
+
+  videoObserver.observe(heroSection.value);
+});
+
+onBeforeUnmount(() => {
+  videoObserver?.disconnect();
 });
 
 // Navigation function - uses proper nested routes
@@ -34,7 +64,7 @@ function goToSection(sectionOrSubsectionId: string) {
 </script>
 
 <template>
-  <section id="hero" class="hero-section hero-section-with-image-bg">
+  <section id="hero" ref="heroSection" class="hero-section hero-section-with-image-bg">
     <!-- Atmospheric overlays -->
     <div class="hero-overlay-dark"></div>
     <div class="hero-overlay-gradient"></div>
