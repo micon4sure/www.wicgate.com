@@ -166,6 +166,7 @@ function shouldRenderSection(sectionId: string): boolean {
 // Section component map for KeepAlive dynamic rendering (desktop only)
 // markRaw prevents Vue from making components reactive (performance optimization)
 const sectionComponents: Record<string, Component> = {
+  hero: markRaw(WidgetDashboard),
   community: markRaw(Community),
   statistics: markRaw(Statistics),
   downloads: markRaw(Downloads),
@@ -173,20 +174,23 @@ const sectionComponents: Record<string, Component> = {
 };
 
 // Current section component for desktop KeepAlive rendering
+// Returns hero for home page, otherwise the target section
 const currentSectionComponent = computed(() => {
-  if (!targetSection.value) return null;
-  return sectionComponents[targetSection.value] || null;
+  const section = targetSection.value || 'hero';
+  return sectionComponents[section] || null;
 });
 
 // Props for the current section component
 const currentSectionProps = computed(() => {
-  if (targetSection.value === 'statistics') {
+  const section = targetSection.value || 'hero';
+  if (section === 'statistics') {
     return {
       data: store.data,
       loading: store.loading,
       clans: store.clans,
     };
   }
+  // Hero and other sections use composables directly, no props needed
   return {};
 });
 
@@ -432,22 +436,19 @@ function handleContinue() {
     </header>
 
     <div class="main-content">
-      <!-- Widget Dashboard - only rendered on homepage -->
-      <WidgetDashboard v-if="shouldRenderSection('hero')" />
-
       <div id="screens">
         <!-- Desktop CSR: KeepAlive stays mounted to preserve section cache -->
         <KeepAlive v-if="isDesktopCSR">
           <component
             :is="currentSectionComponent"
-            v-if="currentSectionComponent"
-            :key="targetSection"
+            :key="targetSection || 'hero'"
             v-bind="currentSectionProps"
           />
         </KeepAlive>
 
         <!-- SSR / Mobile: standard conditional rendering -->
         <template v-if="!isDesktopCSR">
+          <WidgetDashboard v-if="shouldRenderSection('hero')" />
           <Community v-if="shouldRenderSection('community')" />
           <Statistics
             v-if="shouldRenderSection('statistics')"

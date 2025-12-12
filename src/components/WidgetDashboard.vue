@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, onActivated } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useEvents } from '../composables/useEvents';
@@ -17,6 +18,14 @@ const { videosSorted } = useYoutube();
 
 // SSR detection
 const isSSR = import.meta.env.SSR;
+
+// Template ref for hero video (needed for KeepAlive resume)
+const heroVideo = ref<HTMLVideoElement | null>(null);
+
+// Resume video playback when component reactivates from KeepAlive cache
+onActivated(() => {
+  heroVideo.value?.play();
+});
 
 // Navigation function - uses proper nested routes
 function goToSection(sectionOrSubsectionId: string) {
@@ -37,7 +46,15 @@ function goToSection(sectionOrSubsectionId: string) {
         <!-- Card with title, description and CTA -->
         <div class="hero-main-card hero-main-card-with-video">
           <!-- Video Background -->
-          <video class="hero-card-video-bg" autoplay muted loop playsinline poster="/wic.png">
+          <video
+            ref="heroVideo"
+            class="hero-card-video-bg"
+            autoplay
+            muted
+            loop
+            playsinline
+            poster="/wic.png"
+          >
             <source src="/seattle.mp4" type="video/mp4" />
           </video>
 
