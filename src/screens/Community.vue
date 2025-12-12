@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useYoutube } from '../composables/useYoutube';
-import TwitchEmbed from '../components/TwitchEmbed.vue';
+import TwitchFacade from '../components/TwitchFacade.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
 import TabContainer from '../components/TabContainer.vue';
 
@@ -82,22 +82,20 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <a
-            v-for="u in twitchUsernames"
-            :key="u"
-            :href="`https://twitch.tv/${u}`"
-            target="_blank"
-            class="card p-0 overflow-hidden no-underline text-inherit"
-            :aria-label="`Watch ${u} live on Twitch`"
-          >
-            <TwitchEmbed :channel="u" muted />
-            <div class="p-3 md:p-4 flex justify-center items-center border-t border-teal/10">
+          <div v-for="u in twitchUsernames" :key="u" class="card p-0 overflow-hidden">
+            <TwitchFacade :channel="u" muted />
+            <a
+              :href="`https://twitch.tv/${u}`"
+              target="_blank"
+              class="p-3 md:p-4 flex justify-center items-center border-t border-teal/10 no-underline text-inherit hover:bg-mg/30 transition-colors"
+              :aria-label="`Visit ${u} on Twitch`"
+            >
               <strong
                 class="text-massgate-gold font-military font-semibold uppercase tracking-wide text-sm md:text-base"
                 >{{ u }}</strong
               >
-            </div>
-          </a>
+            </a>
+          </div>
         </div>
       </div>
 

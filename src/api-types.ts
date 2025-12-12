@@ -117,6 +117,20 @@ export interface YouTubeVideo {
   channelId?: string;
 }
 
+// Twitch stream data from Helix API (proxied via backend)
+export interface TwitchStream {
+  user_login: string;
+  user_name: string;
+  game_name: string;
+  title: string;
+  viewer_count: number;
+  thumbnail_url: string;
+}
+
+export interface TwitchStreamsResponse {
+  data: TwitchStream[];
+}
+
 // base url is https://www.wicgate.com so data endpoint is https://www.wicgate.com/api/data
 
 // Endpoint: GET /api/data

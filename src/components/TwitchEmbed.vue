@@ -42,10 +42,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div
-    ref="embedContainer"
-    class="relative w-full pb-[56.25%] bg-graphite-light border border-mg rounded-none overflow-hidden"
-  >
+  <!-- Container fills parent (parent provides aspect ratio) -->
+  <div ref="embedContainer" class="absolute inset-0">
     <!-- Iframe: render when visible, but hidden (opacity-0) until loaded -->
     <iframe
       v-if="isVisible"
