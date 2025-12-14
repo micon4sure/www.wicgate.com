@@ -57,14 +57,8 @@ const socialLinks = [
         class="w-24 h-px bg-gradient-to-r from-transparent via-teal/40 to-transparent mx-auto mb-6"
       ></div>
 
-      <!-- Server Status & Copyright -->
+      <!-- Copyright & Disclaimer -->
       <div class="text-center">
-        <div class="flex items-center justify-center gap-2 mb-4">
-          <span class="w-2 h-2 rounded-full bg-online animate-pulse-slow"></span>
-          <span class="text-t-secondary text-sm font-body">WICGATE Servers Online</span>
-        </div>
-
-        <!-- Copyright & Disclaimer -->
         <p class="text-t-tertiary text-xs font-body leading-relaxed max-w-xl mx-auto">
           &copy; {{ year }} WICGATE Community &mdash; a non-commercial fan project. World in
           Conflict&trade; is a trademark of Ubisoft Entertainment. Not affiliated with or endorsed
