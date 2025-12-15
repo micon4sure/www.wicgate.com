@@ -108,15 +108,6 @@ onActivated(() => {
           <i class="fa-brands fa-twitch text-twitch/30 text-5xl mb-3"></i>
           <p class="text-t-tertiary text-sm font-medium">Stream offline</p>
         </div>
-
-        <!-- Subtle play button for offline (still clickable to check) -->
-        <div class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-          <div
-            class="w-14 h-10 bg-twitch/50 text-white/70 rounded-lg flex items-center justify-center transition-all duration-200 group-hover:scale-110 group-hover:bg-twitch/70"
-          >
-            <i class="fa-solid fa-play text-lg ml-0.5"></i>
-          </div>
-        </div>
       </template>
     </template>
   </div>
