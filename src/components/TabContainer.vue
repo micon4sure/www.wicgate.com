@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { MOBILE_BREAKPOINT } from '../constants';
 
 interface Tab {
   id: string; // The route name (e.g., 'downloads-quick', 'faq-about') or local tab ID
@@ -22,6 +23,18 @@ const props = withDefaults(defineProps<Props>(), {
 const router = useRouter();
 const route = useRoute();
 
+// Mobile dropdown state
+const dropdownOpen = ref(false);
+const isMobile = ref(false);
+const dropdownRef = ref<HTMLElement | null>(null);
+const triggerRef = ref<HTMLElement | null>(null);
+// Typed for ESLint compatibility (avoids 'MediaQueryList is not defined' error)
+let mediaQuery: {
+  matches: boolean;
+  addEventListener: (type: string, listener: (event: { matches: boolean }) => void) => void;
+  removeEventListener: (type: string, listener: (event: { matches: boolean }) => void) => void;
+} | null = null;
+
 // Local active tab for non-route tabs
 const localActiveTabId = ref<string>(props.tabs[0]?.id || '');
 
@@ -39,8 +52,9 @@ const activeTabId = computed(() => {
   }
 
   // If first tab is a route tab, default to it
-  if (props.tabs.length > 0 && isRouteTab(props.tabs[0].id)) {
-    return props.tabs[0].id;
+  const firstTab = props.tabs[0];
+  if (firstTab && isRouteTab(firstTab.id)) {
+    return firstTab.id;
   }
 
   // Otherwise use local state (for non-route tabs like Community videos)
@@ -61,9 +75,10 @@ watch(
 // Extract anchor from tab ID by finding common prefix from all tabs
 // e.g., 'downloads-quick' → 'quick', 'faq-about' → 'about'
 function getAnchor(tabId: string): string {
-  if (props.tabs.length === 0) return tabId;
+  const firstTab = props.tabs[0];
+  if (!firstTab) return tabId;
 
-  const firstTabId = props.tabs[0].id;
+  const firstTabId = firstTab.id;
   const firstHyphen = firstTabId.indexOf('-');
 
   if (firstHyphen === -1) return tabId;
@@ -106,12 +121,145 @@ const formatLabel = (label: string): string => {
 const getTabId = (tabId: string) => `tab-${tabId}`;
 // Use anchor for panel ID (e.g., 'quick' not 'downloads-quick')
 const getPanelId = (tabId: string) => getAnchor(tabId);
+
+// Active tab label for mobile trigger button
+const activeTabLabel = computed(() => {
+  const activeTab = props.tabs.find((t) => t.id === activeTabId.value);
+  return activeTab ? formatLabel(activeTab.label) : 'Select Tab';
+});
+
+// Active tab icon for mobile trigger button
+const activeTabIcon = computed(() => {
+  const activeTab = props.tabs.find((t) => t.id === activeTabId.value);
+  return activeTab?.icon || null;
+});
+
+// Toggle dropdown
+function toggleDropdown() {
+  dropdownOpen.value = !dropdownOpen.value;
+}
+
+// Close dropdown
+function closeDropdown() {
+  dropdownOpen.value = false;
+}
+
+// Handle tab selection from dropdown
+async function selectTab(tab: Tab) {
+  await switchTab(tab);
+  closeDropdown();
+}
+
+// Handle click outside dropdown
+function handleClickOutside(event: MouseEvent) {
+  const target = event.target as Node;
+
+  if (
+    dropdownOpen.value &&
+    dropdownRef.value &&
+    triggerRef.value &&
+    !dropdownRef.value.contains(target) &&
+    !triggerRef.value.contains(target)
+  ) {
+    closeDropdown();
+  }
+}
+
+// Handle escape key
+function handleEscapeKey(event: KeyboardEvent) {
+  if (event.key === 'Escape' && dropdownOpen.value) {
+    closeDropdown();
+  }
+}
+
+// Handle media query change
+function handleMediaChange(event: { matches: boolean }) {
+  isMobile.value = !event.matches;
+  // Close dropdown when switching to desktop
+  if (!isMobile.value) {
+    closeDropdown();
+  }
+}
+
+// Lifecycle hooks for event listeners
+onMounted(() => {
+  if (typeof window === 'undefined') return;
+
+  // Setup media query listener
+  mediaQuery = window.matchMedia(`(min-width: ${MOBILE_BREAKPOINT}px)`);
+  isMobile.value = !mediaQuery.matches;
+  mediaQuery.addEventListener('change', handleMediaChange);
+
+  // Setup click outside and escape key listeners
+  document.addEventListener('click', handleClickOutside);
+  document.addEventListener('keydown', handleEscapeKey);
+});
+
+onUnmounted(() => {
+  if (mediaQuery) {
+    mediaQuery.removeEventListener('change', handleMediaChange);
+  }
+  document.removeEventListener('click', handleClickOutside);
+  document.removeEventListener('keydown', handleEscapeKey);
+});
 </script>
 
 <template>
   <div class="tab-container">
-    <!-- Tab Navigation -->
-    <div role="tablist" :aria-label="ariaLabel" class="tab-nav">
+    <!-- MOBILE: Hamburger Dropdown (< 768px) -->
+    <div v-if="isMobile" class="tab-mobile-wrapper">
+      <!-- Trigger Button -->
+      <button
+        ref="triggerRef"
+        class="tab-mobile-trigger"
+        :class="{ 'tab-mobile-trigger-open': dropdownOpen }"
+        :aria-expanded="dropdownOpen"
+        aria-haspopup="listbox"
+        @click="toggleDropdown"
+      >
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-bars text-teal" aria-hidden="true"></i>
+          <i v-if="activeTabIcon" :class="activeTabIcon" class="text-teal" aria-hidden="true"></i>
+          <span class="tab-mobile-trigger-label">{{ activeTabLabel }}</span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-down tab-mobile-chevron"
+          :class="{ 'rotate-180': dropdownOpen }"
+          aria-hidden="true"
+        ></i>
+      </button>
+
+      <!-- Dropdown Menu -->
+      <Transition name="tab-dropdown">
+        <div
+          v-if="dropdownOpen"
+          ref="dropdownRef"
+          class="tab-mobile-dropdown"
+          role="listbox"
+          :aria-label="ariaLabel"
+        >
+          <button
+            v-for="tab in tabs"
+            :key="tab.id"
+            role="option"
+            :aria-selected="activeTabId === tab.id"
+            :class="['tab-mobile-option', { 'tab-mobile-option-active': activeTabId === tab.id }]"
+            @click="selectTab(tab)"
+          >
+            <i v-if="tab.icon" :class="tab.icon" class="mr-3" aria-hidden="true"></i>
+            {{ formatLabel(tab.label) }}
+            <i
+              v-if="activeTabId === tab.id"
+              class="fa-solid fa-check ml-auto text-teal"
+              aria-hidden="true"
+            ></i>
+          </button>
+        </div>
+      </Transition>
+    </div>
+
+    <!-- DESKTOP: Horizontal Tabs (>= 768px) -->
+    <div v-else role="tablist" :aria-label="ariaLabel" class="tab-nav">
       <button
         v-for="tab in tabs"
         :id="getTabId(tab.id)"
@@ -126,25 +274,37 @@ const getPanelId = (tabId: string) => getAnchor(tabId);
           () => {
             const currentIndex = tabs.findIndex((t) => t.id === tab.id);
             const nextIndex = (currentIndex + 1) % tabs.length;
-            switchTab(tabs[nextIndex]);
+            const nextTab = tabs[nextIndex];
+            if (nextTab) switchTab(nextTab);
           }
         "
         @keydown.arrow-left.prevent="
           () => {
             const currentIndex = tabs.findIndex((t) => t.id === tab.id);
             const prevIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-            switchTab(tabs[prevIndex]);
+            const prevTab = tabs[prevIndex];
+            if (prevTab) switchTab(prevTab);
           }
         "
-        @keydown.home.prevent="switchTab(tabs[0])"
-        @keydown.end.prevent="switchTab(tabs[tabs.length - 1])"
+        @keydown.home.prevent="
+          () => {
+            const t = tabs[0];
+            if (t) switchTab(t);
+          }
+        "
+        @keydown.end.prevent="
+          () => {
+            const t = tabs[tabs.length - 1];
+            if (t) switchTab(t);
+          }
+        "
       >
         <i v-if="tab.icon" :class="tab.icon" class="mr-2" aria-hidden="true"></i>
         {{ formatLabel(tab.label) }}
       </button>
     </div>
 
-    <!-- Tab Panels -->
+    <!-- Tab Panels (shared for both mobile/desktop) -->
     <div
       v-for="tab in tabs"
       :id="getPanelId(tab.id)"

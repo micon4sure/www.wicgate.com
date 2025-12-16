@@ -994,6 +994,118 @@
     }
   }
 
+  /* ========== TAB MOBILE DROPDOWN ========== */
+
+  /* Mobile wrapper container */
+  .tab-mobile-wrapper {
+    @apply relative w-full;
+  }
+
+  /* Trigger button - military themed */
+  .tab-mobile-trigger {
+    @apply w-full flex items-center justify-between;
+    @apply px-5 py-4;
+    @apply font-military font-semibold text-base uppercase tracking-wider;
+    @apply text-t-secondary;
+    @apply border-t border-b border-teal/30;
+    @apply transition-all duration-300;
+    @apply cursor-pointer;
+    background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
+  }
+
+  .tab-mobile-trigger:active {
+    @apply bg-teal/10;
+  }
+
+  .tab-mobile-trigger-open {
+    @apply text-teal border-teal/50;
+    background: linear-gradient(to bottom, rgba(0, 184, 212, 0.08), rgba(0, 184, 212, 0.03));
+  }
+
+  .tab-mobile-trigger-label {
+    @apply text-t;
+  }
+
+  .tab-mobile-chevron {
+    @apply text-teal text-sm transition-transform duration-300;
+  }
+
+  /* Dropdown menu */
+  .tab-mobile-dropdown {
+    @apply absolute top-full left-0 right-0 z-50;
+    @apply border border-teal/30 border-t-0;
+    @apply overflow-hidden;
+    background: linear-gradient(to bottom, rgba(10, 10, 10, 0.98), rgba(5, 5, 5, 0.99));
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 217, 255, 0.1);
+  }
+
+  /* Dropdown option button */
+  .tab-mobile-option {
+    @apply w-full flex items-center;
+    @apply px-5 py-4;
+    @apply font-military font-medium text-sm uppercase tracking-wider;
+    @apply text-t-secondary text-left;
+    @apply border-b border-white/5;
+    @apply transition-all duration-200;
+    @apply cursor-pointer;
+    background: transparent;
+  }
+
+  .tab-mobile-option:last-child {
+    @apply border-b-0;
+  }
+
+  @media (hover: hover) {
+    .tab-mobile-option:hover {
+      @apply text-t pl-7;
+      background: rgba(255, 255, 255, 0.03);
+    }
+  }
+
+  .tab-mobile-option:active {
+    @apply text-t;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Active option - red gradient like tab-btn-active */
+  .tab-mobile-option-active {
+    @apply text-white font-semibold;
+    background: linear-gradient(90deg, #c62828 0%, #8b0000 100%);
+  }
+
+  @media (hover: hover) {
+    .tab-mobile-option-active:hover {
+      @apply pl-5;
+      background: linear-gradient(90deg, #d32f2f 0%, #9b0000 100%);
+    }
+  }
+
+  /* Icon styling in options */
+  .tab-mobile-option i:first-child {
+    @apply w-5 text-center;
+  }
+
+  /* Small screen adjustments */
+  @media (max-width: 480px) {
+    .tab-mobile-trigger {
+      @apply px-4 py-3.5 text-sm;
+    }
+
+    .tab-mobile-option {
+      @apply px-4 py-3.5 text-xs;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .tab-mobile-trigger {
+      @apply px-3 py-3 text-xs;
+    }
+
+    .tab-mobile-option {
+      @apply px-3 py-3;
+    }
+  }
+
   /* ========== STEP CARD COMPONENTS ========== */
 
   /* Installation/instruction step card */
@@ -3120,6 +3232,22 @@
   .mobile-nav-leave-from > div {
     transform: translateY(0);
     opacity: 1;
+  }
+
+  /* Tab dropdown transition */
+  .tab-dropdown-enter-active,
+  .tab-dropdown-leave-active {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .tab-dropdown-enter-from,
+  .tab-dropdown-leave-to {
+    @apply opacity-0 -translate-y-2;
+  }
+
+  .tab-dropdown-enter-to,
+  .tab-dropdown-leave-from {
+    @apply opacity-100 translate-y-0;
   }
 
   /* ========== ERROR BOUNDARY ========== */
