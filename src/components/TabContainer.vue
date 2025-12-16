@@ -218,8 +218,13 @@ onUnmounted(() => {
         @click="toggleDropdown"
       >
         <div class="flex items-center gap-3">
-          <i class="fa-solid fa-bars text-teal" aria-hidden="true"></i>
-          <i v-if="activeTabIcon" :class="activeTabIcon" class="text-teal" aria-hidden="true"></i>
+          <i class="fa-solid fa-bars text-massgate-red-bright" aria-hidden="true"></i>
+          <i
+            v-if="activeTabIcon"
+            :class="activeTabIcon"
+            class="text-massgate-red-bright"
+            aria-hidden="true"
+          ></i>
           <span class="tab-mobile-trigger-label">{{ activeTabLabel }}</span>
         </div>
         <i
@@ -248,11 +253,6 @@ onUnmounted(() => {
           >
             <i v-if="tab.icon" :class="tab.icon" class="mr-3" aria-hidden="true"></i>
             {{ formatLabel(tab.label) }}
-            <i
-              v-if="activeTabId === tab.id"
-              class="fa-solid fa-check ml-auto text-teal"
-              aria-hidden="true"
-            ></i>
           </button>
         </div>
       </Transition>

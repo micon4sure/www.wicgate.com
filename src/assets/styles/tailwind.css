@@ -791,7 +791,7 @@
   /* Hamburger menu button */
   .hamburger-btn {
     @apply flex bg-gradient-to-br from-texture-panel/95 to-texture-dark/95;
-    @apply border-2 border-teal/60 rounded-none p-3 cursor-pointer;
+    @apply border-2 border-massgate-red/60 rounded-none p-3 cursor-pointer;
     @apply transition-all duration-300 relative w-12 h-12;
     @apply justify-center items-center flex-col gap-1;
     @apply z-[1001];
@@ -800,7 +800,7 @@
 
   @media (hover: hover) {
     .hamburger-btn:hover {
-      @apply bg-teal/10 border-teal;
+      @apply bg-massgate-red/10 border-massgate-red;
     }
   }
 
@@ -1007,19 +1007,19 @@
     @apply px-5 py-4;
     @apply font-military font-semibold text-base uppercase tracking-wider;
     @apply text-t-secondary;
-    @apply border-t border-b border-teal/30;
+    @apply border-t border-b border-massgate-red/30;
     @apply transition-all duration-300;
     @apply cursor-pointer;
     background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
   }
 
   .tab-mobile-trigger:active {
-    @apply bg-teal/10;
+    @apply bg-massgate-red/10;
   }
 
   .tab-mobile-trigger-open {
-    @apply text-teal border-teal/50;
-    background: linear-gradient(to bottom, rgba(0, 184, 212, 0.08), rgba(0, 184, 212, 0.03));
+    @apply text-massgate-red-bright border-massgate-red/50;
+    background: linear-gradient(to bottom, rgba(229, 57, 53, 0.08), rgba(229, 57, 53, 0.03));
   }
 
   .tab-mobile-trigger-label {
@@ -1027,16 +1027,16 @@
   }
 
   .tab-mobile-chevron {
-    @apply text-teal text-sm transition-transform duration-300;
+    @apply text-massgate-red-bright text-sm transition-transform duration-300;
   }
 
   /* Dropdown menu */
   .tab-mobile-dropdown {
     @apply absolute top-full left-0 right-0 z-50;
-    @apply border border-teal/30 border-t-0;
+    @apply border border-massgate-red/30 border-t-0;
     @apply overflow-hidden;
     background: linear-gradient(to bottom, rgba(10, 10, 10, 0.98), rgba(5, 5, 5, 0.99));
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 217, 255, 0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 15px rgba(229, 57, 53, 0.1);
   }
 
   /* Dropdown option button */

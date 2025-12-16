@@ -18,7 +18,6 @@ import Statistics from '../screens/Statistics.vue';
 import Community from '../screens/Community.vue';
 import FAQ from '../screens/FAQ.vue';
 import FirstVisitOverlay from '../components/FirstVisitOverlay.vue';
-import ScrollToTop from '../components/ScrollToTop.vue';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useFirstVisit } from '../composables/useFirstVisit';
 import { useActiveSection } from '../composables/useActiveSection';
@@ -472,7 +471,4 @@ function handleContinue() {
     @continue="handleContinue"
     @close="dismissOverlay"
   />
-
-  <!-- Scroll to Top Button -->
-  <ScrollToTop />
 </template>
