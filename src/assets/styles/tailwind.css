@@ -1053,7 +1053,7 @@
 
   /* Trigger button - military themed */
   .tab-mobile-trigger {
-    @apply w-full flex items-center justify-between;
+    @apply w-full flex items-center justify-between relative;
     @apply px-5 py-4;
     @apply font-military font-semibold text-base uppercase tracking-wider;
     @apply text-t-secondary;
@@ -1061,6 +1061,25 @@
     @apply transition-all duration-300;
     @apply cursor-pointer;
     background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
+  }
+
+  /* Diagonal stripe pattern for trigger button */
+  .tab-mobile-trigger::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      rgba(255, 255, 255, 0.02) 6px,
+      rgba(255, 255, 255, 0.02) 7px
+    );
+    transition: opacity 0.3s ease-out;
+  }
+
+  /* Hide stripes when dropdown is open */
+  .tab-mobile-trigger-open::after {
+    opacity: 0;
   }
 
   .tab-mobile-trigger:active {
@@ -1091,7 +1110,7 @@
 
   /* Dropdown option button */
   .tab-mobile-option {
-    @apply w-full flex items-center;
+    @apply w-full flex items-center relative;
     @apply px-5 py-4;
     @apply font-military font-medium text-sm uppercase tracking-wider;
     @apply text-t-secondary text-left;
@@ -1103,6 +1122,24 @@
 
   .tab-mobile-option:last-child {
     @apply border-b-0;
+  }
+
+  /* Diagonal stripe pattern for inactive mobile tab options */
+  .tab-mobile-option::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      rgba(255, 255, 255, 0.02) 6px,
+      rgba(255, 255, 255, 0.02) 7px
+    );
+    transition: opacity 0.3s ease-out;
+  }
+
+  .tab-mobile-option-active::after {
+    opacity: 0;
   }
 
   @media (hover: hover) {
