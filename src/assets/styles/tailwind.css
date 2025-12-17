@@ -298,6 +298,24 @@
     @apply -translate-x-0;
   }
 
+  /* Diagonal stripe pattern for inactive mobile links */
+  .nav-mobile-link::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      rgba(255, 255, 255, 0.02) 6px,
+      rgba(255, 255, 255, 0.02) 7px
+    );
+    transition: opacity 0.3s ease-out;
+  }
+
+  .nav-mobile-link.active::after {
+    opacity: 0;
+  }
+
   /* ========== HOME PAGE SECTION STYLING ========== */
 
   /* Section stacking with military-themed subtle variations */
@@ -692,11 +710,25 @@
 
   /* Header container */
   .header-container {
-    @apply h-20 min-h-[80px] px-5 w-full flex items-center justify-center;
+    @apply h-20 min-h-[80px] px-5 w-full flex items-center justify-center relative;
+  }
+
+  /* Diagonal stripe pattern for header */
+  .header-container::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    z-index: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 8px,
+      rgba(255, 255, 255, 0.03) 8px,
+      rgba(255, 255, 255, 0.03) 9px
+    );
   }
 
   .header-inner {
-    @apply max-w-7xl w-full flex items-center px-5;
+    @apply max-w-7xl w-full flex items-center px-5 relative z-[1];
   }
 
   @media (max-width: 1024px) {
@@ -992,6 +1024,24 @@
     .tab-btn:not(.tab-btn-active):hover::before {
       opacity: 1;
     }
+  }
+
+  /* Diagonal stripe pattern for inactive tabs */
+  .tab-btn::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      rgba(255, 255, 255, 0.02) 6px,
+      rgba(255, 255, 255, 0.02) 7px
+    );
+    transition: opacity 0.3s ease-out;
+  }
+
+  .tab-btn-active::after {
+    opacity: 0;
   }
 
   /* ========== TAB MOBILE DROPDOWN ========== */
