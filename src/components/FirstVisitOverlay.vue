@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount } from 'vue';
 import { WICLIVE_URL, DISCORD_URL, GOG_URL } from '@/constants';
+import { useOverlayState } from '../composables/useOverlayState';
+
+const { setOverlayActive } = useOverlayState();
 
 defineProps<{
   currentSection?: string | undefined;
@@ -15,11 +18,13 @@ const emit = defineEmits<{
 onMounted(() => {
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
+  setOverlayActive(true);
 });
 
 onBeforeUnmount(() => {
   document.documentElement.style.overflow = '';
   document.body.style.overflow = '';
+  setOverlayActive(false);
 });
 </script>
 

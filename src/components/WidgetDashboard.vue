@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, onActivated, onMounted, onBeforeUnmount } from 'vue';
+import { ref, watch, onActivated, onDeactivated, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useEvents } from '../composables/useEvents';
 import { useYoutube } from '../composables/useYoutube';
 import { useFirstVisit } from '../composables/useFirstVisit';
 import { useViewportMode } from '../composables/useViewportMode';
+import { useOverlayState } from '../composables/useOverlayState';
 import MediaEventCard from './widgets/MediaEventCard.vue';
 import DynamicInfoCard from './widgets/DynamicInfoCard.vue';
 import { getRoutePath } from '../types/navigation';
@@ -14,6 +15,7 @@ const router = useRouter();
 const store = useAppDataStore();
 const { openPrimer } = useFirstVisit();
 const { isMobileMode } = useViewportMode();
+const { overlayActive } = useOverlayState();
 
 const { events } = useEvents();
 const { videosSorted } = useYoutube();
@@ -26,9 +28,26 @@ const heroVideo = ref<HTMLVideoElement | null>(null);
 const heroSection = ref<HTMLElement | null>(null);
 let videoObserver: IntersectionObserver | null = null;
 
+// Track if hero is visible (from IntersectionObserver on mobile, KeepAlive on desktop)
+const isHeroVisible = ref(true);
+
 // Resume video playback when component reactivates from KeepAlive cache (desktop)
 onActivated(() => {
+  isHeroVisible.value = true;
   heroVideo.value?.play();
+});
+
+onDeactivated(() => {
+  isHeroVisible.value = false;
+});
+
+// Pause video when overlay is active, resume only if hero is visible
+watch(overlayActive, (active) => {
+  if (active) {
+    heroVideo.value?.pause();
+  } else if (isHeroVisible.value) {
+    heroVideo.value?.play();
+  }
 });
 
 // Viewport-based video pause/resume (mobile scroll only)
@@ -40,6 +59,7 @@ onMounted(() => {
   videoObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
+        isHeroVisible.value = entry.isIntersecting;
         if (entry.isIntersecting) {
           heroVideo.value?.play();
         } else {

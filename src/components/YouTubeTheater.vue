@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onBeforeUnmount } from 'vue';
+import { useOverlayState } from '../composables/useOverlayState';
+
+const { setOverlayActive } = useOverlayState();
 
 const props = defineProps<{
   videoId: string;
@@ -29,12 +32,14 @@ onMounted(() => {
   document.addEventListener('keydown', handleKeydown);
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
+  setOverlayActive(true);
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('keydown', handleKeydown);
   document.documentElement.style.overflow = '';
   document.body.style.overflow = '';
+  setOverlayActive(false);
 });
 </script>
 
