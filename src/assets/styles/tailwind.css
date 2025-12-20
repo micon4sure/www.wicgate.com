@@ -3122,16 +3122,28 @@
     @apply transition-all duration-300;
   }
 
+  /* Smaller play button for compact thumbnails */
+  .play-over-sm {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+    @apply w-8 h-6 bg-youtube/90 text-white rounded-md text-[10px];
+    @apply flex items-center justify-center opacity-100;
+    @apply transition-all duration-300;
+  }
+
   @media (hover: hover) {
     .vid-card:hover .play-over,
-    .card:hover .play-over {
+    .card:hover .play-over,
+    .video-item-card:hover .play-over-sm,
+    .video-item:hover .play-over-sm {
       @apply bg-youtube;
       box-shadow: 0 0 20px rgba(229, 57, 53, 0.6);
     }
   }
 
   .vid-card:active .play-over,
-  .card:active .play-over {
+  .card:active .play-over,
+  .video-item-card:active .play-over-sm,
+  .video-item:active .play-over-sm {
     @apply bg-youtube;
     box-shadow: 0 0 20px rgba(229, 57, 53, 0.6);
     animation: playBtnScale 0.2s ease-out;
@@ -3392,7 +3404,12 @@
   }
 
   .overlay-card {
-    @apply relative bg-gradient-to-b from-graphite-light to-graphite-dark border border-t-dim/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-massgate-panel;
+    @apply relative bg-gradient-to-b from-graphite-light to-graphite-dark border border-t-dim/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-panel;
+  }
+
+  /* YouTube theater mode - wider modal for video playback */
+  .youtube-theater {
+    @apply max-w-5xl;
   }
 
   .overlay-header {

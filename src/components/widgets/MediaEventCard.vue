@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch, onMounted } from 'vue';
 import type { YouTubeVideo, CommunityEvent } from '../../api-types';
+import YouTubeTheater from '../YouTubeTheater.vue';
 
 // Track which event is expanded (by index)
 const expandedEventIndex = ref(0);
@@ -121,8 +122,10 @@ function handleVideosClick() {
   emit('navigate', 'community');
 }
 
-function openVideo(url: string) {
-  window.open(url, '_blank');
+const selectedVideo = ref<YouTubeVideo | null>(null);
+
+function openVideo(video: YouTubeVideo) {
+  selectedVideo.value = video;
 }
 </script>
 
@@ -250,7 +253,7 @@ function openVideo(url: string) {
                 v-for="video in latestVideos"
                 :key="video.id"
                 class="video-item-card group"
-                @click="openVideo(video.videoUrl)"
+                @click="openVideo(video)"
               >
                 <div class="relative w-24 h-16 flex-shrink-0">
                   <img
@@ -259,13 +262,8 @@ function openVideo(url: string) {
                     class="w-full h-full object-cover"
                     loading="lazy"
                   />
-                  <div class="video-play-overlay">
-                    <div class="w-6 h-6 rounded-full bg-youtube flex items-center justify-center">
-                      <i
-                        class="fa-solid fa-play text-white text-[8px] ml-0.5"
-                        aria-hidden="true"
-                      ></i>
-                    </div>
+                  <div class="play-over-sm">
+                    <i class="fa-solid fa-play" aria-hidden="true"></i>
                   </div>
                   <!-- New video indicator -->
                   <div v-if="isNewVideo(video.id)" class="absolute top-0 left-0">
@@ -301,5 +299,12 @@ function openVideo(url: string) {
         </div>
       </div>
     </div>
+
+    <YouTubeTheater
+      v-if="selectedVideo"
+      :video-id="selectedVideo.id"
+      :title="selectedVideo.title"
+      @close="selectedVideo = null"
+    />
   </div>
 </template>
