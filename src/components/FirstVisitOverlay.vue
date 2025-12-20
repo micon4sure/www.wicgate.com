@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted, onBeforeUnmount } from 'vue';
 import { WICLIVE_URL, DISCORD_URL, GOG_URL } from '@/constants';
 
 defineProps<{
@@ -10,6 +11,16 @@ const emit = defineEmits<{
   continue: [];
   close: [];
 }>();
+
+onMounted(() => {
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+});
+
+onBeforeUnmount(() => {
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
+});
 </script>
 
 <template>

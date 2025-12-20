@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useYoutube } from '../composables/useYoutube';
+import type { YouTubeVideo } from '../api-types';
 import TwitchFacade from '../components/TwitchFacade.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
 import TabContainer from '../components/TabContainer.vue';
+import YouTubeTheater from '../components/YouTubeTheater.vue';
 
 // SSR detection
 const isSSR = import.meta.env.SSR;
@@ -55,6 +57,9 @@ const videoTabs = computed(() => {
 });
 
 const twitchUsernames = ['kickapoo149', 'pontertwitch'];
+
+// Theater mode state
+const selectedVideo = ref<YouTubeVideo | null>(null);
 </script>
 
 <template>
@@ -125,11 +130,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
               </div>
               <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <div v-for="v in top6NYTVideos" :key="v.id || v.videoUrl" class="video-card">
-                  <a
-                    :href="v.videoUrl"
-                    target="_blank"
-                    class="no-underline text-inherit block"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    class="w-full text-left bg-transparent border-0 p-0 cursor-pointer block"
+                    @click="selectedVideo = v"
                   >
                     <div class="relative w-full pb-[56.25%] bg-graphite-dark overflow-hidden">
                       <img
@@ -154,7 +158,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                         >
                       </div>
                     </div>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -179,11 +183,10 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
               <!-- Creator Videos -->
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <div v-for="v in ch.videos" :key="v.id" class="video-card">
-                  <a
-                    :href="v.videoUrl"
-                    target="_blank"
-                    class="no-underline text-inherit block"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    class="w-full text-left bg-transparent border-0 p-0 cursor-pointer block"
+                    @click="selectedVideo = v"
                   >
                     <div class="relative w-full pb-[56.25%] bg-graphite-dark overflow-hidden">
                       <img
@@ -207,7 +210,7 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
                         >
                       </div>
                     </div>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -215,5 +218,13 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
         </TabContainer>
       </div>
     </div>
+
+    <!-- YouTube Theater Modal -->
+    <YouTubeTheater
+      v-if="selectedVideo"
+      :video-id="selectedVideo.id"
+      :title="selectedVideo.title"
+      @close="selectedVideo = null"
+    />
   </section>
 </template>
