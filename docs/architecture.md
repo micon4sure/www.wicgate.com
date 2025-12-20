@@ -733,6 +733,7 @@ Use CSS variable for spacing:
 **[useYoutube.ts](../src/composables/useYoutube.ts)** - Multi-channel video fetching (Atom feeds, SSR-safe)
 **[useEvents.ts](../src/composables/useEvents.ts)** - Discord events with countdown timers
 **[useFirstVisit.ts](../src/composables/useFirstVisit.ts)** - Welcome overlay management
+**[useOverlayState.ts](../src/composables/useOverlayState.ts)** - Cross-component overlay visibility tracking (pauses hero video when YouTubeTheater or FirstVisitOverlay is open)
 **[useServerCapacity.ts](../src/composables/useServerCapacity.ts)** - Dynamic capacity colors (90% red, 50% orange, <50% green)
 **[usePlayerDisplay.ts](../src/composables/usePlayerDisplay.ts)** - Player name parsing/colorization with memoization
 
@@ -824,7 +825,9 @@ Use CSS variable for spacing:
 ### Other Components
 
 **[Navigation.vue](../src/components/Navigation.vue)** - Simplified navigation with main sections only (no dropdown menus), desktop left-aligned nav (gaming industry standard), mobile hamburger
-**[WidgetDashboard.vue](../src/components/WidgetDashboard.vue)** - Homepage hero grid (6 widgets)
+**[WidgetDashboard.vue](../src/components/WidgetDashboard.vue)** - Homepage hero grid with 2 large interactive cards, pauses video when overlays are active via `useOverlayState`
+**[YouTubeTheater.vue](../src/components/YouTubeTheater.vue)** - Modal overlay for inline YouTube video playback (youtube-nocookie.com embed), used on home page widgets and Community page
+**[FirstVisitOverlay.vue](../src/components/FirstVisitOverlay.vue)** - Welcome primer overlay for first-time visitors with quick start guide
 **[ErrorBoundary.vue](../src/components/ErrorBoundary.vue)** - Error handling with retry
 **Skeletons** - SEO-friendly loading states with `<noscript>` fallbacks
 
