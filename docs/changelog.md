@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🐛 **Fix: OnlinePlayersModal Overlay Integration** - Online players modal now pauses hero video when opened: added `useOverlayState` integration matching YouTubeTheater and FirstVisitOverlay patterns, calls `setOverlayActive(true)` on mount and `setOverlayActive(false)` on unmount - consistent video pause/resume behavior across all overlays (Dec 21)
 - ⚡ **UX: Pause Hero Video During Overlays** - Hero video now pauses when YouTubeTheater or FirstVisitOverlay is open, resumes when closed: created `useOverlayState` composable for cross-component communication, tracks visibility via `isHeroVisible` ref updated by both KeepAlive (desktop) and IntersectionObserver (mobile), prevents background video playback when user is on Community page or scrolled away on mobile - cleaner UX with no hidden video audio/CPU usage (Dec 20)
 - 🐛 **Fix: CSP Blocking YouTube Theater** - Fixed "This content is blocked" error on GitHub Pages by adding `youtube-nocookie.com` to `frame-src` CSP directive in index.html - YouTubeTheater uses privacy-enhanced embed URL which was missing from CSP whitelist (Dec 20)
 - ✨ **Feature: YouTube Theater on Community Page** - Community page videos now open in theater mode (inline overlay) instead of new browser tab, matching home page behavior - consistent video viewing experience across all pages (Dec 20)

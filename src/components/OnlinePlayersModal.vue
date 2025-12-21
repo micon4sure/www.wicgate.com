@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount } from 'vue';
 import { usePlayerDisplay } from '../composables/usePlayerDisplay';
+import { useOverlayState } from '../composables/useOverlayState';
 import RankInsignia from './RankInsignia.vue';
 
 interface PlayerInfo {
@@ -29,6 +30,7 @@ const emit = defineEmits<{
 }>();
 
 const { colorize } = usePlayerDisplay();
+const { setOverlayActive } = useOverlayState();
 
 function formatPlayerClanTag(player: {
   tagFormat?: string | null;
@@ -48,10 +50,12 @@ function handleKeydown(e: KeyboardEvent) {
 
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown);
+  setOverlayActive(true);
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('keydown', handleKeydown);
+  setOverlayActive(false);
 });
 </script>
 
