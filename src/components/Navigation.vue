@@ -120,8 +120,7 @@ function _handleLogout() {
     <div class="header-inner">
       <!-- WICGATE Logo -->
       <div class="logo-wrapper">
-        <img src="/wicgate-flag.png" alt="WICGATE" class="logo-image" />
-        <div class="logo-subtitle">Community Hosted Multiplayer</div>
+        <img src="/wicgate_logo.png" alt="WICGATE" class="logo-image" />
       </div>
 
       <!-- Desktop navigation (left-aligned) -->
