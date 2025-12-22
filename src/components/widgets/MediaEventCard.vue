@@ -214,7 +214,7 @@ function openVideo(video: YouTubeVideo) {
                       </div>
                       <div class="p-4">
                         <p
-                          class="text-sm text-t-secondary font-body m-0 mb-3 line-clamp-3 leading-relaxed"
+                          class="text-base text-t-secondary font-body m-0 mb-3 line-clamp-3 leading-relaxed"
                         >
                           {{ event.description }}
                         </p>
@@ -223,7 +223,7 @@ function openVideo(video: YouTubeVideo) {
 
                     <!-- Event without Cover Image -->
                     <div v-else class="p-4">
-                      <p class="text-sm text-t-secondary font-body m-0 leading-relaxed">
+                      <p class="text-base text-t-secondary font-body m-0 leading-relaxed">
                         {{ event.description }}
                       </p>
                     </div>
@@ -271,10 +271,10 @@ function openVideo(video: YouTubeVideo) {
                   </div>
                 </div>
                 <div class="flex-1 overflow-hidden">
-                  <p class="text-sm font-body font-semibold text-t m-0 line-clamp-2 leading-snug">
+                  <p class="text-base font-body font-semibold text-t m-0 line-clamp-2 leading-snug">
                     {{ video.title }}
                   </p>
-                  <div class="text-xs text-t3 font-body mt-1">
+                  <div class="text-sm text-t3 font-body mt-1">
                     <span v-if="video.author">{{ video.author }}</span>
                     <span v-if="video.views != null">
                       {{ video.author ? ' • ' : '' }}{{ video.views.toLocaleString() }} views</span
@@ -286,7 +286,7 @@ function openVideo(video: YouTubeVideo) {
                 </div>
               </div>
             </div>
-            <div v-else class="h-full flex items-center justify-center text-t3 font-body text-sm">
+            <div v-else class="h-full flex items-center justify-center text-t3 font-body text-base">
               No videos yet
             </div>
           </template>

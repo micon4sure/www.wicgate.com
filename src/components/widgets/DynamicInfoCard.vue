@@ -191,13 +191,13 @@ function handleTopPlayersClick() {
                 <div class="server-group-header">
                   <div class="flex items-center gap-2 flex-1 overflow-hidden">
                     <span
-                      class="text-base font-body font-semibold text-t overflow-hidden text-ellipsis whitespace-nowrap"
+                      class="text-lg font-body font-semibold text-t overflow-hidden text-ellipsis whitespace-nowrap"
                       v-html="colorize(server.serverName)"
                     ></span>
                   </div>
                   <span
                     v-if="!server.isLobby"
-                    class="text-xs font-military font-bold text-online flex-shrink-0"
+                    class="text-sm font-military font-bold text-online flex-shrink-0"
                   >
                     {{ server.playerCount }}/16
                   </span>
@@ -236,7 +236,7 @@ function handleTopPlayersClick() {
                 </div>
               </div>
             </div>
-            <div v-else class="h-full flex items-center justify-center text-t3 font-body text-sm">
+            <div v-else class="h-full flex items-center justify-center text-t3 font-body text-base">
               No players online
             </div>
           </template>
@@ -283,7 +283,7 @@ function handleTopPlayersClick() {
                 </span>
               </div>
             </div>
-            <div v-else class="h-full flex items-center justify-center text-t3 font-body text-sm">
+            <div v-else class="h-full flex items-center justify-center text-t3 font-body text-base">
               No rankings yet
             </div>
           </template>

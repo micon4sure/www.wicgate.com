@@ -50,11 +50,15 @@ function handleKeydown(e: KeyboardEvent) {
 
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown);
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
   setOverlayActive(true);
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('keydown', handleKeydown);
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
   setOverlayActive(false);
 });
 </script>

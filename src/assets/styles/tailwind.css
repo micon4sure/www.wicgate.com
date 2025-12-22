@@ -580,11 +580,11 @@
   }
 
   .event-accordion-title {
-    @apply text-sm font-body text-t truncate flex-1;
+    @apply text-base font-body text-t truncate flex-1;
   }
 
   .event-accordion-date {
-    @apply text-xs text-t-tertiary font-body whitespace-nowrap flex items-center gap-1;
+    @apply text-sm text-t-tertiary font-body whitespace-nowrap flex items-center gap-1;
   }
 
   .event-accordion-content {
@@ -605,7 +605,7 @@
 
   /* Countdown badge */
   .countdown-badge {
-    @apply px-3 py-1 text-xs font-bold tracking-wider uppercase font-military border;
+    @apply px-3 py-1 text-sm font-bold tracking-wider uppercase font-military border;
   }
 
   .countdown-badge-live {
@@ -2307,7 +2307,7 @@
   }
 
   .ladder-rank {
-    @apply w-7 h-7 flex items-center justify-center bg-mg/40 text-t text-sm font-bold;
+    @apply w-7 h-7 flex items-center justify-center bg-mg/40 text-t text-base font-bold;
     @apply font-military flex-shrink-0 rounded-none;
   }
 
@@ -2324,7 +2324,7 @@
   }
 
   .ladder-score {
-    @apply text-sm font-military font-bold flex-shrink-0 text-t;
+    @apply text-base font-military font-bold flex-shrink-0 text-t;
   }
 
   .ladder-score.rank-1 {
@@ -3663,23 +3663,23 @@
 
   /* Widget player name (Top Players widget, DynamicInfoCard) */
   .widget-player-name {
-    @apply font-body text-t font-semibold text-[0.9rem] tracking-[0.3px];
+    @apply font-body text-t font-semibold text-base tracking-[0.3px];
     @apply overflow-hidden text-ellipsis whitespace-nowrap;
   }
 
   /* Widget clan tag */
   .widget-clan-tag {
-    @apply font-mono text-soviet font-semibold text-[0.75rem] tracking-[0.3px] flex-shrink-0;
+    @apply font-mono text-soviet font-semibold text-[0.875rem] tracking-[0.3px] flex-shrink-0;
   }
 
   /* Smaller clan tag variant (DynamicInfoCard online players) */
   .widget-clan-tag-sm {
-    @apply font-mono text-soviet font-semibold text-[0.75rem] tracking-[0.2px] align-middle;
+    @apply font-mono text-soviet font-semibold text-[0.875rem] tracking-[0.2px] align-middle;
   }
 
   /* Smaller player name variant (DynamicInfoCard) */
   .widget-player-name-sm {
-    @apply font-body text-t text-[0.875rem] tracking-[0.2px] align-middle;
+    @apply font-body text-t text-[0.9rem] tracking-[0.2px] align-middle;
   }
 
   /* ========== COPY LINK BUTTONS ========== */
