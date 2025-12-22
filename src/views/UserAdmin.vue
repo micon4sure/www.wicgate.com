@@ -316,7 +316,7 @@ onMounted(() => {
           Adjust Profile Picture
         </h3>
 
-        <div class="mb-4 bg-texture-dark cropper-container" style="max-height: 400px">
+        <div class="mb-4 bg-texture-dark flex items-center justify-center max-h-[400px]">
           <Cropper
             ref="cropperRef"
             :src="cropImageSrc"
@@ -329,7 +329,7 @@ onMounted(() => {
             image-restriction="stencil"
             :min-width="64"
             :min-height="64"
-            class="cropper-fit"
+            class="cropper-fit max-h-[400px] max-w-full"
           />
         </div>
 
@@ -357,25 +357,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.cropper-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cropper-fit {
-  max-height: 400px;
-  max-width: 100%;
-}
-
-.cropper-fit :deep(.vue-advanced-cropper__image-wrapper) {
-  max-height: 400px;
-}
-
-.cropper-fit :deep(.vue-advanced-cropper__background),
-.cropper-fit :deep(.vue-advanced-cropper__foreground) {
-  background: transparent;
-}
-</style>

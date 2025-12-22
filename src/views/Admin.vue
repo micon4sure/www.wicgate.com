@@ -366,12 +366,12 @@ onBeforeUnmount(() => {
               :class="{ active: activeServer?.id === server.id }"
               @click="activeServer = server"
             >
-              <td class="server-name" v-html="colorize(server.name)"></td>
-              <td class="server-status">
+              <td class="admin-server-name" v-html="colorize(server.name)"></td>
+              <td class="admin-server-status">
                 {{ server.status }}
                 <span v-if="server.status === 'queued'">{{ (server.queue ?? 0) + 1 }}</span>
               </td>
-              <td class="server-actions">
+              <td class="admin-server-actions">
                 <span v-if="server.status === 'running'" @click.stop="stopServer(server.id)">
                   <i class="fas fa-ban" title="stop"></i>
                 </span>
@@ -448,52 +448,56 @@ onBeforeUnmount(() => {
 
           <div class="admin-tab-content">
             <!-- Main Log -->
-            <div v-if="activeTab === 'main-log'" class="tab-pane">
-              <div v-for="(line, index) in formattedLog" :key="'log-' + index" class="log-line">
+            <div v-if="activeTab === 'main-log'" class="admin-tab-pane">
+              <div
+                v-for="(line, index) in formattedLog"
+                :key="'log-' + index"
+                class="admin-log-line"
+              >
                 <span :class="`log-${line.level}`">{{ line.content }}</span>
               </div>
             </div>
 
             <!-- Server Log -->
-            <div v-if="activeTab === 'server-log'" class="tab-pane">
+            <div v-if="activeTab === 'server-log'" class="admin-tab-pane">
               <div v-if="activeServer">
                 <div
                   v-for="(line, index) in serverLog"
                   :key="activeServer.id + '-log-' + index"
-                  class="log-line"
+                  class="admin-log-line"
                 >
                   {{ line }}
                 </div>
               </div>
-              <div v-else class="select-server">Select a server.</div>
+              <div v-else class="admin-select-server">Select a server.</div>
             </div>
 
             <!-- Server Ini -->
-            <div v-if="activeTab === 'server-ini'" class="tab-pane">
+            <div v-if="activeTab === 'server-ini'" class="admin-tab-pane">
               <div v-if="activeServer">
                 <button class="admin-save-btn" @click="saveIni">Save</button>
                 <textarea v-model="serverIni" rows="20" class="admin-textarea"></textarea>
               </div>
-              <div v-else class="select-server">Select a server.</div>
+              <div v-else class="admin-select-server">Select a server.</div>
             </div>
 
             <!-- Server Cycle -->
-            <div v-if="activeTab === 'server-cycle'" class="tab-pane">
+            <div v-if="activeTab === 'server-cycle'" class="admin-tab-pane">
               <div v-if="activeServer">
                 <button class="admin-save-btn" @click="saveCycle">Save</button>
                 <textarea v-model="serverCycle" rows="20" class="admin-textarea"></textarea>
               </div>
-              <div v-else class="select-server">Select a server.</div>
+              <div v-else class="admin-select-server">Select a server.</div>
             </div>
 
             <!-- Remote Admin -->
-            <div v-if="activeTab === 'remote-admin'" class="tab-pane">
+            <div v-if="activeTab === 'remote-admin'" class="admin-tab-pane">
               <div v-if="activeServer">
-                <h4 class="remote-admin-title">
+                <h4 class="admin-remote-title">
                   Remote Admin
                   <i class="fa fa-rotate" @click="remoteAdminRefresh"></i>
                 </h4>
-                <table class="players-table">
+                <table class="admin-players-table">
                   <thead>
                     <tr>
                       <th>Slot</th>
@@ -510,18 +514,22 @@ onBeforeUnmount(() => {
                       <td>{{ player.role }}</td>
                       <td>{{ player.score }}</td>
                       <td>
-                        <i class="fas fa-ban kick-btn" title="kick" @click="kick(player.slot)"></i>
+                        <i
+                          class="fas fa-ban admin-kick-btn"
+                          title="kick"
+                          @click="kick(player.slot)"
+                        ></i>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-                <div class="remote-output">
+                <div class="admin-remote-output">
                   <pre v-for="(line, index) in remoteAdminOutput" :key="'remote-' + index">{{
                     line
                   }}</pre>
                 </div>
               </div>
-              <div v-else class="select-server">Select a server.</div>
+              <div v-else class="admin-select-server">Select a server.</div>
             </div>
           </div>
         </div>
@@ -529,324 +537,3 @@ onBeforeUnmount(() => {
     </main>
   </div>
 </template>
-
-<style scoped>
-.admin-page {
-  min-height: 100vh;
-  background: #0a0a0a;
-  color: #fff;
-}
-
-.admin-header {
-  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
-  border-bottom: 2px solid #c41e3a;
-  padding: 1rem 0;
-}
-
-.admin-header-inner {
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.admin-logo {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #c41e3a;
-  text-decoration: none;
-  letter-spacing: 2px;
-}
-
-.admin-user {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.admin-username {
-  color: #fbbf24;
-  font-weight: 600;
-}
-
-.admin-logout {
-  background: linear-gradient(135deg, #c41e3a, #8b1528);
-  color: #fff;
-  border: 1px solid #e53e3e;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s;
-}
-
-.admin-logout:hover {
-  background: linear-gradient(135deg, #e53e3e, #c41e3a);
-  transform: translateY(-1px);
-}
-
-.admin-main {
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.admin-refresh-btn {
-  background: #2d3748;
-  color: #fff;
-  border: 1px solid #4a5568;
-  padding: 0.5rem 1rem;
-  margin-bottom: 1rem;
-  cursor: pointer;
-  font-size: 0.875rem;
-  transition: all 0.3s;
-}
-
-.admin-refresh-btn:hover {
-  background: #4a5568;
-}
-
-.admin-flex {
-  display: flex;
-  gap: 1rem;
-}
-
-.admin-servers {
-  width: 450px;
-  flex-shrink: 0;
-  background: #111;
-  border-collapse: collapse;
-}
-
-.admin-servers th,
-.admin-servers td {
-  padding: 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid #333;
-}
-
-.admin-servers th {
-  background: #1a1a1a;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
-  color: #888;
-}
-
-.admin-servers tr {
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.admin-servers tr:hover {
-  background: #222;
-}
-
-.admin-servers tr.active {
-  background: #2d3748;
-}
-
-.server-name {
-  min-width: 250px;
-}
-
-.server-status {
-  text-transform: uppercase;
-  font-size: 0.75rem;
-}
-
-.server-actions {
-  display: flex;
-  gap: 1rem;
-}
-
-.server-actions i {
-  cursor: pointer;
-  padding: 0.25rem;
-  transition: color 0.2s;
-}
-
-.server-actions i:hover {
-  color: #fbbf24;
-}
-
-.admin-text {
-  flex: 1;
-  background: #111;
-  min-height: 600px;
-}
-
-.admin-tabs {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  border-bottom: 1px solid #333;
-}
-
-.admin-tabs button {
-  background: transparent;
-  border: none;
-  color: #888;
-  padding: 0.75rem 1.25rem;
-  cursor: pointer;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.2s;
-  border-bottom: 2px solid transparent;
-}
-
-.admin-tabs button:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.admin-tabs button.active {
-  color: #fff;
-  background: linear-gradient(180deg, rgba(196, 30, 58, 0.3) 0%, transparent 100%);
-  border-bottom: 2px solid #c41e3a;
-}
-
-.admin-message {
-  padding: 0.5rem 1rem;
-  font-size: 0.75rem;
-  color: #888;
-  border-bottom: 1px solid #222;
-}
-
-.admin-tab-content {
-  padding: 1rem;
-  max-height: 550px;
-  overflow-y: auto;
-}
-
-.tab-pane {
-  color: #ccc;
-}
-
-.log-line {
-  font-family: monospace;
-  font-size: 0.8rem;
-  line-height: 1.4;
-  padding: 0.125rem 0;
-}
-
-.log-ERROR {
-  color: #f56565;
-}
-
-.log-LOG {
-  color: #a0aec0;
-}
-
-.select-server {
-  color: #666;
-  font-style: italic;
-}
-
-.admin-save-btn {
-  background: #2b6cb0;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  margin-bottom: 0.5rem;
-  cursor: pointer;
-  font-size: 0.875rem;
-  transition: background 0.2s;
-}
-
-.admin-save-btn:hover {
-  background: #3182ce;
-}
-
-.admin-textarea {
-  width: 100%;
-  background: #1a1a1a;
-  color: #fff;
-  border: 1px solid #333;
-  padding: 0.75rem;
-  font-family: monospace;
-  font-size: 0.8rem;
-  resize: vertical;
-}
-
-.remote-admin-title {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.remote-admin-title i {
-  cursor: pointer;
-  color: #888;
-  transition: color 0.2s;
-}
-
-.remote-admin-title i:hover {
-  color: #fff;
-}
-
-.players-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
-}
-
-.players-table th,
-.players-table td {
-  padding: 0.5rem;
-  text-align: left;
-  border-bottom: 1px solid #333;
-}
-
-.players-table th {
-  background: #1a1a1a;
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  letter-spacing: 1px;
-  color: #888;
-}
-
-.kick-btn {
-  cursor: pointer;
-  color: #e53e3e;
-  transition: color 0.2s;
-}
-
-.kick-btn:hover {
-  color: #fc8181;
-}
-
-.remote-output {
-  background: #000;
-  padding: 0.75rem;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.remote-output pre {
-  margin: 0;
-  font-family: monospace;
-  font-size: 0.8rem;
-  color: #a0aec0;
-}
-
-@media (max-width: 1024px) {
-  .admin-flex {
-    flex-direction: column;
-  }
-
-  .admin-servers {
-    width: 100%;
-  }
-}
-</style>

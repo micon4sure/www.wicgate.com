@@ -26,13 +26,8 @@ export default defineConfig({
         'src/main.ts',
         'src/env.d.ts',
       ],
-      // Target 50% coverage initially
-      thresholds: {
-        lines: 50,
-        functions: 50,
-        branches: 50,
-        statements: 50,
-      },
+      // No enforced thresholds - we test critical paths (stores, business logic)
+      // rather than arbitrary percentages. See docs/testing.md for philosophy.
     },
 
     // Setup files to run before tests

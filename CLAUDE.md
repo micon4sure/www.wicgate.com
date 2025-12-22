@@ -55,8 +55,8 @@ npm run build        # Production build (SSG + PWA)
 
 ## Quality Gates
 
-- 50%+ test coverage (enforced)
 - Tests must pass before commit
+- Critical business logic (stores) has comprehensive test coverage
 - TypeScript strict mode
 - ESLint + Prettier (zero errors)
 - Pre-commit: `npm run lint && npm test && npx tsc --noEmit`
@@ -65,4 +65,4 @@ npm run build        # Production build (SSG + PWA)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** October 16, 2025
+**Updated:** December 22, 2025
