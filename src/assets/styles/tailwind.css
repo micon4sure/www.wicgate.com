@@ -450,16 +450,9 @@
 
   /* Dashboard info card (Players Online, Events, Videos) */
   .dashboard-card {
-    @apply relative overflow-hidden transition-all duration-300;
+    @apply relative overflow-hidden;
     @apply border-2 border-[#37576D]/50;
     background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
-  }
-
-  @media (hover: hover) {
-    .dashboard-card:hover {
-      @apply border-[#37576D]/80;
-      box-shadow: 0 0 30px rgba(55, 87, 109, 0.25);
-    }
   }
 
   /* Dashboard card header */
@@ -1683,14 +1676,7 @@
   .faq-item {
     @apply rounded-none overflow-hidden;
     @apply border border-teal/20;
-    @apply transition-all duration-300;
     background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
-  }
-
-  @media (hover: hover) {
-    .faq-item:hover {
-      @apply border-teal/30;
-    }
   }
 
   .faq-item-open {
