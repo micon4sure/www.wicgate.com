@@ -320,8 +320,14 @@
 
   /* Section stacking with military-themed subtle variations */
   #screens > * {
-    @apply pt-12;
+    padding-top: 50px;
     border-top: 2px solid rgba(31, 47, 59, 0.1);
+  }
+
+  /* Hero section needs less top padding since it's directly below navbar */
+  #hero {
+    @apply pt-0;
+    border-top: none;
   }
 
   /* Even-indexed screens: subtle teal tint */
@@ -1472,12 +1478,6 @@
     }
   }
 
-  @media (hover: hover) {
-    .lb-row:hover > .lb-cell {
-      background: linear-gradient(to right, rgba(255, 102, 0, 0.22), rgba(255, 102, 0, 0.15)) !important;
-      border-color: rgba(255, 102, 0, 0.4) !important;
-    }
-  }
 
   /* Base leaderboard cell */
   .lb-cell {
@@ -2387,7 +2387,7 @@
     @apply container flex flex-col justify-center min-h-screen;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-    padding-top: 2rem;
+    padding-top: 60px;
     padding-bottom: 2rem;
   }
 

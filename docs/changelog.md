@@ -1,6 +1,9 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🎨 **UI: Remove Leaderboard Row Hover** - Removed orange highlight effect on leaderboard rows when hovering for cleaner static appearance, deleted `.lb-row:hover > .lb-cell` media query block (Dec 22)
+- 🎨 **UI: Online Players Expand Button Relocation** - Moved expand/fullscreen button from card content area to the Online tab itself, now appears inline after player count badge with subtle opacity styling, uses `@click.stop` to prevent tab switch when clicking expand (Dec 22)
+- 🎨 **UI: Reduce Hero Section Top Spacing** - Reduced whitespace between navbar and hero content from 80px to 60px: added `#hero` rule to remove default section padding (`pt-0`, `border-top: none`), set `.hero-container` padding-top to 60px, other sections retain 50px spacing - tighter hero layout while maintaining breathing room (Dec 22)
 - 🎨 **UI: Remove Card Hover Effects** - Removed border/shadow hover effects from dashboard cards (home page widget cards) and FAQ question boxes for cleaner static appearance: deleted `.dashboard-card:hover` and `.faq-item:hover` media query blocks, removed unnecessary transitions (Dec 22)
 - 🐛 **Fix: OnlinePlayersModal Scroll Lock** - Added missing scroll lock to OnlinePlayersModal matching other overlays (YouTubeTheater, FirstVisitOverlay): sets `overflow: hidden` on both `documentElement` and `body` in onMounted, clears on unmount - prevents background scrolling when modal is open (Dec 22)
 - 🎨 **UI: Widget Card Font Size Increase** - Proportionally increased all font sizes in DynamicInfoCard and MediaEventCard for better readability: server names `text-base` → `text-lg`, player names/video titles `text-sm` → `text-base`, metadata/clan tags `text-xs` → `text-sm`, updated 9 CSS classes in tailwind.css (widget-player-name, widget-clan-tag, ladder-rank/score, event-accordion-title/date, countdown-badge) and inline Tailwind in both components (Dec 22)

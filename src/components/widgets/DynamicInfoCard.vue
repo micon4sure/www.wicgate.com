@@ -150,6 +150,12 @@ function handleTopPlayersClick() {
         <i class="fa-solid fa-users" aria-hidden="true"></i>
         Online
         <span v-if="playerCount > 0" class="widget-badge-count">{{ playerCount }}</span>
+        <i
+          v-if="playerCount > 0 && !isSSR"
+          class="fa-solid fa-expand ml-1 text-xs opacity-60 hover:opacity-100 transition-opacity"
+          title="Expand to full view"
+          @click.stop="openPlayersModal"
+        ></i>
       </button>
       <button
         class="tab-btn-sub flex items-center justify-center gap-2"
@@ -167,17 +173,7 @@ function handleTopPlayersClick() {
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
         :class="shouldShowPlayers ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
-        <div class="dashboard-card-body custom-scrollbar relative">
-          <!-- Expand button - top right of content -->
-          <button
-            v-if="playerCount > 0 && !isSSR"
-            class="absolute top-2 right-2 z-20 widget-expand-btn"
-            title="Expand to full view"
-            @click="openPlayersModal"
-          >
-            <i class="fa-solid fa-expand" aria-hidden="true"></i>
-          </button>
-
+        <div class="dashboard-card-body custom-scrollbar">
           <div v-if="isSSR || loading" class="space-y-4">
             <div class="skeleton-placeholder h-24"></div>
             <div class="skeleton-placeholder h-24"></div>
