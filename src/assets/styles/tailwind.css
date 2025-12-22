@@ -897,7 +897,7 @@
   /* Tab button base */
   .tab-btn {
     @apply flex-1 cursor-pointer relative mr-px;
-    @apply font-[Oswald,sans-serif] font-medium text-[0.95rem] uppercase tracking-[1px];
+    @apply font-[Oswald,sans-serif] font-medium text-[1.05rem] uppercase tracking-[1px];
     @apply border-none;
     @apply text-t-secondary;
     @apply transition-all duration-300 ease-out;
@@ -952,19 +952,19 @@
 
   @media (max-width: 768px) {
     .tab-btn {
-      @apply p-[10px_12px] text-[0.8rem];
+      @apply p-[10px_12px] text-[0.95rem];
     }
   }
 
   @media (max-width: 480px) {
     .tab-btn {
-      @apply p-[8px_10px] text-[0.75rem];
+      @apply p-[8px_10px] text-[0.85rem];
     }
   }
 
   @media (max-width: 360px) {
     .tab-btn {
-      @apply p-[0.5rem_0.625rem] text-[0.7rem];
+      @apply p-[0.5rem_0.625rem] text-[0.8rem];
     }
   }
 
@@ -1024,6 +1024,75 @@
     .tab-btn:not(.tab-btn-active):hover::before {
       opacity: 1;
     }
+  }
+
+  /* ========== SUB-SECTION TAB STYLES ========== */
+
+  /* Sub-tab container - lighter treatment */
+  .tab-nav-sub {
+    @apply flex relative;
+    @apply border-t border-t-graphite-dark/60;
+    background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
+  }
+
+  /* Sub-tab button - matches tab-btn-s design */
+  .tab-btn-sub {
+    @apply flex-1 cursor-pointer relative mr-px;
+    @apply font-[Oswald,sans-serif] font-medium text-[0.95rem] uppercase tracking-[1px];
+    @apply border-none;
+    @apply text-t-secondary;
+    @apply transition-all duration-200 ease-out;
+    @apply py-6 px-10;
+    background: transparent;
+  }
+
+  /* Sub-tab bottom highlight (like main nav) */
+  .tab-btn-sub::before {
+    content: '';
+    @apply absolute left-0 right-0 h-[2px] opacity-0;
+    bottom: 0;
+    background: theme('colors.massgate-red.bright');
+    transition: opacity 0.2s ease-out;
+  }
+
+  /* Sub-tab active - red gradient fill */
+  .tab-btn-sub-active {
+    @apply text-white font-bold z-10;
+    background: linear-gradient(to bottom, #c62828, #8b0000);
+  }
+
+  .tab-btn-sub-active::before {
+    opacity: 1;
+  }
+
+  /* Sub-tab hover */
+  @media (hover: hover) {
+    .tab-btn-sub:not(.tab-btn-sub-active):hover {
+      @apply text-massgate-red-bright -translate-y-px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tab-btn-sub:not(.tab-btn-sub-active):hover::before {
+      opacity: 1;
+    }
+  }
+
+  /* Responsive sub-tab sizing */
+  @media (max-width: 768px) {
+    .tab-btn-sub {
+      @apply py-5 px-8 text-[0.95rem];
+    }
+  }
+
+  @media (max-width: 480px) {
+    .tab-btn-sub {
+      @apply py-4 px-5 text-[0.9rem];
+    }
+  }
+
+  /* Remove bottom glow effect from old tab classes in sub-tab containers */
+  .tab-nav-sub .tab-btn::before {
+    display: none;
   }
 
   /* ========== TAB MOBILE DROPDOWN ========== */
@@ -1172,6 +1241,69 @@
 
     .tab-mobile-option {
       @apply px-3 py-3;
+    }
+  }
+
+  /* ========== SUB-TAB MOBILE STYLES ========== */
+
+  /* Lighter mobile trigger for sub-tabs */
+  .tab-mobile-trigger-sub {
+    @apply w-full flex items-center justify-between relative;
+    @apply px-4 py-3;
+    @apply font-[Rajdhani,sans-serif] font-medium text-sm uppercase tracking-wide;
+    @apply text-t-secondary/80;
+    @apply border-t border-b border-white/10;
+    @apply transition-all duration-200;
+    @apply cursor-pointer;
+    background: rgba(10, 12, 14, 0.5);
+  }
+
+  /* No diagonal stripes for sub-tabs (cleaner look) */
+
+  .tab-mobile-trigger-sub-open {
+    @apply text-white border-white/20;
+  }
+
+  /* Lighter dropdown for sub-tabs */
+  .tab-mobile-dropdown-sub {
+    @apply absolute top-full left-0 right-0 z-50;
+    @apply border border-white/10 border-t-0;
+    @apply overflow-hidden;
+    background: rgba(8, 10, 12, 0.95);
+  }
+
+  /* Sub-tab dropdown option */
+  .tab-mobile-option-sub {
+    @apply w-full flex items-center relative;
+    @apply px-4 py-3;
+    @apply font-[Rajdhani,sans-serif] font-medium text-sm uppercase tracking-wide;
+    @apply text-t-secondary/80 text-left;
+    @apply border-b border-white/5;
+    @apply cursor-pointer;
+    background: transparent;
+  }
+
+  @media (hover: hover) {
+    .tab-mobile-option-sub:hover {
+      @apply text-t-secondary;
+      background: rgba(255, 255, 255, 0.03);
+    }
+  }
+
+  .tab-mobile-option-sub-active {
+    @apply text-white font-semibold;
+    @apply border-l-2 border-l-massgate-red-bright;
+    background: transparent;
+  }
+
+  /* Small screen adjustments for sub-tabs */
+  @media (max-width: 480px) {
+    .tab-mobile-trigger-sub {
+      @apply px-3 py-2.5 text-xs;
+    }
+
+    .tab-mobile-option-sub {
+      @apply px-3 py-2.5 text-xs;
     }
   }
 

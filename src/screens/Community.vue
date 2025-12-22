@@ -116,12 +116,7 @@ const selectedVideo = ref<YouTubeVideo | null>(null);
         <VideosSkeleton v-if="isSSR || ytVidsLoading" />
 
         <!-- Tab Container for Videos -->
-        <TabContainer
-          v-else
-          :tabs="videoTabs"
-          :tab-class="'tab-btn-s'"
-          aria-label="Video categories"
-        >
+        <TabContainer v-else :tabs="videoTabs" aria-label="Video categories">
           <!-- Tab: Latest Videos -->
           <template #videos-latest>
             <div class="py-8 md:py-10">

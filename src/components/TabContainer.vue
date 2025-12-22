@@ -17,7 +17,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   ariaLabel: 'Tab navigation',
-  tabClass: 'tab-btn',
+  tabClass: 'tab-btn-sub',
 });
 
 const router = useRouter();
@@ -211,8 +211,8 @@ onUnmounted(() => {
       <!-- Trigger Button -->
       <button
         ref="triggerRef"
-        class="tab-mobile-trigger"
-        :class="{ 'tab-mobile-trigger-open': dropdownOpen }"
+        class="tab-mobile-trigger-sub"
+        :class="{ 'tab-mobile-trigger-sub-open': dropdownOpen }"
         :aria-expanded="dropdownOpen"
         aria-haspopup="listbox"
         @click="toggleDropdown"
@@ -239,7 +239,7 @@ onUnmounted(() => {
         <div
           v-if="dropdownOpen"
           ref="dropdownRef"
-          class="tab-mobile-dropdown"
+          class="tab-mobile-dropdown-sub"
           role="listbox"
           :aria-label="ariaLabel"
         >
@@ -248,7 +248,10 @@ onUnmounted(() => {
             :key="tab.id"
             role="option"
             :aria-selected="activeTabId === tab.id"
-            :class="['tab-mobile-option', { 'tab-mobile-option-active': activeTabId === tab.id }]"
+            :class="[
+              'tab-mobile-option-sub',
+              { 'tab-mobile-option-sub-active': activeTabId === tab.id },
+            ]"
             @click="selectTab(tab)"
           >
             <i v-if="tab.icon" :class="tab.icon" class="mr-3" aria-hidden="true"></i>
@@ -259,7 +262,7 @@ onUnmounted(() => {
     </div>
 
     <!-- DESKTOP: Horizontal Tabs (>= 768px) -->
-    <div v-else role="tablist" :aria-label="ariaLabel" class="tab-nav">
+    <div v-else role="tablist" :aria-label="ariaLabel" class="tab-nav-sub">
       <button
         v-for="tab in tabs"
         :id="getTabId(tab.id)"
@@ -268,7 +271,7 @@ onUnmounted(() => {
         :aria-selected="activeTabId === tab.id"
         :aria-controls="getPanelId(tab.id)"
         :tabindex="activeTabId === tab.id ? 0 : -1"
-        :class="[{ 'tab-btn-active': activeTabId === tab.id }, tabClass]"
+        :class="[{ 'tab-btn-sub-active': activeTabId === tab.id }, tabClass]"
         @click="switchTab(tab)"
         @keydown.arrow-right.prevent="
           () => {

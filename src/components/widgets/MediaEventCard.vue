@@ -132,10 +132,10 @@ function openVideo(video: YouTubeVideo) {
 <template>
   <div class="dashboard-card">
     <!-- Tab Navigation -->
-    <div class="tab-nav">
+    <div class="tab-nav-sub">
       <button
-        class="tab-btn-xs flex items-center justify-center gap-2"
-        :class="{ 'tab-btn-active': shouldShowEvent }"
+        class="tab-btn-sub flex items-center justify-center gap-2"
+        :class="{ 'tab-btn-sub-active': shouldShowEvent }"
         @click="showEvents"
       >
         <i class="fa-regular fa-calendar" aria-hidden="true"></i>
@@ -143,8 +143,8 @@ function openVideo(video: YouTubeVideo) {
         <span v-if="events.length > 0" class="widget-badge-count">{{ events.length }}</span>
       </button>
       <button
-        class="tab-btn-xs flex items-center justify-center gap-2"
-        :class="{ 'tab-btn-active': !shouldShowEvent }"
+        class="tab-btn-sub flex items-center justify-center gap-2"
+        :class="{ 'tab-btn-sub-active': !shouldShowEvent }"
         @click="showVideos"
       >
         <i class="fa-brands fa-youtube" aria-hidden="true"></i>
