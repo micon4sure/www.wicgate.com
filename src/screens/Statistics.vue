@@ -52,7 +52,7 @@ function handleHashNavigation() {
       // Check for category suffix
       const categories = ['overall', 'infantry', 'armor', 'air', 'support'];
       const lastPart = parts[parts.length - 1];
-      if (categories.includes(lastPart) && parts.length > 2) {
+      if (lastPart && categories.includes(lastPart) && parts.length > 2) {
         tabName = lastPart;
         elementId = parts.slice(0, -1).join('-');
       }
@@ -121,7 +121,12 @@ watch(showPlaceholder, (newVal, oldVal) => {
         <LeaderboardSkeleton v-if="showPlaceholder" />
 
         <!-- Runtime: Render live data -->
-        <Leaderboards v-else ref="leaderboardsRef" :data="leaderboardData" :clans="props.clans" />
+        <Leaderboards
+          v-else
+          ref="leaderboardsRef"
+          :data="leaderboardData"
+          :clans="props.clans ?? []"
+        />
       </div>
     </div>
   </section>
