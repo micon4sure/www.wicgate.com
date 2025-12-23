@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🔧 **DX: Vue TypeScript Checking in Pre-commit** - Replaced `tsc --noEmit` with `vue-tsc --noEmit` in pre-commit hook to catch TypeScript errors in Vue SFC files: installed vue-tsc, added `npm run typecheck` script, fixed existing type errors in Navigation.vue (removed unused vars), Admin.vue (regex group assertions), UserAdmin.vue (file array assertion) - ensures type errors in `.vue` files are caught before commit (Dec 23)
 - 🎨 **UI: Remove Leaderboard Row Hover** - Removed orange highlight effect on leaderboard rows when hovering for cleaner static appearance, deleted `.lb-row:hover > .lb-cell` media query block (Dec 22)
 - 🎨 **UI: Online Players Expand Button Relocation** - Moved expand/fullscreen button from card content area to the Online tab itself, now appears inline after player count badge with subtle opacity styling, uses `@click.stop` to prevent tab switch when clicking expand (Dec 22)
 - 🎨 **UI: Reduce Hero Section Top Spacing** - Reduced whitespace between navbar and hero content from 80px to 60px: added `#hero` rule to remove default section padding (`pt-0`, `border-top: none`), set `.hero-container` padding-top to 60px, other sections retain 50px spacing - tighter hero layout while maintaining breathing room (Dec 22)

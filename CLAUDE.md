@@ -12,6 +12,7 @@
 npm run dev          # Dev server (localhost:5173)
 npm test             # Fast tests (~0.7s, fake timers)
 npm run test:thorough # Thorough tests (~14s, real timers, for CI)
+npm run typecheck    # Type-check Vue + TS files
 npm run lint:fix     # Fix linting issues
 npm run build        # Production build (SSG + PWA)
 ```
@@ -59,10 +60,10 @@ npm run build        # Production build (SSG + PWA)
 - Critical business logic (stores) has comprehensive test coverage
 - TypeScript strict mode
 - ESLint + Prettier (zero errors)
-- Pre-commit: `npm run lint && npm test && npx tsc --noEmit`
+- Pre-commit: `npm run lint && npm test && npm run typecheck`
 
 ---
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** December 22, 2025
+**Updated:** December 23, 2025

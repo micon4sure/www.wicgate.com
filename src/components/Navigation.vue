@@ -11,7 +11,6 @@ const authStore = useAuthStore();
 
 const mobileOpen = ref(false);
 
-const isAuthenticated = computed(() => authStore.isAuthenticated);
 const isAdmin = computed(() => authStore.isAdmin);
 
 const props = defineProps<{
@@ -105,12 +104,6 @@ async function handleNavigation(sectionId: string) {
   // Always update URL via router on both mobile and desktop
   // Router's scrollBehavior (main.ts) handles scrolling to section automatically
   await router.push(getRoutePath(sectionId));
-}
-
-function _handleLogout() {
-  authStore.logout();
-  closeMobileMenu();
-  router.push('/');
 }
 </script>
 <template>

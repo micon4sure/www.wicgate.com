@@ -19,6 +19,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "typecheck": "vue-tsc --noEmit",
     "test:thorough": "cross-env TEST_REAL_TIMERS=true vitest run",
     "test:watch": "vitest watch",
     "test:ui": "vitest --ui",
@@ -72,6 +73,7 @@
     "vite-plugin-vue-devtools": "^8.0.5",
     "vite-ssg": "^28.1.0",
     "vitest": "^3.2.4",
-    "vue-eslint-parser": "^10.2.0"
+    "vue-eslint-parser": "^10.2.0",
+    "vue-tsc": "^3.2.1"
   }
 }

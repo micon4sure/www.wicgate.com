@@ -91,9 +91,9 @@ function parseRemoteAdminResponse(input: string): Player | null {
   if (!result) return null;
   return {
     slot: Number(result[1]),
-    role: result[2],
+    role: result[2]!,
     score: Number(result[3]),
-    name: result[4],
+    name: result[4]!,
   };
 }
 
