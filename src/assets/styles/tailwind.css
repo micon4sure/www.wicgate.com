@@ -3535,7 +3535,7 @@
   }
 
   .overlay-close {
-    @apply bg-transparent border-0 text-t-dim text-2xl cursor-pointer p-1 rounded transition-all duration-200 leading-none hover:bg-white/10 hover:text-t active:scale-90;
+    @apply bg-transparent border-0 text-t-dim text-2xl cursor-pointer p-1 rounded transition-all duration-200 leading-none hover:bg-massgate-red hover:text-white active:bg-massgate-red-bright active:scale-95;
   }
 
   .overlay-content {
