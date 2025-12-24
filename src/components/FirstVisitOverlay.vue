@@ -2,8 +2,10 @@
 import { onMounted, onBeforeUnmount } from 'vue';
 import { WICLIVE_URL, DISCORD_URL, GOG_URL } from '@/constants';
 import { useOverlayState } from '../composables/useOverlayState';
+import { useViewportMode } from '../composables/useViewportMode';
 
 const { setOverlayActive } = useOverlayState();
+const { isMobileMode } = useViewportMode();
 
 defineProps<{
   currentSection?: string | undefined;
@@ -15,13 +17,27 @@ const emit = defineEmits<{
   close: [];
 }>();
 
+function handleKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape') {
+    emit('close');
+  }
+}
+
+function handleBackdropClick() {
+  if (isMobileMode.value) {
+    emit('close');
+  }
+}
+
 onMounted(() => {
+  document.addEventListener('keydown', handleKeydown);
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   setOverlayActive(true);
 });
 
 onBeforeUnmount(() => {
+  document.removeEventListener('keydown', handleKeydown);
   document.documentElement.style.overflow = '';
   document.body.style.overflow = '';
   setOverlayActive(false);
@@ -30,7 +46,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="first-visit-overlay">
-    <div class="overlay-backdrop" @click="emit('close')"></div>
+    <div class="overlay-backdrop" @click="handleBackdropClick"></div>
     <div class="overlay-card">
       <div class="overlay-header">
         <h2 class="slide-title">WICGATE Primer</h2>

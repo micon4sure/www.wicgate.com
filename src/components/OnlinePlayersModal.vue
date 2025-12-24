@@ -2,6 +2,7 @@
 import { onMounted, onBeforeUnmount } from 'vue';
 import { usePlayerDisplay } from '../composables/usePlayerDisplay';
 import { useOverlayState } from '../composables/useOverlayState';
+import { useViewportMode } from '../composables/useViewportMode';
 import RankInsignia from './RankInsignia.vue';
 
 interface PlayerInfo {
@@ -31,6 +32,7 @@ const emit = defineEmits<{
 
 const { colorize } = usePlayerDisplay();
 const { setOverlayActive } = useOverlayState();
+const { isMobileMode } = useViewportMode();
 
 function formatPlayerClanTag(player: {
   tagFormat?: string | null;
@@ -44,6 +46,12 @@ function formatPlayerClanTag(player: {
 
 function handleKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape') {
+    emit('close');
+  }
+}
+
+function handleBackdropClick() {
+  if (isMobileMode.value) {
     emit('close');
   }
 }
@@ -66,7 +74,7 @@ onBeforeUnmount(() => {
 <template>
   <Teleport to="body">
     <div class="first-visit-overlay">
-      <div class="overlay-backdrop" @click="emit('close')"></div>
+      <div class="overlay-backdrop" @click="handleBackdropClick"></div>
       <div
         class="overlay-card max-w-4xl"
         role="dialog"

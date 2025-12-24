@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🎨 **UX: Desktop Overlay Click-Outside Disabled** - Disabled click-outside-to-close behavior on desktop for all overlays (FirstVisitOverlay, OnlinePlayersModal, YouTubeTheater): desktop users now close via X button or Escape key, mobile users retain tap-outside behavior, uses existing `useViewportMode()` composable (850px breakpoint), added missing Escape key handler to FirstVisitOverlay matching other overlays - prevents accidental dismissal on desktop while maintaining intuitive mobile UX (Dec 24)
 - 🔧 **DX: Vue TypeScript Checking in Pre-commit** - Replaced `tsc --noEmit` with `vue-tsc --noEmit` in pre-commit hook to catch TypeScript errors in Vue SFC files: installed vue-tsc, added `npm run typecheck` script, fixed existing type errors in Navigation.vue (removed unused vars), Admin.vue (regex group assertions), UserAdmin.vue (file array assertion) - ensures type errors in `.vue` files are caught before commit (Dec 23)
 - 🎨 **UI: Remove Leaderboard Row Hover** - Removed orange highlight effect on leaderboard rows when hovering for cleaner static appearance, deleted `.lb-row:hover > .lb-cell` media query block (Dec 22)
 - 🎨 **UI: Online Players Expand Button Relocation** - Moved expand/fullscreen button from card content area to the Online tab itself, now appears inline after player count badge with subtle opacity styling, uses `@click.stop` to prevent tab switch when clicking expand (Dec 22)

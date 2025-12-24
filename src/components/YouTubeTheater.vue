@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, onMounted, onBeforeUnmount } from 'vue';
 import { useOverlayState } from '../composables/useOverlayState';
+import { useViewportMode } from '../composables/useViewportMode';
 
 const { setOverlayActive } = useOverlayState();
+const { isMobileMode } = useViewportMode();
 
 const props = defineProps<{
   videoId: string;
@@ -28,6 +30,12 @@ function handleKeydown(e: KeyboardEvent) {
   }
 }
 
+function handleBackdropClick() {
+  if (isMobileMode.value) {
+    emit('close');
+  }
+}
+
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown);
   document.documentElement.style.overflow = 'hidden';
@@ -46,7 +54,7 @@ onBeforeUnmount(() => {
 <template>
   <Teleport to="body">
     <div class="first-visit-overlay">
-      <div class="overlay-backdrop" @click="emit('close')"></div>
+      <div class="overlay-backdrop" @click="handleBackdropClick"></div>
       <div
         class="overlay-card youtube-theater"
         role="dialog"
