@@ -190,7 +190,7 @@ async function handleNavigation(sectionId: string) {
         class="fixed top-0 left-0 w-screen h-screen z-[999] pointer-events-none"
       >
         <div
-          class="absolute top-[var(--header-height)] left-0 w-screen border-t-[3px] border-t-teal shadow-teal-subtle pointer-events-auto flex flex-col p-0 min-h-[calc(100vh-var(--header-height))]"
+          class="absolute top-[var(--header-height)] left-0 w-screen pointer-events-auto flex flex-col p-0 min-h-[calc(100vh-var(--header-height))]"
           style="
             background: linear-gradient(
               180deg,

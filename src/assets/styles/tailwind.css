@@ -217,12 +217,12 @@
   /* Mobile navigation link (Red gradient active states like desktop) */
   .nav-mobile-link {
     @apply flex items-center w-full py-6 px-8 min-h-[72px];
-    @apply no-underline font-military text-lg font-medium uppercase tracking-wider;
+    @apply no-underline font-military text-xl font-medium uppercase tracking-wider;
     @apply bg-transparent transition-all duration-300;
     @apply relative overflow-hidden text-left justify-start;
-    @apply md:min-h-[68px] md:py-5 md:px-7 md:text-[17px];
-    @apply sm:min-h-16 sm:py-[18px] sm:px-6 sm:text-base;
-    @apply xs:min-h-[60px] xs:py-4 xs:px-5 xs:text-[15px] xs:tracking-wider;
+    @apply md:min-h-[68px] md:py-5 md:px-7 md:text-lg;
+    @apply sm:min-h-16 sm:py-[18px] sm:px-6 sm:text-[17px];
+    @apply xs:min-h-[60px] xs:py-4 xs:px-5 xs:text-base xs:tracking-wider;
     @apply text-t-secondary;
     @apply border-b border-b-white/10;
   }
@@ -821,9 +821,9 @@
 
   /* Hamburger menu button */
   .hamburger-btn {
-    @apply flex bg-gradient-to-br from-texture-panel/95 to-texture-dark/95;
-    @apply border-2 border-massgate-red/60 rounded-none p-3 cursor-pointer;
-    @apply transition-all duration-300 relative w-12 h-12;
+    @apply flex bg-transparent;
+    @apply rounded-none p-3 cursor-pointer;
+    @apply transition-all duration-300 relative w-14 h-14;
     @apply justify-center items-center flex-col gap-1;
     @apply z-[1001];
     -webkit-tap-highlight-color: transparent;
@@ -831,35 +831,35 @@
 
   @media (hover: hover) {
     .hamburger-btn:hover {
-      @apply bg-massgate-red/10 border-massgate-red;
+      @apply bg-transparent;
     }
   }
 
   @media (max-width: 768px) {
     .hamburger-btn {
-      @apply w-11 h-11 p-2.5;
+      @apply w-12 h-12 p-2.5;
     }
   }
 
   @media (max-width: 480px) {
     .hamburger-btn {
-      @apply w-10 h-10 p-2;
+      @apply w-11 h-11 p-2;
     }
   }
 
   .hamburger-line {
-    @apply block w-6 h-[3px] bg-t-secondary rounded-none transition-all duration-300 origin-center;
+    @apply block w-7 h-[3px] bg-t-secondary rounded-none transition-all duration-300 origin-center;
   }
 
   @media (max-width: 768px) {
     .hamburger-line {
-      @apply w-5 h-0.5;
+      @apply w-6 h-0.5;
     }
   }
 
   @media (max-width: 480px) {
     .hamburger-line {
-      @apply w-[18px];
+      @apply w-5;
     }
   }
 
