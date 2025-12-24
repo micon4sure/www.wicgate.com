@@ -733,7 +733,7 @@ Use CSS variable for spacing:
 **[useYoutube.ts](../src/composables/useYoutube.ts)** - Multi-channel video fetching (Atom feeds, SSR-safe)
 **[useEvents.ts](../src/composables/useEvents.ts)** - Discord events with countdown timers
 **[useFirstVisit.ts](../src/composables/useFirstVisit.ts)** - Welcome overlay management
-**[useOverlayState.ts](../src/composables/useOverlayState.ts)** - Cross-component overlay visibility tracking (pauses hero video when YouTubeTheater or FirstVisitOverlay is open)
+**[useOverlayState.ts](../src/composables/useOverlayState.ts)** - Cross-component overlay visibility tracking (used by BaseOverlay to pause hero video when any overlay is open)
 **[useServerCapacity.ts](../src/composables/useServerCapacity.ts)** - Dynamic capacity colors (90% red, 50% orange, <50% green)
 **[usePlayerDisplay.ts](../src/composables/usePlayerDisplay.ts)** - Player name parsing/colorization with memoization
 
@@ -826,8 +826,10 @@ Use CSS variable for spacing:
 
 **[Navigation.vue](../src/components/Navigation.vue)** - Simplified navigation with main sections only (no dropdown menus), desktop left-aligned nav (gaming industry standard), mobile hamburger
 **[WidgetDashboard.vue](../src/components/WidgetDashboard.vue)** - Homepage hero grid with 2 large interactive cards, pauses video when overlays are active via `useOverlayState`
-**[YouTubeTheater.vue](../src/components/YouTubeTheater.vue)** - Modal overlay for inline YouTube video playback (youtube-nocookie.com embed), used on home page widgets and Community page
-**[FirstVisitOverlay.vue](../src/components/FirstVisitOverlay.vue)** - Welcome primer overlay for first-time visitors with quick start guide
+**[BaseOverlay.vue](../src/components/BaseOverlay.vue)** - Reusable overlay wrapper handling scroll lock, Escape key, backdrop click (mobile only), Teleport, and ARIA accessibility
+**[YouTubeTheater.vue](../src/components/YouTubeTheater.vue)** - YouTube video theater using BaseOverlay (youtube-nocookie.com embed)
+**[FirstVisitOverlay.vue](../src/components/FirstVisitOverlay.vue)** - Welcome primer using BaseOverlay with quick start guide
+**[OnlinePlayersModal.vue](../src/components/OnlinePlayersModal.vue)** - Online players modal using BaseOverlay with server-grouped player lists
 **[ErrorBoundary.vue](../src/components/ErrorBoundary.vue)** - Error handling with retry
 **Skeletons** - SEO-friendly loading states with `<noscript>` fallbacks
 
