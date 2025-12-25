@@ -218,7 +218,7 @@ onUnmounted(() => {
         @click="toggleDropdown"
       >
         <div class="flex items-center gap-3">
-          <i class="fa-solid fa-bars text-massgate-red-bright" aria-hidden="true"></i>
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
           <i
             v-if="activeTabIcon"
             :class="activeTabIcon"

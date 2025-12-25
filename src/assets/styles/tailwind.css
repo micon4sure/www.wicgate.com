@@ -1105,40 +1105,21 @@
   .tab-mobile-trigger {
     @apply w-full flex items-center justify-between relative;
     @apply px-5 py-4;
-    @apply font-military font-semibold text-base uppercase tracking-wider;
+    @apply font-military font-semibold text-[1.05rem] uppercase tracking-wider;
     @apply text-t-secondary;
-    @apply border-t border-b border-massgate-red/30;
+    @apply border-t border-b border-graphite-dark/60;
     @apply transition-all duration-300;
     @apply cursor-pointer;
-    background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
-  }
-
-  /* Diagonal stripe pattern for trigger button */
-  .tab-mobile-trigger::after {
-    content: '';
-    @apply absolute inset-0 pointer-events-none;
-    background-image: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 6px,
-      rgba(255, 255, 255, 0.02) 6px,
-      rgba(255, 255, 255, 0.02) 7px
-    );
-    transition: opacity 0.3s ease-out;
-  }
-
-  /* Hide stripes when dropdown is open */
-  .tab-mobile-trigger-open::after {
-    opacity: 0;
+    background: linear-gradient(to bottom, #0f1215, #08090b);
   }
 
   .tab-mobile-trigger:active {
-    @apply bg-massgate-red/10;
+    background: linear-gradient(to bottom, #141719, #0c0d0f);
   }
 
   .tab-mobile-trigger-open {
-    @apply text-massgate-red-bright border-massgate-red/50;
-    background: linear-gradient(to bottom, rgba(229, 57, 53, 0.08), rgba(229, 57, 53, 0.03));
+    @apply text-t border-graphite-dark/60;
+    background: linear-gradient(to bottom, #141719, #0c0d0f);
   }
 
   .tab-mobile-trigger-label {
@@ -1146,23 +1127,23 @@
   }
 
   .tab-mobile-chevron {
-    @apply text-massgate-red-bright text-sm transition-transform duration-300;
+    @apply text-current text-sm transition-transform duration-300;
   }
 
   /* Dropdown menu */
   .tab-mobile-dropdown {
     @apply absolute top-full left-0 right-0 z-50;
-    @apply border border-massgate-red/30 border-t-0;
+    @apply border border-graphite-dark/60 border-t-0;
     @apply overflow-hidden;
-    background: linear-gradient(to bottom, rgba(10, 10, 10, 0.98), rgba(5, 5, 5, 0.99));
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 15px rgba(229, 57, 53, 0.1);
+    background: linear-gradient(to bottom, #0a0a0a, #050505);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   }
 
   /* Dropdown option button */
   .tab-mobile-option {
     @apply w-full flex items-center relative;
     @apply px-5 py-4;
-    @apply font-military font-medium text-sm uppercase tracking-wider;
+    @apply font-military font-medium text-[1.05rem] uppercase tracking-wider;
     @apply text-t-secondary text-left;
     @apply border-b border-white/5;
     @apply transition-all duration-200;
@@ -1174,72 +1155,37 @@
     @apply border-b-0;
   }
 
-  /* Diagonal stripe pattern for inactive mobile tab options */
-  .tab-mobile-option::after {
-    content: '';
-    @apply absolute inset-0 pointer-events-none;
-    background-image: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 6px,
-      rgba(255, 255, 255, 0.02) 6px,
-      rgba(255, 255, 255, 0.02) 7px
-    );
-    transition: opacity 0.3s ease-out;
-  }
 
-  .tab-mobile-option-active::after {
-    opacity: 0;
-  }
-
-  @media (hover: hover) {
-    .tab-mobile-option:hover {
-      @apply text-t pl-7;
-      background: rgba(255, 255, 255, 0.03);
-    }
-  }
-
-  .tab-mobile-option:active {
-    @apply text-t;
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  /* Active option - red gradient like tab-btn-active */
+  /* Active option - matches desktop tab-btn-active */
   .tab-mobile-option-active {
     @apply text-white font-semibold;
-    background: linear-gradient(90deg, #c62828 0%, #8b0000 100%);
+    background: linear-gradient(to bottom, #c62828, #8b0000);
   }
 
-  @media (hover: hover) {
-    .tab-mobile-option-active:hover {
-      @apply pl-5;
-      background: linear-gradient(90deg, #d32f2f 0%, #9b0000 100%);
-    }
-  }
 
-  /* Icon styling in options */
+  /* Icon styling in options - inherit text color */
   .tab-mobile-option i:first-child {
-    @apply w-5 text-center;
+    @apply w-5 text-center text-current;
   }
 
   /* Small screen adjustments */
   @media (max-width: 480px) {
     .tab-mobile-trigger {
-      @apply px-4 py-3.5 text-sm;
+      @apply px-4 py-3.5 text-base;
     }
 
     .tab-mobile-option {
-      @apply px-4 py-3.5 text-xs;
+      @apply px-4 py-3.5 text-base;
     }
   }
 
   @media (max-width: 360px) {
     .tab-mobile-trigger {
-      @apply px-3 py-3 text-xs;
+      @apply px-3 py-3 text-base;
     }
 
     .tab-mobile-option {
-      @apply px-3 py-3;
+      @apply px-3 py-3 text-sm;
     }
   }
 
@@ -1249,60 +1195,58 @@
   .tab-mobile-trigger-sub {
     @apply w-full flex items-center justify-between relative;
     @apply px-4 py-3;
-    @apply font-[Rajdhani,sans-serif] font-medium text-sm uppercase tracking-wide;
-    @apply text-t-secondary/80;
-    @apply border-t border-b border-white/10;
+    @apply font-[Rajdhani,sans-serif] font-medium text-[1.05rem] uppercase tracking-wide;
+    @apply text-t-secondary;
+    @apply border-t border-b border-graphite-dark/60;
     @apply transition-all duration-200;
     @apply cursor-pointer;
-    background: rgba(10, 12, 14, 0.5);
+    background: linear-gradient(to bottom, #0a0c0e, #080a0c);
   }
 
-  /* No diagonal stripes for sub-tabs (cleaner look) */
-
   .tab-mobile-trigger-sub-open {
-    @apply text-white border-white/20;
+    @apply text-t border-graphite-dark/60;
+    background: linear-gradient(to bottom, #0e1012, #0a0c0e);
   }
 
   /* Lighter dropdown for sub-tabs */
   .tab-mobile-dropdown-sub {
     @apply absolute top-full left-0 right-0 z-50;
-    @apply border border-white/10 border-t-0;
+    @apply border border-graphite-dark/60 border-t-0;
     @apply overflow-hidden;
-    background: rgba(8, 10, 12, 0.95);
+    background: linear-gradient(to bottom, #080a0c, #050607);
   }
 
   /* Sub-tab dropdown option */
   .tab-mobile-option-sub {
     @apply w-full flex items-center relative;
     @apply px-4 py-3;
-    @apply font-[Rajdhani,sans-serif] font-medium text-sm uppercase tracking-wide;
-    @apply text-t-secondary/80 text-left;
+    @apply font-[Rajdhani,sans-serif] font-medium text-[1.05rem] uppercase tracking-wide;
+    @apply text-t-secondary text-left;
     @apply border-b border-white/5;
     @apply cursor-pointer;
     background: transparent;
   }
 
-  @media (hover: hover) {
-    .tab-mobile-option-sub:hover {
-      @apply text-t-secondary;
-      background: rgba(255, 255, 255, 0.03);
-    }
-  }
 
+  /* Active option - matches desktop tab-btn-active */
   .tab-mobile-option-sub-active {
     @apply text-white font-semibold;
-    @apply border-l-2 border-l-massgate-red-bright;
-    background: transparent;
+    background: linear-gradient(to bottom, #c62828, #8b0000);
+  }
+
+  /* Icon styling in sub-tab options - inherit text color */
+  .tab-mobile-option-sub i:first-child {
+    @apply w-5 text-center text-current;
   }
 
   /* Small screen adjustments for sub-tabs */
   @media (max-width: 480px) {
     .tab-mobile-trigger-sub {
-      @apply px-3 py-2.5 text-xs;
+      @apply px-3 py-2.5 text-base;
     }
 
     .tab-mobile-option-sub {
-      @apply px-3 py-2.5 text-xs;
+      @apply px-3 py-2.5 text-base;
     }
   }
 
