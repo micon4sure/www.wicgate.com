@@ -232,6 +232,11 @@
     background: linear-gradient(to bottom, #c62828, #8b0000);
   }
 
+  /* Tap/click feedback for mobile nav links */
+  .nav-mobile-link:active:not(.active) {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
   /* Diagonal stripe pattern for inactive mobile links */
   .nav-mobile-link::after {
     content: '';
@@ -1096,6 +1101,10 @@
     background: linear-gradient(to bottom, #c62828, #8b0000);
   }
 
+  /* Tap/click feedback for tab options */
+  .tab-mobile-option:active:not(.tab-mobile-option-active) {
+    background: rgba(255, 255, 255, 0.08);
+  }
 
   /* Icon styling in options - inherit text color */
   .tab-mobile-option i:first-child {
@@ -1166,6 +1175,11 @@
   .tab-mobile-option-sub-active {
     @apply text-white font-semibold;
     background: linear-gradient(to bottom, #c62828, #8b0000);
+  }
+
+  /* Tap/click feedback for sub-tab options */
+  .tab-mobile-option-sub:active:not(.tab-mobile-option-sub-active) {
+    background: rgba(255, 255, 255, 0.08);
   }
 
   /* Icon styling in sub-tab options - inherit text color */

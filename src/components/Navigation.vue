@@ -29,16 +29,19 @@ const navSections = computed(() => NAVIGATION_STRUCTURE);
 // Enhanced mobile menu functionality
 function toggleMobileMenu() {
   mobileOpen.value = !mobileOpen.value;
-  // Prevent body scroll when menu is open
+  // Prevent body scroll when menu is open (both for iOS compatibility)
   if (mobileOpen.value) {
+    document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
   } else {
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
   }
 }
 
 function closeMobileMenu() {
   mobileOpen.value = false;
+  document.documentElement.style.overflow = '';
   document.body.style.overflow = '';
 }
 
@@ -91,7 +94,9 @@ onUnmounted(() => {
   document.removeEventListener('keydown', handleEscapeKey);
   debouncedResize.cancel();
   window.removeEventListener('resize', debouncedResize);
-  document.body.style.overflow = ''; // Clean up body scroll lock
+  // Clean up scroll lock
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
 });
 
 async function handleNavigation(sectionId: string) {
