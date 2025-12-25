@@ -219,7 +219,7 @@
     @apply flex items-center w-full py-6 px-8 min-h-[72px];
     @apply no-underline font-military text-xl font-medium uppercase tracking-wider;
     @apply bg-transparent transition-all duration-300;
-    @apply relative overflow-hidden text-left justify-start;
+    @apply relative overflow-hidden text-center justify-center;
     @apply md:min-h-[68px] md:py-5 md:px-7 md:text-lg;
     @apply sm:min-h-16 sm:py-[18px] sm:px-6 sm:text-[17px];
     @apply xs:min-h-[60px] xs:py-4 xs:px-5 xs:text-base xs:tracking-wider;
@@ -2753,18 +2753,17 @@
     }
   }
 
-  /* Discord (purple) */
-  .mobile-auth-discord {
-    @apply mobile-auth-link text-discord mt-auto;
-    @apply border-t border-b border-discord/30;
-    background: linear-gradient(to right, rgba(88, 101, 242, 0.15), rgba(88, 101, 242, 0.05));
+  /* Mobile Discord button (styled like desktop) */
+  .mobile-discord-btn {
+    @apply flex items-center justify-center gap-2 w-1/4 mx-auto py-3;
+    @apply font-body text-base uppercase tracking-wide text-white rounded;
+    @apply bg-discord/90 border-2 border-discord-dark;
+    @apply transition-all duration-150 no-underline;
   }
 
-  @media (hover: hover) {
-    .mobile-auth-discord:hover {
-      @apply text-white pl-10 border-discord-dark;
-      background: linear-gradient(to right, #5865f2, rgba(88, 101, 242, 0.3));
-    }
+  /* Tap animation - scale down and darken on press */
+  .mobile-discord-btn:active {
+    @apply bg-discord-dark border-discord-darker scale-[0.97];
   }
 
   /* ========== SCROLL TO TOP BUTTON ========== */
