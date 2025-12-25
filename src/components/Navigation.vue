@@ -113,7 +113,7 @@ async function handleNavigation(sectionId: string) {
     <div class="header-inner">
       <!-- WICGATE Logo -->
       <div class="logo-wrapper">
-        <img src="/wicgate_logo.png" alt="WICGATE" class="logo-image" />
+        <img src="/wicgate-white.png" alt="WICGATE" class="logo-image" />
       </div>
 
       <!-- Desktop navigation (left-aligned) -->

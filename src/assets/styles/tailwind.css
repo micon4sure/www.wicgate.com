@@ -788,18 +788,18 @@
   }
 
   .logo-image {
-    @apply h-14 w-auto select-none;
+    @apply h-10 w-auto select-none;
   }
 
   @media (max-width: 768px) {
     .logo-image {
-      @apply h-12;
+      @apply h-9;
     }
   }
 
   @media (max-width: 480px) {
     .logo-image {
-      @apply h-10;
+      @apply h-8;
     }
   }
 
