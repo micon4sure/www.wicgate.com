@@ -227,75 +227,9 @@
     @apply border-b border-b-white/10;
   }
 
-  @media (hover: hover) {
-    .nav-mobile-link:hover {
-      @apply text-t;
-      background: rgba(255, 255, 255, 0.03);
-      padding-left: 40px;
-    }
-
-    @media (max-width: 768px) {
-      .nav-mobile-link:hover {
-        padding-left: 36px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .nav-mobile-link:hover {
-        padding-left: 32px;
-      }
-    }
-
-    @media (max-width: 360px) {
-      .nav-mobile-link:hover {
-        padding-left: 28px;
-      }
-    }
-  }
-
-  .nav-mobile-link:active {
-    @apply text-t;
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  .nav-mobile-link::before {
-    content: '';
-    @apply absolute left-0 top-0 bottom-0 -translate-x-full;
-    @apply transition-transform duration-300;
-    width: 4px;
-    background: theme('colors.massgate-red.bright');
-  }
-
-  .nav-mobile-link:hover::before {
-    @apply -translate-x-0;
-  }
-
   .nav-mobile-link.active {
     @apply text-white font-semibold;
-    background: linear-gradient(90deg, #c62828 0%, #8b0000 100%);
-    padding-left: 40px;
-  }
-
-  @media (max-width: 768px) {
-    .nav-mobile-link.active {
-      padding-left: 36px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .nav-mobile-link.active {
-      padding-left: 32px;
-    }
-  }
-
-  @media (max-width: 360px) {
-    .nav-mobile-link.active {
-      padding-left: 28px;
-    }
-  }
-
-  .nav-mobile-link.active::before {
-    @apply -translate-x-0;
+    background: linear-gradient(to bottom, #c62828, #8b0000);
   }
 
   /* Diagonal stripe pattern for inactive mobile links */
