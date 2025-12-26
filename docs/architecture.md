@@ -734,6 +734,7 @@ Use CSS variable for spacing:
 **[useEvents.ts](../src/composables/useEvents.ts)** - Discord events with countdown timers
 **[useFirstVisit.ts](../src/composables/useFirstVisit.ts)** - Welcome overlay management
 **[useOverlayState.ts](../src/composables/useOverlayState.ts)** - Cross-component overlay visibility tracking (used by BaseOverlay to pause hero video when any overlay is open)
+**[useMobileTabs.ts](../src/composables/useMobileTabs.ts)** - Mobile tab dropdown behavior (breakpoint detection, dropdown state, click-outside/escape handling)
 **[useServerCapacity.ts](../src/composables/useServerCapacity.ts)** - Dynamic capacity colors (90% red, 50% orange, <50% green)
 **[usePlayerDisplay.ts](../src/composables/usePlayerDisplay.ts)** - Player name parsing/colorization with memoization
 
