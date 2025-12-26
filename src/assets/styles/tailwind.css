@@ -1138,17 +1138,17 @@
   .tab-mobile-trigger-sub {
     @apply w-full flex items-center justify-between relative;
     @apply px-4 py-3;
-    @apply font-[Rajdhani,sans-serif] font-medium text-[1.05rem] uppercase tracking-wide;
-    @apply text-t-secondary;
+    @apply font-[Rajdhani,sans-serif] font-semibold text-[1.05rem] uppercase tracking-wide;
+    @apply text-white;
     @apply border-t border-b border-graphite-dark/60;
     @apply transition-all duration-200;
     @apply cursor-pointer;
-    background: linear-gradient(to bottom, #0a0c0e, #080a0c);
+    background: linear-gradient(to bottom, #c62828, #8b0000);
   }
 
   .tab-mobile-trigger-sub-open {
-    @apply text-t border-graphite-dark/60;
-    background: linear-gradient(to bottom, #0e1012, #0a0c0e);
+    @apply text-white border-graphite-dark/60;
+    background: linear-gradient(to bottom, #c62828, #8b0000);
   }
 
   /* Lighter dropdown for sub-tabs */

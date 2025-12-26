@@ -219,12 +219,7 @@ onUnmounted(() => {
       >
         <div class="flex items-center gap-3">
           <i class="fa-solid fa-bars" aria-hidden="true"></i>
-          <i
-            v-if="activeTabIcon"
-            :class="activeTabIcon"
-            class="text-massgate-red-bright"
-            aria-hidden="true"
-          ></i>
+          <i v-if="activeTabIcon" :class="activeTabIcon" aria-hidden="true"></i>
           <span class="tab-mobile-trigger-label">{{ activeTabLabel }}</span>
         </div>
         <i
@@ -244,14 +239,11 @@ onUnmounted(() => {
           :aria-label="ariaLabel"
         >
           <button
-            v-for="tab in tabs"
+            v-for="tab in tabs.filter((t) => t.id !== activeTabId)"
             :key="tab.id"
             role="option"
-            :aria-selected="activeTabId === tab.id"
-            :class="[
-              'tab-mobile-option-sub',
-              { 'tab-mobile-option-sub-active': activeTabId === tab.id },
-            ]"
+            :aria-selected="false"
+            class="tab-mobile-option-sub"
             @click="selectTab(tab)"
           >
             <i v-if="tab.icon" :class="tab.icon" class="mr-3" aria-hidden="true"></i>

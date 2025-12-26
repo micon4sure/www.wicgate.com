@@ -200,11 +200,7 @@ onUnmounted(() => {
         >
           <div class="flex items-center gap-3">
             <i class="fa-solid fa-bars" aria-hidden="true"></i>
-            <i
-              :class="getCategoryIcon(active)"
-              class="text-massgate-red-bright"
-              aria-hidden="true"
-            ></i>
+            <i :class="getCategoryIcon(active)" aria-hidden="true"></i>
             <span class="tab-mobile-trigger-label">{{ formatCategoryLabel(active) }}</span>
           </div>
           <i
@@ -223,11 +219,11 @@ onUnmounted(() => {
             aria-label="Category selection"
           >
             <button
-              v-for="c in categories"
+              v-for="c in categories.filter((cat) => cat !== active)"
               :key="c"
               role="option"
-              :aria-selected="active === c"
-              :class="['tab-mobile-option-sub', { 'tab-mobile-option-sub-active': active === c }]"
+              :aria-selected="false"
+              class="tab-mobile-option-sub"
               @click="selectMobileTab(c)"
             >
               <i :class="getCategoryIcon(c)" class="mr-3" aria-hidden="true"></i>
