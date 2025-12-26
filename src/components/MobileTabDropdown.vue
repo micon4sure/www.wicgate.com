@@ -1,0 +1,101 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useMobileTabs } from '../composables/useMobileTabs';
+
+export interface MobileTab {
+  id: string;
+  label: string;
+  icon?: string;
+}
+
+const props = withDefaults(
+  defineProps<{
+    tabs: MobileTab[];
+    activeTabId: string;
+    ariaLabel?: string;
+    formatLabel?: (label: string) => string;
+    wrapperClass?: string;
+    triggerClass?: string;
+  }>(),
+  {
+    ariaLabel: 'Tab selection',
+    formatLabel: (label: string) => label,
+    wrapperClass: '',
+    triggerClass: '',
+  }
+);
+
+const emit = defineEmits<{
+  select: [tabId: string];
+}>();
+
+const { isMobile, dropdownOpen, dropdownRef, triggerRef, toggleDropdown, closeDropdown } =
+  useMobileTabs();
+
+// Refs used in template via ref="..." bindings
+void dropdownRef;
+void triggerRef;
+
+const activeTab = computed(
+  () => props.tabs.find((t) => t.id === props.activeTabId) ?? props.tabs[0]
+);
+
+const filteredTabs = computed(() => props.tabs.filter((t) => t.id !== props.activeTabId));
+
+function handleSelect(tabId: string) {
+  emit('select', tabId);
+  closeDropdown();
+}
+
+defineExpose({
+  isMobile,
+});
+</script>
+
+<template>
+  <div v-if="isMobile" class="tab-mobile-wrapper relative" :class="wrapperClass">
+    <button
+      ref="triggerRef"
+      class="tab-mobile-trigger-sub"
+      :class="[triggerClass, { 'tab-mobile-trigger-sub-open': dropdownOpen }]"
+      :aria-expanded="dropdownOpen"
+      aria-haspopup="listbox"
+      @click="toggleDropdown"
+    >
+      <div class="flex items-center gap-3">
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        <i v-if="activeTab?.icon" :class="activeTab.icon" aria-hidden="true"></i>
+        <span class="tab-mobile-trigger-label">{{ formatLabel(activeTab?.label ?? '') }}</span>
+        <slot name="trigger-badge" :active-tab="activeTab" />
+      </div>
+      <i
+        class="fa-solid fa-chevron-down tab-mobile-chevron"
+        :class="{ 'rotate-180': dropdownOpen }"
+        aria-hidden="true"
+      ></i>
+    </button>
+
+    <Transition name="tab-dropdown">
+      <div
+        v-if="dropdownOpen"
+        ref="dropdownRef"
+        class="tab-mobile-dropdown-sub"
+        role="listbox"
+        :aria-label="ariaLabel"
+      >
+        <button
+          v-for="tab in filteredTabs"
+          :key="tab.id"
+          role="option"
+          :aria-selected="false"
+          class="tab-mobile-option-sub"
+          @click="handleSelect(tab.id)"
+        >
+          <i v-if="tab.icon" :class="tab.icon" class="mr-3" aria-hidden="true"></i>
+          {{ formatLabel(tab.label) }}
+          <slot name="option-badge" :tab="tab" />
+        </button>
+      </div>
+    </Transition>
+  </div>
+</template>

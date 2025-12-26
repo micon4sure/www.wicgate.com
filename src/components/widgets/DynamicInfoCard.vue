@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { usePlayerDisplay } from '../../composables/usePlayerDisplay';
 import { useMobileTabs } from '../../composables/useMobileTabs';
+import MobileTabDropdown, { type MobileTab } from '../MobileTabDropdown.vue';
 import RankInsignia from '../RankInsignia.vue';
 import OnlinePlayersModal from '../OnlinePlayersModal.vue';
 import type { DataResponse, LadderEntry } from '../../api-types';
@@ -18,15 +19,10 @@ const emit = defineEmits<{
 }>();
 
 const { colorize } = usePlayerDisplay();
-const { isMobile, dropdownOpen, dropdownRef, triggerRef, toggleDropdown, closeDropdown } =
-  useMobileTabs();
-
-// Refs used in template via ref="..." bindings
-void dropdownRef;
-void triggerRef;
+const { isMobile } = useMobileTabs();
 
 // Tab configuration for mobile dropdown
-const tabs = [
+const tabs: MobileTab[] = [
   { id: 'players', label: 'Online', icon: 'fa-solid fa-users' },
   { id: 'leaderboard', label: 'Top Players', icon: 'fa-solid fa-trophy' },
 ];
@@ -153,70 +149,36 @@ function handleTopPlayersClick() {
 // Mobile dropdown helpers
 const activeTabId = computed(() => (shouldShowPlayers.value ? 'players' : 'leaderboard'));
 
-const activeTab = computed(() => tabs.find((t) => t.id === activeTabId.value) ?? tabs[0]!);
-
 function selectTab(tabId: string) {
   if (tabId === 'players') {
     showPlayers();
   } else {
     showLeaderboard();
   }
-  closeDropdown();
 }
 </script>
 
 <template>
   <div class="dashboard-card">
     <!-- MOBILE: Hamburger Dropdown -->
-    <div v-if="isMobile" class="tab-mobile-wrapper relative">
-      <button
-        ref="triggerRef"
-        class="tab-mobile-trigger-sub"
-        :class="{ 'tab-mobile-trigger-sub-open': dropdownOpen }"
-        :aria-expanded="dropdownOpen"
-        aria-haspopup="listbox"
-        @click="toggleDropdown"
-      >
-        <div class="flex items-center gap-3">
-          <i class="fa-solid fa-bars" aria-hidden="true"></i>
-          <i :class="activeTab.icon" aria-hidden="true"></i>
-          <span class="tab-mobile-trigger-label">{{ activeTab.label }}</span>
-          <span v-if="shouldShowPlayers && playerCount > 0" class="widget-badge-count">{{
-            playerCount
-          }}</span>
-        </div>
-        <i
-          class="fa-solid fa-chevron-down tab-mobile-chevron"
-          :class="{ 'rotate-180': dropdownOpen }"
-          aria-hidden="true"
-        ></i>
-      </button>
-
-      <Transition name="tab-dropdown">
-        <div
-          v-if="dropdownOpen"
-          ref="dropdownRef"
-          class="tab-mobile-dropdown-sub"
-          role="listbox"
-          aria-label="View selection"
-        >
-          <button
-            v-for="tab in tabs.filter((t) => t.id !== activeTabId)"
-            :key="tab.id"
-            role="option"
-            :aria-selected="false"
-            class="tab-mobile-option-sub"
-            @click="selectTab(tab.id)"
-          >
-            <i :class="tab.icon" class="mr-3" aria-hidden="true"></i>
-            {{ tab.label }}
-            <span v-if="tab.id === 'players' && playerCount > 0" class="widget-badge-count ml-2">{{
-              playerCount
-            }}</span>
-          </button>
-        </div>
-      </Transition>
-    </div>
+    <MobileTabDropdown
+      v-if="isMobile"
+      :tabs="tabs"
+      :active-tab-id="activeTabId"
+      aria-label="View selection"
+      @select="selectTab"
+    >
+      <template #trigger-badge>
+        <span v-if="shouldShowPlayers && playerCount > 0" class="widget-badge-count">{{
+          playerCount
+        }}</span>
+      </template>
+      <template #option-badge="{ tab }">
+        <span v-if="tab.id === 'players' && playerCount > 0" class="widget-badge-count ml-2">{{
+          playerCount
+        }}</span>
+      </template>
+    </MobileTabDropdown>
 
     <!-- DESKTOP: Horizontal Tabs -->
     <div v-else class="tab-nav-sub relative">

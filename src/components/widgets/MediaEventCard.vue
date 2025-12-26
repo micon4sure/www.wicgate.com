@@ -2,20 +2,16 @@
 import { computed, ref, watch, onMounted } from 'vue';
 import type { YouTubeVideo, CommunityEvent } from '../../api-types';
 import { useMobileTabs } from '../../composables/useMobileTabs';
+import MobileTabDropdown, { type MobileTab } from '../MobileTabDropdown.vue';
 import YouTubeTheater from '../YouTubeTheater.vue';
 
 // Track which event is expanded (by index)
 const expandedEventIndex = ref(0);
 
-const { isMobile, dropdownOpen, dropdownRef, triggerRef, toggleDropdown, closeDropdown } =
-  useMobileTabs();
-
-// Refs used in template via ref="..." bindings
-void dropdownRef;
-void triggerRef;
+const { isMobile } = useMobileTabs();
 
 // Tab configuration for mobile dropdown
-const tabs = [
+const tabs: MobileTab[] = [
   { id: 'events', label: 'Events', icon: 'fa-regular fa-calendar' },
   { id: 'videos', label: 'Videos', icon: 'fa-brands fa-youtube' },
 ];
@@ -139,15 +135,12 @@ function handleVideosClick() {
 // Mobile dropdown helpers
 const activeTabId = computed(() => (shouldShowEvent.value ? 'events' : 'videos'));
 
-const activeTab = computed(() => tabs.find((t) => t.id === activeTabId.value) ?? tabs[0]!);
-
 function selectTab(tabId: string) {
   if (tabId === 'events') {
     showEvents();
   } else {
     showVideos();
   }
-  closeDropdown();
 }
 
 const selectedVideo = ref<YouTubeVideo | null>(null);
@@ -160,61 +153,30 @@ function openVideo(video: YouTubeVideo) {
 <template>
   <div class="dashboard-card">
     <!-- MOBILE: Hamburger Dropdown -->
-    <div v-if="isMobile" class="tab-mobile-wrapper relative">
-      <button
-        ref="triggerRef"
-        class="tab-mobile-trigger-sub"
-        :class="{ 'tab-mobile-trigger-sub-open': dropdownOpen }"
-        :aria-expanded="dropdownOpen"
-        aria-haspopup="listbox"
-        @click="toggleDropdown"
-      >
-        <div class="flex items-center gap-3">
-          <i class="fa-solid fa-bars" aria-hidden="true"></i>
-          <i :class="activeTab.icon" aria-hidden="true"></i>
-          <span class="tab-mobile-trigger-label">{{ activeTab.label }}</span>
-          <span v-if="shouldShowEvent && events.length > 0" class="widget-badge-count">{{
-            events.length
-          }}</span>
-          <span v-if="!shouldShowEvent && unseenCount > 0" class="widget-badge-new">{{
-            unseenCount
-          }}</span>
-        </div>
-        <i
-          class="fa-solid fa-chevron-down tab-mobile-chevron"
-          :class="{ 'rotate-180': dropdownOpen }"
-          aria-hidden="true"
-        ></i>
-      </button>
-
-      <Transition name="tab-dropdown">
-        <div
-          v-if="dropdownOpen"
-          ref="dropdownRef"
-          class="tab-mobile-dropdown-sub"
-          role="listbox"
-          aria-label="View selection"
-        >
-          <button
-            v-for="tab in tabs.filter((t) => t.id !== activeTabId)"
-            :key="tab.id"
-            role="option"
-            :aria-selected="false"
-            class="tab-mobile-option-sub"
-            @click="selectTab(tab.id)"
-          >
-            <i :class="tab.icon" class="mr-3" aria-hidden="true"></i>
-            {{ tab.label }}
-            <span v-if="tab.id === 'events' && events.length > 0" class="widget-badge-count ml-2">{{
-              events.length
-            }}</span>
-            <span v-if="tab.id === 'videos' && unseenCount > 0" class="widget-badge-new ml-2">{{
-              unseenCount
-            }}</span>
-          </button>
-        </div>
-      </Transition>
-    </div>
+    <MobileTabDropdown
+      v-if="isMobile"
+      :tabs="tabs"
+      :active-tab-id="activeTabId"
+      aria-label="View selection"
+      @select="selectTab"
+    >
+      <template #trigger-badge>
+        <span v-if="shouldShowEvent && events.length > 0" class="widget-badge-count">{{
+          events.length
+        }}</span>
+        <span v-if="!shouldShowEvent && unseenCount > 0" class="widget-badge-new">{{
+          unseenCount
+        }}</span>
+      </template>
+      <template #option-badge="{ tab }">
+        <span v-if="tab.id === 'events' && events.length > 0" class="widget-badge-count ml-2">{{
+          events.length
+        }}</span>
+        <span v-if="tab.id === 'videos' && unseenCount > 0" class="widget-badge-new ml-2">{{
+          unseenCount
+        }}</span>
+      </template>
+    </MobileTabDropdown>
 
     <!-- DESKTOP: Horizontal Tabs -->
     <div v-else class="tab-nav-sub">

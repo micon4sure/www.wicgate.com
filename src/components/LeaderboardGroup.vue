@@ -2,6 +2,7 @@
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 import type { LeaderboardEntry, LadderEntry } from '../api-types';
 import RankInsignia from './RankInsignia.vue';
+import MobileTabDropdown from './MobileTabDropdown.vue';
 import { useMobileTabs } from '../composables/useMobileTabs';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_RESIZE, MOBILE_BREAKPOINT, TABLET_BREAKPOINT } from '../constants';
@@ -11,12 +12,7 @@ const showCopiedToast = ref(false);
 const copied = ref(false);
 
 // Mobile tabs
-const { isMobile, dropdownOpen, dropdownRef, triggerRef, toggleDropdown, closeDropdown } =
-  useMobileTabs();
-
-// Refs used in template via ref="..." bindings
-void dropdownRef;
-void triggerRef;
+const { isMobile } = useMobileTabs();
 
 // Category icons for mobile dropdown
 const categoryIcons: Record<string, string> = {
@@ -115,10 +111,18 @@ const formatCategoryLabel = (category: string): string => {
   return category.charAt(0).toUpperCase() + category.slice(1);
 };
 
+// Transform categories to Tab format for MobileTabDropdown
+const categoryTabs = computed(() =>
+  props.categories.map((c) => ({
+    id: c,
+    label: formatCategoryLabel(c),
+    icon: getCategoryIcon(c),
+  }))
+);
+
 // Mobile dropdown tab selection
-function selectMobileTab(category: string) {
-  active.value = category;
-  closeDropdown();
+function selectMobileTab(tabId: string) {
+  active.value = tabId;
 }
 
 // Responsive RankInsignia sizing
@@ -189,49 +193,15 @@ onUnmounted(() => {
       </div>
 
       <!-- MOBILE: Hamburger Dropdown (categories > 1) -->
-      <div v-if="categories.length > 1 && isMobile" class="tab-mobile-wrapper flex-1">
-        <button
-          ref="triggerRef"
-          class="tab-mobile-trigger-sub h-full border-t-0"
-          :class="{ 'tab-mobile-trigger-sub-open': dropdownOpen }"
-          :aria-expanded="dropdownOpen"
-          aria-haspopup="listbox"
-          @click="toggleDropdown"
-        >
-          <div class="flex items-center gap-3">
-            <i class="fa-solid fa-bars" aria-hidden="true"></i>
-            <i :class="getCategoryIcon(active)" aria-hidden="true"></i>
-            <span class="tab-mobile-trigger-label">{{ formatCategoryLabel(active) }}</span>
-          </div>
-          <i
-            class="fa-solid fa-chevron-down tab-mobile-chevron"
-            :class="{ 'rotate-180': dropdownOpen }"
-            aria-hidden="true"
-          ></i>
-        </button>
-
-        <Transition name="tab-dropdown">
-          <div
-            v-if="dropdownOpen"
-            ref="dropdownRef"
-            class="tab-mobile-dropdown-sub"
-            role="listbox"
-            aria-label="Category selection"
-          >
-            <button
-              v-for="c in categories.filter((cat) => cat !== active)"
-              :key="c"
-              role="option"
-              :aria-selected="false"
-              class="tab-mobile-option-sub"
-              @click="selectMobileTab(c)"
-            >
-              <i :class="getCategoryIcon(c)" class="mr-3" aria-hidden="true"></i>
-              {{ formatCategoryLabel(c) }}
-            </button>
-          </div>
-        </Transition>
-      </div>
+      <MobileTabDropdown
+        v-if="categories.length > 1"
+        :tabs="categoryTabs"
+        :active-tab-id="active"
+        aria-label="Category selection"
+        wrapper-class="flex-1"
+        trigger-class="h-full border-t-0"
+        @select="selectMobileTab"
+      />
 
       <!-- DESKTOP: Horizontal Tabs (categories > 1) -->
       <div v-if="categories.length > 1 && !isMobile" class="leaderboard-tabs">

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { MOBILE_BREAKPOINT } from '../constants';
+import MobileTabDropdown from './MobileTabDropdown.vue';
+import { useMobileTabs } from '../composables/useMobileTabs';
 
 interface Tab {
   id: string; // The route name (e.g., 'downloads-quick', 'faq-about') or local tab ID
@@ -23,17 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 const router = useRouter();
 const route = useRoute();
 
-// Mobile dropdown state
-const dropdownOpen = ref(false);
-const isMobile = ref(false);
-const dropdownRef = ref<HTMLElement | null>(null);
-const triggerRef = ref<HTMLElement | null>(null);
-// Typed for ESLint compatibility (avoids 'MediaQueryList is not defined' error)
-let mediaQuery: {
-  matches: boolean;
-  addEventListener: (type: string, listener: (event: { matches: boolean }) => void) => void;
-  removeEventListener: (type: string, listener: (event: { matches: boolean }) => void) => void;
-} | null = null;
+const { isMobile } = useMobileTabs();
 
 // Local active tab for non-route tabs
 const localActiveTabId = ref<string>(props.tabs[0]?.id || '');
@@ -122,136 +113,24 @@ const getTabId = (tabId: string) => `tab-${tabId}`;
 // Use anchor for panel ID (e.g., 'quick' not 'downloads-quick')
 const getPanelId = (tabId: string) => getAnchor(tabId);
 
-// Active tab label for mobile trigger button
-const activeTabLabel = computed(() => {
-  const activeTab = props.tabs.find((t) => t.id === activeTabId.value);
-  return activeTab ? formatLabel(activeTab.label) : 'Select Tab';
-});
-
-// Active tab icon for mobile trigger button
-const activeTabIcon = computed(() => {
-  const activeTab = props.tabs.find((t) => t.id === activeTabId.value);
-  return activeTab?.icon || null;
-});
-
-// Toggle dropdown
-function toggleDropdown() {
-  dropdownOpen.value = !dropdownOpen.value;
+// Handle mobile tab selection
+function handleMobileSelect(tabId: string) {
+  const tab = props.tabs.find((t) => t.id === tabId);
+  if (tab) switchTab(tab);
 }
-
-// Close dropdown
-function closeDropdown() {
-  dropdownOpen.value = false;
-}
-
-// Handle tab selection from dropdown
-async function selectTab(tab: Tab) {
-  await switchTab(tab);
-  closeDropdown();
-}
-
-// Handle click outside dropdown
-function handleClickOutside(event: MouseEvent) {
-  const target = event.target as Node;
-
-  if (
-    dropdownOpen.value &&
-    dropdownRef.value &&
-    triggerRef.value &&
-    !dropdownRef.value.contains(target) &&
-    !triggerRef.value.contains(target)
-  ) {
-    closeDropdown();
-  }
-}
-
-// Handle escape key
-function handleEscapeKey(event: KeyboardEvent) {
-  if (event.key === 'Escape' && dropdownOpen.value) {
-    closeDropdown();
-  }
-}
-
-// Handle media query change
-function handleMediaChange(event: { matches: boolean }) {
-  isMobile.value = !event.matches;
-  // Close dropdown when switching to desktop
-  if (!isMobile.value) {
-    closeDropdown();
-  }
-}
-
-// Lifecycle hooks for event listeners
-onMounted(() => {
-  if (typeof window === 'undefined') return;
-
-  // Setup media query listener
-  mediaQuery = window.matchMedia(`(min-width: ${MOBILE_BREAKPOINT}px)`);
-  isMobile.value = !mediaQuery.matches;
-  mediaQuery.addEventListener('change', handleMediaChange);
-
-  // Setup click outside and escape key listeners
-  document.addEventListener('click', handleClickOutside);
-  document.addEventListener('keydown', handleEscapeKey);
-});
-
-onUnmounted(() => {
-  if (mediaQuery) {
-    mediaQuery.removeEventListener('change', handleMediaChange);
-  }
-  document.removeEventListener('click', handleClickOutside);
-  document.removeEventListener('keydown', handleEscapeKey);
-});
 </script>
 
 <template>
   <div class="tab-container">
     <!-- MOBILE: Hamburger Dropdown (< 768px) -->
-    <div v-if="isMobile" class="tab-mobile-wrapper">
-      <!-- Trigger Button -->
-      <button
-        ref="triggerRef"
-        class="tab-mobile-trigger-sub"
-        :class="{ 'tab-mobile-trigger-sub-open': dropdownOpen }"
-        :aria-expanded="dropdownOpen"
-        aria-haspopup="listbox"
-        @click="toggleDropdown"
-      >
-        <div class="flex items-center gap-3">
-          <i class="fa-solid fa-bars" aria-hidden="true"></i>
-          <i v-if="activeTabIcon" :class="activeTabIcon" aria-hidden="true"></i>
-          <span class="tab-mobile-trigger-label">{{ activeTabLabel }}</span>
-        </div>
-        <i
-          class="fa-solid fa-chevron-down tab-mobile-chevron"
-          :class="{ 'rotate-180': dropdownOpen }"
-          aria-hidden="true"
-        ></i>
-      </button>
-
-      <!-- Dropdown Menu -->
-      <Transition name="tab-dropdown">
-        <div
-          v-if="dropdownOpen"
-          ref="dropdownRef"
-          class="tab-mobile-dropdown-sub"
-          role="listbox"
-          :aria-label="ariaLabel"
-        >
-          <button
-            v-for="tab in tabs.filter((t) => t.id !== activeTabId)"
-            :key="tab.id"
-            role="option"
-            :aria-selected="false"
-            class="tab-mobile-option-sub"
-            @click="selectTab(tab)"
-          >
-            <i v-if="tab.icon" :class="tab.icon" class="mr-3" aria-hidden="true"></i>
-            {{ formatLabel(tab.label) }}
-          </button>
-        </div>
-      </Transition>
-    </div>
+    <MobileTabDropdown
+      v-if="isMobile"
+      :tabs="tabs"
+      :active-tab-id="activeTabId"
+      :aria-label="ariaLabel"
+      :format-label="formatLabel"
+      @select="handleMobileSelect"
+    />
 
     <!-- DESKTOP: Horizontal Tabs (>= 768px) -->
     <div v-else role="tablist" :aria-label="ariaLabel" class="tab-nav-sub">
