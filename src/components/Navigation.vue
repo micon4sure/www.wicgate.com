@@ -195,7 +195,7 @@ async function handleNavigation(sectionId: string) {
         class="fixed top-0 left-0 w-screen h-screen z-[999] pointer-events-none"
       >
         <div
-          class="absolute top-[var(--header-height)] left-0 w-screen pointer-events-auto flex flex-col p-0 min-h-[calc(100vh-var(--header-height))]"
+          class="absolute top-[var(--header-height)] left-0 w-screen pointer-events-auto flex flex-col p-0 min-h-[calc(100vh-var(--header-height))] min-h-[calc(100svh-var(--header-height))]"
           style="
             background: linear-gradient(
               180deg,
@@ -229,7 +229,7 @@ async function handleNavigation(sectionId: string) {
           </router-link>
 
           <!-- Discord Button in Mobile Menu -->
-          <div class="mt-auto px-6 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">
+          <div class="mt-auto px-6 pb-6 pt-4">
             <a
               href="https://discord.gg/Udbv9UDBBb"
               target="_blank"
