@@ -704,12 +704,6 @@ script: [
 - `lg:` prefix = laptops+ (900px)
 - Desktop-only features: backdrop blur, video backgrounds, glassmorphism
 
-**Browser "Request Desktop Site" Support (December 2025):**
-- Respects user's browser "Request Desktop Site" choice
-- Uses `matchMedia('min-width: 850px')` which responds to viewport width reported by browser
-- When user enables desktop mode, browser reports larger viewport, triggering desktop layout
-- Implementation: [src/composables/useViewportMode.ts](../src/composables/useViewportMode.ts)
-
 ### Dynamic Header Integration
 
 Use CSS variable for spacing:

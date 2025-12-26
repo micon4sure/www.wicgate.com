@@ -2,9 +2,6 @@
  * Viewport mode detection for responsive hybrid navigation
  * Mobile (<850px): Single-page scroll experience
  * Desktop (>=850px): Multi-page route-based experience
- *
- * Automatically respects browser "Request Desktop Site" feature
- * because the browser changes the viewport width when enabled.
  */
 
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
