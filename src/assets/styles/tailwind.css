@@ -2753,19 +2753,6 @@
     }
   }
 
-  /* Mobile Discord button (styled like desktop) */
-  .mobile-discord-btn {
-    @apply flex items-center justify-center gap-2 w-1/4 mx-auto py-3;
-    @apply font-body text-base uppercase tracking-wide text-white rounded;
-    @apply bg-discord/90 border-2 border-discord-dark;
-    @apply transition-all duration-150 no-underline;
-  }
-
-  /* Tap animation - scale down and darken on press */
-  .mobile-discord-btn:active {
-    @apply bg-discord-dark border-discord-darker scale-[0.97];
-  }
-
   /* ========== SCROLL TO TOP BUTTON ========== */
 
   .scroll-to-top {
