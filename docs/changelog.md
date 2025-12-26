@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 📱 **UX: Request Desktop Site Support** - Website respects browser "Request Desktop Site" feature by responding to viewport width - when user enables this in their browser, the browser reports a larger viewport and desktop layout is shown accordingly (Dec 26)
 - 🔧 **UI: Remove Discord Button from Mobile Nav** - Removed Discord button from mobile navigation menu due to viewport issues on iOS/Android browsers, Discord link remains accessible on desktop (Dec 26)
 - 🎨 **UI: Mobile Nav Tap Effects & Scroll Lock** - Added tap/click visual feedback (subtle white highlight) for main mobile nav links and secondary tab dropdown options, fixed scroll lock when mobile nav is open by setting overflow hidden on both `documentElement` and `body` for full iOS compatibility - better touch UX with proper visual feedback (Dec 25)
 - 🎨 **UI: Main Mobile Nav Active State Cleanup** - Applied same treatment to main mobile navigation as tab dropdowns: removed hover effects and active/press states on mobile for cleaner touch UX, changed active gradient from horizontal to vertical (`linear-gradient(to bottom, #c62828, #8b0000)`) matching desktop tabs, removed `::before` red bar element and extra padding-left that pushed active text right, kept diagonal stripe pattern for visual consistency with header - cleaner mobile navigation experience (Dec 25)
