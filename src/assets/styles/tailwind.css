@@ -2570,6 +2570,16 @@
     }
   }
 
+  @media (max-width: 320px) {
+    .hero-primer-link-top-right {
+      top: 0.25rem !important;
+      right: 0.25rem !important;
+      padding: 0.2rem 0.35rem !important;
+      font-size: 0.55rem !important;
+      gap: 0.15rem !important;
+    }
+  }
+
   @media (hover: hover) {
     .hero-primer-link:hover {
       @apply bg-slate-600/80 text-white border-slate-400/60;
