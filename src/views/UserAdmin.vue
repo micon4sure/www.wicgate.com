@@ -203,7 +203,7 @@ onMounted(() => {
             <i class="fa-solid fa-user mr-2"></i>
             Account Information
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-body">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 font-body">
             <div>
               <span class="text-battlefield-mist/60 text-sm uppercase">Account ID</span>
               <p class="text-t font-mono">{{ accountData.account.id }}</p>

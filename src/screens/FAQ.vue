@@ -170,11 +170,11 @@ onMounted(() => {
       <!-- Header -->
       <div class="text-center mb-12">
         <h2
-          class="text-5xl md:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
+          class="text-5xl lg:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
           Frequently Asked Questions
         </h2>
-        <p class="text-lg md:text-xl text-t-secondary max-w-3xl mx-auto font-body leading-relaxed">
+        <p class="text-lg lg:text-xl text-t-secondary max-w-3xl mx-auto font-body leading-relaxed">
           Common questions about WICGATE and World in Conflict multiplayer
         </p>
       </div>
@@ -183,7 +183,7 @@ onMounted(() => {
       <TabContainer :tabs="tabs" aria-label="FAQ categories">
         <!-- Tab for each FAQ category -->
         <template v-for="cat in faq" :key="cat.cat" #[getCategoryAnchor(cat.cat)]>
-          <div class="py-8 md:py-10">
+          <div class="py-8 lg:py-10">
             <!-- Questions -->
             <div class="flex flex-col gap-4">
               <div
@@ -195,7 +195,7 @@ onMounted(() => {
               >
                 <!-- Question Header (Clickable) -->
                 <button
-                  class="w-full flex items-start gap-4 p-5 md:p-6 text-left transition-all duration-200 group"
+                  class="w-full flex items-start gap-4 p-5 lg:p-6 text-left transition-all duration-200 group"
                   @click="toggleQuestion(item.q)"
                 >
                   <!-- Question Icon Badge (similar to Downloads numbered badges) -->
@@ -209,7 +209,7 @@ onMounted(() => {
                   <!-- Question text and copy link button -->
                   <div class="flex items-center gap-3 flex-1 min-w-0">
                     <h4
-                      class="text-lg md:text-xl font-military font-bold text-t uppercase tracking-wide flex-1 min-w-0"
+                      class="text-lg lg:text-xl font-military font-bold text-t uppercase tracking-wide flex-1 min-w-0"
                     >
                       {{ item.q }}
                     </h4>
@@ -258,9 +258,9 @@ onMounted(() => {
                     v-show="openQuestion === item.q"
                     class="overflow-hidden border-t border-teal/10"
                   >
-                    <div class="p-5 md:p-6 bg-graphite-dark/30">
+                    <div class="p-5 lg:p-6 bg-graphite-dark/30">
                       <p
-                        class="text-base md:text-lg text-t-secondary font-body leading-relaxed m-0"
+                        class="text-base lg:text-lg text-t-secondary font-body leading-relaxed m-0"
                         v-html="item.a"
                       ></p>
                     </div>
@@ -280,11 +280,11 @@ onMounted(() => {
           </div>
         </div>
         <h4
-          class="text-xl md:text-2xl font-military font-bold text-t uppercase tracking-wider mb-4"
+          class="text-xl lg:text-2xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
           Still Have Questions?
         </h4>
-        <p class="text-base md:text-lg text-t-secondary font-body leading-relaxed m-0">
+        <p class="text-base lg:text-lg text-t-secondary font-body leading-relaxed m-0">
           Join our
           <a
             href="https://discord.gg/Udbv9UDBBb"

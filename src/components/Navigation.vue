@@ -122,7 +122,7 @@ async function handleNavigation(sectionId: string) {
       </div>
 
       <!-- Desktop navigation (left-aligned) -->
-      <nav class="hidden lg:flex gap-1 xl:gap-2 items-center h-full ml-4 xl:ml-5 flex-1">
+      <nav class="hidden xl:flex gap-1 2xl:gap-2 items-center h-full ml-4 2xl:ml-5 flex-1">
         <router-link
           v-for="section in navSections"
           :key="section.id"
@@ -138,7 +138,7 @@ async function handleNavigation(sectionId: string) {
       </nav>
 
       <!-- Auth & Social Buttons (Desktop) -->
-      <div class="hidden lg:flex items-center gap-2 xl:gap-3">
+      <div class="hidden xl:flex items-center gap-2 2xl:gap-3">
         <!-- Admin Link (if admin) -->
         <router-link v-if="isAdmin" to="/admin" class="auth-btn-admin">
           <i class="fa-solid fa-crown"></i>
@@ -166,7 +166,7 @@ async function handleNavigation(sectionId: string) {
     <!-- Enhanced hamburger menu button (Mobile - Far Right) -->
     <button
       :class="{ active: mobileOpen }"
-      class="hamburger-btn lg:hidden ml-auto"
+      class="hamburger-btn xl:hidden ml-auto"
       aria-label="Toggle mobile menu"
       :aria-expanded="mobileOpen"
       @click="toggleMobileMenu"

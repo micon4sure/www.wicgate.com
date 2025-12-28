@@ -134,7 +134,7 @@ function goToSection(sectionOrSubsectionId: string) {
           <!-- Primary CTA -->
           <div class="flex justify-center items-center">
             <button class="hero-cta" @click="goToSection('downloads-quick')">
-              <i class="fa-solid fa-download text-xl sm:text-lg" aria-hidden="true"></i>
+              <i class="fa-solid fa-download text-xl lg:text-lg" aria-hidden="true"></i>
               <span>DOWNLOAD NOW</span>
             </button>
           </div>

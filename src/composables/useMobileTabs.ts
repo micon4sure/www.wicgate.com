@@ -1,5 +1,5 @@
 import { ref, onMounted, onUnmounted } from 'vue';
-import { MOBILE_BREAKPOINT } from '../constants';
+import { NAV_BREAKPOINT } from '../constants';
 
 /**
  * Composable for mobile tab dropdown behavior.
@@ -58,7 +58,7 @@ export function useMobileTabs() {
     if (typeof window === 'undefined') return;
 
     // Setup media query listener
-    mediaQuery = window.matchMedia(`(min-width: ${MOBILE_BREAKPOINT}px)`);
+    mediaQuery = window.matchMedia(`(min-width: ${NAV_BREAKPOINT}px)`);
     isMobile.value = !mediaQuery.matches;
     mediaQuery.addEventListener('change', handleMediaChange);
 

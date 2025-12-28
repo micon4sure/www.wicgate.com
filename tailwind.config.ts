@@ -187,14 +187,13 @@ export default {
       },
 
       screens: {
-        'xs': '360px',
-        'sm': '480px',
-        'md': '768px',
-        'lg': '850px',
-        'xl': '900px',
-        '2xl': '1000px',
-        '3xl': '1100px',
-        '4xl': '1200px',
+        'xs': '320px',   // Small phone
+        'sm': '375px',   // Medium phone
+        'md': '425px',   // Large phone
+        'lg': '768px',   // Tablet
+        'xl': '1024px',  // Laptop - NAV/TABS SWITCH POINT
+        '2xl': '1440px', // Large laptop
+        '3xl': '2560px', // Desktop
       },
     },
   },

@@ -616,7 +616,7 @@ script: [
 - Dividers: `divider` (DEFAULT, strong, soft) with rgba values for opacity control
 - Shadows: `teal-glow`, `orange-glow`, `massgate-glow`, `gold-glow`
 - Animations: `red-pulse`, `gold-shimmer`, `teal-glow`
-- Breakpoints: xs(360px), sm(480px), md(768px), lg(900px), xl(1024px), 2xl+(1200px+)
+- Breakpoints: xs(320), sm(375), md(425) phones, lg(768) tablet, xl(1024 NAV SWITCH), 2xl(1440) large laptop, 3xl(2560) desktop
 
 ### Layout Width Standard (October 2025)
 
@@ -698,11 +698,29 @@ script: [
 
 ### Responsive Strategy
 
-**Mobile-first with desktop enhancements:**
-- Base styles = mobile
-- `md:` prefix = tablets+ (768px), enable glassmorphism/video
-- `lg:` prefix = laptops+ (900px)
-- Desktop-only features: backdrop blur, video backgrounds, glassmorphism
+**7-tier breakpoint system (December 2025):**
+
+| Tier | Value   | Device | Key Behaviors |
+|------|---------|--------|---------------|
+| xs   | 320px   | Small phone | Minimum supported width |
+| sm   | 375px   | Medium phone | iPhone SE, standard phones |
+| md   | 425px   | Large phone | iPhone Plus, large phones |
+| lg   | 768px   | Tablet | 2-column grids, glassmorphism enabled |
+| xl   | 1024px  | Laptop | **NAV/TABS SWITCH** - desktop navigation appears |
+| 2xl  | 1440px  | Large laptop | Full 3-column layouts, spacious spacing |
+| 3xl  | 2560px  | Desktop | Ultra-wide, 4K displays |
+
+**Mobile-first with progressive enhancement:**
+- Base styles = below minimum (edge cases)
+- `xs:` = small phones (320-374px)
+- `sm:` = medium phones (375-424px)
+- `md:` = large phones (425-767px)
+- `lg:` = tablets (768-1023px), enable glassmorphism/video
+- `xl:` = laptops (1024-1439px), desktop nav/tabs
+- `2xl:` = large laptops (1440-2559px), full layouts
+- `3xl:` = desktops (2560px+), 4K optimization
+
+**Single source of truth:** `tailwind.config.ts` and `constants.ts` (NAV_BREAKPOINT=1024)
 
 ### Dynamic Header Integration
 

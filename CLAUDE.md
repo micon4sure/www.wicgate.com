@@ -37,6 +37,10 @@ npm run build        # Production build (SSG + PWA)
 8. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
 9. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, etc.)
 10. ⚠️ Security considerations → See [docs/security.md](docs/security.md) for XSS prevention, auth best practices
+11. ✅ ALWAYS use 4-tier breakpoints: xs(320px), sm(768px), md(1024px), lg(1440px)
+    - ❌ NEVER use xl, 2xl, 3xl, 4xl tiers (removed)
+    - ❌ NEVER use arbitrary breakpoint values in CSS media queries
+    - Nav/tabs switch at md (1024px) - use `NAV_BREAKPOINT` from constants.ts
 
 ---
 
@@ -66,4 +70,4 @@ npm run build        # Production build (SSG + PWA)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** December 23, 2025
+**Updated:** December 27, 2025

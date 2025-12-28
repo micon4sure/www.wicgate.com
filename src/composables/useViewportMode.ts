@@ -1,11 +1,11 @@
 /**
  * Viewport mode detection for responsive hybrid navigation
- * Mobile (<850px): Single-page scroll experience
- * Desktop (>=850px): Multi-page route-based experience
+ * Mobile (<1024px): Single-page scroll experience (phones + tablets)
+ * Desktop (>=1024px): Multi-page route-based experience (laptops + desktops)
  */
 
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { DESKTOP_BREAKPOINT } from '../constants';
+import { NAV_BREAKPOINT } from '../constants';
 
 export function useViewportMode() {
   // SSR-safe: default to desktop mode during SSG
@@ -25,7 +25,7 @@ export function useViewportMode() {
   onMounted(() => {
     if (typeof window === 'undefined') return;
 
-    mediaQuery = window.matchMedia(`(min-width: ${DESKTOP_BREAKPOINT}px)`);
+    mediaQuery = window.matchMedia(`(min-width: ${NAV_BREAKPOINT}px)`);
     isDesktop.value = mediaQuery.matches;
     mediaQuery.addEventListener('change', handleMediaChange);
   });

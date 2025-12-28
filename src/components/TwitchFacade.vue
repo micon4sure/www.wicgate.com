@@ -79,11 +79,11 @@ onActivated(() => {
         </div>
 
         <!-- Stream info (bottom) -->
-        <div class="absolute bottom-0 left-0 right-0 z-10 p-3 md:p-4">
-          <p class="text-white font-semibold text-sm md:text-base line-clamp-1 mb-1">
+        <div class="absolute bottom-0 left-0 right-0 z-10 p-3 lg:p-4">
+          <p class="text-white font-semibold text-sm lg:text-base line-clamp-1 mb-1">
             {{ stream.title }}
           </p>
-          <div class="flex items-center gap-3 text-white/80 text-xs md:text-sm">
+          <div class="flex items-center gap-3 text-white/80 text-xs lg:text-sm">
             <span class="flex items-center gap-1">
               <i class="fa-solid fa-eye"></i>
               {{ stream.viewer_count.toLocaleString() }}

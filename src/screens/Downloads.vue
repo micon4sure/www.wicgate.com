@@ -23,11 +23,11 @@ const tabs = [
       <!-- Header -->
       <div class="text-center mb-12">
         <h2
-          class="text-5xl md:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
+          class="text-5xl lg:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
           Downloads
         </h2>
-        <p class="text-lg md:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
+        <p class="text-lg lg:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
           Choose your installation method and join the battlefield
         </p>
       </div>
@@ -36,14 +36,14 @@ const tabs = [
       <TabContainer :tabs="tabs" aria-label="Download methods">
         <!-- Tab 1: Quick Install -->
         <template #quick>
-          <div class="py-8 md:py-12">
+          <div class="py-8 lg:py-12">
             <div class="text-center mb-10">
               <h3
-                class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
+                class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
               >
                 Recommended for Most Users
               </h3>
-              <p class="text-base md:text-lg text-t-secondary font-body">
+              <p class="text-base lg:text-lg text-t-secondary font-body">
                 WIC LIVE is the fastest way to get playing with one-click installation
               </p>
             </div>
@@ -72,7 +72,7 @@ const tabs = [
 
                     <div v-if="s.n === 2" class="mt-4">
                       <a id="downloadClientBtn" :href="WICLIVE_URL" class="hero-cta">
-                        <i class="fa-solid fa-download text-xl sm:text-lg" aria-hidden="true"></i>
+                        <i class="fa-solid fa-download text-xl lg:text-lg" aria-hidden="true"></i>
                         <span>DOWNLOAD NOW</span>
                       </a>
                     </div>
@@ -85,19 +85,19 @@ const tabs = [
 
         <!-- Tab 2: Dedicated Server -->
         <template #server>
-          <div class="py-8 md:py-12">
+          <div class="py-8 lg:py-12">
             <div class="text-center mb-10">
               <h3
-                class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
+                class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
               >
                 Host Your Own 24/7 Server
               </h3>
-              <p class="text-base md:text-lg text-t-secondary font-body">
+              <p class="text-base lg:text-lg text-t-secondary font-body">
                 Run a dedicated World in Conflict server for your community
               </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
+            <div class="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-8">
               <!-- Server Steps -->
               <div class="flex flex-col gap-4">
                 <div v-for="step in dedicatedServerSteps" :key="step.n" class="step-card">
@@ -162,14 +162,14 @@ const tabs = [
 
         <!-- Tab 3: Manual Install -->
         <template #manual>
-          <div class="py-8 md:py-12">
+          <div class="py-8 lg:py-12">
             <div class="text-center mb-10">
               <h3
-                class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
+                class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
               >
                 Advanced Users Only
               </h3>
-              <p class="text-base md:text-lg text-t-secondary font-body">
+              <p class="text-base lg:text-lg text-t-secondary font-body">
                 Install WICGATE components individually (unsupported)
               </p>
             </div>

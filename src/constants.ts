@@ -22,11 +22,21 @@ export const DEBOUNCE_RESIZE = 150; // Resize handler debounce (ms)
 // Timers
 export const EVENT_COUNTDOWN_INTERVAL = 1000; // Update countdown every second
 
-// Layout Breakpoints
-// Used in JavaScript responsive logic and CSS @media queries (often hardcoded in CSS)
-export const MOBILE_BREAKPOINT = 768; // Mobile/tablet breakpoint (px)
-export const DESKTOP_BREAKPOINT = 850; // Desktop/mobile responsive layout (matches Tailwind lg)
-export const TABLET_BREAKPOINT = 1024; // Tablet/desktop breakpoint (px)
+// Layout Breakpoints (7-tier system)
+// xs: 320px (small phone), sm: 375px (medium phone), md: 425px (large phone),
+// lg: 768px (tablet), xl: 1024px (laptop), 2xl: 1440px (large laptop), 3xl: 2560px (desktop)
+export const BREAKPOINTS = {
+  XS: 320, // Small phone
+  SM: 375, // Medium phone
+  MD: 425, // Large phone
+  LG: 768, // Tablet
+  XL: 1024, // Laptop - NAV/TABS SWITCH POINT
+  XXL: 1440, // Large laptop
+  XXXL: 2560, // Desktop
+} as const;
+
+// Nav/tabs switch at this breakpoint (matches Tailwind xl)
+export const NAV_BREAKPOINT = BREAKPOINTS.XL;
 
 // Storage Keys
 export const STORAGE_KEYS = {

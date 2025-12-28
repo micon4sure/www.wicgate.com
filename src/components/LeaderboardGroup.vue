@@ -5,7 +5,7 @@ import RankInsignia from './RankInsignia.vue';
 import MobileTabDropdown from './MobileTabDropdown.vue';
 import { useMobileTabs } from '../composables/useMobileTabs';
 import { debounce } from '../utils/debounce';
-import { DEBOUNCE_RESIZE, MOBILE_BREAKPOINT, TABLET_BREAKPOINT } from '../constants';
+import { DEBOUNCE_RESIZE, BREAKPOINTS } from '../constants';
 
 // Copy link state
 const showCopiedToast = ref(false);
@@ -125,15 +125,18 @@ function selectMobileTab(tabId: string) {
   active.value = tabId;
 }
 
-// Responsive RankInsignia sizing
-const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : TABLET_BREAKPOINT);
+// Responsive RankInsignia sizing (7-tier system)
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : BREAKPOINTS.XL);
 
 const rankInsigniaSize = computed(() => {
-  if (windowWidth.value <= 360) return 16;
-  if (windowWidth.value <= 480) return 18;
-  if (windowWidth.value <= MOBILE_BREAKPOINT) return 20;
-  if (windowWidth.value <= TABLET_BREAKPOINT) return 22;
-  return 24;
+  if (windowWidth.value < BREAKPOINTS.XS) return 14; // Below xs (edge case)
+  if (windowWidth.value < BREAKPOINTS.SM) return 16; // xs: 320-374 (small phone)
+  if (windowWidth.value < BREAKPOINTS.MD) return 17; // sm: 375-424 (medium phone)
+  if (windowWidth.value < BREAKPOINTS.LG) return 18; // md: 425-767 (large phone)
+  if (windowWidth.value < BREAKPOINTS.XL) return 20; // lg: 768-1023 (tablet)
+  if (windowWidth.value < BREAKPOINTS.XXL) return 22; // xl: 1024-1439 (laptop)
+  if (windowWidth.value < BREAKPOINTS.XXXL) return 24; // 2xl: 1440-2559 (desktop)
+  return 26; // 3xl: 2560+ (large desktop)
 });
 
 function updateWindowWidth() {

@@ -106,11 +106,11 @@ watch(showPlaceholder, (newVal, oldVal) => {
       <!-- Header -->
       <div class="text-center mb-20">
         <h2
-          class="text-5xl md:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
+          class="text-5xl lg:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
           Statistics
         </h2>
-        <p class="text-lg md:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
+        <p class="text-lg lg:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
           Player rankings and competitive leaderboards
         </p>
       </div>

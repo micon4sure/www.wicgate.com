@@ -204,25 +204,23 @@
   .tab-btn-nav {
     @apply h-full flex items-center justify-center text-center;
     @apply whitespace-nowrap overflow-hidden text-ellipsis;
-    /* Tier 1 (lg 850-900px): Most compact */
+    /* md (1024px-1439px): Compact nav buttons */
     @apply text-xs px-2.5 min-w-[70px] max-w-[110px];
-    /* Tier 2 (xl 900-1000px): Slightly more room */
-    @apply xl:px-3 xl:min-w-[75px] xl:max-w-[120px];
-    /* Tier 3 (2xl 1000-1100px): Getting comfortable */
-    @apply 2xl:text-sm 2xl:min-w-[80px] 2xl:max-w-[130px];
-    /* Tier 4 (3xl 1100px+): Full comfort */
-    @apply 3xl:px-4 3xl:min-w-[85px] 3xl:max-w-[145px];
+    /* 2xl (1440px+): Full comfort, larger screens */
+    @apply 2xl:text-sm 2xl:px-4 2xl:min-w-[85px] 2xl:max-w-[145px];
   }
 
   /* Mobile navigation link (Red gradient active states like desktop) */
+  /* Only visible below md (1024px) - 2 tiers: xs (320-767) and sm (768-1023) */
   .nav-mobile-link {
-    @apply flex items-center w-full py-6 px-8 min-h-[72px];
-    @apply no-underline font-military text-xl font-medium uppercase tracking-wider;
+    @apply flex items-center w-full py-4 px-5 min-h-[60px];
+    @apply no-underline font-military text-base font-medium uppercase tracking-wider;
     @apply bg-transparent transition-all duration-300;
     @apply relative overflow-hidden text-center justify-center;
-    @apply md:min-h-[68px] md:py-5 md:px-7 md:text-lg;
-    @apply sm:min-h-16 sm:py-[18px] sm:px-6 sm:text-[17px];
-    @apply xs:min-h-[60px] xs:py-4 xs:px-5 xs:text-base xs:tracking-wider;
+    /* xs (320px+): Phone-sized, comfortable */
+    @apply xs:py-[18px] xs:px-6 xs:min-h-16 xs:text-[17px];
+    /* lg (768px+): Tablet-sized, larger touch targets */
+    @apply lg:min-h-[68px] lg:py-5 lg:px-7 lg:text-lg;
     @apply text-t-secondary;
     @apply border-b border-b-white/10;
   }
@@ -446,7 +444,7 @@
 
   /* Players Modal Grid - screenshot-friendly layout */
   .players-modal-grid {
-    @apply grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+    @apply grid gap-4 grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3;
   }
 
   /* Dashboard card body */
@@ -565,13 +563,13 @@
     @apply flex items-center gap-3 py-5 px-6 pb-4 border-b border-mg/30;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1023px) {
     .widget-header {
       @apply py-4 px-5 pb-3;
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .widget-header {
       @apply py-3.5 px-4 pb-2.5 gap-2.5;
     }
@@ -583,7 +581,7 @@
     @apply bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border-2 border-massgate-orange-dark text-ink;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .widget-header-icon {
       @apply w-9 h-9 text-lg;
     }
@@ -600,7 +598,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .widget-header-title {
       @apply text-base;
     }
@@ -611,13 +609,13 @@
     @apply flex-1 py-5 px-6 flex flex-col gap-4;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1023px) {
     .widget-body {
       @apply py-4 px-5;
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .widget-body {
       @apply py-3.5 px-4 gap-3;
     }
@@ -628,13 +626,13 @@
     @apply py-4 px-6 border-t border-mg/30 bg-gradient-to-b from-mg/10 to-mg-dark/20;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1023px) {
     .widget-footer {
       @apply py-3 px-5;
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .widget-footer {
       @apply py-2.5 px-4;
     }
@@ -681,13 +679,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .header-container {
       @apply h-[60px] min-h-[60px] px-4;
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .header-container {
       @apply px-3;
     }
@@ -704,7 +702,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .logo-wrapper {
       @apply min-w-[140px];
     }
@@ -720,7 +718,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .logo-title {
       @apply text-lg;
     }
@@ -736,7 +734,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .logo-image {
       @apply h-8;
     }
@@ -752,7 +750,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .logo-subtitle {
       @apply text-[9px];
     }
@@ -780,7 +778,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .hamburger-btn {
       @apply w-11 h-11 p-2;
     }
@@ -796,7 +794,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .hamburger-line {
       @apply w-5;
     }
@@ -853,13 +851,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .tab-btn-s {
       @apply p-[8px_10px] text-[0.75rem];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .tab-btn-s {
       @apply p-[0.5rem_0.625rem] text-[0.7rem];
     }
@@ -876,13 +874,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .tab-btn-xs {
       @apply p-[8px_10px] text-[0.7rem];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .tab-btn-xs {
       @apply p-[0.5rem_0.5rem] text-[0.65rem];
     }
@@ -894,13 +892,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .tab-btn {
       @apply p-[8px_10px] text-[0.85rem];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .tab-btn {
       @apply p-[0.5rem_0.625rem] text-[0.8rem];
     }
@@ -918,13 +916,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .tab-btn-leaderboard {
       @apply text-[0.75rem] p-[8px_10px];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .tab-btn-leaderboard {
       @apply text-[0.7rem] p-[6px_8px];
     }
@@ -1022,7 +1020,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .tab-btn-sub {
       @apply py-4 px-5 text-[0.9rem];
     }
@@ -1112,7 +1110,7 @@
   }
 
   /* Small screen adjustments */
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .tab-mobile-trigger {
       @apply px-4 py-3.5 text-base;
     }
@@ -1122,7 +1120,7 @@
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .tab-mobile-trigger {
       @apply px-3 py-3 text-base;
     }
@@ -1188,7 +1186,7 @@
   }
 
   /* Small screen adjustments for sub-tabs */
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .tab-mobile-trigger-sub {
       @apply px-3 py-2.5 text-base;
     }
@@ -1209,7 +1207,7 @@
 
   /* Step card with sticky positioning (for sidebars) */
   .step-card-sticky {
-    @apply step-card h-fit lg:sticky lg:top-24;
+    @apply step-card h-fit xl:sticky xl:top-24;
   }
 
   /* Step number badge */
@@ -1358,13 +1356,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .lb-row {
       @apply min-h-[2.75rem] h-[2.75rem];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .lb-row {
       @apply min-h-10 h-10;
     }
@@ -1391,13 +1389,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .lb-cell {
       @apply p-2 min-h-[2.75rem] h-[2.75rem];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .lb-cell {
       @apply p-1.5 min-h-10 h-10;
     }
@@ -1420,13 +1418,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .lb-cell-rank {
       @apply w-[3.125rem] text-[1rem];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .lb-cell-rank {
       @apply w-[2.75rem] text-[0.9rem];
     }
@@ -1449,13 +1447,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .lb-cell-score {
       @apply text-[0.95rem];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .lb-cell-score {
       @apply text-[0.85rem];
     }
@@ -1483,7 +1481,7 @@
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .lb-clan-tag {
       @apply text-[0.65rem];
     }
@@ -1507,13 +1505,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .lb-player-name {
       @apply text-[0.95rem];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .lb-player-name {
       @apply text-[0.9rem];
     }
@@ -1555,7 +1553,7 @@
   }
 
   .video-card-title {
-    @apply m-0 mb-1.5 text-sm md:text-base leading-snug;
+    @apply m-0 mb-1.5 text-sm lg:text-base leading-snug;
     @apply text-t font-body font-semibold line-clamp-2;
   }
 
@@ -1651,13 +1649,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .leaderboard-header {
       @apply p-[10px_12px];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .leaderboard-header {
       @apply p-[0.625rem_0.75rem];
     }
@@ -1743,7 +1741,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .col-rank {
       width: 28px;
       min-width: 28px;
@@ -1758,7 +1756,7 @@
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .col-rank {
       width: 24px;
       min-width: 24px;
@@ -1792,14 +1790,14 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .col-score {
       width: 6.25rem;
       min-width: 6.25rem;
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .col-score {
       width: 5.5rem;
       min-width: 5.5rem;
@@ -1842,7 +1840,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .leaderboard-cell {
       @apply p-2 min-h-[2.75rem] h-[2.75rem];
     }
@@ -1851,7 +1849,7 @@
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .leaderboard-cell {
       @apply p-1.5 min-h-10 h-10;
     }
@@ -1877,13 +1875,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .leaderboard-rank-cell {
       @apply w-[3.125rem] text-[1rem];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .leaderboard-rank-cell {
       @apply w-[2.75rem] text-[0.9rem];
     }
@@ -1925,7 +1923,7 @@
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .clan-tag {
       @apply text-[0.65rem];
     }
@@ -1949,13 +1947,13 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .player-name {
       @apply text-[0.95rem];
     }
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 319px) {
     .player-name {
       @apply text-[0.9rem];
     }
@@ -1967,9 +1965,9 @@
     @apply transition-all duration-300 flex flex-col min-h-[280px];
     @apply cursor-pointer;
 
-    /* Glass effect for desktop */
-    @apply md:backdrop-blur-md md:bg-black/30 md:border md:border-white/20;
-    @apply md:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)];
+    /* Glass effect for tablet+ (768px+) */
+    @apply lg:backdrop-blur-md lg:bg-black/30 lg:border lg:border-white/20;
+    @apply lg:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)];
 
     /* Solid background for mobile (performance) */
     @apply bg-gradient-to-b from-texture-panel to-texture-dark;
@@ -1978,7 +1976,7 @@
 
   @media (hover: hover) and (min-width: 768px) {
     .widget:hover {
-      @apply md:bg-black/40;
+      @apply lg:bg-black/40;
       /* Orange border on hover */
       border-color: rgba(255, 102, 0, 0.7);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
@@ -2266,7 +2264,7 @@
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .hero-section {
       @apply min-h-[85vh];
     }
@@ -2330,7 +2328,7 @@
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .hero-main-card {
       @apply px-4 py-8;
     }
@@ -2338,7 +2336,7 @@
 
   /* Hero widget grid (media/event and info cards) */
   .hero-widget-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 md:mb-12 xl:mb-16;
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10 lg:mb-12 2xl:mb-16;
   }
 
   /* Hero atmospheric overlay (gradient backgrounds) */
@@ -2374,7 +2372,7 @@
     box-shadow: 0 0 15px rgba(255, 102, 0, 0.15);
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .hero-badge {
       @apply py-[5px] px-3 text-[11px] mb-4;
     }
@@ -2388,7 +2386,7 @@
             drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
   }
 
-  @media (max-width: 1280px) {
+  @media (max-width: 1439px) {
     .hero-wic-logo {
       height: 80px; /* h-20 equivalent */
       @apply mb-5;
@@ -2396,7 +2394,7 @@
   }
 
   /* Laptop-specific optimizations (1024px-1280px) to improve widget visibility */
-  @media (min-width: 1024px) and (max-width: 1280px) {
+  @media (min-width: 1024px) and (max-width: 1439px) {
     /* Reduce hero card vertical padding */
     .hero-main-card {
       @apply py-12; /* Reduced from py-16 (64px → 48px per side = -32px total) */
@@ -2431,14 +2429,14 @@
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .hero-wic-logo {
       height: 56px; /* h-14 equivalent */
       @apply mb-3;
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .hero-wic-logo {
       height: 48px; /* h-12 equivalent */
     }
@@ -2456,7 +2454,7 @@
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .hero-title {
       @apply mb-2;
     }
@@ -2469,13 +2467,13 @@
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
   }
 
-  @media (max-width: 1280px) {
+  @media (max-width: 1439px) {
     .hero-subtitle {
       @apply text-3xl;
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .hero-subtitle {
       @apply text-2xl;
     }
@@ -2487,13 +2485,13 @@
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
   }
 
-  @media (max-width: 1280px) {
+  @media (max-width: 1439px) {
     .hero-desc {
       @apply text-base;
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .hero-desc {
       @apply text-sm;
     }
@@ -2504,7 +2502,7 @@
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
   }
 
-  @media (max-width: 1280px) {
+  @media (max-width: 1439px) {
     .hero-desc-secondary {
       @apply text-[0.9375rem];
     }
@@ -2516,7 +2514,7 @@
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .hero-desc-secondary {
       @apply text-[0.8125rem];
     }
@@ -2552,13 +2550,23 @@
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .hero-primer-link-top-right {
       top: 0.5rem !important;
       right: 0.5rem !important;
       padding: 0.4rem 0.6rem !important;
       font-size: 0.7rem !important;
       gap: 0.25rem !important;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .hero-primer-link-top-right {
+      top: 0.375rem !important;
+      right: 0.375rem !important;
+      padding: 0.3rem 0.5rem !important;
+      font-size: 0.65rem !important;
+      gap: 0.2rem !important;
     }
   }
 
@@ -2574,7 +2582,7 @@
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .hero-cta {
       @apply px-8 py-4 text-lg;
     }
@@ -2588,7 +2596,7 @@
     @apply transition-all duration-300;
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1440px) {
     .auth-btn {
       @apply px-4;
     }
@@ -2810,13 +2818,13 @@
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     .twitch-play-btn {
       @apply px-6 py-4 text-sm;
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .twitch-play-btn {
       @apply px-6 py-4 text-[0.9rem] gap-2;
     }
@@ -3352,11 +3360,11 @@
   }
 
   .error-actions {
-    @apply flex gap-4 justify-center flex-wrap mb-6 md:flex-col;
+    @apply flex gap-4 justify-center flex-wrap mb-6 lg:flex-col;
   }
 
   .error-actions .btn {
-    @apply md:w-full;
+    @apply lg:w-full;
   }
 
   .error-details {
@@ -3602,7 +3610,7 @@
   /* ========== HELP CTA BOX ========== */
 
   .help-cta-box {
-    @apply mt-8 border border-teal/20 rounded-none p-6 md:p-8 text-center;
+    @apply mt-8 border border-teal/20 rounded-none p-6 lg:p-8 text-center;
     background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
   }
 
@@ -3646,7 +3654,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .overlay-header,
     .overlay-content {
       @apply py-4 px-4;

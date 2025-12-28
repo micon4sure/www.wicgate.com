@@ -68,11 +68,11 @@ const selectedVideo = ref<YouTubeVideo | null>(null);
       <!-- Header -->
       <div class="text-center mb-20">
         <h2
-          class="text-5xl md:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
+          class="text-5xl lg:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
           Community
         </h2>
-        <p class="text-lg md:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
+        <p class="text-lg lg:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
           Watch live streams and videos from the WiC community
         </p>
       </div>
@@ -81,22 +81,22 @@ const selectedVideo = ref<YouTubeVideo | null>(null);
       <div id="streams" class="mb-20">
         <!-- Subsection Header -->
         <div class="text-center mb-8">
-          <h3 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider">
+          <h3 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider">
             Live Streams
           </h3>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
           <div v-for="u in twitchUsernames" :key="u" class="card p-0 overflow-hidden">
             <TwitchFacade :channel="u" muted />
             <a
               :href="`https://twitch.tv/${u}`"
               target="_blank"
-              class="p-3 md:p-4 flex justify-center items-center border-t border-teal/10 no-underline text-inherit hover:bg-mg/30 transition-colors"
+              class="p-3 lg:p-4 flex justify-center items-center border-t border-teal/10 no-underline text-inherit hover:bg-mg/30 transition-colors"
               :aria-label="`Visit ${u} on Twitch`"
             >
               <strong
-                class="text-massgate-gold font-military font-semibold uppercase tracking-wide text-sm md:text-base"
+                class="text-massgate-gold font-military font-semibold uppercase tracking-wide text-sm lg:text-base"
                 >{{ u }}</strong
               >
             </a>
@@ -108,7 +108,7 @@ const selectedVideo = ref<YouTubeVideo | null>(null);
       <div id="videos" class="mb-20">
         <!-- Subsection Header -->
         <div class="text-center mb-8">
-          <h3 class="text-2xl md:text-3xl font-military font-bold text-t uppercase tracking-wider">
+          <h3 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider">
             Latest Videos
           </h3>
         </div>
@@ -119,11 +119,11 @@ const selectedVideo = ref<YouTubeVideo | null>(null);
         <TabContainer v-else :tabs="videoTabs" aria-label="Video categories">
           <!-- Tab: Latest Videos -->
           <template #videos-latest>
-            <div class="py-8 md:py-10">
+            <div class="py-8 lg:py-10">
               <div v-if="ytVideosSorted.length === 0" class="text-t3 text-center py-10">
                 No videos available
               </div>
-              <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div v-else class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
                 <div v-for="v in top6NYTVideos" :key="v.id || v.videoUrl" class="video-card">
                   <button
                     type="button"
@@ -141,7 +141,7 @@ const selectedVideo = ref<YouTubeVideo | null>(null);
                         <i class="fa-solid fa-play" aria-hidden="true"></i>
                       </div>
                     </div>
-                    <div class="p-3 md:p-4">
+                    <div class="p-3 lg:p-4">
                       <h4 class="video-card-title">
                         {{ v.title }}
                       </h4>
@@ -161,7 +161,7 @@ const selectedVideo = ref<YouTubeVideo | null>(null);
 
           <!-- Tabs: Content Creators -->
           <template v-for="ch in channelsList" :key="ch.channelId" #[`videos-${ch.channelId}`]>
-            <div class="py-8 md:py-10">
+            <div class="py-8 lg:py-10">
               <!-- Creator Channel Link -->
               <div class="flex justify-center mb-6">
                 <a
@@ -176,7 +176,7 @@ const selectedVideo = ref<YouTubeVideo | null>(null);
               </div>
 
               <!-- Creator Videos -->
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-5">
                 <div v-for="v in ch.videos" :key="v.id" class="video-card">
                   <button
                     type="button"
@@ -194,7 +194,7 @@ const selectedVideo = ref<YouTubeVideo | null>(null);
                         <i class="fa-solid fa-play" aria-hidden="true"></i>
                       </div>
                     </div>
-                    <div class="p-3 md:p-4">
+                    <div class="p-3 lg:p-4">
                       <h4 class="video-card-title">
                         {{ v.title }}
                       </h4>
