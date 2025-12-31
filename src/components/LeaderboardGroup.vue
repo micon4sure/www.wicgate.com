@@ -16,15 +16,19 @@ const { isMobile } = useMobileTabs();
 
 // Category icons for mobile dropdown
 const categoryIcons: Record<string, string> = {
-  overall: 'fa-solid fa-chart-simple',
-  infantry: 'fa-solid fa-person-rifle',
-  armor: 'fa-solid fa-truck-monster',
-  air: 'fa-solid fa-jet-fighter',
-  support: 'fa-solid fa-screwdriver-wrench',
+  total: 'fa-solid fa-chart-simple',
+  infantry: '/infantry.png',
+  armor: '/armor.png',
+  air: '/air.png',
+  support: '/support.png',
 };
 
 function getCategoryIcon(category: string): string {
-  return categoryIcons[category] || 'fa-solid fa-trophy';
+  return categoryIcons[category] || '';
+}
+
+function isImageIcon(icon: string): boolean {
+  return icon.endsWith('.png');
 }
 
 function copyLeaderboardLink() {
@@ -32,7 +36,7 @@ function copyLeaderboardLink() {
 
   // Build URL with current tab if applicable
   let hash = props.id;
-  if (props.categories.length > 1 && active.value !== 'overall') {
+  if (props.categories.length > 1 && active.value !== 'total') {
     hash = `${props.id}-${active.value}`;
   }
 
@@ -181,8 +185,8 @@ onUnmounted(() => {
           tabindex="0"
           class="lb-copy-link-btn absolute right-3 top-1/2 -translate-y-1/2"
           :class="copied ? 'is-copied' : ''"
-          :title="`Copy link to ${title}${categories.length > 1 && active !== 'overall' ? ': ' + active.charAt(0).toUpperCase() + active.slice(1) : ''}`"
-          :aria-label="`Copy link to ${title}${categories.length > 1 && active !== 'overall' ? ': ' + active.charAt(0).toUpperCase() + active.slice(1) : ''}`"
+          :title="`Copy link to ${title}${categories.length > 1 && active !== 'total' ? ': ' + active.charAt(0).toUpperCase() + active.slice(1) : ''}`"
+          :aria-label="`Copy link to ${title}${categories.length > 1 && active !== 'total' ? ': ' + active.charAt(0).toUpperCase() + active.slice(1) : ''}`"
           @click.stop="copyLeaderboardLink"
           @keydown.enter.stop.prevent="copyLeaderboardLink"
           @keydown.space.stop.prevent="copyLeaderboardLink"
@@ -211,10 +215,22 @@ onUnmounted(() => {
         <button
           v-for="c in categories"
           :key="c"
-          class="tab-btn-leaderboard"
+          class="tab-btn-leaderboard flex flex-col items-center"
           :class="{ 'tab-btn-active': active === c }"
           @click="active = c"
         >
+          <img
+            v-if="getCategoryIcon(c) && isImageIcon(getCategoryIcon(c))"
+            :src="getCategoryIcon(c)"
+            class="w-8 h-8"
+            aria-hidden="true"
+          />
+          <i
+            v-else-if="getCategoryIcon(c)"
+            :class="getCategoryIcon(c)"
+            class="text-2xl"
+            aria-hidden="true"
+          ></i>
           {{ formatCategoryLabel(c) }}
         </button>
       </div>

@@ -40,6 +40,10 @@ const activeTab = computed(
   () => props.tabs.find((t) => t.id === props.activeTabId) ?? props.tabs[0]
 );
 
+function isImageIcon(icon?: string): boolean {
+  return !!icon && icon.endsWith('.png');
+}
+
 const filteredTabs = computed(() => props.tabs.filter((t) => t.id !== props.activeTabId));
 
 function handleSelect(tabId: string) {
@@ -63,8 +67,13 @@ defineExpose({
       @click="toggleDropdown"
     >
       <div class="flex items-center gap-3">
-        <i class="fa-solid fa-bars" aria-hidden="true"></i>
-        <i v-if="activeTab?.icon" :class="activeTab.icon" aria-hidden="true"></i>
+        <img
+          v-if="isImageIcon(activeTab?.icon)"
+          :src="activeTab?.icon"
+          class="w-6 h-6"
+          aria-hidden="true"
+        />
+        <i v-else-if="activeTab?.icon" :class="activeTab.icon" aria-hidden="true"></i>
         <span class="tab-mobile-trigger-label">{{ formatLabel(activeTab?.label ?? '') }}</span>
         <slot name="trigger-badge" :active-tab="activeTab" />
       </div>
@@ -91,7 +100,13 @@ defineExpose({
           class="tab-mobile-option-sub"
           @click="handleSelect(tab.id)"
         >
-          <i v-if="tab.icon" :class="tab.icon" class="mr-3" aria-hidden="true"></i>
+          <img
+            v-if="isImageIcon(tab.icon)"
+            :src="tab.icon"
+            class="w-6 h-6 mr-3"
+            aria-hidden="true"
+          />
+          <i v-else-if="tab.icon" :class="tab.icon" class="mr-3" aria-hidden="true"></i>
           {{ formatLabel(tab.label) }}
           <slot name="option-badge" :tab="tab" />
         </button>

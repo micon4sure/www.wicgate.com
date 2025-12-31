@@ -50,7 +50,7 @@ function handleHashNavigation() {
       let tabName = '';
 
       // Check for category suffix
-      const categories = ['overall', 'infantry', 'armor', 'air', 'support'];
+      const categories = ['total', 'infantry', 'armor', 'air', 'support'];
       const lastPart = parts[parts.length - 1];
       if (lastPart && categories.includes(lastPart) && parts.length > 2) {
         tabName = lastPart;

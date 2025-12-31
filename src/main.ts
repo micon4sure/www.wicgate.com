@@ -91,7 +91,7 @@ export const createApp = ViteSSG(
 
             // If element not found, try parsing as compound hash (e.g., "total-scores-armor" -> "total-scores")
             if (!element) {
-              const categories = ['overall', 'infantry', 'armor', 'air', 'support'];
+              const categories = ['total', 'infantry', 'armor', 'air', 'support'];
               const parts = targetId.split('-');
               const lastPart = parts[parts.length - 1] ?? '';
               if (categories.includes(lastPart) && parts.length > 2) {

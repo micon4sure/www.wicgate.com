@@ -15,16 +15,16 @@ const highScoresRef = ref<InstanceType<typeof LeaderboardGroup> | null>(null);
 const totalScoresRef = ref<InstanceType<typeof LeaderboardGroup> | null>(null);
 
 // Shared categories for high/total breakdown
-const categories = ['overall', 'infantry', 'armor', 'air', 'support'];
+const categories = ['total', 'infantry', 'armor', 'air', 'support'];
 const highKeys: Record<string, string> = {
-  overall: 'lb_high',
+  total: 'lb_high',
   infantry: 'lb_highinf',
   armor: 'lb_higharm',
   air: 'lb_highair',
   support: 'lb_highsup',
 };
 const totalKeys: Record<string, string> = {
-  overall: 'lb_total',
+  total: 'lb_total',
   infantry: 'lb_totinf',
   armor: 'lb_totarm',
   air: 'lb_totair',
