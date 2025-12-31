@@ -1574,6 +1574,14 @@
     @apply border-teal/40;
   }
 
+  .faq-question-header {
+    @apply transition-all duration-200;
+  }
+
+  .faq-item-open .faq-question-header {
+    background: linear-gradient(to bottom, #4a1f5c, #2d1236);
+  }
+
   /* FAQ list styling */
   .faq-item ol {
     @apply pl-0 my-3 space-y-2;

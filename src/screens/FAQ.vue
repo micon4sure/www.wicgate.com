@@ -195,7 +195,7 @@ onMounted(() => {
               >
                 <!-- Question Header (Clickable) -->
                 <button
-                  class="w-full flex items-start gap-4 p-5 lg:p-6 text-left transition-all duration-200 group"
+                  class="faq-question-header w-full flex items-start gap-4 p-5 lg:p-6 text-left transition-all duration-200 group"
                   @click="toggleQuestion(item.q)"
                 >
                   <!-- Question Icon Badge (similar to Downloads numbered badges) -->
