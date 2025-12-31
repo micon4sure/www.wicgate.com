@@ -465,7 +465,8 @@
   }
 
   .server-group-header {
-    @apply flex items-center justify-between gap-2 px-3 py-2 bg-mg/25 border-b border-mg/30;
+    @apply flex items-center justify-between gap-2 px-3 py-2 border-b border-mg/30;
+    background: linear-gradient(to bottom, #4a1f5c, #2d1236);
   }
 
   /* Event card */
@@ -512,7 +513,7 @@
   }
 
   .event-accordion-expanded .event-accordion-header {
-    @apply bg-mg/30;
+    background: linear-gradient(to bottom, #4a1f5c, #2d1236);
   }
 
   .event-accordion-title {
