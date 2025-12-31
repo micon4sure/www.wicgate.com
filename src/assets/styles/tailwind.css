@@ -910,10 +910,6 @@
     @apply text-[0.85rem] p-[12px_16px];
   }
 
-  /* Remove red underline hover effect on desktop leaderboard tabs */
-  .tab-btn-leaderboard::before {
-    display: none;
-  }
 
   @media (max-width: 768px) {
     .tab-btn-leaderboard {
