@@ -10,14 +10,7 @@ import { resolve } from 'path';
 
 const PUBLIC_DIR = resolve(process.cwd(), 'public');
 
-const OG_IMAGES = [
-  'og-default.jpg',
-  'og-home.jpg',
-  'og-downloads.jpg',
-  'og-statistics.jpg',
-  'og-community.jpg',
-  'og-faq.jpg',
-];
+const OG_IMAGES = ['og-default.jpg'];
 
 // Target dimensions for OG images
 const OG_WIDTH = 1200;

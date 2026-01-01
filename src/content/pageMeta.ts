@@ -49,7 +49,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Play World in Conflict online with restored multiplayer servers. Join our active community in epic Cold War battles using the real Massgate code.',
     keywords:
       'world in conflict online, world in conflict multiplayer, world in conflict servers, world in conflict revival, massgate, wic online, wic multiplayer, wic servers, play world in conflict online',
-    ogImage: '/og-home.jpg',
   },
   '/downloads': {
     title: 'World in Conflict Downloads and Installation | WICGATE',
@@ -57,7 +56,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Download and install World in Conflict multiplayer. Quick install with WIC LIVE, host your own dedicated server, or manual installation for advanced users.',
     keywords:
       'world in conflict download, world in conflict install, world in conflict multiplayer setup, world in conflict online install, how to play world in conflict online, wic download, wic install, wic live, wic multiplayer setup',
-    ogImage: '/og-downloads.jpg',
   },
   '/statistics': {
     title: 'World in Conflict Leaderboards and Statistics | WICGATE',
@@ -65,7 +63,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'View World in Conflict player rankings, competitive leaderboards, and match statistics. See top players across all game modes and roles including infantry, armor, air, and support.',
     keywords:
       'world in conflict leaderboards, world in conflict rankings, world in conflict player stats, world in conflict statistics, world in conflict top players, wic leaderboards, wic rankings, wic player stats, wic top players',
-    ogImage: '/og-statistics.jpg',
   },
   '/community': {
     title: 'World in Conflict Community Hub | WICGATE',
@@ -73,7 +70,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Join the World in Conflict community on Discord, watch live streams on Twitch, view latest YouTube videos, and participate in weekly tournaments and events. Active community with 287+ members.',
     keywords:
       'world in conflict community, world in conflict discord, world in conflict tournaments, world in conflict events, world in conflict twitch, world in conflict youtube, wic community, wic discord, wic tournaments, wic streams',
-    ogImage: '/og-community.jpg',
   },
   '/faq': {
     title: 'World in Conflict FAQ and Help | WICGATE',
@@ -81,7 +77,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Frequently asked questions about WICGATE. Learn about the project, Massgate revival, installation help, technical troubleshooting, gameplay features, server hosting, and community information.',
     keywords:
       'world in conflict help, world in conflict faq, world in conflict troubleshooting, world in conflict support, massgate help, wic help, wic faq, wic troubleshooting, wicgate help',
-    ogImage: '/og-faq.jpg',
   },
   // Downloads subsections
   '/downloads/quick': {
@@ -90,7 +85,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Fast and easy World in Conflict multiplayer installation with WIC LIVE. One-click installer that sets up game patches, community maps, and modern system compatibility automatically.',
     keywords:
       'world in conflict quick install, world in conflict easy install, world in conflict one click installer, world in conflict wic live, how to install world in conflict, wic live installer, wic quick install, wic easy setup',
-    ogImage: '/og-downloads.jpg',
   },
   '/downloads/server': {
     title: 'World in Conflict Dedicated Server Setup | WICGATE',
@@ -98,7 +92,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Host your own 24/7 World in Conflict dedicated server. Complete setup guide including server files, network configuration, port forwarding, and hosting requirements.',
     keywords:
       'world in conflict dedicated server, world in conflict server hosting, world in conflict server setup, host world in conflict server, wic dedicated server, wic server hosting, wic ds setup, wic server files',
-    ogImage: '/og-downloads.jpg',
   },
   '/downloads/manual': {
     title: 'World in Conflict Manual Installation Guide | WICGATE',
@@ -106,7 +99,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Advanced manual installation for World in Conflict multiplayer. Install standalone updates, configure hosts file, and add community maps manually for experienced users.',
     keywords:
       'world in conflict manual install, world in conflict advanced setup, world in conflict hosts file, world in conflict standalone update, wic manual install, wic advanced setup',
-    ogImage: '/og-downloads.jpg',
   },
   // Community subsections
   '/community/streams': {
@@ -115,7 +107,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Watch World in Conflict live gameplay streams on Twitch. Follow active streamers, see tournament broadcasts, and join the community during live matches.',
     keywords:
       'world in conflict streams, world in conflict twitch, world in conflict live gameplay, world in conflict streamers, watch world in conflict, wic streams, wic twitch, wic live gameplay',
-    ogImage: '/og-community.jpg',
   },
   '/community/videos': {
     title: 'World in Conflict Videos and Gameplay | WICGATE',
@@ -123,7 +114,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'World in Conflict YouTube videos from community content creators. Watch gameplay highlights, strategy guides, tournament VODs, and tutorials from top players.',
     keywords:
       'world in conflict videos, world in conflict youtube, world in conflict gameplay, world in conflict tutorials, world in conflict strategy, wic videos, wic youtube, wic gameplay, wic tutorials',
-    ogImage: '/og-community.jpg',
   },
   // FAQ subsections
   '/faq/about': {
@@ -132,7 +122,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Learn about the WICGATE project, Massgate revival using official Ubisoft source code, our core values, team, and what makes WICGATE different from other revival projects.',
     keywords:
       'about wicgate, world in conflict revival, massgate revival, world in conflict multiplayer restoration, what is wicgate, wic revival project',
-    ogImage: '/og-faq.jpg',
   },
   '/faq/getting-started': {
     title: 'World in Conflict Getting Started Guide | WICGATE',
@@ -140,7 +129,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Beginner guide to playing World in Conflict online. Learn how to get the game, connect to WICGATE servers, recover lost CD keys, and start playing multiplayer.',
     keywords:
       'world in conflict beginner guide, how to play world in conflict, world in conflict setup guide, world in conflict multiplayer guide, world in conflict cd key, wic beginner guide, wic setup guide, getting started world in conflict',
-    ogImage: '/og-faq.jpg',
   },
   '/faq/technical': {
     title: 'World in Conflict Technical Support and Fixes | WICGATE',
@@ -148,7 +136,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Fix World in Conflict technical issues: startup crashes, black screen errors, server browser problems, performance issues, and DirectX compatibility on modern systems.',
     keywords:
       'world in conflict crashes, world in conflict black screen, world in conflict technical issues, world in conflict not working, world in conflict performance, wic crashes, wic technical issues, wic troubleshooting, wic fix',
-    ogImage: '/og-faq.jpg',
   },
   '/faq/gameplay': {
     title: 'World in Conflict Gameplay and Game Modes | WICGATE',
@@ -156,7 +143,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'World in Conflict gameplay information: all game modes (Domination, Assault, Tug of War), ranking system, version compatibility, and feature details.',
     keywords:
       'world in conflict gameplay, world in conflict game modes, world in conflict ranking system, world in conflict features, world in conflict domination, world in conflict assault, wic gameplay, wic game modes, wic features',
-    ogImage: '/og-faq.jpg',
   },
   '/faq/server': {
     title: 'World in Conflict Server and Community Info | WICGATE',
@@ -164,7 +150,6 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'WICGATE community information: current player population, tournament schedules, server hosting guides, technical advantages, and how to get involved.',
     keywords:
       'world in conflict servers, world in conflict player count, world in conflict server hosting, world in conflict tournaments, world in conflict community info, wic servers, wic player count, wic tournaments',
-    ogImage: '/og-faq.jpg',
   },
   '/login': {
     title: 'WICGATE | Login',
