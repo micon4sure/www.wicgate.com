@@ -35,6 +35,7 @@ import {
 } from '../utils/structuredData';
 import { getAllValidIds } from '../types/navigation';
 import { syncHeaderHeight } from '../utils/headerHeight';
+import { DEFAULT_OG_IMAGE, DEFAULT_SITE_URL } from '../content/pageMeta';
 
 const store = useAppDataStore();
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
@@ -123,7 +124,7 @@ const matchedMeta = computed(() => {
 const defaultTitle = 'WICGATE - World in Conflict Multiplayer Revival';
 const defaultDescription = 'Play World in Conflict online with restored multiplayer servers.';
 const defaultKeywords = 'world in conflict, wic multiplayer, massgate';
-const defaultOgImage = 'https://wicgate.com/og-default.jpg';
+const defaultOgImage = `${DEFAULT_SITE_URL}${DEFAULT_OG_IMAGE}`;
 
 const pageTitle = computed(() => (matchedMeta.value.title as string | undefined) || defaultTitle);
 const pageDescription = computed(

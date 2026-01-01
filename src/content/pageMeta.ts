@@ -57,7 +57,7 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Download and install World in Conflict multiplayer. Quick install with WIC LIVE, host your own dedicated server, or manual installation for advanced users.',
     keywords:
       'world in conflict download, world in conflict install, world in conflict multiplayer setup, world in conflict online install, how to play world in conflict online, wic download, wic install, wic live, wic multiplayer setup',
-    ogImage: '/og-getting-started.jpg',
+    ogImage: '/og-downloads.jpg',
   },
   '/statistics': {
     title: 'World in Conflict Leaderboards and Statistics | WICGATE',
@@ -90,7 +90,7 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Fast and easy World in Conflict multiplayer installation with WIC LIVE. One-click installer that sets up game patches, community maps, and modern system compatibility automatically.',
     keywords:
       'world in conflict quick install, world in conflict easy install, world in conflict one click installer, world in conflict wic live, how to install world in conflict, wic live installer, wic quick install, wic easy setup',
-    ogImage: '/og-getting-started.jpg',
+    ogImage: '/og-downloads.jpg',
   },
   '/downloads/server': {
     title: 'World in Conflict Dedicated Server Setup | WICGATE',
@@ -98,7 +98,7 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Host your own 24/7 World in Conflict dedicated server. Complete setup guide including server files, network configuration, port forwarding, and hosting requirements.',
     keywords:
       'world in conflict dedicated server, world in conflict server hosting, world in conflict server setup, host world in conflict server, wic dedicated server, wic server hosting, wic ds setup, wic server files',
-    ogImage: '/og-getting-started.jpg',
+    ogImage: '/og-downloads.jpg',
   },
   '/downloads/manual': {
     title: 'World in Conflict Manual Installation Guide | WICGATE',
@@ -106,7 +106,7 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
       'Advanced manual installation for World in Conflict multiplayer. Install standalone updates, configure hosts file, and add community maps manually for experienced users.',
     keywords:
       'world in conflict manual install, world in conflict advanced setup, world in conflict hosts file, world in conflict standalone update, wic manual install, wic advanced setup',
-    ogImage: '/og-getting-started.jpg',
+    ogImage: '/og-downloads.jpg',
   },
   // Community subsections
   '/community/streams': {
