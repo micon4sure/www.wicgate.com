@@ -61,12 +61,15 @@ run: VITE_SITE_URL=https://micon4sure.github.io/www.wicgate.com DEPLOY_BASE=/www
 
 Social media platforms (Facebook, Twitter, Discord) require **absolute URLs** for preview images.
 
-**File:** `src/content/pageMeta.ts`
+**File:** `scripts/apply-head-meta.ts`
 ```typescript
-export const DEFAULT_SITE_URL = import.meta.env.VITE_SITE_URL || 'https://wicgate.com';
+// Reads from process.env since tsx doesn't process import.meta.env like Vite
+const SITE_URL = process.env.VITE_SITE_URL || 'https://wicgate.com';
 ```
 
-**Used in:** `src/views/Home.vue` for `og:image` and `twitter:image` meta tags.
+This post-build script writes `og:image` and `twitter:image` meta tags to pre-rendered HTML files.
+
+**Note:** The script uses `process.env` (not `import.meta.env`) because it runs with `tsx` (Node.js), not Vite.
 
 ### Asset Paths (`DEPLOY_BASE` / `appBase`)
 

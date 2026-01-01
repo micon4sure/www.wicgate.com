@@ -1,10 +1,13 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import { PAGE_META, DEFAULT_SITE_URL, DEFAULT_OG_IMAGE } from '../src/content/pageMeta';
+import { PAGE_META, DEFAULT_OG_IMAGE } from '../src/content/pageMeta';
 import {
   generateOrganizationSchema,
   generateWebSiteSchema,
 } from '../src/utils/structuredData';
+
+// Read from process.env since tsx doesn't process import.meta.env like Vite
+const SITE_URL = process.env.VITE_SITE_URL || 'https://wicgate.com';
 
 interface ReplacementMeta {
   title: string;
@@ -154,16 +157,16 @@ function deriveRoutePath(filePath: string): string | null {
 }
 
 function buildCanonical(routePath: string): string {
-  if (routePath === '/') return DEFAULT_SITE_URL;
-  return `${DEFAULT_SITE_URL}${routePath}`;
+  if (routePath === '/') return SITE_URL;
+  return `${SITE_URL}${routePath}`;
 }
 
 function buildOgImage(ogImage?: string): string {
   if (!ogImage || ogImage.length === 0) {
-    return `${DEFAULT_SITE_URL}${DEFAULT_OG_IMAGE}`;
+    return `${SITE_URL}${DEFAULT_OG_IMAGE}`;
   }
   if (ogImage.startsWith('http')) return ogImage;
-  return `${DEFAULT_SITE_URL}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
+  return `${SITE_URL}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
 }
 
 main().catch((error) => {
