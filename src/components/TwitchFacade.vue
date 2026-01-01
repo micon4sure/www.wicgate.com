@@ -25,8 +25,8 @@ function activate() {
   isActivated.value = true;
 }
 
-// Expose activate for parent components
-defineExpose({ activate });
+// Expose activate and isActivated for parent components
+defineExpose({ activate, isActivated });
 
 // Reset to preview on KeepAlive reactivation
 onActivated(() => {

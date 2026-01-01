@@ -96,16 +96,23 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
               :channel="u"
               muted
             />
-            <button
-              type="button"
-              class="w-full p-3 lg:p-4 flex justify-center items-center border-t border-teal/10 cursor-pointer bg-transparent"
+            <div
+              :class="[
+                'w-full p-3 lg:p-4 flex justify-center items-center border-t border-teal/10',
+                !twitchRefs[u]?.isActivated && 'cursor-pointer',
+              ]"
               @click="twitchRefs[u]?.activate()"
             >
               <strong
-                class="text-t-secondary group-hover:text-massgate-gold font-military font-semibold uppercase tracking-wide text-sm lg:text-base transition-colors"
+                :class="[
+                  'font-military font-semibold uppercase tracking-wide text-sm lg:text-base transition-colors',
+                  twitchRefs[u]?.isActivated
+                    ? 'text-t-secondary'
+                    : 'text-t-secondary group-hover:text-massgate-gold',
+                ]"
                 >{{ u }}</strong
               >
-            </button>
+            </div>
           </div>
         </div>
       </div>
