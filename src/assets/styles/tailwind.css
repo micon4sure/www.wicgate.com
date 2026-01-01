@@ -3729,7 +3729,7 @@
   }
 
   .admin-header-inner {
-    @apply max-w-[1600px] mx-auto px-4 flex justify-between items-center;
+    @apply max-w-7xl mx-auto px-4 flex justify-between items-center;
   }
 
   .admin-logo {
@@ -3755,7 +3755,7 @@
   }
 
   .admin-main {
-    @apply max-w-[1600px] mx-auto p-4;
+    @apply max-w-7xl mx-auto p-4;
   }
 
   .admin-refresh-btn {
