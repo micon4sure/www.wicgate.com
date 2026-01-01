@@ -15,6 +15,7 @@ npm run test:thorough # Thorough tests (~14s, real timers, for CI)
 npm run typecheck    # Type-check Vue + TS files
 npm run lint:fix     # Fix linting issues
 npm run build        # Production build (SSG + PWA)
+npm run build:og     # Regenerate OG images (social sharing)
 ```
 
 **Package Manager:** Use `bun run test` (NOT `bun test` - wrong runner)
