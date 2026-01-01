@@ -489,9 +489,15 @@
 
   @media (hover: hover) {
     .video-item-card:hover {
-      @apply bg-mg/25 border-[#37576D]/60;
-      box-shadow: 0 0 15px rgba(55, 87, 109, 0.15);
+      @apply -translate-y-0.5;
+      border-color: rgba(255, 202, 40, 0.5);
+      box-shadow: 0 8px 20px rgba(4, 9, 14, 0.45),
+                  0 0 15px rgba(255, 202, 40, 0.2);
     }
+  }
+
+  .video-item-card:active {
+    @apply scale-[0.98];
   }
 
   /* Event accordion */
@@ -2105,7 +2111,19 @@
   .video-item {
     @apply flex items-start gap-3 p-2 bg-mg/15 border border-mg/25 rounded-none;
     @apply transition-all duration-200 cursor-pointer;
-    @apply hover:bg-youtube/10 hover:border-youtube/30 hover:-translate-x-1;
+  }
+
+  @media (hover: hover) {
+    .video-item:hover {
+      @apply -translate-y-0.5;
+      border-color: rgba(255, 202, 40, 0.5);
+      box-shadow: 0 8px 20px rgba(4, 9, 14, 0.45),
+                  0 0 15px rgba(255, 202, 40, 0.2);
+    }
+  }
+
+  .video-item:active {
+    @apply scale-[0.98];
   }
 
   .video-item img {
