@@ -15,7 +15,7 @@ const emit = defineEmits<{
 
 <template>
   <BaseOverlay
-    title="WICGATE Primer"
+    title="WICGATE Quick Start"
     :use-teleport="false"
     aria-labelledby="first-visit-title"
     @close="emit('close')"

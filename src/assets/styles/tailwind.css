@@ -3420,6 +3420,7 @@
 
   .overlay-header {
     @apply py-4 px-6 border-b border-t-dim/20 flex items-center justify-between;
+    background: linear-gradient(to bottom, #4a1f5c, #2d1236);
   }
 
   .overlay-header .slide-title {
