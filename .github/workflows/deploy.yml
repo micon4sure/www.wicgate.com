@@ -40,7 +40,7 @@ jobs:
         run: npm run test:thorough
 
       - name: Build (staging mode)
-        run: DEPLOY_BASE=/www.wicgate.com/ npm run build:staging
+        run: VITE_SITE_URL=https://micon4sure.github.io/www.wicgate.com DEPLOY_BASE=/www.wicgate.com/ npm run build:staging
 
       - name: Check bundle size
         run: |

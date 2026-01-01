@@ -10,6 +10,7 @@
 - **[CLAUDE.md](CLAUDE.md)** - User preferences and mandatory constraints
 - **[README.md](README.md)** - Project overview and setup
 - **[docs/architecture.md](docs/architecture.md)** - Technical architecture
+- **[docs/deployment_guide.md](docs/deployment_guide.md)** - Deployment configs (env vars, asset paths)
 - **[tailwind.config.ts](tailwind.config.ts)** - Design tokens (colors, shadows, animations)
 - **[docs/testing.md](docs/testing.md)** - Testing guide
 - **[docs/api.md](docs/api.md)** - API endpoints and data structures

@@ -175,6 +175,7 @@ Create `.env` for local development:
 
 ```env
 VITE_API_BASE=https://www.wicgate.com/api
+VITE_SITE_URL=https://wicgate.com  # Optional, defaults to wicgate.com (set for non-production deploys)
 VITE_ANALYTICS_ENDPOINT=https://analytics.example.com
 VITE_SENTRY_DSN=
 ```

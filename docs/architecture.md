@@ -977,6 +977,7 @@ src/
 docs/
 ├── architecture.md            # This file
 ├── api.md                     # API documentation
+├── deployment_guide.md        # Deployment configurations (env vars, asset paths)
 ├── testing.md                 # Test strategies
 ├── troubleshooting.md         # Common issues
 ├── security.md                # Security guidelines (XSS, auth, deployment)
