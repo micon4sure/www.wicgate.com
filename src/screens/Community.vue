@@ -60,6 +60,9 @@ const twitchUsernames = ['kickapoo149', 'pontertwitch'];
 
 // Theater mode state
 const selectedVideo = ref<YouTubeVideo | null>(null);
+
+// Refs for TwitchFacade components to trigger activation from card footer
+const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>({});
 </script>
 
 <template>
@@ -87,19 +90,22 @@ const selectedVideo = ref<YouTubeVideo | null>(null);
         </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-          <div v-for="u in twitchUsernames" :key="u" class="card p-0 overflow-hidden">
-            <TwitchFacade :channel="u" muted />
-            <a
-              :href="`https://twitch.tv/${u}`"
-              target="_blank"
-              class="p-3 lg:p-4 flex justify-center items-center border-t border-teal/10 no-underline text-inherit hover:bg-mg/30 transition-colors"
-              :aria-label="`Visit ${u} on Twitch`"
+          <div v-for="u in twitchUsernames" :key="u" class="card p-0 overflow-hidden group">
+            <TwitchFacade
+              :ref="(el) => (twitchRefs[u] = el as InstanceType<typeof TwitchFacade> | null)"
+              :channel="u"
+              muted
+            />
+            <button
+              type="button"
+              class="w-full p-3 lg:p-4 flex justify-center items-center border-t border-teal/10 cursor-pointer bg-transparent"
+              @click="twitchRefs[u]?.activate()"
             >
               <strong
-                class="text-massgate-gold font-military font-semibold uppercase tracking-wide text-sm lg:text-base"
+                class="text-t-secondary group-hover:text-massgate-gold font-military font-semibold uppercase tracking-wide text-sm lg:text-base transition-colors"
                 >{{ u }}</strong
               >
-            </a>
+            </button>
           </div>
         </div>
       </div>
