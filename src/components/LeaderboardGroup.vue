@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
+import { ref, watch, computed, onMounted, onUnmounted, inject } from 'vue';
 import type { LeaderboardEntry, LadderEntry } from '../api-types';
 import RankInsignia from './RankInsignia.vue';
 import MobileTabDropdown from './MobileTabDropdown.vue';
@@ -14,17 +14,25 @@ const copied = ref(false);
 // Mobile tabs
 const { isMobile } = useMobileTabs();
 
+// Base path for assets (see main.ts)
+const appBase = inject<string>('appBase', '/');
+
 // Category icons for mobile dropdown
 const categoryIcons: Record<string, string> = {
   total: 'fa-solid fa-chart-simple',
-  infantry: '/infantry.png',
-  armor: '/armor.png',
-  air: '/air.png',
-  support: '/support.png',
+  infantry: 'infantry.png',
+  armor: 'armor.png',
+  air: 'air.png',
+  support: 'support.png',
 };
 
 function getCategoryIcon(category: string): string {
-  return categoryIcons[category] || '';
+  const icon = categoryIcons[category] || '';
+  // FontAwesome icons stay as-is, image files get base path prepended
+  if (icon && isImageIcon(icon)) {
+    return `${appBase}${icon}`;
+  }
+  return icon;
 }
 
 function isImageIcon(icon: string): boolean {

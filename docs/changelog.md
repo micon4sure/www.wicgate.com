@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🐛 **Fix: Category Icons on GitHub Pages** - Fixed leaderboard category icons (infantry, armor, air, support) not loading on GitHub Pages deployment: added `appBase` injection pattern to `LeaderboardGroup.vue` (same as `RankInsignia.vue`) to dynamically resolve asset paths based on deployment environment, icons now work correctly on local dev, custom domain, and GitHub Pages subdirectory deployments (Jan 1)
 - 🐛 **Fix: Twitch Card Footer Cursor** - Footer no longer shows pointer cursor after iframe loads: exposed `isActivated` state from TwitchFacade, conditionally applies cursor-pointer and gold hover effect only when iframe not yet loaded - prevents misleading clickable appearance on already-active embeds (Jan 1)
 - 🎨 **UI: Homepage Video Gold Hover Effects** - Updated homepage video cards to match Community section styling: `.video-item` (LatestVideosWidget) and `.video-item-card` (MediaEventCard) now use gold border/shadow on hover (`rgba(255, 202, 40, 0.5)`) with lift effect (`-translate-y-0.5`), added `:active` scale effect (`scale-[0.98]`) for tap feedback - consistent video card interactions across entire site (Jan 1)
 - 🎨 **UI: Twitch Card Footer Clickable** - Made entire Twitch card footer clickable to load iframe: clicking streamer name now activates the TwitchFacade embed, added hover effect with text color change (grey `text-t-secondary` → yellow `text-massgate-gold` on hover), used `group` class on card for coordinated hover states - better UX with clear visual feedback (Jan 1)
