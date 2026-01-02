@@ -103,6 +103,11 @@ function switchTab(tab: Tab) {
 - **Local state fallback:** Community videos use local state (dynamic YouTube channels)
 - **SSR-safe:** Guards against window/history access during SSR
 
+**SEO Strategy:**
+- **All content in DOM:** Tab panels use CSS hiding (`hidden`/`block` classes), not `v-if`. This ensures all tab content is present in SSG-rendered HTML for search engine indexing.
+- **No `hidden` attribute:** Uses pure CSS (`display: none`) instead of HTML `hidden` attribute, which has semantic implications ("not relevant").
+- **Shared panels:** Tab panels are rendered once and shared between desktop tabs and MobileTabDropdown. The mobile dropdown only handles tab selection UI.
+
 **Files:**
 - [src/router/routes.ts](../src/router/routes.ts) - Route definitions (7 routes, no child routes)
 - [src/main.ts](../src/main.ts) - Router configuration
