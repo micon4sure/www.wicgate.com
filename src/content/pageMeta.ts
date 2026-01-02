@@ -46,9 +46,9 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
   '/': {
     title: 'WICGATE | World in Conflict Online Multiplayer Reloaded',
     description:
-      'Play World in Conflict online with restored multiplayer servers. Join our active community in epic Cold War battles using the real Massgate code.',
+      'Play World in Conflict online with restored multiplayer servers. Join our active community in epic Cold War battles built on the original Massgate code.',
     keywords:
-      'world in conflict online, world in conflict multiplayer, world in conflict servers, world in conflict revival, massgate, wic online, wic multiplayer, wic servers, play world in conflict online',
+      'world in conflict online, world in conflict multiplayer, world in conflict servers, world in conflict online multiplayer revival, massgate, wicgate, wic online, wic multiplayer, wic servers, play world in conflict online, play wic online, world in conflict discord, wic discord, wicgate discord',
   },
   '/downloads': {
     title: 'World in Conflict Downloads and Installation | WICGATE',
@@ -60,43 +60,43 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
   '/statistics': {
     title: 'World in Conflict Leaderboards and Statistics | WICGATE',
     description:
-      'View World in Conflict player rankings, competitive leaderboards, and match statistics. See top players across all game modes and roles including infantry, armor, air, and support.',
+      'View World in Conflict player rankings and competitive leaderboards. See top WiC players and statistics across all 4 roles: infantry, armor, air, and support.',
     keywords:
       'world in conflict leaderboards, world in conflict rankings, world in conflict player stats, world in conflict statistics, world in conflict top players, wic leaderboards, wic rankings, wic player stats, wic top players',
   },
   '/community': {
     title: 'World in Conflict Community Hub | WICGATE',
     description:
-      'Join the World in Conflict community on Discord, watch live streams on Twitch, view latest YouTube videos, and participate in weekly tournaments and events. Active community with 287+ members.',
+      'Watch World in Conflict community live streams on Twitch and view the latest YouTube videos.',
     keywords:
-      'world in conflict community, world in conflict discord, world in conflict tournaments, world in conflict events, world in conflict twitch, world in conflict youtube, wic community, wic discord, wic tournaments, wic streams',
+      'world in conflict community, world in conflict tournaments, world in conflict events, world in conflict twitch, world in conflict youtube, wic community, wic tournaments, wic streams',
   },
   '/faq': {
     title: 'World in Conflict FAQ and Help | WICGATE',
     description:
-      'Frequently asked questions about WICGATE. Learn about the project, Massgate revival, installation help, technical troubleshooting, gameplay features, server hosting, and community information.',
+      'Frequently asked questions about WICGATE. Learn about the project, Massgate revival, installation help, technical troubleshooting, gameplay, and server hosting.',
     keywords:
-      'world in conflict help, world in conflict faq, world in conflict troubleshooting, world in conflict support, massgate help, wic help, wic faq, wic troubleshooting, wicgate help',
+      'world in conflict installation help, world in conflict faq, world in conflict troubleshooting, world in conflict support, massgate help, wic help, wic faq, wic troubleshooting, wicgate help',
   },
   // Downloads subsections
   '/downloads/quick': {
     title: 'World in Conflict Quick Install with WIC LIVE | WICGATE',
     description:
-      'Fast and easy World in Conflict multiplayer installation with WIC LIVE. One-click installer that sets up game patches, community maps, and modern system compatibility automatically.',
+      'Fast and easy World in Conflict multiplayer installation with WIC LIVE. One-click installer that sets up game patches, community maps, and system compatibility.',
     keywords:
       'world in conflict quick install, world in conflict easy install, world in conflict one click installer, world in conflict wic live, how to install world in conflict, wic live installer, wic quick install, wic easy setup',
   },
   '/downloads/server': {
     title: 'World in Conflict Dedicated Server Setup | WICGATE',
     description:
-      'Host your own 24/7 World in Conflict dedicated server. Complete setup guide including server files, network configuration, port forwarding, and hosting requirements.',
+      'Host your own 24/7 World in Conflict dedicated server. Complete setup guide with server files, network configuration, port forwarding, and hosting requirements.',
     keywords:
       'world in conflict dedicated server, world in conflict server hosting, world in conflict server setup, host world in conflict server, wic dedicated server, wic server hosting, wic ds setup, wic server files',
   },
   '/downloads/manual': {
     title: 'World in Conflict Manual Installation Guide | WICGATE',
     description:
-      'Advanced manual installation for World in Conflict multiplayer. Install standalone updates, configure hosts file, and add community maps manually for experienced users.',
+      'Advanced manual installation for World in Conflict multiplayer. Install standalone updates, configure hosts file, and add community maps for experienced users.',
     keywords:
       'world in conflict manual install, world in conflict advanced setup, world in conflict hosts file, world in conflict standalone update, wic manual install, wic advanced setup',
   },
@@ -119,7 +119,7 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
   '/faq/about': {
     title: 'About WICGATE | World in Conflict Multiplayer Revival',
     description:
-      'Learn about the WICGATE project, Massgate revival using official Ubisoft source code, our core values, team, and what makes WICGATE different from other revival projects.',
+      'Learn about the WICGATE project, Massgate revival using official Ubisoft source code, our values, and what makes WICGATE different from other revival projects.',
     keywords:
       'about wicgate, world in conflict revival, massgate revival, world in conflict multiplayer restoration, what is wicgate, wic revival project',
   },
@@ -133,7 +133,7 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
   '/faq/technical': {
     title: 'World in Conflict Technical Support and Fixes | WICGATE',
     description:
-      'Fix World in Conflict technical issues: startup crashes, black screen errors, server browser problems, performance issues, and DirectX compatibility on modern systems.',
+      'Fix World in Conflict technical issues: startup crashes, black screen errors, server browser problems, performance, and DirectX compatibility on modern systems.',
     keywords:
       'world in conflict crashes, world in conflict black screen, world in conflict technical issues, world in conflict not working, world in conflict performance, wic crashes, wic technical issues, wic troubleshooting, wic fix',
   },
