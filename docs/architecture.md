@@ -351,6 +351,18 @@ onMounted(() => {
 - **Use `v-show`:** Expandable sections (prevents layout shifts, SEO-friendly)
 - **Use `v-if`:** Content that's never needed again
 
+### FirstVisitOverlay SSG Safety
+
+The first visit overlay uses **client-side only rendering** to avoid Google's "Intrusive Interstitial" SEO penalty:
+
+- **Default hidden:** `showFirstVisitOverlay = ref(false)` - starts as false
+- **Client-side activation:** `initFirstVisitCheck()` only runs in `onMounted()`
+- **Conditional rendering:** `v-if` excludes overlay HTML from SSG entirely
+
+This ensures Googlebot receives clean HTML with no overlay (since `onMounted` never runs during SSG), while real users see the onboarding overlay on their first visit.
+
+**Why this matters:** Googlebot is stateless - every crawl is a "first visit." If the overlay appeared in pre-rendered HTML, Google would see it 100% of the time, potentially triggering the mobile interstitial penalty.
+
 ### Async Content Handling
 
 **Challenge:** API content loads after scroll positioning, causing layout shifts.
