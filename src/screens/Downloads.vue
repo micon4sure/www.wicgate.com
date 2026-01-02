@@ -9,11 +9,11 @@ import {
   manualInstallWarning,
 } from '../content/content';
 
-// Tab configuration
+// Tab configuration - IDs map to URL anchors (e.g., #quick-install, #dedicated-server)
 const tabs = [
-  { id: 'downloads-quick', label: 'Quick Install', icon: 'fa-solid fa-rocket' },
-  { id: 'downloads-server', label: 'Dedicated Server', icon: 'fa-solid fa-server' },
-  { id: 'downloads-manual', label: 'Manual Install', icon: 'fa-solid fa-wrench' },
+  { id: 'downloads-quick-install', label: 'Quick Install', icon: 'fa-solid fa-rocket' },
+  { id: 'downloads-dedicated-server', label: 'Dedicated Server', icon: 'fa-solid fa-server' },
+  { id: 'downloads-manual-install', label: 'Manual Install', icon: 'fa-solid fa-wrench' },
 ];
 </script>
 
@@ -35,7 +35,7 @@ const tabs = [
       <!-- Tab Container -->
       <TabContainer :tabs="tabs" aria-label="Download methods">
         <!-- Tab 1: Quick Install -->
-        <template #quick>
+        <template #quick-install>
           <div class="py-8 lg:py-12">
             <div class="text-center mb-10">
               <h3
@@ -84,7 +84,7 @@ const tabs = [
         </template>
 
         <!-- Tab 2: Dedicated Server -->
-        <template #server>
+        <template #dedicated-server>
           <div class="py-8 lg:py-12">
             <div class="text-center mb-10">
               <h3
@@ -161,7 +161,7 @@ const tabs = [
         </template>
 
         <!-- Tab 3: Manual Install -->
-        <template #manual>
+        <template #manual-install>
           <div class="py-8 lg:py-12">
             <div class="text-center mb-10">
               <h3

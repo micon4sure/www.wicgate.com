@@ -17,48 +17,12 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/downloads',
+    name: 'downloads',
     component: Home,
-    children: [
-      {
-        path: '',
-        name: 'downloads',
-        component: Home,
-        meta: {
-          ...PAGE_META['/downloads'],
-          section: 'downloads',
-        },
-      },
-      {
-        path: 'quick',
-        name: 'downloads-quick',
-        component: Home,
-        meta: {
-          ...PAGE_META['/downloads/quick'],
-          section: 'downloads',
-          subsection: 'quick',
-        },
-      },
-      {
-        path: 'server',
-        name: 'downloads-server',
-        component: Home,
-        meta: {
-          ...PAGE_META['/downloads/server'],
-          section: 'downloads',
-          subsection: 'server',
-        },
-      },
-      {
-        path: 'manual',
-        name: 'downloads-manual',
-        component: Home,
-        meta: {
-          ...PAGE_META['/downloads/manual'],
-          section: 'downloads',
-          subsection: 'manual',
-        },
-      },
-    ],
+    meta: {
+      ...PAGE_META['/downloads'],
+      section: 'downloads',
+    },
   },
   {
     path: '/statistics',
@@ -80,68 +44,12 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/faq',
+    name: 'faq',
     component: Home,
-    children: [
-      {
-        path: '',
-        name: 'faq',
-        component: Home,
-        meta: {
-          ...PAGE_META['/faq'],
-          section: 'faq',
-        },
-      },
-      {
-        path: 'about',
-        name: 'faq-about',
-        component: Home,
-        meta: {
-          ...PAGE_META['/faq/about'],
-          section: 'faq',
-          subsection: 'about',
-        },
-      },
-      {
-        path: 'getting-started',
-        name: 'faq-getting-started',
-        component: Home,
-        meta: {
-          ...PAGE_META['/faq/getting-started'],
-          section: 'faq',
-          subsection: 'getting-started',
-        },
-      },
-      {
-        path: 'technical',
-        name: 'faq-technical',
-        component: Home,
-        meta: {
-          ...PAGE_META['/faq/technical'],
-          section: 'faq',
-          subsection: 'technical',
-        },
-      },
-      {
-        path: 'gameplay',
-        name: 'faq-gameplay',
-        component: Home,
-        meta: {
-          ...PAGE_META['/faq/gameplay'],
-          section: 'faq',
-          subsection: 'gameplay',
-        },
-      },
-      {
-        path: 'server',
-        name: 'faq-server',
-        component: Home,
-        meta: {
-          ...PAGE_META['/faq/server'],
-          section: 'faq',
-          subsection: 'server',
-        },
-      },
-    ],
+    meta: {
+      ...PAGE_META['/faq'],
+      section: 'faq',
+    },
   },
   {
     path: '/login',

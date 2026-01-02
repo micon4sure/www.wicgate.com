@@ -13,29 +13,13 @@ function toggleQuestion(q: string) {
   openQuestion.value = openQuestion.value === q ? null : q;
 }
 
-// Find which category a question belongs to
-function getQuestionCategory(questionId: string): string | null {
-  for (const category of faq) {
-    const found = category.items.find((item) => item.id === questionId);
-    if (found) {
-      return getCategoryAnchor(category.cat);
-    }
-  }
-  return null;
-}
-
 // Copy question link to clipboard
 function copyQuestionLink(questionId: string) {
   // SSR guard - clipboard API only available in browser
   if (typeof window === 'undefined' || !navigator.clipboard) return;
 
-  // Find the category this question belongs to
-  const categorySlug = getQuestionCategory(questionId);
-
-  // Build URL with category: /faq/{category}#{questionId}
-  const url = categorySlug
-    ? `${window.location.origin}/faq/${categorySlug}#${questionId}`
-    : `${window.location.origin}/faq#${questionId}`;
+  // Build URL with question ID: /faq#questionId
+  const url = `${window.location.origin}/faq#${questionId}`;
 
   navigator.clipboard
     .writeText(url)
@@ -68,14 +52,13 @@ function copyQuestionLink(questionId: string) {
     });
 }
 
-// Generate subsection ID from category name
+// Generate tab ID from category name - maps to URL anchors (e.g., #about-wicgate)
 function getCategoryId(categoryName: string): string {
   const categoryMap: Record<string, string> = {
-    'About WICGATE': 'faq-about',
+    'About WICGATE': 'faq-about-wicgate',
     'Getting Started': 'faq-getting-started',
-    'Technical Issues': 'faq-technical',
-    'Gameplay & Features': 'faq-gameplay',
-    'Server & Community': 'faq-server',
+    'Technical Issues': 'faq-technical-issues',
+    'Gameplay & Features': 'faq-gameplay-features',
   };
   return categoryMap[categoryName] || `faq-${categoryName.toLowerCase().replace(/\s+/g, '-')}`;
 }
@@ -92,7 +75,6 @@ function getCategoryIcon(categoryName: string): string {
     'Getting Started': 'fa-solid fa-graduation-cap',
     'Technical Issues': 'fa-solid fa-wrench',
     'Gameplay & Features': 'fa-solid fa-gamepad',
-    'Server & Community': 'fa-solid fa-users',
   };
   return iconMap[categoryName] || 'fa-solid fa-question';
 }

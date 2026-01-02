@@ -55,7 +55,7 @@ const targetSection = computed(() => route.meta.section as string | undefined);
 
 // Disable scroll tracking during programmatic navigation (clicks)
 watch(
-  () => route.meta.section || route.meta.subsection,
+  () => route.meta.section,
   (newSection, oldSection) => {
     // Only trigger on actual navigation (not initial load)
     if (oldSection !== undefined && newSection !== oldSection) {
@@ -88,30 +88,11 @@ watch(isMobileMode, (nowMobile) => {
   }
 });
 
-// Determine effective path for SEO (subsections use parent section)
-const effectiveSeoPath = computed(() => {
-  // If this is a subsection route, use parent section path for SEO
-  if (route.meta.subsection) {
-    // Extract parent path: /downloads/quick → /downloads, /faq/about → /faq
-    const pathParts = route.path.split('/').filter(Boolean);
-    return pathParts.length > 1 ? `/${pathParts[0]}` : route.path;
-  }
-  return route.path;
-});
+// Effective path for SEO (now always the route path - no subsection handling needed)
+const effectiveSeoPath = computed(() => route.path);
 
+// Route meta (now always current route meta - no subsection handling needed)
 const matchedMeta = computed(() => {
-  // For subsections, find parent section meta for consolidated SEO
-  if (route.meta.subsection) {
-    const matched = [...route.matched].reverse();
-    // Find the parent route (one without subsection property)
-    for (const record of matched) {
-      if (record.meta && !record.meta.subsection && Object.keys(record.meta).length > 0) {
-        return record.meta;
-      }
-    }
-  }
-
-  // Default: use current route meta
   const matched = [...route.matched].reverse();
   for (const record of matched) {
     if (record.meta && Object.keys(record.meta).length > 0) {

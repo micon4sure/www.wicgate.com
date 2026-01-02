@@ -53,15 +53,20 @@
 
 ---
 
-### 3. Path-Based Navigation (SSG REQUIRED)
+### 3. Navigation: Routes vs Hash
 
-❌ **NEVER:** `history.replaceState(null, '', '#section');`
-✅ **ALWAYS:** `router.push('/section');`
+**Main Sections:** Use Vue Router
+✅ `router.push('/downloads');` → Section navigation
 
-**SSG pre-renders path-based routes** (`/multiplayer`, `/community`). Hash URLs (`/#section`) break shareable URLs and SEO.
+**Tabs Within Sections:** Use hash fragments
+✅ `history.pushState(null, '', '#dedicated-server');` → Tab switching
 
-📖 **Deep dive:** [docs/architecture.md - Routes & SEO](docs/architecture.md#routes--seo)
-📍 **Location:** [src/router/routes.ts](src/router/routes.ts)
+**Why two approaches?**
+- Main sections (`/downloads`, `/faq`) are pre-rendered routes for SSG/SEO
+- Tabs within sections use hash URLs (`#dedicated-server`) for instant switching without route change
+
+📖 **Deep dive:** [docs/architecture.md - Routing System](docs/architecture.md#routing-system)
+📍 **Location:** [src/router/routes.ts](src/router/routes.ts), [src/components/TabContainer.vue](src/components/TabContainer.vue)
 
 ---
 
@@ -177,7 +182,7 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 | `color: #ff6600` | `class="text-soviet"` | [tailwind.config.ts](tailwind.config.ts) |
 | Custom CSS class | Tailwind utilities | [CLAUDE.md](CLAUDE.md) |
 | `padding-top: 80px` | `pt-[var(--header-height)]` | [Scroll System](docs/architecture.md#scroll--navigation-system) |
-| `history.replaceState('#id')` | `router.push('/section')` | [Routing System](docs/architecture.md#routing-system) |
+| Child routes for tabs | Hash fragments (`#tab-id`) | [Routing System](docs/architecture.md#routing-system) |
 | `document.querySelector()` | `if (!import.meta.env.SSR) {...}` | [SSR Guards](docs/architecture.md#ssr-guards) |
 | `bun test` | `bun run test` | [Testing](docs/testing.md#package-manager-comparison) |
 | Red button for ZIP | Hyperlink for files | [CLAUDE.md](CLAUDE.md) |
@@ -212,4 +217,4 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 ---
 
-*Last Updated: October 22, 2025 (SSG Optimization & SEO)*
+*Last Updated: January 2, 2026 (Hash-based tab navigation)*

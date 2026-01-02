@@ -6,7 +6,7 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 
 **Stack:** Vue 3 + TypeScript, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](../src/main.ts)
-**Routing:** 15 total routes (14 pre-rendered for SSG), path-based nested routing for subsections
+**Routing:** 7 Vue Router routes, hash-based tab navigation within sections (see Routing System below)
 
 ---
 
@@ -15,8 +15,9 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 ### Rendering Strategy
 
 **Build Time (SSG):**
-- ViteSSG pre-renders 13 unique HTML files (main sections + subsections)
+- ViteSSG pre-renders 6 unique HTML files (main sections only)
 - Each route serves focused content with unique meta tags
+- Tab content handled client-side via hash navigation
 - Conditional rendering: `shouldRenderSection()` renders only target section per route
 
 **Runtime (SPA):**
@@ -27,92 +28,84 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 
 ### Routing System
 
-**Path-Based Nested Routes (October 2025):**
-- **Main Routes (5):** `/`, `/downloads`, `/statistics`, `/community`, `/faq`
-- **System Routes (2):** `/login`, `/admin` (not pre-rendered, protected by auth guards)
-- **Downloads Subsections (3):** `/downloads/quick`, `/downloads/server`, `/downloads/manual`
-- **FAQ Subsections (5):** `/faq/about`, `/faq/getting-started`, `/faq/technical`, `/faq/gameplay`, `/faq/server`
-- **Pre-rendered (6):** Main routes + /login only (subsections excluded per SSG best practices - October 2025)
-- **FAQ Question Anchors:** Hash fragments within FAQ routes (e.g., `/faq/technical#black-screen`)
+**Two Navigation Mechanisms:**
 
-### SSG Optimization Strategy (October 2025)
+1. **Vue Router Routes (7 total)** - Section navigation, triggers full route change:
+   - `/` - Home (hero section)
+   - `/downloads` - Downloads section
+   - `/statistics` - Statistics/leaderboards section
+   - `/community` - Community section
+   - `/faq` - FAQ section
+   - `/login` - User login page
+   - `/admin` - Admin panel
 
-**Pre-rendering Philosophy:** Only pre-render pages with substantial unique content. Avoid thin content by consolidating subsections.
+2. **Hash-Based Tab Navigation** - Tab switching within sections, no route change:
+   - Downloads tabs: `#quick-install` (default, no hash shown), `#dedicated-server`, `#manual-install`
+   - FAQ tabs: `#about-wicgate` (default, no hash shown), `#getting-started`, `#technical-issues`, `#gameplay-features`
+   - FAQ questions: `#game-crashes-on-startup`, `#what-is-wicgate`, etc.
+
+**Key distinction:** Clicking a navbar link triggers Vue Router navigation (section change). Clicking a tab within a section only updates the URL hash (no route change, content swaps instantly via TabContainer).
+
+### SSG Optimization Strategy
+
+**Pre-rendering Philosophy:** Only pre-render pages with substantial unique content. Tab content is handled client-side.
 
 **Current Strategy:**
 - **Pre-rendered Routes (6):** `/`, `/downloads`, `/statistics`, `/community`, `/faq`, `/login`
-- **Client-side Routes:** All subsections (not pre-rendered to avoid thin content)
-  - `/downloads/quick`, `/downloads/server`, `/downloads/manual` → Tab navigation within `/downloads`
-  - `/faq/about`, `/faq/getting-started`, `/faq/technical`, `/faq/gameplay`, `/faq/server` → Tab navigation within `/faq`
-- **Excluded from sitemap.xml:** Subsections + noindex pages (/login, /admin)
+- **Hash-based tabs:** Not separate routes - handled by TabContainer component
+- **Excluded from sitemap.xml:** noindex pages (/login, /admin)
 - **Sitemap URLs (5):** Main sections only with substantial content
-
-**SEO Consolidation for Subsections:**
-```typescript
-// Home.vue - Subsections inherit parent meta
-const effectiveSeoPath = computed(() => {
-  if (route.meta.subsection) {
-    // /downloads/quick → /downloads, /faq/technical → /faq
-    const pathParts = route.path.split('/').filter(Boolean);
-    return pathParts.length > 1 ? `/${pathParts[0]}` : route.path;
-  }
-  return route.path;
-});
-
-const matchedMeta = computed(() => {
-  // For subsections, find parent section meta for consolidated SEO
-  if (route.meta.subsection) {
-    const matched = [...route.matched].reverse();
-    for (const record of matched) {
-      if (record.meta && !record.meta.subsection && Object.keys(record.meta).length > 0) {
-        return record.meta;
-      }
-    }
-  }
-  // Default: use current route meta
-  // ...
-});
-```
 
 **Benefits:**
 - ✅ Consolidated SEO signals (one authoritative page per section)
 - ✅ No duplicate/thin content issues
-- ✅ All subsection content visible to search engines on parent pages
-- ✅ Faster builds (6 pages vs 15+, 60% reduction)
+- ✅ Clean URL structure - default tabs don't clutter address bar
+- ✅ Faster builds (6 pages only)
 - ✅ Better crawl budget usage (Google focuses on quality pages)
-- ✅ Canonical URLs point to parents (e.g., /downloads/quick → /downloads)
+- ✅ Browser back/forward works with hash history
 
-**Why Path-Based Routing for Subsections:**
-- **Granular SEO:** Each subsection targets specific search queries with unique meta tags
-- **Better Entry Points:** Users can land directly on relevant subsections from search results
-- **Prevents Cannibalization:** Distinct keywords/descriptions for each route (e.g., "install WiC" vs "host WiC server")
-- **Shareable URLs:** Full paths are more descriptive than hash anchors
-- **FAQ Question Deep-Linking:** Individual questions have shareable URLs (e.g., `/faq/technical#cant-see-servers`)
+**Hash-Based Navigation Implementation:**
+```typescript
+// TabContainer.vue - Hash-based tab switching
+function switchTab(tab: Tab) {
+  const anchor = getAnchor(tab.id);
+  const isDefault = tab.id === props.tabs[0]?.id;
+
+  if (isDefault) {
+    // Clear hash for default tab
+    history.replaceState(null, '', window.location.pathname);
+  } else {
+    // Set hash for non-default tab
+    history.pushState(null, '', `#${anchor}`);
+  }
+  localActiveTabId.value = tab.id;
+}
+```
 
 **Examples:**
-- Downloads subsections: `/downloads/quick`, `/downloads/server`, `/downloads/manual`
-- FAQ categories: `/faq/about`, `/faq/getting-started`, `/faq/technical`, `/faq/gameplay`, `/faq/server`
-- FAQ question anchors: `/faq/technical#game-crashes-on-startup`, `/faq/about#what-is-wicgate`
-- Community videos: Local tab state (no routes for dynamic YouTube channels)
+- Downloads tabs: `/downloads`, `/downloads#dedicated-server`, `/downloads#manual-install`
+- FAQ categories: `/faq`, `/faq#getting-started`, `/faq#technical-issues`, `/faq#gameplay-features`
+- FAQ questions: `/faq#game-crashes-on-startup`, `/faq#what-is-wicgate`
+- Community videos: Local tab state (no hash for dynamic YouTube channels)
 
-**Navigation Helper:** [src/types/navigation.ts](../src/types/navigation.ts) - `getRoutePath()` converts IDs to full paths
+**Navigation Helper:** [src/types/navigation.ts](../src/types/navigation.ts) - `getRoutePath()` converts IDs to paths
 
-**Navigation Structure (October 2025):**
+**Navigation Structure:**
 - **Simplified navbar:** Main sections only (Home, Downloads, Statistics, Community, FAQ)
-- **No dropdown menus:** Subsections accessed via internal TabContainer components
+- **No dropdown menus:** Subsections accessed via internal TabContainer components with hash URLs
 - **Desktop & Mobile:** Consistent navigation - all sections shown as simple links
-- **Helper functions:** Still used for routing, active section tracking, and subsection-to-section mapping
+- **Helper functions:** Used for routing and active section tracking
 
 **TabContainer Implementation:**
-- **Hybrid Approach:** Uses `router.hasRoute()` to detect if tab has a matching route
-- **Route Tabs:** Navigates via `router.push()` (Downloads, FAQ)
-- **Local Tabs:** Uses local state (Community videos - dynamic YouTube channels)
-- **Auto-URL updates:** Clicking any tab (including active) updates hash
-- **Analytics tracking:** Only tracks actual tab switches (not re-clicking active tab)
+- **Hash-based navigation:** Updates URL hash on tab click (e.g., `#dedicated-server`)
+- **Default tab:** No hash shown (e.g., `/downloads` for Quick Install)
+- **Browser history:** Uses `history.pushState()` for back/forward support
+- **Local state fallback:** Community videos use local state (dynamic YouTube channels)
+- **SSR-safe:** Guards against window/history access during SSR
 
 **Files:**
-- [src/router/routes.ts](../src/router/routes.ts) - Route definitions (7 routes)
-- [src/main.ts](../src/main.ts) - Router configuration with hash scrollBehavior
+- [src/router/routes.ts](../src/router/routes.ts) - Route definitions (7 routes, no child routes)
+- [src/main.ts](../src/main.ts) - Router configuration
 - [src/components/TabContainer.vue](../src/components/TabContainer.vue) - Tab management with hash sync
 
 ---
@@ -241,8 +234,12 @@ scrollBehavior(to, from, savedPosition) {
 
 ```typescript
 const currentSection = computed(() => {
-  const routeSection = route.meta.subsection || route.meta.section;
-  return isProgrammaticScroll.value ? routeSection : scrollBasedSection.value;
+  const routeSection = route.meta.section as string | undefined;
+  // Desktop: always use route-based section
+  // Mobile: use scroll-based tracking for manual scrolling
+  return isDesktopMode.value || isProgrammaticScroll.value
+    ? routeSection
+    : scrollBasedSection.value;
 });
 ```
 
@@ -460,7 +457,7 @@ function copyQuestionLink(questionId: string) {
 
 **UX Features:**
 - Link icon (🔗) appears on question hover (hidden by default)
-- Click copies full category URL: `/faq/server#technical-advantages`
+- Click copies question URL: `/faq#technical-advantages`
 - Icon changes to checkmark (✓) for 2 seconds
 - Toast notification: "Link copied to clipboard!" (top-right, auto-dismiss)
 - :target CSS animation: 2s orange border pulse on deep-link arrival
@@ -788,9 +785,8 @@ Use CSS variable for spacing:
 - Type guards: `isDefined()`, `isNullish()`, `isString()`, etc.
 
 **[navigation.ts](../src/types/navigation.ts)** - Navigation structure & routing helpers
-- Main sections only in NAVIGATION_STRUCTURE (no subsections)
-- Helper functions: `getSectionFromSubsection()`, `isSubsection()`, `getAllValidIds()`, `getRoutePath()`
-- Subsection mappings maintained for routing and active section tracking
+- Main sections only in NAVIGATION_STRUCTURE
+- Helper functions: `getAllValidIds()`, `getRoutePath()`
 
 ---
 
@@ -834,10 +830,10 @@ Use CSS variable for spacing:
 **[Downloads.vue](../src/screens/Downloads.vue)** - 3-tab installation guide (Quick Install, Dedicated Server, Manual Install) using TabContainer with hash navigation
 **[Statistics.vue](../src/screens/Statistics.vue)** - Player rankings and competitive leaderboards with tabbed interface
 **[Community.vue](../src/screens/Community.vue)** - Community links, live streams, dynamic content creator video tabs
-**[FAQ.vue](../src/screens/FAQ.vue)** - 5-category tabbed FAQ (About WICGATE, Getting Started, Technical Issues, Gameplay & Features, Server & Community) with:
+**[FAQ.vue](../src/screens/FAQ.vue)** - 4-category tabbed FAQ (About WICGATE, Getting Started, Technical Issues, Gameplay & Features) with:
   - SSR-compatible structured data via `useHead()`
   - Copy link buttons on all 21 questions (industry-standard pattern)
-  - Category-specific URLs (e.g., `/faq/server#technical-advantages`)
+  - Direct question URLs (e.g., `/faq#technical-advantages`)
   - Toast notifications and :target CSS animations
   - Full keyboard accessibility (ARIA labels, focus states)
 
@@ -863,8 +859,8 @@ Use CSS variable for spacing:
 
 **Steps:**
 1. Generate PWA icons from `public/favicon.svg` (4 sizes)
-2. Generate sitemap.xml (14 URLs - all main sections + subsections)
-3. ViteSSG build - Pre-render 14 routes (main sections + subsections)
+2. Generate sitemap.xml (5 URLs - main sections only)
+3. ViteSSG build - Pre-render 6 routes (main sections + /login)
 4. Apply head meta - Inject route-specific titles/descriptions/structured data
 5. PWA service worker generation (~54 precached entries)
 6. Asset optimization (code splitting, tree shaking, content hashing)

@@ -104,7 +104,7 @@ All in [tailwind.config.ts](tailwind.config.ts):
 ## Key Features (October 2025)
 
 - **PWA:** Offline capability, installable, service worker
-- **SSG:** 23 unique pre-rendered HTML files for SEO (path-based nested routes)
+- **SSG:** 6 pre-rendered HTML files for SEO (hash-based tabs within sections)
 - **Authentication:** Mock JWT with admin/user roles, protected routes
 - **State Management:** Pinia stores with SSR support
 - **Styling:** Tailwind CSS utility-first approach (80% code reduction)
@@ -122,7 +122,7 @@ All in [tailwind.config.ts](tailwind.config.ts):
 [src/main.ts](src/main.ts) - ViteSSG initialization + PWA registration
 
 ### Routing
-27 routes total (23 pre-rendered for SSG, /admin excluded): 6 main sections + 21 subsections + 2 auth routes (path-based nested routes)
+7 routes total (6 pre-rendered for SSG, /admin excluded): `/`, `/downloads`, `/statistics`, `/community`, `/faq`, `/login`, `/admin`. Tabs use hash fragments (e.g., `/downloads#dedicated-server`)
 
 ### State Management (Pinia)
 - [src/stores/appDataStore.ts](src/stores/appDataStore.ts) - API data with retry logic
@@ -210,9 +210,15 @@ src/
 - Developer experience (feature flags, JSDoc, 25+ utility types)
 - Component decomposition (80% complexity reduction)
 
+### January 2, 2026 - Hash-Based Tab Navigation
+- **Route Simplification:** 27 routes → 7 routes (6 pre-rendered)
+- **Tab Navigation:** Migrated from child routes to hash fragments
+- **URL Format:** `/downloads#dedicated-server`, `/faq#technical-issues`
+- **Default Tabs:** No hash in URL (just `/downloads` or `/faq`)
+- **Benefits:** Simpler routing, faster tab switching, cleaner URLs
+
 ### October 1-9, 2025
 - Widget dashboard (replaced hero carousel)
-- Path-based nested routes (27 pre-rendered routes)
 - Discord integration (navigation + events)
 - PWA implementation
 - Testing infrastructure
@@ -245,4 +251,4 @@ src/
 **For complete operational rules, see [CLAUDE.md](CLAUDE.md)**
 **For detailed documentation, see [docs/](docs/)**
 
-**Last Updated:** October 16, 2025 (Code Quality & Security)
+**Last Updated:** January 2, 2026 (Hash-Based Tab Navigation)

@@ -5,7 +5,6 @@
 
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
-import { getSectionFromSubsection } from '../types/navigation';
 import { useViewportMode } from './useViewportMode';
 
 export function useActiveSection(sectionIds: string[] = []) {
@@ -54,14 +53,6 @@ export function useActiveSection(sectionIds: string[] = []) {
         if (scrollPosition >= elementTop) {
           foundSection = id;
         }
-      }
-    }
-
-    // Map subsection IDs to their parent section (tabs should not affect navigation)
-    if (foundSection) {
-      const parentSection = getSectionFromSubsection(foundSection);
-      if (parentSection) {
-        foundSection = parentSection;
       }
     }
 

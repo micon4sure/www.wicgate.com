@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import MobileTabDropdown from './MobileTabDropdown.vue';
 import { useMobileTabs } from '../composables/useMobileTabs';
 
 interface Tab {
-  id: string; // The route name (e.g., 'downloads-quick', 'faq-about') or local tab ID
+  id: string; // Tab ID (e.g., 'downloads-quick-install', 'faq-about-wicgate')
   label: string; // Display label (e.g., 'Quick Install')
   icon?: string; // Optional FontAwesome icon class
 }
@@ -21,50 +20,16 @@ const props = withDefaults(defineProps<Props>(), {
   tabClass: 'tab-btn-sub',
 });
 
-const router = useRouter();
-const route = useRoute();
-
 const { isMobile } = useMobileTabs();
 
-// Local active tab for non-route tabs
+// Local active tab state
 const localActiveTabId = ref<string>(props.tabs[0]?.id || '');
 
-// Check if a tab matches a route name
-function isRouteTab(tabId: string): boolean {
-  return router.hasRoute(tabId);
-}
-
-// Active tab - derived from current route if route tab, otherwise use local state
-const activeTabId = computed(() => {
-  // If current route matches a tab, use it
-  const routeMatchingTab = props.tabs.find((t) => t.id === route.name);
-  if (routeMatchingTab) {
-    return routeMatchingTab.id;
-  }
-
-  // If first tab is a route tab, default to it
-  const firstTab = props.tabs[0];
-  if (firstTab && isRouteTab(firstTab.id)) {
-    return firstTab.id;
-  }
-
-  // Otherwise use local state (for non-route tabs like Community videos)
-  return localActiveTabId.value;
-});
-
-// Watch route changes to update local state
-watch(
-  () => route.name,
-  (newRouteName) => {
-    const matchingTab = props.tabs.find((t) => t.id === newRouteName);
-    if (matchingTab) {
-      localActiveTabId.value = matchingTab.id;
-    }
-  }
-);
+// Active tab - uses local state
+const activeTabId = computed(() => localActiveTabId.value);
 
 // Extract anchor from tab ID by finding common prefix from all tabs
-// e.g., 'downloads-quick' → 'quick', 'faq-about' → 'about'
+// e.g., 'downloads-quick-install' → 'quick-install', 'faq-about-wicgate' → 'about-wicgate'
 function getAnchor(tabId: string): string {
   const firstTab = props.tabs[0];
   if (!firstTab) return tabId;
@@ -85,23 +50,63 @@ function getAnchor(tabId: string): string {
   return tabId;
 }
 
-// Handle tab click - navigate to route if it exists, otherwise update local state
-async function switchTab(tab: Tab) {
-  // Check if this tab corresponds to a route
-  if (isRouteTab(tab.id)) {
-    // Navigate to the route
-    try {
-      await router.push({ name: tab.id });
-    } catch (error) {
-      // Route navigation failed, fall back to local state
-      console.warn(`Failed to navigate to route: ${tab.id}`, error);
-      localActiveTabId.value = tab.id;
+// Handle hash changes (browser back/forward)
+function handleHashChange() {
+  if (typeof window === 'undefined') return;
+
+  const hash = window.location.hash.slice(1); // Remove #
+  if (hash) {
+    const matchingTab = props.tabs.find((t) => getAnchor(t.id) === hash);
+    if (matchingTab) {
+      localActiveTabId.value = matchingTab.id;
     }
   } else {
-    // Local tab (no route), just update local state
-    localActiveTabId.value = tab.id;
+    // No hash = default tab
+    const firstTab = props.tabs[0];
+    if (firstTab) {
+      localActiveTabId.value = firstTab.id;
+    }
   }
 }
+
+// Handle tab click - update hash and local state
+function switchTab(tab: Tab) {
+  if (typeof window === 'undefined') return;
+
+  const anchor = getAnchor(tab.id);
+  const isDefault = tab.id === props.tabs[0]?.id;
+
+  if (isDefault) {
+    // Clear hash for default tab
+    history.replaceState(null, '', window.location.pathname);
+  } else {
+    // Set hash for non-default tab
+    history.pushState(null, '', `#${anchor}`);
+  }
+  localActiveTabId.value = tab.id;
+}
+
+// Initialize from hash on mount
+onMounted(() => {
+  if (typeof window === 'undefined') return;
+
+  // Read initial hash and activate matching tab
+  const hash = window.location.hash.slice(1); // Remove #
+  if (hash) {
+    const matchingTab = props.tabs.find((t) => getAnchor(t.id) === hash);
+    if (matchingTab) {
+      localActiveTabId.value = matchingTab.id;
+    }
+  }
+
+  // Listen for hash changes (browser back/forward)
+  window.addEventListener('hashchange', handleHashChange);
+});
+
+onUnmounted(() => {
+  if (typeof window === 'undefined') return;
+  window.removeEventListener('hashchange', handleHashChange);
+});
 
 // Format label for display (capitalize first letter)
 const formatLabel = (label: string): string => {

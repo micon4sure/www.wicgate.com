@@ -15,7 +15,7 @@ WiCGATE delivers a Massgate-inspired experience for the World in Conflict reviva
 - **Framework:** Vue 3 + TypeScript (Composition API)
 - **Build System:** Vite with ViteSSG for Static Site Generation
 - **State Management:** Pinia stores with SSR support
-- **Routing:** Vue Router (path-based, 29 pre-rendered routes)
+- **Routing:** Vue Router (7 routes, 6 pre-rendered for SSG)
 - **Styling:** Tailwind CSS utility-first with design tokens
 - **Authentication:** Mock JWT with localStorage persistence
 - **PWA:** Service worker with offline capability
@@ -133,11 +133,10 @@ src/
 │   ├── FirstVisitOverlay.vue # Welcome overlay
 │   └── skeletons/       # SEO-friendly loading states
 ├── screens/             # Section components
-│   ├── GettingStarted.vue
-│   ├── Multiplayer.vue
-│   ├── Community.vue
-│   ├── About.vue
-│   └── FAQ.vue
+│   ├── Downloads.vue    # Installation guide (3 tabs)
+│   ├── Statistics.vue   # Player rankings
+│   ├── Community.vue    # Live streams, videos
+│   └── FAQ.vue          # FAQ (4 categories)
 ├── views/               # Routed pages
 │   └── Home.vue         # Main SPA with all sections
 ├── composables/         # Composition functions
