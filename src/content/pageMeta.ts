@@ -7,7 +7,7 @@ export interface PageMetaDefinition {
   robots?: string;
 }
 
-export const DEFAULT_SITE_URL = import.meta.env.VITE_SITE_URL || 'https://wicgate.com';
+export const DEFAULT_SITE_URL = import.meta.env?.VITE_SITE_URL || 'https://wicgate.com';
 export const DEFAULT_OG_IMAGE = '/og-default.jpg';
 
 /**
