@@ -71,6 +71,14 @@ This post-build script writes `og:image` and `twitter:image` meta tags to pre-re
 
 **Note:** The script uses `process.env` (not `import.meta.env`) because it runs with `tsx` (Node.js), not Vite.
 
+**File:** `src/content/pageMeta.ts` (imported by the script)
+```typescript
+// Uses optional chaining to work in both Vite and Node.js/tsx contexts
+export const DEFAULT_SITE_URL = import.meta.env?.VITE_SITE_URL || 'https://wicgate.com';
+```
+
+**Why optional chaining?** In Vite, `import.meta.env` is an object. In Node.js/tsx, it's `undefined`. The `?.` safely handles both.
+
 ### Asset Paths (`DEPLOY_BASE` / `appBase`)
 
 Images referenced in Vue components need the correct base path when deployed to a subdirectory.
