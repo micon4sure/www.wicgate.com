@@ -129,7 +129,7 @@ function getCountdown(startDate: string): string {
 }
 
 function handleVideosClick() {
-  emit('navigate', 'community');
+  emit('navigate', 'community#videos');
 }
 
 // Mobile dropdown helpers

@@ -43,6 +43,8 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
    - Downloads tabs: `#quick-install` (default, no hash shown), `#dedicated-server`, `#manual-install`
    - FAQ tabs: `#about-wicgate` (default, no hash shown), `#getting-started`, `#technical-issues`, `#gameplay-features`
    - FAQ questions: `#game-crashes-on-startup`, `#what-is-wicgate`, etc.
+   - Community sections: `#streams` (Live Streams), `#videos` (Latest Videos)
+   - Community video tabs: `#latest` (default), `#{channelId}` (creator channels)
 
 **Key distinction:** Clicking a navbar link triggers Vue Router navigation (section change). Clicking a tab within a section only updates the URL hash (no route change, content swaps instantly via TabContainer).
 
@@ -86,7 +88,8 @@ function switchTab(tab: Tab) {
 - Downloads tabs: `/downloads`, `/downloads#dedicated-server`, `/downloads#manual-install`
 - FAQ categories: `/faq`, `/faq#getting-started`, `/faq#technical-issues`, `/faq#gameplay-features`
 - FAQ questions: `/faq#game-crashes-on-startup`, `/faq#what-is-wicgate`
-- Community videos: Local tab state (no hash for dynamic YouTube channels)
+- Community sections: `/community#streams`, `/community#videos`
+- Community video tabs: `/community#latest` (or just `/community` for default)
 
 **Navigation Helper:** [src/types/navigation.ts](../src/types/navigation.ts) - `getRoutePath()` converts IDs to paths
 
