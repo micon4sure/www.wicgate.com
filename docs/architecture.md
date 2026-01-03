@@ -784,6 +784,46 @@ script: [
 - [tailwind.css](../src/assets/styles/tailwind.css) - All media queries use `screen()`
 - [tailwind.config.ts](../tailwind.config.ts) - Breakpoint definitions
 
+### Semantic Typography Scale (January 2026)
+
+**All typography uses semantic tokens** defined in `tailwind.config.ts`, enforcing a 12px minimum font size at small breakpoints.
+
+**Token Hierarchy:**
+| Category | Tokens | Size Range | Use Case |
+|----------|--------|------------|----------|
+| Display | `display-xl` to `display-sm` | 48px - 24px | Hero, major headers |
+| Heading | `heading-xl` to `heading-sm` | 24px - 16px | Section headers |
+| Body | `body-xl` to `body-sm` | 18px - 14px | Content text |
+| Caption | `caption-lg`, `caption-md` | 13px - 12px | UI elements, labels |
+| Navigation | `nav-xl` to `nav-xs` | 16px - 12px | Tabs, navigation |
+
+**12px Minimum Enforcement:**
+- `caption-md` and `nav-xs` are the floor values (12px)
+- All components respect this minimum at xs (320px) breakpoint
+- No font size should go below 12px for readability
+
+**Responsive Scaling (2xl = 100% baseline):**
+| Breakpoint | Ratio | Example: Hero Subtitle |
+|------------|-------|------------------------|
+| 3xl (2560px) | 112% | 56px |
+| 2xl (1440px) | 100% | 48px (golden standard) |
+| xl (1024px) | 88% | 36px |
+| lg (768px) | 78% | 28px |
+| md (425px) | 70% | 24px |
+| sm (375px) | 65% | 20px |
+| xs (320px) | 60% | 18px |
+
+**Usage:**
+```css
+.hero-subtitle {
+  @apply text-display-xl; /* 48px at 2xl */
+}
+
+@media not all and screen(xl) {
+  .hero-subtitle { @apply text-display-md; } /* 28px */
+}
+```
+
 ### Dynamic Header Integration
 
 Use CSS variable for spacing:

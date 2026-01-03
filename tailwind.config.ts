@@ -132,6 +132,38 @@ export default {
         'futuristic': ['Orbitron', 'sans-serif'],
       },
 
+      // Semantic Typography Scale (12px minimum enforced)
+      fontSize: {
+        // Display hierarchy (hero, major headers)
+        'display-xl': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],      // 48px
+        'display-lg': ['2.25rem', { lineHeight: '1.15', letterSpacing: '-0.01em' }],  // 36px
+        'display-md': ['1.75rem', { lineHeight: '1.2' }],                              // 28px
+        'display-sm': ['1.5rem', { lineHeight: '1.25' }],                              // 24px
+
+        // Heading hierarchy
+        'heading-xl': ['1.5rem', { lineHeight: '1.3' }],    // 24px
+        'heading-lg': ['1.25rem', { lineHeight: '1.35' }],  // 20px
+        'heading-md': ['1.125rem', { lineHeight: '1.4' }],  // 18px
+        'heading-sm': ['1rem', { lineHeight: '1.4' }],      // 16px
+
+        // Body hierarchy
+        'body-xl': ['1.125rem', { lineHeight: '1.6' }],     // 18px
+        'body-lg': ['1rem', { lineHeight: '1.6' }],         // 16px
+        'body-md': ['0.9375rem', { lineHeight: '1.5' }],    // 15px
+        'body-sm': ['0.875rem', { lineHeight: '1.5' }],     // 14px
+
+        // Caption/UI hierarchy (minimum 12px)
+        'caption-lg': ['0.8125rem', { lineHeight: '1.4' }], // 13px
+        'caption-md': ['0.75rem', { lineHeight: '1.4' }],   // 12px (MINIMUM)
+
+        // Navigation specific
+        'nav-xl': ['1rem', { lineHeight: '1.2', letterSpacing: '0.05em' }],      // 16px
+        'nav-lg': ['0.9375rem', { lineHeight: '1.2', letterSpacing: '0.04em' }], // 15px
+        'nav-md': ['0.875rem', { lineHeight: '1.2', letterSpacing: '0.03em' }],  // 14px
+        'nav-sm': ['0.8125rem', { lineHeight: '1.2', letterSpacing: '0.02em' }], // 13px
+        'nav-xs': ['0.75rem', { lineHeight: '1.2', letterSpacing: '0.02em' }],   // 12px (MINIMUM)
+      },
+
       backgroundImage: {
         // Note: Most gradients can be created inline with Tailwind utilities
         // Example: bg-gradient-to-b from-massgate-red to-massgate-red-dark

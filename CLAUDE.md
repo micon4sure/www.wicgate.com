@@ -45,6 +45,10 @@ npm run build:og     # Regenerate OG images (social sharing)
     - ❌ NEVER use hardcoded pixel values like `@media (max-width: 767px)`
     - ✅ Use `@media screen(lg)` for min-width, `@media not all and screen(lg)` for max-width
     - See `tailwind.css` header comment for pattern reference
+13. ✅ ALWAYS enforce 12px minimum font size at small breakpoints
+    - ❌ NEVER use font sizes below `text-caption-md` (12px) or `text-nav-xs` (12px)
+    - ✅ Use semantic typography tokens: `text-display-*`, `text-heading-*`, `text-body-*`, `text-caption-*`, `text-nav-*`
+    - See `tailwind.config.ts` for the complete typography scale
 
 ---
 
@@ -75,4 +79,4 @@ npm run build:og     # Regenerate OG images (social sharing)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** January 3, 2026
+**Updated:** January 3, 2026 (Typography Scale)

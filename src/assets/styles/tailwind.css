@@ -164,9 +164,18 @@
     background: linear-gradient(180deg, #ffa000 0%, #ff8f00 100%);
   }
 
-  /* Container */
+  /* Container - Progressive padding reduction for small screens */
   .container {
     @apply max-w-7xl mx-auto px-5;
+    @apply 3xl:px-8; /* 32px at 2560px+ */
+  }
+
+  @media not all and screen(xl) {
+    .container { @apply px-4; } /* 16px below 1024px */
+  }
+
+  @media not all and screen(lg) {
+    .container { @apply px-3; } /* 12px below 768px */
   }
 
   /* Section spacing */
@@ -438,14 +447,16 @@
     @apply flex items-center gap-1.5;
   }
 
-  /* New badge for unseen items */
+  /* New badge for unseen items - 12px minimum */
   .widget-badge-new {
-    @apply bg-youtube text-white text-[10px] font-bold px-1.5 py-0.5 rounded-sm uppercase;
+    @apply bg-youtube text-white text-caption-md font-bold px-1.5 py-0.5 rounded-sm uppercase;
+    /* 12px minimum font size */
   }
 
-  /* Count badge for inactive tab */
+  /* Count badge for inactive tab - 12px minimum */
   .widget-badge-count {
-    @apply bg-white/15 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-sm;
+    @apply bg-white/15 text-white text-caption-md font-bold px-1.5 py-0.5 rounded-sm;
+    /* 12px minimum font size */
   }
 
   /* Expand button for widget headers */
@@ -577,84 +588,118 @@
     @apply bg-mg/15 border border-mg/25 animate-pulse;
   }
 
-  /* Widget header (for WidgetBase.vue) */
+  /* Widget header (for WidgetBase.vue) - 7-tier responsive spacing */
   .widget-header {
     @apply flex items-center gap-3 py-5 px-6 pb-4 border-b border-mg/30;
+    /* 2xl golden standard: 20px/24px/12px */
   }
 
   @media not all and screen(xl) {
-    .widget-header {
-      @apply py-4 px-5 pb-3;
-    }
+    .widget-header { @apply py-4 px-5 pb-3 gap-2.5; } /* 16px/20px/10px */
   }
 
   @media not all and screen(lg) {
-    .widget-header {
-      @apply py-3.5 px-4 pb-2.5 gap-2.5;
-    }
+    .widget-header { @apply py-3.5 px-4 pb-2.5 gap-2.5; } /* 14px/16px/10px */
   }
 
-  /* Widget header icon */
+  @media not all and screen(md) {
+    .widget-header { @apply py-3 px-3.5 pb-2 gap-2; } /* 12px/14px/8px */
+  }
+
+  @media not all and screen(sm) {
+    .widget-header { @apply py-2.5 px-3 pb-2 gap-2; } /* 10px/12px/8px */
+  }
+
+  @media not all and screen(xs) {
+    .widget-header { @apply py-2 px-2.5 pb-1.5 gap-1.5; } /* 8px/10px/6px */
+  }
+
+  /* Widget header icon - responsive sizing */
   .widget-header-icon {
     @apply w-10 h-10 rounded-full flex items-center justify-center text-xl flex-shrink-0;
     @apply bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border-2 border-massgate-orange-dark text-ink;
   }
 
   @media not all and screen(lg) {
-    .widget-header-icon {
-      @apply w-9 h-9 text-lg;
-    }
+    .widget-header-icon { @apply w-9 h-9 text-lg; }
   }
 
-  /* Widget header title */
+  @media not all and screen(md) {
+    .widget-header-icon { @apply w-8 h-8 text-base; }
+  }
+
+  /* Widget header title - 7-tier responsive typography */
   .widget-header-title {
-    @apply m-0 text-xl font-bold text-t font-military uppercase tracking-[0.5px];
+    @apply m-0 text-heading-lg font-bold text-t font-military uppercase tracking-[0.5px];
+    /* 20px at 2xl golden standard */
+  }
+
+  @media not all and screen(xl) {
+    .widget-header-title { @apply text-heading-md; } /* 18px */
   }
 
   @media not all and screen(lg) {
-    .widget-header-title {
-      @apply text-lg;
-    }
+    .widget-header-title { @apply text-heading-sm; } /* 16px */
   }
 
-  @media not all and screen(lg) {
-    .widget-header-title {
-      @apply text-base;
-    }
+  @media not all and screen(md) {
+    .widget-header-title { @apply text-body-md; } /* 15px */
   }
 
-  /* Widget body */
+  @media not all and screen(sm) {
+    .widget-header-title { @apply text-body-sm; } /* 14px */
+  }
+
+  @media not all and screen(xs) {
+    .widget-header-title { @apply text-caption-lg; } /* 13px */
+  }
+
+  /* Widget body - 7-tier responsive spacing */
   .widget-body {
     @apply flex-1 py-5 px-6 flex flex-col gap-4;
+    /* 2xl golden standard */
   }
 
   @media not all and screen(xl) {
-    .widget-body {
-      @apply py-4 px-5;
-    }
+    .widget-body { @apply py-4 px-5 gap-3.5; }
   }
 
   @media not all and screen(lg) {
-    .widget-body {
-      @apply py-3.5 px-4 gap-3;
-    }
+    .widget-body { @apply py-3.5 px-4 gap-3; }
   }
 
-  /* Widget footer */
+  @media not all and screen(md) {
+    .widget-body { @apply py-3 px-3.5 gap-2.5; }
+  }
+
+  @media not all and screen(sm) {
+    .widget-body { @apply py-2.5 px-3 gap-2; }
+  }
+
+  @media not all and screen(xs) {
+    .widget-body { @apply py-2 px-2.5 gap-2; }
+  }
+
+  /* Widget footer - 7-tier responsive spacing */
   .widget-footer {
     @apply py-4 px-6 border-t border-mg/30 bg-gradient-to-b from-mg/10 to-mg-dark/20;
+    /* 2xl golden standard */
   }
 
   @media not all and screen(xl) {
-    .widget-footer {
-      @apply py-3 px-5;
-    }
+    .widget-footer { @apply py-3 px-5; }
   }
 
   @media not all and screen(lg) {
-    .widget-footer {
-      @apply py-2.5 px-4;
-    }
+    .widget-footer { @apply py-2.5 px-4; }
+  }
+
+  @media not all and screen(md) {
+    .widget-footer { @apply py-2 px-3.5; }
+  }
+
+  @media not all and screen(sm) {
+    .widget-footer { @apply py-2 px-3; }
   }
 
   .widget-footer-action {
@@ -710,70 +755,79 @@
     }
   }
 
-  /* Logo wrapper */
+  /* Logo wrapper - 7-tier responsive min-width */
   .logo-wrapper {
     @apply flex flex-col items-start min-w-[200px];
   }
 
-  @media not all and screen(lg) {
-    .logo-wrapper {
-      @apply min-w-[160px];
-    }
+  @media not all and screen(xl) {
+    .logo-wrapper { @apply min-w-[180px]; }
   }
 
   @media not all and screen(lg) {
-    .logo-wrapper {
-      @apply min-w-[140px];
-    }
+    .logo-wrapper { @apply min-w-[160px]; }
   }
 
+  @media not all and screen(md) {
+    .logo-wrapper { @apply min-w-[120px]; }
+  }
+
+  @media not all and screen(sm) {
+    .logo-wrapper { @apply min-w-[100px]; }
+  }
+
+  @media not all and screen(xs) {
+    .logo-wrapper { @apply min-w-[90px]; }
+  }
+
+  /* Logo title - 7-tier responsive typography */
   .logo-title {
     @apply font-military text-2xl font-bold text-teal uppercase tracking-[2px] select-none leading-none;
   }
 
-  @media not all and screen(lg) {
-    .logo-title {
-      @apply text-xl;
-    }
+  @media not all and screen(xl) {
+    .logo-title { @apply text-xl; }
   }
 
   @media not all and screen(lg) {
-    .logo-title {
-      @apply text-lg;
-    }
+    .logo-title { @apply text-lg; }
   }
 
+  @media not all and screen(md) {
+    .logo-title { @apply text-base; }
+  }
+
+  @media not all and screen(sm) {
+    .logo-title { @apply text-body-md; } /* 15px */
+  }
+
+  @media not all and screen(xs) {
+    .logo-title { @apply text-body-sm; } /* 14px */
+  }
+
+  /* Logo image - responsive sizing */
   .logo-image {
     @apply h-10 w-auto select-none;
   }
 
   @media not all and screen(lg) {
-    .logo-image {
-      @apply h-9;
-    }
+    .logo-image { @apply h-9; }
   }
 
-  @media not all and screen(lg) {
-    .logo-image {
-      @apply h-8;
-    }
+  @media not all and screen(md) {
+    .logo-image { @apply h-8; }
   }
 
+  /* Logo subtitle - 12px minimum enforced */
   .logo-subtitle {
-    @apply font-body text-[11px] font-medium text-battlefield-mist uppercase tracking-[1px] mt-0.5 leading-none;
+    @apply font-body text-caption-lg font-medium text-battlefield-mist uppercase tracking-[1px] mt-0.5 leading-none;
+    /* 13px base - never goes below 12px */
   }
 
   @media not all and screen(lg) {
-    .logo-subtitle {
-      @apply text-[10px];
-    }
+    .logo-subtitle { @apply text-caption-md; } /* 12px - MINIMUM */
   }
-
-  @media not all and screen(lg) {
-    .logo-subtitle {
-      @apply text-[9px];
-    }
-  }
+  /* No further reductions - 12px is the floor */
 
   /* Hamburger menu button */
   .hamburger-btn {
@@ -849,103 +903,80 @@
     background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
   }
 
-  /* Tab button base */
+  /* Tab button base - 7-tier responsive typography and spacing */
   .tab-btn {
     @apply flex-1 cursor-pointer relative mr-px;
-    @apply font-[Oswald,sans-serif] font-medium text-[1.05rem] uppercase tracking-[1px];
-    @apply border-none;
-    @apply text-t-secondary;
+    @apply font-military font-medium uppercase tracking-[1px];
+    @apply border-none text-t-secondary;
     @apply transition-all duration-300 ease-out;
-    @apply p-[32px_42px];
+    @apply text-nav-xl p-[32px_42px]; /* 16px font, 32px/42px padding at 2xl */
     background: transparent;
   }
+
+  @media not all and screen(2xl) {
+    .tab-btn { @apply text-nav-lg p-[24px_32px]; } /* 15px font */
+  }
+
+  @media not all and screen(xl) {
+    .tab-btn { @apply text-nav-md p-[18px_24px]; } /* 14px font */
+  }
+
+  @media not all and screen(lg) {
+    .tab-btn { @apply text-nav-md p-[14px_18px]; } /* 14px font */
+  }
+
+  @media not all and screen(md) {
+    .tab-btn { @apply text-nav-sm p-[12px_14px]; } /* 13px font */
+  }
+
+  @media not all and screen(sm) {
+    .tab-btn { @apply text-nav-xs p-[10px_12px]; } /* 12px font - MINIMUM */
+  }
+
+  /* Tab button variants - inherit base responsive cascade */
   .tab-btn-s {
-    @apply tab-btn;
-    @apply text-[1rem] p-[24px_32px];
+    @apply tab-btn text-nav-lg p-[24px_32px]; /* Slightly smaller base */
+  }
+
+  @media not all and screen(xl) {
+    .tab-btn-s { @apply text-nav-md p-[16px_20px]; }
   }
 
   @media not all and screen(lg) {
-    .tab-btn-s {
-      @apply p-[10px_12px] text-[0.8rem];
-    }
+    .tab-btn-s { @apply text-nav-sm p-[12px_14px]; }
   }
 
-  @media not all and screen(lg) {
-    .tab-btn-s {
-      @apply p-[8px_10px] text-[0.75rem];
-    }
-  }
-
-  @media not all and screen(xs) {
-    .tab-btn-s {
-      @apply p-[0.5rem_0.625rem] text-[0.7rem];
-    }
+  @media not all and screen(md) {
+    .tab-btn-s { @apply text-nav-xs p-[10px_12px]; } /* 12px minimum */
   }
 
   .tab-btn-xs {
-    @apply tab-btn;
-    @apply text-[0.8rem] p-[24px_32px];
+    @apply tab-btn text-nav-md p-[20px_26px]; /* Compact variant */
   }
 
   @media not all and screen(lg) {
-    .tab-btn-xs {
-      @apply p-[10px_12px] text-[0.75rem];
-    }
+    .tab-btn-xs { @apply text-nav-sm p-[10px_12px]; }
   }
 
-  @media not all and screen(lg) {
-    .tab-btn-xs {
-      @apply p-[8px_10px] text-[0.7rem];
-    }
+  @media not all and screen(md) {
+    .tab-btn-xs { @apply text-nav-xs p-[8px_10px]; } /* 12px minimum */
   }
 
-  @media not all and screen(xs) {
-    .tab-btn-xs {
-      @apply p-[0.5rem_0.5rem] text-[0.65rem];
-    }
-  }
-
-  @media not all and screen(lg) {
-    .tab-btn {
-      @apply p-[10px_12px] text-[0.95rem];
-    }
-  }
-
-  @media not all and screen(lg) {
-    .tab-btn {
-      @apply p-[8px_10px] text-[0.85rem];
-    }
-  }
-
-  @media not all and screen(xs) {
-    .tab-btn {
-      @apply p-[0.5rem_0.625rem] text-[0.8rem];
-    }
-  }
-
-  /* Leaderboard-specific tab sizing - proportional across all breakpoints */
+  /* Leaderboard-specific tab sizing - 7-tier responsive */
   .tab-btn-leaderboard {
-    @apply tab-btn;
-    @apply text-[0.85rem] p-[12px_16px];
-  }
-
-
-  @media not all and screen(lg) {
-    .tab-btn-leaderboard {
-      @apply text-[0.8rem] p-[10px_12px];
-    }
+    @apply tab-btn text-nav-sm p-[12px_16px]; /* Compact for leaderboard */
   }
 
   @media not all and screen(lg) {
-    .tab-btn-leaderboard {
-      @apply text-[0.75rem] p-[8px_10px];
-    }
+    .tab-btn-leaderboard { @apply text-nav-sm p-[10px_12px]; } /* 13px */
   }
 
-  @media not all and screen(xs) {
-    .tab-btn-leaderboard {
-      @apply text-[0.7rem] p-[6px_8px];
-    }
+  @media not all and screen(md) {
+    .tab-btn-leaderboard { @apply text-nav-xs p-[8px_10px]; } /* 12px minimum */
+  }
+
+  @media not all and screen(sm) {
+    .tab-btn-leaderboard { @apply text-caption-md p-[6px_8px]; } /* 12px minimum */
   }
 
   /* Tab button active state */
@@ -1417,7 +1448,7 @@
 
   @media not all and screen(xs) {
     .lb-cell {
-      @apply p-1.5 min-h-10 h-10;
+      @apply p-1 min-h-10 h-10; /* Tighter padding for 320px */
     }
   }
 
@@ -1484,57 +1515,61 @@
     @apply lb-cell text-center px-1;
   }
 
-  /* Player name cell (middle column) */
+  /* Player name cell (middle column) - overflow handling for mobile */
   .lb-cell-player {
-    @apply lb-cell relative;
+    @apply lb-cell relative min-w-0 overflow-hidden;
   }
 
-  /* Clan tag styling */
-  .lb-clan-tag {
-    @apply font-[Courier_New,monospace] text-massgate-orange font-semibold text-[0.8rem];
-    @apply inline align-middle leading-[1.2] m-0 p-0;
-  }
-
-  @media not all and screen(lg) {
-    .lb-clan-tag {
-      @apply text-[0.7rem];
-    }
+  /* Flex container inside player cell - enables truncation */
+  .lb-cell-player > div {
+    @apply flex items-center min-w-0 gap-1;
   }
 
   @media not all and screen(xs) {
-    .lb-clan-tag {
-      @apply text-[0.65rem];
-    }
+    .lb-cell-player > div { @apply gap-0.5; } /* Tighter gap for 320px */
   }
 
-  /* Player name styling */
+  /* Clan tag styling - 7-tier responsive, 12px minimum, no shrink */
+  .lb-clan-tag {
+    @apply font-mono text-massgate-orange font-semibold text-body-sm;
+    @apply inline-block align-middle leading-[1.2] m-0 p-0 flex-shrink-0;
+    /* 14px at 2xl, keeps clan tag intact while player name truncates */
+  }
+
+  @media not all and screen(lg) {
+    .lb-clan-tag { @apply text-caption-lg; } /* 13px */
+  }
+
+  @media not all and screen(md) {
+    .lb-clan-tag { @apply text-caption-md; } /* 12px - MINIMUM */
+  }
+  /* No further reductions - 12px is the floor */
+
+  /* Player name styling - truncate to prevent overflow at mobile */
   .lb-player-name {
     @apply font-[Rajdhani,sans-serif] text-t font-semibold text-[1.1rem] tracking-[0.3px];
-    @apply inline align-middle leading-[1.2] m-0;
+    @apply inline-block align-middle leading-[1.2] m-0 truncate min-w-0;
   }
 
+  /* 7-tier responsive font size for player names */
   @media not all and screen(xl) {
-    .lb-player-name {
-      @apply text-[1.05rem];
-    }
+    .lb-player-name { @apply text-[1.05rem]; }
   }
 
   @media not all and screen(lg) {
-    .lb-player-name {
-      @apply text-[1rem];
-    }
+    .lb-player-name { @apply text-[1rem]; }
   }
 
-  @media not all and screen(lg) {
-    .lb-player-name {
-      @apply text-[0.95rem];
-    }
+  @media not all and screen(md) {
+    .lb-player-name { @apply text-[0.95rem]; }
+  }
+
+  @media not all and screen(sm) {
+    .lb-player-name { @apply text-[0.9rem]; }
   }
 
   @media not all and screen(xs) {
-    .lb-player-name {
-      @apply text-[0.9rem];
-    }
+    .lb-player-name { @apply text-[0.85rem]; }
   }
 
   /* Medal colors for top 3 ranks */
@@ -1608,7 +1643,7 @@
   }
 
   .faq-item ol li {
-    @apply flex items-start gap-3 pl-0;
+    @apply flex items-start gap-3 pl-0 break-words;
     list-style: none;
   }
 
@@ -1625,13 +1660,25 @@
   }
 
   .faq-item ul li {
-    @apply flex items-start gap-3 pl-0;
+    @apply flex items-start gap-3 pl-0 break-words;
     list-style: none;
   }
 
   .faq-item ul li::before {
     content: '›';
     @apply flex-shrink-0 text-soviet font-bold text-lg leading-none;
+  }
+
+  /* FAQ code elements - break long file paths at mobile */
+  .faq-item code {
+    @apply break-all;
+  }
+
+  /* FAQ paragraph text wrapping at mobile */
+  @media not all and screen(lg) {
+    .faq-item p {
+      @apply break-words;
+    }
   }
 
   /* ========== LEADERBOARD GROUP COMPONENTS ========== */
@@ -1739,64 +1786,54 @@
     aspect-ratio: 1 / 1;
   }
 
+  /* Hide avatar on mobile - collapse column completely */
+  @media not all and screen(lg) {
+    .col-avatar {
+      width: 0 !important;
+      min-width: 0 !important;
+      max-width: 0 !important;
+    }
+    .lb-cell-avatar {
+      width: 0 !important;
+      min-width: 0 !important;
+      max-width: 0 !important;
+      padding: 0 !important;
+      overflow: hidden;
+    }
+    .lb-cell-avatar .lb-avatar {
+      display: none;
+    }
+  }
+
+  /* 7-tier responsive column widths - consolidated cascade */
   @media not all and screen(xl) {
-    .col-rank {
-      width: 36px;
-      min-width: 36px;
-    }
-    .col-insignia {
-      width: 28px;
-      min-width: 28px;
-    }
-    .col-avatar {
-      width: 22px;
-      min-width: 22px;
-    }
+    .col-rank { width: 36px; min-width: 36px; }
+    .col-insignia { width: 28px; min-width: 28px; }
+    .col-avatar { width: 22px; min-width: 22px; }
   }
 
   @media not all and screen(lg) {
-    .col-rank {
-      width: 32px;
-      min-width: 32px;
-    }
-    .col-insignia {
-      width: 26px;
-      min-width: 26px;
-    }
-    .col-avatar {
-      width: 20px;
-      min-width: 20px;
-    }
+    .col-rank { width: 32px; min-width: 32px; }
+    .col-insignia { width: 26px; min-width: 26px; }
+    .col-avatar { width: 20px; min-width: 20px; }
   }
 
-  @media not all and screen(lg) {
-    .col-rank {
-      width: 28px;
-      min-width: 28px;
-    }
-    .col-insignia {
-      width: 24px;
-      min-width: 24px;
-    }
-    .col-avatar {
-      width: 18px;
-      min-width: 18px;
-    }
+  @media not all and screen(md) {
+    .col-rank { width: 28px; min-width: 28px; }
+    .col-insignia { width: 24px; min-width: 24px; }
+    .col-avatar { width: 18px; min-width: 18px; }
+  }
+
+  @media not all and screen(sm) {
+    .col-rank { width: 26px; min-width: 26px; }
+    .col-insignia { width: 22px; min-width: 22px; }
+    .col-avatar { width: 17px; min-width: 17px; }
   }
 
   @media not all and screen(xs) {
-    .col-rank {
-      width: 24px;
-      min-width: 24px;
-    }
-    .col-insignia {
-      width: 20px;
-      min-width: 20px;
-    }
-    .col-avatar {
-      width: 16px;
-      min-width: 16px;
-    }
+    .col-rank { width: 24px; min-width: 24px; }
+    .col-insignia { width: 20px; min-width: 20px; }
+    .col-avatar { width: 16px; min-width: 16px; }
   }
 
   .col-score {
@@ -1804,32 +1841,25 @@
     min-width: 140px;
   }
 
+  /* 7-tier responsive score column - consolidated cascade */
   @media not all and screen(xl) {
-    .col-score {
-      width: 9rem;
-      min-width: 9rem;
-    }
+    .col-score { width: 9rem; min-width: 9rem; }    /* 144px */
   }
 
   @media not all and screen(lg) {
-    .col-score {
-      width: 7.5rem;
-      min-width: 7.5rem;
-    }
+    .col-score { width: 7rem; min-width: 7rem; }    /* 112px */
   }
 
-  @media not all and screen(lg) {
-    .col-score {
-      width: 6.25rem;
-      min-width: 6.25rem;
-    }
+  @media not all and screen(md) {
+    .col-score { width: 5.5rem; min-width: 5.5rem; } /* 88px */
+  }
+
+  @media not all and screen(sm) {
+    .col-score { width: 5rem; min-width: 5rem; }    /* 80px */
   }
 
   @media not all and screen(xs) {
-    .col-score {
-      width: 5.5rem;
-      min-width: 5.5rem;
-    }
+    .col-score { width: 3.75rem; min-width: 3.75rem; } /* 60px - compact for 320px */
   }
 
   /* ========== TABLE COMPONENTS ========== */
@@ -1939,23 +1969,21 @@
     @apply bg-gradient-to-r from-massgate-orange/22 to-massgate-orange/15 !border-massgate-orange/40;
   }
 
-  /* Clan tag styling */
+  /* Clan tag styling - 7-tier responsive, 12px minimum */
   .clan-tag {
-    @apply font-[Courier_New,monospace] text-massgate-orange font-semibold text-[0.8rem];
+    @apply font-mono text-massgate-orange font-semibold text-body-sm;
     @apply inline align-middle leading-[1.2] m-0 p-0;
+    /* 14px at 2xl */
   }
 
   @media not all and screen(lg) {
-    .clan-tag {
-      @apply text-[0.7rem];
-    }
+    .clan-tag { @apply text-caption-lg; } /* 13px */
   }
 
-  @media not all and screen(xs) {
-    .clan-tag {
-      @apply text-[0.65rem];
-    }
+  @media not all and screen(md) {
+    .clan-tag { @apply text-caption-md; } /* 12px - MINIMUM */
   }
+  /* No further reductions - 12px is the floor */
 
   /* Player name styling */
   .player-name {
@@ -2321,13 +2349,14 @@
     padding-bottom: 2rem;
   }
 
-  /* Hero main card (title, description, CTA) */
+  /* Hero main card (title, description, CTA) - 7-tier responsive padding */
   .hero-main-card-wrapper {
     @apply text-center mb-8;
   }
 
   .hero-main-card {
     @apply dashboard-card px-8 py-16 relative;
+    /* 2xl golden standard: 32px horizontal, 64px vertical */
   }
 
   .hero-main-card-with-video {
@@ -2362,16 +2391,24 @@
     }
   }
 
-  @media not all and screen(lg) {
-    .hero-main-card {
-      @apply px-6 py-12;
-    }
+  @media not all and screen(xl) {
+    .hero-main-card { @apply px-7 py-12; } /* 28px/48px */
   }
 
   @media not all and screen(lg) {
-    .hero-main-card {
-      @apply px-4 py-8;
-    }
+    .hero-main-card { @apply px-6 py-10; } /* 24px/40px */
+  }
+
+  @media not all and screen(md) {
+    .hero-main-card { @apply px-5 py-8; } /* 20px/32px */
+  }
+
+  @media not all and screen(sm) {
+    .hero-main-card { @apply px-4 py-6; } /* 16px/24px */
+  }
+
+  @media not all and screen(xs) {
+    .hero-main-card { @apply px-3 py-5; } /* 12px/20px */
   }
 
   /* Hero widget grid (media/event and info cards) */
@@ -2404,7 +2441,7 @@
     background: linear-gradient(to bottom right, rgba(139, 0, 0, 0.05), transparent, rgba(255, 102, 0, 0.03));
   }
 
-  /* Hero badge (THE WAR CONTINUES) */
+  /* Hero badge (THE WAR CONTINUES) - 12px minimum */
   .hero-badge {
     @apply inline-block py-1.5 px-4 font-military text-xs font-bold tracking-widest uppercase mb-5;
     @apply text-soviet border border-soviet/40;
@@ -2413,9 +2450,7 @@
   }
 
   @media not all and screen(lg) {
-    .hero-badge {
-      @apply py-[5px] px-3 text-[11px] mb-4;
-    }
+    .hero-badge { @apply py-1 px-3 text-caption-md mb-4; } /* 12px minimum */
   }
 
   /* Hero WIC Logo (above title) */
@@ -2500,41 +2535,55 @@
     }
   }
 
-  /* Hero subtitle (Multiplayer Reloaded) - Orbitron futuristic font */
+  /* Hero subtitle (Multiplayer Reloaded) - 7-tier responsive typography */
   .hero-subtitle {
-    @apply inline text-4xl text-massgate-red-bright font-futuristic font-bold uppercase tracking-wider;
+    @apply inline text-display-xl text-massgate-red-bright font-futuristic font-bold uppercase tracking-wider;
+    /* 48px at 2xl (golden standard) */
     font-style: italic;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
   }
 
   @media not all and screen(2xl) {
-    .hero-subtitle {
-      @apply text-3xl;
-    }
+    .hero-subtitle { @apply text-display-lg; } /* 36px */
+  }
+
+  @media not all and screen(xl) {
+    .hero-subtitle { @apply text-display-md; } /* 28px */
   }
 
   @media not all and screen(lg) {
-    .hero-subtitle {
-      @apply text-2xl;
-    }
+    .hero-subtitle { @apply text-display-sm; } /* 24px */
   }
 
-  /* Hero description text */
+  @media not all and screen(md) {
+    .hero-subtitle { @apply text-heading-lg; } /* 20px */
+  }
+
+  @media not all and screen(sm) {
+    .hero-subtitle { @apply text-heading-md; } /* 18px */
+  }
+
+  /* Hero description text - 7-tier responsive typography */
   .hero-desc {
-    @apply text-lg text-t leading-relaxed font-body font-semibold;
+    @apply text-body-xl text-t leading-relaxed font-body font-semibold;
+    /* 18px at 2xl (golden standard) */
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
   }
 
   @media not all and screen(2xl) {
-    .hero-desc {
-      @apply text-base;
-    }
+    .hero-desc { @apply text-body-lg; } /* 16px */
   }
 
   @media not all and screen(lg) {
-    .hero-desc {
-      @apply text-sm;
-    }
+    .hero-desc { @apply text-body-md; } /* 15px */
+  }
+
+  @media not all and screen(md) {
+    .hero-desc { @apply text-body-sm; } /* 14px */
+  }
+
+  @media not all and screen(sm) {
+    .hero-desc { @apply text-caption-lg; } /* 13px */
   }
 
   .hero-desc-secondary {
@@ -3154,12 +3203,13 @@
     @apply transition-all duration-300;
   }
 
-  /* Smaller play button for compact thumbnails */
+  /* Smaller play button for compact thumbnails - 12px minimum */
   .play-over-sm {
     @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
-    @apply w-8 h-6 bg-youtube/90 text-white rounded-md text-[10px];
+    @apply w-8 h-6 bg-youtube/90 text-white rounded-md text-caption-md;
     @apply flex items-center justify-center opacity-100;
     @apply transition-all duration-300;
+    /* 12px minimum font size */
   }
 
   @media (hover: hover) {
