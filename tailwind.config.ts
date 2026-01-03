@@ -54,6 +54,10 @@ export default {
           DEFAULT: '#182630',      // Authentic alternating row color from master
           dark: '#0e181f',         // Darker alternating row
         },
+        'panel-border': {
+          DEFAULT: '#37576D',      // Steel blue border for panels/cards
+          soft: '#37576D80',       // 50% opacity variant
+        },
 
         'graphite': {
           DEFAULT: '#0f1215',      // Primary dark base

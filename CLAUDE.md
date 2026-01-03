@@ -41,6 +41,10 @@ npm run build:og     # Regenerate OG images (social sharing)
 11. ✅ ALWAYS use 7-tier breakpoints: xs(320), sm(375), md(425), lg(768), xl(1024), 2xl(1440), 3xl(2560)
     - ❌ NEVER use arbitrary breakpoint values - use defined tiers only
     - Nav/tabs switch at xl (1024px) - use `NAV_BREAKPOINT` from constants.ts
+12. ✅ ALWAYS use `screen()` function for CSS media queries in `tailwind.css`
+    - ❌ NEVER use hardcoded pixel values like `@media (max-width: 767px)`
+    - ✅ Use `@media screen(lg)` for min-width, `@media not all and screen(lg)` for max-width
+    - See `tailwind.css` header comment for pattern reference
 
 ---
 

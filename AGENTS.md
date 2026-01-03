@@ -210,6 +210,14 @@ src/
 - Developer experience (feature flags, JSDoc, 25+ utility types)
 - Component decomposition (80% complexity reduction)
 
+### January 3, 2026 - CSS Media Query Standardization
+- **screen() Function Migration:** All 170+ media queries converted to Tailwind's `screen()` function
+- **Breakpoint Standardization:** Eliminated off-by-one values (767px, 1023px, 319px)
+- **Single Source of Truth:** All breakpoints now reference `tailwind.config.ts`
+- **Duplicate Fix:** Removed duplicate `.skeleton-shimmer` definition
+- **New Color Token:** Added `panel-border` color for `#37576D`
+- **Documentation:** Updated architecture.md with Media Query Patterns section
+
 ### January 2, 2026 - Hash-Based Tab Navigation
 - **Route Simplification:** 27 routes → 7 routes (6 pre-rendered)
 - **Tab Navigation:** Migrated from child routes to hash fragments
@@ -251,4 +259,4 @@ src/
 **For complete operational rules, see [CLAUDE.md](CLAUDE.md)**
 **For detailed documentation, see [docs/](docs/)**
 
-**Last Updated:** January 2, 2026 (Hash-Based Tab Navigation)
+**Last Updated:** January 3, 2026 (CSS Media Query Standardization)

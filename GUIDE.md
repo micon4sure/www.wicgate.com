@@ -105,7 +105,24 @@
 
 ---
 
-### 8. Testing Requirements
+### 8. CSS Media Queries (USE screen() FUNCTION)
+
+❌ **NEVER:** `@media (max-width: 767px)` or hardcoded pixel values
+✅ **ALWAYS:** `@media screen(lg)` or `@media not all and screen(lg)`
+
+**Tailwind's `screen()` function references breakpoints from config.** All CSS media queries must use this pattern.
+
+**Patterns:**
+```css
+@media screen(lg) { ... }               /* ≥768px */
+@media not all and screen(lg) { ... }   /* <768px */
+```
+
+📖 **Deep dive:** [docs/architecture.md - Media Query Patterns](docs/architecture.md#media-query-patterns-january-2026)
+
+---
+
+### 9. Testing Requirements
 
 - Support hybrid timing: `if (!process.env.TEST_REAL_TIMERS) { vi.useFakeTimers(); }`
 - Maintain 50%+ coverage
@@ -115,7 +132,7 @@
 
 ---
 
-### 9. Formatting & Quality
+### 10. Formatting & Quality
 
 - LF line endings (no CRLF)
 - Prettier via ESLint
@@ -217,4 +234,4 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 ---
 
-*Last Updated: January 2, 2026 (Hash-based tab navigation)*
+*Last Updated: January 3, 2026 (CSS screen() function pattern)*

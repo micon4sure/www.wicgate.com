@@ -753,6 +753,37 @@ script: [
 
 **Single source of truth:** `tailwind.config.ts` and `constants.ts` (NAV_BREAKPOINT=1024)
 
+### Media Query Patterns (January 2026)
+
+**All media queries use Tailwind's `screen()` function** to reference breakpoints from `tailwind.config.ts`. This ensures consistency and prevents breakpoint collisions.
+
+**Patterns:**
+```css
+/* Above breakpoint (min-width) */
+@media screen(lg) { ... }           /* ≥768px */
+@media screen(xl) { ... }           /* ≥1024px */
+
+/* Below breakpoint (max-width equivalent) */
+@media not all and screen(lg) { ... }   /* <768px */
+@media not all and screen(xl) { ... }   /* <1024px */
+
+/* Range queries */
+@media screen(lg) and not all and screen(xl) { ... }  /* 768px to 1023px */
+
+/* Combined with other conditions */
+@media (hover: hover) and screen(lg) { ... }  /* Hover + ≥768px */
+```
+
+**Why `not all and screen()`:**
+- Native CSS for max-width equivalent
+- Auto-syncs with config changes
+- No off-by-one bugs (767px, 1023px eliminated)
+- Matches Tailwind's `max-lg:` utility behavior
+
+**Files:**
+- [tailwind.css](../src/assets/styles/tailwind.css) - All media queries use `screen()`
+- [tailwind.config.ts](../tailwind.config.ts) - Breakpoint definitions
+
 ### Dynamic Header Integration
 
 Use CSS variable for spacing:

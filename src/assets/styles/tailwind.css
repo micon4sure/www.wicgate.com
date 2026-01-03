@@ -3,6 +3,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * BREAKPOINT SYSTEM (7-tier)
+ * Uses Tailwind's screen() function - values from tailwind.config.ts
+ *
+ * xs: 320px | sm: 375px | md: 425px | lg: 768px | xl: 1024px | 2xl: 1440px | 3xl: 2560px
+ *
+ * MEDIA QUERY PATTERNS:
+ * - screen(lg)              = min-width: 768px (lg and above)
+ * - not all and screen(lg)  = below 768px (below lg)
+ * - screen(lg) and not all and screen(xl) = 768px to 1023px (lg only)
+ */
+
 /* Base layer - Essential resets and HTML elements */
 @layer base {
   :root {
@@ -394,13 +406,13 @@
   /* Dashboard info card (Players Online, Events, Videos) */
   .dashboard-card {
     @apply relative overflow-hidden;
-    @apply border-2 border-[#37576D]/50;
+    @apply border-2 border-panel-border/50;
     background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
   }
 
   /* Dashboard card header */
   .dashboard-card-header {
-    @apply flex items-center justify-between p-5 border-b border-[#37576D]/30;
+    @apply flex items-center justify-between p-5 border-b border-panel-border/30;
   }
 
   .dashboard-card-header-title {
@@ -459,7 +471,7 @@
 
   @media (hover: hover) {
     .server-group-card:hover {
-      @apply border-[#37576D]/60;
+      @apply border-panel-border/60;
       box-shadow: 0 0 15px rgba(55, 87, 109, 0.2);
     }
   }
@@ -472,12 +484,12 @@
   /* Event card */
   .event-card {
     @apply block bg-gradient-to-br from-mg/20 to-mg-dark/30;
-    @apply border border-[#37576D]/30 overflow-hidden transition-all duration-200 no-underline;
+    @apply border border-panel-border/30 overflow-hidden transition-all duration-200 no-underline;
   }
 
   @media (hover: hover) {
     .event-card:hover {
-      @apply border-[#37576D]/60;
+      @apply border-panel-border/60;
       box-shadow: 0 0 15px rgba(55, 87, 109, 0.25);
     }
   }
@@ -541,7 +553,7 @@
 
   @media (hover: hover) {
     .ladder-player-item:hover {
-      @apply bg-mg/25 border-[#37576D]/60;
+      @apply bg-mg/25 border-panel-border/60;
       box-shadow: 0 0 15px rgba(55, 87, 109, 0.15);
     }
   }
@@ -557,7 +569,7 @@
   }
 
   .countdown-badge-upcoming {
-    @apply bg-graphite-light/90 text-t border-[#37576D]/50;
+    @apply bg-graphite-light/90 text-t border-panel-border/50;
   }
 
   /* Skeleton loading placeholder */
@@ -570,13 +582,13 @@
     @apply flex items-center gap-3 py-5 px-6 pb-4 border-b border-mg/30;
   }
 
-  @media (max-width: 1023px) {
+  @media not all and screen(xl) {
     .widget-header {
       @apply py-4 px-5 pb-3;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .widget-header {
       @apply py-3.5 px-4 pb-2.5 gap-2.5;
     }
@@ -588,7 +600,7 @@
     @apply bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border-2 border-massgate-orange-dark text-ink;
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .widget-header-icon {
       @apply w-9 h-9 text-lg;
     }
@@ -599,13 +611,13 @@
     @apply m-0 text-xl font-bold text-t font-military uppercase tracking-[0.5px];
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .widget-header-title {
       @apply text-lg;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .widget-header-title {
       @apply text-base;
     }
@@ -616,13 +628,13 @@
     @apply flex-1 py-5 px-6 flex flex-col gap-4;
   }
 
-  @media (max-width: 1023px) {
+  @media not all and screen(xl) {
     .widget-body {
       @apply py-4 px-5;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .widget-body {
       @apply py-3.5 px-4 gap-3;
     }
@@ -633,13 +645,13 @@
     @apply py-4 px-6 border-t border-mg/30 bg-gradient-to-b from-mg/10 to-mg-dark/20;
   }
 
-  @media (max-width: 1023px) {
+  @media not all and screen(xl) {
     .widget-footer {
       @apply py-3 px-5;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .widget-footer {
       @apply py-2.5 px-4;
     }
@@ -674,25 +686,25 @@
     @apply max-w-7xl w-full flex items-center px-5 relative z-[1];
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .header-container {
       @apply h-[70px] min-h-[70px] justify-between;
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .header-container {
       @apply h-[65px] min-h-[65px] px-[18px];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .header-container {
       @apply h-[60px] min-h-[60px] px-4;
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .header-container {
       @apply px-3;
     }
@@ -703,13 +715,13 @@
     @apply flex flex-col items-start min-w-[200px];
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .logo-wrapper {
       @apply min-w-[160px];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .logo-wrapper {
       @apply min-w-[140px];
     }
@@ -719,13 +731,13 @@
     @apply font-military text-2xl font-bold text-teal uppercase tracking-[2px] select-none leading-none;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .logo-title {
       @apply text-xl;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .logo-title {
       @apply text-lg;
     }
@@ -735,13 +747,13 @@
     @apply h-10 w-auto select-none;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .logo-image {
       @apply h-9;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .logo-image {
       @apply h-8;
     }
@@ -751,13 +763,13 @@
     @apply font-body text-[11px] font-medium text-battlefield-mist uppercase tracking-[1px] mt-0.5 leading-none;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .logo-subtitle {
       @apply text-[10px];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .logo-subtitle {
       @apply text-[9px];
     }
@@ -779,13 +791,13 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .hamburger-btn {
       @apply w-12 h-12 p-2.5;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hamburger-btn {
       @apply w-11 h-11 p-2;
     }
@@ -795,13 +807,13 @@
     @apply block w-7 h-[3px] bg-t-secondary rounded-none transition-all duration-300 origin-center;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .hamburger-line {
       @apply w-6 h-0.5;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hamburger-line {
       @apply w-5;
     }
@@ -819,7 +831,7 @@
     @apply -translate-y-[7px] -rotate-45 bg-t;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .hamburger-btn.active .hamburger-line:first-child {
       @apply translate-y-1.5;
     }
@@ -852,19 +864,19 @@
     @apply text-[1rem] p-[24px_32px];
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .tab-btn-s {
       @apply p-[10px_12px] text-[0.8rem];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .tab-btn-s {
       @apply p-[8px_10px] text-[0.75rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .tab-btn-s {
       @apply p-[0.5rem_0.625rem] text-[0.7rem];
     }
@@ -875,37 +887,37 @@
     @apply text-[0.8rem] p-[24px_32px];
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .tab-btn-xs {
       @apply p-[10px_12px] text-[0.75rem];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .tab-btn-xs {
       @apply p-[8px_10px] text-[0.7rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .tab-btn-xs {
       @apply p-[0.5rem_0.5rem] text-[0.65rem];
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .tab-btn {
       @apply p-[10px_12px] text-[0.95rem];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .tab-btn {
       @apply p-[8px_10px] text-[0.85rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .tab-btn {
       @apply p-[0.5rem_0.625rem] text-[0.8rem];
     }
@@ -918,19 +930,19 @@
   }
 
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .tab-btn-leaderboard {
       @apply text-[0.8rem] p-[10px_12px];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .tab-btn-leaderboard {
       @apply text-[0.75rem] p-[8px_10px];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .tab-btn-leaderboard {
       @apply text-[0.7rem] p-[6px_8px];
     }
@@ -1022,13 +1034,13 @@
   }
 
   /* Responsive sub-tab sizing */
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .tab-btn-sub {
       @apply py-5 px-8 text-[0.95rem];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .tab-btn-sub {
       @apply py-4 px-5 text-[0.9rem];
     }
@@ -1118,7 +1130,7 @@
   }
 
   /* Small screen adjustments */
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .tab-mobile-trigger {
       @apply px-4 py-3.5 text-base;
     }
@@ -1128,7 +1140,7 @@
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .tab-mobile-trigger {
       @apply px-3 py-3 text-base;
     }
@@ -1194,7 +1206,7 @@
   }
 
   /* Small screen adjustments for sub-tabs */
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .tab-mobile-trigger-sub {
       @apply px-3 py-2.5 text-base;
     }
@@ -1352,25 +1364,25 @@
     background: linear-gradient(to right, rgba(24, 38, 48, 0.78), rgba(14, 24, 31, 0.88));
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .lb-row {
       @apply min-h-[3.25rem] h-[3.25rem];
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .lb-row {
       @apply min-h-12 h-12;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .lb-row {
       @apply min-h-[2.75rem] h-[2.75rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .lb-row {
       @apply min-h-10 h-10;
     }
@@ -1385,25 +1397,25 @@
     background: transparent;
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .lb-cell {
       @apply p-[0.675rem] min-h-[3.25rem] h-[3.25rem];
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .lb-cell {
       @apply p-[0.625rem] min-h-12 h-12;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .lb-cell {
       @apply p-2 min-h-[2.75rem] h-[2.75rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .lb-cell {
       @apply p-1.5 min-h-10 h-10;
     }
@@ -1414,25 +1426,25 @@
     @apply lb-cell font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16;
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .lb-cell-rank {
       @apply w-[3.75rem];
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .lb-cell-rank {
       @apply w-[3.5rem] text-[1.1rem];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .lb-cell-rank {
       @apply w-[3.125rem] text-[1rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .lb-cell-rank {
       @apply w-[2.75rem] text-[0.9rem];
     }
@@ -1443,25 +1455,25 @@
     @apply lb-cell font-[Oswald,sans-serif] font-semibold text-right text-[1.15rem] tracking-[0.5px] whitespace-nowrap;
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .lb-cell-score {
       @apply text-[1.1rem];
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .lb-cell-score {
       @apply text-[1rem];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .lb-cell-score {
       @apply text-[0.95rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .lb-cell-score {
       @apply text-[0.85rem];
     }
@@ -1483,13 +1495,13 @@
     @apply inline align-middle leading-[1.2] m-0 p-0;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .lb-clan-tag {
       @apply text-[0.7rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .lb-clan-tag {
       @apply text-[0.65rem];
     }
@@ -1501,25 +1513,25 @@
     @apply inline align-middle leading-[1.2] m-0;
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .lb-player-name {
       @apply text-[1.05rem];
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .lb-player-name {
       @apply text-[1rem];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .lb-player-name {
       @apply text-[0.95rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .lb-player-name {
       @apply text-[0.9rem];
     }
@@ -1629,7 +1641,7 @@
     @apply grid grid-cols-1 gap-6;
   }
 
-  @media (min-width: 1024px) {
+  @media screen(xl) {
     .leaderboard-dual-container {
       @apply grid-cols-2;
     }
@@ -1659,19 +1671,19 @@
     @apply w-full;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .leaderboard-header {
       @apply p-[16px_20px];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .leaderboard-header {
       @apply p-[14px_16px];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .leaderboard-header {
       @apply p-[0.875rem_1rem];
     }
@@ -1683,7 +1695,7 @@
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .leaderboard-header-title {
       @apply text-[1.5rem];
     }
@@ -1727,7 +1739,7 @@
     aspect-ratio: 1 / 1;
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .col-rank {
       width: 36px;
       min-width: 36px;
@@ -1742,7 +1754,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .col-rank {
       width: 32px;
       min-width: 32px;
@@ -1757,7 +1769,7 @@
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .col-rank {
       width: 28px;
       min-width: 28px;
@@ -1772,7 +1784,7 @@
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .col-rank {
       width: 24px;
       min-width: 24px;
@@ -1792,28 +1804,28 @@
     min-width: 140px;
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .col-score {
       width: 9rem;
       min-width: 9rem;
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .col-score {
       width: 7.5rem;
       min-width: 7.5rem;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .col-score {
       width: 6.25rem;
       min-width: 6.25rem;
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .col-score {
       width: 5.5rem;
       min-width: 5.5rem;
@@ -1838,7 +1850,7 @@
     background: linear-gradient(to right, rgba(24, 38, 48, 0.78), rgba(14, 24, 31, 0.88));
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .leaderboard-cell {
       @apply p-[0.675rem] min-h-[3.25rem] h-[3.25rem];
     }
@@ -1847,7 +1859,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .leaderboard-cell {
       @apply p-[0.625rem] min-h-12 h-12;
     }
@@ -1856,7 +1868,7 @@
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .leaderboard-cell {
       @apply p-2 min-h-[2.75rem] h-[2.75rem];
     }
@@ -1865,7 +1877,7 @@
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .leaderboard-cell {
       @apply p-1.5 min-h-10 h-10;
     }
@@ -1879,25 +1891,25 @@
     @apply leaderboard-cell font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16;
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .leaderboard-rank-cell {
       @apply w-[3.75rem];
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .leaderboard-rank-cell {
       @apply w-[3.5rem] text-[1.1rem];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .leaderboard-rank-cell {
       @apply w-[3.125rem] text-[1rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .leaderboard-rank-cell {
       @apply w-[2.75rem] text-[0.9rem];
     }
@@ -1916,7 +1928,7 @@
     @apply text-right;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .leaderboard-th {
       @apply text-[0.8rem];
     }
@@ -1933,13 +1945,13 @@
     @apply inline align-middle leading-[1.2] m-0 p-0;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .clan-tag {
       @apply text-[0.7rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .clan-tag {
       @apply text-[0.65rem];
     }
@@ -1951,25 +1963,25 @@
     @apply inline align-middle leading-[1.2] m-0;
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .player-name {
       @apply text-[1.05rem];
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .player-name {
       @apply text-[1rem];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .player-name {
       @apply text-[0.95rem];
     }
   }
 
-  @media (max-width: 319px) {
+  @media not all and screen(xs) {
     .player-name {
       @apply text-[0.9rem];
     }
@@ -1990,7 +2002,7 @@
     @apply border border-mg/70 shadow-[0_12px_28px_rgba(4,9,14,0.55)];
   }
 
-  @media (hover: hover) and (min-width: 768px) {
+  @media (hover: hover) and screen(lg) {
     .widget:hover {
       @apply lg:bg-black/40;
       /* Orange border on hover */
@@ -2002,20 +2014,20 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .widget {
       min-height: auto; /* Let content determine height on mobile */
     }
   }
 
   /* Widget with orange border on desktop (for special widgets) */
-  @media (min-width: 768px) {
+  @media screen(lg) {
     .widget-primary {
       border-color: rgba(255, 102, 0, 0.4);
     }
   }
 
-  @media (hover: hover) and (min-width: 768px) {
+  @media (hover: hover) and screen(lg) {
     .widget-primary:hover {
       /* Orange border hover */
       border-color: rgba(255, 102, 0, 0.7);
@@ -2287,12 +2299,12 @@
     z-index: 0;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .hero-section {
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hero-section {
       @apply min-h-[85vh];
     }
@@ -2350,13 +2362,13 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .hero-main-card {
       @apply px-6 py-12;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hero-main-card {
       @apply px-4 py-8;
     }
@@ -2376,7 +2388,7 @@
     @apply hero-overlay bg-black/10;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .hero-overlay-dark {
       background: rgba(0, 0, 0, 0.08);
     }
@@ -2400,7 +2412,7 @@
     box-shadow: 0 0 15px rgba(255, 102, 0, 0.15);
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hero-badge {
       @apply py-[5px] px-3 text-[11px] mb-4;
     }
@@ -2414,7 +2426,7 @@
             drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
   }
 
-  @media (max-width: 1439px) {
+  @media not all and screen(2xl) {
     .hero-wic-logo {
       height: 80px; /* h-20 equivalent */
       @apply mb-5;
@@ -2422,7 +2434,7 @@
   }
 
   /* Laptop-specific optimizations (1024px-1280px) to improve widget visibility */
-  @media (min-width: 1024px) and (max-width: 1439px) {
+  @media screen(xl) and not all and screen(2xl) {
     /* Reduce hero card vertical padding */
     .hero-main-card {
       @apply py-12; /* Reduced from py-16 (64px → 48px per side = -32px total) */
@@ -2450,21 +2462,21 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .hero-wic-logo {
       height: 64px; /* h-16 equivalent */
       @apply mb-4;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hero-wic-logo {
       height: 56px; /* h-14 equivalent */
       @apply mb-3;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hero-wic-logo {
       height: 48px; /* h-12 equivalent */
     }
@@ -2476,13 +2488,13 @@
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.9));
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .hero-title {
       @apply mb-3;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hero-title {
       @apply mb-2;
     }
@@ -2495,13 +2507,13 @@
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
   }
 
-  @media (max-width: 1439px) {
+  @media not all and screen(2xl) {
     .hero-subtitle {
       @apply text-3xl;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hero-subtitle {
       @apply text-2xl;
     }
@@ -2513,13 +2525,13 @@
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
   }
 
-  @media (max-width: 1439px) {
+  @media not all and screen(2xl) {
     .hero-desc {
       @apply text-base;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hero-desc {
       @apply text-sm;
     }
@@ -2530,19 +2542,19 @@
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
   }
 
-  @media (max-width: 1439px) {
+  @media not all and screen(2xl) {
     .hero-desc-secondary {
       @apply text-[0.9375rem];
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .hero-desc-secondary {
       @apply text-[0.875rem];
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hero-desc-secondary {
       @apply text-[0.8125rem];
     }
@@ -2569,7 +2581,7 @@
     z-index: 10 !important;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .hero-primer-link-top-right {
       top: 0.75rem !important;
       right: 0.75rem !important;
@@ -2578,7 +2590,7 @@
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hero-primer-link-top-right {
       top: 0.5rem !important;
       right: 0.5rem !important;
@@ -2588,7 +2600,7 @@
     }
   }
 
-  @media (max-width: 425px) {
+  @media not all and screen(lg) {
     .hero-primer-link-top-right {
       top: 0.375rem !important;
       right: 0.375rem !important;
@@ -2598,7 +2610,7 @@
     }
   }
 
-  @media (max-width: 320px) {
+  @media not all and screen(sm) {
     .hero-primer-link-top-right {
       top: 0.25rem !important;
       right: 0.25rem !important;
@@ -2620,7 +2632,7 @@
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .hero-cta {
       @apply px-8 py-4 text-lg;
     }
@@ -2634,7 +2646,7 @@
     @apply transition-all duration-300;
   }
 
-  @media (min-width: 1440px) {
+  @media screen(2xl) {
     .auth-btn {
       @apply px-4;
     }
@@ -2850,19 +2862,19 @@
     box-shadow: 0 0 20px rgba(145, 70, 255, 0.5);
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .twitch-play-btn {
       @apply px-7 py-5 gap-3;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .twitch-play-btn {
       @apply px-6 py-4 text-sm;
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .twitch-play-btn {
       @apply px-6 py-4 text-[0.9rem] gap-2;
     }
@@ -2887,14 +2899,10 @@
     box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .skeleton-card {
       @apply p-4;
     }
-  }
-
-  .skeleton-shimmer {
-    @apply bg-mg/30 rounded-none animate-pulse;
   }
 
   /* ========== LEADERBOARD PANEL ========== */
@@ -3096,7 +3104,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .grid-2 {
       grid-template-columns: 1fr;
     }
@@ -3107,13 +3115,13 @@
     grid-template-columns: repeat(3, 1fr);
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .grid-3 {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .grid-3 {
       grid-template-columns: 1fr;
     }
@@ -3661,7 +3669,7 @@
     @apply hover:text-massgate-gold-bright hover:underline;
   }
 
-  @media (max-width: 768px) {
+  @media not all and screen(lg) {
     .overlay-card {
       @apply m-3 max-w-none;
     }
@@ -3693,7 +3701,7 @@
     }
   }
 
-  @media (max-width: 767px) {
+  @media not all and screen(lg) {
     .overlay-header,
     .overlay-content {
       @apply py-4 px-4;
@@ -3935,7 +3943,7 @@
     @apply m-0 font-mono text-[0.8rem] text-[#a0aec0];
   }
 
-  @media (max-width: 1024px) {
+  @media not all and screen(xl) {
     .admin-flex {
       @apply flex-col;
     }
