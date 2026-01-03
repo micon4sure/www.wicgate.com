@@ -38,10 +38,9 @@ npm run build:og     # Regenerate OG images (social sharing)
 8. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
 9. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, etc.)
 10. ⚠️ Security considerations → See [docs/security.md](docs/security.md) for XSS prevention, auth best practices
-11. ✅ ALWAYS use 4-tier breakpoints: xs(320px), sm(768px), md(1024px), lg(1440px)
-    - ❌ NEVER use xl, 2xl, 3xl, 4xl tiers (removed)
-    - ❌ NEVER use arbitrary breakpoint values in CSS media queries
-    - Nav/tabs switch at md (1024px) - use `NAV_BREAKPOINT` from constants.ts
+11. ✅ ALWAYS use 7-tier breakpoints: xs(320), sm(375), md(425), lg(768), xl(1024), 2xl(1440), 3xl(2560)
+    - ❌ NEVER use arbitrary breakpoint values - use defined tiers only
+    - Nav/tabs switch at xl (1024px) - use `NAV_BREAKPOINT` from constants.ts
 
 ---
 
@@ -72,4 +71,4 @@ npm run build:og     # Regenerate OG images (social sharing)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** December 27, 2025
+**Updated:** January 3, 2026
