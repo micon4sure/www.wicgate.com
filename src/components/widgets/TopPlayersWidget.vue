@@ -39,9 +39,10 @@ function handleClick() {
     action="Leaderboards"
     @click="handleClick"
   >
-    <div v-if="isSSR || loading" class="widget-skeleton">
-      <div class="skeleton-line"></div>
-      <div class="skeleton-line"></div>
+    <div v-if="isSSR || loading" class="space-y-3">
+      <div class="skeleton-placeholder h-16"></div>
+      <div class="skeleton-placeholder h-16"></div>
+      <div class="skeleton-placeholder h-16"></div>
     </div>
     <template v-else>
       <div v-if="topLadderPlayers.length > 0" class="ladder-list">

@@ -219,7 +219,7 @@ onUnmounted(() => {
       />
 
       <!-- DESKTOP: Horizontal Tabs (categories > 1) -->
-      <div v-if="categories.length > 1 && !isMobile" class="leaderboard-tabs">
+      <div v-if="categories.length > 1" class="leaderboard-tabs" :class="{ hidden: isMobile }">
         <button
           v-for="c in categories"
           :key="c"

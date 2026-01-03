@@ -32,9 +32,19 @@ function openVideo(video: YouTubeVideo) {
     action="Watch More"
     @click="handleClick"
   >
-    <div v-if="isSSR" class="widget-skeleton">
-      <div class="skeleton-line"></div>
-      <div class="skeleton-line"></div>
+    <div v-if="isSSR" class="space-y-3">
+      <div class="flex gap-3">
+        <div class="skeleton-placeholder w-20 h-[45px] flex-shrink-0"></div>
+        <div class="skeleton-placeholder flex-1 h-10"></div>
+      </div>
+      <div class="flex gap-3">
+        <div class="skeleton-placeholder w-20 h-[45px] flex-shrink-0"></div>
+        <div class="skeleton-placeholder flex-1 h-10"></div>
+      </div>
+      <div class="flex gap-3">
+        <div class="skeleton-placeholder w-20 h-[45px] flex-shrink-0"></div>
+        <div class="skeleton-placeholder flex-1 h-10"></div>
+      </div>
     </div>
     <template v-else>
       <div v-if="latestVideos.length > 0" class="video-list">

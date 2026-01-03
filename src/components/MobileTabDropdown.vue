@@ -57,7 +57,7 @@ defineExpose({
 </script>
 
 <template>
-  <div v-if="isMobile" class="tab-mobile-wrapper relative" :class="wrapperClass">
+  <div class="tab-mobile-wrapper relative" :class="[wrapperClass, isMobile ? 'block' : 'hidden']">
     <button
       ref="triggerRef"
       class="tab-mobile-trigger-sub"

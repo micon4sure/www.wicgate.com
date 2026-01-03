@@ -366,6 +366,20 @@ This ensures Googlebot receives clean HTML with no overlay (since `onMounted` ne
 
 **Why this matters:** Googlebot is stateless - every crawl is a "first visit." If the overlay appeared in pre-rendered HTML, Google would see it 100% of the time, potentially triggering the mobile interstitial penalty.
 
+### MobileTabDropdown SSG Visibility
+
+The mobile tab dropdown uses **CSS class visibility** instead of `v-if` to ensure tab navigation is present in SSG HTML for Mobile-First Indexing:
+
+- **Always rendered:** `MobileTabDropdown.vue` wrapper is always in DOM
+- **CSS-based hiding:** Uses `:class="isMobile ? 'block' : 'hidden'"` instead of `v-if="isMobile"`
+- **Desktop tabs:** Consumer components use `:class="{ hidden: isMobile }"` on desktop tab navs
+
+**Why this matters:** Google uses Mobile-First Indexing, meaning Googlebot crawls the mobile version of pages. Since `isMobile` defaults to `false` during SSG (only becomes `true` client-side in `onMounted`), using `v-if="isMobile"` would completely remove mobile tab navigation from the DOM. This leaves crawlers with no tab buttons to understand the relationship between navigation and content.
+
+**Files using this pattern:**
+- `MobileTabDropdown.vue` - Core component with CSS visibility
+- `TabContainer.vue`, `MediaEventCard.vue`, `DynamicInfoCard.vue`, `LeaderboardGroup.vue` - Consumer components
+
 ### Async Content Handling
 
 **Challenge:** API content loads after scroll positioning, causing layout shifts.

@@ -55,9 +55,16 @@ function handleClick() {
 
 <template>
   <WidgetBase title="Live Servers" icon="fa-solid fa-server" action="View All" @click="handleClick">
-    <div v-if="isSSR || loading" class="widget-skeleton">
-      <div class="skeleton-line"></div>
-      <div class="skeleton-line"></div>
+    <div v-if="isSSR || loading" class="space-y-3">
+      <!-- Stats row skeleton -->
+      <div class="flex justify-around">
+        <div class="skeleton-placeholder h-12 w-20"></div>
+        <div class="skeleton-placeholder h-12 w-24"></div>
+      </div>
+      <!-- Server list skeleton (3 items) -->
+      <div class="skeleton-placeholder h-10"></div>
+      <div class="skeleton-placeholder h-10"></div>
+      <div class="skeleton-placeholder h-10"></div>
     </div>
     <template v-else>
       <div class="widget-stats-row">

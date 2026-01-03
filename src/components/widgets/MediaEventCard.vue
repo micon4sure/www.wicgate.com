@@ -154,7 +154,6 @@ function openVideo(video: YouTubeVideo) {
   <div class="dashboard-card">
     <!-- MOBILE: Hamburger Dropdown -->
     <MobileTabDropdown
-      v-if="isMobile"
       :tabs="tabs"
       :active-tab-id="activeTabId"
       aria-label="View selection"
@@ -179,7 +178,7 @@ function openVideo(video: YouTubeVideo) {
     </MobileTabDropdown>
 
     <!-- DESKTOP: Horizontal Tabs -->
-    <div v-else class="tab-nav-sub">
+    <div class="tab-nav-sub" :class="{ hidden: isMobile }">
       <button
         class="tab-btn-sub flex items-center justify-center gap-2"
         :class="{ 'tab-btn-sub-active': shouldShowEvent }"
@@ -209,8 +208,11 @@ function openVideo(video: YouTubeVideo) {
         :class="shouldShowEvent ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
         <div class="dashboard-card-body custom-scrollbar">
-          <div v-if="isSSR" class="space-y-4">
-            <div class="skeleton-placeholder h-48"></div>
+          <div v-if="isSSR" class="space-y-2">
+            <!-- Skeleton mimics: 1 expanded event + 2 collapsed headers -->
+            <div class="skeleton-placeholder h-56"></div>
+            <div class="skeleton-placeholder h-12"></div>
+            <div class="skeleton-placeholder h-12"></div>
           </div>
 
           <template v-else-if="events.length > 0">
@@ -240,8 +242,8 @@ function openVideo(video: YouTubeVideo) {
                   </span>
                 </div>
 
-                <!-- Expanded content -->
-                <div v-if="isExpanded(index)" class="event-accordion-content">
+                <!-- Expanded content (v-show keeps all event descriptions in DOM for SEO) -->
+                <div v-show="isExpanded(index)" class="event-accordion-content">
                   <component
                     :is="event.link ? 'a' : 'div'"
                     :href="event.link"

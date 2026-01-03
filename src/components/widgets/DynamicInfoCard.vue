@@ -162,7 +162,6 @@ function selectTab(tabId: string) {
   <div class="dashboard-card">
     <!-- MOBILE: Hamburger Dropdown -->
     <MobileTabDropdown
-      v-if="isMobile"
       :tabs="tabs"
       :active-tab-id="activeTabId"
       aria-label="View selection"
@@ -181,7 +180,7 @@ function selectTab(tabId: string) {
     </MobileTabDropdown>
 
     <!-- DESKTOP: Horizontal Tabs -->
-    <div v-else class="tab-nav-sub relative">
+    <div class="tab-nav-sub relative" :class="{ hidden: isMobile }">
       <button
         class="tab-btn-sub flex items-center justify-center gap-2"
         :class="{ 'tab-btn-sub-active': shouldShowPlayers }"
