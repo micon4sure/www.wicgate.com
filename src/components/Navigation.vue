@@ -122,7 +122,7 @@ async function handleNavigation(sectionId: string) {
       </div>
 
       <!-- Desktop navigation (left-aligned) -->
-      <nav class="hidden xl:flex gap-1 2xl:gap-2 items-center h-full ml-4 2xl:ml-5 flex-1">
+      <nav class="hidden xl:flex gap-0 2xl:gap-2 items-center h-full ml-4 2xl:ml-5 flex-1">
         <router-link
           v-for="section in navSections"
           :key="section.id"

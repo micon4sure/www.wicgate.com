@@ -728,7 +728,7 @@
   }
 
   .header-inner {
-    @apply max-w-7xl w-full flex items-center px-5 relative z-[1];
+    @apply max-w-7xl w-full h-full flex items-center px-5 relative z-[1];
   }
 
   @media not all and screen(xl) {
@@ -1690,7 +1690,7 @@
 
   @media screen(xl) {
     .leaderboard-dual-container {
-      @apply grid-cols-2;
+      @apply grid-cols-2 items-start;
     }
   }
 

@@ -56,10 +56,10 @@ const tabs = [
                     {{ s.n }}
                   </span>
                   <div class="flex-1">
-                    <h5 class="font-military font-semibold text-2xl uppercase text-t mb-2">
+                    <h5 class="font-military font-semibold text-xl uppercase text-t mb-2">
                       {{ s.t }}
                     </h5>
-                    <div class="text-lg text-t-secondary font-body leading-relaxed">
+                    <div class="text-base text-t-secondary font-body leading-relaxed">
                       <template v-if="s.n === 2">
                         WIC LIVE updates your game for WICGATE servers, installs community maps, and
                         adds quality of life fixes for modern systems. After installation, click the

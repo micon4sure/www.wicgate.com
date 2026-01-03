@@ -39,20 +39,6 @@ defineExpose({ highScoresRef, totalScoresRef });
 </script>
 <template>
   <div class="grid grid-cols-1 gap-6 mb-6">
-    <!-- Player and Clan Leaderboards side by side on wide screens -->
-    <div class="leaderboard-dual-container">
-      <LeaderboardGroup
-        id="player-leaderboard"
-        ref="playerLeaderboardRef"
-        title="Player Leaderboard"
-        subtitle="Top performers over the past 2 weeks"
-        :data="ladderData"
-        :categories="[]"
-        :keys="{ default: 'ladder' }"
-        third-label="Score"
-      />
-      <ClanLeaderboard id="clan-leaderboard" :clans="props.clans || []" />
-    </div>
     <!-- High Scores and Total Scores side by side on wide screens -->
     <div class="leaderboard-dual-container">
       <LeaderboardGroup
@@ -75,6 +61,20 @@ defineExpose({ highScoresRef, totalScoresRef });
         :data="props.data"
         third-label="Score"
       />
+    </div>
+    <!-- Player and Clan Leaderboards side by side on wide screens -->
+    <div class="leaderboard-dual-container">
+      <LeaderboardGroup
+        id="player-leaderboard"
+        ref="playerLeaderboardRef"
+        title="Player Leaderboard"
+        subtitle="Top performers over the past 2 weeks"
+        :data="ladderData"
+        :categories="[]"
+        :keys="{ default: 'ladder' }"
+        third-label="Score"
+      />
+      <ClanLeaderboard id="clan-leaderboard" :clans="props.clans || []" />
     </div>
   </div>
 </template>
