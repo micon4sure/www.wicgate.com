@@ -72,7 +72,10 @@ const tabs = [
 
                     <div v-if="s.n === 2" class="mt-4">
                       <a id="downloadClientBtn" :href="WICLIVE_URL" class="hero-cta">
-                        <i class="fa-solid fa-download text-xl lg:text-lg" aria-hidden="true"></i>
+                        <i
+                          class="fa-solid fa-download text-sm sm:text-base lg:text-lg xl:text-xl"
+                          aria-hidden="true"
+                        ></i>
                         <span>DOWNLOAD NOW</span>
                       </a>
                     </div>
