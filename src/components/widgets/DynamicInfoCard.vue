@@ -14,10 +14,6 @@ const props = defineProps<{
   isSSR: boolean;
 }>();
 
-const emit = defineEmits<{
-  navigate: [section: string];
-}>();
-
 const { colorize } = usePlayerDisplay();
 const { isMobile } = useMobileTabs();
 
@@ -140,10 +136,6 @@ function formatPlayerClanTag(player: {
     return player.tagFormat.replace('C', player.shortName).replace('P', '');
   }
   return '';
-}
-
-function handleTopPlayersClick() {
-  emit('navigate', 'statistics');
 }
 
 // Mobile dropdown helpers
@@ -325,9 +317,9 @@ function selectTab(tabId: string) {
         </div>
         <!-- Footer with link -->
         <div class="px-5 pb-4">
-          <button class="dashboard-card-header-action" @click="handleTopPlayersClick">
+          <router-link to="/statistics#player-leaderboard" class="dashboard-card-header-action">
             Leaderboards →
-          </button>
+          </router-link>
         </div>
       </div>
     </div>
