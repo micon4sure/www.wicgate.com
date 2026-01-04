@@ -1276,6 +1276,7 @@
     @apply w-full font-[Rajdhani,sans-serif];
     border-collapse: separate;
     border-spacing: 0;
+    table-layout: fixed;
   }
 
   /* Leaderboard data row */
