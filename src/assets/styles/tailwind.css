@@ -1719,6 +1719,13 @@
     .col-avatar { width: 16px; min-width: 16px; }
   }
 
+  /* Standardized spacing for lg breakpoint (768-1023px) - matches xl+ values */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .col-rank { width: 40px; min-width: 40px; }
+    .col-avatar { width: 32px; min-width: 32px; }
+    .col-insignia { width: 40px; min-width: 40px; }
+  }
+
   .col-score {
     width: 140px;
     min-width: 140px;
