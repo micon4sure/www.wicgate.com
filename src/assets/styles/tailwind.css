@@ -3300,12 +3300,12 @@
   }
 
   .overlay-header {
-    @apply py-4 px-6 border-b border-t-dim/20 flex items-center justify-between;
+    @apply py-4 px-6 border-b border-t-dim/20 flex items-center justify-between gap-3;
     background: linear-gradient(to bottom, #4a1f5c, #2d1236);
   }
 
   .overlay-header .slide-title {
-    @apply text-xl uppercase tracking-wider text-t m-0;
+    @apply text-xl uppercase tracking-wider text-t m-0 min-w-0 truncate;
     font-family: 'Oswald', sans-serif;
   }
 
@@ -3323,7 +3323,7 @@
   }
 
   .overlay-close {
-    @apply bg-transparent border-0 text-t-dim text-2xl cursor-pointer p-1 rounded transition-all duration-200 leading-none hover:bg-massgate-red hover:text-white active:bg-massgate-red-bright active:scale-95;
+    @apply bg-transparent border-0 text-t-dim text-2xl cursor-pointer p-1 rounded transition-all duration-200 leading-none flex-shrink-0 hover:bg-massgate-red hover:text-white active:bg-massgate-red-bright active:scale-95;
   }
 
   .overlay-content {
