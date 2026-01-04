@@ -13,6 +13,7 @@ const props = defineProps<{ data: LeaderboardDataRecord; clans?: ClanEntry[] }>(
 // Refs for deep linking
 const highScoresRef = ref<InstanceType<typeof LeaderboardGroup> | null>(null);
 const totalScoresRef = ref<InstanceType<typeof LeaderboardGroup> | null>(null);
+const playerLeaderboardRef = ref<InstanceType<typeof LeaderboardGroup> | null>(null);
 
 // Shared categories for high/total breakdown
 const categories = ['total', 'infantry', 'armor', 'air', 'support'];
@@ -35,7 +36,7 @@ const ladderData = computed<LeaderboardDataRecord>(() => ({
 }));
 
 // Expose refs for parent to access
-defineExpose({ highScoresRef, totalScoresRef });
+defineExpose({ highScoresRef, totalScoresRef, playerLeaderboardRef });
 </script>
 <template>
   <div class="grid grid-cols-1 gap-6 mb-6">
