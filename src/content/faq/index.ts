@@ -1,7 +1,7 @@
 // FAQ content organized by category
 // Each category imports from an HTML file for better markup
 
-import { WICLIVE_URL, GOG_URL, DISCORD_URL } from '@/constants';
+import { GOG_URL, DISCORD_URL } from '@/constants';
 
 export interface FaqItem {
   id: string;
@@ -17,8 +17,8 @@ export interface FaqCategory {
 
 const currentYear = new Date().getFullYear();
 
-// Helper to create WIC LIVE link
-const wicLiveLink = `<a href="${WICLIVE_URL}" class="inline-link" target="_blank" rel="noopener noreferrer">WIC LIVE</a>`;
+// Helper to create WIC LIVE link (points to downloads section)
+const wicLiveLink = `<a href="/downloads" class="internal-link">WIC LIVE</a>`;
 const gogLink = `<a href="${GOG_URL}" target="_blank" rel="noopener noreferrer" class="inline-link">GOG</a>`;
 const discordLink = `<a href="${DISCORD_URL}" target="_blank" rel="noopener noreferrer" class="inline-link">Discord server</a>`;
 
