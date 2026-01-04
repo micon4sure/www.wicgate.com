@@ -1390,6 +1390,13 @@
     @apply lb-cell relative min-w-0 overflow-hidden;
   }
 
+  /* Reduce left padding at lg+ to match column gaps */
+  @media screen(lg) {
+    .lb-cell-player {
+      @apply pl-1;
+    }
+  }
+
   /* Flex container inside player cell - enables truncation */
   .lb-cell-player > div {
     @apply flex items-center min-w-0 gap-1;
@@ -1638,6 +1645,18 @@
   .col-avatar {
     width: 24px;
     min-width: 24px;
+  }
+
+  /* Increase column widths at lg+ for better spacing between elements */
+  @media screen(lg) {
+    .col-avatar {
+      width: 32px;
+      min-width: 32px;
+    }
+    .col-insignia {
+      width: 40px;
+      min-width: 40px;
+    }
   }
 
   .lb-cell-avatar {
