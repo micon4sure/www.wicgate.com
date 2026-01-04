@@ -656,12 +656,6 @@
 
   @media not all and screen(lg) {
     .header-container {
-      @apply h-[65px] min-h-[65px] px-[18px];
-    }
-  }
-
-  @media not all and screen(lg) {
-    .header-container {
       @apply h-[60px] min-h-[60px] px-4;
     }
   }
@@ -764,24 +758,12 @@
 
   @media not all and screen(lg) {
     .hamburger-btn {
-      @apply w-12 h-12 p-2.5;
-    }
-  }
-
-  @media not all and screen(lg) {
-    .hamburger-btn {
       @apply w-11 h-11 p-2;
     }
   }
 
   .hamburger-line {
     @apply block w-7 h-[3px] bg-t-secondary rounded-none transition-all duration-300 origin-center;
-  }
-
-  @media not all and screen(lg) {
-    .hamburger-line {
-      @apply w-6 h-0.5;
-    }
   }
 
   @media not all and screen(lg) {
@@ -982,12 +964,6 @@
   }
 
   /* Responsive sub-tab sizing */
-  @media not all and screen(lg) {
-    .tab-btn-sub {
-      @apply py-5 px-8 text-[0.95rem];
-    }
-  }
-
   @media not all and screen(lg) {
     .tab-btn-sub {
       @apply py-4 px-5 text-[0.9rem];
@@ -1320,12 +1296,6 @@
 
   @media not all and screen(lg) {
     .lb-row {
-      @apply min-h-12 h-12;
-    }
-  }
-
-  @media not all and screen(lg) {
-    .lb-row {
       @apply min-h-[2.75rem] h-[2.75rem];
     }
   }
@@ -1348,12 +1318,6 @@
   @media not all and screen(xl) {
     .lb-cell {
       @apply p-[0.675rem] min-h-[3.25rem] h-[3.25rem];
-    }
-  }
-
-  @media not all and screen(lg) {
-    .lb-cell {
-      @apply p-[0.625rem] min-h-12 h-12;
     }
   }
 
@@ -1382,12 +1346,6 @@
 
   @media not all and screen(lg) {
     .lb-cell-rank {
-      @apply w-[3.5rem] text-[1.1rem];
-    }
-  }
-
-  @media not all and screen(lg) {
-    .lb-cell-rank {
       @apply w-[3.125rem] text-[1rem];
     }
   }
@@ -1406,12 +1364,6 @@
   @media not all and screen(xl) {
     .lb-cell-score {
       @apply text-[1.1rem];
-    }
-  }
-
-  @media not all and screen(lg) {
-    .lb-cell-score {
-      @apply text-[1rem];
     }
   }
 
@@ -1637,12 +1589,6 @@
 
   @media not all and screen(lg) {
     .leaderboard-header {
-      @apply p-[16px_20px];
-    }
-  }
-
-  @media not all and screen(lg) {
-    .leaderboard-header {
       @apply p-[14px_16px];
     }
   }
@@ -1808,15 +1754,6 @@
 
   @media not all and screen(lg) {
     .leaderboard-cell {
-      @apply p-[0.625rem] min-h-12 h-12;
-    }
-    .leaderboard-cell:last-child {
-      @apply text-[1rem];
-    }
-  }
-
-  @media not all and screen(lg) {
-    .leaderboard-cell {
       @apply p-2 min-h-[2.75rem] h-[2.75rem];
     }
     .leaderboard-cell:last-child {
@@ -1841,12 +1778,6 @@
   @media not all and screen(xl) {
     .leaderboard-rank-cell {
       @apply w-[3.75rem];
-    }
-  }
-
-  @media not all and screen(lg) {
-    .leaderboard-rank-cell {
-      @apply w-[3.5rem] text-[1.1rem];
     }
   }
 
@@ -1911,12 +1842,6 @@
   @media not all and screen(xl) {
     .player-name {
       @apply text-[1.05rem];
-    }
-  }
-
-  @media not all and screen(lg) {
-    .player-name {
-      @apply text-[1rem];
     }
   }
 
@@ -2246,11 +2171,6 @@
 
   @media not all and screen(lg) {
     .hero-section {
-    }
-  }
-
-  @media not all and screen(lg) {
-    .hero-section {
       @apply min-h-[85vh];
     }
   }
@@ -2416,20 +2336,6 @@
 
   @media not all and screen(lg) {
     .hero-wic-logo {
-      height: 64px; /* h-16 equivalent */
-      @apply mb-4;
-    }
-  }
-
-  @media not all and screen(lg) {
-    .hero-wic-logo {
-      height: 56px; /* h-14 equivalent */
-      @apply mb-3;
-    }
-  }
-
-  @media not all and screen(lg) {
-    .hero-wic-logo {
       height: 48px; /* h-12 equivalent */
     }
   }
@@ -2438,12 +2344,6 @@
   .hero-title {
     @apply mb-4 font-military font-bold text-t uppercase tracking-wide;
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.9));
-  }
-
-  @media not all and screen(lg) {
-    .hero-title {
-      @apply mb-3;
-    }
   }
 
   @media not all and screen(lg) {
@@ -2516,12 +2416,6 @@
 
   @media not all and screen(lg) {
     .hero-desc-secondary {
-      @apply text-[0.875rem];
-    }
-  }
-
-  @media not all and screen(lg) {
-    .hero-desc-secondary {
       @apply text-[0.8125rem];
     }
   }
@@ -2545,25 +2439,6 @@
     right: 1rem !important;
     bottom: auto !important;
     z-index: 10 !important;
-  }
-
-  @media not all and screen(lg) {
-    .hero-primer-link-top-right {
-      top: 0.75rem !important;
-      right: 0.75rem !important;
-      padding: 0.5rem 0.75rem !important;
-      font-size: 0.75rem !important;
-    }
-  }
-
-  @media not all and screen(lg) {
-    .hero-primer-link-top-right {
-      top: 0.5rem !important;
-      right: 0.5rem !important;
-      padding: 0.4rem 0.6rem !important;
-      font-size: 0.7rem !important;
-      gap: 0.25rem !important;
-    }
   }
 
   @media not all and screen(lg) {
@@ -2851,18 +2726,6 @@
     @apply font-military font-semibold text-lg uppercase tracking-widest;
     @apply transition-all duration-300 ease-out;
     box-shadow: 0 0 20px rgba(145, 70, 255, 0.5);
-  }
-
-  @media not all and screen(lg) {
-    .twitch-play-btn {
-      @apply px-7 py-5 gap-3;
-    }
-  }
-
-  @media not all and screen(lg) {
-    .twitch-play-btn {
-      @apply px-6 py-4 text-sm;
-    }
   }
 
   @media not all and screen(lg) {
