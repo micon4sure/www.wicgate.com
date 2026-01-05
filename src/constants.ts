@@ -23,14 +23,13 @@ export const DEBOUNCE_RESIZE = 150; // Resize handler debounce (ms)
 export const EVENT_COUNTDOWN_INTERVAL = 1000; // Update countdown every second
 
 // Layout Breakpoints (Tailwind defaults + xs custom)
-// xs: 375px (custom), sm: 640px, md: 768px, lg: 1024px, xl: 1280px, 2xl: 1536px
+// xs: 375px (custom), sm: 640px, md: 768px, lg: 1024px, xl: 1280px (site max-width)
 export const BREAKPOINTS = {
   XS: 375, // Custom (small phone)
   SM: 640, // Tailwind default
   MD: 768, // Tailwind default (tablet)
   LG: 1024, // Tailwind default - NAV/TABS SWITCH POINT
-  XL: 1280, // Tailwind default
-  XXL: 1536, // Tailwind default
+  XL: 1280, // Tailwind default (site max-width)
 } as const;
 
 // Nav/tabs switch at this breakpoint (matches Tailwind lg)

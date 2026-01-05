@@ -38,9 +38,10 @@ npm run build:og     # Regenerate OG images (social sharing)
 8. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
 9. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, etc.)
 10. ⚠️ Security considerations → See [docs/security.md](docs/security.md) for XSS prevention, auth best practices
-11. ✅ ALWAYS use Tailwind default breakpoints + xs custom: xs(375), sm(640), md(768), lg(1024), xl(1280), 2xl(1536)
+11. ✅ ALWAYS use Tailwind default breakpoints + xs custom: xs(375), sm(640), md(768), lg(1024), xl(1280)
     - xs is the only custom breakpoint (375px for small phones)
     - Nav/tabs switch at lg (1024px) - use `NAV_BREAKPOINT` from constants.ts
+    - xl (1280px) is site max-width - no breakpoints above this
 12. ✅ ALWAYS use `screen()` function for CSS media queries in `tailwind.css`
     - ❌ NEVER use hardcoded pixel values like `@media (max-width: 767px)`
     - ✅ Use `@media screen(md)` for min-width, `@media not all and screen(md)` for max-width

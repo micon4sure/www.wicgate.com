@@ -146,8 +146,7 @@ const rankInsigniaSize = computed(() => {
   if (windowWidth.value < BREAKPOINTS.MD) return 18; // sm: 640-767
   if (windowWidth.value < BREAKPOINTS.LG) return 20; // md: 768-1023
   if (windowWidth.value < BREAKPOINTS.XL) return 22; // lg: 1024-1279
-  if (windowWidth.value < BREAKPOINTS.XXL) return 24; // xl: 1280-1535
-  return 26; // 2xl: 1536+
+  return 26; // xl: 1280+ (site max-width)
 });
 
 function updateWindowWidth() {

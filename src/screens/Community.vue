@@ -189,7 +189,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
               </div>
 
               <!-- Creator Videos -->
-              <div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-5">
+              <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
                 <div v-for="v in ch.videos" :key="v.id" class="video-card">
                   <button
                     type="button"

@@ -7,7 +7,7 @@
  * BREAKPOINT SYSTEM (Tailwind defaults + xs custom)
  * Uses Tailwind's screen() function - values from tailwind.config.ts
  *
- * xs: 375px (custom) | sm: 640px | md: 768px | lg: 1024px | xl: 1280px | 2xl: 1536px
+ * xs: 375px (custom) | sm: 640px | md: 768px | lg: 1024px | xl: 1280px (site max-width)
  *
  * MEDIA QUERY PATTERNS:
  * - screen(md)              = min-width: 768px (md and above)
@@ -167,7 +167,6 @@
   /* Container - Progressive padding reduction for small screens */
   .container {
     @apply max-w-7xl mx-auto px-5;
-    @apply 2xl:px-8; /* 32px at 1536px+ */
   }
 
   @media not all and screen(md) {
