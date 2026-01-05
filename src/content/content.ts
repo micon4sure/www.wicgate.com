@@ -155,7 +155,7 @@ export const manualInstallSteps: DedicatedServerStep[] = [
 export const manualInstallWarning = {
   title: 'Important Notice',
   message:
-    'This installation method is unsupported and provided "as-is". For a streamlined experience, we recommend using the WIC LIVE installer above.',
+    'This installation method is unsupported and provided "as-is". For a streamlined experience, we recommend using the <a href="/downloads#quick-install" class="internal-link">WIC LIVE</a> installer.',
 };
 
 // SEO Metadata for sections (used for SSG meta tags)

@@ -726,6 +726,28 @@ script: [
 - Use hardcoded colors (use tokens)
 - Use inline `style="..."` attributes
 - Use `<style scoped>` blocks
+- Create section-specific link overrides (use link helper classes)
+
+### Link Helper Classes (January 2026)
+
+**Authoritative link styling** - no section-specific overrides. All inline text links use these classes:
+
+| Class | Purpose | Style |
+|-------|---------|-------|
+| `.internal-link` | Internal navigation (e.g., "WIC LIVE" in warnings) | Gold, underlined, uppercase, Rajdhani font |
+| `.inline-link` | Base class for inline text links | Gold, underline on hover |
+| `.download-link` | File downloads (.exe, .zip) | Extends `.inline-link` + download icon |
+| `.external-link` | External services (Discord, GOG, YouTube) | Extends `.inline-link` + external arrow icon |
+
+**Usage in content strings:**
+```typescript
+// content.ts - Use appropriate link class
+'Download <a href="..." class="download-link">WIC LIVE</a>'
+'Join our <a href="..." class="external-link">Discord</a>'
+'See <a href="/downloads#quick-install" class="internal-link">Quick Install</a>'
+```
+
+**Icons:** Font Awesome icons auto-appended via `::after` pseudo-element (download: `fa-download`, external: `fa-arrow-up-right-from-square`).
 
 ### Responsive Strategy
 

@@ -2846,38 +2846,7 @@
     @apply hover:shadow-[0_8px_24px_rgba(145,70,255,0.4)];
   }
 
-  /* ========== GETTING STARTED SECTION ========== */
-
-  /* Download/setup links in advanced sections - Yellow with underline on hover */
-  #getting-started-advanced a {
-    @apply text-massgate-gold font-semibold no-underline transition-all duration-200;
-  }
-
-  #getting-started-advanced a:hover {
-    @apply text-massgate-gold-bright underline;
-    text-underline-offset: 3px;
-  }
-
-  #getting-started-advanced a:active {
-    @apply text-massgate-gold-dark;
-  }
-
   /* ========== DOWNLOADS SECTION ========== */
-
-  /* Download links in Dedicated Server & Manual Install tabs - Yellow with underline on hover */
-  /* Exclude buttons (like the Quick Install download button) */
-  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal):not(.hero-cta) {
-    @apply text-massgate-gold font-semibold no-underline transition-all duration-200;
-  }
-
-  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal):not(.hero-cta):hover {
-    @apply text-massgate-gold-bright underline;
-    text-underline-offset: 3px;
-  }
-
-  #downloads a:not(.btn-red):not(.btn-soviet):not(.btn-teal):not(.hero-cta):active {
-    @apply text-massgate-gold-dark;
-  }
 
   /* Non-link text (like .text-bold spans) - White bold for emphasis */
   #downloads .text-bold {

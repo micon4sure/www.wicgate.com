@@ -195,9 +195,10 @@ const tabs = [
                 >
                   {{ manualInstallWarning.title }}
                 </h5>
-                <p class="m-0 text-t-secondary text-base font-body leading-relaxed">
-                  {{ manualInstallWarning.message }}
-                </p>
+                <p
+                  class="m-0 text-t-secondary text-base font-body leading-relaxed"
+                  v-html="manualInstallWarning.message"
+                ></p>
               </div>
             </div>
 
