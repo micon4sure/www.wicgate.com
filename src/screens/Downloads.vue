@@ -71,7 +71,12 @@ const tabs = [
                     </div>
 
                     <div v-if="s.n === 2" class="mt-4">
-                      <a id="downloadClientBtn" :href="WICLIVE_URL" class="hero-cta">
+                      <a
+                        id="downloadClientBtn"
+                        :href="WICLIVE_URL"
+                        class="hero-cta"
+                        title="Download WIC LIVE installer"
+                      >
                         <i
                           class="fa-solid fa-download text-sm sm:text-base lg:text-lg xl:text-xl"
                           aria-hidden="true"

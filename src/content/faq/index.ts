@@ -142,7 +142,7 @@ export const faqCategories: FaqCategory[] = [
       {
         id: 'how-to-connect',
         q: 'How do I connect to WICGATE servers?',
-        a: '<p>Run the steps outlined in the <a href="/downloads" class="internal-link">QUICK START</a> section and you\'re good to go!</p>',
+        a: '<p>Run the steps outlined in the <a href="/downloads" class="internal-link">Downloads</a> section and you\'re good to go!</p>',
       },
       {
         id: 'campaign-only',

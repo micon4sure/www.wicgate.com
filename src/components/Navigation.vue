@@ -152,6 +152,7 @@ async function handleNavigation(sectionId: string) {
           rel="noopener noreferrer"
           class="auth-btn-discord"
           aria-label="Join Discord Server"
+          title="Join Discord Server (opens in new tab)"
         >
           <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="w-5 h-5">
             <path

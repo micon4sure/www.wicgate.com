@@ -93,7 +93,7 @@ export const dedicatedServerSteps: DedicatedServerStep[] = [
   {
     n: 1,
     t: 'Download Server Files',
-    c: 'Download the WICGATE Dedicated Server package. Choose <a href="#" target="_blank" class="download-link">Match Mode Server</a> for casual servers or <a href="#" target="_blank" class="download-link">Ranked Edition</a> for public ranked servers (requires CD key from <a href="https://discord.gg/Udbv9UDBBb" target="_blank" class="external-link">Discord</a>).',
+    c: 'Download the WICGATE Dedicated Server package. Choose <a href="#" target="_blank" class="download-link" title="Download Match Mode Server">Match Mode Server</a> for casual servers or <a href="#" target="_blank" class="download-link" title="Download Ranked Edition">Ranked Edition</a> for public ranked servers (requires CD key from <a href="https://discord.gg/Udbv9UDBBb" target="_blank" class="external-link" title="Join Discord for CD key (opens in new tab)">Discord</a>).',
   },
   {
     n: 2,
@@ -103,7 +103,7 @@ export const dedicatedServerSteps: DedicatedServerStep[] = [
   {
     n: 3,
     t: 'Install Hosts File',
-    c: 'Copy the <a href="#" target="_blank" class="download-link">hosts file</a> to <span class="text-bold">C:\\Windows\\System32\\drivers\\etc</span> (requires administrator rights).',
+    c: 'Copy the <a href="#" target="_blank" class="download-link" title="Download hosts file">hosts file</a> to <span class="text-bold">C:\\Windows\\System32\\drivers\\etc</span> (requires administrator rights).',
   },
   {
     n: 4,
@@ -133,7 +133,7 @@ export const manualInstallSteps: DedicatedServerStep[] = [
   {
     n: 1,
     t: 'Download Components',
-    c: 'Download the <a href="#" target="_blank" class="download-link">Standalone Multiplayer Update</a> and <a href="#" target="_blank" class="download-link">hosts file</a> required for manual installation.',
+    c: 'Download the <a href="#" target="_blank" class="download-link" title="Download Standalone Multiplayer Update">Standalone Multiplayer Update</a> and <a href="#" target="_blank" class="download-link" title="Download hosts file">hosts file</a> required for manual installation.',
   },
   {
     n: 2,
@@ -148,7 +148,7 @@ export const manualInstallSteps: DedicatedServerStep[] = [
   {
     n: 4,
     t: 'Optional: Community Maps',
-    c: 'Download additional <a href="#" target="_blank" class="download-link">community maps</a> created by the community to expand your gameplay experience.',
+    c: 'Download additional <a href="#" target="_blank" class="download-link" title="Download community maps">community maps</a> created by the community to expand your gameplay experience.',
   },
 ];
 

@@ -45,6 +45,7 @@ const socialLinks = [
           target="_blank"
           rel="noopener noreferrer"
           :aria-label="link.name"
+          :title="`Visit ${link.name} (opens in new tab)`"
           class="social-link"
           :class="`social-link-${link.color}`"
         >

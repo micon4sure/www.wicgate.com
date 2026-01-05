@@ -48,7 +48,9 @@ const emit = defineEmits<{
               <span class="step-number">2</span>
               <span
                 >Download & run
-                <a :href="WICLIVE_URL" class="download-link">WIC LIVE</a>
+                <a :href="WICLIVE_URL" class="download-link" title="Download WIC LIVE installer"
+                  >WIC LIVE</a
+                >
                 - our all-in-one launcher</span
               >
             </div>
