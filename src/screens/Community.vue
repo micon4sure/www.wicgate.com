@@ -89,7 +89,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
           </h3>
         </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div v-for="u in twitchUsernames" :key="u" class="card p-0 overflow-hidden group">
             <TwitchFacade
               :ref="(el) => (twitchRefs[u] = el as InstanceType<typeof TwitchFacade> | null)"
