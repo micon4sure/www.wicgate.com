@@ -123,6 +123,19 @@ export default {
           DEFAULT: '#9146ff',
           dark: '#7a38d8',
         },
+
+        // ========== THEME TOKENS (change these to switch theme) ==========
+        // Tab active state gradient + accent (navbar, sub-tabs)
+        'tab-active': {
+          from: '#c62828',    // Gradient top (Massgate Red)
+          to: '#8b0000',      // Gradient bottom (Massgate Red Dark)
+          accent: '#e53935',  // Underline/glow (Massgate Red Bright)
+        },
+        // Section header gradient (leaderboard, FAQ, overlays)
+        'section-header': {
+          from: '#4a1f5c',    // Gradient top (Purple)
+          to: '#2d1236',      // Gradient bottom (Purple Dark)
+        },
       },
 
       fontFamily: {

@@ -649,6 +649,39 @@ script: [
 - Animations: `red-pulse`, `gold-shimmer`, `teal-glow`
 - Breakpoints: xs(320), sm(375), md(425) phones, lg(768) tablet, xl(1024 NAV SWITCH), 2xl(1440) large laptop, 3xl(2560) desktop
 
+### Theme Tokens (January 2026)
+
+**Semantic color tokens for easy theme switching.** Change these values in `tailwind.config.ts` to update all tab/header colors site-wide:
+
+```typescript
+// Tab active state gradient + accent (navbar, sub-tabs, mobile)
+'tab-active': {
+  from: '#c62828',    // Gradient top (Massgate Red)
+  to: '#8b0000',      // Gradient bottom (Massgate Red Dark)
+  accent: '#e53935',  // Underline/glow (Massgate Red Bright)
+},
+// Section header gradient (leaderboard, FAQ, overlays)
+'section-header': {
+  from: '#4a1f5c',    // Gradient top (Purple)
+  to: '#2d1236',      // Gradient bottom (Purple Dark)
+},
+```
+
+**CSS Usage:** Reference tokens via `theme()` function:
+```css
+.tab-btn-active {
+  background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
+}
+.leaderboard-header {
+  background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+}
+```
+
+**Affected Components:**
+- **Tab Active** (7 classes): `.tab-btn-active`, `.nav-mobile-link.active`, `.tab-btn-sub-active`, `.tab-mobile-option-active`, `.tab-mobile-trigger-sub`, `.tab-mobile-trigger-sub-open`, `.tab-mobile-option-sub-active`
+- **Tab Underline** (2 classes): `.tab-btn::before`, `.tab-btn-sub::before`
+- **Section Headers** (5 classes): `.server-group-header`, `.event-accordion-expanded .event-accordion-header`, `.faq-item-open .faq-question-header`, `.leaderboard-header`, `.overlay-header`
+
 ### Layout Width Standard (October 2025)
 
 **Standardized Container Width:** All content sections use consistent **1280px (max-w-7xl)** maximum width.

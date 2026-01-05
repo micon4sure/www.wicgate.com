@@ -345,7 +345,7 @@
 
   .server-group-header {
     @apply flex items-center justify-between gap-2 px-3 py-2 border-b border-mg/30;
-    background: linear-gradient(to bottom, #4a1f5c, #2d1236);
+    background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
   }
 
   /* Event card */
@@ -398,7 +398,7 @@
   }
 
   .event-accordion-expanded .event-accordion-header {
-    background: linear-gradient(to bottom, #4a1f5c, #2d1236);
+    background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
   }
 
   .event-accordion-title {
@@ -714,7 +714,7 @@
   /* Tab button active state */
   .tab-btn-active {
     @apply text-white font-semibold z-10;
-    background: linear-gradient(to bottom, #c62828, #8b0000);
+    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   /* Tab button hover (inactive only) */
@@ -730,9 +730,9 @@
     content: '';
     @apply absolute left-0 right-0 h-[2px] opacity-0;
     bottom: 0;
-    background: theme('colors.massgate-red.bright');
+    background: theme('colors.tab-active.accent');
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 -2px 8px rgba(229, 57, 53, 0.4);
+    box-shadow: 0 -2px 8px color-mix(in srgb, theme('colors.tab-active.accent') 40%, transparent);
   }
 
   .tab-btn-active::before {
@@ -776,7 +776,7 @@
 
   .nav-mobile-link.active {
     @apply text-white font-semibold;
-    background: linear-gradient(to bottom, #c62828, #8b0000);
+    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   /* Tap/click feedback for mobile nav links */
@@ -827,14 +827,14 @@
     content: '';
     @apply absolute left-0 right-0 h-[2px] opacity-0;
     bottom: 0;
-    background: theme('colors.massgate-red.bright');
+    background: theme('colors.tab-active.accent');
     transition: opacity 0.2s ease-out;
   }
 
   /* Sub-tab active - red gradient fill */
   .tab-btn-sub-active {
     @apply text-white font-bold z-10;
-    background: linear-gradient(to bottom, #c62828, #8b0000);
+    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   .tab-btn-sub-active::before {
@@ -929,7 +929,7 @@
   /* Active option - matches desktop tab-btn-active */
   .tab-mobile-option-active {
     @apply text-white font-semibold;
-    background: linear-gradient(to bottom, #c62828, #8b0000);
+    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   /* Tap/click feedback for tab options */
@@ -974,12 +974,12 @@
     @apply border-t border-b border-graphite-dark/60;
     @apply transition-all duration-200;
     @apply cursor-pointer;
-    background: linear-gradient(to bottom, #c62828, #8b0000);
+    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   .tab-mobile-trigger-sub-open {
     @apply text-white border-graphite-dark/60;
-    background: linear-gradient(to bottom, #c62828, #8b0000);
+    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   /* Lighter dropdown for sub-tabs */
@@ -1004,7 +1004,7 @@
   /* Active option - matches desktop tab-btn-active */
   .tab-mobile-option-sub-active {
     @apply text-white font-semibold;
-    background: linear-gradient(to bottom, #c62828, #8b0000);
+    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   /* Tap/click feedback for sub-tab options */
@@ -1360,7 +1360,7 @@
   }
 
   .faq-item-open .faq-question-header {
-    background: linear-gradient(to bottom, #4a1f5c, #2d1236);
+    background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
   }
 
   /* FAQ list styling */
@@ -1438,7 +1438,7 @@
   /* Header bar */
   .leaderboard-header {
     @apply p-[20px_24px] relative w-full flex-shrink-0;
-    background: linear-gradient(to bottom, #4a1f5c, #2d1236);
+    background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
   }
 
   .leaderboard-header-full {
@@ -3010,7 +3010,7 @@
 
   .overlay-header {
     @apply py-4 px-6 border-b border-t-dim/20 flex items-center justify-between gap-3;
-    background: linear-gradient(to bottom, #4a1f5c, #2d1236);
+    background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
   }
 
   .overlay-header .slide-title {
