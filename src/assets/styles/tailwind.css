@@ -170,13 +170,8 @@
   }
 
   @media not all and screen(md) {
-    .container { @apply px-4; } /* 16px below 1024px */
+    .container { @apply px-3; }
   }
-
-  @media not all and screen(md) {
-    .container { @apply px-3; } /* 12px below 768px */
-  }
-
   /* Section spacing */
   .section {
     @apply relative pb-20;
@@ -511,25 +506,12 @@
   }
 
   @media not all and screen(md) {
-    .widget-header { @apply py-4 px-5 pb-3 gap-2.5; } /* 16px/20px/10px */
-  }
-
-  @media not all and screen(md) {
-    .widget-header { @apply py-3.5 px-4 pb-2.5 gap-2.5; } /* 14px/16px/10px */
+    .widget-header { @apply py-3.5 px-4 pb-2.5 gap-2.5; }
   }
 
   @media not all and screen(xs) {
-    .widget-header { @apply py-3 px-3.5 pb-2 gap-2; } /* 12px/14px/8px */
+    .widget-header { @apply py-2 px-2.5 pb-1.5 gap-1.5; }
   }
-
-  @media not all and screen(xs) {
-    .widget-header { @apply py-2.5 px-3 pb-2 gap-2; } /* 10px/12px/8px */
-  }
-
-  @media not all and screen(xs) {
-    .widget-header { @apply py-2 px-2.5 pb-1.5 gap-1.5; } /* 8px/10px/6px */
-  }
-
   /* Widget header icon - responsive sizing */
   .widget-header-icon {
     @apply w-10 h-10 rounded-full flex items-center justify-center text-xl flex-shrink-0;
@@ -543,7 +525,6 @@
   @media not all and screen(xs) {
     .widget-header-icon { @apply w-8 h-8 text-base; }
   }
-
   /* Widget header title - 7-tier responsive typography */
   .widget-header-title {
     @apply m-0 text-heading-lg font-bold text-t font-military uppercase tracking-[0.5px];
@@ -551,25 +532,12 @@
   }
 
   @media not all and screen(md) {
-    .widget-header-title { @apply text-heading-md; } /* 18px */
-  }
-
-  @media not all and screen(md) {
-    .widget-header-title { @apply text-heading-sm; } /* 16px */
+    .widget-header-title { @apply text-heading-sm; }
   }
 
   @media not all and screen(xs) {
-    .widget-header-title { @apply text-body-md; } /* 15px */
+    .widget-header-title { @apply text-caption-lg; }
   }
-
-  @media not all and screen(xs) {
-    .widget-header-title { @apply text-body-sm; } /* 14px */
-  }
-
-  @media not all and screen(xs) {
-    .widget-header-title { @apply text-caption-lg; } /* 13px */
-  }
-
   /* Widget body - 7-tier responsive spacing */
   .widget-body {
     @apply flex-1 py-5 px-6 flex flex-col gap-4;
@@ -577,25 +545,12 @@
   }
 
   @media not all and screen(md) {
-    .widget-body { @apply py-4 px-5 gap-3.5; }
-  }
-
-  @media not all and screen(md) {
     .widget-body { @apply py-3.5 px-4 gap-3; }
-  }
-
-  @media not all and screen(xs) {
-    .widget-body { @apply py-3 px-3.5 gap-2.5; }
-  }
-
-  @media not all and screen(xs) {
-    .widget-body { @apply py-2.5 px-3 gap-2; }
   }
 
   @media not all and screen(xs) {
     .widget-body { @apply py-2 px-2.5 gap-2; }
   }
-
   /* Widget footer - 7-tier responsive spacing */
   .widget-footer {
     @apply py-4 px-6 border-t border-mg/30 bg-gradient-to-b from-mg/10 to-mg-dark/20;
@@ -603,21 +558,12 @@
   }
 
   @media not all and screen(md) {
-    .widget-footer { @apply py-3 px-5; }
-  }
-
-  @media not all and screen(md) {
     .widget-footer { @apply py-2.5 px-4; }
-  }
-
-  @media not all and screen(xs) {
-    .widget-footer { @apply py-2 px-3.5; }
   }
 
   @media not all and screen(xs) {
     .widget-footer { @apply py-2 px-3; }
   }
-
   .widget-footer-action {
     @apply flex items-center justify-between text-soviet font-military text-sm font-semibold uppercase tracking-[0.5px] transition-all duration-200;
   }
@@ -649,12 +595,6 @@
 
   @media not all and screen(md) {
     .header-container {
-      @apply h-[70px] min-h-[70px] justify-between;
-    }
-  }
-
-  @media not all and screen(md) {
-    .header-container {
       @apply h-[60px] min-h-[60px] px-4;
     }
   }
@@ -671,32 +611,15 @@
   }
 
   @media not all and screen(md) {
-    .logo-wrapper { @apply min-w-[180px]; }
-  }
-
-  @media not all and screen(md) {
     .logo-wrapper { @apply min-w-[160px]; }
-  }
-
-  @media not all and screen(xs) {
-    .logo-wrapper { @apply min-w-[120px]; }
-  }
-
-  @media not all and screen(xs) {
-    .logo-wrapper { @apply min-w-[100px]; }
   }
 
   @media not all and screen(xs) {
     .logo-wrapper { @apply min-w-[90px]; }
   }
-
   /* Logo title - 7-tier responsive typography */
   .logo-title {
     @apply font-military text-2xl font-bold text-teal uppercase tracking-[2px] select-none leading-none;
-  }
-
-  @media not all and screen(md) {
-    .logo-title { @apply text-xl; }
   }
 
   @media not all and screen(md) {
@@ -704,17 +627,8 @@
   }
 
   @media not all and screen(xs) {
-    .logo-title { @apply text-base; }
+    .logo-title { @apply text-body-sm; }
   }
-
-  @media not all and screen(xs) {
-    .logo-title { @apply text-body-md; } /* 15px */
-  }
-
-  @media not all and screen(xs) {
-    .logo-title { @apply text-body-sm; } /* 14px */
-  }
-
   /* Logo image - responsive sizing */
   .logo-image {
     @apply h-10 w-auto select-none;
@@ -727,7 +641,6 @@
   @media not all and screen(xs) {
     .logo-image { @apply h-8; }
   }
-
   /* Logo subtitle - 12px minimum enforced */
   .logo-subtitle {
     @apply font-body text-caption-lg font-medium text-battlefield-mist uppercase tracking-[1px] mt-0.5 leading-none;
@@ -735,7 +648,7 @@
   }
 
   @media not all and screen(md) {
-    .logo-subtitle { @apply text-caption-md; } /* 12px - MINIMUM */
+    .logo-subtitle { @apply text-caption-md; }
   }
   /* No further reductions - 12px is the floor */
 
@@ -812,32 +725,15 @@
   }
 
   @media not all and screen(md) {
-    .tab-btn { @apply text-nav-lg p-[24px_32px]; } /* 15px font */
-  }
-
-  @media not all and screen(md) {
-    .tab-btn { @apply text-nav-md p-[18px_24px]; } /* 14px font */
-  }
-
-  @media not all and screen(md) {
-    .tab-btn { @apply text-nav-md p-[14px_18px]; } /* 14px font */
+    .tab-btn { @apply text-nav-md p-[14px_18px]; }
   }
 
   @media not all and screen(xs) {
-    .tab-btn { @apply text-nav-sm p-[12px_14px]; } /* 13px font */
+    .tab-btn { @apply text-nav-xs p-[10px_12px]; }
   }
-
-  @media not all and screen(xs) {
-    .tab-btn { @apply text-nav-xs p-[10px_12px]; } /* 12px font - MINIMUM */
-  }
-
   /* Tab button variants - inherit base responsive cascade */
   .tab-btn-s {
     @apply tab-btn text-nav-lg p-[24px_32px]; /* Slightly smaller base */
-  }
-
-  @media not all and screen(md) {
-    .tab-btn-s { @apply text-nav-md p-[16px_20px]; }
   }
 
   @media not all and screen(md) {
@@ -845,9 +741,8 @@
   }
 
   @media not all and screen(xs) {
-    .tab-btn-s { @apply text-nav-xs p-[10px_12px]; } /* 12px minimum */
+    .tab-btn-s { @apply text-nav-xs p-[10px_12px]; }
   }
-
   .tab-btn-xs {
     @apply tab-btn text-nav-md p-[20px_26px]; /* Compact variant */
   }
@@ -857,26 +752,20 @@
   }
 
   @media not all and screen(xs) {
-    .tab-btn-xs { @apply text-nav-xs p-[8px_10px]; } /* 12px minimum */
+    .tab-btn-xs { @apply text-nav-xs p-[8px_10px]; }
   }
-
   /* Leaderboard-specific tab sizing - 7-tier responsive */
   .tab-btn-leaderboard {
     @apply tab-btn text-nav-sm p-[12px_16px]; /* Compact for leaderboard */
   }
 
   @media not all and screen(md) {
-    .tab-btn-leaderboard { @apply text-nav-sm p-[10px_12px]; } /* 13px */
+    .tab-btn-leaderboard { @apply text-nav-sm p-[10px_12px]; }
   }
 
   @media not all and screen(xs) {
-    .tab-btn-leaderboard { @apply text-nav-xs p-[8px_10px]; } /* 12px minimum */
+    .tab-btn-leaderboard { @apply text-caption-md p-[6px_8px]; }
   }
-
-  @media not all and screen(xs) {
-    .tab-btn-leaderboard { @apply text-caption-md p-[6px_8px]; } /* 12px minimum */
-  }
-
   /* Tab button active state */
   .tab-btn-active {
     @apply text-white font-semibold z-10;
@@ -1035,7 +924,6 @@
     @apply border-b-0;
   }
 
-
   /* Active option - matches desktop tab-btn-active */
   .tab-mobile-option-active {
     @apply text-white font-semibold;
@@ -1110,7 +998,6 @@
     @apply cursor-pointer;
     background: transparent;
   }
-
 
   /* Active option - matches desktop tab-btn-active */
   .tab-mobile-option-sub-active {
@@ -1290,12 +1177,6 @@
 
   @media not all and screen(md) {
     .lb-row {
-      @apply min-h-[3.25rem] h-[3.25rem];
-    }
-  }
-
-  @media not all and screen(md) {
-    .lb-row {
       @apply min-h-[2.75rem] h-[2.75rem];
     }
   }
@@ -1306,19 +1187,12 @@
     }
   }
 
-
   /* Base leaderboard cell */
   .lb-cell {
     @apply p-3 text-t border-b border-b-mg/25 font-medium;
     @apply align-middle leading-[1.2] min-h-14 h-14;
     @apply transition-all duration-200;
     background: transparent;
-  }
-
-  @media not all and screen(md) {
-    .lb-cell {
-      @apply p-[0.675rem] min-h-[3.25rem] h-[3.25rem];
-    }
   }
 
   @media not all and screen(md) {
@@ -1340,12 +1214,6 @@
 
   @media not all and screen(md) {
     .lb-cell-rank {
-      @apply w-[3.75rem];
-    }
-  }
-
-  @media not all and screen(md) {
-    .lb-cell-rank {
       @apply w-[3.125rem] text-[1rem];
     }
   }
@@ -1359,12 +1227,6 @@
   /* Score cell (last column) */
   .lb-cell-score {
     @apply lb-cell font-[Oswald,sans-serif] font-semibold text-right text-[1.15rem] tracking-[0.5px] whitespace-nowrap;
-  }
-
-  @media not all and screen(md) {
-    .lb-cell-score {
-      @apply text-[1.1rem];
-    }
   }
 
   @media not all and screen(md) {
@@ -1413,11 +1275,11 @@
   }
 
   @media not all and screen(md) {
-    .lb-clan-tag { @apply text-caption-lg; } /* 13px */
+    .lb-clan-tag { @apply text-caption-lg; }
   }
 
   @media not all and screen(xs) {
-    .lb-clan-tag { @apply text-caption-md; } /* 12px - MINIMUM */
+    .lb-clan-tag { @apply text-caption-md; }
   }
   /* No further reductions - 12px is the floor */
 
@@ -1429,25 +1291,12 @@
 
   /* 7-tier responsive font size for player names */
   @media not all and screen(md) {
-    .lb-player-name { @apply text-[1.05rem]; }
-  }
-
-  @media not all and screen(md) {
     .lb-player-name { @apply text-[1rem]; }
-  }
-
-  @media not all and screen(xs) {
-    .lb-player-name { @apply text-[0.95rem]; }
-  }
-
-  @media not all and screen(xs) {
-    .lb-player-name { @apply text-[0.9rem]; }
   }
 
   @media not all and screen(xs) {
     .lb-player-name { @apply text-[0.85rem]; }
   }
-
   /* Medal colors for top 3 ranks */
   .lb-medal-gold {
     @apply text-gold;
@@ -1687,35 +1536,15 @@
     }
   }
 
-  /* 7-tier responsive column widths - consolidated cascade */
-  @media not all and screen(md) {
-    .col-rank { width: 36px; min-width: 36px; }
-    .col-insignia { width: 28px; min-width: 28px; }
-    .col-avatar { width: 22px; min-width: 22px; }
-  }
-
+  /* Responsive column widths */
   @media not all and screen(md) {
     .col-rank { width: 32px; min-width: 32px; }
-    .col-insignia { width: 26px; min-width: 26px; }
-    .col-avatar { width: 20px; min-width: 20px; }
-  }
-
-  @media not all and screen(xs) {
-    .col-rank { width: 28px; min-width: 28px; }
-    .col-insignia { width: 24px; min-width: 24px; }
-    .col-avatar { width: 18px; min-width: 18px; }
-  }
-
-  @media not all and screen(xs) {
-    .col-rank { width: 26px; min-width: 26px; }
-    .col-insignia { width: 22px; min-width: 22px; }
-    .col-avatar { width: 17px; min-width: 17px; }
+    .col-insignia { width: 28px; min-width: 28px; }
   }
 
   @media not all and screen(xs) {
     .col-rank { width: 24px; min-width: 24px; }
-    .col-insignia { width: 20px; min-width: 20px; }
-    .col-avatar { width: 16px; min-width: 16px; }
+    .col-insignia { width: 24px; min-width: 24px; }
   }
 
   /* Standardized spacing for lg breakpoint (768-1023px) - matches xl+ values */
@@ -1732,25 +1561,12 @@
 
   /* 7-tier responsive score column - consolidated cascade */
   @media not all and screen(md) {
-    .col-score { width: 9rem; min-width: 9rem; }    /* 144px */
-  }
-
-  @media not all and screen(md) {
-    .col-score { width: 7rem; min-width: 7rem; }    /* 112px */
+    .col-score { width: 7rem; min-width: 7rem; }
   }
 
   @media not all and screen(xs) {
-    .col-score { width: 5.5rem; min-width: 5.5rem; } /* 88px */
+    .col-score { width: 3.75rem; min-width: 3.75rem; }
   }
-
-  @media not all and screen(xs) {
-    .col-score { width: 5rem; min-width: 5rem; }    /* 80px */
-  }
-
-  @media not all and screen(xs) {
-    .col-score { width: 3.75rem; min-width: 3.75rem; } /* 60px - compact for 320px */
-  }
-
   /* ========== TABLE COMPONENTS ========== */
 
   /* Leaderboard table cell */
@@ -1767,15 +1583,6 @@
 
   tr:nth-child(even) > .leaderboard-cell {
     background: linear-gradient(to right, rgba(24, 38, 48, 0.78), rgba(14, 24, 31, 0.88));
-  }
-
-  @media not all and screen(md) {
-    .leaderboard-cell {
-      @apply p-[0.675rem] min-h-[3.25rem] h-[3.25rem];
-    }
-    .leaderboard-cell:last-child {
-      @apply text-[1.1rem];
-    }
   }
 
   @media not all and screen(md) {
@@ -1799,12 +1606,6 @@
   /* Leaderboard rank cell (first column) */
   .leaderboard-rank-cell {
     @apply leaderboard-cell font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16;
-  }
-
-  @media not all and screen(md) {
-    .leaderboard-rank-cell {
-      @apply w-[3.75rem];
-    }
   }
 
   @media not all and screen(md) {
@@ -1851,11 +1652,11 @@
   }
 
   @media not all and screen(md) {
-    .clan-tag { @apply text-caption-lg; } /* 13px */
+    .clan-tag { @apply text-caption-lg; }
   }
 
   @media not all and screen(xs) {
-    .clan-tag { @apply text-caption-md; } /* 12px - MINIMUM */
+    .clan-tag { @apply text-caption-md; }
   }
   /* No further reductions - 12px is the floor */
 
@@ -1863,12 +1664,6 @@
   .player-name {
     @apply font-[Rajdhani,sans-serif] text-t font-semibold text-[1.1rem] tracking-[0.3px];
     @apply inline align-middle leading-[1.2] m-0;
-  }
-
-  @media not all and screen(md) {
-    .player-name {
-      @apply text-[1.05rem];
-    }
   }
 
   @media not all and screen(md) {
@@ -2255,25 +2050,12 @@
   }
 
   @media not all and screen(md) {
-    .hero-main-card { @apply px-7 py-12; } /* 28px/48px */
-  }
-
-  @media not all and screen(md) {
-    .hero-main-card { @apply px-6 py-10; } /* 24px/40px */
+    .hero-main-card { @apply px-6 py-10; }
   }
 
   @media not all and screen(xs) {
-    .hero-main-card { @apply px-5 py-8; } /* 20px/32px */
+    .hero-main-card { @apply px-3 py-5; }
   }
-
-  @media not all and screen(xs) {
-    .hero-main-card { @apply px-4 py-6; } /* 16px/24px */
-  }
-
-  @media not all and screen(xs) {
-    .hero-main-card { @apply px-3 py-5; } /* 12px/20px */
-  }
-
   /* Hero widget grid (media/event and info cards) */
   .hero-widget-grid {
     @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 md:mb-12 xl:mb-16;
@@ -2313,9 +2095,8 @@
   }
 
   @media not all and screen(md) {
-    .hero-badge { @apply py-1 px-3 text-caption-md mb-4; } /* 12px minimum */
+    .hero-badge { @apply py-1 px-3 text-caption-md mb-4; }
   }
-
   /* Hero WIC Logo (above title) */
   .hero-wic-logo {
     @apply w-auto mx-auto mb-6 select-none;
@@ -2358,13 +2139,12 @@
   }
 
   @media not all and screen(md) {
-    .hero-subtitle { @apply text-display-md; } /* 28px below 768px */
+    .hero-subtitle { @apply text-display-md; }
   }
 
   @media not all and screen(xs) {
-    .hero-subtitle { @apply text-heading-lg; } /* 20px below 375px */
+    .hero-subtitle { @apply text-heading-lg; }
   }
-
   /* Hero description text - 7-tier responsive typography */
   .hero-desc {
     @apply text-body-xl text-t leading-relaxed font-body font-semibold;
@@ -2373,30 +2153,15 @@
   }
 
   @media not all and screen(md) {
-    .hero-desc { @apply text-body-lg; } /* 16px */
-  }
-
-  @media not all and screen(md) {
-    .hero-desc { @apply text-body-md; } /* 15px */
+    .hero-desc { @apply text-body-md; }
   }
 
   @media not all and screen(xs) {
-    .hero-desc { @apply text-body-sm; } /* 14px */
+    .hero-desc { @apply text-caption-lg; }
   }
-
-  @media not all and screen(xs) {
-    .hero-desc { @apply text-caption-lg; } /* 13px */
-  }
-
   .hero-desc-secondary {
     @apply text-base text-t-secondary leading-relaxed font-body;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
-  }
-
-  @media not all and screen(md) {
-    .hero-desc-secondary {
-      @apply text-[0.9375rem];
-    }
   }
 
   @media not all and screen(md) {
@@ -2461,25 +2226,7 @@
   /* Hero CTA - 7-tier responsive sizing */
   @media not all and screen(md) {
     .hero-cta {
-      @apply px-8 py-4 text-lg gap-3 mt-4;
-    }
-  }
-
-  @media not all and screen(md) {
-    .hero-cta {
       @apply px-7 py-3.5 text-base gap-3 mt-3;
-    }
-  }
-
-  @media not all and screen(xs) {
-    .hero-cta {
-      @apply px-6 py-3 text-base gap-2.5;
-    }
-  }
-
-  @media not all and screen(xs) {
-    .hero-cta {
-      @apply px-5 py-2.5 text-sm gap-2;
     }
   }
 
@@ -2952,12 +2699,6 @@
   .grid-3 {
     @apply grid gap-5;
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media not all and screen(md) {
-    .grid-3 {
-      grid-template-columns: repeat(2, 1fr);
-    }
   }
 
   @media not all and screen(md) {
@@ -3546,39 +3287,7 @@
     }
   }
 
-  /* Below md (425px) - phones */
-  @media not all and screen(xs) {
-    .overlay-header,
-    .overlay-content {
-      @apply py-3 px-3;
-    }
-
-    .slide {
-      @apply min-h-[280px];
-    }
-
-    .slide-title {
-      @apply text-lg mb-2;
-    }
-
-    .slide-text {
-      @apply text-sm;
-    }
-
-    .cta-box {
-      @apply p-4;
-    }
-
-    .cta-step {
-      @apply gap-3 p-2;
-    }
-
-    .step-number {
-      @apply w-8 h-8 text-base;
-    }
-  }
-
-  /* Below sm (375px) - small phones */
+  /* Below xs (375px) - small phones */
   @media not all and screen(xs) {
     .overlay-header,
     .overlay-content {
@@ -3591,6 +3300,10 @@
 
     .slide-title {
       @apply text-base mb-1;
+    }
+
+    .slide-text {
+      @apply text-sm;
     }
 
     .cta-box {

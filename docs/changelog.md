@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🧹 **CSS Media Query Consolidation** - Consolidated 50+ duplicate selectors within same media query breakpoints: removed ~320 lines of redundant CSS where later rules were overriding earlier ones (e.g., `.widget-header` appearing 3x in same breakpoint), fixed orphaned CSS content, consolidated multi-selector blocks (`.leaderboard-cell`, `.overlay-header`), file reduced from ~3900 to ~3600 lines (Jan 5)
 - 🐛 **Fix WIC Logo Size Drop** - Fixed WIC logo dropping too radically from 96px to 48px at 768px breakpoint: removed duplicate media query that was overriding intended 80px size, removed dead "laptop optimizations" block with impossible media query (`screen(md) and not all and screen(md)`), logo now scales 96px → 80px → 64px (xs) instead of 96px → 48px (Jan 5)
 - 🎨 **Hero Subtitle Styling** - Updated "Multiplayer Reloaded" text: changed color from teal to white, reduced base size from 48px to 36px (text-display-lg), added responsive sizing at 28px below 768px (md breakpoint) and 20px below 375px (xs breakpoint), cleaned up duplicate media queries in CSS (Jan 5)
 - 🧹 **Remove 2xl Breakpoint** - Removed 2xl (1536px) breakpoint entirely since site max-width is 1280px: removed from tailwind.config.ts, constants.ts, updated all documentation comments, removed `2xl:grid-cols-3` from Community.vue, simplified LeaderboardGroup.vue insignia sizing to 26px at xl+, removed `2xl:px-8` container padding (was shrinking content at 1536px+) (Jan 5)
