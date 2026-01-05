@@ -19,7 +19,7 @@
 
     <!-- Animated loading skeleton -->
     <div
-      class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 lg:gap-4 py-5"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-4 py-5"
       aria-label="Loading player statistics"
     >
       <div v-for="n in 3" :key="n" class="skeleton-card">

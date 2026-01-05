@@ -137,18 +137,17 @@ function selectMobileTab(tabId: string) {
   active.value = tabId;
 }
 
-// Responsive RankInsignia sizing (7-tier system)
-const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : BREAKPOINTS.XL);
+// Responsive RankInsignia sizing (Tailwind defaults + xs custom)
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : BREAKPOINTS.LG);
 
 const rankInsigniaSize = computed(() => {
-  if (windowWidth.value < BREAKPOINTS.XS) return 14; // Below xs (edge case)
-  if (windowWidth.value < BREAKPOINTS.SM) return 16; // xs: 320-374 (small phone)
-  if (windowWidth.value < BREAKPOINTS.MD) return 17; // sm: 375-424 (medium phone)
-  if (windowWidth.value < BREAKPOINTS.LG) return 18; // md: 425-767 (large phone)
-  if (windowWidth.value < BREAKPOINTS.XL) return 20; // lg: 768-1023 (tablet)
-  if (windowWidth.value < BREAKPOINTS.XXL) return 22; // xl: 1024-1439 (laptop)
-  if (windowWidth.value < BREAKPOINTS.XXXL) return 24; // 2xl: 1440-2559 (desktop)
-  return 26; // 3xl: 2560+ (large desktop)
+  if (windowWidth.value < BREAKPOINTS.XS) return 16; // Below 375px
+  if (windowWidth.value < BREAKPOINTS.SM) return 17; // xs: 375-639
+  if (windowWidth.value < BREAKPOINTS.MD) return 18; // sm: 640-767
+  if (windowWidth.value < BREAKPOINTS.LG) return 20; // md: 768-1023
+  if (windowWidth.value < BREAKPOINTS.XL) return 22; // lg: 1024-1279
+  if (windowWidth.value < BREAKPOINTS.XXL) return 24; // xl: 1280-1535
+  return 26; // 2xl: 1536+
 });
 
 function updateWindowWidth() {

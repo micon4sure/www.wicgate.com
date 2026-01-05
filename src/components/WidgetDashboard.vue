@@ -135,7 +135,7 @@ function goToSection(sectionOrSubsectionId: string) {
           <div class="flex justify-center items-center">
             <button class="hero-cta" @click="goToSection('downloads')">
               <i
-                class="fa-solid fa-download text-sm sm:text-base lg:text-lg xl:text-xl"
+                class="fa-solid fa-download text-sm xs:text-base md:text-lg lg:text-xl"
                 aria-hidden="true"
               ></i>
               <span>DOWNLOAD NOW</span>

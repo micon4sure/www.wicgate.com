@@ -22,21 +22,19 @@ export const DEBOUNCE_RESIZE = 150; // Resize handler debounce (ms)
 // Timers
 export const EVENT_COUNTDOWN_INTERVAL = 1000; // Update countdown every second
 
-// Layout Breakpoints (7-tier system)
-// xs: 320px (small phone), sm: 375px (medium phone), md: 425px (large phone),
-// lg: 768px (tablet), xl: 1024px (laptop), 2xl: 1440px (large laptop), 3xl: 2560px (desktop)
+// Layout Breakpoints (Tailwind defaults + xs custom)
+// xs: 375px (custom), sm: 640px, md: 768px, lg: 1024px, xl: 1280px, 2xl: 1536px
 export const BREAKPOINTS = {
-  XS: 320, // Small phone
-  SM: 375, // Medium phone
-  MD: 425, // Large phone
-  LG: 768, // Tablet
-  XL: 1024, // Laptop - NAV/TABS SWITCH POINT
-  XXL: 1440, // Large laptop
-  XXXL: 2560, // Desktop
+  XS: 375, // Custom (small phone)
+  SM: 640, // Tailwind default
+  MD: 768, // Tailwind default (tablet)
+  LG: 1024, // Tailwind default - NAV/TABS SWITCH POINT
+  XL: 1280, // Tailwind default
+  XXL: 1536, // Tailwind default
 } as const;
 
-// Nav/tabs switch at this breakpoint (matches Tailwind xl)
-export const NAV_BREAKPOINT = BREAKPOINTS.XL;
+// Nav/tabs switch at this breakpoint (matches Tailwind lg)
+export const NAV_BREAKPOINT = BREAKPOINTS.LG;
 
 // Storage Keys
 export const STORAGE_KEYS = {

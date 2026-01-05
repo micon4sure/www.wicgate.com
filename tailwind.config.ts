@@ -223,13 +223,12 @@ export default {
       },
 
       screens: {
-        'xs': '320px',   // Small phone
-        'sm': '375px',   // Medium phone
-        'md': '425px',   // Large phone
-        'lg': '768px',   // Tablet
-        'xl': '1024px',  // Laptop - NAV/TABS SWITCH POINT
-        '2xl': '1440px', // Large laptop
-        '3xl': '2560px', // Desktop
+        'xs': '375px',   // Custom (small phone)
+        'sm': '640px',   // Tailwind default
+        'md': '768px',   // Tailwind default (tablet)
+        'lg': '1024px',  // Tailwind default - NAV/TABS SWITCH POINT
+        'xl': '1280px',  // Tailwind default
+        '2xl': '1536px', // Tailwind default
       },
     },
   },

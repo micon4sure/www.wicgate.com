@@ -46,7 +46,7 @@ function formatPlayerClanTag(player: {
     <template #header>
       <span class="flex items-center gap-2">
         <i class="fa-solid fa-users" aria-hidden="true"></i>
-        <span class="text-lg md:text-xl">Online Players</span>
+        <span class="text-lg xs:text-xl">Online Players</span>
         <span class="widget-badge-count ml-1">{{ playerCount }}</span>
       </span>
     </template>

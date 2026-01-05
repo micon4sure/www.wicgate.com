@@ -38,12 +38,12 @@ npm run build:og     # Regenerate OG images (social sharing)
 8. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
 9. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, etc.)
 10. ⚠️ Security considerations → See [docs/security.md](docs/security.md) for XSS prevention, auth best practices
-11. ✅ ALWAYS use 7-tier breakpoints: xs(320), sm(375), md(425), lg(768), xl(1024), 2xl(1440), 3xl(2560)
-    - ❌ NEVER use arbitrary breakpoint values - use defined tiers only
-    - Nav/tabs switch at xl (1024px) - use `NAV_BREAKPOINT` from constants.ts
+11. ✅ ALWAYS use Tailwind default breakpoints + xs custom: xs(375), sm(640), md(768), lg(1024), xl(1280), 2xl(1536)
+    - xs is the only custom breakpoint (375px for small phones)
+    - Nav/tabs switch at lg (1024px) - use `NAV_BREAKPOINT` from constants.ts
 12. ✅ ALWAYS use `screen()` function for CSS media queries in `tailwind.css`
     - ❌ NEVER use hardcoded pixel values like `@media (max-width: 767px)`
-    - ✅ Use `@media screen(lg)` for min-width, `@media not all and screen(lg)` for max-width
+    - ✅ Use `@media screen(md)` for min-width, `@media not all and screen(md)` for max-width
     - See `tailwind.css` header comment for pattern reference
 13. ✅ ALWAYS enforce 12px minimum font size at small breakpoints
     - ❌ NEVER use font sizes below `text-caption-md` (12px) or `text-nav-xs` (12px)
@@ -79,4 +79,4 @@ npm run build:og     # Regenerate OG images (social sharing)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** January 3, 2026 (Typography Scale)
+**Updated:** January 5, 2026 (Breakpoint Simplification)

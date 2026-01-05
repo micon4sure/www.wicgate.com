@@ -4,15 +4,15 @@
 @tailwind utilities;
 
 /*
- * BREAKPOINT SYSTEM (7-tier)
+ * BREAKPOINT SYSTEM (Tailwind defaults + xs custom)
  * Uses Tailwind's screen() function - values from tailwind.config.ts
  *
- * xs: 320px | sm: 375px | md: 425px | lg: 768px | xl: 1024px | 2xl: 1440px | 3xl: 2560px
+ * xs: 375px (custom) | sm: 640px | md: 768px | lg: 1024px | xl: 1280px | 2xl: 1536px
  *
  * MEDIA QUERY PATTERNS:
- * - screen(lg)              = min-width: 768px (lg and above)
- * - not all and screen(lg)  = below 768px (below lg)
- * - screen(lg) and not all and screen(xl) = 768px to 1023px (lg only)
+ * - screen(md)              = min-width: 768px (md and above)
+ * - not all and screen(md)  = below 768px (below md)
+ * - screen(md) and not all and screen(lg) = 768px to 1023px (md only)
  */
 
 /* Base layer - Essential resets and HTML elements */
@@ -167,14 +167,14 @@
   /* Container - Progressive padding reduction for small screens */
   .container {
     @apply max-w-7xl mx-auto px-5;
-    @apply 3xl:px-8; /* 32px at 2560px+ */
+    @apply 2xl:px-8; /* 32px at 1536px+ */
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .container { @apply px-4; } /* 16px below 1024px */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .container { @apply px-3; } /* 12px below 768px */
   }
 
@@ -225,23 +225,23 @@
   .tab-btn-nav {
     @apply h-full flex items-center justify-center text-center;
     @apply whitespace-nowrap overflow-hidden text-ellipsis;
-    /* xl (1024px) to 2xl (1440px): Compact nav buttons */
+    /* lg (1024px) to xl (1280px): Compact nav buttons */
     @apply text-xs px-2.5 min-w-[70px] max-w-[110px];
-    /* 2xl (1440px+): Full comfort, larger screens */
-    @apply 2xl:text-sm 2xl:px-4 2xl:min-w-[85px] 2xl:max-w-[145px];
+    /* xl (1280px+): Full comfort, larger screens */
+    @apply xl:text-sm xl:px-4 xl:min-w-[85px] xl:max-w-[145px];
   }
 
   /* Mobile navigation link (Red gradient active states like desktop) */
-  /* Only visible below xl (1024px) - mobile navigation for xs through lg breakpoints */
+  /* Only visible below lg (1024px) - mobile navigation for xs through md breakpoints */
   .nav-mobile-link {
     @apply flex items-center w-full py-4 px-5 min-h-[60px];
     @apply no-underline font-military text-base font-medium uppercase tracking-wider;
     @apply bg-transparent transition-all duration-300;
     @apply relative overflow-hidden text-center justify-center;
-    /* xs (320px+): Phone-sized, comfortable */
+    /* xs (375px+): Phone-sized, comfortable */
     @apply xs:py-[18px] xs:px-6 xs:min-h-16 xs:text-[17px];
-    /* lg (768px+): Tablet-sized, larger touch targets */
-    @apply lg:min-h-[68px] lg:py-5 lg:px-7 lg:text-lg;
+    /* md (768px+): Tablet-sized, larger touch targets */
+    @apply md:min-h-[68px] md:py-5 md:px-7 md:text-lg;
     @apply text-t-secondary;
     @apply border-b border-b-white/10;
   }
@@ -384,7 +384,7 @@
 
   /* Players Modal Grid - screenshot-friendly layout */
   .players-modal-grid {
-    @apply grid gap-4 grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3;
+    @apply grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3;
   }
 
   /* Dashboard card body */
@@ -511,19 +511,19 @@
     /* 2xl golden standard: 20px/24px/12px */
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .widget-header { @apply py-4 px-5 pb-3 gap-2.5; } /* 16px/20px/10px */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .widget-header { @apply py-3.5 px-4 pb-2.5 gap-2.5; } /* 14px/16px/10px */
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .widget-header { @apply py-3 px-3.5 pb-2 gap-2; } /* 12px/14px/8px */
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .widget-header { @apply py-2.5 px-3 pb-2 gap-2; } /* 10px/12px/8px */
   }
 
@@ -537,11 +537,11 @@
     @apply bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border-2 border-massgate-orange-dark text-ink;
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .widget-header-icon { @apply w-9 h-9 text-lg; }
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .widget-header-icon { @apply w-8 h-8 text-base; }
   }
 
@@ -551,19 +551,19 @@
     /* 20px at 2xl golden standard */
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .widget-header-title { @apply text-heading-md; } /* 18px */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .widget-header-title { @apply text-heading-sm; } /* 16px */
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .widget-header-title { @apply text-body-md; } /* 15px */
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .widget-header-title { @apply text-body-sm; } /* 14px */
   }
 
@@ -577,19 +577,19 @@
     /* 2xl golden standard */
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .widget-body { @apply py-4 px-5 gap-3.5; }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .widget-body { @apply py-3.5 px-4 gap-3; }
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .widget-body { @apply py-3 px-3.5 gap-2.5; }
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .widget-body { @apply py-2.5 px-3 gap-2; }
   }
 
@@ -603,19 +603,19 @@
     /* 2xl golden standard */
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .widget-footer { @apply py-3 px-5; }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .widget-footer { @apply py-2.5 px-4; }
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .widget-footer { @apply py-2 px-3.5; }
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .widget-footer { @apply py-2 px-3; }
   }
 
@@ -648,13 +648,13 @@
     @apply max-w-7xl w-full h-full flex items-center px-5 relative z-[1];
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .header-container {
       @apply h-[70px] min-h-[70px] justify-between;
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .header-container {
       @apply h-[60px] min-h-[60px] px-4;
     }
@@ -671,19 +671,19 @@
     @apply flex flex-col items-start min-w-[200px];
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .logo-wrapper { @apply min-w-[180px]; }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .logo-wrapper { @apply min-w-[160px]; }
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .logo-wrapper { @apply min-w-[120px]; }
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .logo-wrapper { @apply min-w-[100px]; }
   }
 
@@ -696,19 +696,19 @@
     @apply font-military text-2xl font-bold text-teal uppercase tracking-[2px] select-none leading-none;
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .logo-title { @apply text-xl; }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .logo-title { @apply text-lg; }
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .logo-title { @apply text-base; }
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .logo-title { @apply text-body-md; } /* 15px */
   }
 
@@ -721,11 +721,11 @@
     @apply h-10 w-auto select-none;
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .logo-image { @apply h-9; }
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .logo-image { @apply h-8; }
   }
 
@@ -735,7 +735,7 @@
     /* 13px base - never goes below 12px */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .logo-subtitle { @apply text-caption-md; } /* 12px - MINIMUM */
   }
   /* No further reductions - 12px is the floor */
@@ -756,7 +756,7 @@
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hamburger-btn {
       @apply w-11 h-11 p-2;
     }
@@ -766,7 +766,7 @@
     @apply block w-7 h-[3px] bg-t-secondary rounded-none transition-all duration-300 origin-center;
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hamburger-line {
       @apply w-5;
     }
@@ -784,7 +784,7 @@
     @apply -translate-y-[7px] -rotate-45 bg-t;
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hamburger-btn.active .hamburger-line:first-child {
       @apply translate-y-1.5;
     }
@@ -812,23 +812,23 @@
     background: transparent;
   }
 
-  @media not all and screen(2xl) {
+  @media not all and screen(md) {
     .tab-btn { @apply text-nav-lg p-[24px_32px]; } /* 15px font */
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .tab-btn { @apply text-nav-md p-[18px_24px]; } /* 14px font */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .tab-btn { @apply text-nav-md p-[14px_18px]; } /* 14px font */
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .tab-btn { @apply text-nav-sm p-[12px_14px]; } /* 13px font */
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .tab-btn { @apply text-nav-xs p-[10px_12px]; } /* 12px font - MINIMUM */
   }
 
@@ -837,15 +837,15 @@
     @apply tab-btn text-nav-lg p-[24px_32px]; /* Slightly smaller base */
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .tab-btn-s { @apply text-nav-md p-[16px_20px]; }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .tab-btn-s { @apply text-nav-sm p-[12px_14px]; }
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .tab-btn-s { @apply text-nav-xs p-[10px_12px]; } /* 12px minimum */
   }
 
@@ -853,11 +853,11 @@
     @apply tab-btn text-nav-md p-[20px_26px]; /* Compact variant */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .tab-btn-xs { @apply text-nav-sm p-[10px_12px]; }
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .tab-btn-xs { @apply text-nav-xs p-[8px_10px]; } /* 12px minimum */
   }
 
@@ -866,15 +866,15 @@
     @apply tab-btn text-nav-sm p-[12px_16px]; /* Compact for leaderboard */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .tab-btn-leaderboard { @apply text-nav-sm p-[10px_12px]; } /* 13px */
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .tab-btn-leaderboard { @apply text-nav-xs p-[8px_10px]; } /* 12px minimum */
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .tab-btn-leaderboard { @apply text-caption-md p-[6px_8px]; } /* 12px minimum */
   }
 
@@ -964,7 +964,7 @@
   }
 
   /* Responsive sub-tab sizing */
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .tab-btn-sub {
       @apply py-4 px-5 text-[0.9rem];
     }
@@ -1054,7 +1054,7 @@
   }
 
   /* Small screen adjustments */
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .tab-mobile-trigger {
       @apply px-4 py-3.5 text-base;
     }
@@ -1130,7 +1130,7 @@
   }
 
   /* Small screen adjustments for sub-tabs */
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .tab-mobile-trigger-sub {
       @apply px-3 py-2.5 text-base;
     }
@@ -1151,7 +1151,7 @@
 
   /* Step card with sticky positioning (for sidebars) */
   .step-card-sticky {
-    @apply step-card h-fit xl:sticky xl:top-24;
+    @apply step-card h-fit lg:sticky lg:top-24;
   }
 
   /* Step number badge */
@@ -1289,13 +1289,13 @@
     background: linear-gradient(to right, rgba(24, 38, 48, 0.78), rgba(14, 24, 31, 0.88));
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .lb-row {
       @apply min-h-[3.25rem] h-[3.25rem];
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .lb-row {
       @apply min-h-[2.75rem] h-[2.75rem];
     }
@@ -1316,13 +1316,13 @@
     background: transparent;
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .lb-cell {
       @apply p-[0.675rem] min-h-[3.25rem] h-[3.25rem];
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .lb-cell {
       @apply p-2 min-h-[2.75rem] h-[2.75rem];
     }
@@ -1339,13 +1339,13 @@
     @apply lb-cell font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16;
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .lb-cell-rank {
       @apply w-[3.75rem];
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .lb-cell-rank {
       @apply w-[3.125rem] text-[1rem];
     }
@@ -1362,13 +1362,13 @@
     @apply lb-cell font-[Oswald,sans-serif] font-semibold text-right text-[1.15rem] tracking-[0.5px] whitespace-nowrap;
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .lb-cell-score {
       @apply text-[1.1rem];
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .lb-cell-score {
       @apply text-[0.95rem];
     }
@@ -1391,7 +1391,7 @@
   }
 
   /* Reduce left padding at lg+ to match column gaps */
-  @media screen(lg) {
+  @media screen(md) {
     .lb-cell-player {
       @apply pl-1;
     }
@@ -1413,11 +1413,11 @@
     /* 14px at 2xl, keeps clan tag intact while player name truncates */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .lb-clan-tag { @apply text-caption-lg; } /* 13px */
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .lb-clan-tag { @apply text-caption-md; } /* 12px - MINIMUM */
   }
   /* No further reductions - 12px is the floor */
@@ -1429,19 +1429,19 @@
   }
 
   /* 7-tier responsive font size for player names */
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .lb-player-name { @apply text-[1.05rem]; }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .lb-player-name { @apply text-[1rem]; }
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .lb-player-name { @apply text-[0.95rem]; }
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .lb-player-name { @apply text-[0.9rem]; }
   }
 
@@ -1485,7 +1485,7 @@
   }
 
   .video-card-title {
-    @apply m-0 mb-1.5 text-sm lg:text-base leading-snug;
+    @apply m-0 mb-1.5 text-sm md:text-base leading-snug;
     @apply text-t font-body font-semibold line-clamp-2;
   }
 
@@ -1552,7 +1552,7 @@
   }
 
   /* FAQ paragraph text wrapping at mobile */
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .faq-item p {
       @apply break-words;
     }
@@ -1565,7 +1565,7 @@
     @apply grid grid-cols-1 gap-6;
   }
 
-  @media screen(xl) {
+  @media screen(md) {
     .leaderboard-dual-container {
       @apply grid-cols-2 items-start;
     }
@@ -1595,7 +1595,7 @@
     @apply w-full;
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .leaderboard-header {
       @apply p-[14px_16px];
     }
@@ -1613,7 +1613,7 @@
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .leaderboard-header-title {
       @apply text-[1.5rem];
     }
@@ -1648,7 +1648,7 @@
   }
 
   /* Increase column widths at lg+ for better spacing between elements */
-  @media screen(lg) {
+  @media screen(md) {
     .col-avatar {
       width: 32px;
       min-width: 32px;
@@ -1670,7 +1670,7 @@
   }
 
   /* Hide avatar on mobile - collapse column completely */
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .col-avatar {
       width: 0 !important;
       min-width: 0 !important;
@@ -1689,25 +1689,25 @@
   }
 
   /* 7-tier responsive column widths - consolidated cascade */
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .col-rank { width: 36px; min-width: 36px; }
     .col-insignia { width: 28px; min-width: 28px; }
     .col-avatar { width: 22px; min-width: 22px; }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .col-rank { width: 32px; min-width: 32px; }
     .col-insignia { width: 26px; min-width: 26px; }
     .col-avatar { width: 20px; min-width: 20px; }
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .col-rank { width: 28px; min-width: 28px; }
     .col-insignia { width: 24px; min-width: 24px; }
     .col-avatar { width: 18px; min-width: 18px; }
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .col-rank { width: 26px; min-width: 26px; }
     .col-insignia { width: 22px; min-width: 22px; }
     .col-avatar { width: 17px; min-width: 17px; }
@@ -1732,19 +1732,19 @@
   }
 
   /* 7-tier responsive score column - consolidated cascade */
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .col-score { width: 9rem; min-width: 9rem; }    /* 144px */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .col-score { width: 7rem; min-width: 7rem; }    /* 112px */
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .col-score { width: 5.5rem; min-width: 5.5rem; } /* 88px */
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .col-score { width: 5rem; min-width: 5rem; }    /* 80px */
   }
 
@@ -1770,7 +1770,7 @@
     background: linear-gradient(to right, rgba(24, 38, 48, 0.78), rgba(14, 24, 31, 0.88));
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .leaderboard-cell {
       @apply p-[0.675rem] min-h-[3.25rem] h-[3.25rem];
     }
@@ -1779,7 +1779,7 @@
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .leaderboard-cell {
       @apply p-2 min-h-[2.75rem] h-[2.75rem];
     }
@@ -1802,13 +1802,13 @@
     @apply leaderboard-cell font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16;
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .leaderboard-rank-cell {
       @apply w-[3.75rem];
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .leaderboard-rank-cell {
       @apply w-[3.125rem] text-[1rem];
     }
@@ -1833,7 +1833,7 @@
     @apply text-right;
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .leaderboard-th {
       @apply text-[0.8rem];
     }
@@ -1851,11 +1851,11 @@
     /* 14px at 2xl */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .clan-tag { @apply text-caption-lg; } /* 13px */
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .clan-tag { @apply text-caption-md; } /* 12px - MINIMUM */
   }
   /* No further reductions - 12px is the floor */
@@ -1866,13 +1866,13 @@
     @apply inline align-middle leading-[1.2] m-0;
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .player-name {
       @apply text-[1.05rem];
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .player-name {
       @apply text-[0.95rem];
     }
@@ -1891,17 +1891,17 @@
     @apply cursor-pointer;
 
     /* Glass effect for tablet+ (768px+) */
-    @apply lg:backdrop-blur-md lg:bg-black/30 lg:border lg:border-white/20;
-    @apply lg:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)];
+    @apply md:backdrop-blur-md md:bg-black/30 md:border md:border-white/20;
+    @apply md:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)];
 
     /* Solid background for mobile (performance) */
     @apply bg-gradient-to-b from-texture-panel to-texture-dark;
     @apply border border-mg/70 shadow-[0_12px_28px_rgba(4,9,14,0.55)];
   }
 
-  @media (hover: hover) and screen(lg) {
+  @media (hover: hover) and screen(md) {
     .widget:hover {
-      @apply lg:bg-black/40;
+      @apply md:bg-black/40;
       /* Orange border on hover */
       border-color: rgba(255, 102, 0, 0.7);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
@@ -1911,20 +1911,20 @@
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .widget {
       min-height: auto; /* Let content determine height on mobile */
     }
   }
 
   /* Widget with orange border on desktop (for special widgets) */
-  @media screen(lg) {
+  @media screen(md) {
     .widget-primary {
       border-color: rgba(255, 102, 0, 0.4);
     }
   }
 
-  @media (hover: hover) and screen(lg) {
+  @media (hover: hover) and screen(md) {
     .widget-primary:hover {
       /* Orange border hover */
       border-color: rgba(255, 102, 0, 0.7);
@@ -2196,7 +2196,7 @@
     z-index: 0;
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hero-section {
       @apply min-h-[85vh];
     }
@@ -2255,19 +2255,19 @@
     }
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .hero-main-card { @apply px-7 py-12; } /* 28px/48px */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hero-main-card { @apply px-6 py-10; } /* 24px/40px */
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .hero-main-card { @apply px-5 py-8; } /* 20px/32px */
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .hero-main-card { @apply px-4 py-6; } /* 16px/24px */
   }
 
@@ -2277,7 +2277,7 @@
 
   /* Hero widget grid (media/event and info cards) */
   .hero-widget-grid {
-    @apply grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10 lg:mb-12 2xl:mb-16;
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 md:mb-12 xl:mb-16;
   }
 
   /* Hero atmospheric overlay (gradient backgrounds) */
@@ -2289,7 +2289,7 @@
     @apply hero-overlay bg-black/10;
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hero-overlay-dark {
       background: rgba(0, 0, 0, 0.08);
     }
@@ -2313,7 +2313,7 @@
     box-shadow: 0 0 15px rgba(255, 102, 0, 0.15);
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hero-badge { @apply py-1 px-3 text-caption-md mb-4; } /* 12px minimum */
   }
 
@@ -2325,7 +2325,7 @@
             drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
   }
 
-  @media not all and screen(2xl) {
+  @media not all and screen(md) {
     .hero-wic-logo {
       height: 80px; /* h-20 equivalent */
       @apply mb-5;
@@ -2333,7 +2333,7 @@
   }
 
   /* Laptop-specific optimizations (1024px-1280px) to improve widget visibility */
-  @media screen(xl) and not all and screen(2xl) {
+  @media screen(md) and not all and screen(md) {
     /* Reduce hero card vertical padding */
     .hero-main-card {
       @apply py-12; /* Reduced from py-16 (64px → 48px per side = -32px total) */
@@ -2361,7 +2361,7 @@
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hero-wic-logo {
       height: 48px; /* h-12 equivalent */
     }
@@ -2373,7 +2373,7 @@
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.9));
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hero-title {
       @apply mb-2;
     }
@@ -2387,23 +2387,23 @@
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
   }
 
-  @media not all and screen(2xl) {
+  @media not all and screen(md) {
     .hero-subtitle { @apply text-display-lg; } /* 36px */
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .hero-subtitle { @apply text-display-md; } /* 28px */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hero-subtitle { @apply text-display-sm; } /* 24px */
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .hero-subtitle { @apply text-heading-lg; } /* 20px */
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .hero-subtitle { @apply text-heading-md; } /* 18px */
   }
 
@@ -2414,19 +2414,19 @@
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
   }
 
-  @media not all and screen(2xl) {
+  @media not all and screen(md) {
     .hero-desc { @apply text-body-lg; } /* 16px */
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hero-desc { @apply text-body-md; } /* 15px */
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .hero-desc { @apply text-body-sm; } /* 14px */
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .hero-desc { @apply text-caption-lg; } /* 13px */
   }
 
@@ -2435,13 +2435,13 @@
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
   }
 
-  @media not all and screen(2xl) {
+  @media not all and screen(md) {
     .hero-desc-secondary {
       @apply text-[0.9375rem];
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hero-desc-secondary {
       @apply text-[0.8125rem];
     }
@@ -2468,7 +2468,7 @@
     z-index: 10 !important;
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hero-primer-link-top-right {
       top: 0.375rem !important;
       right: 0.375rem !important;
@@ -2478,7 +2478,7 @@
     }
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .hero-primer-link-top-right {
       top: 0.25rem !important;
       right: 0.25rem !important;
@@ -2501,25 +2501,25 @@
   }
 
   /* Hero CTA - 7-tier responsive sizing */
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .hero-cta {
       @apply px-8 py-4 text-lg gap-3 mt-4;
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .hero-cta {
       @apply px-7 py-3.5 text-base gap-3 mt-3;
     }
   }
 
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .hero-cta {
       @apply px-6 py-3 text-base gap-2.5;
     }
   }
 
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .hero-cta {
       @apply px-5 py-2.5 text-sm gap-2;
     }
@@ -2539,7 +2539,7 @@
     @apply transition-all duration-300;
   }
 
-  @media screen(2xl) {
+  @media screen(md) {
     .auth-btn {
       @apply px-4;
     }
@@ -2755,7 +2755,7 @@
     box-shadow: 0 0 20px rgba(145, 70, 255, 0.5);
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .twitch-play-btn {
       @apply px-6 py-4 text-[0.9rem] gap-2;
     }
@@ -2780,7 +2780,7 @@
     box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .skeleton-card {
       @apply p-4;
     }
@@ -2985,7 +2985,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .grid-2 {
       grid-template-columns: 1fr;
     }
@@ -2996,13 +2996,13 @@
     grid-template-columns: repeat(3, 1fr);
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .grid-3 {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .grid-3 {
       grid-template-columns: 1fr;
     }
@@ -3288,11 +3288,11 @@
   }
 
   .error-actions {
-    @apply flex gap-4 justify-center flex-wrap mb-6 lg:flex-col;
+    @apply flex gap-4 justify-center flex-wrap mb-6 md:flex-col;
   }
 
   .error-actions .btn {
-    @apply lg:w-full;
+    @apply md:w-full;
   }
 
   .error-details {
@@ -3539,7 +3539,7 @@
   /* ========== HELP CTA BOX ========== */
 
   .help-cta-box {
-    @apply mt-8 border border-teal/20 rounded-none p-6 lg:p-8 text-center;
+    @apply mt-8 border border-teal/20 rounded-none p-6 md:p-8 text-center;
     background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
   }
 
@@ -3552,7 +3552,7 @@
   }
 
   /* Below lg (768px) - tablets and phones */
-  @media not all and screen(lg) {
+  @media not all and screen(md) {
     .overlay-card {
       @apply m-3 max-w-none;
     }
@@ -3589,7 +3589,7 @@
   }
 
   /* Below md (425px) - phones */
-  @media not all and screen(md) {
+  @media not all and screen(xs) {
     .overlay-header,
     .overlay-content {
       @apply py-3 px-3;
@@ -3621,7 +3621,7 @@
   }
 
   /* Below sm (375px) - small phones */
-  @media not all and screen(sm) {
+  @media not all and screen(xs) {
     .overlay-header,
     .overlay-content {
       @apply py-2.5 px-2.5;
@@ -3875,7 +3875,7 @@
     @apply m-0 font-mono text-[0.8rem] text-[#a0aec0];
   }
 
-  @media not all and screen(xl) {
+  @media not all and screen(md) {
     .admin-flex {
       @apply flex-col;
     }
