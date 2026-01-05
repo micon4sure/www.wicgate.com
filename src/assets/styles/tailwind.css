@@ -1413,7 +1413,7 @@
     @apply grid grid-cols-1 gap-6;
   }
 
-  @media screen(md) {
+  @media screen(lg) {
     .leaderboard-dual-container {
       @apply grid-cols-2 items-start;
     }
@@ -2058,7 +2058,7 @@
   }
   /* Hero widget grid (media/event and info cards) */
   .hero-widget-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 md:mb-12 xl:mb-16;
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10 lg:mb-12 xl:mb-16;
   }
 
   /* Hero atmospheric overlay (gradient backgrounds) */
