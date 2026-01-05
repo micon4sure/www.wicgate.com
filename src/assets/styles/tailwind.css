@@ -2879,9 +2879,9 @@
     @apply text-massgate-gold-dark;
   }
 
-  /* Non-link text (like .text-bold spans) - Teal for emphasis */
+  /* Non-link text (like .text-bold spans) - White bold for emphasis */
   #downloads .text-bold {
-    @apply text-teal font-bold;
+    @apply text-t font-bold;
   }
 
   /* ========== SKELETON LOADERS ========== */
