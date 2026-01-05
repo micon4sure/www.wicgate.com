@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 📱 **Widget Card Height Consistency** - Increased homepage widget card container height from 360px to 400px below 768px: fixes Top Players content requiring scroll (5 ladder items + footer now fit without overflow), both DynamicInfoCard and MediaEventCard now use consistent heights (400px below md, 410px at md+) (Jan 5)
 - 📱 **Grid Breakpoint Adjustments** - Changed leaderboard dual container and hero widget grid from 2-column at md (768px) to 2-column at lg (1024px): both now show single column below 1024px for better mobile/tablet layout, affects Statistics leaderboards side-by-side display and homepage DynamicInfoCard/MediaEventCard widget cards (Jan 5)
 - 🧹 **CSS Media Query Consolidation** - Consolidated 50+ duplicate selectors within same media query breakpoints: removed ~320 lines of redundant CSS where later rules were overriding earlier ones (e.g., `.widget-header` appearing 3x in same breakpoint), fixed orphaned CSS content, consolidated multi-selector blocks (`.leaderboard-cell`, `.overlay-header`), file reduced from ~3900 to ~3600 lines (Jan 5)
 - 🐛 **Fix WIC Logo Size Drop** - Fixed WIC logo dropping too radically from 96px to 48px at 768px breakpoint: removed duplicate media query that was overriding intended 80px size, removed dead "laptop optimizations" block with impossible media query (`screen(md) and not all and screen(md)`), logo now scales 96px → 80px → 64px (xs) instead of 96px → 48px (Jan 5)

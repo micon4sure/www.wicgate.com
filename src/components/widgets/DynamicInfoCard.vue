@@ -198,7 +198,7 @@ function selectTab(tabId: string) {
       </button>
     </div>
 
-    <div class="relative h-[360px] md:h-[410px]">
+    <div class="relative h-[400px] md:h-[410px]">
       <!-- Players Online View -->
       <div
         class="absolute inset-0 transition-opacity duration-500 flex flex-col"
