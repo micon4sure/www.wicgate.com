@@ -2331,38 +2331,9 @@
     }
   }
 
-  /* Laptop-specific optimizations (1024px-1280px) to improve widget visibility */
-  @media screen(md) and not all and screen(md) {
-    /* Reduce hero card vertical padding */
-    .hero-main-card {
-      @apply py-12; /* Reduced from py-16 (64px → 48px per side = -32px total) */
-    }
-
-    /* Optimize logo size and margin */
+  @media not all and screen(xs) {
     .hero-wic-logo {
-      height: 72px; /* Reduced from 80px (10% reduction = -8px) */
-      @apply mb-4; /* Reduced from mb-5 (20px → 16px = -4px) */
-    }
-
-    /* Tighten title spacing */
-    .hero-title {
-      @apply mb-3; /* Reduced from mb-4 (16px → 12px = -4px) */
-    }
-
-    /* Reduce spacing between description paragraphs */
-    .hero-main-card .space-y-3 {
-      @apply space-y-2; /* Reduced gap (12px → 8px = -4px per gap) */
-    }
-
-    /* Reduce margin before CTA button */
-    .hero-main-card .space-y-3.mb-6 {
-      @apply mb-5; /* Reduced from mb-6 (24px → 20px = -4px) */
-    }
-  }
-
-  @media not all and screen(md) {
-    .hero-wic-logo {
-      height: 48px; /* h-12 equivalent */
+      height: 64px; /* h-16 equivalent for tiny screens */
     }
   }
 
