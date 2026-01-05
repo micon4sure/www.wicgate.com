@@ -213,61 +213,6 @@
       0 0 36px rgba(15, 18, 21, 0.35);
   }
 
-  /* Navigation tab - Desktop (Clean & Premium) */
-  /* Progressive Reduction Pattern: Compact at lg (850px), expands gradually to 3xl (1100px+) */
-  /* Navigation-specific tab sizing (extends tab-btn) */
-  .tab-btn-nav {
-    @apply h-full flex items-center justify-center text-center;
-    @apply whitespace-nowrap overflow-hidden text-ellipsis;
-    /* lg (1024px) to xl (1280px): Compact nav buttons */
-    @apply text-xs px-2.5 min-w-[70px] max-w-[110px];
-    /* xl (1280px+): Full comfort, larger screens */
-    @apply xl:text-sm xl:px-4 xl:min-w-[85px] xl:max-w-[145px];
-  }
-
-  /* Mobile navigation link (Red gradient active states like desktop) */
-  /* Only visible below lg (1024px) - mobile navigation for xs through md breakpoints */
-  .nav-mobile-link {
-    @apply flex items-center w-full py-4 px-5 min-h-[60px];
-    @apply no-underline font-military text-base font-medium uppercase tracking-wider;
-    @apply bg-transparent transition-all duration-300;
-    @apply relative overflow-hidden text-center justify-center;
-    /* xs (375px+): Phone-sized, comfortable */
-    @apply xs:py-[18px] xs:px-6 xs:min-h-16 xs:text-[17px];
-    /* md (768px+): Tablet-sized, larger touch targets */
-    @apply md:min-h-[68px] md:py-5 md:px-7 md:text-lg;
-    @apply text-t-secondary;
-    @apply border-b border-b-white/10;
-  }
-
-  .nav-mobile-link.active {
-    @apply text-white font-semibold;
-    background: linear-gradient(to bottom, #c62828, #8b0000);
-  }
-
-  /* Tap/click feedback for mobile nav links */
-  .nav-mobile-link:active:not(.active) {
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  /* Diagonal stripe pattern for inactive mobile links */
-  .nav-mobile-link::after {
-    content: '';
-    @apply absolute inset-0 pointer-events-none;
-    background-image: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 6px,
-      rgba(255, 255, 255, 0.02) 6px,
-      rgba(255, 255, 255, 0.02) 7px
-    );
-    transition: opacity 0.3s ease-out;
-  }
-
-  .nav-mobile-link.active::after {
-    opacity: 0;
-  }
-
   /* ========== HOME PAGE SECTION STYLING ========== */
 
   /* Section stacking with military-themed subtle variations */
@@ -798,6 +743,63 @@
     .tab-btn:not(.tab-btn-active):hover::before {
       opacity: 1;
     }
+  }
+
+  /* ========== MAIN NAVIGATION TAB STYLES ========== */
+  /* Must come AFTER .tab-btn base to override its media queries */
+
+  /* Navigation tab - Desktop (Clean & Premium) */
+  /* Navigation-specific tab sizing (extends tab-btn) */
+  .tab-btn-nav {
+    @apply h-full flex items-center justify-center text-center;
+    @apply whitespace-nowrap overflow-hidden text-ellipsis;
+    /* lg (1024px)+: Tabs expand like xl */
+    @apply text-[17px] px-4 min-w-[85px] max-w-[145px];
+    /* xl (1280px+): Slightly larger font */
+    @apply xl:text-[19px];
+  }
+
+  /* Mobile navigation link (Red gradient active states like desktop) */
+  /* Only visible below lg (1024px) - mobile navigation for xs through md breakpoints */
+  .nav-mobile-link {
+    @apply flex items-center w-full py-4 px-5 min-h-[60px];
+    @apply no-underline font-military text-base font-medium uppercase tracking-wider;
+    @apply bg-transparent transition-all duration-300;
+    @apply relative overflow-hidden text-center justify-center;
+    /* xs (375px+): Phone-sized, comfortable */
+    @apply xs:py-[18px] xs:px-6 xs:min-h-16 xs:text-[19px];
+    /* md (768px+): Tablet-sized, larger touch targets */
+    @apply md:min-h-[68px] md:py-5 md:px-7 md:text-xl;
+    @apply text-t-secondary;
+    @apply border-b border-b-white/10;
+  }
+
+  .nav-mobile-link.active {
+    @apply text-white font-semibold;
+    background: linear-gradient(to bottom, #c62828, #8b0000);
+  }
+
+  /* Tap/click feedback for mobile nav links */
+  .nav-mobile-link:active:not(.active) {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Diagonal stripe pattern for inactive mobile links */
+  .nav-mobile-link::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      rgba(255, 255, 255, 0.02) 6px,
+      rgba(255, 255, 255, 0.02) 7px
+    );
+    transition: opacity 0.3s ease-out;
+  }
+
+  .nav-mobile-link.active::after {
+    opacity: 0;
   }
 
   /* ========== SUB-SECTION TAB STYLES ========== */
