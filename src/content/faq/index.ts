@@ -19,8 +19,8 @@ const currentYear = new Date().getFullYear();
 
 // Helper to create WIC LIVE link (points to downloads section)
 const wicLiveLink = `<a href="/downloads" class="internal-link">WIC LIVE</a>`;
-const gogLink = `<a href="${GOG_URL}" target="_blank" rel="noopener noreferrer" class="inline-link">GOG</a>`;
-const discordLink = `<a href="${DISCORD_URL}" target="_blank" rel="noopener noreferrer" class="inline-link">Discord server</a>`;
+const gogLink = `<a href="${GOG_URL}" target="_blank" rel="noopener noreferrer" class="external-link">GOG</a>`;
+const discordLink = `<a href="${DISCORD_URL}" target="_blank" rel="noopener noreferrer" class="external-link">Discord server</a>`;
 
 export const faqCategories: FaqCategory[] = [
   {
@@ -75,7 +75,7 @@ export const faqCategories: FaqCategory[] = [
   <li>Verify your internet connection isn't blocking port <code>1066</code></li>
   <li>Try running the game as administrator</li>
 </ul>
-<p>If you still see no servers, join our <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="inline-link">Discord</a> for live support.</p>`,
+<p>If you still see no servers, join our <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="external-link">Discord</a> for live support.</p>`,
       },
       {
         id: 'poor-performance',
@@ -142,7 +142,7 @@ export const faqCategories: FaqCategory[] = [
       {
         id: 'how-to-connect',
         q: 'How do I connect to WICGATE servers?',
-        a: '<p>Run the steps outlined in the <a href="#downloads" class="internal-link">QUICK START</a> section and you\'re good to go!</p>',
+        a: '<p>Run the steps outlined in the <a href="/downloads" class="internal-link">QUICK START</a> section and you\'re good to go!</p>',
       },
       {
         id: 'campaign-only',
@@ -191,12 +191,12 @@ export const faqCategories: FaqCategory[] = [
       {
         id: 'who-maintains-wicgate',
         q: 'Who maintains WICGATE?',
-        a: '<p>WICGATE is maintained by a dedicated team of World in Conflict veterans. We host the server infrastructure from massgate itself to a set of stable dedicated game servers. Come talk to us on <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="inline-link">Discord</a>!</p>',
+        a: '<p>WICGATE is maintained by a dedicated team of World in Conflict veterans. We host the server infrastructure from massgate itself to a set of stable dedicated game servers. Come talk to us on <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="external-link">Discord</a>!</p>',
       },
       {
         id: 'host-own-server',
         q: 'Can I host my own server?',
-        a: '<p>Yes! You can host dedicated servers through the game interface just like in the original. We also provide dedicated server files for 24/7 hosting. Server requirements are minimal – any modern PC or VPS can handle it. Check our <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="inline-link">Discord\'s</a> #support channel for setup guides and the community helps with configuration.</p>',
+        a: '<p>Yes! You can host dedicated servers through the game interface just like in the original. We also provide dedicated server files for 24/7 hosting. Server requirements are minimal – any modern PC or VPS can handle it. Check our <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="external-link">Discord\'s</a> #support channel for setup guides and the community helps with configuration.</p>',
       },
     ],
   },

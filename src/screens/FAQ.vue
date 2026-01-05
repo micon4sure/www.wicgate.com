@@ -272,7 +272,7 @@ onMounted(() => {
             href="https://discord.gg/Udbv9UDBBb"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-link"
+            class="external-link"
             >Discord community</a
           >
           for live support and chat with other players!

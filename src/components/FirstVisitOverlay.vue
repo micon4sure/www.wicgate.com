@@ -35,7 +35,7 @@ const emit = defineEmits<{
               <span class="flex flex-col">
                 <span
                   >Buy & install World in Conflict on
-                  <a :href="GOG_URL" target="_blank" rel="noopener noreferrer" class="inline-link"
+                  <a :href="GOG_URL" target="_blank" rel="noopener noreferrer" class="external-link"
                     >GOG</a
                   ></span
                 >
@@ -48,7 +48,7 @@ const emit = defineEmits<{
               <span class="step-number">2</span>
               <span
                 >Download & run
-                <a :href="WICLIVE_URL" class="inline-link">WIC LIVE</a>
+                <a :href="WICLIVE_URL" class="download-link">WIC LIVE</a>
                 - our all-in-one launcher</span
               >
             </div>
@@ -63,7 +63,11 @@ const emit = defineEmits<{
               <span class="step-number">4</span>
               <span
                 >Join us on
-                <a :href="DISCORD_URL" target="_blank" rel="noopener noreferrer" class="inline-link"
+                <a
+                  :href="DISCORD_URL"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="external-link"
                   >Discord</a
                 ></span
               >

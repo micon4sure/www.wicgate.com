@@ -288,14 +288,14 @@
     @apply text-xl font-military font-bold text-t uppercase tracking-wide m-0;
   }
 
-  /* Internal navigation link (silver, underlined, Rajdhani, uppercase) */
+  /* Internal navigation link (gold, underlined, Rajdhani, uppercase) */
   .internal-link {
-    @apply text-t-secondary font-body font-semibold uppercase tracking-wide underline;
+    @apply text-massgate-gold font-body font-semibold uppercase tracking-wide underline;
     @apply transition-all duration-200 cursor-pointer;
   }
 
   .internal-link:hover {
-    @apply text-t;
+    @apply text-massgate-gold-bright;
   }
 
   .dashboard-card-header-action {
@@ -3262,6 +3262,30 @@
     @apply text-massgate-gold font-semibold no-underline;
     @apply transition-all duration-200;
     @apply hover:text-massgate-gold-bright hover:underline;
+  }
+
+  /* Download link - for direct downloads (.exe, .zip) */
+  .download-link {
+    @apply inline-link;
+  }
+
+  .download-link::after {
+    content: '\f019'; /* fa-download */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    @apply ml-[0.25em] text-[0.85em];
+  }
+
+  /* External link - for external services (Discord, GOG, etc.) */
+  .external-link {
+    @apply inline-link;
+  }
+
+  .external-link::after {
+    content: '\f08e'; /* fa-arrow-up-right-from-square (external link) */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    @apply ml-[0.25em] text-[0.85em];
   }
 
   /* Below lg (768px) - tablets and phones */
