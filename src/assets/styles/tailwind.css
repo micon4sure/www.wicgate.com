@@ -2105,6 +2105,18 @@
             drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
   }
 
+  @media screen(lg) {
+    .hero-wic-logo {
+      height: 102px;
+    }
+  }
+
+  @media screen(xl) {
+    .hero-wic-logo {
+      height: 118px;
+    }
+  }
+
   @media not all and screen(md) {
     .hero-wic-logo {
       height: 80px; /* h-20 equivalent */
