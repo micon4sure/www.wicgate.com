@@ -2378,32 +2378,20 @@
     }
   }
 
-  /* Hero subtitle (Multiplayer Reloaded) - 7-tier responsive typography */
+  /* Hero subtitle (Multiplayer Reloaded) - responsive typography */
   .hero-subtitle {
-    @apply inline text-display-xl text-massgate-red-bright font-futuristic font-bold uppercase tracking-wider;
-    /* 48px at 2xl (golden standard) */
+    @apply inline text-display-lg text-massgate-red-bright font-futuristic font-bold uppercase tracking-wider;
+    /* 36px at md and up */
     font-style: italic;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
   }
 
   @media not all and screen(md) {
-    .hero-subtitle { @apply text-display-lg; } /* 36px */
-  }
-
-  @media not all and screen(md) {
-    .hero-subtitle { @apply text-display-md; } /* 28px */
-  }
-
-  @media not all and screen(md) {
-    .hero-subtitle { @apply text-display-sm; } /* 24px */
+    .hero-subtitle { @apply text-display-md; } /* 28px below 768px */
   }
 
   @media not all and screen(xs) {
-    .hero-subtitle { @apply text-heading-lg; } /* 20px */
-  }
-
-  @media not all and screen(xs) {
-    .hero-subtitle { @apply text-heading-md; } /* 18px */
+    .hero-subtitle { @apply text-heading-lg; } /* 20px below 375px */
   }
 
   /* Hero description text - 7-tier responsive typography */
