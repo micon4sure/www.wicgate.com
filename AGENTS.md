@@ -76,10 +76,11 @@ Browser handles scrolling natively. See [docs/architecture.md#scroll--navigation
 - Inactive: Muted colors
 - Hover: Orange gradient + dark text + scale transform
 
-### 6. Button Hierarchy
+### 6. Button & Link Hierarchy
 - **Red (`.btn-download`):** ONLY for executables
 - **Orange (primary):** Standard actions
-- **Hyperlinks:** File downloads, external links
+- **Inline links (gold):** `.internal-link`, `.download-link` (with icon), `.external-link` (with icon)
+- **Anchor copy links (gold):** `.faq-copy-link-btn`, `.lb-copy-link-btn`, `.toast-notification`
 
 ---
 
@@ -259,4 +260,4 @@ src/
 **For complete operational rules, see [CLAUDE.md](CLAUDE.md)**
 **For detailed documentation, see [docs/](docs/)**
 
-**Last Updated:** January 3, 2026 (CSS Media Query Standardization)
+**Last Updated:** January 5, 2026 (Unified link class system)

@@ -89,11 +89,20 @@
 
 ---
 
-### 6. Button Hierarchy
+### 6. Button & Link Hierarchy
 
 - **Red (`.btn-download`):** ONLY for executable programs (WIC LIVE installer)
 - **Orange (`.btn-p`):** Standard primary actions
-- **Hyperlinks:** File downloads, external links
+
+**Inline Text Links (gold themed):**
+- **`.internal-link`:** Internal navigation (no icon)
+- **`.download-link`:** File downloads (.exe, .zip) - shows download icon
+- **`.external-link`:** External services (Discord, GOG, YouTube) - shows external arrow icon
+
+**Anchor Copy Links (gold themed):**
+- **`.faq-copy-link-btn`:** FAQ question copy link buttons
+- **`.lb-copy-link-btn`:** Leaderboard copy link buttons
+- **`.toast-notification`:** "Link copied" toast notification
 
 ---
 
@@ -234,4 +243,4 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 ---
 
-*Last Updated: January 3, 2026 (CSS screen() function pattern)*
+*Last Updated: January 5, 2026 (Unified link class system)*

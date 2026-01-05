@@ -3203,25 +3203,25 @@
     @apply flex-shrink-0 w-7 h-7 flex items-center justify-center rounded;
     @apply transition-all duration-200;
     @apply opacity-0 group-hover:opacity-100;
-    @apply hover:bg-teal/20 hover:text-teal-bright;
-    @apply focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-teal/50;
-    @apply text-teal/70;
+    @apply hover:bg-massgate-gold/20 hover:text-massgate-gold-bright;
+    @apply focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-massgate-gold/50;
+    @apply text-massgate-gold/70;
     @apply cursor-pointer;
   }
 
   .faq-copy-link-btn.is-copied,
   .lb-copy-link-btn.is-copied {
-    @apply opacity-100 text-teal-bright;
+    @apply opacity-100 text-massgate-gold-bright;
   }
 
   /* ========== TOAST NOTIFICATION ========== */
 
   .toast-notification {
     @apply fixed right-6 z-50;
-    @apply bg-gradient-to-br from-teal/95 to-teal-dark/95;
-    @apply backdrop-blur-sm border-2 border-teal-bright/50 rounded;
+    @apply bg-gradient-to-br from-massgate-gold/95 to-massgate-gold-dark/95;
+    @apply backdrop-blur-sm border-2 border-massgate-gold-bright/50 rounded;
     @apply px-5 py-3;
-    @apply shadow-lg shadow-teal/30;
+    @apply shadow-lg shadow-massgate-gold/30;
   }
 
   /* ========== VIDEO PLAY OVERLAY ========== */

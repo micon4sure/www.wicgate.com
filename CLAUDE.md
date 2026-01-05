@@ -50,6 +50,11 @@ npm run build:og     # Regenerate OG images (social sharing)
     - ❌ NEVER use font sizes below `text-caption-md` (12px) or `text-nav-xs` (12px)
     - ✅ Use semantic typography tokens: `text-display-*`, `text-heading-*`, `text-body-*`, `text-caption-*`, `text-nav-*`
     - See `tailwind.config.ts` for the complete typography scale
+14. ✅ ALWAYS use unified link classes for inline text links (gold themed)
+    - `.internal-link` for internal navigation (no icon)
+    - `.download-link` for file downloads - shows download icon
+    - `.external-link` for external services (Discord, GOG, YouTube) - shows external arrow icon
+    - Anchor copy buttons: `.faq-copy-link-btn`, `.lb-copy-link-btn`
 
 ---
 
@@ -80,4 +85,4 @@ npm run build:og     # Regenerate OG images (social sharing)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** January 5, 2026 (Breakpoint Simplification)
+**Updated:** January 5, 2026 (Unified link class system)

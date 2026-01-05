@@ -461,9 +461,9 @@ onMounted(() => {
 - ✅ Use `textContent: () => value` for reactive computed schemas
 - ✅ Use `key` property to prevent duplicate schema injection
 
-**FAQ Copy Link Feature (October 2025):**
+**Copy Link Feature (FAQ + Statistics Leaderboards):**
 
-Industry-standard pattern for question sharing, following GitHub/MDN/Stack Overflow documentation sites:
+Industry-standard pattern for content sharing, following GitHub/MDN/Stack Overflow documentation sites. Used in FAQ questions and Statistics leaderboard cards:
 
 ```typescript
 // FAQ.vue - Copy link with category detection
@@ -490,20 +490,20 @@ function copyQuestionLink(questionId: string) {
 ```
 
 **UX Features:**
-- Link icon (🔗) appears on question hover (hidden by default)
-- Click copies question URL: `/faq#technical-advantages`
+- Link icon (🔗) appears on hover (hidden by default)
+- Click copies URL: `/faq#question-id` or `/statistics#leaderboard-id`
 - Icon changes to checkmark (✓) for 2 seconds
-- Toast notification: "Link copied to clipboard!" (top-right, auto-dismiss)
-- :target CSS animation: 2s orange border pulse on deep-link arrival
+- Toast notification: "Link copied to clipboard!" (gold themed, top-right, auto-dismiss after 2s)
+- :target CSS animation: 2s orange border pulse on deep-link arrival (FAQ only)
 - Keyboard accessible: ARIA labels, focus states, works without mouse
 
 **Technical Implementation:**
-- `@click.stop` prevents parent accordion toggle
+- `@click.stop` prevents parent accordion/card toggle
 - `opacity-0 group-hover:opacity-100` for progressive disclosure
-- `copiedQuestionId` state tracks which button was clicked
-- Toast uses Vue Transition with translate animations
-- CSS keyframe animation for :target highlighting
-- All 21 questions automatically get copy buttons
+- State tracking: `copiedQuestionId` (FAQ), `copied` ref (leaderboards)
+- Toast uses Vue `<transition>` with inline Tailwind classes for enter/leave animations
+- CSS classes: `.faq-copy-link-btn`, `.lb-copy-link-btn` (gold themed), `.toast-notification`
+- Leaderboards: `LeaderboardGroup.vue`, `ClanLeaderboard.vue` with category-aware URLs
 
 ### Structured Data for Rich Search Results (October 2025)
 

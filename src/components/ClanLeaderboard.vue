@@ -5,6 +5,7 @@ import type { ClanEntry } from '../api-types';
 const props = defineProps<{ clans: ClanEntry[]; id?: string }>();
 
 const copied = ref(false);
+const showCopiedToast = ref(false);
 
 function formatClanTag(clan: ClanEntry): string {
   return clan.tagFormat.replace('C', clan.shortName).replace('P', '');
@@ -17,9 +18,14 @@ function copyLeaderboardLink() {
 
   navigator.clipboard.writeText(url).then(() => {
     copied.value = true;
+    showCopiedToast.value = true;
+
     setTimeout(() => {
-      copied.value = false;
-    }, 2200);
+      showCopiedToast.value = false;
+      setTimeout(() => {
+        copied.value = false;
+      }, 200);
+    }, 2000);
   });
 }
 </script>
@@ -106,4 +112,27 @@ function copyLeaderboardLink() {
       </tbody>
     </table>
   </div>
+
+  <!-- Toast notification for copy link -->
+  <transition
+    enter-active-class="transition-all duration-300 ease-out"
+    leave-active-class="transition-all duration-300 ease-in"
+    enter-from-class="opacity-0 translate-y-2"
+    enter-to-class="opacity-100 translate-y-0"
+    leave-from-class="opacity-100 translate-y-0"
+    leave-to-class="opacity-0 -translate-y-2"
+  >
+    <div
+      v-show="showCopiedToast"
+      class="toast-notification"
+      style="top: calc(var(--header-height) + 16px)"
+      role="alert"
+      aria-live="polite"
+    >
+      <div class="flex items-center gap-3">
+        <i class="fa-solid fa-check text-ink text-lg" aria-hidden="true"></i>
+        <span class="text-ink font-body font-semibold">Link copied to clipboard!</span>
+      </div>
+    </div>
+  </transition>
 </template>
