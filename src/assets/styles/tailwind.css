@@ -180,7 +180,7 @@
 
   /* Military panel card */
   .panel-card {
-    @apply bg-panel-main border border-mg/70 shadow-military rounded-none relative;
+    @apply bg-panel-main border border-card shadow-military rounded-none relative;
     @apply transition-all duration-300;
   }
 
@@ -333,7 +333,7 @@
 
   /* Server group card (inside Players Online) */
   .server-group-card {
-    @apply bg-mg/15 border border-mg/25 overflow-hidden transition-all duration-200;
+    @apply bg-mg/15 border border-card-inner overflow-hidden transition-all duration-200;
   }
 
   @media (hover: hover) {
@@ -351,7 +351,7 @@
   /* Event card */
   .event-card {
     @apply block bg-gradient-to-br from-mg/20 to-mg-dark/30;
-    @apply border border-panel-border/30 overflow-hidden transition-all duration-200 no-underline;
+    @apply border border-card-inner overflow-hidden transition-all duration-200 no-underline;
   }
 
   @media (hover: hover) {
@@ -363,7 +363,7 @@
 
   /* Video item card */
   .video-item-card {
-    @apply flex items-start gap-4 p-3 bg-mg/15 border border-mg/25 cursor-pointer transition-all duration-200;
+    @apply flex items-start gap-4 p-3 bg-mg/15 border border-card-inner cursor-pointer transition-all duration-200;
   }
 
   @media (hover: hover) {
@@ -385,7 +385,7 @@
   }
 
   .event-accordion-item {
-    @apply transition-all duration-200 border border-mg/30 bg-mg/15;
+    @apply transition-all duration-200 border border-card-inner bg-mg/15;
   }
 
   .event-accordion-header {
@@ -415,7 +415,7 @@
 
   /* Ladder player item */
   .ladder-player-item {
-    @apply flex items-center gap-3 p-3 bg-mg/15 border border-mg/25 transition-all duration-200;
+    @apply flex items-center gap-3 p-3 bg-mg/15 border border-card-inner transition-all duration-200;
   }
 
   @media (hover: hover) {
@@ -1033,7 +1033,7 @@
   /* Installation/instruction step card */
   .step-card {
     @apply p-5 rounded-none;
-    @apply border border-teal/20;
+    @apply border border-card;
     background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
   }
 
@@ -1347,12 +1347,12 @@
 
   .faq-item {
     @apply rounded-none overflow-hidden;
-    @apply border border-teal/20;
+    @apply border border-card;
     background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
   }
 
   .faq-item-open {
-    @apply border-teal/40;
+    @apply border-card;
   }
 
   .faq-question-header {
@@ -1424,7 +1424,7 @@
   /* Main leaderboard container */
   .leaderboard-container {
     @apply rounded-none overflow-hidden relative mb-6;
-    @apply border border-divider-strong;
+    @apply border border-card;
     @apply transition-all duration-300 ease-out;
     background: linear-gradient(to bottom, rgba(15, 18, 21, 0.96), rgba(8, 9, 11, 0.98));
     box-shadow: 0 12px 30px rgba(4, 9, 14, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -1692,7 +1692,7 @@
 
     /* Solid background for mobile (performance) */
     @apply bg-gradient-to-b from-texture-panel to-texture-dark;
-    @apply border border-mg/70 shadow-[0_12px_28px_rgba(4,9,14,0.55)];
+    @apply border border-card shadow-[0_12px_28px_rgba(4,9,14,0.55)];
   }
 
   @media (hover: hover) and screen(md) {
@@ -1745,7 +1745,7 @@
   }
 
   .widget-stat {
-    @apply flex flex-col items-center flex-1 p-3 bg-mg/20 border border-mg/40 rounded-none;
+    @apply flex flex-col items-center flex-1 p-3 bg-mg/20 border border-card-inner rounded-none;
   }
 
   .stat-number {
@@ -1784,7 +1784,7 @@
   }
 
   .server-item {
-    @apply flex items-center justify-between gap-2 p-2 bg-mg/15 border border-mg/25;
+    @apply flex items-center justify-between gap-2 p-2 bg-mg/15 border border-card-inner;
     @apply transition-all duration-200;
   }
 
@@ -1814,7 +1814,7 @@
   }
 
   .video-item {
-    @apply flex items-start gap-3 p-2 bg-mg/15 border border-mg/25 rounded-none;
+    @apply flex items-start gap-3 p-2 bg-mg/15 border border-card-inner rounded-none;
     @apply transition-all duration-200 cursor-pointer;
   }
 
@@ -1832,7 +1832,7 @@
   }
 
   .video-item img {
-    @apply w-20 h-[45px] object-cover flex-shrink-0 border border-mg/40;
+    @apply w-20 h-[45px] object-cover flex-shrink-0 border border-card-inner;
   }
 
   .video-title {
@@ -1849,7 +1849,7 @@
   }
 
   .player-list-item {
-    @apply flex items-center justify-between gap-2 p-2 bg-mg/15 border border-mg/25;
+    @apply flex items-center justify-between gap-2 p-2 bg-mg/15 border border-card-inner;
     @apply transition-all duration-200;
   }
 
@@ -1904,7 +1904,7 @@
   }
 
   .ladder-item {
-    @apply flex items-center gap-3 p-3 bg-mg/15 border border-mg/25 rounded-none;
+    @apply flex items-center gap-3 p-3 bg-mg/15 border border-card-inner rounded-none;
     @apply transition-all duration-200;
   }
 
@@ -1954,7 +1954,7 @@
   }
 
   .help-item {
-    @apply flex items-center gap-3 p-3 bg-mg/15 border border-mg/25 rounded-none;
+    @apply flex items-center gap-3 p-3 bg-mg/15 border border-card-inner rounded-none;
     @apply text-sm font-body font-medium text-t;
     @apply transition-all duration-200;
   }
@@ -2423,32 +2423,6 @@
     }
   }
 
-  /* ========== SCROLL TO TOP BUTTON ========== */
-
-  .scroll-to-top {
-    @apply fixed bottom-6 right-6 z-50 w-12 h-12;
-    @apply flex items-center justify-center cursor-pointer rounded-none;
-    @apply transition-all duration-300;
-    @apply border-2 border-teal/50;
-    background: linear-gradient(to bottom, #3a4a58, #2d3a45);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 217, 255, 0.2);
-  }
-
-  @media (hover: hover) {
-    .scroll-to-top:hover {
-      @apply border-soviet/70 -translate-y-1 scale-105;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 102, 0, 0.4);
-    }
-  }
-
-  .scroll-to-top:active {
-    @apply scale-100 translate-y-0;
-  }
-
-  .scroll-to-top i {
-    @apply text-teal text-lg transition-colors duration-300;
-  }
-
   /* ========== TWITCH EMBED ========== */
 
   .twitch-container {
@@ -2509,7 +2483,7 @@
 
   .leaderboard-panel {
     @apply rounded-none overflow-hidden relative mb-6;
-    @apply border border-divider-strong;
+    @apply border border-card;
     @apply transition-all duration-300;
     background: linear-gradient(to bottom, rgba(18, 30, 39, 0.96), rgba(9, 15, 20, 0.98));
     box-shadow: 0 12px 30px rgba(4, 9, 14, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -2591,7 +2565,7 @@
                   0 0 30px rgba(255, 102, 0, 0.6);
     }
     100% {
-      @apply border-teal/30;
+      @apply border-card;
       box-shadow: 0 0 0 8px rgba(255, 102, 0, 0),
                   0 0 0 rgba(255, 102, 0, 0);
     }
@@ -2803,7 +2777,7 @@
       rgba(15, 18, 21, 0.96) 0%,
       rgba(8, 9, 11, 0.98) 100%
     );
-    @apply border border-divider-strong rounded-none overflow-hidden;
+    @apply border border-card rounded-none overflow-hidden;
     @apply shadow-[0_12px_28px_rgba(4,9,14,0.55)] transition-all duration-300;
   }
 
@@ -2886,18 +2860,6 @@
   }
 
   /* ========== VUE TRANSITIONS ========== */
-
-  /* Scroll-to-top button transition */
-  .scroll-top-enter-active,
-  .scroll-top-leave-active {
-    transition: all 0.3s ease;
-  }
-
-  .scroll-top-enter-from,
-  .scroll-top-leave-to {
-    opacity: 0;
-    transform: translateY(20px) scale(0.8);
-  }
 
   /* Backdrop transition for mobile menu overlay */
   .backdrop-enter-active,
@@ -3221,7 +3183,7 @@
   /* ========== HELP CTA BOX ========== */
 
   .help-cta-box {
-    @apply mt-8 border border-teal/20 rounded-none p-6 md:p-8 text-center;
+    @apply mt-8 border border-card rounded-none p-6 md:p-8 text-center;
     background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
   }
 

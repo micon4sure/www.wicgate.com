@@ -98,7 +98,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
             />
             <div
               :class="[
-                'w-full p-3 lg:p-4 flex justify-center items-center border-t border-teal/10',
+                'w-full p-3 lg:p-4 flex justify-center items-center border-t border-white/10',
                 !twitchRefs[u]?.isActivated && 'cursor-pointer',
               ]"
               @click="twitchRefs[u]?.activate()"

@@ -246,6 +246,11 @@ export default {
       maxWidth: {
         'site': '1440px',  // Site container max-width
       },
+
+      borderColor: {
+        'card': 'rgba(255, 255, 255, 0.25)',  // Outer card border
+        'card-inner': 'rgba(255, 255, 255, 0.15)',  // Nested card border (cards inside cards)
+      },
     },
   },
   plugins: [],

@@ -145,7 +145,7 @@ const tabs = [
                   <div
                     v-for="port in networkPorts"
                     :key="port.port"
-                    class="bg-graphite-dark/60 border border-teal/10 p-3 rounded-none"
+                    class="bg-graphite-dark/60 border border-card p-3 rounded-none"
                   >
                     <div class="flex items-baseline gap-2 mb-1">
                       <span class="font-mono font-bold text-t text-base">

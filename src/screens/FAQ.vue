@@ -238,7 +238,7 @@ onMounted(() => {
                 >
                   <div
                     v-show="openQuestion === item.q"
-                    class="overflow-hidden border-t border-teal/10"
+                    class="overflow-hidden border-t border-white/10"
                   >
                     <div class="p-5 lg:p-6 bg-graphite-dark/30">
                       <p
