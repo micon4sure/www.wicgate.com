@@ -271,13 +271,13 @@
   /* Dashboard info card (Players Online, Events, Videos) */
   .dashboard-card {
     @apply relative overflow-hidden;
-    @apply border-2 border-panel-border/50;
+    @apply border-2 border-card;
     background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
   }
 
   /* Dashboard card header */
   .dashboard-card-header {
-    @apply flex items-center justify-between p-5 border-b border-panel-border/30;
+    @apply flex items-center justify-between p-5 border-b border-white/10;
   }
 
   .dashboard-card-header-title {
