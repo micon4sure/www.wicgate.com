@@ -131,6 +131,7 @@ function handleMobileSelect(tabId: string) {
     <MobileTabDropdown
       :tabs="tabs"
       :active-tab-id="activeTabId"
+      :is-mobile="isMobile"
       :aria-label="ariaLabel"
       :format-label="formatLabel"
       @select="handleMobileSelect"

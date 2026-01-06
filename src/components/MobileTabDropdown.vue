@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useMobileTabs } from '../composables/useMobileTabs';
-import { SUB_TAB_BREAKPOINT } from '../constants';
 
 export interface MobileTab {
   id: string;
@@ -13,18 +12,17 @@ const props = withDefaults(
   defineProps<{
     tabs: MobileTab[];
     activeTabId: string;
+    isMobile: boolean; // Parent controls visibility
     ariaLabel?: string;
     formatLabel?: (label: string) => string;
     wrapperClass?: string;
     triggerClass?: string;
-    breakpoint?: number;
   }>(),
   {
     ariaLabel: 'Tab selection',
     formatLabel: (label: string) => label,
     wrapperClass: '',
     triggerClass: '',
-    breakpoint: SUB_TAB_BREAKPOINT,
   }
 );
 
@@ -32,8 +30,8 @@ const emit = defineEmits<{
   select: [tabId: string];
 }>();
 
-const { isMobile, dropdownOpen, dropdownRef, triggerRef, toggleDropdown, closeDropdown } =
-  useMobileTabs(props.breakpoint);
+// Use composable for dropdown behavior only (click-outside, escape, toggle)
+const { dropdownOpen, dropdownRef, triggerRef, toggleDropdown, closeDropdown } = useMobileTabs();
 
 // Refs used in template via ref="..." bindings
 void dropdownRef;
@@ -53,10 +51,6 @@ function handleSelect(tabId: string) {
   emit('select', tabId);
   closeDropdown();
 }
-
-defineExpose({
-  isMobile,
-});
 </script>
 
 <template>

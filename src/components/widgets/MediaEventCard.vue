@@ -156,6 +156,7 @@ function openVideo(video: YouTubeVideo) {
     <MobileTabDropdown
       :tabs="tabs"
       :active-tab-id="activeTabId"
+      :is-mobile="isMobile"
       aria-label="View selection"
       @select="selectTab"
     >

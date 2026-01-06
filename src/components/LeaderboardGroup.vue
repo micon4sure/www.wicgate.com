@@ -210,6 +210,7 @@ onUnmounted(() => {
         v-if="categories.length > 1"
         :tabs="categoryTabs"
         :active-tab-id="active"
+        :is-mobile="isMobile"
         aria-label="Category selection"
         wrapper-class="flex-1"
         trigger-class="h-full border-t-0"
