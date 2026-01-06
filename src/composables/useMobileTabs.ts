@@ -1,11 +1,13 @@
 import { ref, onMounted, onUnmounted } from 'vue';
-import { NAV_BREAKPOINT } from '../constants';
+import { SUB_TAB_BREAKPOINT } from '../constants';
 
 /**
  * Composable for mobile tab dropdown behavior.
  * Provides breakpoint detection, dropdown state management, and click-outside/escape handling.
+ * @param breakpoint - Custom breakpoint in pixels (default: SUB_TAB_BREAKPOINT 640px)
  */
-export function useMobileTabs() {
+export function useMobileTabs(breakpoint?: number) {
+  const bp = breakpoint ?? SUB_TAB_BREAKPOINT;
   const dropdownOpen = ref(false);
   const isMobile = ref(false);
   const dropdownRef = ref<HTMLElement | null>(null);
@@ -58,7 +60,7 @@ export function useMobileTabs() {
     if (typeof window === 'undefined') return;
 
     // Setup media query listener
-    mediaQuery = window.matchMedia(`(min-width: ${NAV_BREAKPOINT}px)`);
+    mediaQuery = window.matchMedia(`(min-width: ${bp}px)`);
     isMobile.value = !mediaQuery.matches;
     mediaQuery.addEventListener('change', handleMediaChange);
 

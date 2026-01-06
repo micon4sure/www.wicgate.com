@@ -127,7 +127,7 @@ function handleMobileSelect(tabId: string) {
 
 <template>
   <div class="tab-container">
-    <!-- MOBILE: Hamburger Dropdown (< 768px) -->
+    <!-- MOBILE: Dropdown (< 640px) -->
     <MobileTabDropdown
       :tabs="tabs"
       :active-tab-id="activeTabId"
@@ -136,7 +136,7 @@ function handleMobileSelect(tabId: string) {
       @select="handleMobileSelect"
     />
 
-    <!-- DESKTOP: Horizontal Tabs (>= 768px) -->
+    <!-- DESKTOP: Horizontal Tabs (>= 640px) -->
     <div role="tablist" :aria-label="ariaLabel" class="tab-nav-sub" :class="{ hidden: isMobile }">
       <button
         v-for="tab in tabs"

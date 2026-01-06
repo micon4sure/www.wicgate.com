@@ -35,6 +35,9 @@ export const BREAKPOINTS = {
 // Nav/tabs switch at this breakpoint (matches Tailwind lg)
 export const NAV_BREAKPOINT = BREAKPOINTS.LG;
 
+// Sub-tabs switch at this breakpoint (matches Tailwind sm)
+export const SUB_TAB_BREAKPOINT = BREAKPOINTS.SM;
+
 // Storage Keys
 export const STORAGE_KEYS = {
   FIRST_VISIT: 'wicgate_visited',

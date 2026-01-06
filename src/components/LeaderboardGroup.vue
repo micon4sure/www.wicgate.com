@@ -205,7 +205,7 @@ onUnmounted(() => {
         </span>
       </div>
 
-      <!-- MOBILE: Hamburger Dropdown (categories > 1) -->
+      <!-- MOBILE: Dropdown (categories > 1, < 640px) -->
       <MobileTabDropdown
         v-if="categories.length > 1"
         :tabs="categoryTabs"

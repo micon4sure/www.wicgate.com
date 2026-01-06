@@ -806,7 +806,9 @@ script: [
 - `2xl:` = large laptops (1440-2559px), full layouts
 - `3xl:` = desktops (2560px+), 4K optimization
 
-**Single source of truth:** `tailwind.config.ts` and `constants.ts` (NAV_BREAKPOINT=1024)
+**Single source of truth:** `tailwind.config.ts` and `constants.ts`
+- `NAV_BREAKPOINT` = 1024px (main navigation mobile/desktop switch)
+- `SUB_TAB_BREAKPOINT` = 640px (sub-tabs mobile dropdown/desktop horizontal switch)
 
 ### Media Query Patterns (January 2026)
 
@@ -909,7 +911,7 @@ Use CSS variable for spacing:
 **[useEvents.ts](../src/composables/useEvents.ts)** - Discord events with countdown timers
 **[useFirstVisit.ts](../src/composables/useFirstVisit.ts)** - Welcome overlay management
 **[useOverlayState.ts](../src/composables/useOverlayState.ts)** - Cross-component overlay visibility tracking (used by BaseOverlay to pause hero video when any overlay is open)
-**[useMobileTabs.ts](../src/composables/useMobileTabs.ts)** - Mobile tab dropdown behavior (breakpoint detection, dropdown state, click-outside/escape handling) - used internally by MobileTabDropdown component
+**[useMobileTabs.ts](../src/composables/useMobileTabs.ts)** - Mobile tab dropdown behavior (breakpoint detection, dropdown state, click-outside/escape handling) - defaults to `SUB_TAB_BREAKPOINT` (640px), used by MobileTabDropdown and sub-tab components
 **[useServerCapacity.ts](../src/composables/useServerCapacity.ts)** - Dynamic capacity colors (90% red, 50% orange, <50% green)
 **[usePlayerDisplay.ts](../src/composables/usePlayerDisplay.ts)** - Player name parsing/colorization with memoization
 
@@ -1000,7 +1002,7 @@ Use CSS variable for spacing:
 ### Other Components
 
 **[Navigation.vue](../src/components/Navigation.vue)** - Simplified navigation with main sections only (no dropdown menus), desktop left-aligned nav (gaming industry standard), mobile hamburger
-**[MobileTabDropdown.vue](../src/components/MobileTabDropdown.vue)** - Reusable mobile hamburger dropdown for sub-tabs: accepts tabs array (id, label, icon), activeTabId, optional formatLabel function, wrapperClass/triggerClass for layout customization; provides trigger-badge and option-badge slots for custom badges; internally uses useMobileTabs composable - used by TabContainer, LeaderboardGroup, DynamicInfoCard, MediaEventCard
+**[MobileTabDropdown.vue](../src/components/MobileTabDropdown.vue)** - Reusable mobile dropdown for sub-tabs (< 640px): accepts tabs array (id, label, icon), activeTabId, optional formatLabel function, wrapperClass/triggerClass for layout customization; provides trigger-badge and option-badge slots for custom badges; defaults to `SUB_TAB_BREAKPOINT` - used by TabContainer, LeaderboardGroup, DynamicInfoCard, MediaEventCard
 **[WidgetDashboard.vue](../src/components/WidgetDashboard.vue)** - Homepage hero grid with 2 large interactive cards, pauses video when overlays are active via `useOverlayState`
 **[BaseOverlay.vue](../src/components/BaseOverlay.vue)** - Reusable overlay wrapper handling scroll lock, Escape key, backdrop click (mobile only), Teleport, and ARIA accessibility
 **[YouTubeTheater.vue](../src/components/YouTubeTheater.vue)** - YouTube video theater using BaseOverlay (youtube-nocookie.com embed)

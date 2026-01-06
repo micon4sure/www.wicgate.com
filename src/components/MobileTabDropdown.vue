@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useMobileTabs } from '../composables/useMobileTabs';
+import { SUB_TAB_BREAKPOINT } from '../constants';
 
 export interface MobileTab {
   id: string;
@@ -16,12 +17,14 @@ const props = withDefaults(
     formatLabel?: (label: string) => string;
     wrapperClass?: string;
     triggerClass?: string;
+    breakpoint?: number;
   }>(),
   {
     ariaLabel: 'Tab selection',
     formatLabel: (label: string) => label,
     wrapperClass: '',
     triggerClass: '',
+    breakpoint: SUB_TAB_BREAKPOINT,
   }
 );
 
@@ -30,7 +33,7 @@ const emit = defineEmits<{
 }>();
 
 const { isMobile, dropdownOpen, dropdownRef, triggerRef, toggleDropdown, closeDropdown } =
-  useMobileTabs();
+  useMobileTabs(props.breakpoint);
 
 // Refs used in template via ref="..." bindings
 void dropdownRef;

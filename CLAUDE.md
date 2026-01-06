@@ -40,7 +40,8 @@ npm run build:og     # Regenerate OG images (social sharing)
 10. ⚠️ Security considerations → See [docs/security.md](docs/security.md) for XSS prevention, auth best practices
 11. ✅ ALWAYS use Tailwind default breakpoints + xs custom: xs(375), sm(640), md(768), lg(1024), xl(1280)
     - xs is the only custom breakpoint (375px for small phones)
-    - Nav/tabs switch at lg (1024px) - use `NAV_BREAKPOINT` from constants.ts
+    - Main nav switches at lg (1024px) - use `NAV_BREAKPOINT` from constants.ts
+    - Sub-tabs switch at sm (640px) - use `SUB_TAB_BREAKPOINT` from constants.ts (default for `useMobileTabs()`)
     - Site container max-width is 1440px via `max-w-site` token (breakpoints stay at 1280px)
 12. ✅ ALWAYS use `screen()` function for CSS media queries in `tailwind.css`
     - ❌ NEVER use hardcoded pixel values like `@media (max-width: 767px)`

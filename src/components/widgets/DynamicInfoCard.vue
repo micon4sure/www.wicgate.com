@@ -152,7 +152,7 @@ function selectTab(tabId: string) {
 
 <template>
   <div class="dashboard-card">
-    <!-- MOBILE: Hamburger Dropdown -->
+    <!-- MOBILE: Dropdown (< 640px) -->
     <MobileTabDropdown
       :tabs="tabs"
       :active-tab-id="activeTabId"
