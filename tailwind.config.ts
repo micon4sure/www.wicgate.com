@@ -250,6 +250,8 @@ export default {
       borderColor: {
         'card': 'rgba(255, 255, 255, 0.25)',  // Outer card border
         'card-inner': 'rgba(255, 255, 255, 0.15)',  // Nested card border (cards inside cards)
+        'card-hover': 'rgba(255, 202, 40, 0.6)',  // Gold hover border (standard)
+        'card-hover-subtle': 'rgba(255, 202, 40, 0.5)',  // Gold hover border (subtle)
       },
     },
   },

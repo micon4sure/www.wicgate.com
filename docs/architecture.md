@@ -981,8 +981,8 @@ Use CSS variable for spacing:
 - Cross-browser support (Webkit + Firefox)
 
 **Migration from 6-Widget System (October 2025):**
-- Previous system: 6 separate widgets (QuickStartWidget, LiveServersWidget, TopPlayersWidget, CommunityWidget, LatestVideosWidget, GettingHelpWidget)
-- New system: 2 large interactive cards consolidating all functionality
+- Previous system: 6 separate widgets (deleted January 2026: QuickStartWidget, LiveServersWidget, TopPlayersWidget, CommunityWidget, LatestVideosWidget, GettingHelpWidget, WidgetBase)
+- New system: 2 large interactive cards (DynamicInfoCard, MediaEventCard) consolidating all functionality
 - Benefits: Better engagement, compact player display optimized for small communities, rotating content keeps homepage fresh, cohesive military aesthetics
 
 ### Screen Components
