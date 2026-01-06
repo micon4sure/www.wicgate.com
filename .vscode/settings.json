@@ -13,5 +13,8 @@
   },
   "tailwindCSS.includeLanguages": {
     "vue": "html"
-  }
+  },
+  "tailwindCSS.files.exclude": [
+    "**/*.md"
+  ]
 }
