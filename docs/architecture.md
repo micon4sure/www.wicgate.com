@@ -466,28 +466,23 @@ onMounted(() => {
 Industry-standard pattern for content sharing, following GitHub/MDN/Stack Overflow documentation sites. Used in FAQ questions and Statistics leaderboard cards:
 
 ```typescript
-// FAQ.vue - Copy link with category detection
-function getQuestionCategory(questionId: string): string | null {
-  for (const category of faq) {
-    const found = category.items.find((item) => item.id === questionId);
-    if (found) {
-      return getCategoryAnchor(category.cat); // Returns 'server', 'technical', etc.
-    }
-  }
-  return null;
-}
+// FAQ.vue - Copy link with base path for GitHub Pages support
+const appBase = inject<string>('appBase', '/'); // From main.ts
 
 function copyQuestionLink(questionId: string) {
   if (typeof window === 'undefined' || !navigator.clipboard) return; // SSR guard
 
-  const categorySlug = getQuestionCategory(questionId);
-  const url = categorySlug
-    ? `${window.location.origin}/faq/${categorySlug}#${questionId}`
-    : `${window.location.origin}/faq#${questionId}`;
+  // Build URL with base path for GitHub Pages deployment
+  const url = `${window.location.origin}${appBase}faq#${questionId}`;
 
   navigator.clipboard.writeText(url); // Copy to clipboard
 }
+
+// LeaderboardGroup.vue / ClanLeaderboard.vue - Same pattern
+const url = `${window.location.origin}${appBase}statistics#${hash}`;
 ```
+
+**Note:** The `appBase` injection handles deployment to subdirectories (GitHub Pages) automatically. See [deployment_guide.md](deployment_guide.md) for details.
 
 **UX Features:**
 - Link icon (🔗) appears on hover (hidden by default)

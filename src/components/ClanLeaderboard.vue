@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import type { ClanEntry } from '../api-types';
 
 const props = defineProps<{ clans: ClanEntry[]; id?: string }>();
+
+// Base path for GitHub Pages deployment (see main.ts)
+const appBase = inject<string>('appBase', '/');
 
 const copied = ref(false);
 const showCopiedToast = ref(false);
@@ -14,7 +17,7 @@ function formatClanTag(clan: ClanEntry): string {
 function copyLeaderboardLink() {
   if (typeof window === 'undefined' || !navigator.clipboard || !props.id) return;
 
-  const url = `${window.location.origin}/statistics#${props.id}`;
+  const url = `${window.location.origin}${appBase}statistics#${props.id}`;
 
   navigator.clipboard.writeText(url).then(() => {
     copied.value = true;

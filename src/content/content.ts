@@ -152,10 +152,12 @@ export const manualInstallSteps: DedicatedServerStep[] = [
   },
 ];
 
+// Base path for internal links (handles GitHub Pages deployment)
+const basePath = import.meta.env.BASE_URL || '/';
+
 export const manualInstallWarning = {
   title: 'Important Notice',
-  message:
-    'This installation method is unsupported and provided "as-is". For a streamlined experience, we recommend using the <a href="/downloads#quick-install" class="internal-link">WIC LIVE</a> installer.',
+  message: `This installation method is unsupported and provided "as-is". For a streamlined experience, we recommend using the <a href="${basePath}downloads#quick-install" class="internal-link">WIC LIVE</a> installer.`,
 };
 
 // SEO Metadata for sections (used for SSG meta tags)

@@ -102,10 +102,19 @@ app.provide('appBase', runtimeBase.endsWith('/') ? runtimeBase : runtimeBase + '
 
 **Components using `appBase`:**
 
-| Component | Assets |
-|-----------|--------|
+| Component | Assets/Links |
+|-----------|--------------|
 | `src/components/RankInsignia.vue` | Rank insignia images (`rank-01.png` to `rank-18.png`) |
-| `src/components/LeaderboardGroup.vue` | Category icons (`infantry.png`, `armor.png`, `air.png`, `support.png`) |
+| `src/components/LeaderboardGroup.vue` | Category icons (`infantry.png`, `armor.png`, `air.png`, `support.png`) + copy link URLs |
+| `src/components/ClanLeaderboard.vue` | Copy link URLs for clan leaderboard |
+| `src/screens/FAQ.vue` | Copy link URLs for FAQ questions |
+
+**Content files using `import.meta.env.BASE_URL`:**
+
+| File | Links |
+|------|-------|
+| `src/content/faq/index.ts` | Internal links to `/downloads` in FAQ answers |
+| `src/content/content.ts` | Internal link to `/downloads#quick-install` in Manual Install warning |
 
 **Usage pattern:**
 ```typescript

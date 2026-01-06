@@ -48,7 +48,7 @@ function copyLeaderboardLink() {
     hash = `${props.id}-${active.value}`;
   }
 
-  const url = `${window.location.origin}/statistics#${hash}`;
+  const url = `${window.location.origin}${appBase}statistics#${hash}`;
 
   navigator.clipboard.writeText(url).then(() => {
     copied.value = true;

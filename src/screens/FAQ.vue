@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { faq } from '../content/content';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, inject } from 'vue';
 import { useHead } from '@unhead/vue';
 import { generateFAQSchema } from '../utils/structuredData';
 import TabContainer from '../components/TabContainer.vue';
@@ -8,6 +8,9 @@ import TabContainer from '../components/TabContainer.vue';
 const openQuestion = ref<string | null>(null);
 const showCopiedToast = ref(false);
 const copiedQuestionId = ref<string | null>(null);
+
+// Base path for GitHub Pages deployment (see main.ts)
+const appBase = inject<string>('appBase', '/');
 
 function toggleQuestion(q: string) {
   openQuestion.value = openQuestion.value === q ? null : q;
@@ -18,8 +21,8 @@ function copyQuestionLink(questionId: string) {
   // SSR guard - clipboard API only available in browser
   if (typeof window === 'undefined' || !navigator.clipboard) return;
 
-  // Build URL with question ID: /faq#questionId
-  const url = `${window.location.origin}/faq#${questionId}`;
+  // Build URL with question ID, including base path for GitHub Pages
+  const url = `${window.location.origin}${appBase}faq#${questionId}`;
 
   navigator.clipboard
     .writeText(url)
