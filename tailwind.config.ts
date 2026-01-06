@@ -242,6 +242,10 @@ export default {
         'lg': '1024px',  // Tailwind default - NAV/TABS SWITCH POINT
         'xl': '1280px',  // Tailwind default (site max-width)
       },
+
+      maxWidth: {
+        'site': '1440px',  // Site container max-width
+      },
     },
   },
   plugins: [],

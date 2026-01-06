@@ -41,7 +41,7 @@ npm run build:og     # Regenerate OG images (social sharing)
 11. ✅ ALWAYS use Tailwind default breakpoints + xs custom: xs(375), sm(640), md(768), lg(1024), xl(1280)
     - xs is the only custom breakpoint (375px for small phones)
     - Nav/tabs switch at lg (1024px) - use `NAV_BREAKPOINT` from constants.ts
-    - xl (1280px) is site max-width - no breakpoints above this
+    - Site container max-width is 1440px via `max-w-site` token (breakpoints stay at 1280px)
 12. ✅ ALWAYS use `screen()` function for CSS media queries in `tailwind.css`
     - ❌ NEVER use hardcoded pixel values like `@media (max-width: 767px)`
     - ✅ Use `@media screen(md)` for min-width, `@media not all and screen(md)` for max-width
@@ -85,4 +85,4 @@ npm run build:og     # Regenerate OG images (social sharing)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** January 5, 2026 (Unified link class system)
+**Updated:** January 6, 2026 (Site width 1440px)

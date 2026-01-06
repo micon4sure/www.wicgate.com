@@ -684,17 +684,17 @@ script: [
 
 ### Layout Width Standard (October 2025)
 
-**Standardized Container Width:** All content sections use consistent **1280px (max-w-7xl)** maximum width.
+**Standardized Container Width:** All content sections use consistent **1440px (max-w-site)** maximum width.
 
 **Base Container Class:**
 ```css
 /* tailwind.css - @layer components */
 .container {
-  @apply max-w-7xl mx-auto px-5;
+  @apply max-w-site mx-auto px-5;
 }
 ```
 
-**Effective Content Width:** 1240px (1280px - 20px padding each side)
+**Effective Content Width:** 1400px (1440px - 20px padding each side)
 
 **Pattern for Tab Content:**
 ```vue
