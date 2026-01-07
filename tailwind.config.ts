@@ -70,6 +70,11 @@ export default {
           DEFAULT: '#ff6600',      // Orange for CTAs, downloads, card hover borders
           light: '#ff8533',        // Light orange hover
           dark: '#e65c00',         // Darker orange active
+          // Deep link highlight glow - pulsing effect when navigating to FAQ questions or Statistics leaderboards
+          // Uses baked-in opacity because theme() with /opacity modifier fails in @keyframes
+          'glow-strong': 'rgba(255, 102, 0, 0.7)',  // Initial glow (0%)
+          'glow-medium': 'rgba(255, 102, 0, 0.6)',  // Peak glow (50%)
+          'glow-soft': 'rgba(255, 102, 0, 0.4)',    // Ambient glow
         },
 
         // Teal Theme (PRIMARY ACCENT - navigation, highlights, active states)

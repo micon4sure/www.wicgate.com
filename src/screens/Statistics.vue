@@ -72,6 +72,12 @@ function handleHashNavigation() {
           behavior: 'smooth',
         });
 
+        // Add highlight effect to draw attention
+        element.classList.add('leaderboard-highlight');
+        setTimeout(() => {
+          element.classList.remove('leaderboard-highlight');
+        }, 2000);
+
         // Set active tab if applicable
         if (tabName && leaderboardsRef.value) {
           if (elementId === 'high-scores' && leaderboardsRef.value.highScoresRef) {

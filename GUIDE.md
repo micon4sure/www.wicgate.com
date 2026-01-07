@@ -243,4 +243,4 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 ---
 
-*Last Updated: January 5, 2026 (Unified link class system)*
+*Last Updated: January 7, 2026 (Deep link highlights, internal navigation)*

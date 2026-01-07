@@ -1,9 +1,16 @@
 <script setup lang="ts">
 import { faq } from '../content/content';
-import { ref, computed, onMounted, inject } from 'vue';
+import { ref, computed, watch, nextTick, inject } from 'vue';
+import { useRoute } from 'vue-router';
 import { useHead } from '@unhead/vue';
 import { generateFAQSchema } from '../utils/structuredData';
+import { useInternalLinks } from '../composables/useInternalLinks';
 import TabContainer from '../components/TabContainer.vue';
+
+const route = useRoute();
+
+// Client-side navigation for internal links in FAQ answers
+const { handleContentClick } = useInternalLinks();
 
 const openQuestion = ref<string | null>(null);
 const showCopiedToast = ref(false);
@@ -91,6 +98,43 @@ const tabs = computed(() =>
   }))
 );
 
+// Map question IDs to their category tab ID for deep linking
+const questionToTabId = computed(() => {
+  const map: Record<string, string> = {};
+  for (const category of faq) {
+    const tabId = getCategoryId(category.cat);
+    for (const item of category.items) {
+      map[item.id] = tabId;
+    }
+  }
+  return map;
+});
+
+// External tab control for question deep links
+const externalActiveTabId = ref<string | null>(null);
+
+// Watch route hash for question deep links
+watch(
+  () => route.hash,
+  (newHash) => {
+    const hash = newHash?.slice(1) || '';
+    if (!hash) {
+      externalActiveTabId.value = null;
+      openQuestion.value = null;
+      return;
+    }
+
+    // Find which tab contains this question
+    const tabId = questionToTabId.value[hash];
+    if (tabId) {
+      externalActiveTabId.value = tabId;
+      // Wait for tab to render, then expand and scroll to question
+      nextTick(() => scrollToQuestion(hash));
+    }
+  },
+  { immediate: true }
+);
+
 // Flatten all FAQ items for structured data
 const allFaqItems = computed(() => {
   return faq.flatMap((category) => category.items);
@@ -137,16 +181,6 @@ function scrollToQuestion(questionId: string) {
     }
   }, 300); // Wait for tab content to render
 }
-
-// Handle question deep-linking on mount
-onMounted(() => {
-  if (typeof window === 'undefined') return;
-
-  const hash = window.location.hash.slice(1); // Remove #
-  if (hash) {
-    scrollToQuestion(hash);
-  }
-});
 </script>
 
 <template>
@@ -165,7 +199,11 @@ onMounted(() => {
       </div>
 
       <!-- Tab Container -->
-      <TabContainer :tabs="tabs" aria-label="FAQ categories">
+      <TabContainer
+        :tabs="tabs"
+        :external-active-tab-id="externalActiveTabId"
+        aria-label="FAQ categories"
+      >
         <!-- Tab for each FAQ category -->
         <template v-for="cat in faq" :key="cat.cat" #[getCategoryAnchor(cat.cat)]>
           <div class="py-8 lg:py-10">
@@ -246,6 +284,7 @@ onMounted(() => {
                     <div class="p-5 lg:p-6 bg-graphite-dark/30">
                       <p
                         class="text-base lg:text-lg text-t-secondary font-body leading-relaxed m-0"
+                        @click="handleContentClick"
                         v-html="item.a"
                       ></p>
                     </div>

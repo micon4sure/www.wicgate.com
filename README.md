@@ -145,6 +145,7 @@ src/
 │   ├── useServerCapacity.ts  # Server capacity colors
 │   ├── usePlayerDisplay.ts   # Player name parsing
 │   ├── useActiveSection.ts   # Scroll state management
+│   ├── useInternalLinks.ts   # Client-side navigation for internal links
 │   └── useSectionObserver.ts # IntersectionObserver wrapper
 ├── utils/               # Utility functions
 │   ├── scroll.ts        # Navigation scroll system

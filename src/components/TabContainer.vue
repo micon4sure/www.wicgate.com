@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import MobileTabDropdown from './MobileTabDropdown.vue';
 import { useMobileTabs } from '../composables/useMobileTabs';
 
@@ -13,20 +14,34 @@ interface Props {
   tabs: Tab[];
   tabClass?: string; // Additional CSS classes for the tab container
   ariaLabel?: string; // ARIA label for tablist
+  externalActiveTabId?: string | null; // External control of active tab (e.g., from FAQ question deep links)
 }
 
 const props = withDefaults(defineProps<Props>(), {
   ariaLabel: 'Tab navigation',
   tabClass: 'tab-btn-sub',
+  externalActiveTabId: null,
 });
 
 const { isMobile } = useMobileTabs();
+const route = useRoute();
 
 // Local active tab state
 const localActiveTabId = ref<string>(props.tabs[0]?.id || '');
 
 // Active tab - uses local state
 const activeTabId = computed(() => localActiveTabId.value);
+
+// Watch for external tab control (e.g., FAQ question deep links)
+watch(
+  () => props.externalActiveTabId,
+  (newTabId) => {
+    if (newTabId && props.tabs.some((t) => t.id === newTabId)) {
+      localActiveTabId.value = newTabId;
+    }
+  },
+  { immediate: true }
+);
 
 // Extract anchor from tab ID by finding common prefix from all tabs
 // e.g., 'downloads-quick-install' → 'quick-install', 'faq-about-wicgate' → 'about-wicgate'
@@ -50,24 +65,24 @@ function getAnchor(tabId: string): string {
   return tabId;
 }
 
-// Handle hash changes (browser back/forward)
-function handleHashChange() {
-  if (typeof window === 'undefined') return;
+// Watch route hash changes - handles client-side navigation, back/forward, and initial load
+watch(
+  () => route.hash,
+  (newHash) => {
+    const hash = newHash?.slice(1) || ''; // Remove # prefix
 
-  const hash = window.location.hash.slice(1); // Remove #
-  if (hash) {
-    const matchingTab = props.tabs.find((t) => getAnchor(t.id) === hash);
-    if (matchingTab) {
-      localActiveTabId.value = matchingTab.id;
+    if (hash) {
+      const matchingTab = props.tabs.find((t) => getAnchor(t.id) === hash);
+      if (matchingTab) {
+        localActiveTabId.value = matchingTab.id;
+      }
+    } else {
+      // No hash = reset to default tab
+      localActiveTabId.value = props.tabs[0]?.id || '';
     }
-  } else {
-    // No hash = default tab
-    const firstTab = props.tabs[0];
-    if (firstTab) {
-      localActiveTabId.value = firstTab.id;
-    }
-  }
-}
+  },
+  { immediate: true }
+);
 
 // Handle tab click - update hash and local state
 function switchTab(tab: Tab) {
@@ -85,28 +100,6 @@ function switchTab(tab: Tab) {
   }
   localActiveTabId.value = tab.id;
 }
-
-// Initialize from hash on mount
-onMounted(() => {
-  if (typeof window === 'undefined') return;
-
-  // Read initial hash and activate matching tab
-  const hash = window.location.hash.slice(1); // Remove #
-  if (hash) {
-    const matchingTab = props.tabs.find((t) => getAnchor(t.id) === hash);
-    if (matchingTab) {
-      localActiveTabId.value = matchingTab.id;
-    }
-  }
-
-  // Listen for hash changes (browser back/forward)
-  window.addEventListener('hashchange', handleHashChange);
-});
-
-onUnmounted(() => {
-  if (typeof window === 'undefined') return;
-  window.removeEventListener('hashchange', handleHashChange);
-});
 
 // Format label for display (capitalize first letter)
 const formatLabel = (label: string): string => {

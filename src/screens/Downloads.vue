@@ -8,6 +8,10 @@ import {
   manualInstallSteps,
   manualInstallWarning,
 } from '../content/content';
+import { useInternalLinks } from '../composables/useInternalLinks';
+
+// Client-side navigation for internal links in warning messages
+const { handleContentClick } = useInternalLinks();
 
 // Tab configuration - IDs map to URL anchors (e.g., #quick-install, #dedicated-server)
 const tabs = [
@@ -197,6 +201,7 @@ const tabs = [
                 </h5>
                 <p
                   class="m-0 text-t-secondary text-base font-body leading-relaxed"
+                  @click="handleContentClick"
                   v-html="manualInstallWarning.message"
                 ></p>
               </div>

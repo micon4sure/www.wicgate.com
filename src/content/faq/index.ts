@@ -21,7 +21,7 @@ const currentYear = new Date().getFullYear();
 const basePath = import.meta.env.BASE_URL || '/';
 
 // Helper to create WIC LIVE link (points to downloads section)
-const wicLiveLink = `<a href="${basePath}downloads" class="internal-link">WIC LIVE</a>`;
+const wicLiveLink = `<a href="${basePath}downloads#quick-install" class="internal-link">WIC LIVE</a>`;
 const gogLink = `<a href="${GOG_URL}" target="_blank" rel="noopener noreferrer" class="external-link">GOG</a>`;
 const discordLink = `<a href="${DISCORD_URL}" target="_blank" rel="noopener noreferrer" class="external-link">Discord server</a>`;
 
@@ -145,7 +145,7 @@ export const faqCategories: FaqCategory[] = [
       {
         id: 'how-to-connect',
         q: 'How do I connect to WICGATE servers?',
-        a: `<p>Run the steps outlined in the <a href="${basePath}downloads" class="internal-link">Downloads</a> section and you're good to go!</p>`,
+        a: `<p>Run the steps outlined in the <a href="${basePath}downloads#quick-install" class="internal-link">Downloads</a> section and you're good to go!</p>`,
       },
       {
         id: 'campaign-only',

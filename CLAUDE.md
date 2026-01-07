@@ -36,7 +36,7 @@ npm run build:og     # Regenerate OG images (social sharing)
 6. ❌ NEVER commit CRLF line endings (LF only)
 7. ❌ NEVER use `bun test` → ✅ ALWAYS use `bun run test`
 8. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
-9. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, etc.)
+9. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, `useInternalLinks`, etc.)
 10. ⚠️ Security considerations → See [docs/security.md](docs/security.md) for XSS prevention, auth best practices
 11. ✅ ALWAYS use Tailwind default breakpoints + xs custom: xs(375), sm(640), md(768), lg(1024), xl(1280)
     - xs is the only custom breakpoint (375px for small phones)
@@ -86,4 +86,4 @@ npm run build:og     # Regenerate OG images (social sharing)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** January 6, 2026 (Site width 1440px)
+**Updated:** January 7, 2026 (Deep link highlights, internal link navigation)

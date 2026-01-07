@@ -136,6 +136,7 @@ All in [tailwind.config.ts](tailwind.config.ts):
 - [useServerCapacity.ts](src/composables/useServerCapacity.ts) - Server capacity colors
 - [usePlayerDisplay.ts](src/composables/usePlayerDisplay.ts) - Player name parsing
 - [useActiveSection.ts](src/composables/useActiveSection.ts) - Nav highlighting (hybrid: route + scroll position)
+- [useInternalLinks.ts](src/composables/useInternalLinks.ts) - Client-side navigation for `.internal-link` clicks in v-html content
 
 ### Utilities
 - [constants.ts](src/constants.ts) - Application constants (SERVER_MAX_CAPACITY, thresholds, API config)
@@ -181,6 +182,13 @@ src/
 ---
 
 ## Recent Major Updates
+
+### January 7, 2026 - Deep Link Highlights & Internal Navigation
+- **Statistics Leaderboard Highlights:** Added pulsing glow animation when navigating to leaderboards via deep links (mirrors FAQ pattern)
+- **Client-Side Internal Links:** Created `useInternalLinks` composable for SPA navigation in v-html content (click interception pattern)
+- **FAQ Question Deep Links:** Unified all FAQ anchors under question IDs, TabContainer `externalActiveTabId` prop for external tab control
+- **Glow Tokens:** Tokenized deep link highlight colors in `tailwind.config.ts` (`soviet.glow-strong/medium/soft`)
+- **WIC LIVE Links:** All internal WIC LIVE links now include `#quick-install` hash for proper tab switching
 
 ### October 16, 2025 - Code Quality & Security Improvements
 - **Test Infrastructure:** Fixed missing @vitest/coverage-v8 dependency
@@ -260,4 +268,4 @@ src/
 **For complete operational rules, see [CLAUDE.md](CLAUDE.md)**
 **For detailed documentation, see [docs/](docs/)**
 
-**Last Updated:** January 5, 2026 (Unified link class system)
+**Last Updated:** January 7, 2026 (Deep link highlights, internal navigation)

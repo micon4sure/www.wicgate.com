@@ -105,6 +105,7 @@ function switchTab(tab: Tab) {
 - **Browser history:** Uses `history.pushState()` for back/forward support
 - **Local state fallback:** Community videos use local state (dynamic YouTube channels)
 - **SSR-safe:** Guards against window/history access during SSR
+- **External tab control:** `externalActiveTabId` prop allows parent components to switch tabs programmatically (used by FAQ.vue for question deep links - hash like `#game-crashes-on-startup` maps to parent category tab via `questionToTabId` computed)
 
 **SEO Strategy:**
 - **All content in DOM:** Tab panels use CSS hiding (`hidden`/`block` classes), not `v-if`. This ensures all tab content is present in SSG-rendered HTML for search engine indexing.
@@ -677,6 +678,41 @@ script: [
 - **Tab Underline** (2 classes): `.tab-btn::before`, `.tab-btn-sub::before`
 - **Section Headers** (5 classes): `.server-group-header`, `.event-accordion-expanded .event-accordion-header`, `.faq-item-open .faq-question-header`, `.leaderboard-header`, `.overlay-header`
 
+### Deep Link Highlight Tokens (January 2026)
+
+**Glow effect tokens for deep link navigation highlights.** When users navigate to FAQ questions or Statistics leaderboards via deep links, a pulsing glow animation draws attention to the target element.
+
+```typescript
+// Soviet color group in tailwind.config.ts
+'soviet': {
+  DEFAULT: '#ff6600',
+  // ... other variants
+  // Deep link highlight glow - baked-in opacity (theme() opacity modifier fails in @keyframes)
+  'glow-strong': 'rgba(255, 102, 0, 0.7)',  // Initial glow (0%)
+  'glow-medium': 'rgba(255, 102, 0, 0.6)',  // Peak glow (50%)
+  'glow-soft': 'rgba(255, 102, 0, 0.4)',    // Ambient glow
+},
+```
+
+**CSS Usage:** Both FAQ and Statistics use identical animation patterns:
+```css
+@keyframes faq-target-highlight {  /* or leaderboard-highlight-pulse */
+  0% {
+    box-shadow: 0 0 0 0 theme('colors.soviet.glow-strong'),
+                0 0 20px theme('colors.soviet.glow-soft');
+  }
+  50% {
+    box-shadow: 0 0 0 8px transparent,
+                0 0 30px theme('colors.soviet.glow-medium');
+  }
+  100% { /* fades to transparent */ }
+}
+```
+
+**Affected Components:**
+- **FAQ:** `.faq-question-item:target` - highlights question when navigating to `#question-id`
+- **Statistics:** `.leaderboard-highlight` - applied via JS in `Statistics.vue` after scroll completes
+
 ### Layout Width Standard (October 2025)
 
 **Standardized Container Width:** All content sections use consistent **1440px (max-w-site)** maximum width.
@@ -909,6 +945,13 @@ Use CSS variable for spacing:
 **[useMobileTabs.ts](../src/composables/useMobileTabs.ts)** - Mobile tab dropdown behavior (breakpoint detection, dropdown state, click-outside/escape handling) - defaults to `SUB_TAB_BREAKPOINT` (640px), used by MobileTabDropdown and sub-tab components
 **[useServerCapacity.ts](../src/composables/useServerCapacity.ts)** - Dynamic capacity colors (90% red, 50% orange, <50% green)
 **[usePlayerDisplay.ts](../src/composables/usePlayerDisplay.ts)** - Player name parsing/colorization with memoization
+**[useInternalLinks.ts](../src/composables/useInternalLinks.ts)** - Client-side navigation for internal links in v-html content (click interception pattern - industry standard used by Gatsby, Nuxt, Next.js); intercepts `.internal-link` clicks and routes through Vue Router for SPA transitions instead of full page reloads
+
+**When to use `useInternalLinks` vs `<router-link>`:**
+- **Vue templates:** Use `<router-link to="/path">` directly - Vue Router handles it natively
+- **v-html content:** Use `useInternalLinks` composable - Vue can't process `<router-link>` in raw HTML strings
+- **Currently applied in:** FAQ.vue (answer content), Downloads.vue (warning message)
+- **Usage:** Import composable, apply `@click="handleContentClick"` to v-html container
 
 ### Utilities
 
