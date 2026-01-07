@@ -754,6 +754,25 @@ script: [
 └─────────────────────────────────┘
 ```
 
+### Navigation Background Tokens (January 2026)
+
+**Tokenized navigation backgrounds** for consistent styling. Separate tokens for main nav and sub nav (future flexibility).
+
+```typescript
+// tailwind.config.ts - backgroundImage
+'nav-main': 'linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95))',
+'nav-sub': 'linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95))',
+```
+
+**Token Usage:**
+
+| Token | Used By |
+|-------|---------|
+| `bg-nav-main` | `.tab-nav` (main navigation bar) |
+| `bg-nav-sub` | `.tab-nav-sub`, `.tab-mobile-dropdown`, `.tab-mobile-dropdown-sub` |
+
+**Mobile Triggers:** Use `tab-active` token (red gradient) - unified across main and sub nav.
+
 ### Layout Width Standard (October 2025)
 
 **Standardized Container Width:** All content sections use consistent **1440px (max-w-site)** maximum width.

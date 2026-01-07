@@ -479,7 +479,7 @@
     }
   }
 
-  /* Logo wrapper - 7-tier responsive min-width */
+  /* Logo wrapper */
   .logo-wrapper {
     @apply flex flex-col items-start min-w-[200px];
   }
@@ -491,7 +491,7 @@
   @media not all and screen(xs) {
     .logo-wrapper { @apply min-w-[90px]; }
   }
-  /* Logo title - 7-tier responsive typography */
+  /* Logo title */
   .logo-title {
     @apply font-military text-2xl font-bold text-teal uppercase tracking-[2px] select-none leading-none;
   }
@@ -585,10 +585,10 @@
   .tab-nav {
     @apply flex relative;
     @apply border-t border-t-graphite-dark/60;
-    background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
+    @apply bg-nav-main;
   }
 
-  /* Tab button base - 7-tier responsive typography and spacing */
+  /* Tab button base */
   .tab-btn {
     @apply flex-1 cursor-pointer relative mr-px;
     @apply font-military font-medium uppercase tracking-[1px];
@@ -628,7 +628,7 @@
   @media not all and screen(xs) {
     .tab-btn-xs { @apply text-nav-xs p-[8px_10px]; }
   }
-  /* Leaderboard-specific tab sizing - 7-tier responsive */
+  /* Leaderboard-specific tab sizing */
   .tab-btn-leaderboard {
     @apply tab-btn text-nav-sm p-[12px_16px]; /* Compact for leaderboard */
   }
@@ -737,7 +737,7 @@
   .tab-nav-sub {
     @apply flex relative;
     @apply border-t border-t-graphite-dark/60;
-    background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
+    @apply bg-nav-sub;
   }
 
   /* Sub-tab button - matches tab-btn-s design */
@@ -801,7 +801,7 @@
     @apply relative w-full;
   }
 
-  /* Trigger button - military themed */
+  /* Trigger button - military themed (red to match sub-tab trigger) */
   .tab-mobile-trigger {
     @apply w-full flex items-center justify-between relative;
     @apply px-5 py-4;
@@ -810,16 +810,16 @@
     @apply border-t border-b border-graphite-dark/60;
     @apply transition-all duration-300;
     @apply cursor-pointer;
-    background: linear-gradient(to bottom, #0f1215, #08090b);
+    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   .tab-mobile-trigger:active {
-    background: linear-gradient(to bottom, #141719, #0c0d0f);
+    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   .tab-mobile-trigger-open {
     @apply text-t border-graphite-dark/60;
-    background: linear-gradient(to bottom, #141719, #0c0d0f);
+    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   .tab-mobile-trigger-label {
@@ -835,7 +835,7 @@
     @apply absolute top-full left-0 right-0 z-50;
     @apply border border-graphite-dark/60 border-t-0;
     @apply overflow-hidden;
-    background: linear-gradient(to bottom, #0a0a0a, #050505);
+    @apply bg-nav-sub;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   }
 
@@ -916,7 +916,7 @@
     @apply absolute top-full left-0 right-0 z-50;
     @apply border border-graphite-dark/60 border-t-0;
     @apply overflow-hidden;
-    background: linear-gradient(to bottom, #080a0c, #050607);
+    @apply bg-nav-sub;
   }
 
   /* Sub-tab dropdown option */
@@ -1198,7 +1198,7 @@
     .lb-cell-player > div { @apply gap-0.5; } /* Tighter gap for 320px */
   }
 
-  /* Clan tag styling - 7-tier responsive, 12px minimum, no shrink */
+  /* Clan tag styling - 12px minimum, no shrink */
   .lb-clan-tag {
     @apply font-mono text-massgate-orange font-semibold text-body-sm;
     @apply inline-block align-middle leading-[1.2] m-0 p-0 flex-shrink-0;
@@ -1220,7 +1220,7 @@
     @apply inline-block align-middle leading-[1.2] m-0 truncate min-w-0;
   }
 
-  /* 7-tier responsive font size for player names */
+  /* Responsive font size for player names */
   @media not all and screen(md) {
     .lb-player-name { @apply text-[1rem]; }
   }
@@ -1366,13 +1366,13 @@
   @keyframes leaderboard-highlight-pulse {
     0% {
       @apply border-soviet bg-soviet/20 shadow-lg;
-      box-shadow: 0 0 0 0 theme('colors.soviet.glow-strong'),
-                  0 0 20px theme('colors.soviet.glow-soft');
+      box-shadow: 0 0 0 0 theme('colors.soviet.glowStrong'),
+                  0 0 20px theme('colors.soviet.glowSoft');
     }
     50% {
       @apply border-soviet-light/80;
       box-shadow: 0 0 0 8px transparent,
-                  0 0 30px theme('colors.soviet.glow-medium');
+                  0 0 30px theme('colors.soviet.glowMedium');
     }
     100% {
       @apply border-card;
@@ -1512,7 +1512,7 @@
     min-width: 140px;
   }
 
-  /* 7-tier responsive score column - consolidated cascade */
+  /* Responsive score column */
   @media not all and screen(md) {
     .col-score { width: 7rem; min-width: 7rem; }
   }
@@ -1597,7 +1597,7 @@
     @apply bg-gradient-to-r from-massgate-orange/22 to-massgate-orange/15 !border-massgate-orange/40;
   }
 
-  /* Clan tag styling - 7-tier responsive, 12px minimum */
+  /* Clan tag styling - 12px minimum */
   .clan-tag {
     @apply font-mono text-massgate-orange font-semibold text-body-sm;
     @apply inline align-middle leading-[1.2] m-0 p-0;
@@ -1701,7 +1701,7 @@
     padding-bottom: 2rem;
   }
 
-  /* Hero main card (title, description, CTA) - 7-tier responsive padding */
+  /* Hero main card (title, description, CTA) */
   .hero-main-card-wrapper {
     @apply text-center mb-8;
   }
@@ -1851,7 +1851,7 @@
   @media not all and screen(xs) {
     .hero-subtitle { @apply text-heading-lg; }
   }
-  /* Hero description text - 7-tier responsive typography */
+  /* Hero description text */
   .hero-desc {
     @apply text-body-xl text-t leading-relaxed font-body font-semibold;
     /* 18px at 2xl (golden standard) */
@@ -1929,7 +1929,7 @@
     }
   }
 
-  /* Hero CTA - 7-tier responsive sizing */
+  /* Hero CTA */
   @media not all and screen(md) {
     .hero-cta {
       @apply px-7 py-3.5 text-base gap-3 mt-3;
@@ -2247,13 +2247,13 @@
   @keyframes faq-target-highlight {
     0% {
       @apply border-soviet bg-soviet/20 shadow-lg;
-      box-shadow: 0 0 0 0 theme('colors.soviet.glow-strong'),
-                  0 0 20px theme('colors.soviet.glow-soft');
+      box-shadow: 0 0 0 0 theme('colors.soviet.glowStrong'),
+                  0 0 20px theme('colors.soviet.glowSoft');
     }
     50% {
       @apply border-soviet-light/80;
       box-shadow: 0 0 0 8px transparent,
-                  0 0 30px theme('colors.soviet.glow-medium');
+                  0 0 30px theme('colors.soviet.glowMedium');
     }
     100% {
       @apply border-card;

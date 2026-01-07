@@ -72,9 +72,9 @@ export default {
           dark: '#e65c00',         // Darker orange active
           // Deep link highlight glow - pulsing effect when navigating to FAQ questions or Statistics leaderboards
           // Uses baked-in opacity because theme() with /opacity modifier fails in @keyframes
-          'glow-strong': 'rgba(255, 102, 0, 0.7)',  // Initial glow (0%)
-          'glow-medium': 'rgba(255, 102, 0, 0.6)',  // Peak glow (50%)
-          'glow-soft': 'rgba(255, 102, 0, 0.4)',    // Ambient glow
+          glowStrong: 'rgba(255, 102, 0, 0.7)',  // Initial glow (0%)
+          glowMedium: 'rgba(255, 102, 0, 0.6)',  // Peak glow (50%)
+          glowSoft: 'rgba(255, 102, 0, 0.4)',    // Ambient glow
         },
 
         // Teal Theme (PRIMARY ACCENT - navigation, highlights, active states)
@@ -196,6 +196,10 @@ export default {
         // Card backgrounds
         'video-card': 'linear-gradient(180deg, rgba(15, 18, 21, 0.96) 0%, rgba(8, 9, 11, 0.98) 100%)',
         'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98))',
+
+        // Navigation backgrounds (graphite gradients)
+        'nav-main': 'linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95))',
+        'nav-sub': 'linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95))',
 
         // Massgate Red (leaderboard headers - heavily used)
         'massgate-header': 'linear-gradient(180deg, #c62828 0%, #8b0000 100%)',

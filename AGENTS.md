@@ -183,15 +183,19 @@ src/
 
 ## Recent Major Updates
 
-### January 7, 2026 - Card Background Tokens & Deep Link Highlights
+### January 7, 2026 - Card & Navigation Background Tokens
 - **Card Background Tokens:** Tokenized all card/container backgrounds for consistent styling
   - `bg-card-surface` (steel blue gradient) - main containers (dashboard, FAQ, leaderboard, step cards)
   - `bg-video-card` (graphite gradient) - standalone cards (video, community)
   - `bg-list-item` / `bg-list-item-hover` / `bg-list-item-alt` - nested items inside containers
+- **Navigation Background Tokens:** Tokenized nav bar backgrounds
+  - `bg-nav-main` - main navigation bar
+  - `bg-nav-sub` - sub navigation bar + mobile dropdowns (unified)
+  - Mobile triggers unified to red `tab-active` token
 - **Statistics Leaderboard Highlights:** Added pulsing glow animation when navigating to leaderboards via deep links (mirrors FAQ pattern)
 - **Client-Side Internal Links:** Created `useInternalLinks` composable for SPA navigation in v-html content (click interception pattern)
 - **FAQ Question Deep Links:** Unified all FAQ anchors under question IDs, TabContainer `externalActiveTabId` prop for external tab control
-- **Glow Tokens:** Tokenized deep link highlight colors in `tailwind.config.ts` (`soviet.glow-strong/medium/soft`)
+- **Glow Tokens:** Tokenized deep link highlight colors in `tailwind.config.ts` (`soviet.glowStrong/glowMedium/glowSoft`)
 - **WIC LIVE Links:** All internal WIC LIVE links now include `#quick-install` hash for proper tab switching
 
 ### October 16, 2025 - Code Quality & Security Improvements
@@ -272,4 +276,4 @@ src/
 **For complete operational rules, see [CLAUDE.md](CLAUDE.md)**
 **For detailed documentation, see [docs/](docs/)**
 
-**Last Updated:** January 7, 2026 (Deep link highlights, internal navigation)
+**Last Updated:** January 7, 2026 (Navigation background tokens)
