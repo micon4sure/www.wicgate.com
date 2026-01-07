@@ -178,6 +178,13 @@
     padding-top: var(--header-height);
   }
 
+  /* Hash link scroll targets - extra breathing room from nav bar */
+  /* Fallback for native scroll; JS scroll in main.ts/components handles most cases */
+  .faq-question-item,
+  .leaderboard-container {
+    scroll-margin-top: calc(var(--header-height) + 1rem);
+  }
+
   /* Military panel card */
   .panel-card {
     @apply bg-panel-main border border-card shadow-military rounded-none relative;

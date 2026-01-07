@@ -194,7 +194,7 @@ scrollBehavior(to, from, savedPosition) {
         const headerHeight = parseInt(getComputedStyle(document.documentElement)
           .getPropertyValue('--header-height').trim()) || 80;
         const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - headerHeight;
+        const offsetPosition = elementPosition - headerHeight - 16; // Extra breathing room
 
         resolve({ top: offsetPosition, behavior: scrollBehavior });
       }, delay);

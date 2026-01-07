@@ -113,7 +113,7 @@ export const createApp = ViteSSG(
               ) || 80;
 
             const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-            const offsetPosition = elementPosition - headerHeight;
+            const offsetPosition = elementPosition - headerHeight - 16; // Extra padding for breathing room
 
             resolve({
               top: offsetPosition,
