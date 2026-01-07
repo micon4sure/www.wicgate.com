@@ -129,6 +129,13 @@ export default {
           dark: '#7a38d8',
         },
 
+        // List item backgrounds (nested items inside widgets/cards)
+        'list-item': {
+          DEFAULT: 'rgba(15, 18, 21, 0.4)',    // server-group, video-item, ladder-player, accordion-item
+          hover: 'rgba(15, 18, 21, 0.55)',     // hover state
+          alt: 'rgba(15, 18, 21, 0.5)',        // event-card, accordion-header hover
+        },
+
         // ========== THEME TOKENS (change these to switch theme) ==========
         // Tab active state gradient + accent (navbar, sub-tabs)
         'tab-active': {
@@ -185,6 +192,10 @@ export default {
       backgroundImage: {
         // Note: Most gradients can be created inline with Tailwind utilities
         // Example: bg-gradient-to-b from-massgate-red to-massgate-red-dark
+
+        // Card backgrounds
+        'video-card': 'linear-gradient(180deg, rgba(15, 18, 21, 0.96) 0%, rgba(8, 9, 11, 0.98) 100%)',
+        'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98))',
 
         // Massgate Red (leaderboard headers - heavily used)
         'massgate-header': 'linear-gradient(180deg, #c62828 0%, #8b0000 100%)',

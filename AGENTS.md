@@ -183,7 +183,11 @@ src/
 
 ## Recent Major Updates
 
-### January 7, 2026 - Deep Link Highlights & Internal Navigation
+### January 7, 2026 - Card Background Tokens & Deep Link Highlights
+- **Card Background Tokens:** Tokenized all card/container backgrounds for consistent styling
+  - `bg-card-surface` (steel blue gradient) - main containers (dashboard, FAQ, leaderboard, step cards)
+  - `bg-video-card` (graphite gradient) - standalone cards (video, community)
+  - `bg-list-item` / `bg-list-item-hover` / `bg-list-item-alt` - nested items inside containers
 - **Statistics Leaderboard Highlights:** Added pulsing glow animation when navigating to leaderboards via deep links (mirrors FAQ pattern)
 - **Client-Side Internal Links:** Created `useInternalLinks` composable for SPA navigation in v-html content (click interception pattern)
 - **FAQ Question Deep Links:** Unified all FAQ anchors under question IDs, TabContainer `externalActiveTabId` prop for external tab control

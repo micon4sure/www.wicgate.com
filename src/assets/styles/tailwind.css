@@ -277,7 +277,7 @@
   .dashboard-card {
     @apply relative overflow-hidden;
     @apply border-2 border-card;
-    background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
+    @apply bg-card-surface;
   }
 
   /* Dashboard card header */
@@ -332,7 +332,7 @@
 
   /* Server group card (inside Players Online) */
   .server-group-card {
-    @apply bg-mg/15 border border-card-inner overflow-hidden transition-all duration-200;
+    @apply bg-list-item border border-card-inner overflow-hidden transition-all duration-200;
   }
 
   @media (hover: hover) {
@@ -349,7 +349,7 @@
 
   /* Event card */
   .event-card {
-    @apply block bg-gradient-to-br from-mg/20 to-mg-dark/30;
+    @apply block bg-list-item-alt;
     @apply border border-card-inner overflow-hidden transition-all duration-200 no-underline;
   }
 
@@ -362,7 +362,7 @@
 
   /* Video item card */
   .video-item-card {
-    @apply flex items-start gap-4 p-3 bg-mg/15 border border-card-inner cursor-pointer transition-all duration-200;
+    @apply flex items-start gap-4 p-3 bg-list-item border border-card-inner cursor-pointer transition-all duration-200;
   }
 
   @media (hover: hover) {
@@ -383,7 +383,7 @@
   }
 
   .event-accordion-item {
-    @apply transition-all duration-200 border border-card-inner bg-mg/15;
+    @apply transition-all duration-200 border border-card-inner bg-list-item;
   }
 
   .event-accordion-header {
@@ -392,7 +392,7 @@
   }
 
   .event-accordion-header:hover {
-    @apply bg-mg/20;
+    @apply bg-list-item-alt;
   }
 
   .event-accordion-expanded .event-accordion-header {
@@ -413,12 +413,12 @@
 
   /* Ladder player item */
   .ladder-player-item {
-    @apply flex items-center gap-3 p-3 bg-mg/15 border border-card-inner transition-all duration-200;
+    @apply flex items-center gap-3 p-3 bg-list-item border border-card-inner transition-all duration-200;
   }
 
   @media (hover: hover) {
     .ladder-player-item:hover {
-      @apply bg-mg/25 border-panel-border/60;
+      @apply bg-list-item-hover border-panel-border/60;
       box-shadow: 0 0 15px rgba(55, 87, 109, 0.15);
     }
   }
@@ -963,7 +963,7 @@
   .step-card {
     @apply p-5 rounded-none;
     @apply border border-card;
-    background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
+    @apply bg-card-surface;
   }
 
   /* Step card with sticky positioning (for sidebars) */
@@ -1276,7 +1276,7 @@
   .faq-item {
     @apply rounded-none overflow-hidden;
     @apply border border-card;
-    background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
+    @apply bg-card-surface;
   }
 
   .faq-item-open {
@@ -2177,8 +2177,7 @@
     @apply rounded-none overflow-hidden relative mb-6;
     @apply border border-card;
     @apply transition-all duration-300;
-    background: linear-gradient(to bottom, rgba(18, 30, 39, 0.96), rgba(9, 15, 20, 0.98));
-    box-shadow: 0 12px 30px rgba(4, 9, 14, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    @apply bg-card-surface shadow-military;
   }
 
   .leaderboard-panel-header {
@@ -2464,12 +2463,7 @@
 
   /* Generic card base */
   .card {
-    background: linear-gradient(
-      180deg,
-      rgba(15, 18, 21, 0.96) 0%,
-      rgba(8, 9, 11, 0.98) 100%
-    );
-    @apply border border-card rounded-none overflow-hidden;
+    @apply bg-video-card border border-card rounded-none overflow-hidden;
     @apply shadow-[0_12px_28px_rgba(4,9,14,0.55)] transition-all duration-300;
   }
 
@@ -2875,7 +2869,7 @@
 
   .help-cta-box {
     @apply mt-8 border border-card rounded-none p-6 md:p-8 text-center;
-    background: linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98));
+    @apply bg-card-surface;
   }
 
   /* ========== INLINE LINK ========== */

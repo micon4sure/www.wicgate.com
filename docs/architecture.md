@@ -713,6 +713,47 @@ script: [
 - **FAQ:** `.faq-question-item:target` - highlights question when navigating to `#question-id`
 - **Statistics:** `.leaderboard-highlight` - applied via JS in `Statistics.vue` after scroll completes
 
+### Card Background Tokens (January 2026)
+
+**Tokenized card/container backgrounds** for consistent styling across the site. Two-level hierarchy: main containers and nested items.
+
+```typescript
+// tailwind.config.ts - backgroundImage (gradients)
+'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98))',
+'video-card': 'linear-gradient(180deg, rgba(15, 18, 21, 0.96) 0%, rgba(8, 9, 11, 0.98) 100%)',
+
+// tailwind.config.ts - colors (solid with opacity)
+'list-item': {
+  DEFAULT: 'rgba(15, 18, 21, 0.4)',    // Nested items
+  hover: 'rgba(15, 18, 21, 0.55)',     // Hover state
+  alt: 'rgba(15, 18, 21, 0.5)',        // Alternative variant
+}
+```
+
+**Token Usage:**
+
+| Token | Type | Used By |
+|-------|------|---------|
+| `bg-card-surface` | Gradient (steel blue) | `.dashboard-card`, `.step-card`, `.faq-item`, `.leaderboard-panel`, `.help-cta-box` |
+| `bg-video-card` | Gradient (graphite) | `.card` (video cards, community cards) |
+| `bg-list-item` | Solid color | `.server-group-card`, `.video-item-card`, `.event-accordion-item`, `.ladder-player-item` |
+| `bg-list-item-hover` | Solid color | Nested item hover states |
+| `bg-list-item-alt` | Solid color | `.event-card`, `.event-accordion-header:hover` |
+
+**Visual Hierarchy:**
+```
+┌─────────────────────────────────┐
+│  bg-card-surface (steel blue)   │  ← Main containers
+│  ┌───────────────────────────┐  │
+│  │ bg-list-item (dark)       │  │  ← Nested items
+│  └───────────────────────────┘  │
+└─────────────────────────────────┘
+
+┌─────────────────────────────────┐
+│  bg-video-card (graphite)       │  ← Standalone cards
+└─────────────────────────────────┘
+```
+
 ### Layout Width Standard (October 2025)
 
 **Standardized Container Width:** All content sections use consistent **1440px (max-w-site)** maximum width.
