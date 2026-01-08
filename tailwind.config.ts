@@ -145,8 +145,8 @@ export default {
         },
         // Section header gradient (leaderboard, FAQ, overlays)
         'section-header': {
-          from: '#4a1f5c',    // Gradient top (Purple)
-          to: '#2d1236',      // Gradient bottom (Purple Dark)
+          from: '#1a3a5c',    // Gradient top (Deep Navy)
+          to: '#0d1f36',      // Gradient bottom (Deep Navy Dark)
         },
       },
 
