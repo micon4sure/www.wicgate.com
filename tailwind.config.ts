@@ -195,12 +195,12 @@ export default {
 
         // Card backgrounds
         'video-card': 'linear-gradient(180deg, rgba(15, 18, 21, 0.96) 0%, rgba(8, 9, 11, 0.98) 100%)',
-        'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.5), rgba(9, 15, 20, 0.5))',
+        'card-surface': 'linear-gradient(to bottom right, rgba(27, 48, 49, 0.55), rgba(14, 24, 25, 0.55))',
 
-        // Leaderboard row backgrounds (steel blue, 50% opacity)
-        'lb-row': 'linear-gradient(to right, rgba(18, 30, 39, 0.5), rgba(9, 15, 20, 0.5))',
-        'lb-row-even': 'linear-gradient(to right, rgba(24, 38, 48, 0.5), rgba(14, 24, 31, 0.5))',
-        'lb-header': 'linear-gradient(to bottom, rgba(31, 49, 61, 0.5), rgba(18, 30, 39, 0.5))',
+        // Leaderboard row backgrounds (dark teal, 55% opacity)
+        'lb-row': 'linear-gradient(to right, rgba(27, 48, 49, 0.55), rgba(14, 24, 25, 0.55))',
+        'lb-row-even': 'linear-gradient(to right, rgba(32, 56, 58, 0.55), rgba(20, 36, 38, 0.55))',
+        'lb-header': 'linear-gradient(to bottom, rgba(38, 66, 68, 0.55), rgba(27, 48, 49, 0.55))',
 
         // Navigation backgrounds (graphite gradients)
         'nav-main': 'linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95))',
