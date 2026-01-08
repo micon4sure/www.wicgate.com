@@ -183,6 +183,15 @@ src/
 
 ## Recent Major Updates
 
+### January 8, 2026 - Leaderboard Card Tokens
+- **Leaderboard Background Tokens:** Tokenized Statistics leaderboard card backgrounds
+  - `bg-lb-row` / `bg-lb-row-even` - leaderboard data rows (steel blue 50% opacity)
+  - `bg-lb-header` - leaderboard table headers (steel blue 50% opacity)
+  - `medal-text` boxShadow - top 3 rank text shadows
+  - `card-surface` updated to 50% opacity for consistency
+- **CSS Cleanup:** Removed legacy `.leaderboard-cell` / `.leaderboard-rank-cell` styles (~40 lines)
+- **Theme References:** All leaderboard CSS now uses `theme()` instead of hardcoded rgba values
+
 ### January 7, 2026 - Card & Navigation Background Tokens
 - **Card Background Tokens:** Tokenized all card/container backgrounds for consistent styling
   - `bg-card-surface` (steel blue gradient) - main containers (dashboard, FAQ, leaderboard, step cards)
@@ -276,4 +285,4 @@ src/
 **For complete operational rules, see [CLAUDE.md](CLAUDE.md)**
 **For detailed documentation, see [docs/](docs/)**
 
-**Last Updated:** January 7, 2026 (Navigation background tokens)
+**Last Updated:** January 8, 2026 (Leaderboard card tokens)

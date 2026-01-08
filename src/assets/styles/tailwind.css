@@ -1099,11 +1099,11 @@
   /* Leaderboard data row */
   .lb-row {
     @apply min-h-14 h-14;
-    background: linear-gradient(to right, rgba(18, 30, 39, 0.75), rgba(9, 15, 20, 0.85));
+    background: theme('backgroundImage.lb-row');
   }
 
   .lb-row:nth-child(even) {
-    background: linear-gradient(to right, rgba(24, 38, 48, 0.78), rgba(14, 24, 31, 0.88));
+    background: theme('backgroundImage.lb-row-even');
   }
 
   @media not all and screen(md) {
@@ -1231,17 +1231,17 @@
   /* Medal colors for top 3 ranks */
   .lb-medal-gold {
     @apply text-gold;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    text-shadow: theme('boxShadow.medal-text');
   }
 
   .lb-medal-silver {
     @apply text-silver;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    text-shadow: theme('boxShadow.medal-text');
   }
 
   .lb-medal-bronze {
     @apply text-bronze;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    text-shadow: theme('boxShadow.medal-text');
   }
 
   /* ========== VIDEO CARD ========== */
@@ -1354,8 +1354,7 @@
     @apply rounded-none overflow-hidden relative mb-6;
     @apply border border-card;
     @apply transition-all duration-300 ease-out;
-    background: linear-gradient(to bottom, rgba(15, 18, 21, 0.96), rgba(8, 9, 11, 0.98));
-    box-shadow: 0 12px 30px rgba(4, 9, 14, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    @apply bg-card-surface shadow-military;
   }
 
   /* Deep link highlight animation - matches FAQ target highlight style */
@@ -1522,63 +1521,12 @@
   }
   /* ========== TABLE COMPONENTS ========== */
 
-  /* Leaderboard table cell */
-  .leaderboard-cell {
-    @apply p-3 text-t border-b border-b-mg/25 font-medium;
-    @apply align-middle leading-[1.2] min-h-14 h-14;
-    @apply transition-all duration-200;
-    background: linear-gradient(to right, rgba(18, 30, 39, 0.75), rgba(9, 15, 20, 0.85));
-  }
-
-  .leaderboard-cell:last-child {
-    @apply font-[Oswald,sans-serif] font-semibold text-right text-[1.15rem] tracking-[0.5px] whitespace-nowrap;
-  }
-
-  tr:nth-child(even) > .leaderboard-cell {
-    background: linear-gradient(to right, rgba(24, 38, 48, 0.78), rgba(14, 24, 31, 0.88));
-  }
-
-  @media not all and screen(md) {
-    .leaderboard-cell {
-      @apply p-2 min-h-[2.75rem] h-[2.75rem];
-    }
-    .leaderboard-cell:last-child {
-      @apply text-[0.95rem];
-    }
-  }
-
-  @media not all and screen(xs) {
-    .leaderboard-cell {
-      @apply p-1.5 min-h-10 h-10;
-    }
-    .leaderboard-cell:last-child {
-      @apply text-[0.85rem];
-    }
-  }
-
-  /* Leaderboard rank cell (first column) */
-  .leaderboard-rank-cell {
-    @apply leaderboard-cell font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16;
-  }
-
-  @media not all and screen(md) {
-    .leaderboard-rank-cell {
-      @apply w-[3.125rem] text-[1rem];
-    }
-  }
-
-  @media not all and screen(xs) {
-    .leaderboard-rank-cell {
-      @apply w-[2.75rem] text-[0.9rem];
-    }
-  }
-
   /* Leaderboard table header */
   .leaderboard-th {
     @apply text-t p-3 text-left;
     @apply font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px];
     @apply align-baseline leading-[1.4];
-    background: linear-gradient(to bottom, rgba(31, 47, 59, 0.92), rgba(18, 30, 39, 0.95));
+    background: theme('backgroundImage.lb-header');
   }
 
   /* Score header - align to right */
@@ -2183,13 +2131,13 @@
   .leaderboard-panel-header {
     @apply p-[15px_20px] relative;
     @apply border-[3px] border-massgate-red-dark;
-    background: linear-gradient(to bottom, #c62828, #8b0000);
+    background: linear-gradient(to bottom, theme('colors.massgate-red.DEFAULT'), theme('colors.massgate-red.dark'));
   }
 
   .leaderboard-panel-title {
     @apply m-0 text-[1.25rem] font-bold text-white uppercase tracking-[1px];
     @apply font-[Oswald,sans-serif];
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: theme('boxShadow.medal-text');
   }
 
   .leaderboard-panel-placeholder {

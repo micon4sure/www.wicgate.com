@@ -719,8 +719,13 @@ script: [
 
 ```typescript
 // tailwind.config.ts - backgroundImage (gradients)
-'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98))',
+'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.5), rgba(9, 15, 20, 0.5))',
 'video-card': 'linear-gradient(180deg, rgba(15, 18, 21, 0.96) 0%, rgba(8, 9, 11, 0.98) 100%)',
+
+// Leaderboard row backgrounds (steel blue, 50% transparent)
+'lb-row': 'linear-gradient(to right, rgba(18, 30, 39, 0.5), rgba(9, 15, 20, 0.5))',
+'lb-row-even': 'linear-gradient(to right, rgba(24, 38, 48, 0.5), rgba(14, 24, 31, 0.5))',
+'lb-header': 'linear-gradient(to bottom, rgba(31, 49, 61, 0.5), rgba(18, 30, 39, 0.5))',
 
 // tailwind.config.ts - colors (solid with opacity)
 'list-item': {
@@ -728,14 +733,20 @@ script: [
   hover: 'rgba(15, 18, 21, 0.55)',     // Hover state
   alt: 'rgba(15, 18, 21, 0.5)',        // Alternative variant
 }
+
+// tailwind.config.ts - boxShadow
+'medal-text': '0 2px 4px rgba(0, 0, 0, 0.8)',  // Medal rank text shadow
 ```
 
 **Token Usage:**
 
 | Token | Type | Used By |
 |-------|------|---------|
-| `bg-card-surface` | Gradient (steel blue) | `.dashboard-card`, `.step-card`, `.faq-item`, `.leaderboard-panel`, `.help-cta-box` |
+| `bg-card-surface` | Gradient (steel blue 50%) | `.dashboard-card`, `.step-card`, `.faq-item`, `.leaderboard-panel`, `.help-cta-box`, `.leaderboard-container` |
 | `bg-video-card` | Gradient (graphite) | `.card` (video cards, community cards) |
+| `bg-lb-row` | Gradient (steel blue 50%) | `.lb-row` (leaderboard data rows) |
+| `bg-lb-row-even` | Gradient (steel blue 50%) | `.lb-row:nth-child(even)` (alternating rows) |
+| `bg-lb-header` | Gradient (steel blue 50%) | `.leaderboard-th` (table headers) |
 | `bg-list-item` | Solid color | `.server-group-card`, `.video-item-card`, `.event-accordion-item`, `.ladder-player-item` |
 | `bg-list-item-hover` | Solid color | Nested item hover states |
 | `bg-list-item-alt` | Solid color | `.event-card`, `.event-accordion-header:hover` |

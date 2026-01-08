@@ -44,14 +44,14 @@ export default {
           muted: '#344654',        // Mid steel accent
         },
 
-        // Panel Colors (AUTHENTIC MASTER BRANCH - military steel blue for cards)
+        // Panel Colors (military steel blue for cards)
         'panel': {
-          DEFAULT: '#121e27',      // Panel main (authentic steel blue from master)
+          DEFAULT: '#121e27',      // Panel main (steel blue)
           dark: '#090f14',         // Panel dark (very dark steel blue)
           alt: '#1f313d',          // Alternating surface
         },
         'panel-striped': {
-          DEFAULT: '#182630',      // Authentic alternating row color from master
+          DEFAULT: '#182630',      // Alternating row color
           dark: '#0e181f',         // Darker alternating row
         },
         'panel-border': {
@@ -195,7 +195,12 @@ export default {
 
         // Card backgrounds
         'video-card': 'linear-gradient(180deg, rgba(15, 18, 21, 0.96) 0%, rgba(8, 9, 11, 0.98) 100%)',
-        'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.95), rgba(9, 15, 20, 0.98))',
+        'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.5), rgba(9, 15, 20, 0.5))',
+
+        // Leaderboard row backgrounds (steel blue, 50% transparent)
+        'lb-row': 'linear-gradient(to right, rgba(18, 30, 39, 0.5), rgba(9, 15, 20, 0.5))',
+        'lb-row-even': 'linear-gradient(to right, rgba(24, 38, 48, 0.5), rgba(14, 24, 31, 0.5))',
+        'lb-header': 'linear-gradient(to bottom, rgba(31, 49, 61, 0.5), rgba(18, 30, 39, 0.5))',
 
         // Navigation backgrounds (graphite gradients)
         'nav-main': 'linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95))',
@@ -225,6 +230,7 @@ export default {
         // Depth/structure shadows
         'texture-depth': '0 6px 25px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.02)',
         'military': '0 12px 30px rgba(4, 9, 14, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04)',
+        'medal-text': '0 2px 4px rgba(0, 0, 0, 0.8)',
 
         // Legacy compatibility (TODO: migrate to core shadows)
         'massgate-panel': '0 4px 20px rgba(139, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03)',
