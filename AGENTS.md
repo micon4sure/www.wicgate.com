@@ -183,7 +183,11 @@ src/
 
 ## Recent Major Updates
 
-### January 8, 2026 - Leaderboard Card Tokens
+### January 8, 2026 - Leaderboard Card Tokens & Unified Anchor Highlights
+- **Unified Anchor Highlight System:** Consolidated FAQ and Statistics deep link highlights
+  - Single `.anchor-highlight` class + `anchor-highlight-pulse` keyframe (was duplicate code)
+  - `ANCHOR_HIGHLIGHT_DELAY` constant (300ms) in `constants.ts`
+  - Both FAQ.vue and Statistics.vue use identical pattern
 - **Leaderboard Background Tokens:** Tokenized Statistics leaderboard card backgrounds
   - `bg-lb-row` / `bg-lb-row-even` - leaderboard data rows (steel blue 50% opacity)
   - `bg-lb-header` - leaderboard table headers (steel blue 50% opacity)
@@ -285,4 +289,4 @@ src/
 **For complete operational rules, see [CLAUDE.md](CLAUDE.md)**
 **For detailed documentation, see [docs/](docs/)**
 
-**Last Updated:** January 8, 2026 (Leaderboard card tokens)
+**Last Updated:** January 8, 2026 (Unified anchor highlights)

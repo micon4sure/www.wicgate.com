@@ -243,4 +243,4 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 ---
 
-*Last Updated: January 8, 2026 (Leaderboard card tokens)*
+*Last Updated: January 8, 2026 (Unified anchor highlights)*

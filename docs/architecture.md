@@ -678,40 +678,60 @@ script: [
 - **Tab Underline** (2 classes): `.tab-btn::before`, `.tab-btn-sub::before`
 - **Section Headers** (5 classes): `.server-group-header`, `.event-accordion-expanded .event-accordion-header`, `.faq-item-open .faq-question-header`, `.leaderboard-header`, `.overlay-header`
 
-### Deep Link Highlight Tokens (January 2026)
+### Deep Link Highlight System (January 2026)
 
-**Glow effect tokens for deep link navigation highlights.** When users navigate to FAQ questions or Statistics leaderboards via deep links, a pulsing glow animation draws attention to the target element.
+**Unified glow effect for deep link navigation.** When users navigate to FAQ questions or Statistics leaderboards via deep links, a pulsing glow animation draws attention to the target element.
 
+**Timing Constant:**
 ```typescript
-// Soviet color group in tailwind.config.ts
+// src/constants.ts
+export const ANCHOR_HIGHLIGHT_DELAY = 300; // Delay before highlight animation (ms)
+```
+
+**Color Tokens:**
+```typescript
+// tailwind.config.ts - soviet color group
 'soviet': {
   DEFAULT: '#ff6600',
-  // ... other variants
-  // Deep link highlight glow - baked-in opacity (theme() opacity modifier fails in @keyframes)
-  'glow-strong': 'rgba(255, 102, 0, 0.7)',  // Initial glow (0%)
-  'glow-medium': 'rgba(255, 102, 0, 0.6)',  // Peak glow (50%)
-  'glow-soft': 'rgba(255, 102, 0, 0.4)',    // Ambient glow
+  // Deep link highlight glow - baked-in opacity (theme() modifier fails in @keyframes)
+  glowStrong: 'rgba(255, 102, 0, 0.7)',  // Initial glow (0%)
+  glowMedium: 'rgba(255, 102, 0, 0.6)',  // Peak glow (50%)
+  glowSoft: 'rgba(255, 102, 0, 0.4)',    // Ambient glow
 },
 ```
 
-**CSS Usage:** Both FAQ and Statistics use identical animation patterns:
+**CSS Animation (shared):**
 ```css
-@keyframes faq-target-highlight {  /* or leaderboard-highlight-pulse */
+/* tailwind.css - single shared animation for FAQ and Statistics */
+.anchor-highlight {
+  animation: anchor-highlight-pulse 2s ease-out;
+}
+
+@keyframes anchor-highlight-pulse {
   0% {
-    box-shadow: 0 0 0 0 theme('colors.soviet.glow-strong'),
-                0 0 20px theme('colors.soviet.glow-soft');
+    box-shadow: 0 0 0 0 theme('colors.soviet.glowStrong'),
+                0 0 20px theme('colors.soviet.glowSoft');
   }
   50% {
     box-shadow: 0 0 0 8px transparent,
-                0 0 30px theme('colors.soviet.glow-medium');
+                0 0 30px theme('colors.soviet.glowMedium');
   }
   100% { /* fades to transparent */ }
 }
 ```
 
-**Affected Components:**
-- **FAQ:** `.faq-question-item:target` - highlights question when navigating to `#question-id`
-- **Statistics:** `.leaderboard-highlight` - applied via JS in `Statistics.vue` after scroll completes
+**Usage Pattern (both FAQ.vue and Statistics.vue):**
+```typescript
+import { ANCHOR_HIGHLIGHT_DELAY } from '../constants';
+
+// After scrolling to element
+setTimeout(() => {
+  element.classList.add('anchor-highlight');
+  setTimeout(() => {
+    element.classList.remove('anchor-highlight');
+  }, 2000);
+}, ANCHOR_HIGHLIGHT_DELAY);
+```
 
 ### Card Background Tokens (January 2026)
 

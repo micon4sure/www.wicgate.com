@@ -22,6 +22,9 @@ export const DEBOUNCE_RESIZE = 150; // Resize handler debounce (ms)
 // Timers
 export const EVENT_COUNTDOWN_INTERVAL = 1000; // Update countdown every second
 
+// Animation Delays
+export const ANCHOR_HIGHLIGHT_DELAY = 300; // Delay before deep link highlight animation (ms)
+
 // Layout Breakpoints (Tailwind defaults + xs custom)
 // xs: 375px (custom), sm: 640px, md: 768px, lg: 1024px, xl: 1280px (site max-width)
 export const BREAKPOINTS = {

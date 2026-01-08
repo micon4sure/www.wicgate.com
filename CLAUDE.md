@@ -86,4 +86,4 @@ npm run build:og     # Regenerate OG images (social sharing)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** January 8, 2026 (Leaderboard card tokens)
+**Updated:** January 8, 2026 (Unified anchor highlights)

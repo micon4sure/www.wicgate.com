@@ -1357,12 +1357,12 @@
     @apply bg-card-surface shadow-military;
   }
 
-  /* Deep link highlight animation - matches FAQ target highlight style */
-  .leaderboard-highlight {
-    animation: leaderboard-highlight-pulse 2s ease-out;
+  /* Deep link highlight animation - shared by FAQ and Statistics */
+  .anchor-highlight {
+    animation: anchor-highlight-pulse 2s ease-out;
   }
 
-  @keyframes leaderboard-highlight-pulse {
+  @keyframes anchor-highlight-pulse {
     0% {
       @apply border-soviet bg-soviet/20 shadow-lg;
       box-shadow: 0 0 0 0 theme('colors.soviet.glowStrong'),
@@ -2183,31 +2183,9 @@
 
   /* ========== FAQ COMPONENTS ========== */
 
-  /* FAQ question item with :target highlight animation */
+  /* FAQ question item base styles (highlight uses shared .anchor-highlight) */
   .faq-question-item {
     @apply transition-all duration-300;
-  }
-
-  .faq-question-item:target {
-    animation: faq-target-highlight 2s ease-out;
-  }
-
-  @keyframes faq-target-highlight {
-    0% {
-      @apply border-soviet bg-soviet/20 shadow-lg;
-      box-shadow: 0 0 0 0 theme('colors.soviet.glowStrong'),
-                  0 0 20px theme('colors.soviet.glowSoft');
-    }
-    50% {
-      @apply border-soviet-light/80;
-      box-shadow: 0 0 0 8px transparent,
-                  0 0 30px theme('colors.soviet.glowMedium');
-    }
-    100% {
-      @apply border-card;
-      box-shadow: 0 0 0 8px transparent,
-                  0 0 0 transparent;
-    }
   }
 
   /* ========== SECTION BACKGROUNDS ========== */

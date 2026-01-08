@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, watch, nextTick } from 'vue';
+import { ANCHOR_HIGHLIGHT_DELAY } from '../constants';
 import Leaderboards from '../components/Leaderboards.vue';
 import LeaderboardSkeleton from '../components/skeletons/LeaderboardSkeleton.vue';
 import type { DataResponse, LeaderboardEntry, LadderEntry, ClanEntry } from '../api-types';
@@ -72,11 +73,13 @@ function handleHashNavigation() {
           behavior: 'smooth',
         });
 
-        // Add highlight effect to draw attention
-        element.classList.add('leaderboard-highlight');
+        // Add highlight effect to draw attention (delay for consistency with FAQ)
         setTimeout(() => {
-          element.classList.remove('leaderboard-highlight');
-        }, 2000);
+          element.classList.add('anchor-highlight');
+          setTimeout(() => {
+            element.classList.remove('anchor-highlight');
+          }, 2000);
+        }, ANCHOR_HIGHLIGHT_DELAY);
 
         // Set active tab if applicable
         if (tabName && leaderboardsRef.value) {

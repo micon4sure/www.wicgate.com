@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { faq } from '../content/content';
+import { ANCHOR_HIGHLIGHT_DELAY } from '../constants';
 import { ref, computed, watch, nextTick, inject } from 'vue';
 import { useRoute } from 'vue-router';
 import { useHead } from '@unhead/vue';
@@ -179,6 +180,14 @@ function scrollToQuestion(questionId: string) {
     if (questionText) {
       openQuestion.value = questionText;
     }
+
+    // Add highlight effect AFTER Vue re-renders from expand (same pattern as Statistics)
+    setTimeout(() => {
+      element.classList.add('anchor-highlight');
+      setTimeout(() => {
+        element.classList.remove('anchor-highlight');
+      }, 2000);
+    }, ANCHOR_HIGHLIGHT_DELAY); // Wait for Vue to finish re-rendering after expand
   }, 300); // Wait for tab content to render
 }
 </script>
