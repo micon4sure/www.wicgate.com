@@ -29,8 +29,16 @@ export function useInternalLinks() {
     // Prevent default browser navigation
     event.preventDefault();
 
+    // Strip the router's base path from href if present
+    // Links include the base for non-JS fallback, but Vue Router expects relative paths
+    const base = import.meta.env.BASE_URL || '/';
+    let routerPath = href;
+    if (base !== '/' && href.startsWith(base)) {
+      routerPath = href.slice(base.length - 1); // Remove base, keep leading slash
+    }
+
     // Use Vue Router for client-side navigation
-    router.push(href);
+    router.push(routerPath);
   }
 
   return { handleContentClick };

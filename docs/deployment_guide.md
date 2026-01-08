@@ -116,6 +116,8 @@ app.provide('appBase', runtimeBase.endsWith('/') ? runtimeBase : runtimeBase + '
 | `src/content/faq/index.ts` | Internal links to `/downloads` in FAQ answers |
 | `src/content/content.ts` | Internal link to `/downloads#quick-install` in Manual Install warning |
 
+**Note:** The `useInternalLinks` composable automatically strips the base path before calling `router.push()`, so links work correctly on both custom domains (`/`) and GitHub Pages (`/www.wicgate.com/`).
+
 **Usage pattern:**
 ```typescript
 const appBase = inject<string>('appBase', '/');
