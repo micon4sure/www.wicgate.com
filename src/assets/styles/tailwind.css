@@ -343,8 +343,15 @@
   }
 
   .server-group-header {
-    @apply flex items-center justify-between gap-2 px-3 py-2 border-b border-mg/30;
+    @apply flex items-center justify-between gap-2 px-3 py-2 border-b border-mg/30 relative overflow-hidden isolate;
     background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+  }
+
+  .server-group-header::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none -z-10;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
+    background-size: 4px 4px;
   }
 
   /* Event card */
@@ -396,7 +403,15 @@
   }
 
   .event-accordion-expanded .event-accordion-header {
+    @apply relative overflow-hidden isolate;
     background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+  }
+
+  .event-accordion-expanded .event-accordion-header::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none -z-10;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
+    background-size: 4px 4px;
   }
 
   .event-accordion-title {
@@ -1288,7 +1303,15 @@
   }
 
   .faq-item-open .faq-question-header {
+    @apply relative overflow-hidden isolate;
     background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+  }
+
+  .faq-item-open .faq-question-header::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none -z-10;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
+    background-size: 4px 4px;
   }
 
   /* FAQ list styling */
@@ -1387,8 +1410,15 @@
 
   /* Header bar */
   .leaderboard-header {
-    @apply p-[20px_24px] relative w-full flex-shrink-0;
+    @apply p-[20px_24px] relative w-full flex-shrink-0 overflow-hidden isolate;
     background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+  }
+
+  .leaderboard-header::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none -z-10;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
+    background-size: 4px 4px;
   }
 
   .leaderboard-header-full {
@@ -2582,8 +2612,15 @@
   }
 
   .overlay-header {
-    @apply py-4 px-6 border-b border-t-dim/20 flex items-center justify-between gap-3;
+    @apply py-4 px-6 border-b border-t-dim/20 flex items-center justify-between gap-3 relative overflow-hidden isolate;
     background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+  }
+
+  .overlay-header::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none -z-10;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
+    background-size: 4px 4px;
   }
 
   .overlay-header .slide-title {
