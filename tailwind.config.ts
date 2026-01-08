@@ -131,9 +131,9 @@ export default {
 
         // List item backgrounds (nested items inside widgets/cards)
         'list-item': {
-          DEFAULT: 'rgba(15, 18, 21, 0.4)',    // server-group, video-item, ladder-player, accordion-item
-          hover: 'rgba(15, 18, 21, 0.55)',     // hover state
-          alt: 'rgba(15, 18, 21, 0.5)',        // event-card, accordion-header hover
+          DEFAULT: 'rgba(15, 18, 21, 0.8)',    // server-group, video-item, ladder-player, accordion-item
+          hover: 'rgba(15, 18, 21, 0.8)',      // hover state
+          alt: 'rgba(15, 18, 21, 0.8)',        // event-card, accordion-header hover
         },
 
         // ========== THEME TOKENS (change these to switch theme) ==========
@@ -197,7 +197,7 @@ export default {
         'video-card': 'linear-gradient(180deg, rgba(15, 18, 21, 0.96) 0%, rgba(8, 9, 11, 0.98) 100%)',
         'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.5), rgba(9, 15, 20, 0.5))',
 
-        // Leaderboard row backgrounds (steel blue, 50% transparent)
+        // Leaderboard row backgrounds (steel blue, 50% opacity)
         'lb-row': 'linear-gradient(to right, rgba(18, 30, 39, 0.5), rgba(9, 15, 20, 0.5))',
         'lb-row-even': 'linear-gradient(to right, rgba(24, 38, 48, 0.5), rgba(14, 24, 31, 0.5))',
         'lb-header': 'linear-gradient(to bottom, rgba(31, 49, 61, 0.5), rgba(18, 30, 39, 0.5))',
