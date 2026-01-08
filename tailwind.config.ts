@@ -148,6 +148,19 @@ export default {
           from: '#9E3800',    // Gradient top (Rust Orange)
           to: '#DD6804',      // Gradient bottom (Tangerine)
         },
+        // Sub-tab retro-tech styling
+        'sub-tab': {
+          active: '#FF9900',      // Vibrant orange (active background)
+          text: '#552200',        // Burnt brown (text color)
+          'gray-light': '#b0b0b0', // Light gray (inactive gradient top)
+          'gray-dark': '#606060',  // Dark gray (inactive gradient bottom)
+        },
+        // Main navigation tab styling (inverse of sub-tabs)
+        'nav-tab': {
+          'inactive-bg': '#1a1a1a',    // Very dark grey (almost black)
+          'inactive-text': '#FF9900',  // Vibrant orange
+          'active-text': '#000000',    // Black text for active
+        },
       },
 
       fontFamily: {

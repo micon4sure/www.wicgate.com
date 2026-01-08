@@ -462,6 +462,7 @@
   /* Header container */
   .header-container {
     @apply h-20 min-h-[80px] px-5 w-full flex items-center justify-center relative;
+    @apply border-t-2 border-b-2 border-black;
   }
 
   /* Diagonal stripe pattern for header */
@@ -603,14 +604,20 @@
     @apply bg-nav-main;
   }
 
-  /* Tab button base */
+  /* Tab button base - retro-tech style */
   .tab-btn {
-    @apply flex-1 cursor-pointer relative mr-px;
-    @apply font-military font-medium uppercase tracking-[1px];
-    @apply border-none text-t-secondary;
+    @apply flex-1 cursor-pointer relative;
+    @apply font-military font-bold uppercase tracking-[1px];
+    @apply border-none;
     @apply transition-all duration-300 ease-out;
     @apply text-nav-xl p-[32px_42px]; /* 16px font, 32px/42px padding at 2xl */
-    background: transparent;
+    background: theme('colors.nav-tab.inactive-bg');
+    color: theme('colors.nav-tab.inactive-text');
+    border-right: 2px solid black;
+  }
+
+  .tab-btn:last-child {
+    border-right: none;
   }
 
   @media not all and screen(md) {
@@ -643,9 +650,31 @@
   @media not all and screen(xs) {
     .tab-btn-xs { @apply text-nav-xs p-[8px_10px]; }
   }
-  /* Leaderboard-specific tab sizing */
+  /* Leaderboard-specific tab - retro-tech style */
   .tab-btn-leaderboard {
-    @apply tab-btn text-nav-sm p-[12px_16px]; /* Compact for leaderboard */
+    @apply flex-1 cursor-pointer relative;
+    @apply font-futuristic font-bold text-nav-sm uppercase tracking-wider;
+    @apply p-[12px_16px] text-center;
+    @apply transition-all duration-200 ease-out;
+    background: linear-gradient(to bottom, theme('colors.sub-tab.gray-light'), theme('colors.sub-tab.gray-dark'));
+    color: theme('colors.sub-tab.text');
+    border-right: 1px solid #808080;
+  }
+
+  .tab-btn-leaderboard:last-child {
+    border-right: none;
+  }
+
+  .tab-btn-leaderboard.tab-btn-active {
+    background: theme('colors.sub-tab.active');
+    color: theme('colors.sub-tab.text');
+    border-right: 2px solid black;
+  }
+
+  @media (hover: hover) {
+    .tab-btn-leaderboard:not(.tab-btn-active):hover {
+      background: linear-gradient(to bottom, #c0c0c0, #707070);
+    }
   }
 
   @media not all and screen(md) {
@@ -655,38 +684,24 @@
   @media not all and screen(xs) {
     .tab-btn-leaderboard { @apply text-caption-md p-[6px_8px]; }
   }
-  /* Tab button active state */
+  /* Tab button active state - gray gradient with black text */
   .tab-btn-active {
-    @apply text-white font-semibold z-10;
-    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
+    @apply font-bold z-10;
+    background: linear-gradient(to bottom, theme('colors.sub-tab.gray-light'), theme('colors.sub-tab.gray-dark'));
+    color: theme('colors.nav-tab.active-text');
   }
 
-  /* Tab button hover (inactive only) */
+  /* Tab button hover (inactive only) - subtle lightening */
   @media (hover: hover) {
     .tab-btn:not(.tab-btn-active):hover {
-      @apply text-massgate-red-bright -translate-y-px;
-      background: rgba(255, 255, 255, 0.03);
+      background: #252525;
+      color: theme('colors.nav-tab.inactive-text');
     }
   }
 
-  /* Shared bottom highlight for tabs */
+  /* Bottom highlight for tabs - disabled for retro-tech style */
   .tab-btn::before {
-    content: '';
-    @apply absolute left-0 right-0 h-[2px] opacity-0;
-    bottom: 0;
-    background: theme('colors.tab-active.accent');
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 -2px 8px color-mix(in srgb, theme('colors.tab-active.accent') 40%, transparent);
-  }
-
-  .tab-btn-active::before {
-    opacity: 1;
-  }
-
-  @media (hover: hover) {
-    .tab-btn:not(.tab-btn-active):hover::before {
-      opacity: 1;
-    }
+    display: none;
   }
 
   /* ========== MAIN NAVIGATION TAB STYLES ========== */
@@ -703,104 +718,75 @@
     @apply xl:text-[19px];
   }
 
-  /* Mobile navigation link (Red gradient active states like desktop) */
-  /* Only visible below lg (1024px) - mobile navigation for xs through md breakpoints */
+  /* Mobile navigation - retro-tech style (below lg 1024px) */
   .nav-mobile-link {
     @apply flex items-center w-full py-4 px-5 min-h-[60px];
-    @apply no-underline font-military text-base font-medium uppercase tracking-wider;
-    @apply bg-transparent transition-all duration-300;
+    @apply no-underline font-military text-base font-bold uppercase tracking-wider;
+    @apply transition-all duration-300;
     @apply relative overflow-hidden text-center justify-center;
     /* xs (375px+): Phone-sized, comfortable */
     @apply xs:py-[18px] xs:px-6 xs:min-h-16 xs:text-[19px];
     /* md (768px+): Tablet-sized, larger touch targets */
     @apply md:min-h-[68px] md:py-5 md:px-7 md:text-xl;
-    @apply text-t-secondary;
-    @apply border-b border-b-white/10;
+    background: theme('colors.nav-tab.inactive-bg');
+    color: theme('colors.nav-tab.inactive-text');
+    border-bottom: 2px solid black;
   }
 
   .nav-mobile-link.active {
-    @apply text-white font-semibold;
-    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
+    @apply font-bold;
+    background: linear-gradient(to bottom, theme('colors.sub-tab.gray-light'), theme('colors.sub-tab.gray-dark'));
+    color: theme('colors.nav-tab.active-text');
   }
 
   /* Tap/click feedback for mobile nav links */
   .nav-mobile-link:active:not(.active) {
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  /* Diagonal stripe pattern for inactive mobile links */
-  .nav-mobile-link::after {
-    content: '';
-    @apply absolute inset-0 pointer-events-none;
-    background-image: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 6px,
-      rgba(255, 255, 255, 0.02) 6px,
-      rgba(255, 255, 255, 0.02) 7px
-    );
-    transition: opacity 0.3s ease-out;
-  }
-
-  .nav-mobile-link.active::after {
-    opacity: 0;
+    background: #252525;
   }
 
   /* ========== SUB-SECTION TAB STYLES ========== */
 
-  /* Sub-tab container - lighter treatment */
+  /* Sub-tab container - retro-tech style with black borders */
   .tab-nav-sub {
     @apply flex relative;
-    @apply border-t border-t-graphite-dark/60;
-    @apply bg-nav-sub;
+    @apply border-t-2 border-b-2 border-black;
   }
 
-  /* Sub-tab button - matches tab-btn-s design */
+  /* Sub-tab button - gray gradient inactive state */
   .tab-btn-sub {
-    @apply flex-1 cursor-pointer relative mr-px;
-    @apply font-[Oswald,sans-serif] font-medium text-[0.95rem] uppercase tracking-[1px];
-    @apply border-none;
-    @apply text-t-secondary;
+    @apply flex-1 cursor-pointer relative;
+    @apply font-futuristic font-bold text-[0.95rem] uppercase tracking-wider;
+    @apply text-center;
     @apply transition-all duration-200 ease-out;
-    @apply py-6 px-10;
-    background: transparent;
+    @apply py-3 px-4;
+    background: linear-gradient(to bottom, theme('colors.sub-tab.gray-light'), theme('colors.sub-tab.gray-dark'));
+    color: theme('colors.sub-tab.text');
+    border-right: 1px solid #808080;
   }
 
-  /* Sub-tab bottom highlight (like main nav) */
-  .tab-btn-sub::before {
-    content: '';
-    @apply absolute left-0 right-0 h-[2px] opacity-0;
-    bottom: 0;
-    background: theme('colors.tab-active.accent');
-    transition: opacity 0.2s ease-out;
+  .tab-btn-sub:last-child {
+    border-right: none;
   }
 
-  /* Sub-tab active - red gradient fill */
+  /* Sub-tab active - solid orange */
   .tab-btn-sub-active {
-    @apply text-white font-bold z-10;
-    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
-  }
-
-  .tab-btn-sub-active::before {
-    opacity: 1;
+    @apply font-bold z-10;
+    background: theme('colors.sub-tab.active');
+    color: theme('colors.sub-tab.text');
+    border-right: 2px solid black;
   }
 
   /* Sub-tab hover */
   @media (hover: hover) {
     .tab-btn-sub:not(.tab-btn-sub-active):hover {
-      @apply text-massgate-red-bright -translate-y-px;
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .tab-btn-sub:not(.tab-btn-sub-active):hover::before {
-      opacity: 1;
+      background: linear-gradient(to bottom, #c0c0c0, #707070);
     }
   }
 
   /* Responsive sub-tab sizing */
   @media not all and screen(md) {
     .tab-btn-sub {
-      @apply py-4 px-5 text-[0.9rem];
+      @apply py-2 px-3 text-[0.85rem];
     }
   }
 
@@ -909,51 +895,56 @@
 
   /* ========== SUB-TAB MOBILE STYLES ========== */
 
-  /* Lighter mobile trigger for sub-tabs */
+  /* Mobile trigger for sub-tabs - retro-tech orange style */
   .tab-mobile-trigger-sub {
     @apply w-full flex items-center justify-between relative;
     @apply px-4 py-3;
-    @apply font-[Rajdhani,sans-serif] font-semibold text-[1.05rem] uppercase tracking-wide;
-    @apply text-white;
-    @apply border-t border-b border-graphite-dark/60;
+    @apply font-futuristic font-bold text-[1.05rem] uppercase tracking-wider;
+    @apply border-t-2 border-b-2 border-black;
     @apply transition-all duration-200;
     @apply cursor-pointer;
-    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
+    background: theme('colors.sub-tab.active');
+    color: theme('colors.sub-tab.text');
   }
 
   .tab-mobile-trigger-sub-open {
-    @apply text-white border-graphite-dark/60;
-    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
+    background: theme('colors.sub-tab.active');
+    color: theme('colors.sub-tab.text');
   }
 
-  /* Lighter dropdown for sub-tabs */
+  /* Mobile dropdown for sub-tabs */
   .tab-mobile-dropdown-sub {
     @apply absolute top-full left-0 right-0 z-50;
-    @apply border border-graphite-dark/60 border-t-0;
+    @apply border-l-2 border-r-2 border-b-2 border-black;
     @apply overflow-hidden;
-    @apply bg-nav-sub;
   }
 
-  /* Sub-tab dropdown option */
+  /* Sub-tab dropdown option - gray gradient */
   .tab-mobile-option-sub {
     @apply w-full flex items-center relative;
     @apply px-4 py-3;
-    @apply font-[Rajdhani,sans-serif] font-medium text-[1.05rem] uppercase tracking-wide;
-    @apply text-t-secondary text-left;
-    @apply border-b border-white/5;
+    @apply font-futuristic font-bold text-[1.05rem] uppercase tracking-wider;
+    @apply text-left;
+    @apply border-b border-gray-500;
     @apply cursor-pointer;
-    background: transparent;
+    background: linear-gradient(to bottom, theme('colors.sub-tab.gray-light'), theme('colors.sub-tab.gray-dark'));
+    color: theme('colors.sub-tab.text');
   }
 
-  /* Active option - matches desktop tab-btn-active */
+  .tab-mobile-option-sub:last-child {
+    border-bottom: none;
+  }
+
+  /* Active option - solid orange */
   .tab-mobile-option-sub-active {
-    @apply text-white font-semibold;
-    background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
+    @apply font-bold;
+    background: theme('colors.sub-tab.active');
+    color: theme('colors.sub-tab.text');
   }
 
   /* Tap/click feedback for sub-tab options */
   .tab-mobile-option-sub:active:not(.tab-mobile-option-sub-active) {
-    background: rgba(255, 255, 255, 0.08);
+    background: linear-gradient(to bottom, #c0c0c0, #707070);
   }
 
   /* Icon styling in sub-tab options - inherit text color */
@@ -1454,10 +1445,10 @@
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 
-  /* Tab bar container */
+  /* Tab bar container - retro-tech style with black borders */
   .leaderboard-tabs {
     @apply flex flex-1 items-stretch relative;
-    background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
+    @apply border-t-2 border-b-2 border-black;
   }
 
   /* Column width utilities for leaderboard tables */
