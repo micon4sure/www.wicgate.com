@@ -669,7 +669,10 @@ script: [
   background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
 }
 .leaderboard-header {
-  background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px),  /* micro-dot mesh */
+    linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+  background-size: 4px 4px, 100% 100%;
 }
 ```
 
