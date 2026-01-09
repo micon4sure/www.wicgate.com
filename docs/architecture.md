@@ -970,42 +970,43 @@ setTimeout(() => {
 
 **All typography uses semantic tokens** defined in `tailwind.config.ts` with fluid scaling via CSS `clamp()`. Enforces 12px minimum font size.
 
-**Token Hierarchy:**
-| Category | Tokens | Size Range | Use Case |
-|----------|--------|------------|----------|
-| Display | `display-xl` to `display-sm` | 20px → 48px | Hero, major headers |
-| Heading | `heading` (unified) | 20px → 26px | ALL panel/card headers |
-| Leaderboard Data | `lbdata` | 16px → 18px | Scores, names, ranks, clan tags |
-| Main Nav | `mainnav` | 19px → 24px | Header navigation tabs |
-| Tab | `tab` (unified) | 14px → 18px | Content tabs, leaderboard tabs |
-| Sub-tab | `subtab` (unified) | 16px → 20px | Secondary navigation tabs |
-| Body | `body-xl` to `body-sm` | 13px → 18px | Content text |
-| Caption | `caption-lg`, `caption-md` | 12px → 13px | UI elements, labels |
+**Token Set (9 tokens):**
+| Token | Size Range | Use Case |
+|-------|------------|----------|
+| `text-hero` | 28px → 36px | Hero title only |
+| `text-heading` | 20px → 26px | All panel/card headers |
+| `text-mainnav` | 19px → 23px | Header navigation tabs |
+| `text-subtab` | 16px → 20px | Secondary navigation tabs |
+| `text-tab` | 14px → 18px | Content tabs, leaderboard tabs |
+| `text-data` | 15px → 19px | Data display (leaderboards, widgets, descriptions, body text) |
+| `text-label` | 13px → 15px | Labels, subtitles |
+| `text-ui` | 12px → 14px | Small UI elements (code blocks, admin UI) |
+| `text-min` | 12px fixed | Badges, absolute minimum |
 
 **Fluid Typography:**
 All tokens use CSS `clamp()` for smooth viewport-based scaling between 375px and 1280px:
 ```typescript
-// Example: text-heading (20px → 26px)
-'heading': ['clamp(1.25rem, 1.0946rem + 0.663vw, 1.625rem)', { lineHeight: '1.3' }]
+// Example: text-data (15px → 19px)
+'data': ['clamp(0.9375rem, 0.8339rem + 0.442vw, 1.1875rem)', { lineHeight: '1.4' }]
 ```
 
 **12px Minimum Enforcement:**
-- `caption-md` is the floor value (12px, no fluid scaling)
+- `text-min` is the floor value (12px, no fluid scaling)
 - All components respect this minimum
 - No font size should go below 12px for readability
 
 **Usage:**
 ```css
-/* Panel headers - use unified text-heading token */
+/* Panel headers */
 .leaderboard-header-title { @apply text-heading; }
 .dashboard-card-header h3 { @apply text-heading; }
-.faq-question-header h4 { @apply text-heading; }
 
-/* Tab buttons - use unified text-tab token */
-.tab-btn { @apply text-tab; }
+/* Data display */
+.lb-cell-score { @apply text-data; }
+.player-name { @apply text-data; }
 
-/* Sub-tabs - use unified text-subtab token */
-.tab-btn-sub { @apply text-subtab; }
+/* Labels */
+.leaderboard-header-subtitle { @apply text-label; }
 ```
 
 ### Dynamic Header Integration

@@ -47,7 +47,7 @@ const tabs = [
               >
                 Recommended for Most Users
               </h3>
-              <p class="text-base lg:text-lg text-t-secondary font-body">
+              <p class="text-data text-t-secondary font-body">
                 WIC LIVE is the fastest way to get playing with one-click installation
               </p>
             </div>
@@ -63,7 +63,7 @@ const tabs = [
                     <h5 class="font-military font-semibold text-heading uppercase text-t mb-2">
                       {{ s.t }}
                     </h5>
-                    <div class="text-base text-t-secondary font-body leading-relaxed">
+                    <div class="text-data text-t-secondary font-body leading-relaxed">
                       <template v-if="s.n === 2">
                         WIC LIVE updates your game for WICGATE servers, installs community maps, and
                         adds quality of life fixes for modern systems. After installation, click the
@@ -104,7 +104,7 @@ const tabs = [
               >
                 Host Your Own 24/7 Server
               </h3>
-              <p class="text-base lg:text-lg text-t-secondary font-body">
+              <p class="text-data text-t-secondary font-body">
                 Run a dedicated World in Conflict server for your community
               </p>
             </div>
@@ -122,7 +122,7 @@ const tabs = [
                         {{ step.t }}
                       </h5>
                       <div
-                        class="text-base text-t-secondary font-body leading-relaxed"
+                        class="text-data text-t-secondary font-body leading-relaxed"
                         v-html="step.c"
                       ></div>
                     </div>
@@ -142,7 +142,7 @@ const tabs = [
                   </div>
                   Network Ports
                 </h5>
-                <p class="text-t-secondary text-base mb-4 font-body leading-relaxed">
+                <p class="text-t-secondary text-data mb-4 font-body leading-relaxed">
                   Forward these ports to your server:
                 </p>
                 <div class="space-y-3">
@@ -152,7 +152,7 @@ const tabs = [
                     class="bg-graphite-dark/60 border border-card p-3 rounded-none"
                   >
                     <div class="flex items-baseline gap-2 mb-1">
-                      <span class="font-mono font-bold text-t text-base">
+                      <span class="font-mono font-bold text-t text-data">
                         {{ port.port }}
                       </span>
                       <span class="text-t-secondary text-xs uppercase font-body">
@@ -181,7 +181,7 @@ const tabs = [
               >
                 Advanced Users Only
               </h3>
-              <p class="text-base lg:text-lg text-t-secondary font-body">
+              <p class="text-data text-t-secondary font-body">
                 Install WICGATE components individually (unsupported)
               </p>
             </div>
@@ -195,12 +195,12 @@ const tabs = [
               </div>
               <div>
                 <h5
-                  class="m-0 mb-2 text-t text-base font-military font-bold uppercase tracking-wide"
+                  class="m-0 mb-2 text-t text-data font-military font-bold uppercase tracking-wide"
                 >
                   {{ manualInstallWarning.title }}
                 </h5>
                 <p
-                  class="m-0 text-t-secondary text-base font-body leading-relaxed"
+                  class="m-0 text-t-secondary text-data font-body leading-relaxed"
                   @click="handleContentClick"
                   v-html="manualInstallWarning.message"
                 ></p>
@@ -219,7 +219,7 @@ const tabs = [
                       {{ step.t }}
                     </h5>
                     <div
-                      class="text-base text-t-secondary font-body leading-relaxed"
+                      class="text-data text-t-secondary font-body leading-relaxed"
                       v-html="step.c"
                     ></div>
                   </div>

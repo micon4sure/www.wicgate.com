@@ -56,7 +56,7 @@ function formatPlayerClanTag(player: {
         <div class="server-group-header">
           <div class="flex items-center gap-2 flex-1 overflow-hidden">
             <span
-              class="text-base font-body font-semibold text-t overflow-hidden text-ellipsis whitespace-nowrap"
+              class="text-data font-body font-semibold text-t overflow-hidden text-ellipsis whitespace-nowrap"
               v-html="colorize(server.serverName)"
             ></span>
           </div>
@@ -103,7 +103,7 @@ function formatPlayerClanTag(player: {
 
     <div
       v-if="serverGroups.length === 0"
-      class="h-full flex items-center justify-center text-t3 font-body text-sm py-8"
+      class="h-full flex items-center justify-center text-t-tertiary font-body text-sm py-8"
     >
       No players online
     </div>

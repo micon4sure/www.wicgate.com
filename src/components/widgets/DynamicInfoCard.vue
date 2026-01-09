@@ -219,7 +219,7 @@ function selectTab(tabId: string) {
                 <div class="server-group-header">
                   <div class="flex items-center gap-2 flex-1 overflow-hidden">
                     <span
-                      class="text-lg font-body font-semibold text-t overflow-hidden text-ellipsis whitespace-nowrap"
+                      class="text-data font-body font-semibold text-t overflow-hidden text-ellipsis whitespace-nowrap"
                       v-html="colorize(server.serverName)"
                     ></span>
                   </div>
@@ -264,7 +264,10 @@ function selectTab(tabId: string) {
                 </div>
               </div>
             </div>
-            <div v-else class="h-full flex items-center justify-center text-t3 font-body text-base">
+            <div
+              v-else
+              class="h-full flex items-center justify-center text-t-tertiary font-body text-data"
+            >
               No players online
             </div>
           </template>
@@ -311,7 +314,10 @@ function selectTab(tabId: string) {
                 </span>
               </div>
             </div>
-            <div v-else class="h-full flex items-center justify-center text-t3 font-body text-base">
+            <div
+              v-else
+              class="h-full flex items-center justify-center text-t-tertiary font-body text-data"
+            >
               No rankings yet
             </div>
           </template>

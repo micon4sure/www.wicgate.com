@@ -176,36 +176,34 @@ export default {
         '9xl': ['clamp(5rem, 3.3425rem + 4.4199vw, 7.5rem)', { lineHeight: '1' }],  // 80px → 120px
 
         // ========== SEMANTIC TOKENS (Fluid) ==========
-        // Display hierarchy (hero, major headers)
-        'display-xl': ['clamp(2.25rem, 1.7527rem + 1.326vw, 3rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],  // 36px → 48px
-        'display-lg': ['clamp(1.75rem, 1.4186rem + 0.884vw, 2.25rem)', { lineHeight: '1.15', letterSpacing: '-0.01em' }],  // 28px → 36px
-        'display-md': ['clamp(1.375rem, 1.1264rem + 0.663vw, 1.75rem)', { lineHeight: '1.2' }],  // 22px → 28px
-        'display-sm': ['clamp(1.25rem, 1.0845rem + 0.442vw, 1.5rem)', { lineHeight: '1.25' }],  // 20px → 24px
+        // All tokens scale fluidly between 375px and 1280px viewports
 
-        // Panel/card header (unified single size for all headers)
+        // Hero title (homepage hero only)
+        'hero': ['clamp(1.75rem, 1.4186rem + 0.884vw, 2.25rem)', { lineHeight: '1.15', letterSpacing: '-0.01em' }],  // 28px → 36px
+
+        // Panel/card headers (leaderboards, dashboard cards, FAQ, overlays, downloads)
         'heading': ['clamp(1.25rem, 1.0946rem + 0.663vw, 1.625rem)', { lineHeight: '1.3' }],  // 20px → 26px
-
-        // Leaderboard data (scores, player names, ranks, clan tags)
-        'lbdata': ['clamp(1rem, 0.9482rem + 0.221vw, 1.125rem)', { lineHeight: '1.4' }],  // 16px → 18px
 
         // Main navigation (header nav tabs)
         'mainnav': ['clamp(1.1875rem, 1.0839rem + 0.442vw, 1.4375rem)', { lineHeight: '1.2', letterSpacing: '0.02em' }],  // 19px → 23px
 
-        // Body hierarchy
-        'body-xl': ['clamp(1rem, 0.9172rem + 0.221vw, 1.125rem)', { lineHeight: '1.6' }],  // 16px → 18px
-        'body-lg': ['clamp(0.9375rem, 0.8961rem + 0.1105vw, 1rem)', { lineHeight: '1.6' }],  // 15px → 16px
-        'body-md': ['clamp(0.875rem, 0.8337rem + 0.1105vw, 0.9375rem)', { lineHeight: '1.5' }],  // 14px → 15px
-        'body-sm': ['clamp(0.8125rem, 0.7638rem + 0.1105vw, 0.875rem)', { lineHeight: '1.5' }],  // 13px → 14px
+        // Sub-tab (secondary navigation tabs)
+        'subtab': ['clamp(1rem, 0.8964rem + 0.442vw, 1.25rem)', { lineHeight: '1.3', letterSpacing: '0.02em' }],  // 16px → 20px
 
-        // Caption/UI hierarchy (minimum 12px enforced)
-        'caption-lg': ['clamp(0.75rem, 0.7086rem + 0.1105vw, 0.8125rem)', { lineHeight: '1.4' }],  // 12px → 13px
-        'caption-md': ['0.75rem', { lineHeight: '1.4' }],  // 12px (MINIMUM - no fluid)
-
-        // Tab buttons (generic tabs, leaderboard tabs, content tabs) - unified single size
+        // Tab buttons (generic tabs, leaderboard tabs, content tabs)
         'tab': ['clamp(0.875rem, 0.7714rem + 0.442vw, 1.125rem)', { lineHeight: '1.2', letterSpacing: '0.03em' }],  // 14px → 18px
 
-        // Sub-tab (secondary navigation tabs) - unified single size
-        'subtab': ['clamp(1rem, 0.8964rem + 0.442vw, 1.25rem)', { lineHeight: '1.3', letterSpacing: '0.02em' }],  // 16px → 20px
+        // Data display (leaderboards, widget stats, hero description)
+        'data': ['clamp(0.9375rem, 0.8339rem + 0.442vw, 1.1875rem)', { lineHeight: '1.4' }],  // 15px → 19px
+
+        // Labels and subtitles (logo, leaderboard headers, stat labels)
+        'label': ['clamp(0.8125rem, 0.7607rem + 0.221vw, 0.9375rem)', { lineHeight: '1.5' }],  // 13px → 15px
+
+        // Small UI elements (link icons, code blocks, secondary text)
+        'ui': ['clamp(0.75rem, 0.6982rem + 0.221vw, 0.875rem)', { lineHeight: '1.4' }],  // 12px → 14px
+
+        // Minimum size (badges, absolute minimum - no fluid scaling)
+        'min': ['0.75rem', { lineHeight: '1.4' }],  // 12px fixed
       },
 
       backgroundImage: {

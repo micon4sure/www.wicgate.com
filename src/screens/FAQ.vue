@@ -292,7 +292,7 @@ function scrollToQuestion(questionId: string) {
                   >
                     <div class="p-5 lg:p-6 bg-graphite-dark/30">
                       <p
-                        class="text-base lg:text-lg text-t-secondary font-body leading-relaxed m-0"
+                        class="text-data text-t-secondary font-body leading-relaxed m-0"
                         @click="handleContentClick"
                         v-html="item.a"
                       ></p>
@@ -315,7 +315,7 @@ function scrollToQuestion(questionId: string) {
         <h4 class="text-heading font-military font-bold text-t uppercase tracking-wider mb-6">
           Still Have Questions?
         </h4>
-        <p class="text-base lg:text-lg text-t-secondary font-body leading-relaxed m-0">
+        <p class="text-data text-t-secondary font-body leading-relaxed m-0">
           Join our
           <a
             href="https://discord.gg/Udbv9UDBBb"

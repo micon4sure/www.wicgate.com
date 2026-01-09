@@ -304,19 +304,19 @@
   }
 
   .dashboard-card-header-action {
-    @apply internal-link text-sm tracking-[0.5px];
+    @apply internal-link text-data tracking-[0.5px];
     @apply flex items-center gap-1.5;
   }
 
   /* New badge for unseen items - 12px minimum */
   .widget-badge-new {
-    @apply bg-youtube text-white text-caption-md font-bold px-1.5 py-0.5 rounded-sm uppercase;
+    @apply bg-youtube text-white text-min font-bold px-1.5 py-0.5 rounded-sm uppercase;
     /* 12px minimum font size */
   }
 
   /* Count badge for inactive tab - 12px minimum */
   .widget-badge-count {
-    @apply bg-white/15 text-white text-caption-md font-bold px-1.5 py-0.5 rounded-sm;
+    @apply bg-white/15 text-white text-min font-bold px-1.5 py-0.5 rounded-sm;
     /* 12px minimum font size */
   }
 
@@ -400,11 +400,11 @@
   }
 
   .event-accordion-title {
-    @apply text-base font-body text-t truncate flex-1;
+    @apply text-data font-body text-t truncate flex-1;
   }
 
   .event-accordion-date {
-    @apply text-sm text-t-tertiary font-body whitespace-nowrap flex items-center gap-1;
+    @apply text-ui text-t-tertiary font-body whitespace-nowrap flex items-center gap-1;
   }
 
   .event-accordion-content {
@@ -491,18 +491,7 @@
   @media not all and screen(xs) {
     .logo-wrapper { @apply min-w-[90px]; }
   }
-  /* Logo title */
-  .logo-title {
-    @apply font-military text-2xl font-bold text-teal uppercase tracking-[2px] select-none leading-none;
-  }
 
-  @media not all and screen(md) {
-    .logo-title { @apply text-lg; }
-  }
-
-  @media not all and screen(xs) {
-    .logo-title { @apply text-body-sm; }
-  }
   /* Logo image - responsive sizing */
   .logo-image {
     @apply h-10 w-auto select-none;
@@ -515,16 +504,6 @@
   @media not all and screen(xs) {
     .logo-image { @apply h-8; }
   }
-  /* Logo subtitle - 12px minimum enforced */
-  .logo-subtitle {
-    @apply font-body text-caption-lg font-medium text-battlefield-mist uppercase tracking-[1px] mt-0.5 leading-none;
-    /* 13px base - never goes below 12px */
-  }
-
-  @media not all and screen(md) {
-    .logo-subtitle { @apply text-caption-md; }
-  }
-  /* No further reductions - 12px is the floor */
 
   /* Hamburger menu button */
   .hamburger-btn {
@@ -638,7 +617,7 @@
   }
 
   @media not all and screen(xs) {
-    .tab-btn-leaderboard { @apply text-caption-md p-[6px_8px]; }
+    .tab-btn-leaderboard { @apply text-min p-[6px_8px]; }
   }
   /* Tab button active state */
   .tab-btn-active {
@@ -803,7 +782,7 @@
   .tab-mobile-trigger {
     @apply w-full flex items-center justify-between relative;
     @apply px-5 py-4;
-    @apply font-military font-semibold text-body-xl uppercase tracking-wider;
+    @apply font-military font-semibold text-data uppercase tracking-wider;
     @apply text-t-secondary;
     @apply border-t border-b border-graphite-dark/60;
     @apply transition-all duration-300;
@@ -841,7 +820,7 @@
   .tab-mobile-option {
     @apply w-full flex items-center relative;
     @apply px-5 py-4;
-    @apply font-military font-medium text-body-xl uppercase tracking-wider;
+    @apply font-military font-medium text-data uppercase tracking-wider;
     @apply text-t-secondary text-left;
     @apply border-b border-white/5;
     @apply transition-all duration-200;
@@ -1138,7 +1117,7 @@
 
   /* Rank cell (first column) */
   .lb-cell-rank {
-    @apply lb-cell font-[Oswald,sans-serif] font-bold text-lbdata text-center w-16;
+    @apply lb-cell font-[Oswald,sans-serif] font-bold text-data text-center w-16;
   }
 
   @media not all and screen(md) {
@@ -1155,9 +1134,9 @@
 
   /* Score cell (last column) */
   .lb-cell-score {
-    @apply lb-cell font-[Oswald,sans-serif] font-semibold text-right text-lbdata tracking-[0.5px] whitespace-nowrap;
+    @apply lb-cell font-[Oswald,sans-serif] font-semibold text-right text-data tracking-[0.5px] whitespace-nowrap;
   }
-  /* text-lbdata scales fluidly (16px → 18px), no breakpoint overrides needed */
+  /* text-data scales fluidly (16px → 18px), no breakpoint overrides needed */
 
   /* Insignia cell */
   .lb-cell-insignia {
@@ -1187,17 +1166,17 @@
 
   /* Clan tag styling - unified with other leaderboard data */
   .lb-clan-tag {
-    @apply font-mono text-massgate-orange font-semibold text-lbdata;
+    @apply font-mono text-massgate-orange font-semibold text-data;
     @apply inline-block align-middle leading-[1.2] m-0 p-0 flex-shrink-0;
   }
-  /* text-lbdata scales fluidly (16px → 18px), no breakpoint overrides needed */
+  /* text-data scales fluidly (16px → 18px), no breakpoint overrides needed */
 
   /* Player name styling - truncate to prevent overflow at mobile */
   .lb-player-name {
-    @apply font-[Rajdhani,sans-serif] text-t font-semibold text-lbdata tracking-[0.3px];
+    @apply font-[Rajdhani,sans-serif] text-t font-semibold text-data tracking-[0.3px];
     @apply inline-block align-middle leading-[1.2] m-0 truncate min-w-0;
   }
-  /* text-lbdata scales fluidly (16px → 18px), no breakpoint overrides needed */
+  /* text-data scales fluidly (16px → 18px), no breakpoint overrides needed */
   /* Medal colors for top 3 ranks */
   .lb-medal-gold {
     @apply text-gold;
@@ -1388,7 +1367,7 @@
   /* text-heading scales fluidly (20px → 26px), no breakpoint overrides needed */
 
   .leaderboard-header-subtitle {
-    @apply font-[Rajdhani,sans-serif] font-medium m-[5px_0_0_0] text-t-secondary uppercase tracking-[0.5px] text-body-sm;
+    @apply font-[Rajdhani,sans-serif] font-medium m-[5px_0_0_0] text-t-secondary uppercase tracking-[0.5px] text-label;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 
@@ -1492,7 +1471,7 @@
   /* Leaderboard table header */
   .leaderboard-th {
     @apply text-t p-3 text-left;
-    @apply font-[Oswald,sans-serif] font-semibold text-body-sm uppercase tracking-[1px];
+    @apply font-[Oswald,sans-serif] font-semibold text-data uppercase tracking-[1px];
     @apply align-baseline leading-[1.4];
     background: theme('backgroundImage.lb-header');
   }
@@ -1502,12 +1481,6 @@
     @apply text-right;
   }
 
-  @media not all and screen(md) {
-    .leaderboard-th {
-      @apply text-caption-lg;
-    }
-  }
-
   /* Leaderboard row hover */
   .leaderboard-row:hover > td {
     @apply bg-gradient-to-r from-massgate-orange/22 to-massgate-orange/15 !border-massgate-orange/40;
@@ -1515,21 +1488,21 @@
 
   /* Clan tag styling - unified with other leaderboard data */
   .clan-tag {
-    @apply font-mono text-massgate-orange font-semibold text-lbdata;
+    @apply font-mono text-massgate-orange font-semibold text-data;
     @apply inline align-middle leading-[1.2] m-0 p-0;
   }
-  /* text-lbdata scales fluidly (16px → 18px), no breakpoint overrides needed */
+  /* text-data scales fluidly (16px → 18px), no breakpoint overrides needed */
 
   /* Player name styling */
   .player-name {
-    @apply font-[Rajdhani,sans-serif] text-t font-semibold text-lbdata tracking-[0.3px];
+    @apply font-[Rajdhani,sans-serif] text-t font-semibold text-data tracking-[0.3px];
     @apply inline align-middle leading-[1.2] m-0;
   }
-  /* text-lbdata scales fluidly (16px → 18px), no breakpoint overrides needed */
+  /* text-data scales fluidly (16px → 18px), no breakpoint overrides needed */
 
   /* Ladder/Top Players rank styling */
   .ladder-rank {
-    @apply w-7 h-7 flex items-center justify-center bg-mg/40 text-t text-base font-bold;
+    @apply w-7 h-7 flex items-center justify-center bg-mg/40 text-t text-data font-bold;
     @apply font-military flex-shrink-0 rounded-none;
   }
 
@@ -1546,7 +1519,7 @@
   }
 
   .ladder-score {
-    @apply text-base font-military font-bold flex-shrink-0 text-t;
+    @apply text-data font-military font-bold flex-shrink-0 text-t;
   }
 
   .ladder-score.rank-1 {
@@ -1678,14 +1651,14 @@
 
   /* Hero badge (THE WAR CONTINUES) - 12px minimum */
   .hero-badge {
-    @apply inline-block py-1.5 px-4 font-military text-xs font-bold tracking-widest uppercase mb-5;
+    @apply inline-block py-1.5 px-4 font-military text-min font-bold tracking-widest uppercase mb-5;
     @apply text-soviet border border-soviet/40;
     background: linear-gradient(to bottom, rgba(31, 47, 59, 0.4), rgba(18, 30, 39, 0.6));
     box-shadow: 0 0 15px rgba(255, 102, 0, 0.15);
   }
 
   @media not all and screen(md) {
-    .hero-badge { @apply py-1 px-3 text-caption-md mb-4; }
+    .hero-badge { @apply py-1 px-3 text-min mb-4; }
   }
   /* Hero WIC Logo (above title) */
   .hero-wic-logo {
@@ -1734,42 +1707,27 @@
 
   /* Hero subtitle (Multiplayer Reloaded) - responsive typography */
   .hero-subtitle {
-    @apply inline text-display-lg text-massgate-red-bright font-futuristic font-bold uppercase tracking-wider;
+    @apply inline text-hero text-massgate-red-bright font-futuristic font-bold uppercase tracking-wider;
     /* 36px at md and up */
     font-style: italic;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
   }
 
   @media not all and screen(md) {
-    .hero-subtitle { @apply text-display-md; }
+    .hero-subtitle { @apply text-heading; }
   }
 
   @media not all and screen(xs) {
-    .hero-subtitle { @apply text-lg; }
+    .hero-subtitle { @apply text-label; }
   }
   /* Hero description text */
   .hero-desc {
-    @apply text-body-xl text-t leading-relaxed font-body font-semibold;
-    /* 18px at 2xl (golden standard) */
+    @apply text-data text-t leading-relaxed font-body font-semibold;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
-  }
-
-  @media not all and screen(md) {
-    .hero-desc { @apply text-body-md; }
-  }
-
-  @media not all and screen(xs) {
-    .hero-desc { @apply text-caption-lg; }
   }
   .hero-desc-secondary {
-    @apply text-base text-t-secondary leading-relaxed font-body;
+    @apply text-data text-t-secondary leading-relaxed font-body;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
-  }
-
-  @media not all and screen(md) {
-    .hero-desc-secondary {
-      @apply text-body-sm;
-    }
   }
 
   /* Hero CTA button */
@@ -2038,7 +1996,7 @@
 
   @media not all and screen(md) {
     .twitch-play-btn {
-      @apply px-6 py-4 text-body-md gap-2;
+      @apply px-6 py-4 text-label gap-2;
     }
   }
 
@@ -2234,7 +2192,7 @@
   }
 
   .section-lead {
-    @apply text-base text-t-secondary font-body leading-relaxed max-w-2xl mx-auto;
+    @apply text-data text-t-secondary font-body leading-relaxed max-w-2xl mx-auto;
   }
 
   /* Grid utilities */
@@ -2290,7 +2248,7 @@
   /* Smaller play button for compact thumbnails - 12px minimum */
   .play-over-sm {
     @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
-    @apply w-8 h-6 bg-youtube/90 text-white rounded-md text-caption-md;
+    @apply w-8 h-6 bg-youtube/90 text-white rounded-md text-min;
     @apply flex items-center justify-center opacity-100;
     @apply transition-all duration-300;
     /* 12px minimum font size */
@@ -2415,7 +2373,7 @@
   }
 
   .seo-content p {
-    @apply mb-4 font-body text-base;
+    @apply mb-4 font-body text-data;
   }
 
   /* ========== VUE TRANSITIONS ========== */
@@ -2487,7 +2445,7 @@
   }
 
   .error-message {
-    @apply text-t-secondary text-base mb-8 leading-relaxed;
+    @apply text-t-secondary text-data mb-8 leading-relaxed;
   }
 
   .error-actions {
@@ -2617,7 +2575,7 @@
   }
 
   .highlight-box p {
-    @apply text-base text-t-secondary leading-relaxed font-body m-0;
+    @apply text-data text-t-secondary leading-relaxed font-body m-0;
   }
 
   .cta-box {
@@ -2667,23 +2625,23 @@
 
   /* Widget player name (Top Players widget, DynamicInfoCard) */
   .widget-player-name {
-    @apply font-body text-t font-semibold text-base tracking-[0.3px];
+    @apply font-body text-t font-semibold text-data tracking-[0.3px];
     @apply overflow-hidden text-ellipsis whitespace-nowrap;
   }
 
   /* Widget clan tag */
   .widget-clan-tag {
-    @apply font-mono text-soviet font-semibold text-body-sm tracking-[0.3px] flex-shrink-0;
+    @apply font-mono text-soviet font-semibold text-label tracking-[0.3px] flex-shrink-0;
   }
 
   /* Smaller clan tag variant (DynamicInfoCard online players) */
   .widget-clan-tag-sm {
-    @apply font-mono text-soviet font-semibold text-body-sm tracking-[0.2px] align-middle;
+    @apply font-mono text-soviet font-semibold text-label tracking-[0.2px] align-middle;
   }
 
   /* Smaller player name variant (DynamicInfoCard) */
   .widget-player-name-sm {
-    @apply font-body text-t text-body-md tracking-[0.2px] align-middle;
+    @apply font-body text-t text-label tracking-[0.2px] align-middle;
   }
 
   /* ========== COPY LINK BUTTONS ========== */
@@ -2763,7 +2721,7 @@
     content: '\f019'; /* fa-download */
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
-    @apply ml-[0.25em] text-caption-lg;
+    @apply ml-[0.25em] text-data;
   }
 
   /* External link - for external services (Discord, GOG, etc.) */
@@ -2775,7 +2733,7 @@
     content: '\f08e'; /* fa-arrow-up-right-from-square (external link) */
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
-    @apply ml-[0.25em] text-caption-lg;
+    @apply ml-[0.25em] text-data;
   }
 
   /* Below lg (768px) - tablets and phones */
@@ -3006,7 +2964,7 @@
   }
 
   .admin-log-line {
-    @apply font-mono text-caption-lg leading-snug py-0.5;
+    @apply font-mono text-ui leading-snug py-0.5;
   }
 
   .log-ERROR {
@@ -3030,11 +2988,11 @@
   }
 
   .admin-textarea {
-    @apply w-full bg-[#1a1a1a] text-white border border-[#333] p-3 font-mono text-caption-lg resize-y;
+    @apply w-full bg-[#1a1a1a] text-white border border-[#333] p-3 font-mono text-ui resize-y;
   }
 
   .admin-remote-title {
-    @apply flex items-center gap-3 mb-4 text-base uppercase tracking-wide;
+    @apply flex items-center gap-3 mb-4 text-data uppercase tracking-wide;
   }
 
   .admin-remote-title i {
@@ -3055,7 +3013,7 @@
   }
 
   .admin-players-table th {
-    @apply bg-[#1a1a1a] uppercase text-caption-md tracking-wide text-[#888];
+    @apply bg-[#1a1a1a] uppercase text-min tracking-wide text-[#888];
   }
 
   .admin-kick-btn {
@@ -3071,7 +3029,7 @@
   }
 
   .admin-remote-output pre {
-    @apply m-0 font-mono text-caption-lg text-[#a0aec0];
+    @apply m-0 font-mono text-ui text-[#a0aec0];
   }
 
   @media not all and screen(md) {

@@ -264,7 +264,7 @@ function openVideo(video: YouTubeVideo) {
                       </div>
                       <div class="p-4">
                         <p
-                          class="text-base text-t-secondary font-body m-0 mb-3 line-clamp-3 leading-relaxed"
+                          class="text-data text-t-secondary font-body m-0 mb-3 line-clamp-3 leading-relaxed"
                         >
                           {{ event.description }}
                         </p>
@@ -273,7 +273,7 @@ function openVideo(video: YouTubeVideo) {
 
                     <!-- Event without Cover Image -->
                     <div v-else class="p-4">
-                      <p class="text-base text-t-secondary font-body m-0 leading-relaxed">
+                      <p class="text-data text-t-secondary font-body m-0 leading-relaxed">
                         {{ event.description }}
                       </p>
                     </div>
@@ -317,14 +317,14 @@ function openVideo(video: YouTubeVideo) {
                   </div>
                   <!-- New video indicator -->
                   <div v-if="isNewVideo(video.id)" class="absolute top-0 left-0">
-                    <span class="widget-badge-new text-caption-md px-1 py-0.5">NEW</span>
+                    <span class="widget-badge-new text-min px-1 py-0.5">NEW</span>
                   </div>
                 </div>
                 <div class="flex-1 overflow-hidden">
-                  <p class="text-base font-body font-semibold text-t m-0 line-clamp-2 leading-snug">
+                  <p class="text-data font-body font-semibold text-t m-0 line-clamp-2 leading-snug">
                     {{ video.title }}
                   </p>
-                  <div class="text-sm text-t3 font-body mt-1">
+                  <div class="text-sm text-t-tertiary font-body mt-1">
                     <span v-if="video.author">{{ video.author }}</span>
                     <span v-if="video.views != null">
                       {{ video.author ? ' • ' : '' }}{{ video.views.toLocaleString() }} views</span
@@ -336,7 +336,10 @@ function openVideo(video: YouTubeVideo) {
                 </div>
               </div>
             </div>
-            <div v-else class="h-full flex items-center justify-center text-t3 font-body text-base">
+            <div
+              v-else
+              class="h-full flex items-center justify-center text-t-tertiary font-body text-data"
+            >
               No videos yet
             </div>
           </template>

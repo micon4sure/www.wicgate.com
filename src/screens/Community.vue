@@ -133,7 +133,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
           <!-- Tab: Latest Videos -->
           <template #videos-latest>
             <div class="py-8 lg:py-10">
-              <div v-if="ytVideosSorted.length === 0" class="text-t3 text-center py-10">
+              <div v-if="ytVideosSorted.length === 0" class="text-t-tertiary text-center py-10">
                 No videos available
               </div>
               <div v-else class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
