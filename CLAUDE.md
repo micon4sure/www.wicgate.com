@@ -47,9 +47,7 @@ npm run build:og     # Regenerate OG images (social sharing)
     - ❌ NEVER use hardcoded pixel values like `@media (max-width: 767px)`
     - ✅ Use `@media screen(md)` for min-width, `@media not all and screen(md)` for max-width
     - See `tailwind.css` header comment for pattern reference
-13. ✅ ALWAYS enforce 12px minimum font size at small breakpoints
-    - ❌ NEVER use font sizes below `text-ui` (12px min)
-    - ✅ Use semantic typography tokens: `text-hero`, `text-heading`, `text-mainnav`, `text-subtab`, `text-tab`, `text-data`, `text-label`, `text-ui`
+13. ✅ ALWAYS use semantic typography tokens: `text-hero`, `text-heading`, `text-mainnav`, `text-subtab`, `text-tab`, `text-data`, `text-label`
     - All tokens use fluid scaling via CSS `clamp()` - no breakpoint overrides needed
     - See `tailwind.config.ts` for the complete typography scale
 14. ✅ ALWAYS use unified link classes for inline text links (gold themed)

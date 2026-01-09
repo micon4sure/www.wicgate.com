@@ -978,9 +978,8 @@ setTimeout(() => {
 | `text-mainnav` | 19px → 23px | Header navigation tabs |
 | `text-subtab` | 16px → 20px | Secondary navigation tabs |
 | `text-tab` | 14px → 18px | Content tabs, leaderboard tabs |
-| `text-data` | 15px → 19px | Data display (leaderboards, widgets, descriptions, body text) |
+| `text-data` | 15px → 19px | Data display (leaderboards, widgets, descriptions, body text, badges, admin UI) |
 | `text-label` | 13px → 15px | Labels, subtitles |
-| `text-ui` | 12px → 14px | Small UI elements (badges, code blocks, admin UI) |
 
 **Fluid Typography:**
 All tokens use CSS `clamp()` for smooth viewport-based scaling between 320px and 1440px:
@@ -988,11 +987,6 @@ All tokens use CSS `clamp()` for smooth viewport-based scaling between 320px and
 // Example: text-data (15px → 19px)
 'data': ['clamp(0.9375rem, 0.866rem + 0.357vw, 1.1875rem)', { lineHeight: '1.4' }]
 ```
-
-**12px Minimum Enforcement:**
-- `text-ui` is the smallest token (12px → 14px)
-- All components respect this minimum
-- No font size should go below 12px for readability
 
 **Usage:**
 ```css

@@ -199,9 +199,6 @@ export default {
 
         // Labels and subtitles (logo, leaderboard headers, stat labels)
         'label': ['clamp(0.8125rem, 0.777rem + 0.179vw, 0.9375rem)', { lineHeight: '1.5' }],  // 13px → 15px
-
-        // Small UI elements (badges, link icons, code blocks, secondary text)
-        'ui': ['clamp(0.75rem, 0.714rem + 0.179vw, 0.875rem)', { lineHeight: '1.4' }],  // 12px → 14px
       },
 
       backgroundImage: {
