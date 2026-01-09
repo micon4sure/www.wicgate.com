@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🎨 **World Map Background** - Added `website_background.svg` as unified site-wide background with dark slate teal theme: SVG styled with `rgba(20,50,55,.5)` fill, body uses `--bg-tint` CSS variable (`15, 35, 40`) for section overlay gradients, removed section-specific background images (`hero_picture.png`, `ru_pr_*.png`), removed hero overlay divs (`hero-overlay-dark/gradient/atmospheric`), card opacity tuning (`card-surface` 60%, `border-card` 30%, `border-card-inner` 20%) - change `--bg-tint` in `:root` to update all section overlays at once (Jan 9)
 - 🐛 **Fix: Community Video Grid** - Creator video tabs now use same breakpoints as Latest Videos tab: `lg:grid-cols-2 xl:grid-cols-3` (was only `xl:grid-cols-2`) (Jan 9)
 - 🎨 **Play Button Icon Sizes** - Hardcoded play button icons for consistent sizing: `.play-over` (large) 18px, `.play-over-sm` (compact) 10px - proportional to container sizes (68×48px and 32×24px) (Jan 9)
 - 🧹 **Removed text-ui Token** - Replaced `text-ui` (12px → 14px) with `text-data` (15px → 19px): badges, admin UI, code blocks now use `text-data`, removed ghost `.hero-badge` CSS class (unused), typography tokens reduced from 8 → 7 (Jan 9)

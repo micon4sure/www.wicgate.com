@@ -62,7 +62,7 @@ function handleKeyPress(event: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="min-h-screen bg-texture-dark flex items-center justify-center p-5">
+  <div class="min-h-screen flex items-center justify-center p-5">
     <div
       class="w-full max-w-md bg-gradient-to-br from-texture-panel/95 to-texture-dark/95 border-2 border-massgate-red/85 rounded-none p-8 shadow-massgate-glow"
     >

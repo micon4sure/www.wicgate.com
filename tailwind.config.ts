@@ -207,7 +207,7 @@ export default {
 
         // Card backgrounds
         'video-card': 'linear-gradient(180deg, rgba(15, 18, 21, 0.96) 0%, rgba(8, 9, 11, 0.98) 100%)',
-        'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.5), rgba(9, 15, 20, 0.5))',
+        'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.6), rgba(9, 15, 20, 0.6))',
 
         // Leaderboard row backgrounds (steel blue, 50% opacity)
         'lb-row': 'linear-gradient(to right, rgba(18, 30, 39, 0.5), rgba(9, 15, 20, 0.5))',
@@ -286,8 +286,8 @@ export default {
       },
 
       borderColor: {
-        'card': 'rgba(255, 255, 255, 0.25)',  // Outer card border
-        'card-inner': 'rgba(255, 255, 255, 0.15)',  // Nested card border (cards inside cards)
+        'card': 'rgba(255, 255, 255, 0.3)',  // Outer card border
+        'card-inner': 'rgba(255, 255, 255, 0.2)',  // Nested card border (cards inside cards)
         'card-hover': 'rgba(255, 202, 40, 0.6)',  // Gold hover border (standard)
         'card-hover-subtle': 'rgba(255, 202, 40, 0.5)',  // Gold hover border (subtle)
       },

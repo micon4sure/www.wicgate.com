@@ -143,7 +143,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-texture-dark p-5">
+  <div class="min-h-screen p-5">
     <div class="max-w-4xl mx-auto">
       <!-- Header -->
       <div class="flex justify-between items-center mb-8 pt-8">

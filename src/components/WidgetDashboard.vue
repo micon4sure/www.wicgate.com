@@ -85,11 +85,6 @@ function goToSection(sectionOrSubsectionId: string) {
 
 <template>
   <section id="hero" ref="heroSection" class="hero-section hero-section-with-image-bg">
-    <!-- Atmospheric overlays -->
-    <div class="hero-overlay-dark"></div>
-    <div class="hero-overlay-gradient"></div>
-    <div class="hero-overlay-atmospheric"></div>
-
     <div class="hero-container">
       <!-- Hero Header -->
       <div class="hero-main-card-wrapper">
