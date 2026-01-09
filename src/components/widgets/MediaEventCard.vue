@@ -317,7 +317,7 @@ function openVideo(video: YouTubeVideo) {
                   </div>
                   <!-- New video indicator -->
                   <div v-if="isNewVideo(video.id)" class="absolute top-0 left-0">
-                    <span class="widget-badge-new text-min px-1 py-0.5">NEW</span>
+                    <span class="widget-badge-new text-ui px-1 py-0.5">NEW</span>
                   </div>
                 </div>
                 <div class="flex-1 overflow-hidden">

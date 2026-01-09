@@ -157,10 +157,11 @@ export default {
         'futuristic': ['Orbitron', 'sans-serif'],
       },
 
-      // Fluid Typography Scale (clamp from 375px to 1280px viewport)
-      // Formula: clamp(min, intercept + slope*vw, max) where slope = (max-min)/905
+      // Fluid Typography Scale
+      // Formula: clamp(min, intercept + slope*vw, max)
       fontSize: {
-        // ========== STANDARD TAILWIND SCALE (Fluid) ==========
+        // ========== STANDARD TAILWIND SCALE (Fluid, 375px-1280px) ==========
+        // slope = (max-min)/905
         'xs': ['0.75rem', { lineHeight: '1rem' }],  // 12px - MINIMUM, no fluid
         'sm': ['clamp(0.8125rem, 0.7638rem + 0.1105vw, 0.875rem)', { lineHeight: '1.25rem' }],  // 13px → 14px
         'base': ['clamp(0.9375rem, 0.8132rem + 0.3315vw, 1.125rem)', { lineHeight: '1.5rem' }],  // 15px → 18px
@@ -175,35 +176,32 @@ export default {
         '8xl': ['clamp(4rem, 2.674rem + 3.5359vw, 6rem)', { lineHeight: '1' }],  // 64px → 96px
         '9xl': ['clamp(5rem, 3.3425rem + 4.4199vw, 7.5rem)', { lineHeight: '1' }],  // 80px → 120px
 
-        // ========== SEMANTIC TOKENS (Fluid) ==========
-        // All tokens scale fluidly between 375px and 1280px viewports
+        // ========== SEMANTIC TOKENS (Fluid, 320px-1440px) ==========
+        // slope = (max-min)/1120
 
         // Hero title (homepage hero only)
-        'hero': ['clamp(1.75rem, 1.4186rem + 0.884vw, 2.25rem)', { lineHeight: '1.15', letterSpacing: '-0.01em' }],  // 28px → 36px
+        'hero': ['clamp(1.75rem, 1.607rem + 0.714vw, 2.25rem)', { lineHeight: '1.15', letterSpacing: '-0.01em' }],  // 28px → 36px
 
         // Panel/card headers (leaderboards, dashboard cards, FAQ, overlays, downloads)
-        'heading': ['clamp(1.25rem, 1.0946rem + 0.663vw, 1.625rem)', { lineHeight: '1.3' }],  // 20px → 26px
+        'heading': ['clamp(1.25rem, 1.143rem + 0.536vw, 1.625rem)', { lineHeight: '1.3' }],  // 20px → 26px
 
         // Main navigation (header nav tabs)
-        'mainnav': ['clamp(1.1875rem, 1.0839rem + 0.442vw, 1.4375rem)', { lineHeight: '1.2', letterSpacing: '0.02em' }],  // 19px → 23px
+        'mainnav': ['clamp(1.1875rem, 1.116rem + 0.357vw, 1.4375rem)', { lineHeight: '1.2', letterSpacing: '0.02em' }],  // 19px → 23px
 
         // Sub-tab (secondary navigation tabs)
-        'subtab': ['clamp(1rem, 0.8964rem + 0.442vw, 1.25rem)', { lineHeight: '1.3', letterSpacing: '0.02em' }],  // 16px → 20px
+        'subtab': ['clamp(1rem, 0.929rem + 0.357vw, 1.25rem)', { lineHeight: '1.3', letterSpacing: '0.02em' }],  // 16px → 20px
 
         // Tab buttons (generic tabs, leaderboard tabs, content tabs)
-        'tab': ['clamp(0.875rem, 0.7714rem + 0.442vw, 1.125rem)', { lineHeight: '1.2', letterSpacing: '0.03em' }],  // 14px → 18px
+        'tab': ['clamp(0.875rem, 0.804rem + 0.357vw, 1.125rem)', { lineHeight: '1.2', letterSpacing: '0.03em' }],  // 14px → 18px
 
         // Data display (leaderboards, widget stats, hero description)
-        'data': ['clamp(0.9375rem, 0.8339rem + 0.442vw, 1.1875rem)', { lineHeight: '1.4' }],  // 15px → 19px
+        'data': ['clamp(0.9375rem, 0.866rem + 0.357vw, 1.1875rem)', { lineHeight: '1.4' }],  // 15px → 19px
 
         // Labels and subtitles (logo, leaderboard headers, stat labels)
-        'label': ['clamp(0.8125rem, 0.7607rem + 0.221vw, 0.9375rem)', { lineHeight: '1.5' }],  // 13px → 15px
+        'label': ['clamp(0.8125rem, 0.777rem + 0.179vw, 0.9375rem)', { lineHeight: '1.5' }],  // 13px → 15px
 
-        // Small UI elements (link icons, code blocks, secondary text)
-        'ui': ['clamp(0.75rem, 0.6982rem + 0.221vw, 0.875rem)', { lineHeight: '1.4' }],  // 12px → 14px
-
-        // Minimum size (badges, absolute minimum - no fluid scaling)
-        'min': ['0.75rem', { lineHeight: '1.4' }],  // 12px fixed
+        // Small UI elements (badges, link icons, code blocks, secondary text)
+        'ui': ['clamp(0.75rem, 0.714rem + 0.179vw, 0.875rem)', { lineHeight: '1.4' }],  // 12px → 14px
       },
 
       backgroundImage: {

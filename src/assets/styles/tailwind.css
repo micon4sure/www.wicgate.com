@@ -308,16 +308,14 @@
     @apply flex items-center gap-1.5;
   }
 
-  /* New badge for unseen items - 12px minimum */
+  /* New badge for unseen items */
   .widget-badge-new {
-    @apply bg-youtube text-white text-min font-bold px-1.5 py-0.5 rounded-sm uppercase;
-    /* 12px minimum font size */
+    @apply bg-youtube text-white text-ui font-bold px-1.5 py-0.5 rounded-sm uppercase;
   }
 
-  /* Count badge for inactive tab - 12px minimum */
+  /* Count badge for inactive tab */
   .widget-badge-count {
-    @apply bg-white/15 text-white text-min font-bold px-1.5 py-0.5 rounded-sm;
-    /* 12px minimum font size */
+    @apply bg-white/15 text-white text-ui font-bold px-1.5 py-0.5 rounded-sm;
   }
 
   /* Players Modal Grid - screenshot-friendly layout */
@@ -617,7 +615,7 @@
   }
 
   @media not all and screen(xs) {
-    .tab-btn-leaderboard { @apply text-min p-[6px_8px]; }
+    .tab-btn-leaderboard { @apply text-ui p-[6px_8px]; }
   }
   /* Tab button active state */
   .tab-btn-active {
@@ -1649,16 +1647,16 @@
     background: linear-gradient(to bottom right, rgba(139, 0, 0, 0.05), transparent, rgba(255, 102, 0, 0.03));
   }
 
-  /* Hero badge (THE WAR CONTINUES) - 12px minimum */
+  /* Hero badge (THE WAR CONTINUES) */
   .hero-badge {
-    @apply inline-block py-1.5 px-4 font-military text-min font-bold tracking-widest uppercase mb-5;
+    @apply inline-block py-1.5 px-4 font-military text-ui font-bold tracking-widest uppercase mb-5;
     @apply text-soviet border border-soviet/40;
     background: linear-gradient(to bottom, rgba(31, 47, 59, 0.4), rgba(18, 30, 39, 0.6));
     box-shadow: 0 0 15px rgba(255, 102, 0, 0.15);
   }
 
   @media not all and screen(md) {
-    .hero-badge { @apply py-1 px-3 text-min mb-4; }
+    .hero-badge { @apply py-1 px-3 text-ui mb-4; }
   }
   /* Hero WIC Logo (above title) */
   .hero-wic-logo {
@@ -2245,13 +2243,12 @@
     @apply transition-all duration-300;
   }
 
-  /* Smaller play button for compact thumbnails - 12px minimum */
+  /* Smaller play button for compact thumbnails */
   .play-over-sm {
     @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
-    @apply w-8 h-6 bg-youtube/90 text-white rounded-md text-min;
+    @apply w-8 h-6 bg-youtube/90 text-white rounded-md text-ui;
     @apply flex items-center justify-center opacity-100;
     @apply transition-all duration-300;
-    /* 12px minimum font size */
   }
 
   @media (hover: hover) {
@@ -3013,7 +3010,7 @@
   }
 
   .admin-players-table th {
-    @apply bg-[#1a1a1a] uppercase text-min tracking-wide text-[#888];
+    @apply bg-[#1a1a1a] uppercase text-ui tracking-wide text-[#888];
   }
 
   .admin-kick-btn {
