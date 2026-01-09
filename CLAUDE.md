@@ -48,8 +48,9 @@ npm run build:og     # Regenerate OG images (social sharing)
     - ✅ Use `@media screen(md)` for min-width, `@media not all and screen(md)` for max-width
     - See `tailwind.css` header comment for pattern reference
 13. ✅ ALWAYS enforce 12px minimum font size at small breakpoints
-    - ❌ NEVER use font sizes below `text-caption-md` (12px) or `text-nav-xs` (12px)
-    - ✅ Use semantic typography tokens: `text-display-*`, `text-heading-*`, `text-body-*`, `text-caption-*`, `text-nav-*`
+    - ❌ NEVER use font sizes below `text-caption-md` (12px)
+    - ✅ Use semantic typography tokens: `text-display-*`, `text-heading`, `text-body-*`, `text-caption-*`, `text-mainnav`, `text-tab`, `text-subtab`, `text-lbdata`
+    - All tokens use fluid scaling via CSS `clamp()` - no breakpoint overrides needed
     - See `tailwind.config.ts` for the complete typography scale
 14. ✅ ALWAYS use unified link classes for inline text links (gold themed)
     - `.internal-link` for internal navigation (no icon)
@@ -86,4 +87,4 @@ npm run build:og     # Regenerate OG images (social sharing)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** January 8, 2026 (Unified anchor highlights)
+**Updated:** January 9, 2026 (Fluid typography tokens)

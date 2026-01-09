@@ -241,7 +241,7 @@ function scrollToQuestion(questionId: string) {
                   <!-- Question text and copy link button -->
                   <div class="flex items-center gap-3 flex-1 min-w-0">
                     <h4
-                      class="text-lg lg:text-xl font-military font-bold text-t uppercase tracking-wide flex-1 min-w-0"
+                      class="text-heading font-military font-bold text-t uppercase tracking-wide flex-1 min-w-0"
                     >
                       {{ item.q }}
                     </h4>
@@ -312,9 +312,7 @@ function scrollToQuestion(questionId: string) {
             <i class="fa-brands fa-discord text-ink text-xl" aria-hidden="true"></i>
           </div>
         </div>
-        <h4
-          class="text-xl lg:text-2xl font-military font-bold text-t uppercase tracking-wider mb-6"
-        >
+        <h4 class="text-heading font-military font-bold text-t uppercase tracking-wider mb-6">
           Still Have Questions?
         </h4>
         <p class="text-base lg:text-lg text-t-secondary font-body leading-relaxed m-0">

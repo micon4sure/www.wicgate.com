@@ -157,36 +157,55 @@ export default {
         'futuristic': ['Orbitron', 'sans-serif'],
       },
 
-      // Semantic Typography Scale (12px minimum enforced)
+      // Fluid Typography Scale (clamp from 375px to 1280px viewport)
+      // Formula: clamp(min, intercept + slope*vw, max) where slope = (max-min)/905
       fontSize: {
-        // Display hierarchy (hero, major headers)
-        'display-xl': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],      // 48px
-        'display-lg': ['2.25rem', { lineHeight: '1.15', letterSpacing: '-0.01em' }],  // 36px
-        'display-md': ['1.75rem', { lineHeight: '1.2' }],                              // 28px
-        'display-sm': ['1.5rem', { lineHeight: '1.25' }],                              // 24px
+        // ========== STANDARD TAILWIND SCALE (Fluid) ==========
+        'xs': ['0.75rem', { lineHeight: '1rem' }],  // 12px - MINIMUM, no fluid
+        'sm': ['clamp(0.8125rem, 0.7638rem + 0.1105vw, 0.875rem)', { lineHeight: '1.25rem' }],  // 13px → 14px
+        'base': ['clamp(0.9375rem, 0.8132rem + 0.3315vw, 1.125rem)', { lineHeight: '1.5rem' }],  // 15px → 18px
+        'lg': ['clamp(1.0625rem, 0.9383rem + 0.3315vw, 1.25rem)', { lineHeight: '1.75rem' }],  // 17px → 20px
+        'xl': ['clamp(1.1875rem, 0.9804rem + 0.5525vw, 1.5rem)', { lineHeight: '1.75rem' }],  // 19px → 24px
+        '2xl': ['clamp(1.375rem, 1.043rem + 0.884vw, 1.875rem)', { lineHeight: '2rem' }],  // 22px → 30px
+        '3xl': ['clamp(1.625rem, 1.2103rem + 1.105vw, 2.25rem)', { lineHeight: '2.25rem' }],  // 26px → 36px
+        '4xl': ['clamp(2rem, 1.337rem + 1.768vw, 3rem)', { lineHeight: '2.5rem' }],  // 32px → 48px
+        '5xl': ['clamp(2.5rem, 1.6713rem + 2.2099vw, 3.75rem)', { lineHeight: '1' }],  // 40px → 60px
+        '6xl': ['clamp(3rem, 2.0055rem + 2.6519vw, 4.5rem)', { lineHeight: '1' }],  // 48px → 72px
+        '7xl': ['clamp(3.5rem, 2.3398rem + 3.0939vw, 5.25rem)', { lineHeight: '1' }],  // 56px → 84px
+        '8xl': ['clamp(4rem, 2.674rem + 3.5359vw, 6rem)', { lineHeight: '1' }],  // 64px → 96px
+        '9xl': ['clamp(5rem, 3.3425rem + 4.4199vw, 7.5rem)', { lineHeight: '1' }],  // 80px → 120px
 
-        // Heading hierarchy
-        'heading-xl': ['1.5rem', { lineHeight: '1.3' }],    // 24px
-        'heading-lg': ['1.25rem', { lineHeight: '1.35' }],  // 20px
-        'heading-md': ['1.125rem', { lineHeight: '1.4' }],  // 18px
-        'heading-sm': ['1rem', { lineHeight: '1.4' }],      // 16px
+        // ========== SEMANTIC TOKENS (Fluid) ==========
+        // Display hierarchy (hero, major headers)
+        'display-xl': ['clamp(2.25rem, 1.7527rem + 1.326vw, 3rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],  // 36px → 48px
+        'display-lg': ['clamp(1.75rem, 1.4186rem + 0.884vw, 2.25rem)', { lineHeight: '1.15', letterSpacing: '-0.01em' }],  // 28px → 36px
+        'display-md': ['clamp(1.375rem, 1.1264rem + 0.663vw, 1.75rem)', { lineHeight: '1.2' }],  // 22px → 28px
+        'display-sm': ['clamp(1.25rem, 1.0845rem + 0.442vw, 1.5rem)', { lineHeight: '1.25' }],  // 20px → 24px
+
+        // Panel/card header (unified single size for all headers)
+        'heading': ['clamp(1.25rem, 1.0946rem + 0.663vw, 1.625rem)', { lineHeight: '1.3' }],  // 20px → 26px
+
+        // Leaderboard data (scores, player names, ranks, clan tags)
+        'lbdata': ['clamp(1rem, 0.9482rem + 0.221vw, 1.125rem)', { lineHeight: '1.4' }],  // 16px → 18px
+
+        // Main navigation (header nav tabs)
+        'mainnav': ['clamp(1.1875rem, 1.0839rem + 0.442vw, 1.4375rem)', { lineHeight: '1.2', letterSpacing: '0.02em' }],  // 19px → 23px
 
         // Body hierarchy
-        'body-xl': ['1.125rem', { lineHeight: '1.6' }],     // 18px
-        'body-lg': ['1rem', { lineHeight: '1.6' }],         // 16px
-        'body-md': ['0.9375rem', { lineHeight: '1.5' }],    // 15px
-        'body-sm': ['0.875rem', { lineHeight: '1.5' }],     // 14px
+        'body-xl': ['clamp(1rem, 0.9172rem + 0.221vw, 1.125rem)', { lineHeight: '1.6' }],  // 16px → 18px
+        'body-lg': ['clamp(0.9375rem, 0.8961rem + 0.1105vw, 1rem)', { lineHeight: '1.6' }],  // 15px → 16px
+        'body-md': ['clamp(0.875rem, 0.8337rem + 0.1105vw, 0.9375rem)', { lineHeight: '1.5' }],  // 14px → 15px
+        'body-sm': ['clamp(0.8125rem, 0.7638rem + 0.1105vw, 0.875rem)', { lineHeight: '1.5' }],  // 13px → 14px
 
-        // Caption/UI hierarchy (minimum 12px)
-        'caption-lg': ['0.8125rem', { lineHeight: '1.4' }], // 13px
-        'caption-md': ['0.75rem', { lineHeight: '1.4' }],   // 12px (MINIMUM)
+        // Caption/UI hierarchy (minimum 12px enforced)
+        'caption-lg': ['clamp(0.75rem, 0.7086rem + 0.1105vw, 0.8125rem)', { lineHeight: '1.4' }],  // 12px → 13px
+        'caption-md': ['0.75rem', { lineHeight: '1.4' }],  // 12px (MINIMUM - no fluid)
 
-        // Navigation specific
-        'nav-xl': ['1rem', { lineHeight: '1.2', letterSpacing: '0.05em' }],      // 16px
-        'nav-lg': ['0.9375rem', { lineHeight: '1.2', letterSpacing: '0.04em' }], // 15px
-        'nav-md': ['0.875rem', { lineHeight: '1.2', letterSpacing: '0.03em' }],  // 14px
-        'nav-sm': ['0.8125rem', { lineHeight: '1.2', letterSpacing: '0.02em' }], // 13px
-        'nav-xs': ['0.75rem', { lineHeight: '1.2', letterSpacing: '0.02em' }],   // 12px (MINIMUM)
+        // Tab buttons (generic tabs, leaderboard tabs, content tabs) - unified single size
+        'tab': ['clamp(0.875rem, 0.7714rem + 0.442vw, 1.125rem)', { lineHeight: '1.2', letterSpacing: '0.03em' }],  // 14px → 18px
+
+        // Sub-tab (secondary navigation tabs) - unified single size
+        'subtab': ['clamp(1rem, 0.8964rem + 0.442vw, 1.25rem)', { lineHeight: '1.3', letterSpacing: '0.02em' }],  // 16px → 20px
       },
 
       backgroundImage: {

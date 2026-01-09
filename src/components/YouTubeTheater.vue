@@ -30,7 +30,7 @@ const embedUrl = computed(() => {
     @close="emit('close')"
   >
     <template #header>
-      <span class="truncate text-base xs:text-lg md:text-xl">{{ title }}</span>
+      <span class="truncate">{{ title }}</span>
     </template>
 
     <div class="relative w-full pb-[56.25%]">

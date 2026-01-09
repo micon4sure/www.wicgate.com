@@ -60,7 +60,7 @@ const tabs = [
                     {{ s.n }}
                   </span>
                   <div class="flex-1">
-                    <h5 class="font-military font-semibold text-xl uppercase text-t mb-2">
+                    <h5 class="font-military font-semibold text-heading uppercase text-t mb-2">
                       {{ s.t }}
                     </h5>
                     <div class="text-base text-t-secondary font-body leading-relaxed">
@@ -118,7 +118,7 @@ const tabs = [
                       {{ step.n }}
                     </span>
                     <div class="flex-1">
-                      <h5 class="font-military font-semibold text-xl uppercase text-t mb-2">
+                      <h5 class="font-military font-semibold text-heading uppercase text-t mb-2">
                         {{ step.t }}
                       </h5>
                       <div
@@ -133,7 +133,7 @@ const tabs = [
               <!-- Network Configuration Sidebar -->
               <div class="step-card-sticky">
                 <h5
-                  class="font-military font-bold uppercase tracking-wider text-lg mb-4 text-t flex items-center gap-3"
+                  class="font-military font-bold uppercase tracking-wider text-heading mb-4 text-t flex items-center gap-3"
                 >
                   <div
                     class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border border-massgate-orange-dark rounded-full flex items-center justify-center"
@@ -215,7 +215,7 @@ const tabs = [
                     {{ step.n }}
                   </span>
                   <div class="flex-1">
-                    <h5 class="font-military font-semibold text-xl uppercase text-t mb-2">
+                    <h5 class="font-military font-semibold text-heading uppercase text-t mb-2">
                       {{ step.t }}
                     </h5>
                     <div

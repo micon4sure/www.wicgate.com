@@ -968,42 +968,44 @@ setTimeout(() => {
 
 ### Semantic Typography Scale (January 2026)
 
-**All typography uses semantic tokens** defined in `tailwind.config.ts`, enforcing a 12px minimum font size at small breakpoints.
+**All typography uses semantic tokens** defined in `tailwind.config.ts` with fluid scaling via CSS `clamp()`. Enforces 12px minimum font size.
 
 **Token Hierarchy:**
 | Category | Tokens | Size Range | Use Case |
 |----------|--------|------------|----------|
-| Display | `display-xl` to `display-sm` | 48px - 24px | Hero, major headers |
-| Heading | `heading-xl` to `heading-sm` | 24px - 16px | Section headers |
-| Body | `body-xl` to `body-sm` | 18px - 14px | Content text |
-| Caption | `caption-lg`, `caption-md` | 13px - 12px | UI elements, labels |
-| Navigation | `nav-xl` to `nav-xs` | 16px - 12px | Tabs, navigation |
+| Display | `display-xl` to `display-sm` | 20px → 48px | Hero, major headers |
+| Heading | `heading` (unified) | 20px → 26px | ALL panel/card headers |
+| Leaderboard Data | `lbdata` | 16px → 18px | Scores, names, ranks, clan tags |
+| Main Nav | `mainnav` | 19px → 24px | Header navigation tabs |
+| Tab | `tab` (unified) | 14px → 18px | Content tabs, leaderboard tabs |
+| Sub-tab | `subtab` (unified) | 16px → 20px | Secondary navigation tabs |
+| Body | `body-xl` to `body-sm` | 13px → 18px | Content text |
+| Caption | `caption-lg`, `caption-md` | 12px → 13px | UI elements, labels |
+
+**Fluid Typography:**
+All tokens use CSS `clamp()` for smooth viewport-based scaling between 375px and 1280px:
+```typescript
+// Example: text-heading (20px → 26px)
+'heading': ['clamp(1.25rem, 1.0946rem + 0.663vw, 1.625rem)', { lineHeight: '1.3' }]
+```
 
 **12px Minimum Enforcement:**
-- `caption-md` and `nav-xs` are the floor values (12px)
-- All components respect this minimum at xs (320px) breakpoint
+- `caption-md` is the floor value (12px, no fluid scaling)
+- All components respect this minimum
 - No font size should go below 12px for readability
-
-**Responsive Scaling (2xl = 100% baseline):**
-| Breakpoint | Ratio | Example: Hero Subtitle |
-|------------|-------|------------------------|
-| 3xl (2560px) | 112% | 56px |
-| 2xl (1440px) | 100% | 48px (golden standard) |
-| xl (1024px) | 88% | 36px |
-| lg (768px) | 78% | 28px |
-| md (425px) | 70% | 24px |
-| sm (375px) | 65% | 20px |
-| xs (320px) | 60% | 18px |
 
 **Usage:**
 ```css
-.hero-subtitle {
-  @apply text-display-xl; /* 48px at 2xl */
-}
+/* Panel headers - use unified text-heading token */
+.leaderboard-header-title { @apply text-heading; }
+.dashboard-card-header h3 { @apply text-heading; }
+.faq-question-header h4 { @apply text-heading; }
 
-@media not all and screen(xl) {
-  .hero-subtitle { @apply text-display-md; } /* 28px */
-}
+/* Tab buttons - use unified text-tab token */
+.tab-btn { @apply text-tab; }
+
+/* Sub-tabs - use unified text-subtab token */
+.tab-btn-sub { @apply text-subtab; }
 ```
 
 ### Dynamic Header Integration

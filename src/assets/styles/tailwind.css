@@ -290,7 +290,7 @@
   }
 
   .dashboard-card-header h3 {
-    @apply text-xl font-military font-bold text-t uppercase tracking-wide m-0;
+    @apply text-heading font-military font-bold text-t uppercase tracking-wide m-0;
   }
 
   /* Internal navigation link (gold, underlined, Rajdhani, uppercase) */
@@ -594,47 +594,47 @@
     @apply font-military font-medium uppercase tracking-[1px];
     @apply border-none text-t-secondary;
     @apply transition-all duration-300 ease-out;
-    @apply text-nav-xl p-[32px_42px]; /* 16px font, 32px/42px padding at 2xl */
+    @apply text-tab p-[32px_42px]; /* Fluid 14px→20px font, 32px/42px padding at 2xl */
     background: transparent;
   }
 
   @media not all and screen(md) {
-    .tab-btn { @apply text-nav-md p-[14px_18px]; }
+    .tab-btn { @apply p-[14px_18px]; }
   }
 
   @media not all and screen(xs) {
-    .tab-btn { @apply text-nav-xs p-[10px_12px]; }
+    .tab-btn { @apply p-[10px_12px]; }
   }
   /* Tab button variants - inherit base responsive cascade */
   .tab-btn-s {
-    @apply tab-btn text-nav-lg p-[24px_32px]; /* Slightly smaller base */
+    @apply tab-btn p-[24px_32px]; /* Slightly smaller padding */
   }
 
   @media not all and screen(md) {
-    .tab-btn-s { @apply text-nav-sm p-[12px_14px]; }
+    .tab-btn-s { @apply p-[12px_14px]; }
   }
 
   @media not all and screen(xs) {
-    .tab-btn-s { @apply text-nav-xs p-[10px_12px]; }
+    .tab-btn-s { @apply p-[10px_12px]; }
   }
   .tab-btn-xs {
-    @apply tab-btn text-nav-md p-[20px_26px]; /* Compact variant */
+    @apply tab-btn p-[20px_26px]; /* Compact variant */
   }
 
   @media not all and screen(md) {
-    .tab-btn-xs { @apply text-nav-sm p-[10px_12px]; }
+    .tab-btn-xs { @apply p-[10px_12px]; }
   }
 
   @media not all and screen(xs) {
-    .tab-btn-xs { @apply text-nav-xs p-[8px_10px]; }
+    .tab-btn-xs { @apply p-[8px_10px]; }
   }
   /* Leaderboard-specific tab sizing */
   .tab-btn-leaderboard {
-    @apply tab-btn text-nav-sm p-[12px_16px]; /* Compact for leaderboard */
+    @apply tab-btn p-[12px_16px]; /* Compact padding for leaderboard */
   }
 
   @media not all and screen(md) {
-    .tab-btn-leaderboard { @apply text-nav-sm p-[10px_12px]; }
+    .tab-btn-leaderboard { @apply p-[10px_12px]; }
   }
 
   @media not all and screen(xs) {
@@ -682,11 +682,9 @@
   .tab-btn-nav {
     @apply h-full flex items-center justify-center text-center;
     @apply whitespace-nowrap overflow-hidden text-ellipsis;
-    /* lg (1024px)+: Tabs expand like xl */
-    @apply text-[17px] px-4 min-w-[85px] max-w-[145px];
-    /* xl (1280px+): Slightly larger font */
-    @apply xl:text-[19px];
+    @apply text-mainnav px-4 min-w-[85px] max-w-[145px];
   }
+  /* text-mainnav scales fluidly (19px → 24px) */
 
   /* Mobile navigation link (Red gradient active states like desktop) */
   /* Only visible below lg (1024px) - mobile navigation for xs through md breakpoints */
@@ -696,7 +694,7 @@
     @apply bg-transparent transition-all duration-300;
     @apply relative overflow-hidden text-center justify-center;
     /* xs (375px+): Phone-sized, comfortable */
-    @apply xs:py-[18px] xs:px-6 xs:min-h-16 xs:text-[19px];
+    @apply xs:py-[18px] xs:px-6 xs:min-h-16 xs:text-xl;
     /* md (768px+): Tablet-sized, larger touch targets */
     @apply md:min-h-[68px] md:py-5 md:px-7 md:text-xl;
     @apply text-t-secondary;
@@ -743,7 +741,7 @@
   /* Sub-tab button - matches tab-btn-s design */
   .tab-btn-sub {
     @apply flex-1 cursor-pointer relative mr-px;
-    @apply font-[Oswald,sans-serif] font-medium text-[0.95rem] uppercase tracking-[1px];
+    @apply font-[Oswald,sans-serif] font-medium text-subtab uppercase tracking-[1px]; /* Fluid 16px→21px */
     @apply border-none;
     @apply text-t-secondary;
     @apply transition-all duration-200 ease-out;
@@ -782,10 +780,10 @@
     }
   }
 
-  /* Responsive sub-tab sizing */
+  /* Responsive sub-tab sizing (padding only - font scales fluidly) */
   @media not all and screen(md) {
     .tab-btn-sub {
-      @apply py-4 px-5 text-[0.9rem];
+      @apply py-4 px-5;
     }
   }
 
@@ -805,7 +803,7 @@
   .tab-mobile-trigger {
     @apply w-full flex items-center justify-between relative;
     @apply px-5 py-4;
-    @apply font-military font-semibold text-[1.05rem] uppercase tracking-wider;
+    @apply font-military font-semibold text-body-xl uppercase tracking-wider;
     @apply text-t-secondary;
     @apply border-t border-b border-graphite-dark/60;
     @apply transition-all duration-300;
@@ -843,7 +841,7 @@
   .tab-mobile-option {
     @apply w-full flex items-center relative;
     @apply px-5 py-4;
-    @apply font-military font-medium text-[1.05rem] uppercase tracking-wider;
+    @apply font-military font-medium text-body-xl uppercase tracking-wider;
     @apply text-t-secondary text-left;
     @apply border-b border-white/5;
     @apply transition-all duration-200;
@@ -898,7 +896,7 @@
   .tab-mobile-trigger-sub {
     @apply w-full flex items-center justify-between relative;
     @apply px-4 py-3;
-    @apply font-[Rajdhani,sans-serif] font-semibold text-[1.05rem] uppercase tracking-wide;
+    @apply font-[Rajdhani,sans-serif] font-semibold text-subtab uppercase tracking-wide; /* Fluid 16px→21px */
     @apply text-white;
     @apply border-t border-b border-graphite-dark/60;
     @apply transition-all duration-200;
@@ -923,7 +921,7 @@
   .tab-mobile-option-sub {
     @apply w-full flex items-center relative;
     @apply px-4 py-3;
-    @apply font-[Rajdhani,sans-serif] font-medium text-[1.05rem] uppercase tracking-wide;
+    @apply font-[Rajdhani,sans-serif] font-medium text-subtab uppercase tracking-wide; /* Fluid 16px→21px */
     @apply text-t-secondary text-left;
     @apply border-b border-white/5;
     @apply cursor-pointer;
@@ -946,14 +944,14 @@
     @apply w-5 text-center text-current;
   }
 
-  /* Small screen adjustments for sub-tabs */
+  /* Small screen adjustments for sub-tabs (padding only - font scales fluidly) */
   @media not all and screen(md) {
     .tab-mobile-trigger-sub {
-      @apply px-3 py-2.5 text-base;
+      @apply px-3 py-2.5;
     }
 
     .tab-mobile-option-sub {
-      @apply px-3 py-2.5 text-base;
+      @apply px-3 py-2.5;
     }
   }
 
@@ -1140,37 +1138,26 @@
 
   /* Rank cell (first column) */
   .lb-cell-rank {
-    @apply lb-cell font-[Oswald,sans-serif] font-bold text-[1.2rem] text-center w-16;
+    @apply lb-cell font-[Oswald,sans-serif] font-bold text-lbdata text-center w-16;
   }
 
   @media not all and screen(md) {
     .lb-cell-rank {
-      @apply w-[3.125rem] text-[1rem];
+      @apply w-[3.125rem];
     }
   }
 
   @media not all and screen(xs) {
     .lb-cell-rank {
-      @apply w-[2.75rem] text-[0.9rem];
+      @apply w-[2.75rem];
     }
   }
 
   /* Score cell (last column) */
   .lb-cell-score {
-    @apply lb-cell font-[Oswald,sans-serif] font-semibold text-right text-[1.15rem] tracking-[0.5px] whitespace-nowrap;
+    @apply lb-cell font-[Oswald,sans-serif] font-semibold text-right text-lbdata tracking-[0.5px] whitespace-nowrap;
   }
-
-  @media not all and screen(md) {
-    .lb-cell-score {
-      @apply text-[0.95rem];
-    }
-  }
-
-  @media not all and screen(xs) {
-    .lb-cell-score {
-      @apply text-[0.85rem];
-    }
-  }
+  /* text-lbdata scales fluidly (16px → 18px), no breakpoint overrides needed */
 
   /* Insignia cell */
   .lb-cell-insignia {
@@ -1198,36 +1185,19 @@
     .lb-cell-player > div { @apply gap-0.5; } /* Tighter gap for 320px */
   }
 
-  /* Clan tag styling - 12px minimum, no shrink */
+  /* Clan tag styling - unified with other leaderboard data */
   .lb-clan-tag {
-    @apply font-mono text-massgate-orange font-semibold text-body-sm;
+    @apply font-mono text-massgate-orange font-semibold text-lbdata;
     @apply inline-block align-middle leading-[1.2] m-0 p-0 flex-shrink-0;
-    /* 14px at 2xl, keeps clan tag intact while player name truncates */
   }
-
-  @media not all and screen(md) {
-    .lb-clan-tag { @apply text-caption-lg; }
-  }
-
-  @media not all and screen(xs) {
-    .lb-clan-tag { @apply text-caption-md; }
-  }
-  /* No further reductions - 12px is the floor */
+  /* text-lbdata scales fluidly (16px → 18px), no breakpoint overrides needed */
 
   /* Player name styling - truncate to prevent overflow at mobile */
   .lb-player-name {
-    @apply font-[Rajdhani,sans-serif] text-t font-semibold text-[1.1rem] tracking-[0.3px];
+    @apply font-[Rajdhani,sans-serif] text-t font-semibold text-lbdata tracking-[0.3px];
     @apply inline-block align-middle leading-[1.2] m-0 truncate min-w-0;
   }
-
-  /* Responsive font size for player names */
-  @media not all and screen(md) {
-    .lb-player-name { @apply text-[1rem]; }
-  }
-
-  @media not all and screen(xs) {
-    .lb-player-name { @apply text-[0.85rem]; }
-  }
+  /* text-lbdata scales fluidly (16px → 18px), no breakpoint overrides needed */
   /* Medal colors for top 3 ranks */
   .lb-medal-gold {
     @apply text-gold;
@@ -1411,19 +1381,14 @@
   }
 
   .leaderboard-header-title {
-    @apply m-0 text-[1.75rem] font-bold text-white uppercase tracking-[1px];
+    @apply m-0 text-heading font-bold text-white uppercase tracking-[1px];
     @apply font-[Oswald,sans-serif];
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
-
-  @media not all and screen(md) {
-    .leaderboard-header-title {
-      @apply text-[1.5rem];
-    }
-  }
+  /* text-heading scales fluidly (20px → 26px), no breakpoint overrides needed */
 
   .leaderboard-header-subtitle {
-    @apply font-[Rajdhani,sans-serif] font-medium m-[5px_0_0_0] text-t-secondary uppercase tracking-[0.5px] text-[0.85rem];
+    @apply font-[Rajdhani,sans-serif] font-medium m-[5px_0_0_0] text-t-secondary uppercase tracking-[0.5px] text-body-sm;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 
@@ -1527,7 +1492,7 @@
   /* Leaderboard table header */
   .leaderboard-th {
     @apply text-t p-3 text-left;
-    @apply font-[Oswald,sans-serif] font-semibold text-[0.875rem] uppercase tracking-[1px];
+    @apply font-[Oswald,sans-serif] font-semibold text-body-sm uppercase tracking-[1px];
     @apply align-baseline leading-[1.4];
     background: theme('backgroundImage.lb-header');
   }
@@ -1539,7 +1504,7 @@
 
   @media not all and screen(md) {
     .leaderboard-th {
-      @apply text-[0.8rem];
+      @apply text-caption-lg;
     }
   }
 
@@ -1548,39 +1513,19 @@
     @apply bg-gradient-to-r from-massgate-orange/22 to-massgate-orange/15 !border-massgate-orange/40;
   }
 
-  /* Clan tag styling - 12px minimum */
+  /* Clan tag styling - unified with other leaderboard data */
   .clan-tag {
-    @apply font-mono text-massgate-orange font-semibold text-body-sm;
+    @apply font-mono text-massgate-orange font-semibold text-lbdata;
     @apply inline align-middle leading-[1.2] m-0 p-0;
-    /* 14px at 2xl */
   }
-
-  @media not all and screen(md) {
-    .clan-tag { @apply text-caption-lg; }
-  }
-
-  @media not all and screen(xs) {
-    .clan-tag { @apply text-caption-md; }
-  }
-  /* No further reductions - 12px is the floor */
+  /* text-lbdata scales fluidly (16px → 18px), no breakpoint overrides needed */
 
   /* Player name styling */
   .player-name {
-    @apply font-[Rajdhani,sans-serif] text-t font-semibold text-[1.1rem] tracking-[0.3px];
+    @apply font-[Rajdhani,sans-serif] text-t font-semibold text-lbdata tracking-[0.3px];
     @apply inline align-middle leading-[1.2] m-0;
   }
-
-  @media not all and screen(md) {
-    .player-name {
-      @apply text-[0.95rem];
-    }
-  }
-
-  @media not all and screen(xs) {
-    .player-name {
-      @apply text-[0.9rem];
-    }
-  }
+  /* text-lbdata scales fluidly (16px → 18px), no breakpoint overrides needed */
 
   /* Ladder/Top Players rank styling */
   .ladder-rank {
@@ -1800,7 +1745,7 @@
   }
 
   @media not all and screen(xs) {
-    .hero-subtitle { @apply text-heading-lg; }
+    .hero-subtitle { @apply text-lg; }
   }
   /* Hero description text */
   .hero-desc {
@@ -1823,7 +1768,7 @@
 
   @media not all and screen(md) {
     .hero-desc-secondary {
-      @apply text-[0.8125rem];
+      @apply text-body-sm;
     }
   }
 
@@ -1853,7 +1798,7 @@
       top: 0.375rem !important;
       right: 0.375rem !important;
       padding: 0.3rem 0.5rem !important;
-      font-size: 0.65rem !important;
+      font-size: 0.75rem !important; /* 12px minimum enforced */
       gap: 0.2rem !important;
     }
   }
@@ -1863,7 +1808,7 @@
       top: 0.25rem !important;
       right: 0.25rem !important;
       padding: 0.2rem 0.35rem !important;
-      font-size: 0.55rem !important;
+      font-size: 0.75rem !important; /* 12px minimum enforced */
       gap: 0.15rem !important;
     }
   }
@@ -2093,7 +2038,7 @@
 
   @media not all and screen(md) {
     .twitch-play-btn {
-      @apply px-6 py-4 text-[0.9rem] gap-2;
+      @apply px-6 py-4 text-body-md gap-2;
     }
   }
 
@@ -2138,7 +2083,7 @@
   }
 
   .leaderboard-panel-title {
-    @apply m-0 text-[1.25rem] font-bold text-white uppercase tracking-[1px];
+    @apply m-0 text-heading font-bold text-white uppercase tracking-[1px];
     @apply font-[Oswald,sans-serif];
     text-shadow: theme('boxShadow.medal-text');
   }
@@ -2534,7 +2479,7 @@
   }
 
   .error-icon {
-    @apply text-[64px] text-massgate-red-bright mb-5 animate-pulse;
+    @apply text-6xl text-massgate-red-bright mb-5 animate-pulse;
   }
 
   .error-content h2 {
@@ -2590,7 +2535,7 @@
   }
 
   .overlay-header .slide-title {
-    @apply text-xl uppercase tracking-wider text-t m-0 min-w-0 truncate;
+    @apply text-heading uppercase tracking-wider text-t m-0 min-w-0 truncate;
     font-family: 'Oswald', sans-serif;
   }
 
@@ -2728,17 +2673,17 @@
 
   /* Widget clan tag */
   .widget-clan-tag {
-    @apply font-mono text-soviet font-semibold text-[0.875rem] tracking-[0.3px] flex-shrink-0;
+    @apply font-mono text-soviet font-semibold text-body-sm tracking-[0.3px] flex-shrink-0;
   }
 
   /* Smaller clan tag variant (DynamicInfoCard online players) */
   .widget-clan-tag-sm {
-    @apply font-mono text-soviet font-semibold text-[0.875rem] tracking-[0.2px] align-middle;
+    @apply font-mono text-soviet font-semibold text-body-sm tracking-[0.2px] align-middle;
   }
 
   /* Smaller player name variant (DynamicInfoCard) */
   .widget-player-name-sm {
-    @apply font-body text-t text-[0.9rem] tracking-[0.2px] align-middle;
+    @apply font-body text-t text-body-md tracking-[0.2px] align-middle;
   }
 
   /* ========== COPY LINK BUTTONS ========== */
@@ -2818,7 +2763,7 @@
     content: '\f019'; /* fa-download */
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
-    @apply ml-[0.25em] text-[0.85em];
+    @apply ml-[0.25em] text-caption-lg;
   }
 
   /* External link - for external services (Discord, GOG, etc.) */
@@ -2830,7 +2775,7 @@
     content: '\f08e'; /* fa-arrow-up-right-from-square (external link) */
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
-    @apply ml-[0.25em] text-[0.85em];
+    @apply ml-[0.25em] text-caption-lg;
   }
 
   /* Below lg (768px) - tablets and phones */
@@ -3061,7 +3006,7 @@
   }
 
   .admin-log-line {
-    @apply font-mono text-[0.8rem] leading-snug py-0.5;
+    @apply font-mono text-caption-lg leading-snug py-0.5;
   }
 
   .log-ERROR {
@@ -3085,7 +3030,7 @@
   }
 
   .admin-textarea {
-    @apply w-full bg-[#1a1a1a] text-white border border-[#333] p-3 font-mono text-[0.8rem] resize-y;
+    @apply w-full bg-[#1a1a1a] text-white border border-[#333] p-3 font-mono text-caption-lg resize-y;
   }
 
   .admin-remote-title {
@@ -3110,7 +3055,7 @@
   }
 
   .admin-players-table th {
-    @apply bg-[#1a1a1a] uppercase text-[0.7rem] tracking-wide text-[#888];
+    @apply bg-[#1a1a1a] uppercase text-caption-md tracking-wide text-[#888];
   }
 
   .admin-kick-btn {
@@ -3126,7 +3071,7 @@
   }
 
   .admin-remote-output pre {
-    @apply m-0 font-mono text-[0.8rem] text-[#a0aec0];
+    @apply m-0 font-mono text-caption-lg text-[#a0aec0];
   }
 
   @media not all and screen(md) {
