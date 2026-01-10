@@ -20,9 +20,6 @@
   :root {
     /* CRITICAL: DO NOT REMOVE - Synced by JavaScript */
     --header-height: 80px; /* Dynamic - synced by headerHeight.ts */
-
-    /* Background tint color - change this to update all section overlays */
-    --bg-tint: 15, 35, 40; /* Dark slate teal RGB */
   }
 
   * {
@@ -44,7 +41,7 @@
   }
 
   body {
-    background-color: rgb(var(--bg-tint)); /* Uses --bg-tint token */
+    background-color: rgb(15, 35, 40);
     background-image: url('/website_background.svg');
     background-repeat: no-repeat;
     background-position: center top;
@@ -2110,25 +2107,25 @@
   /* Downloads Section - transparent, world map shows through */
   .bg-downloads-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(var(--bg-tint), 0.3) 0%, rgba(var(--bg-tint), 0.2) 50%, rgba(var(--bg-tint), 0.3) 100%);
+    background: linear-gradient(180deg, rgba(15, 35, 40, 0.3) 0%, rgba(15, 35, 40, 0.2) 50%, rgba(15, 35, 40, 0.3) 100%);
   }
 
   /* Statistics Section - transparent, world map shows through */
   .bg-statistics-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(var(--bg-tint), 0.3) 0%, rgba(var(--bg-tint), 0.2) 50%, rgba(var(--bg-tint), 0.3) 100%);
+    background: linear-gradient(180deg, rgba(15, 35, 40, 0.3) 0%, rgba(15, 35, 40, 0.2) 50%, rgba(15, 35, 40, 0.3) 100%);
   }
 
   /* Community Section - transparent, world map shows through */
   .bg-community-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(var(--bg-tint), 0.3) 0%, rgba(var(--bg-tint), 0.2) 50%, rgba(var(--bg-tint), 0.3) 100%);
+    background: linear-gradient(180deg, rgba(15, 35, 40, 0.3) 0%, rgba(15, 35, 40, 0.2) 50%, rgba(15, 35, 40, 0.3) 100%);
   }
 
   /* FAQ Section - transparent, world map shows through */
   .bg-faq-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(var(--bg-tint), 0.3) 0%, rgba(var(--bg-tint), 0.2) 50%, rgba(var(--bg-tint), 0.3) 100%);
+    background: linear-gradient(180deg, rgba(15, 35, 40, 0.3) 0%, rgba(15, 35, 40, 0.2) 50%, rgba(15, 35, 40, 0.3) 100%);
   }
 
   /* ========== GLOBAL UTILITY PATTERNS ========== */
