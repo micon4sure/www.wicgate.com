@@ -216,7 +216,7 @@
     z-index: 1000;
     background:
       radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
-      linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+      linear-gradient(to bottom, theme('colors.nav-header.from'), theme('colors.nav-header.to'));
     background-size: 4px 4px, 100% 100%;
     border-bottom: 3px solid rgba(15, 18, 21, 0.85);
     box-shadow:

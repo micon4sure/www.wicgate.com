@@ -148,6 +148,11 @@ export default {
           from: '#1a3a5c',    // Gradient top (Deep Navy)
           to: '#0d1f36',      // Gradient bottom (Deep Navy Dark)
         },
+        // Nav header gradient (near-black navy)
+        'nav-header': {
+          from: '#0c1620',    // Very dark navy (light end)
+          to: '#060b10',      // Near-black navy (dark end)
+        },
       },
 
       fontFamily: {
