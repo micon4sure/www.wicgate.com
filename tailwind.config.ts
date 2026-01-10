@@ -30,6 +30,9 @@ export default {
           dark: '#ffa000',         // Dark gold
         },
 
+        // Clan Tag Teal (leaderboard clan tags)
+        'clan-teal': '#0d9488',
+
         // Dark Textures (PRIMARY BASE - main background, body)
         'texture': {
           dark: '#0a0a0a',         // Main site background

@@ -1157,7 +1157,7 @@
 
   /* Clan tag styling - unified with other leaderboard data */
   .lb-clan-tag {
-    @apply font-mono text-massgate-orange font-semibold text-data;
+    @apply font-mono text-clan-teal font-semibold text-data;
     @apply inline-block align-middle leading-[1.2] m-0 p-0 flex-shrink-0;
   }
   /* text-data scales fluidly (16px → 18px), no breakpoint overrides needed */
@@ -1492,7 +1492,7 @@
 
   /* Clan tag styling - unified with other leaderboard data */
   .clan-tag {
-    @apply font-mono text-massgate-orange font-semibold text-data;
+    @apply font-mono text-clan-teal font-semibold text-data;
     @apply inline align-middle leading-[1.2] m-0 p-0;
   }
   /* text-data scales fluidly (16px → 18px), no breakpoint overrides needed */
@@ -2299,9 +2299,9 @@
 
   /* ========== DOWNLOADS SECTION ========== */
 
-  /* Non-link text (like .text-bold spans) - White bold for emphasis */
+  /* Non-link text (like .text-bold spans) - Teal bold for filenames/paths */
   #downloads .text-bold {
-    @apply text-t font-bold;
+    @apply text-clan-teal font-bold;
   }
 
   /* ========== SKELETON LOADERS ========== */
@@ -2591,12 +2591,12 @@
 
   /* Widget clan tag */
   .widget-clan-tag {
-    @apply font-mono text-soviet font-semibold text-label tracking-[0.3px] flex-shrink-0;
+    @apply font-mono text-clan-teal font-semibold text-label tracking-[0.3px] flex-shrink-0;
   }
 
   /* Smaller clan tag variant (DynamicInfoCard online players) */
   .widget-clan-tag-sm {
-    @apply font-mono text-soviet font-semibold text-label tracking-[0.2px] align-middle;
+    @apply font-mono text-clan-teal font-semibold text-label tracking-[0.2px] align-middle;
   }
 
   /* Smaller player name variant (DynamicInfoCard) */
