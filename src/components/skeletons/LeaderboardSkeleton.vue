@@ -18,19 +18,33 @@
     </noscript>
 
     <!-- Animated loading skeleton -->
-    <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-4 py-5"
-      aria-label="Loading player statistics"
-    >
-      <div v-for="n in 3" :key="n" class="skeleton-card">
-        <div class="h-[50px] skeleton-shimmer mb-5 rounded-none"></div>
-        <div class="flex flex-col gap-3">
-          <div
-            v-for="row in 5"
-            :key="row"
-            class="h-[45px] skeleton-shimmer rounded-none"
-            :style="{ animationDelay: `${row * 0.1}s` }"
-          ></div>
+    <div class="grid grid-cols-1 gap-6 py-5" aria-label="Loading player statistics">
+      <!-- First dual container: High Scores + Total Scores -->
+      <div class="leaderboard-dual-container">
+        <div v-for="n in 2" :key="'top-' + n" class="skeleton-card">
+          <div class="h-[50px] skeleton-shimmer mb-5 rounded-none"></div>
+          <div class="flex flex-col gap-3">
+            <div
+              v-for="row in 5"
+              :key="row"
+              class="h-[45px] skeleton-shimmer rounded-none"
+              :style="{ animationDelay: `${row * 0.1}s` }"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <!-- Second dual container: Player Leaderboard + Clan Leaderboard -->
+      <div class="leaderboard-dual-container">
+        <div v-for="n in 2" :key="'bottom-' + n" class="skeleton-card">
+          <div class="h-[50px] skeleton-shimmer mb-5 rounded-none"></div>
+          <div class="flex flex-col gap-3">
+            <div
+              v-for="row in 5"
+              :key="row"
+              class="h-[45px] skeleton-shimmer rounded-none"
+              :style="{ animationDelay: `${row * 0.1}s` }"
+            ></div>
+          </div>
         </div>
       </div>
     </div>
