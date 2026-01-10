@@ -32,8 +32,8 @@ const socialLinks = [
 <template>
   <footer class="relative overflow-hidden border-t-2 border-mg/50">
     <!-- Background gradient matching site theme -->
-    <div class="absolute inset-0 bg-gradient-to-b from-panel/95 to-graphite-dark/98"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-graphite-dark/60 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-panel/95 to-dark-navy-dark/98"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-dark-navy-dark/60 to-transparent"></div>
 
     <div class="relative z-10 max-w-4xl mx-auto px-5 py-10">
       <!-- Social Links -->

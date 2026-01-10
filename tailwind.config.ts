@@ -59,10 +59,10 @@ export default {
           soft: '#37576D80',       // 50% opacity variant
         },
 
-        'graphite': {
-          DEFAULT: '#0f1215',      // Primary dark base
-          dark: '#08090b',         // Darkest variant
-          light: '#1a1e22',        // Light variant
+        'dark-navy': {
+          DEFAULT: '#0a1018',      // Dark navy (with blue tint)
+          dark: '#060b10',         // Near-black navy
+          light: '#0c1620',        // Very dark navy
         },
 
         // Soviet Orange (CTAs & DOWNLOAD BUTTONS - primary action color)
@@ -131,9 +131,9 @@ export default {
 
         // List item backgrounds (nested items inside widgets/cards)
         'list-item': {
-          DEFAULT: 'rgba(15, 18, 21, 0.8)',    // server-group, video-item, ladder-player, accordion-item
-          hover: 'rgba(15, 18, 21, 0.8)',      // hover state
-          alt: 'rgba(15, 18, 21, 0.8)',        // event-card, accordion-header hover
+          DEFAULT: 'rgba(12, 22, 32, 0.8)',    // server-group, video-item, ladder-player, accordion-item
+          hover: 'rgba(12, 22, 32, 0.8)',      // hover state
+          alt: 'rgba(12, 22, 32, 0.8)',        // event-card, accordion-header hover
         },
 
         // ========== THEME TOKENS (change these to switch theme) ==========
@@ -147,11 +147,6 @@ export default {
         'section-header': {
           from: '#1a3a5c',    // Gradient top (Deep Navy)
           to: '#0d1f36',      // Gradient bottom (Deep Navy Dark)
-        },
-        // Nav header gradient (near-black navy)
-        'nav-header': {
-          from: '#0c1620',    // Very dark navy (light end)
-          to: '#060b10',      // Near-black navy (dark end)
         },
       },
 
@@ -211,7 +206,7 @@ export default {
         // Example: bg-gradient-to-b from-massgate-red to-massgate-red-dark
 
         // Card backgrounds
-        'video-card': 'linear-gradient(180deg, rgba(15, 18, 21, 0.96) 0%, rgba(8, 9, 11, 0.98) 100%)',
+        'video-card': 'linear-gradient(180deg, rgba(12, 22, 32, 0.96) 0%, rgba(6, 11, 16, 0.98) 100%)',
         'card-surface': 'linear-gradient(to bottom right, rgba(18, 30, 39, 0.6), rgba(9, 15, 20, 0.6))',
 
         // Leaderboard row backgrounds (steel blue, 50% opacity)
@@ -219,17 +214,17 @@ export default {
         'lb-row-even': 'linear-gradient(to right, rgba(24, 38, 48, 0.5), rgba(14, 24, 31, 0.5))',
         'lb-header': 'linear-gradient(to bottom, rgba(31, 49, 61, 0.5), rgba(18, 30, 39, 0.5))',
 
-        // Navigation backgrounds (graphite gradients)
-        'nav-main': 'linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95))',
-        'nav-sub': 'linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95))',
+        // Navigation backgrounds (dark-navy gradients)
+        'nav-main': 'linear-gradient(to bottom, rgba(12, 22, 32, 0.95), rgba(6, 11, 16, 0.95))',
+        'nav-sub': 'linear-gradient(to bottom, rgba(12, 22, 32, 0.95), rgba(6, 11, 16, 0.95))',
 
         // Massgate Red (leaderboard headers - heavily used)
         'massgate-header': 'linear-gradient(180deg, #c62828 0%, #8b0000 100%)',
 
         // Legacy compatibility (TODO: migrate to inline Tailwind gradients)
         'massgate-header-shine': 'linear-gradient(180deg, #e53935 0%, #c62828 50%, #8b0000 100%)',
-        'panel-main': 'linear-gradient(180deg, rgba(15, 18, 21, 0.96) 0%, rgba(8, 9, 11, 0.98) 100%)',
-        'graphite-gradient': 'linear-gradient(180deg, rgba(15, 18, 21, 0.9) 0%, rgba(8, 9, 11, 0.92) 100%)',
+        'panel-main': 'linear-gradient(180deg, rgba(12, 22, 32, 0.96) 0%, rgba(6, 11, 16, 0.98) 100%)',
+        'dark-navy-gradient': 'linear-gradient(180deg, rgba(12, 22, 32, 0.9) 0%, rgba(6, 11, 16, 0.92) 100%)',
       },
 
       boxShadow: {

@@ -90,7 +90,7 @@ Browser handles scrolling natively. See [docs/architecture.md#scroll--navigation
 All in [tailwind.config.ts](tailwind.config.ts):
 
 - **Steel:** `mg`, `mg-dark`, `mg-muted` → Use: `bg-mg`, `text-mg-dark`
-- **Graphite nav:** `graphite`, `graphite-dark`, `graphite-light` → Use: `bg-graphite`
+- **Dark navy:** `dark-navy`, `dark-navy-dark`, `dark-navy-light` → Use: `bg-dark-navy`
 - **Soviet orange:** `soviet` (#ff6600) → Use: `text-soviet`, `bg-soviet`
 - **Massgate red:** `massgate-red` → Use: `bg-massgate-red`
 - **Text:** `slate-200` (primary), `slate-400` (muted), `slate-800` (on light)
@@ -199,7 +199,7 @@ src/
 ### January 7, 2026 - Card & Navigation Background Tokens
 - **Card Background Tokens:** Tokenized all card/container backgrounds for consistent styling
   - `bg-card-surface` (steel blue gradient) - main containers (dashboard, FAQ, leaderboard, step cards)
-  - `bg-video-card` (graphite gradient) - standalone cards (video, community)
+  - `bg-video-card` (dark-navy gradient) - standalone cards (video, community)
   - `bg-list-item` / `bg-list-item-hover` / `bg-list-item-alt` - nested items inside containers
 - **Navigation Background Tokens:** Tokenized nav bar backgrounds
   - `bg-nav-main` - main navigation bar

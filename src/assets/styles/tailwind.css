@@ -216,12 +216,12 @@
     z-index: 1000;
     background:
       radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
-      linear-gradient(to bottom, theme('colors.nav-header.from'), theme('colors.nav-header.to'));
+      linear-gradient(to bottom, theme('colors.dark-navy.light'), theme('colors.dark-navy.dark'));
     background-size: 4px 4px, 100% 100%;
-    border-bottom: 3px solid rgba(15, 18, 21, 0.85);
+    @apply border-b-[3px] border-b-dark-navy-light/85;
     box-shadow:
       0 2px 24px rgba(0, 0, 0, 0.75),
-      0 0 36px rgba(15, 18, 21, 0.35);
+      0 0 36px theme('colors.dark-navy.light / 0.35');
   }
 
   /* ========== HOME PAGE SECTION STYLING ========== */
@@ -438,7 +438,7 @@
   }
 
   .countdown-badge-upcoming {
-    @apply bg-graphite-light/90 text-t border-panel-border/50;
+    @apply bg-dark-navy-light/90 text-t border-panel-border/50;
   }
 
   /* Skeleton loading placeholder */
@@ -554,7 +554,7 @@
   /* Tab navigation container */
   .tab-nav {
     @apply flex relative;
-    @apply border-t border-t-graphite-dark/60;
+    @apply border-t border-t-dark-navy-dark/60;
     @apply bg-nav-main;
   }
 
@@ -704,7 +704,7 @@
   /* Sub-tab container - lighter treatment */
   .tab-nav-sub {
     @apply flex relative;
-    @apply border-t border-t-graphite-dark/60;
+    @apply border-t border-t-dark-navy-dark/60;
     @apply bg-nav-sub;
   }
 
@@ -775,7 +775,7 @@
     @apply px-5 py-4;
     @apply font-military font-semibold text-data uppercase tracking-wider;
     @apply text-t-secondary;
-    @apply border-t border-b border-graphite-dark/60;
+    @apply border-t border-b border-dark-navy-dark/60;
     @apply transition-all duration-300;
     @apply cursor-pointer;
     background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
@@ -786,7 +786,7 @@
   }
 
   .tab-mobile-trigger-open {
-    @apply text-t border-graphite-dark/60;
+    @apply text-t border-dark-navy-dark/60;
     background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
@@ -801,7 +801,7 @@
   /* Dropdown menu */
   .tab-mobile-dropdown {
     @apply absolute top-full left-0 right-0 z-50;
-    @apply border border-graphite-dark/60 border-t-0;
+    @apply border border-dark-navy-dark/60 border-t-0;
     @apply overflow-hidden;
     @apply bg-nav-sub;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
@@ -868,21 +868,21 @@
     @apply px-4 py-3;
     @apply font-[Rajdhani,sans-serif] font-semibold text-subtab uppercase tracking-wide; /* Fluid 16px→21px */
     @apply text-white;
-    @apply border-t border-b border-graphite-dark/60;
+    @apply border-t border-b border-dark-navy-dark/60;
     @apply transition-all duration-200;
     @apply cursor-pointer;
     background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   .tab-mobile-trigger-sub-open {
-    @apply text-white border-graphite-dark/60;
+    @apply text-white border-dark-navy-dark/60;
     background: linear-gradient(to bottom, theme('colors.tab-active.from'), theme('colors.tab-active.to'));
   }
 
   /* Lighter dropdown for sub-tabs */
   .tab-mobile-dropdown-sub {
     @apply absolute top-full left-0 right-0 z-50;
-    @apply border border-graphite-dark/60 border-t-0;
+    @apply border border-dark-navy-dark/60 border-t-0;
     @apply overflow-hidden;
     @apply bg-nav-sub;
   }
@@ -1364,8 +1364,7 @@
 
   /* Tab bar container */
   .leaderboard-tabs {
-    @apply flex flex-1 items-stretch relative;
-    background: linear-gradient(to bottom, rgba(15, 18, 21, 0.95), rgba(8, 9, 11, 0.95));
+    @apply flex flex-1 items-stretch relative bg-nav-sub;
   }
 
   /* Column width utilities for leaderboard tables */
@@ -1825,7 +1824,7 @@
   /* Login button (teal outline -> orange hover) */
   .auth-btn-login {
     @apply auth-btn text-t-secondary;
-    @apply bg-graphite border-2 border-teal/30;
+    @apply bg-dark-navy border-2 border-teal/30;
   }
 
   @media (hover: hover) {
@@ -1921,7 +1920,7 @@
   /* Login (neutral -> orange) */
   .mobile-auth-login {
     @apply mobile-auth-link text-t-secondary;
-    @apply bg-graphite border-t border-b border-teal/30;
+    @apply bg-dark-navy border-t border-b border-teal/30;
   }
 
   @media (hover: hover) {
@@ -1951,7 +1950,7 @@
 
   .twitch-container {
     @apply relative w-full pb-[56.25%] rounded-none overflow-hidden;
-    @apply bg-graphite-light border border-mg;
+    @apply bg-dark-navy-light border border-mg;
   }
 
   .twitch-overlay {
@@ -2084,9 +2083,9 @@
     @apply relative overflow-hidden;
     background: linear-gradient(
       180deg,
-      rgba(10, 16, 21, 0.97) 0%,
+      theme('colors.dark-navy.DEFAULT / 0.97') 0%,
       rgba(0, 31, 47, 0.94) 50%,
-      rgba(8, 9, 11, 0.96) 100%
+      theme('colors.dark-navy.dark / 0.96') 100%
     );
   }
 
@@ -2305,7 +2304,7 @@
 
   /* Skeleton shimmer effect base */
   .skeleton-shimmer {
-    background: linear-gradient(90deg, #1a1e22 0%, #344654 50%, #1a1e22 100%);
+    background: linear-gradient(90deg, #0c1620 0%, #344654 50%, #0c1620 100%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s ease-in-out infinite;
   }
@@ -2379,7 +2378,7 @@
   }
 
   .error-content {
-    @apply max-w-[600px] text-center bg-gradient-to-b from-graphite-light to-graphite-dark p-10 rounded-lg border border-massgate-red/20;
+    @apply max-w-[600px] text-center bg-gradient-to-b from-dark-navy-light to-dark-navy-dark p-10 rounded-lg border border-massgate-red/20;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   }
 
@@ -2426,7 +2425,7 @@
   }
 
   .overlay-card {
-    @apply relative bg-gradient-to-b from-graphite-light to-graphite-dark border border-t-dim/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-panel;
+    @apply relative bg-gradient-to-b from-dark-navy-light to-dark-navy-dark border border-t-dim/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-panel;
   }
 
   /* YouTube theater mode - wider modal for video playback */

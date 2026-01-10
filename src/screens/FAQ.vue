@@ -290,7 +290,7 @@ function scrollToQuestion(questionId: string) {
                     v-show="openQuestion === item.q"
                     class="overflow-hidden border-t border-white/10"
                   >
-                    <div class="p-5 lg:p-6 bg-graphite-dark/30">
+                    <div class="p-5 lg:p-6 bg-dark-navy-dark/30">
                       <p
                         class="text-data text-t-secondary font-body leading-relaxed m-0"
                         @click="handleContentClick"

@@ -36,7 +36,7 @@ onActivated(() => {
 
 <template>
   <div
-    class="relative w-full pb-[56.25%] bg-graphite-dark border border-mg rounded-none overflow-hidden"
+    class="relative w-full pb-[56.25%] bg-dark-navy-dark border border-mg rounded-none overflow-hidden"
   >
     <!-- Activated: Show TwitchEmbed iframe -->
     <TwitchEmbed v-if="isActivated" :channel="props.channel" :muted="props.muted" />
@@ -66,7 +66,7 @@ onActivated(() => {
           class="absolute inset-0 w-full h-full object-cover"
           loading="lazy"
         />
-        <div v-else class="absolute inset-0 bg-graphite-dark"></div>
+        <div v-else class="absolute inset-0 bg-dark-navy-dark"></div>
 
         <!-- Dark overlay for better text readability -->
         <div
@@ -107,7 +107,7 @@ onActivated(() => {
 
       <!-- OFFLINE state -->
       <template v-else>
-        <div class="absolute inset-0 flex flex-col items-center justify-center bg-graphite-dark">
+        <div class="absolute inset-0 flex flex-col items-center justify-center bg-dark-navy-dark">
           <i class="fa-brands fa-twitch text-twitch/30 text-5xl mb-3"></i>
           <p class="text-t-tertiary text-sm font-medium">Stream offline</p>
         </div>

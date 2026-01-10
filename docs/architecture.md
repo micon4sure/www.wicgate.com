@@ -638,7 +638,7 @@ script: [
 **File:** [tailwind.config.ts](../tailwind.config.ts)
 
 **All design tokens defined here (single source of truth):**
-- Colors: `massgate-red`, `teal` (structure/badges), `soviet`/`massgate-orange` (interactive/hover), `graphite`, `mg`, texture variants
+- Colors: `massgate-red`, `teal` (structure/badges), `soviet`/`massgate-orange` (interactive/hover), `dark-navy`, `mg`, texture variants
 - Color Hierarchy: Teal for structural elements (icon badges, borders, accents), Orange for interactive states (hover, active, links)
 - Dividers: `divider` (DEFAULT, strong, soft) with rgba values for opacity control
 - Shadows: `teal-glow`, `orange-glow`, `massgate-glow`, `gold-glow`
@@ -766,7 +766,7 @@ setTimeout(() => {
 | Token | Type | Used By |
 |-------|------|---------|
 | `bg-card-surface` | Gradient (steel blue 50%) | `.dashboard-card`, `.step-card`, `.faq-item`, `.leaderboard-panel`, `.help-cta-box`, `.leaderboard-container` |
-| `bg-video-card` | Gradient (graphite) | `.card` (video cards, community cards) |
+| `bg-video-card` | Gradient (dark-navy) | `.card` (video cards, community cards) |
 | `bg-lb-row` | Gradient (steel blue 50%) | `.lb-row` (leaderboard data rows) |
 | `bg-lb-row-even` | Gradient (steel blue 50%) | `.lb-row:nth-child(even)` (alternating rows) |
 | `bg-lb-header` | Gradient (steel blue 50%) | `.leaderboard-th` (table headers) |
@@ -784,7 +784,7 @@ setTimeout(() => {
 └─────────────────────────────────┘
 
 ┌─────────────────────────────────┐
-│  bg-video-card (graphite)       │  ← Standalone cards
+│  bg-video-card (dark-navy)       │  ← Standalone cards
 └─────────────────────────────────┘
 ```
 

@@ -143,7 +143,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
                     class="w-full text-left bg-transparent border-0 p-0 cursor-pointer block"
                     @click="selectedVideo = v"
                   >
-                    <div class="relative w-full pb-[56.25%] bg-graphite-dark overflow-hidden">
+                    <div class="relative w-full pb-[56.25%] bg-dark-navy-dark overflow-hidden">
                       <img
                         :src="v.thumbnailUrl"
                         :alt="`${v.title} - ${v.author || 'WiCGATE'} video thumbnail`"
@@ -196,7 +196,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
                     class="w-full text-left bg-transparent border-0 p-0 cursor-pointer block"
                     @click="selectedVideo = v"
                   >
-                    <div class="relative w-full pb-[56.25%] bg-graphite-dark overflow-hidden">
+                    <div class="relative w-full pb-[56.25%] bg-dark-navy-dark overflow-hidden">
                       <img
                         :src="v.thumbnailUrl"
                         :alt="`${v.title} - ${ch.channelTitle} video thumbnail`"
