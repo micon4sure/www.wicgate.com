@@ -20,6 +20,7 @@ const props = defineProps<{
   videos: YouTubeVideo[];
   events: CommunityEvent[];
   isSSR: boolean;
+  loading: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -209,7 +210,7 @@ function openVideo(video: YouTubeVideo) {
         :class="shouldShowEvent ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
         <div class="dashboard-card-body custom-scrollbar">
-          <div v-if="isSSR" class="space-y-2">
+          <div v-if="isSSR || loading" class="space-y-2">
             <!-- Skeleton mimics: 1 expanded event + 2 collapsed headers -->
             <div class="skeleton-placeholder h-56"></div>
             <div class="skeleton-placeholder h-12"></div>
@@ -291,7 +292,7 @@ function openVideo(video: YouTubeVideo) {
         :class="!shouldShowEvent ? 'opacity-100 z-10' : 'opacity-0 z-0'"
       >
         <div class="dashboard-card-body custom-scrollbar">
-          <div v-if="isSSR" class="space-y-4">
+          <div v-if="isSSR || loading" class="space-y-4">
             <div class="skeleton-placeholder h-20"></div>
             <div class="skeleton-placeholder h-20"></div>
             <div class="skeleton-placeholder h-20"></div>

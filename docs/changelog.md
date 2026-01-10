@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🐛 **Fix: Homepage Widget Skeletons** - Added `loading` prop to MediaEventCard so skeletons show during client-side loading (was SSR only), reduced Top Players skeleton height from 64px to 48px to match actual ladder items (Jan 10)
 - 🧹 **Skeleton Cleanup** - Fixed VideosSkeleton breakpoints to match actual video grid (`lg:grid-cols-2 xl:grid-cols-3` instead of `md:grid-cols-2 lg:grid-cols-3`), deleted unused EventsSkeleton.vue (Jan 10)
 - 🐛 **Fix: Statistics Skeleton Dimensions** - Updated LeaderboardSkeleton to match actual leaderboard sizes: 4 cards in 2x2 grid, 10 rows at 56px (was 5 rows at 45px), added tabs placeholder for tabbed leaderboards, header 75px (was 50px) - skeleton now matches actual ~720px card height (Jan 10)
 - 🐛 **Fix: Clan Leaderboard Header Overlap** - Fixed "Rank" and "Clan" column headers overlapping in ClanLeaderboard: added `col-clan-spacer` column (60px desktop, 28px tablet, 20px mobile) and used `colspan="2"` on "Rank" header to match LeaderboardGroup's pattern - header text now has room without shifting rank numbers right (Jan 10)

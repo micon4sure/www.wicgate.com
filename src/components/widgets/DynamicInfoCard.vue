@@ -281,11 +281,11 @@ function selectTab(tabId: string) {
       >
         <div class="dashboard-card-body custom-scrollbar">
           <div v-if="isSSR || loading" class="space-y-3">
-            <div class="skeleton-placeholder h-16"></div>
-            <div class="skeleton-placeholder h-16"></div>
-            <div class="skeleton-placeholder h-16"></div>
-            <div class="skeleton-placeholder h-16"></div>
-            <div class="skeleton-placeholder h-16"></div>
+            <div class="skeleton-placeholder h-12"></div>
+            <div class="skeleton-placeholder h-12"></div>
+            <div class="skeleton-placeholder h-12"></div>
+            <div class="skeleton-placeholder h-12"></div>
+            <div class="skeleton-placeholder h-12"></div>
           </div>
 
           <template v-else>

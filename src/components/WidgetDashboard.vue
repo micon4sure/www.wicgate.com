@@ -153,6 +153,7 @@ function goToSection(sectionOrSubsectionId: string) {
           :videos="videosSorted"
           :events="events"
           :is-s-s-r="isSSR"
+          :loading="store.loading"
           @navigate="goToSection"
         />
       </div>
