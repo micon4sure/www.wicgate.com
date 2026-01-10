@@ -41,7 +41,7 @@
   }
 
   body {
-    background-color: rgb(15, 35, 40);
+    background-color: rgb(30, 42, 34);
     background-image: url('/website_background.svg');
     background-repeat: no-repeat;
     background-position: center top;
@@ -2107,25 +2107,25 @@
   /* Downloads Section - transparent, world map shows through */
   .bg-downloads-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(15, 35, 40, 0.3) 0%, rgba(15, 35, 40, 0.2) 50%, rgba(15, 35, 40, 0.3) 100%);
+    background: linear-gradient(180deg, rgba(30, 42, 34, 0.3) 0%, rgba(30, 42, 34, 0.2) 50%, rgba(30, 42, 34, 0.3) 100%);
   }
 
   /* Statistics Section - transparent, world map shows through */
   .bg-statistics-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(15, 35, 40, 0.3) 0%, rgba(15, 35, 40, 0.2) 50%, rgba(15, 35, 40, 0.3) 100%);
+    background: linear-gradient(180deg, rgba(30, 42, 34, 0.3) 0%, rgba(30, 42, 34, 0.2) 50%, rgba(30, 42, 34, 0.3) 100%);
   }
 
   /* Community Section - transparent, world map shows through */
   .bg-community-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(15, 35, 40, 0.3) 0%, rgba(15, 35, 40, 0.2) 50%, rgba(15, 35, 40, 0.3) 100%);
+    background: linear-gradient(180deg, rgba(30, 42, 34, 0.3) 0%, rgba(30, 42, 34, 0.2) 50%, rgba(30, 42, 34, 0.3) 100%);
   }
 
   /* FAQ Section - transparent, world map shows through */
   .bg-faq-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(15, 35, 40, 0.3) 0%, rgba(15, 35, 40, 0.2) 50%, rgba(15, 35, 40, 0.3) 100%);
+    background: linear-gradient(180deg, rgba(30, 42, 34, 0.3) 0%, rgba(30, 42, 34, 0.2) 50%, rgba(30, 42, 34, 0.3) 100%);
   }
 
   /* ========== GLOBAL UTILITY PATTERNS ========== */
