@@ -217,9 +217,10 @@
     top: 0;
     width: 100%;
     z-index: 1000;
-    background: linear-gradient(180deg,
-      rgba(26, 30, 34, 0.95) 0%,
-      rgba(8, 9, 11, 0.98) 100%);
+    background:
+      radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+    background-size: 4px 4px, 100% 100%;
     border-bottom: 3px solid rgba(15, 18, 21, 0.85);
     box-shadow:
       0 2px 24px rgba(0, 0, 0, 0.75),
@@ -455,19 +456,6 @@
     @apply h-20 min-h-[80px] px-5 w-full flex items-center justify-center relative;
   }
 
-  /* Diagonal stripe pattern for header */
-  .header-container::before {
-    content: '';
-    @apply absolute inset-0 pointer-events-none;
-    z-index: 0;
-    background-image: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 8px,
-      rgba(255, 255, 255, 0.03) 8px,
-      rgba(255, 255, 255, 0.03) 9px
-    );
-  }
 
   .header-inner {
     @apply max-w-site w-full h-full flex items-center px-5 relative z-[1];
