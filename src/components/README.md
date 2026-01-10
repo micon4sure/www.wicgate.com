@@ -25,7 +25,6 @@ Homepage dashboard uses `DynamicInfoCard.vue` and `MediaEventCard.vue` in `widge
 
 SEO-friendly loading placeholders with `<noscript>` fallbacks:
 
-- `EventsSkeleton.vue` - Events grid placeholder
 - `VideosSkeleton.vue` - Video grid placeholder
 - `LeaderboardSkeleton.vue` - Leaderboard table placeholder
 

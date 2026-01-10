@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🧹 **Skeleton Cleanup** - Fixed VideosSkeleton breakpoints to match actual video grid (`lg:grid-cols-2 xl:grid-cols-3` instead of `md:grid-cols-2 lg:grid-cols-3`), deleted unused EventsSkeleton.vue (Jan 10)
 - 🐛 **Fix: Statistics Skeleton Dimensions** - Updated LeaderboardSkeleton to match actual leaderboard sizes: 4 cards in 2x2 grid, 10 rows at 56px (was 5 rows at 45px), added tabs placeholder for tabbed leaderboards, header 75px (was 50px) - skeleton now matches actual ~720px card height (Jan 10)
 - 🐛 **Fix: Clan Leaderboard Header Overlap** - Fixed "Rank" and "Clan" column headers overlapping in ClanLeaderboard: added `col-clan-spacer` column (60px desktop, 28px tablet, 20px mobile) and used `colspan="2"` on "Rank" header to match LeaderboardGroup's pattern - header text now has room without shifting rank numbers right (Jan 10)
 - 🎨 **Graphite → Dark Navy Color Migration** - Renamed `graphite` token to `dark-navy` with navy-tinted values (`#0c1620`/`#0a1018`/`#060b10`), replaced all hardcoded graphite RGB values with token references: CSS uses `theme('colors.dark-navy.*')` and `bg-nav-sub`, config gradients updated (`list-item`, `video-card`, `panel-main`, `nav-main`, `nav-sub`), removed redundant `nav-header` token - unified blueish theme across navigation, cards, backgrounds (Jan 10)
