@@ -65,12 +65,13 @@ function copyLeaderboardLink() {
     <table class="leaderboard-table">
       <colgroup>
         <col class="col-rank" />
+        <col class="col-clan-spacer" />
         <col class="w-auto" />
         <col class="col-score" />
       </colgroup>
       <thead>
         <tr>
-          <th class="leaderboard-th">Rank</th>
+          <th class="leaderboard-th" colspan="2">Rank</th>
           <th class="leaderboard-th">Clan</th>
           <th class="leaderboard-th">Score</th>
         </tr>
@@ -78,7 +79,7 @@ function copyLeaderboardLink() {
       <tbody>
         <tr v-if="clans.length === 0">
           <td
-            colspan="3"
+            colspan="4"
             class="text-center italic text-t-tertiary font-[Rajdhani,sans-serif] p-[30px]"
           >
             No data
@@ -95,6 +96,7 @@ function copyLeaderboardLink() {
           >
             {{ index + 1 }}
           </td>
+          <td></td>
           <td class="lb-cell-player">
             <div class="flex items-center leading-none">
               <span class="lb-clan-tag">{{ formatClanTag(clan) }}</span>

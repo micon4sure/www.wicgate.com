@@ -1443,6 +1443,20 @@
     .col-insignia { width: 40px; min-width: 40px; }
   }
 
+  /* Spacer column for clan leaderboard header alignment */
+  .col-clan-spacer {
+    width: 60px;
+    min-width: 60px;
+  }
+
+  @media not all and screen(md) {
+    .col-clan-spacer { width: 28px; min-width: 28px; }
+  }
+
+  @media not all and screen(xs) {
+    .col-clan-spacer { width: 20px; min-width: 20px; }
+  }
+
   .col-score {
     width: 140px;
     min-width: 140px;
