@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🎨 **Player Icon for Total Category** - Statistics leaderboard 'Total' tab now uses `player.png` icon instead of FontAwesome chart icon, matching the PNG icon pattern used by infantry/armor/air/support categories with same em-based scaling (Jan 11)
 - 🎨 **Clan Tag Teal Color** - Changed clan tags on leaderboard cards from orange to teal (`#0d9488`): added `clan-teal` token in `tailwind.config.ts`, updated `.lb-clan-tag`, `.clan-tag`, `.widget-clan-tag`, `.widget-clan-tag-sm` to use `text-clan-teal`, downloads section `.text-bold` (filenames like MatchMode.zip) also uses teal for consistency (Jan 10)
 - 🐛 **Fix: Homepage Widget Skeletons** - Added `loading` prop to MediaEventCard so skeletons show during client-side loading (was SSR only), reduced Top Players skeleton height from 64px to 48px to match actual ladder items (Jan 10)
 - 🧹 **Skeleton Cleanup** - Fixed VideosSkeleton breakpoints to match actual video grid (`lg:grid-cols-2 xl:grid-cols-3` instead of `md:grid-cols-2 lg:grid-cols-3`), deleted unused EventsSkeleton.vue (Jan 10)

@@ -19,7 +19,7 @@ const appBase = inject<string>('appBase', '/');
 
 // Category icons for mobile dropdown
 const categoryIcons: Record<string, string> = {
-  total: 'fa-solid fa-chart-simple',
+  total: 'player.png',
   infantry: 'infantry.png',
   armor: 'armor.png',
   air: 'air.png',
