@@ -6,13 +6,14 @@ export default {
     extend: {
       // WiCGate Color Hierarchy: Graphite Base → Teal Accents → Orange CTAs → Red Alerts
       colors: {
-        // Massgate Red Theme (IMPORTANT HIGHLIGHTS ONLY - alerts, critical stats, badges)
+        // Massgate Firebrick Theme (IMPORTANT HIGHLIGHTS ONLY - alerts, critical stats, badges)
         'massgate-red': {
-          DEFAULT: '#c62828',      // Important highlights
-          dark: '#8b0000',         // Critical elements
-          bright: '#e53935',       // Alerts, warnings
-          shadow: '#6d0000',       // Deep shadow
-          glow: '#ff1744',         // Intense glow for alerts
+          DEFAULT: '#B22222',      // Important highlights (firebrick)
+          dark: '#8B1A1A',         // Critical elements
+          bright: '#DC2626',       // Alerts, warnings
+          hover: '#EF4444',        // Hover state (brighter)
+          shadow: '#5C1111',       // Deep shadow
+          glow: '#F87171',         // Intense glow for alerts
         },
 
 
@@ -142,9 +143,9 @@ export default {
         // ========== THEME TOKENS (change these to switch theme) ==========
         // Tab active state gradient + accent (navbar, sub-tabs)
         'tab-active': {
-          from: '#c62828',    // Gradient top (Massgate Red)
-          to: '#8b0000',      // Gradient bottom (Massgate Red Dark)
-          accent: '#e53935',  // Underline/glow (Massgate Red Bright)
+          from: '#B22222',    // Gradient top (Firebrick)
+          to: '#8B1A1A',      // Gradient bottom (Firebrick Dark)
+          accent: '#DC2626',  // Underline/glow (Firebrick Bright)
         },
         // Section header gradient (leaderboard, FAQ, overlays)
         'section-header': {
@@ -221,11 +222,11 @@ export default {
         'nav-main': 'linear-gradient(to bottom, rgba(12, 22, 32, 0.95), rgba(6, 11, 16, 0.95))',
         'nav-sub': 'linear-gradient(to bottom, rgba(12, 22, 32, 0.95), rgba(6, 11, 16, 0.95))',
 
-        // Massgate Red (leaderboard headers - heavily used)
-        'massgate-header': 'linear-gradient(180deg, #c62828 0%, #8b0000 100%)',
+        // Massgate Firebrick (leaderboard headers - heavily used)
+        'massgate-header': 'linear-gradient(180deg, #B22222 0%, #8B1A1A 100%)',
 
         // Legacy compatibility (TODO: migrate to inline Tailwind gradients)
-        'massgate-header-shine': 'linear-gradient(180deg, #e53935 0%, #c62828 50%, #8b0000 100%)',
+        'massgate-header-shine': 'linear-gradient(180deg, #DC2626 0%, #B22222 50%, #8B1A1A 100%)',
         'panel-main': 'linear-gradient(180deg, rgba(12, 22, 32, 0.96) 0%, rgba(6, 11, 16, 0.98) 100%)',
         'dark-navy-gradient': 'linear-gradient(180deg, rgba(12, 22, 32, 0.9) 0%, rgba(6, 11, 16, 0.92) 100%)',
       },
@@ -234,8 +235,8 @@ export default {
         // Note: Use shadow-lg shadow-color/50 for custom intensity variations
 
         // Core glows (one per color family)
-        'massgate-glow': '0 0 15px rgba(198, 40, 40, 0.4), 0 0 30px rgba(198, 40, 40, 0.2)',
-        'massgate-border': '0 0 15px rgba(198, 40, 40, 0.4), inset 0 0 10px rgba(198, 40, 40, 0.1)',
+        'massgate-glow': '0 0 15px rgba(178, 34, 34, 0.4), 0 0 30px rgba(178, 34, 34, 0.2)',
+        'massgate-border': '0 0 15px rgba(178, 34, 34, 0.4), inset 0 0 10px rgba(178, 34, 34, 0.1)',
         'gold-glow': '0 0 15px rgba(255, 202, 40, 0.5), 0 0 30px rgba(255, 202, 40, 0.3)',
         'teal-glow': '0 0 15px rgba(0, 217, 255, 0.4), 0 0 30px rgba(0, 217, 255, 0.2)',
         'teal-border': '0 0 20px rgba(0, 217, 255, 0.4), inset 0 0 10px rgba(0, 217, 255, 0.1)',
@@ -248,7 +249,7 @@ export default {
         'medal-text': '0 2px 4px rgba(0, 0, 0, 0.8)',
 
         // Legacy compatibility (TODO: migrate to core shadows)
-        'massgate-panel': '0 4px 20px rgba(139, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03)',
+        'massgate-panel': '0 4px 20px rgba(139, 26, 26, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03)',
         'gold-shine': '0 4px 20px rgba(255, 202, 40, 0.5), inset 0 -1px 10px rgba(255, 213, 79, 0.3)',
         'teal-subtle': '0 0 15px rgba(0, 217, 255, 0.3)',
         'soviet-glow': '0 0 30px rgba(255, 102, 0, 0.6), 0 0 60px rgba(255, 102, 0, 0.3)',

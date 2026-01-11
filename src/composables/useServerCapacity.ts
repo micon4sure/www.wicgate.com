@@ -50,7 +50,7 @@ export function useServerCapacity(options: ServerCapacityOptions = {}) {
   function getCapacityColor(count: number, max: number = 16): string {
     const percentage = (count / max) * 100;
 
-    if (percentage >= fullThreshold) return '#e53935'; // Red - nearly full (massgate-red-bright)
+    if (percentage >= fullThreshold) return '#DC2626'; // Firebrick - nearly full (massgate-red-bright)
     if (percentage >= busyThreshold) return '#ff6600'; // Orange - half full (soviet)
     return '#7cb342'; // Green - plenty of space (online)
   }

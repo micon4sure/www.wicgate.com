@@ -124,26 +124,26 @@
     background: rgba(0, 217, 255, 0.25);
   }
 
-  /* Alert/Warning buttons - Red (critical actions, warnings) */
+  /* Alert/Warning buttons - Firebrick (critical actions, warnings) */
   .btn-red {
     @apply px-6 py-3 text-t font-military font-bold uppercase tracking-wider rounded-none transition-all duration-300;
-    background: linear-gradient(180deg, #e53935 0%, #c62828 100%);
-    border: 2px solid rgba(198, 40, 40, 0.7);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(198, 40, 40, 0.4);
+    background: linear-gradient(180deg, theme('colors.massgate-red.bright') 0%, theme('colors.massgate-red.DEFAULT') 100%);
+    border: 2px solid theme('colors.massgate-red.DEFAULT / 0.7');
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 20px theme('colors.massgate-red.DEFAULT / 0.4');
   }
 
   @media (hover: hover) {
     .btn-red:hover {
       transform: scale(1.05);
-      background: linear-gradient(180deg, #ff5252 0%, #e53935 100%);
-      border-color: rgba(229, 53, 53, 0.9);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 30px rgba(198, 40, 40, 0.6);
+      background: linear-gradient(180deg, theme('colors.massgate-red.hover') 0%, theme('colors.massgate-red.bright') 100%);
+      border-color: theme('colors.massgate-red.bright / 0.9');
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 30px theme('colors.massgate-red.DEFAULT / 0.6');
     }
   }
 
   .btn-red:active {
     transform: scale(1);
-    background: linear-gradient(180deg, #c62828 0%, #8b0000 100%);
+    background: linear-gradient(180deg, theme('colors.massgate-red.DEFAULT') 0%, theme('colors.massgate-red.dark') 100%);
   }
 
   /* Gold/Yellow button variant */
@@ -1827,7 +1827,7 @@
   @media (hover: hover) {
     .auth-btn-logout:hover {
       @apply bg-massgate-red border-massgate-red-bright text-white -translate-y-0.5;
-      box-shadow: 0 4px 16px rgba(198, 40, 40, 0.5);
+      box-shadow: 0 4px 16px theme('colors.massgate-red.DEFAULT / 0.5');
     }
   }
 
@@ -1917,17 +1917,17 @@
     }
   }
 
-  /* Logout (red) */
+  /* Logout (firebrick) */
   .mobile-auth-logout {
     @apply mobile-auth-link text-massgate-red-bright;
     @apply border-t border-b border-massgate-red/30;
-    background: linear-gradient(to right, rgba(198, 40, 40, 0.15), rgba(198, 40, 40, 0.05));
+    background: linear-gradient(to right, theme('colors.massgate-red.DEFAULT / 0.15'), theme('colors.massgate-red.DEFAULT / 0.05'));
   }
 
   @media (hover: hover) {
     .mobile-auth-logout:hover {
       @apply text-white pl-10 border-massgate-red-bright;
-      background: linear-gradient(to right, #c62828, rgba(198, 40, 40, 0.3));
+      background: linear-gradient(to right, theme('colors.massgate-red.DEFAULT'), theme('colors.massgate-red.DEFAULT / 0.3'));
     }
   }
 
@@ -2489,7 +2489,7 @@
 
   .slide-icon.wicgate {
     @apply from-massgate-red/30 to-massgate-red-dark/20 border-massgate-red/50 text-massgate-red-bright;
-    box-shadow: 0 0 20px rgba(198, 40, 40, 0.4);
+    box-shadow: 0 0 20px theme('colors.massgate-red.DEFAULT / 0.4');
   }
 
   .slide-icon.ready {
@@ -2527,7 +2527,7 @@
 
   .highlight-box {
     @apply bg-gradient-to-br from-massgate-red-dark/20 to-massgate-red-dark/10 border-l-4 border-massgate-red p-4 rounded-lg flex gap-4 items-start;
-    box-shadow: 0 0 15px rgba(198, 40, 40, 0.2), inset 0 0 10px rgba(198, 40, 40, 0.02);
+    box-shadow: 0 0 15px theme('colors.massgate-red.DEFAULT / 0.2'), inset 0 0 10px theme('colors.massgate-red.DEFAULT / 0.02');
   }
 
   .highlight-box i {
@@ -2776,9 +2776,9 @@
     background-clip: text;
   }
 
-  /* Massgate Red Text Gradient */
+  /* Massgate Firebrick Text Gradient */
   .text-gradient-massgate {
-    background: linear-gradient(135deg, #e53935 0%, #c62828 50%, #8b0000 100%);
+    background: linear-gradient(135deg, theme('colors.massgate-red.bright') 0%, theme('colors.massgate-red.DEFAULT') 50%, theme('colors.massgate-red.dark') 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -3033,10 +3033,10 @@
 
 @keyframes redPulse {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(198, 40, 40, 0.4), 0 0 40px rgba(198, 40, 40, 0.2);
+    box-shadow: 0 0 20px rgba(178, 34, 34, 0.4), 0 0 40px rgba(178, 34, 34, 0.2);
   }
   50% {
-    box-shadow: 0 0 30px rgba(229, 53, 53, 0.6), 0 0 60px rgba(198, 40, 40, 0.4);
+    box-shadow: 0 0 30px rgba(220, 38, 38, 0.6), 0 0 60px rgba(178, 34, 34, 0.4);
   }
 }
 
