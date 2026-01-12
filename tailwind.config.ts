@@ -157,7 +157,7 @@ export default {
       fontFamily: {
         'military': ['Oswald', 'Impact', 'sans-serif'],
         'body': ['Rajdhani', 'sans-serif'],
-        'mono': ['Courier New', 'monospace'],
+        'mono': ['Roboto Mono', 'Courier New', 'monospace'],
         'futuristic': ['Orbitron', 'sans-serif'],
       },
 

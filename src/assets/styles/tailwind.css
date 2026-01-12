@@ -1108,7 +1108,7 @@
 
   /* Rank cell (first column) */
   .lb-cell-rank {
-    @apply lb-cell font-body font-bold text-data text-center w-16;
+    @apply lb-cell font-mono font-bold text-data text-center w-16;
   }
 
   @media not all and screen(md) {
@@ -1125,7 +1125,7 @@
 
   /* Score cell (last column) */
   .lb-cell-score {
-    @apply lb-cell font-body font-semibold text-right text-data tracking-[0.5px] whitespace-nowrap;
+    @apply lb-cell font-mono font-semibold text-right text-data whitespace-nowrap;
   }
   /* text-data scales fluidly (16px → 18px), no breakpoint overrides needed */
 
@@ -1507,7 +1507,7 @@
   /* Ladder/Top Players rank styling */
   .ladder-rank {
     @apply w-7 h-7 flex items-center justify-center bg-mg/40 text-t text-data font-bold;
-    @apply font-body flex-shrink-0 rounded-none;
+    @apply font-mono flex-shrink-0 rounded-none;
   }
 
   .ladder-rank.rank-1 {
@@ -1523,7 +1523,7 @@
   }
 
   .ladder-score {
-    @apply text-data font-body font-bold flex-shrink-0 text-t;
+    @apply text-data font-mono font-bold flex-shrink-0 text-t;
   }
 
   .ladder-score.rank-1 {
