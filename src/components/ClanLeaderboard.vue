@@ -78,12 +78,7 @@ function copyLeaderboardLink() {
       </thead>
       <tbody>
         <tr v-if="clans.length === 0">
-          <td
-            colspan="4"
-            class="text-center italic text-t-tertiary font-[Rajdhani,sans-serif] p-[30px]"
-          >
-            No data
-          </td>
+          <td colspan="4" class="text-center italic text-t-tertiary font-body p-[30px]">No data</td>
         </tr>
         <tr v-for="(clan, index) in clans.slice(0, 10)" :key="clan.clanId" class="lb-row">
           <td
