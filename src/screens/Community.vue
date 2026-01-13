@@ -70,11 +70,11 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
     <div class="container">
       <!-- Header -->
       <div class="text-center mb-20">
-        <h2
+        <h1
           class="text-5xl lg:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
           Community
-        </h2>
+        </h1>
         <p class="text-lg lg:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
           Watch live streams and videos from the WiC community
         </p>

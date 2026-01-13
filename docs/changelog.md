@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🔍 **SEO: Add H1 Headings to All Pages** - Changed primary page headings from `<h2>` to `<h1>` on Community, Statistics, Downloads, and FAQ pages for proper SEO structure: `Community.vue:73`, `Statistics.vue:117`, `Downloads.vue:29`, `FAQ.vue:200` - each page now has exactly one H1 identifying the page topic, Homepage already had correct H1 ("Multiplayer Reloaded") (Jan 13)
 - ♿ **Accessibility: Empty Alt on Decorative Icons** - Added `alt=""` to decorative category icons (player.png, infantry.png, armor.png, air.png, support.png) in leaderboard tabs: `LeaderboardGroup.vue` desktop tabs, `MobileTabDropdown.vue` active tab and dropdown options - icons already had `aria-hidden="true"`, empty alt explicitly marks them as decorative for HTML validation (Jan 13)
 - 📐 **Fluid Step Number Badges** - Added fluid scaling to step number badges across Downloads and FAQ pages: badge container scales 28px → 38px, number text uses new `text-badge-num-size` token (18px → 24px), icons use `text-badge-icon-size` token (12px → 18px), unified all badges to use single `.step-number-badge` class with `.step-number-badge-num` modifier for numbers - consistent sizing across all viewport widths (Jan 13)
 - 🎨 **Background Opacity Adjustments** - SVG world map background moved to `body::after` pseudo-element with 85% opacity (was 100% on body directly), diagonal stripe texture increased from 0.02 to 0.03 opacity for better visibility - background now slightly faded while stripes are more noticeable (Jan 13)

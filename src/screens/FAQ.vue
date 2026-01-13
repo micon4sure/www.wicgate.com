@@ -197,11 +197,11 @@ function scrollToQuestion(questionId: string) {
     <div class="container">
       <!-- Header -->
       <div class="text-center mb-12">
-        <h2
+        <h1
           class="text-5xl lg:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
           Frequently Asked Questions
-        </h2>
+        </h1>
         <p class="text-lg lg:text-xl text-t-secondary max-w-3xl mx-auto font-body leading-relaxed">
           Common questions about WICGATE and World in Conflict multiplayer
         </p>

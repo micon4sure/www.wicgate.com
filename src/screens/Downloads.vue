@@ -26,11 +26,11 @@ const tabs = [
     <div class="container">
       <!-- Header -->
       <div class="text-center mb-12">
-        <h2
+        <h1
           class="text-5xl lg:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
           Downloads
-        </h2>
+        </h1>
         <p class="text-lg lg:text-xl text-t-secondary max-w-2xl mx-auto font-body leading-relaxed">
           Choose your installation method and join the battlefield
         </p>
