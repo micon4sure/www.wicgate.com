@@ -67,6 +67,7 @@ function handleSelect(tabId: string) {
         <img
           v-if="isImageIcon(activeTab?.icon)"
           :src="activeTab?.icon"
+          alt=""
           class="w-[1.75em] h-[1.75em]"
           aria-hidden="true"
         />
@@ -100,6 +101,7 @@ function handleSelect(tabId: string) {
           <img
             v-if="isImageIcon(tab.icon)"
             :src="tab.icon"
+            alt=""
             class="w-[1.75em] h-[1.75em] mr-3"
             aria-hidden="true"
           />

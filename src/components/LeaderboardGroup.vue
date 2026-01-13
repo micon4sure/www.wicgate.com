@@ -229,6 +229,7 @@ onUnmounted(() => {
           <img
             v-if="getCategoryIcon(c) && isImageIcon(getCategoryIcon(c))"
             :src="getCategoryIcon(c)"
+            alt=""
             class="w-[2.25em] h-[2.25em]"
             aria-hidden="true"
           />
