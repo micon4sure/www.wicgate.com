@@ -2,7 +2,7 @@
  * OG Image Generator for WICGATE
  * Generates Open Graph images for social media sharing
  *
- * Uses hero_picture.png as base with WICGATE branding overlay
+ * Uses wasteland.jpg as base with WICGATE branding overlay
  */
 
 import sharp from 'sharp';
@@ -17,8 +17,8 @@ const OG_WIDTH = 1200;
 const OG_HEIGHT = 630;
 
 // WICGATE text logo (top-left)
-const WICGATE_LOGO_WIDTH = 200;
-const WICGATE_LOGO_HEIGHT = Math.round((396 / 2109) * 200); // ~38px
+const WICGATE_LOGO_WIDTH = 240;
+const WICGATE_LOGO_HEIGHT = Math.round((396 / 2109) * WICGATE_LOGO_WIDTH); // ~45px
 const LOGO_PADDING = 40;
 
 // WIC game logo (centered)
@@ -46,7 +46,7 @@ function createOverlaySvg(): Buffer {
 }
 
 async function generateOgImage(filename: string): Promise<void> {
-  const heroPath = resolve(PUBLIC_DIR, 'hero_picture.png');
+  const heroPath = resolve(PUBLIC_DIR, 'wasteland.jpg');
   const wicgateLogoPath = resolve(PUBLIC_DIR, 'wicgate-white.png');
   const wicLogoPath = resolve(PUBLIC_DIR, 'wic-logo.png');
   const outputPath = resolve(PUBLIC_DIR, filename);
