@@ -82,7 +82,7 @@
 
   /* Primary CTA buttons - Orange (downloads, main actions) */
   .btn-soviet {
-    @apply px-6 py-3 text-ink font-military font-bold uppercase tracking-wider rounded-none transition-all duration-300;
+    @apply px-6 py-3 text-dark-navy font-military font-bold uppercase tracking-wider rounded-none transition-all duration-300;
     background: linear-gradient(180deg, #ff8533 0%, #ff6600 100%);
     border: 2px solid rgba(255, 102, 0, 0.6);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 102, 0, 0.4);
@@ -923,7 +923,7 @@
 
   /* Step number badge */
   .step-number-badge {
-    @apply flex-shrink-0 flex items-center justify-center font-military font-bold text-ink;
+    @apply flex-shrink-0 flex items-center justify-center font-military font-bold text-dark-navy;
     @apply bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border border-massgate-orange-dark rounded-full;
   }
 
@@ -1791,7 +1791,7 @@
 
   @media (hover: hover) {
     .auth-btn-admin:hover {
-      @apply bg-massgate-gold border-massgate-gold-bright text-ink -translate-y-0.5;
+      @apply bg-massgate-gold border-massgate-gold-bright text-dark-navy -translate-y-0.5;
       box-shadow: 0 4px 16px rgba(241, 196, 15, 0.5);
     }
   }
@@ -1894,7 +1894,7 @@
 
   @media (hover: hover) {
     .mobile-auth-admin:hover {
-      @apply text-ink pl-10 border-massgate-gold-bright;
+      @apply text-dark-navy pl-10 border-massgate-gold-bright;
       background: linear-gradient(to right, #f1c40f, rgba(241, 196, 15, 0.3));
     }
   }
@@ -1921,7 +1921,7 @@
 
   @media (hover: hover) {
     .mobile-auth-login:hover {
-      @apply text-ink pl-10 border-massgate-orange;
+      @apply text-dark-navy pl-10 border-massgate-orange;
       background: linear-gradient(to right, #f5a24f, #f37c2b);
       box-shadow: 0 0 15px rgba(255, 102, 0, 0.4);
     }
@@ -2533,7 +2533,7 @@
   }
 
   .step-number {
-    @apply w-10 h-10 flex items-center justify-center bg-gradient-to-br from-soviet to-soviet-dark text-ink font-military font-bold text-xl rounded-lg flex-shrink-0;
+    @apply w-10 h-10 flex items-center justify-center bg-gradient-to-br from-soviet to-soviet-dark text-dark-navy font-military font-bold text-xl rounded-lg flex-shrink-0;
     box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
   }
 

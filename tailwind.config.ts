@@ -93,7 +93,6 @@ export default {
         },
 
         // Functional colors
-        'ink': '#0b141a',
         'online': '#7cb342',
         'discord': {
           DEFAULT: '#5865F2',      // Discord brand blue (official)

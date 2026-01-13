@@ -138,7 +138,10 @@ const tabs = [
                   <div
                     class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border border-massgate-orange-dark rounded-full flex items-center justify-center"
                   >
-                    <i class="fa-solid fa-network-wired text-ink text-xs" aria-hidden="true"></i>
+                    <i
+                      class="fa-solid fa-network-wired text-dark-navy text-xs"
+                      aria-hidden="true"
+                    ></i>
                   </div>
                   Network Ports
                 </h5>

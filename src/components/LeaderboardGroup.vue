@@ -416,8 +416,8 @@ onUnmounted(() => {
       aria-live="polite"
     >
       <div class="flex items-center gap-3">
-        <i class="fa-solid fa-check text-ink text-lg" aria-hidden="true"></i>
-        <span class="text-ink font-body font-semibold">Link copied to clipboard!</span>
+        <i class="fa-solid fa-check text-dark-navy text-lg" aria-hidden="true"></i>
+        <span class="text-dark-navy font-body font-semibold">Link copied to clipboard!</span>
       </div>
     </div>
   </transition>

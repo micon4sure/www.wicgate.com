@@ -235,7 +235,7 @@ function scrollToQuestion(questionId: string) {
                     class="step-number-badge-sm transition-all duration-200"
                     :class="openQuestion === item.q ? 'scale-110' : ''"
                   >
-                    <i class="fa-solid fa-question text-ink text-sm" aria-hidden="true"></i>
+                    <i class="fa-solid fa-question text-dark-navy text-sm" aria-hidden="true"></i>
                   </span>
 
                   <!-- Question text and copy link button -->
@@ -309,7 +309,7 @@ function scrollToQuestion(questionId: string) {
       <div class="help-cta-box">
         <div class="flex justify-center mb-4">
           <div class="teal-icon-badge">
-            <i class="fa-brands fa-discord text-ink text-xl" aria-hidden="true"></i>
+            <i class="fa-brands fa-discord text-dark-navy text-xl" aria-hidden="true"></i>
           </div>
         </div>
         <h4 class="text-heading font-military font-bold text-t uppercase tracking-wider mb-6">
@@ -346,8 +346,8 @@ function scrollToQuestion(questionId: string) {
         aria-live="polite"
       >
         <div class="flex items-center gap-3">
-          <i class="fa-solid fa-check text-ink text-lg" aria-hidden="true"></i>
-          <span class="text-ink font-body font-semibold">Link copied to clipboard!</span>
+          <i class="fa-solid fa-check text-dark-navy text-lg" aria-hidden="true"></i>
+          <span class="text-dark-navy font-body font-semibold">Link copied to clipboard!</span>
         </div>
       </div>
     </transition>
