@@ -2591,11 +2591,18 @@
   .lb-copy-link-btn {
     @apply flex-shrink-0 w-7 h-7 flex items-center justify-center rounded;
     @apply transition-all duration-200;
-    @apply opacity-0 group-hover:opacity-100;
     @apply hover:bg-massgate-gold/20 hover:text-massgate-gold-bright;
     @apply focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-massgate-gold/50;
     @apply text-massgate-gold/70;
     @apply cursor-pointer;
+  }
+
+  /* Desktop (lg+): hidden by default, show on hover */
+  @media screen(lg) {
+    .faq-copy-link-btn,
+    .lb-copy-link-btn {
+      @apply opacity-0 group-hover:opacity-100;
+    }
   }
 
   .faq-copy-link-btn.is-copied,
