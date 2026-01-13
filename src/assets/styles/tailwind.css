@@ -433,12 +433,12 @@
   }
 
   .countdown-badge-live {
-    @apply bg-teal/20 text-teal border-teal animate-pulse;
-    box-shadow: 0 0 12px rgba(13, 148, 136, 0.6);
+    @apply bg-soviet text-dark-navy border-soviet font-black animate-pulse;
+    box-shadow: 0 0 12px rgba(255, 102, 0, 0.6);
   }
 
   .countdown-badge-upcoming {
-    @apply bg-dark-navy-light/90 text-t border-panel-border/50;
+    @apply bg-soviet/20 text-soviet border-soviet/50;
   }
 
   /* Skeleton loading placeholder */

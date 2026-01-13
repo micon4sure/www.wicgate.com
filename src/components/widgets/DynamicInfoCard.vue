@@ -225,7 +225,7 @@ function selectTab(tabId: string) {
                   </div>
                   <span
                     v-if="!server.isLobby"
-                    class="text-data font-military font-bold text-teal flex-shrink-0"
+                    class="text-data font-military font-bold text-soviet flex-shrink-0"
                   >
                     {{ server.playerCount }}/16
                   </span>
