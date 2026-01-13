@@ -196,14 +196,7 @@ async function handleNavigation(sectionId: string) {
         class="fixed top-0 left-0 w-screen h-screen z-[999] pointer-events-none"
       >
         <div
-          class="absolute top-[var(--header-height)] left-0 w-screen pointer-events-auto flex flex-col p-0 min-h-[calc(100vh-var(--header-height))]"
-          style="
-            background: linear-gradient(
-              180deg,
-              rgba(10, 10, 10, 0.98) 0%,
-              rgba(5, 5, 5, 0.99) 100%
-            );
-          "
+          class="absolute top-[var(--header-height)] left-0 w-screen pointer-events-auto flex flex-col p-0 min-h-[calc(100vh-var(--header-height))] bg-dark-navy"
         >
           <button
             v-for="section in navSections"

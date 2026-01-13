@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🎨 **Mobile Nav Dark Navy + No Stripes** - Updated mobile navigation menu background from gray gradient to `bg-dark-navy` Tailwind token, removed diagonal stripe pattern from `.nav-mobile-link::after` pseudo-element in tailwind.css - mobile menu now matches site's navy theme without texture overlay (Jan 13)
 - 🔒 **Security: npm audit fix** - Fixed 3 vulnerabilities via dependency updates: happy-dom 19.0.2 → 20.1.0 (critical VM Context Escape fix), glob 10.4.5 → 10.5.0, js-yaml 4.1.0 → 4.1.1 - all quality gates pass (54 tests, typecheck, lint, build), no breaking changes (Jan 13)
 - 🎨 **Leaderboard Number Alignment Fix** - Changed leaderboard rank and score numbers from Rajdhani (`font-body`) to Roboto Mono (`font-mono`) for proper digit alignment: updated `.lb-cell-rank`, `.lb-cell-score`, `.ladder-rank`, `.ladder-score` classes, added Roboto Mono to Google Fonts import in `index.html`, updated `font-mono` stack in `tailwind.config.ts` to `['Roboto Mono', 'Courier New', 'monospace']` - monospace font ensures all digits have equal width for consistent column alignment (Jan 12)
 - 🎨 **Leaderboard Font Update** - Changed leaderboard rank numbers and scores from Oswald (`font-military`) to Rajdhani (`font-body`): updated `.lb-cell-rank`, `.lb-cell-score` in Statistics leaderboards and `.ladder-rank`, `.ladder-score` in hero section Top Players widget - numbers now use same font as player names for visual consistency (Jan 12)
