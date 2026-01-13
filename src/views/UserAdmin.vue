@@ -163,7 +163,7 @@ onMounted(() => {
         <div class="flex gap-4">
           <router-link
             to="/"
-            class="text-sm text-teal hover:text-teal-bright transition-colors duration-300 font-body uppercase tracking-wide"
+            class="text-sm text-teal hover:text-teal transition-colors duration-300 font-body uppercase tracking-wide"
           >
             <i class="fa-solid fa-home mr-2"></i>
             Home
@@ -278,7 +278,7 @@ onMounted(() => {
               </div>
               <div class="flex items-center gap-4">
                 <label
-                  class="cursor-pointer text-teal hover:text-teal-bright transition-colors text-sm font-body uppercase"
+                  class="cursor-pointer text-teal hover:text-teal transition-colors text-sm font-body uppercase"
                 >
                   <i
                     v-if="uploadingProfileId === profile.profileId"

@@ -161,7 +161,7 @@ function handleKeyPress(event: KeyboardEvent) {
       <div class="mt-6 text-center">
         <router-link
           to="/"
-          class="text-sm text-teal hover:text-teal-bright transition-colors duration-300 font-body uppercase tracking-wide"
+          class="text-sm text-teal hover:text-teal transition-colors duration-300 font-body uppercase tracking-wide"
         >
           <i class="fa-solid fa-arrow-left mr-2"></i>
           Back to Home

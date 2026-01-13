@@ -408,7 +408,7 @@
   }
 
   .event-accordion-date {
-    @apply text-data text-t-tertiary font-body whitespace-nowrap flex items-center gap-1;
+    @apply text-data text-t-secondary font-body whitespace-nowrap flex items-center gap-1;
   }
 
   .event-accordion-content {
@@ -429,12 +429,12 @@
 
   /* Countdown badge */
   .countdown-badge {
-    @apply px-3 py-1 text-sm font-bold tracking-wider uppercase font-military border;
+    @apply px-3 py-1 text-data font-bold tracking-wider uppercase font-military border;
   }
 
   .countdown-badge-live {
-    @apply bg-online/20 text-online border-online animate-pulse;
-    box-shadow: 0 0 12px rgba(124, 179, 66, 0.6);
+    @apply bg-teal/20 text-teal border-teal animate-pulse;
+    box-shadow: 0 0 12px rgba(13, 148, 136, 0.6);
   }
 
   .countdown-badge-upcoming {
@@ -1139,7 +1139,7 @@
 
   /* Clan tag styling - unified with other leaderboard data */
   .lb-clan-tag {
-    @apply font-body text-clan-teal font-semibold text-data;
+    @apply font-body text-teal font-semibold text-data;
     @apply inline-block align-middle leading-[1.2] m-0 p-0 flex-shrink-0;
   }
   /* text-data scales fluidly (16px → 18px), no breakpoint overrides needed */
@@ -1190,7 +1190,7 @@
   }
 
   .video-card-meta {
-    @apply text-xs text-t-tertiary font-body;
+    @apply text-label text-t-secondary font-body;
   }
 
   /* ========== FAQ ITEM COMPONENTS ========== */
@@ -1474,7 +1474,7 @@
 
   /* Clan tag styling - unified with other leaderboard data */
   .clan-tag {
-    @apply font-body text-clan-teal font-semibold text-data;
+    @apply font-body text-teal font-semibold text-data;
     @apply inline align-middle leading-[1.2] m-0 p-0;
   }
   /* text-data scales fluidly (16px → 18px), no breakpoint overrides needed */
@@ -1833,7 +1833,7 @@
 
   .auth-btn-login:active {
     @apply text-teal translate-y-0;
-    @apply bg-teal/15 border-teal-dark;
+    @apply bg-teal/15 border-teal;
   }
 
   /* Account button (green - when logged in) */
@@ -2283,7 +2283,7 @@
 
   /* Non-link text (like .text-bold spans) - Teal bold for filenames/paths */
   #downloads .text-bold {
-    @apply text-clan-teal font-bold;
+    @apply text-teal font-bold;
   }
 
   /* ========== SKELETON LOADERS ========== */
@@ -2464,7 +2464,7 @@
   }
 
   .slide-icon {
-    @apply w-20 h-20 flex items-center justify-center bg-gradient-to-br from-teal-bright/30 to-teal-glow/15 border-2 border-teal-darker rounded-2xl text-4xl text-teal mb-6;
+    @apply w-20 h-20 flex items-center justify-center bg-gradient-to-br from-teal/30 to-teal/15 border-2 border-tealer rounded-2xl text-4xl text-teal mb-6;
     box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
   }
 
@@ -2572,12 +2572,12 @@
 
   /* Widget clan tag */
   .widget-clan-tag {
-    @apply font-body text-clan-teal font-semibold text-data tracking-[0.3px] flex-shrink-0;
+    @apply font-body text-teal font-semibold text-data tracking-[0.3px] flex-shrink-0;
   }
 
   /* Smaller clan tag variant (DynamicInfoCard online players) */
   .widget-clan-tag-sm {
-    @apply font-body text-clan-teal font-semibold text-data tracking-[0.2px] align-middle;
+    @apply font-body text-teal font-semibold text-data tracking-[0.2px] align-middle;
   }
 
   /* Smaller player name variant (DynamicInfoCard) */

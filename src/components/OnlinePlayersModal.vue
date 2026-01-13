@@ -62,7 +62,7 @@ function formatPlayerClanTag(player: {
           </div>
           <span
             v-if="!server.isLobby"
-            class="text-xs font-military font-bold text-online flex-shrink-0"
+            class="text-data font-military font-bold text-teal flex-shrink-0"
           >
             {{ server.playerCount }}/16
           </span>

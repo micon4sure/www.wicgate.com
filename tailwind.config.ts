@@ -31,8 +31,8 @@ export default {
           dark: '#ffa000',         // Dark gold
         },
 
-        // Clan Tag Teal (leaderboard clan tags)
-        'clan-teal': '#0d9488',
+        // Teal accent color
+        'teal': '#0d9488',
 
         // Dark Textures (PRIMARY BASE - main background, body)
         'texture': {
@@ -79,15 +79,6 @@ export default {
           glowStrong: 'rgba(255, 102, 0, 0.7)',  // Initial glow (0%)
           glowMedium: 'rgba(255, 102, 0, 0.6)',  // Peak glow (50%)
           glowSoft: 'rgba(255, 102, 0, 0.4)',    // Ambient glow
-        },
-
-        // Teal Theme (PRIMARY ACCENT - navigation, highlights, active states)
-        'teal': {
-          DEFAULT: '#00d9ff',      // Primary teal accent (navigation, active states)
-          bright: '#4de8ff',       // Bright teal (hover highlights)
-          dark: '#00b8d4',         // Dark teal (borders)
-          darker: '#008b9e',       // Darker teal (headers, badges)
-          glow: '#26c6da',         // Teal glow effect
         },
 
         // Legacy compatibility (TODO: migrate components and remove)

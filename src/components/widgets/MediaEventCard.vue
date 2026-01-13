@@ -325,7 +325,7 @@ function openVideo(video: YouTubeVideo) {
                   <p class="text-data font-body font-semibold text-t m-0 line-clamp-2 leading-snug">
                     {{ video.title }}
                   </p>
-                  <div class="text-sm text-t-tertiary font-body mt-1">
+                  <div class="video-card-meta mt-1">
                     <span v-if="video.author">{{ video.author }}</span>
                     <span v-if="video.views != null">
                       {{ video.author ? ' • ' : '' }}{{ video.views.toLocaleString() }} views</span
@@ -337,10 +337,7 @@ function openVideo(video: YouTubeVideo) {
                 </div>
               </div>
             </div>
-            <div
-              v-else
-              class="h-full flex items-center justify-center text-t-tertiary font-body text-data"
-            >
+            <div v-else class="video-card-meta h-full flex items-center justify-center">
               No videos yet
             </div>
           </template>

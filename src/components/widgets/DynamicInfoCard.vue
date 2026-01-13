@@ -184,7 +184,7 @@ function selectTab(tabId: string) {
         <span v-if="playerCount > 0" class="widget-badge-count">{{ playerCount }}</span>
         <i
           v-if="playerCount > 0 && !isSSR"
-          class="fa-solid fa-expand ml-1 text-xs opacity-60 hover:opacity-100 transition-opacity"
+          class="fa-solid fa-expand ml-1 text-subtab opacity-60 hover:opacity-100 transition-opacity"
           title="Expand to full view"
           @click.stop="openPlayersModal"
         ></i>
@@ -225,7 +225,7 @@ function selectTab(tabId: string) {
                   </div>
                   <span
                     v-if="!server.isLobby"
-                    class="text-sm font-military font-bold text-online flex-shrink-0"
+                    class="text-data font-military font-bold text-teal flex-shrink-0"
                   >
                     {{ server.playerCount }}/16
                   </span>
