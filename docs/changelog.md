@@ -1,6 +1,7 @@
 # Changelog
 
 ## Recent Changes - Quick Summary
+- 🎨 **Background Opacity Adjustments** - SVG world map background moved to `body::after` pseudo-element with 85% opacity (was 100% on body directly), diagonal stripe texture increased from 0.02 to 0.03 opacity for better visibility - background now slightly faded while stripes are more noticeable (Jan 13)
 - 🎨 **FirstVisitOverlay Styling Refresh** - Updated overlay styles to match site theme: `.cta-box` now uses `dark-navy-light`/`dark-navy-dark` gradient (was neutral gray `texture-panel`/`texture-dark`), added missing `.btn` and `.btn-p` button classes (base styles + orange soviet CTA with hover/active states), step text uses `text-data` fluid sizing (15→19px), backdrop opacity reduced from 85% to 75% for more background visibility, overlay card uses `rounded-xl` (was `rounded-2xl`) (Jan 13)
 - 🖼️ **OG Image: Wasteland Theme** - Updated OpenGraph image to use `wasteland.jpg` as base: changed `generate-og-images.ts` to use new hero image, increased WICGATE logo from 200px to 240px width, regenerated `og-default.jpg` with logo overlays (vignette, WICGATE top-left, WIC logo centered) (Jan 13)
 - 📱 **Mobile Anchor Link Buttons Always Visible** - Copy link buttons (`.faq-copy-link-btn`, `.lb-copy-link-btn`) now always visible on mobile/tablet (<1024px), hidden with hover-reveal on desktop: moved `opacity-0 group-hover:opacity-100` into `@media screen(lg)` block in tailwind.css - prevents mistaps on mobile where buttons were invisible until tapping the card (Jan 13)
