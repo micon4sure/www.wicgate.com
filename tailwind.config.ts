@@ -193,6 +193,12 @@ export default {
 
         // Labels and subtitles (logo, leaderboard headers, stat labels)
         'label': ['clamp(0.8125rem, 0.777rem + 0.179vw, 0.9375rem)', { lineHeight: '1.5' }],  // 13px → 15px
+
+        // Badge icon size (icons inside circular badges)
+        'badge-icon-size': ['clamp(0.75rem, 0.643rem + 0.536vw, 1.125rem)', { lineHeight: '1' }],  // 12px → 18px
+
+        // Badge number size (larger than icons to compensate for text not filling em-box)
+        'badge-num-size': ['clamp(1.125rem, 1.018rem + 0.536vw, 1.5rem)', { lineHeight: '1' }],  // 18px → 24px
       },
 
       backgroundImage: {

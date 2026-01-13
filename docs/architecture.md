@@ -978,8 +978,10 @@ setTimeout(() => {
 | `text-mainnav` | 19px → 23px | Header navigation tabs |
 | `text-subtab` | 16px → 20px | Secondary navigation tabs |
 | `text-tab` | 14px → 18px | Content tabs, leaderboard tabs |
-| `text-data` | 15px → 19px | Data display (leaderboards, widgets, descriptions, body text, badges, admin UI) |
+| `text-data` | 15px → 19px | Data display (leaderboards, widgets, descriptions, body text) |
 | `text-label` | 13px → 15px | Labels, subtitles |
+| `text-badge-num-size` | 18px → 24px | Step number badges (Downloads) |
+| `text-badge-icon-size` | 12px → 18px | Icon badges (FAQ question marks, network icon) |
 
 **Fluid Typography:**
 All tokens use CSS `clamp()` for smooth viewport-based scaling between 320px and 1440px:

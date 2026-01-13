@@ -933,18 +933,17 @@
     @apply step-card h-fit lg:sticky lg:top-24;
   }
 
-  /* Step number badge */
+  /* Step number badge - fluid scaling (28px → 38px, 320px-1440px viewport) */
   .step-number-badge {
-    @apply flex-shrink-0 flex items-center justify-center font-military font-bold text-dark-navy;
+    @apply flex-shrink-0 flex items-center justify-center font-military font-bold text-dark-navy text-badge-icon-size;
     @apply bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border border-massgate-orange-dark rounded-full;
+    width: clamp(1.75rem, 1.571rem + 0.893vw, 2.375rem);
+    height: clamp(1.75rem, 1.571rem + 0.893vw, 2.375rem);
   }
 
-  .step-number-badge-lg {
-    @apply step-number-badge w-10 h-10 text-xl;
-  }
-
-  .step-number-badge-sm {
-    @apply step-number-badge w-8 h-8 text-lg;
+  /* Larger text for number badges */
+  .step-number-badge-num {
+    @apply text-badge-num-size;
   }
 
   /* ========== YOUTUBE CHANNEL LINK ========== */

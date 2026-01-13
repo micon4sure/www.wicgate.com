@@ -56,7 +56,7 @@ const tabs = [
             <div class="flex flex-col gap-4">
               <div v-for="s in steps" :key="s.n" class="step-card">
                 <div class="flex items-start gap-4">
-                  <span class="step-number-badge-lg">
+                  <span class="step-number-badge step-number-badge-num">
                     {{ s.n }}
                   </span>
                   <div class="flex-1">
@@ -114,7 +114,7 @@ const tabs = [
               <div class="flex flex-col gap-4">
                 <div v-for="step in dedicatedServerSteps" :key="step.n" class="step-card">
                   <div class="flex items-start gap-4">
-                    <span class="step-number-badge-sm">
+                    <span class="step-number-badge step-number-badge-num">
                       {{ step.n }}
                     </span>
                     <div class="flex-1">
@@ -135,14 +135,9 @@ const tabs = [
                 <h5
                   class="font-military font-bold uppercase tracking-wider text-heading mb-4 text-t flex items-center gap-3"
                 >
-                  <div
-                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-b from-massgate-orange to-massgate-orange-dark border border-massgate-orange-dark rounded-full flex items-center justify-center"
-                  >
-                    <i
-                      class="fa-solid fa-network-wired text-dark-navy text-xs"
-                      aria-hidden="true"
-                    ></i>
-                  </div>
+                  <span class="step-number-badge">
+                    <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
+                  </span>
                   Network Ports
                 </h5>
                 <p class="text-t-secondary text-data mb-4 font-body leading-relaxed">
@@ -214,7 +209,7 @@ const tabs = [
             <div class="flex flex-col gap-4">
               <div v-for="step in manualInstallSteps" :key="step.n" class="step-card">
                 <div class="flex items-start gap-4">
-                  <span class="step-number-badge-sm">
+                  <span class="step-number-badge step-number-badge-num">
                     {{ step.n }}
                   </span>
                   <div class="flex-1">

@@ -232,10 +232,10 @@ function scrollToQuestion(questionId: string) {
                 >
                   <!-- Question Icon Badge (similar to Downloads numbered badges) -->
                   <span
-                    class="step-number-badge-sm transition-all duration-200"
+                    class="step-number-badge transition-all duration-200"
                     :class="openQuestion === item.q ? 'scale-110' : ''"
                   >
-                    <i class="fa-solid fa-question text-dark-navy text-sm" aria-hidden="true"></i>
+                    <i class="fa-solid fa-question" aria-hidden="true"></i>
                   </span>
 
                   <!-- Question text and copy link button -->
