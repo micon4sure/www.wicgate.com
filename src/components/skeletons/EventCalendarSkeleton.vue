@@ -22,7 +22,7 @@
       <div class="h-[50px] skeleton-shimmer"></div>
 
       <!-- Weekday Headers -->
-      <div class="grid grid-cols-7 gap-px bg-divider">
+      <div class="grid grid-cols-7 gap-px bg-white/10">
         <div
           v-for="n in 7"
           :key="'weekday-' + n"
@@ -32,7 +32,7 @@
       </div>
 
       <!-- Calendar Grid (6 rows x 7 columns = 42 days) -->
-      <div class="grid grid-cols-7 gap-px bg-divider">
+      <div class="grid grid-cols-7 gap-px bg-white/10">
         <div v-for="row in 6" :key="'row-' + row" class="contents">
           <div
             v-for="col in 7"
