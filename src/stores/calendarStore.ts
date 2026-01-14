@@ -1,5 +1,7 @@
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { defineStore } from 'pinia';
+import { formatDate, getCountdown as getCountdownUtil } from '../utils';
+import { EVENT_COUNTDOWN_INTERVAL } from '../constants';
 import type { CommunityEvent } from '../api-types';
 
 export interface CalendarDay {
@@ -11,6 +13,8 @@ export interface CalendarDay {
   isPast: boolean;
 }
 
+const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
+
 export const useCalendarStore = defineStore('calendar', () => {
   // Current displayed month (year, month index 0-11)
   const currentYear = ref(new Date().getFullYear());
@@ -19,20 +23,108 @@ export const useCalendarStore = defineStore('calendar', () => {
   // Selected date with events (null = none selected)
   const selectedDate = ref<string | null>(null);
 
-  // Events data (synced from useEvents composable)
+  // Events data and loading state
   const events = ref<CommunityEvent[]>([]);
+  const isLoading = ref(true);
+
+  // Reactive now for countdown calculations
+  const now = ref(new Date());
+  let timer: number | undefined;
+
+  // Fetch events from API
+  async function fetchEvents() {
+    if (import.meta.env.SSR) {
+      isLoading.value = false;
+      return;
+    }
+
+    try {
+      const url = API + (import.meta.env.MODE === 'production' ? '/events' : '/events-test');
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data: CommunityEvent[] = await response.json();
+
+      // Sort by date ascending
+      events.value = data.sort((a, b) => {
+        const dateA = new Date(a.start).getTime();
+        const dateB = new Date(b.start).getTime();
+        return dateA - dateB;
+      });
+
+      if (import.meta.env.DEV) console.log(`Fetched ${events.value.length} events from ${url}`);
+    } catch (err: unknown) {
+      if (import.meta.env.DEV) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.error('Failed to fetch events:', message, err);
+      }
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // Start/stop countdown timer based on events
+  function startTimer() {
+    if (typeof window === 'undefined' || timer !== undefined) return;
+    timer = window.setInterval(() => {
+      now.value = new Date();
+    }, EVENT_COUNTDOWN_INTERVAL);
+  }
+
+  function stopTimer() {
+    if (timer !== undefined) {
+      clearInterval(timer);
+      timer = undefined;
+    }
+  }
+
+  // Watch events to manage timer lifecycle
+  watch(
+    events,
+    (newEvents) => {
+      if (newEvents.length > 0) {
+        startTimer();
+      } else {
+        stopTimer();
+      }
+    },
+    { immediate: true }
+  );
+
+  // Countdown helper that uses reactive now
+  function getCountdown(raw: string): string {
+    return getCountdownUtil(raw, now.value);
+  }
+
+  // Auto-fetch on store creation
+  fetchEvents();
 
   // Computed: Get events grouped by date
   const eventsByDate = computed(() => {
     const map = new Map<string, CommunityEvent[]>();
+    const now = new Date();
+    const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
     events.value.forEach((event) => {
-      // Extract date portion from ISO string (e.g., '2025-10-10T12:00:00Z' -> '2025-10-10')
-      const dateKey = event.start.slice(0, 10);
+      // Convert to local timezone before extracting date (fixes timezone mismatch with MediaEventCard)
+      const eventDate = new Date(event.start);
+      const dateKey = `${eventDate.getFullYear()}-${String(eventDate.getMonth() + 1).padStart(2, '0')}-${String(eventDate.getDate()).padStart(2, '0')}`;
+
+      // Add to original date
       const existing = map.get(dateKey);
       if (existing) {
         existing.push(event);
       } else {
         map.set(dateKey, [event]);
+      }
+
+      // If event has started (LIVE NOW), also add to today's date
+      if (eventDate.getTime() < now.getTime() && dateKey !== todayKey) {
+        const todayEvents = map.get(todayKey);
+        if (todayEvents) {
+          if (!todayEvents.includes(event)) todayEvents.push(event);
+        } else {
+          map.set(todayKey, [event]);
+        }
       }
     });
     return map;
@@ -44,12 +136,15 @@ export const useCalendarStore = defineStore('calendar', () => {
     return eventsByDate.value.get(selectedDate.value) || [];
   });
 
-  // Computed: Check if can navigate to previous month (not before current month)
+  // Computed: Check if can navigate to previous month (allow navigating to earliest event)
   const canGoPrevious = computed(() => {
-    const now = new Date();
-    const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const firstEvent = events.value[0];
+    if (!firstEvent) return false;
+    // Find earliest event date (events are sorted ascending)
+    const earliestEvent = new Date(firstEvent.start);
+    const earliestMonthStart = new Date(earliestEvent.getFullYear(), earliestEvent.getMonth(), 1);
     const displayedMonthStart = new Date(currentYear.value, currentMonth.value, 1);
-    return displayedMonthStart > currentMonthStart;
+    return displayedMonthStart > earliestMonthStart;
   });
 
   // Computed: Days in current month with metadata
@@ -158,23 +253,26 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
   }
 
-  function setEvents(newEvents: CommunityEvent[]) {
-    events.value = newEvents;
-  }
-
   return {
+    // State
     currentYear,
     currentMonth,
     selectedDate,
     events,
+    isLoading,
+    // Computed
     eventsByDate,
     selectedDateEvents,
     canGoPrevious,
     calendarDays,
     monthDisplayName,
+    // Actions
     goToNextMonth,
     goToPreviousMonth,
     selectDate,
-    setEvents,
+    fetchEvents,
+    // Helpers
+    getCountdown,
+    formatDate,
   };
 });

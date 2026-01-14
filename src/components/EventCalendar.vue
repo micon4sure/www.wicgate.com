@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { watch, computed, ref, inject } from 'vue';
+import { computed, ref, inject } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useEvents } from '../composables/useEvents';
 import { useCalendarStore } from '../stores/calendarStore';
 import type { CalendarDay } from '../stores/calendarStore';
 
@@ -34,22 +33,16 @@ function copyLink() {
   });
 }
 
-// Get events from existing composable
-const { events: rawEvents, isLoading } = useEvents();
-
-// Calendar store
+// Calendar store (single source of truth for events)
 const calendarStore = useCalendarStore();
-const { monthDisplayName, calendarDays, selectedDate, selectedDateEvents, canGoPrevious } =
-  storeToRefs(calendarStore);
-
-// Sync events from composable to store
-watch(
-  rawEvents,
-  (newEvents) => {
-    calendarStore.setEvents(newEvents);
-  },
-  { immediate: true }
-);
+const {
+  isLoading,
+  monthDisplayName,
+  calendarDays,
+  selectedDate,
+  selectedDateEvents,
+  canGoPrevious,
+} = storeToRefs(calendarStore);
 
 // Weekday labels (Monday first)
 const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];

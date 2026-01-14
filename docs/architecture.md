@@ -279,8 +279,12 @@ const currentSection = computed(() => {
    - Route guards for protected pages (`/admin`)
    - Role-based access control
 
-3. **[calendarStore.ts](../src/stores/calendarStore.ts)** - Event calendar state
-   - Month navigation (can't go before current month)
+3. **[calendarStore.ts](../src/stores/calendarStore.ts)** - Event calendar state & data
+   - Single source of truth for events (fetches from `/events` API)
+   - `isLoading` state for loading skeletons
+   - Countdown timer management (`getCountdown` helper)
+   - Month navigation (can navigate to earliest event month)
+   - Live events appear on today's date in addition to original date
    - Selected date tracking for accordion behavior
    - `eventsByDate` computed for quick date lookup
    - `calendarDays` computed for full month grid with padding
@@ -1037,7 +1041,6 @@ Use CSS variable for spacing:
 ### Key Composables
 
 **[useYoutube.ts](../src/composables/useYoutube.ts)** - Multi-channel video fetching (Atom feeds, SSR-safe)
-**[useEvents.ts](../src/composables/useEvents.ts)** - Discord events with countdown timers
 **[useFirstVisit.ts](../src/composables/useFirstVisit.ts)** - Welcome overlay management
 **[useOverlayState.ts](../src/composables/useOverlayState.ts)** - Cross-component overlay visibility tracking (used by BaseOverlay to pause hero video when any overlay is open)
 **[useMobileTabs.ts](../src/composables/useMobileTabs.ts)** - Mobile tab dropdown behavior (breakpoint detection, dropdown state, click-outside/escape handling) - defaults to `SUB_TAB_BREAKPOINT` (640px), used by MobileTabDropdown and sub-tab components
@@ -1103,7 +1106,7 @@ Use CSS variable for spacing:
    - Manual controls: prev/next arrow buttons (desktop only) + dot indicators (all devices)
    - Touch/swipe support: 50px threshold for left/right swipes on mobile
    - Navigation: arrows hidden on mobile (<768px), visible on desktop with z-20 layering
-   - Integrated with useYoutube() and useEvents() composables
+   - Integrated with useYoutube() composable and calendarStore for events
    - SSR-safe guards for timer initialization
 
 2. **[DynamicInfoCard.vue](../src/components/widgets/DynamicInfoCard.vue)** (254 lines)

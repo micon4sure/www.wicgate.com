@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, watch, onActivated, onDeactivated, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
 import { useAppDataStore } from '../stores/appDataStore';
-import { useEvents } from '../composables/useEvents';
+import { useCalendarStore } from '../stores/calendarStore';
 import { useYoutube } from '../composables/useYoutube';
 import { useFirstVisit } from '../composables/useFirstVisit';
 import { useViewportMode } from '../composables/useViewportMode';
@@ -13,11 +14,12 @@ import { getRoutePath } from '../types/navigation';
 
 const router = useRouter();
 const store = useAppDataStore();
+const calendarStore = useCalendarStore();
 const { openPrimer } = useFirstVisit();
 const { isMobileMode } = useViewportMode();
 const { overlayActive } = useOverlayState();
 
-const { events } = useEvents();
+const { isLoading: eventsLoading } = storeToRefs(calendarStore);
 const { videosSorted } = useYoutube();
 
 // SSR detection
@@ -189,9 +191,8 @@ function goToSection(sectionOrSubsectionId: string) {
 
         <MediaEventCard
           :videos="videosSorted"
-          :events="events"
           :is-s-s-r="isSSR"
-          :loading="store.loading"
+          :loading="store.loading || eventsLoading"
           @navigate="goToSection"
         />
       </div>

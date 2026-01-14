@@ -141,7 +141,6 @@ src/
 │   └── Home.vue         # Main SPA with all sections
 ├── composables/         # Composition functions
 │   ├── useYoutube.ts    # Multi-channel video fetching
-│   ├── useEvents.ts     # Discord events integration
 │   ├── useServerCapacity.ts  # Server capacity colors
 │   ├── usePlayerDisplay.ts   # Player name parsing
 │   ├── useActiveSection.ts   # Scroll state management

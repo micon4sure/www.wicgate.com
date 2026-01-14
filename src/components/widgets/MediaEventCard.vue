@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { computed, ref, watch, onMounted } from 'vue';
-import type { YouTubeVideo, CommunityEvent } from '../../api-types';
+import { storeToRefs } from 'pinia';
+import type { YouTubeVideo } from '../../api-types';
+import { useCalendarStore } from '../../stores/calendarStore';
 import { useMobileTabs } from '../../composables/useMobileTabs';
 import MobileTabDropdown, { type MobileTab } from '../MobileTabDropdown.vue';
 import YouTubeTheater from '../YouTubeTheater.vue';
+
+// Calendar store (single source of truth for events)
+const calendarStore = useCalendarStore();
+const { events } = storeToRefs(calendarStore);
 
 // Track which event is expanded (by index)
 const expandedEventIndex = ref(0);
@@ -18,7 +24,6 @@ const tabs: MobileTab[] = [
 
 const props = defineProps<{
   videos: YouTubeVideo[];
-  events: CommunityEvent[];
   isSSR: boolean;
   loading: boolean;
 }>();
@@ -75,7 +80,7 @@ function isNewVideo(videoId: string): boolean {
 const shouldShowEvent = computed(() => {
   if (manualView.value === 'videos') return false;
   if (manualView.value === 'events') return true;
-  return props.events.length > 0;
+  return events.value.length > 0;
 });
 
 // Expand an event by index
@@ -111,22 +116,9 @@ function formatDate(dateString: string): string {
   });
 }
 
-// Get countdown or "LIVE NOW" status
+// Get countdown from store (reactive, updates with timer)
 function getCountdown(startDate: string): string {
-  const now = Date.now();
-  const start = new Date(startDate).getTime();
-  const diff = start - now;
-
-  if (diff < 0) return 'LIVE NOW';
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-  if (days > 0) return `${days}d ${hours}h`;
-  if (hours > 0) return `${hours}h`;
-
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  return `${minutes}m`;
+  return calendarStore.getCountdown(startDate);
 }
 
 function handleVideosClick() {
