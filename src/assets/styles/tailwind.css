@@ -453,6 +453,197 @@
     @apply bg-soviet/20 text-soviet border-soviet/50;
   }
 
+  /* ========== CALENDAR COMPONENTS ========== */
+
+  /* Calendar container card */
+  .calendar-card {
+    @apply bg-video-card border border-card overflow-hidden;
+    box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
+  }
+
+  /* Calendar header with month/year and navigation */
+  .calendar-header {
+    @apply flex items-center justify-between p-4 border-b border-white/10;
+    background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+  }
+
+  .calendar-header-title {
+    @apply text-heading font-military font-bold text-t uppercase tracking-wide;
+  }
+
+  /* Navigation arrow buttons */
+  .calendar-nav-btn {
+    @apply w-10 h-10 flex items-center justify-center;
+    @apply text-t-secondary transition-all duration-200;
+    @apply border border-transparent cursor-pointer;
+    background: transparent;
+  }
+
+  .calendar-nav-btn:disabled {
+    @apply opacity-30 cursor-not-allowed;
+  }
+
+  @media (hover: hover) {
+    .calendar-nav-btn:not(:disabled):hover {
+      @apply text-soviet border-soviet/50 -translate-y-0.5;
+      background: rgba(255, 102, 0, 0.1);
+    }
+  }
+
+  /* Weekday header row */
+  .calendar-weekdays {
+    @apply grid grid-cols-7 border-b border-white/10;
+    @apply bg-panel/50;
+  }
+
+  .calendar-weekday {
+    @apply py-2 text-center text-label font-military font-medium uppercase tracking-wide;
+    @apply text-t-secondary;
+  }
+
+  /* Calendar days grid */
+  .calendar-grid {
+    @apply grid grid-cols-7;
+  }
+
+  /* Individual day cell */
+  .calendar-day {
+    @apply relative flex items-center justify-center;
+    @apply py-3 text-data font-body transition-all duration-200;
+    @apply border-b border-r border-white/5 cursor-pointer;
+    @apply min-h-[48px];
+  }
+
+  /* Day cell - last column (no right border) */
+  .calendar-day:nth-child(7n) {
+    @apply border-r-0;
+  }
+
+  /* Day cell - last row (no bottom border) */
+  .calendar-grid > .calendar-day:nth-last-child(-n+7) {
+    @apply border-b-0;
+  }
+
+  /* Day number styling */
+  .calendar-day-num {
+    @apply w-8 h-8 flex items-center justify-center rounded-full;
+    @apply transition-all duration-200;
+  }
+
+  /* Day states */
+  .calendar-day-other {
+    @apply text-t-tertiary;
+  }
+
+  .calendar-day-past {
+    @apply text-t-tertiary opacity-60;
+  }
+
+  .calendar-day-today .calendar-day-num {
+    @apply border-2 border-teal text-teal font-bold;
+  }
+
+  /* Day with upcoming events (not today) - matches countdown-badge-upcoming */
+  .calendar-day-event .calendar-day-num {
+    @apply bg-soviet/20 text-soviet border-2 border-soviet/50 font-bold;
+  }
+
+  /* Today with events - matches countdown-badge-live (pulsing orange) */
+  .calendar-day-today.calendar-day-event .calendar-day-num {
+    @apply bg-soviet text-dark-navy border-2 border-soviet font-black animate-pulse;
+    box-shadow: 0 0 12px rgba(255, 102, 0, 0.6);
+  }
+
+  /* Day with events - hover state */
+  @media (hover: hover) {
+    .calendar-day-event:hover {
+      @apply bg-soviet/10;
+    }
+
+    .calendar-day-event:not(.calendar-day-today):hover .calendar-day-num {
+      @apply bg-soviet/30 border-soviet;
+    }
+  }
+
+  /* Day selected state */
+  .calendar-day-selected {
+    @apply bg-soviet/20;
+  }
+
+  .calendar-day-selected .calendar-day-num {
+    @apply bg-soviet text-dark-navy font-bold;
+  }
+
+  /* Event details panel (below calendar) */
+  .calendar-events-panel {
+    @apply border-t border-white/10 overflow-hidden;
+  }
+
+  .calendar-events-header {
+    @apply flex items-center gap-3 p-4;
+    background: linear-gradient(to bottom, theme('colors.section-header.from'), theme('colors.section-header.to'));
+  }
+
+  .calendar-events-date {
+    @apply text-data font-military font-bold text-t uppercase tracking-wide;
+  }
+
+  .calendar-events-list {
+    @apply flex flex-col gap-2 p-4;
+  }
+
+  /* Individual event item in the list */
+  .calendar-event-item {
+    @apply block bg-list-item border border-card-inner overflow-hidden;
+    @apply transition-all duration-200 no-underline p-4;
+  }
+
+  @media (hover: hover) {
+    .calendar-event-item:hover {
+      @apply border-panel-border/60;
+      box-shadow: 0 0 15px rgba(55, 87, 109, 0.25);
+    }
+  }
+
+  .calendar-event-name {
+    @apply text-data font-body font-semibold text-t m-0 mb-2;
+  }
+
+  .calendar-event-time {
+    @apply text-label text-soviet font-military uppercase tracking-wide;
+  }
+
+  .calendar-event-desc {
+    @apply text-label text-t-secondary font-body mt-2 line-clamp-2;
+  }
+
+  /* Calendar mobile adjustments */
+  @media not all and screen(sm) {
+    .calendar-day {
+      @apply min-h-[44px] py-2;
+    }
+
+    .calendar-day-num {
+      @apply w-7 h-7 text-sm;
+    }
+
+    .calendar-weekday {
+      @apply py-1.5 text-xs;
+    }
+
+    .calendar-header {
+      @apply p-3;
+    }
+
+    .calendar-header-title {
+      @apply text-lg;
+    }
+
+    .calendar-nav-btn {
+      @apply w-8 h-8;
+    }
+  }
+
   /* Skeleton loading placeholder */
   .skeleton-placeholder {
     @apply bg-mg/15 border border-mg/25 animate-pulse;

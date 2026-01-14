@@ -279,6 +279,12 @@ const currentSection = computed(() => {
    - Route guards for protected pages (`/admin`)
    - Role-based access control
 
+3. **[calendarStore.ts](../src/stores/calendarStore.ts)** - Event calendar state
+   - Month navigation (can't go before current month)
+   - Selected date tracking for accordion behavior
+   - `eventsByDate` computed for quick date lookup
+   - `calendarDays` computed for full month grid with padding
+
 **Key Pattern:**
 ```typescript
 // ❌ WRONG - Loses reactivity
@@ -1121,7 +1127,7 @@ Use CSS variable for spacing:
 
 **[Downloads.vue](../src/screens/Downloads.vue)** - 3-tab installation guide (Quick Install, Dedicated Server, Manual Install) using TabContainer with hash navigation
 **[Statistics.vue](../src/screens/Statistics.vue)** - Player rankings and competitive leaderboards with tabbed interface
-**[Community.vue](../src/screens/Community.vue)** - Community links, live streams, dynamic content creator video tabs
+**[Community.vue](../src/screens/Community.vue)** - Community links, events calendar, live streams, dynamic content creator video tabs
 **[FAQ.vue](../src/screens/FAQ.vue)** - 4-category tabbed FAQ (About WICGATE, Getting Started, Technical Issues, Gameplay & Features) with:
   - SSR-compatible structured data via `useHead()`
   - Copy link buttons on all 21 questions (industry-standard pattern)
@@ -1138,6 +1144,7 @@ Use CSS variable for spacing:
 **[YouTubeTheater.vue](../src/components/YouTubeTheater.vue)** - YouTube video theater using BaseOverlay (youtube-nocookie.com embed)
 **[FirstVisitOverlay.vue](../src/components/FirstVisitOverlay.vue)** - Welcome primer using BaseOverlay with quick start guide
 **[OnlinePlayersModal.vue](../src/components/OnlinePlayersModal.vue)** - Online players modal using BaseOverlay with server-grouped player lists
+**[EventCalendar.vue](../src/components/EventCalendar.vue)** - Monthly event calendar with date highlighting, accordion event details, copy link with toast notification
 **[ErrorBoundary.vue](../src/components/ErrorBoundary.vue)** - Error handling with retry
 **Skeletons** - SEO-friendly loading states with `<noscript>` fallbacks
 

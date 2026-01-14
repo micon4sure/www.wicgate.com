@@ -6,6 +6,7 @@ import TwitchFacade from '../components/TwitchFacade.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
 import TabContainer from '../components/TabContainer.vue';
 import YouTubeTheater from '../components/YouTubeTheater.vue';
+import EventCalendar from '../components/EventCalendar.vue';
 
 // SSR detection
 const isSSR = import.meta.env.SSR;
@@ -115,6 +116,18 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Upcoming Events Calendar -->
+      <div id="events" class="mb-20">
+        <!-- Subsection Header -->
+        <div class="text-center mb-8">
+          <h3 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider">
+            Upcoming Events
+          </h3>
+        </div>
+
+        <EventCalendar />
       </div>
 
       <!-- Latest Videos -->
