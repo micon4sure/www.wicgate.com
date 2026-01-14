@@ -31,22 +31,46 @@ let videoObserver: IntersectionObserver | null = null;
 // Track if hero is visible (from IntersectionObserver on mobile, KeepAlive on desktop)
 const isHeroVisible = ref(true);
 
+// Track video playing state for pause/play button
+const isVideoPlaying = ref(true);
+
+// Track if user manually paused (don't auto-resume if true)
+const userPausedVideo = ref(false);
+
+// Toggle video playback
+function toggleVideo() {
+  if (heroVideo.value?.paused) {
+    heroVideo.value.play();
+    isVideoPlaying.value = true;
+    userPausedVideo.value = false; // User resumed, allow auto-resume
+  } else {
+    heroVideo.value?.pause();
+    isVideoPlaying.value = false;
+    userPausedVideo.value = true; // User paused, block auto-resume
+  }
+}
+
 // Resume video playback when component reactivates from KeepAlive cache (desktop)
 onActivated(() => {
   isHeroVisible.value = true;
-  heroVideo.value?.play();
+  if (!userPausedVideo.value) {
+    heroVideo.value?.play();
+    isVideoPlaying.value = true;
+  }
 });
 
 onDeactivated(() => {
   isHeroVisible.value = false;
 });
 
-// Pause video when overlay is active, resume only if hero is visible
+// Pause video when overlay is active, resume only if hero is visible and user hasn't paused
 watch(overlayActive, (active) => {
   if (active) {
     heroVideo.value?.pause();
-  } else if (isHeroVisible.value) {
+    isVideoPlaying.value = false;
+  } else if (isHeroVisible.value && !userPausedVideo.value) {
     heroVideo.value?.play();
+    isVideoPlaying.value = true;
   }
 });
 
@@ -60,10 +84,12 @@ onMounted(() => {
     (entries) => {
       entries.forEach((entry) => {
         isHeroVisible.value = entry.isIntersecting;
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !userPausedVideo.value) {
           heroVideo.value?.play();
-        } else {
+          isVideoPlaying.value = true;
+        } else if (!entry.isIntersecting) {
           heroVideo.value?.pause();
+          isVideoPlaying.value = false;
         }
       });
     },
@@ -102,6 +128,18 @@ function goToSection(sectionOrSubsectionId: string) {
           >
             <source src="/seattle.mp4" type="video/mp4" />
           </video>
+
+          <!-- Video pause/play toggle - bottom right -->
+          <button
+            class="hero-video-toggle"
+            :aria-label="isVideoPlaying ? 'Pause video' : 'Play video'"
+            @click="toggleVideo"
+          >
+            <i
+              :class="isVideoPlaying ? 'fa-solid fa-pause' : 'fa-solid fa-play'"
+              aria-hidden="true"
+            ></i>
+          </button>
 
           <!-- Quick Start button - top right -->
           <button class="hero-primer-link hero-primer-link-top-right" @click="openPrimer">

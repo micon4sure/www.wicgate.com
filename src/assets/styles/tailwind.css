@@ -1594,7 +1594,7 @@
     z-index: 1;
   }
 
-  .hero-main-card-with-video > *:not(.hero-card-video-bg) {
+  .hero-main-card-with-video > *:not(.hero-card-video-bg):not(.hero-video-toggle) {
     position: relative;
     z-index: 2;
   }
@@ -1758,6 +1758,28 @@
   @media (hover: hover) {
     .hero-primer-link:hover {
       @apply bg-slate-600/80 text-white border-slate-400/60;
+    }
+  }
+
+  /* Hero Video Toggle Button */
+  .hero-video-toggle {
+    @apply absolute bottom-3 right-3 z-10;
+    @apply w-10 h-10 rounded-full;
+    @apply flex items-center justify-center;
+    @apply bg-black/40 text-white/70;
+    @apply transition-all duration-200;
+    @apply backdrop-blur-sm;
+  }
+
+  @media (hover: hover) {
+    .hero-video-toggle:hover {
+      @apply bg-black/60 text-white;
+    }
+  }
+
+  @media not all and screen(md) {
+    .hero-video-toggle {
+      @apply w-8 h-8 bottom-2 right-2;
     }
   }
 
