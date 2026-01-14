@@ -113,7 +113,7 @@ watch(showPlaceholder, (newVal, oldVal) => {
   <section id="statistics" class="section bg-statistics-section">
     <div class="container">
       <!-- Header -->
-      <div class="text-center mb-20">
+      <div class="text-center mb-responsive">
         <h1
           class="text-5xl lg:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >

@@ -25,7 +25,7 @@ const tabs = [
   <section id="downloads" class="section bg-downloads-section">
     <div class="container">
       <!-- Header -->
-      <div class="text-center mb-12">
+      <div class="text-center mb-responsive">
         <h1
           class="text-5xl lg:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
@@ -40,7 +40,7 @@ const tabs = [
       <TabContainer :tabs="tabs" aria-label="Download methods">
         <!-- Tab 1: Quick Install -->
         <template #quick-install>
-          <div class="py-8 lg:py-12">
+          <div class="pt-responsive pb-8 lg:pb-12">
             <div class="text-center mb-10">
               <h3
                 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
@@ -97,7 +97,7 @@ const tabs = [
 
         <!-- Tab 2: Dedicated Server -->
         <template #dedicated-server>
-          <div class="py-8 lg:py-12">
+          <div class="pt-responsive pb-8 lg:pb-12">
             <div class="text-center mb-10">
               <h3
                 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
@@ -172,7 +172,7 @@ const tabs = [
 
         <!-- Tab 3: Manual Install -->
         <template #manual-install>
-          <div class="py-8 lg:py-12">
+          <div class="pt-responsive pb-8 lg:pb-12">
             <div class="text-center mb-10">
               <h3
                 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"

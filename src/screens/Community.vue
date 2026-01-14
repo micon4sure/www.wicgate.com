@@ -72,7 +72,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
   <section id="community" class="section bg-community-section">
     <div class="container">
       <!-- Header -->
-      <div class="text-center mb-20">
+      <div class="text-center mb-responsive">
         <h1
           class="text-5xl lg:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
@@ -84,7 +84,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
       </div>
 
       <!-- Live Streams -->
-      <div id="streams" class="mb-20">
+      <div id="streams" class="mb-responsive">
         <!-- Subsection Header -->
         <div class="text-center mb-8">
           <h3 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider">
@@ -121,7 +121,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
       </div>
 
       <!-- Upcoming Events Calendar -->
-      <div id="events" class="mb-20">
+      <div id="events" class="mb-responsive">
         <!-- Subsection Header -->
         <div class="text-center mb-8">
           <h3 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider">
@@ -133,7 +133,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
       </div>
 
       <!-- Latest Videos -->
-      <div id="videos" class="mb-20">
+      <div id="videos" class="mb-responsive">
         <!-- Subsection Header -->
         <div class="text-center mb-8">
           <h3 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider">

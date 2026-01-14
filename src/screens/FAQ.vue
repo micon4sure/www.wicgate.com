@@ -196,7 +196,7 @@ function scrollToQuestion(questionId: string) {
   <section id="faq" class="section bg-faq-section">
     <div class="container">
       <!-- Header -->
-      <div class="text-center mb-12">
+      <div class="text-center mb-responsive">
         <h1
           class="text-5xl lg:text-6xl font-military font-bold text-t uppercase tracking-wider mb-6"
         >
@@ -215,7 +215,7 @@ function scrollToQuestion(questionId: string) {
       >
         <!-- Tab for each FAQ category -->
         <template v-for="cat in faq" :key="cat.cat" #[getCategoryAnchor(cat.cat)]>
-          <div class="py-8 lg:py-10">
+          <div class="pt-responsive pb-8 lg:pb-10">
             <!-- Questions -->
             <div class="flex flex-col gap-4">
               <div

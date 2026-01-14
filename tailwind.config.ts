@@ -271,6 +271,7 @@ export default {
 
       spacing: {
         'header': 'var(--header-height)',
+        '18': '4.5rem', // 72px - fills gap between 16 (64px) and 20 (80px)
       },
 
       screens: {
