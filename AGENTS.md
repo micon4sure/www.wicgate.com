@@ -130,8 +130,6 @@ All in [tailwind.config.ts](tailwind.config.ts):
 - [src/stores/auth.ts](src/stores/auth.ts) - Authentication with mock JWT
 
 ### Composables (SSR-safe)
-- [useYoutube.ts](src/composables/useYoutube.ts) - Video fetching with memoization
-- [useEvents.ts](src/composables/useEvents.ts) - Discord events
 - [useFirstVisit.ts](src/composables/useFirstVisit.ts) - Welcome overlay
 - [useServerCapacity.ts](src/composables/useServerCapacity.ts) - Server capacity colors
 - [usePlayerDisplay.ts](src/composables/usePlayerDisplay.ts) - Player name parsing

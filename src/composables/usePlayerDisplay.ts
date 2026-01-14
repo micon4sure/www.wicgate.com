@@ -34,13 +34,13 @@ export interface ParsedPlayer {
   playerName: string;
 }
 
+// Module-level cache shared across all component instances
+const colorizeCache = new Map<string, string>();
+
 /**
  * Composable for player display operations with memoization
  */
 export function usePlayerDisplay() {
-  // Memoization cache for colorized names
-  const colorizeCache = new Map<string, string>();
-
   /**
    * HTML-based colorizer compatible with <#hex>... </> markers
    * Validates hex colors to prevent malformed CSS injection.

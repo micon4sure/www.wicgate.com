@@ -692,11 +692,11 @@ const { events, loading, error, upcomingEvents, ongoingEvents } = useEvents();
 
 ---
 
-### YouTube Integration (useYoutube)
+### YouTube Integration (youtubeStore)
 
-**File:** [src/composables/useYoutube.ts](../src/composables/useYoutube.ts)
+**File:** [src/stores/youtubeStore.ts](../src/stores/youtubeStore.ts)
 
-Note: Does NOT use WiCGATE API - fetches from YouTube Atom feeds directly.
+Note: Does NOT use WiCGATE API - fetches from YouTube Atom feeds directly. Uses Pinia store for singleton state (single API call shared across components).
 
 ---
 

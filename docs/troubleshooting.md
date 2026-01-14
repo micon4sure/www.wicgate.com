@@ -45,8 +45,8 @@ function init() {
 ```
 
 **Files commonly needing guards:**
-- All stores (appDataStore.ts)
-- All composables (useYoutube.ts, useEvents.ts, useFirstVisit.ts)
+- All stores (appDataStore.ts, youtubeStore.ts, calendarStore.ts)
+- All composables (useFirstVisit.ts, useTwitchStreams.ts)
 - Components using window/document/localStorage
 
 **Reference:** [docs/architecture.md - SSR Guards](architecture.md#ssr-guards)

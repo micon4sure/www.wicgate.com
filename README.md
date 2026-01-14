@@ -140,7 +140,6 @@ src/
 ├── views/               # Routed pages
 │   └── Home.vue         # Main SPA with all sections
 ├── composables/         # Composition functions
-│   ├── useYoutube.ts    # Multi-channel video fetching
 │   ├── useServerCapacity.ts  # Server capacity colors
 │   ├── usePlayerDisplay.ts   # Player name parsing
 │   ├── useActiveSection.ts   # Scroll state management

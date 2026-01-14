@@ -800,7 +800,7 @@ The following composables were created during the October 2025 refactoring. **Te
 **Phase 4 - Memoization:**
 - ⏳ `utils/memoize.ts` - **Unit tests pending** (memoization utilities)
   - `MemoCache<T>`, `memoizeWithDeps()`, `memoize()`, `memoizeJson()`
-  - Used in `useYoutube.ts` and `usePlayerDisplay.ts`
+  - Used in `youtubeStore.ts` and `usePlayerDisplay.ts`
 
 **Phase 5 - Developer Experience:**
 - ⏳ `types/utils.ts` - **Unit tests pending** (25+ utility types and type guards)

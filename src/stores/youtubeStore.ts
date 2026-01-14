@@ -1,17 +1,18 @@
-import { ref, onMounted, computed } from 'vue';
+import { ref, computed } from 'vue';
+import { defineStore } from 'pinia';
 import { formatDate } from '../utils';
 import { memoizeWithDeps } from '../utils/memoize';
 import type { YouTubeVideo } from '../api-types';
 
 const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 
-export function useYoutube() {
+export const useYoutubeStore = defineStore('youtube', () => {
   // Map of channelId -> { channelTitle, videos[] }
   const videos = ref<Record<string, { channelTitle: string; videos: YouTubeVideo[] }>>({});
   const loading = ref(true);
 
-  onMounted(async () => {
-    // Skip data fetching during SSG build
+  // Fetch videos from API
+  async function fetchVideos() {
     if (import.meta.env.SSR) {
       loading.value = false;
       return;
@@ -49,7 +50,7 @@ export function useYoutube() {
     } finally {
       loading.value = false;
     }
-  });
+  }
 
   // Memoized sorting function - only recomputes when video count changes
   const sortVideos = memoizeWithDeps(
@@ -65,16 +66,20 @@ export function useYoutube() {
     ]
   );
 
-  // videos from all channels sorted by publishedAt desc
+  // Videos from all channels sorted by publishedAt desc
   const videosSorted = computed(() => sortVideos(videos.value));
+
+  // Auto-fetch on store creation
+  fetchVideos();
 
   return {
     videos,
     videosSorted,
-    formatDate,
     loading,
+    fetchVideos,
+    formatDate,
   };
-}
+});
 
 /**
  * Parses a YouTube Atom feed and returns channel title and all entries mapped to Video, sorted by date desc.

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { useYoutube } from '../composables/useYoutube';
+import { storeToRefs } from 'pinia';
+import { useYoutubeStore } from '../stores/youtubeStore';
 import type { YouTubeVideo } from '../api-types';
 import TwitchFacade from '../components/TwitchFacade.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
@@ -11,12 +12,13 @@ import EventCalendar from '../components/EventCalendar.vue';
 // SSR detection
 const isSSR = import.meta.env.SSR;
 
-// Get videos data from composable
+// Get videos data from store (single source of truth)
+const youtubeStore = useYoutubeStore();
 const {
   videos: videosByChannel,
   videosSorted: ytVideosSorted,
   loading: ytVidsLoading,
-} = useYoutube();
+} = storeToRefs(youtubeStore);
 
 // Show top 6 latest videos
 const top6NYTVideos = computed(() => ytVideosSorted.value.slice(0, 6));

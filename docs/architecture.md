@@ -1040,7 +1040,6 @@ Use CSS variable for spacing:
 
 ### Key Composables
 
-**[useYoutube.ts](../src/composables/useYoutube.ts)** - Multi-channel video fetching (Atom feeds, SSR-safe)
 **[useFirstVisit.ts](../src/composables/useFirstVisit.ts)** - Welcome overlay management
 **[useOverlayState.ts](../src/composables/useOverlayState.ts)** - Cross-component overlay visibility tracking (used by BaseOverlay to pause hero video when any overlay is open)
 **[useMobileTabs.ts](../src/composables/useMobileTabs.ts)** - Mobile tab dropdown behavior (breakpoint detection, dropdown state, click-outside/escape handling) - defaults to `SUB_TAB_BREAKPOINT` (640px), used by MobileTabDropdown and sub-tab components
@@ -1106,7 +1105,7 @@ Use CSS variable for spacing:
    - Manual controls: prev/next arrow buttons (desktop only) + dot indicators (all devices)
    - Touch/swipe support: 50px threshold for left/right swipes on mobile
    - Navigation: arrows hidden on mobile (<768px), visible on desktop with z-20 layering
-   - Integrated with useYoutube() composable and calendarStore for events
+   - Integrated with youtubeStore and calendarStore (both Pinia stores, single source of truth)
    - SSR-safe guards for timer initialization
 
 2. **[DynamicInfoCard.vue](../src/components/widgets/DynamicInfoCard.vue)** (254 lines)

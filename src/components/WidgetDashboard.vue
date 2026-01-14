@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useCalendarStore } from '../stores/calendarStore';
-import { useYoutube } from '../composables/useYoutube';
+import { useYoutubeStore } from '../stores/youtubeStore';
 import { useFirstVisit } from '../composables/useFirstVisit';
 import { useViewportMode } from '../composables/useViewportMode';
 import { useOverlayState } from '../composables/useOverlayState';
@@ -19,8 +19,9 @@ const { openPrimer } = useFirstVisit();
 const { isMobileMode } = useViewportMode();
 const { overlayActive } = useOverlayState();
 
+const youtubeStore = useYoutubeStore();
 const { isLoading: eventsLoading } = storeToRefs(calendarStore);
-const { videosSorted } = useYoutube();
+const { videosSorted } = storeToRefs(youtubeStore);
 
 // SSR detection
 const isSSR = import.meta.env.SSR;

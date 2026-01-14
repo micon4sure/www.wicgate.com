@@ -172,7 +172,10 @@ describe('usePlayerDisplay', () => {
     });
 
     it('should cache results for performance', () => {
-      const { colorize, getCacheStats } = usePlayerDisplay();
+      const { colorize, getCacheStats, clearColorizeCache } = usePlayerDisplay();
+
+      // Clear module-level cache from previous tests
+      clearColorizeCache();
 
       const name = 'TestPlayer';
       colorize(name);
