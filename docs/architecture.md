@@ -1148,7 +1148,11 @@ Use CSS variable for spacing:
 **[OnlinePlayersModal.vue](../src/components/OnlinePlayersModal.vue)** - Online players modal using BaseOverlay with server-grouped player lists
 **[EventCalendar.vue](../src/components/EventCalendar.vue)** - Monthly event calendar with date highlighting, accordion event details, copy link with toast notification
 **[ErrorBoundary.vue](../src/components/ErrorBoundary.vue)** - Error handling with retry
-**Skeletons** - SEO-friendly loading states with `<noscript>` fallbacks
+**Skeletons** (`src/components/skeletons/`) - SSR-friendly loading states with `<noscript>` fallbacks:
+- **LeaderboardSkeleton** - Statistics page (shimmer animation, staggered rows)
+- **VideosSkeleton** - Community videos section (shimmer animation)
+- **EventCalendarSkeleton** - Calendar grid with responsive day cell heights
+- Widget skeletons use inline `skeleton-placeholder` (pulse) for subtler effect
 
 ---
 

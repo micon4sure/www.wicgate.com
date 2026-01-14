@@ -3,6 +3,7 @@ import { computed, ref, inject } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCalendarStore } from '../stores/calendarStore';
 import type { CalendarDay } from '../stores/calendarStore';
+import EventCalendarSkeleton from './skeletons/EventCalendarSkeleton.vue';
 
 // SSR detection
 const isSSR = import.meta.env.SSR;
@@ -91,116 +92,110 @@ function getDayClasses(day: CalendarDay) {
 </script>
 
 <template>
-  <div class="calendar-card">
-    <!-- Loading skeleton -->
-    <div v-if="isSSR || isLoading" class="p-4">
-      <div class="skeleton-placeholder h-10 mb-4"></div>
-      <div class="skeleton-placeholder h-8 mb-2"></div>
-      <div class="skeleton-placeholder h-64"></div>
+  <!-- Loading skeleton -->
+  <EventCalendarSkeleton v-if="isSSR || isLoading" />
+
+  <div v-else class="calendar-card">
+    <!-- Calendar Header -->
+    <div class="calendar-header group">
+      <button
+        type="button"
+        class="calendar-nav-btn"
+        :disabled="!canGoPrevious"
+        aria-label="Previous month"
+        @click="calendarStore.goToPreviousMonth()"
+      >
+        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+      </button>
+
+      <div class="flex items-center gap-2">
+        <h3 class="calendar-header-title">{{ monthDisplayName }}</h3>
+        <span
+          role="button"
+          tabindex="0"
+          class="lb-copy-link-btn"
+          :class="copied ? 'is-copied' : ''"
+          title="Copy link to Events"
+          aria-label="Copy link to Events calendar"
+          @click="copyLink"
+          @keydown.enter.prevent="copyLink"
+          @keydown.space.prevent="copyLink"
+        >
+          <i
+            class="text-sm transition-all duration-200"
+            :class="copied ? 'fa-solid fa-check' : 'fa-solid fa-link'"
+            aria-hidden="true"
+          ></i>
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="calendar-nav-btn"
+        aria-label="Next month"
+        @click="calendarStore.goToNextMonth()"
+      >
+        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+      </button>
     </div>
 
-    <template v-else>
-      <!-- Calendar Header -->
-      <div class="calendar-header group">
+    <!-- Weekday Headers -->
+    <div class="calendar-weekdays">
+      <div v-for="day in weekdays" :key="day" class="calendar-weekday">
+        {{ day }}
+      </div>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div class="calendar-grid">
+      <button
+        v-for="day in calendarDays"
+        :key="day.date"
+        type="button"
+        :class="getDayClasses(day)"
+        :aria-label="`${day.day}${day.hasEvents ? ', has events' : ''}`"
+        :aria-pressed="selectedDate === day.date"
+        @click="handleDayClick(day)"
+      >
+        <span class="calendar-day-num">{{ day.day }}</span>
+      </button>
+    </div>
+
+    <!-- Events Panel (shown when date selected) -->
+    <div v-if="selectedDate && selectedDateEvents.length > 0" class="calendar-events-panel">
+      <div class="calendar-events-header">
+        <i class="fa-regular fa-calendar text-soviet" aria-hidden="true"></i>
+        <span class="calendar-events-date">{{ selectedDateFormatted }}</span>
         <button
           type="button"
-          class="calendar-nav-btn"
-          :disabled="!canGoPrevious"
-          aria-label="Previous month"
-          @click="calendarStore.goToPreviousMonth()"
+          class="ml-auto text-t-secondary hover:text-t transition-colors"
+          aria-label="Close events panel"
+          @click="calendarStore.selectDate(null)"
         >
-          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-        </button>
-
-        <div class="flex items-center gap-2">
-          <h3 class="calendar-header-title">{{ monthDisplayName }}</h3>
-          <span
-            role="button"
-            tabindex="0"
-            class="lb-copy-link-btn"
-            :class="copied ? 'is-copied' : ''"
-            title="Copy link to Events"
-            aria-label="Copy link to Events calendar"
-            @click="copyLink"
-            @keydown.enter.prevent="copyLink"
-            @keydown.space.prevent="copyLink"
-          >
-            <i
-              class="text-sm transition-all duration-200"
-              :class="copied ? 'fa-solid fa-check' : 'fa-solid fa-link'"
-              aria-hidden="true"
-            ></i>
-          </span>
-        </div>
-
-        <button
-          type="button"
-          class="calendar-nav-btn"
-          aria-label="Next month"
-          @click="calendarStore.goToNextMonth()"
-        >
-          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          <i class="fa-solid fa-times" aria-hidden="true"></i>
         </button>
       </div>
 
-      <!-- Weekday Headers -->
-      <div class="calendar-weekdays">
-        <div v-for="day in weekdays" :key="day" class="calendar-weekday">
-          {{ day }}
-        </div>
-      </div>
-
-      <!-- Calendar Grid -->
-      <div class="calendar-grid">
-        <button
-          v-for="day in calendarDays"
-          :key="day.date"
-          type="button"
-          :class="getDayClasses(day)"
-          :aria-label="`${day.day}${day.hasEvents ? ', has events' : ''}`"
-          :aria-pressed="selectedDate === day.date"
-          @click="handleDayClick(day)"
+      <div class="calendar-events-list">
+        <component
+          :is="event.link ? 'a' : 'div'"
+          v-for="event in selectedDateEvents"
+          :key="event.id"
+          :href="event.link || undefined"
+          :target="event.link ? '_blank' : undefined"
+          :rel="event.link ? 'noopener noreferrer' : undefined"
+          class="calendar-event-item"
         >
-          <span class="calendar-day-num">{{ day.day }}</span>
-        </button>
+          <div class="flex items-start justify-between gap-4">
+            <h4 class="calendar-event-name">{{ event.name }}</h4>
+            <span class="calendar-event-time shrink-0">{{ formatTime(event.start) }}</span>
+          </div>
+          <p v-if="event.description" class="calendar-event-desc">
+            {{ event.description }}
+          </p>
+        </component>
       </div>
-
-      <!-- Events Panel (shown when date selected) -->
-      <div v-if="selectedDate && selectedDateEvents.length > 0" class="calendar-events-panel">
-        <div class="calendar-events-header">
-          <i class="fa-regular fa-calendar text-soviet" aria-hidden="true"></i>
-          <span class="calendar-events-date">{{ selectedDateFormatted }}</span>
-          <button
-            type="button"
-            class="ml-auto text-t-secondary hover:text-t transition-colors"
-            aria-label="Close events panel"
-            @click="calendarStore.selectDate(null)"
-          >
-            <i class="fa-solid fa-times" aria-hidden="true"></i>
-          </button>
-        </div>
-
-        <div class="calendar-events-list">
-          <component
-            :is="event.link ? 'a' : 'div'"
-            v-for="event in selectedDateEvents"
-            :key="event.id"
-            :href="event.link || undefined"
-            :target="event.link ? '_blank' : undefined"
-            :rel="event.link ? 'noopener noreferrer' : undefined"
-            class="calendar-event-item"
-          >
-            <div class="flex items-start justify-between gap-4">
-              <h4 class="calendar-event-name">{{ event.name }}</h4>
-              <span class="calendar-event-time shrink-0">{{ formatTime(event.start) }}</span>
-            </div>
-            <p v-if="event.description" class="calendar-event-desc">
-              {{ event.description }}
-            </p>
-          </component>
-        </div>
-      </div>
-    </template>
+    </div>
   </div>
 
   <!-- Toast notification for copy link -->
