@@ -1758,7 +1758,7 @@
 
   /* Hero main card (title, description, CTA) */
   .hero-main-card-wrapper {
-    @apply text-center mb-8;
+    @apply text-center mb-responsive;
   }
 
   .hero-main-card {

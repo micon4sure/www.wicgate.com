@@ -1032,6 +1032,7 @@ All tokens use CSS `clamp()` for smooth viewport-based scaling between 320px and
 **Usage:**
 - Section headers: `mb-responsive` (Statistics, Community, FAQ, Downloads)
 - Subsection headers: `mb-responsive` (Community streams/events/videos)
+- Hero section: `mb-responsive` (between video card and widget cards)
 - Tab content padding: `pt-responsive` (FAQ, Downloads)
 - Grid gaps: `gap-responsive` (Leaderboards)
 
