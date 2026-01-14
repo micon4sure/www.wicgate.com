@@ -457,7 +457,7 @@
 
   /* Calendar container card */
   .calendar-card {
-    @apply bg-video-card border border-card overflow-hidden;
+    @apply bg-card-surface border border-card overflow-hidden;
     box-shadow: 0 12px 28px rgba(4, 9, 14, 0.55);
   }
 
@@ -493,7 +493,7 @@
   /* Weekday header row */
   .calendar-weekdays {
     @apply grid grid-cols-7 border-b border-white/10;
-    @apply bg-panel/50;
+    @apply bg-dark-navy;
   }
 
   .calendar-weekday {
