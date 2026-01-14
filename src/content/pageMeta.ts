@@ -67,9 +67,9 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
   '/community': {
     title: 'World in Conflict Community Hub | WICGATE',
     description:
-      'Watch World in Conflict community live streams on Twitch and view the latest YouTube videos.',
+      'Stay connected with the World in Conflict community. Browse upcoming events, catch live Twitch streams, and watch the latest YouTube videos from our creators.',
     keywords:
-      'world in conflict community, world in conflict tournaments, world in conflict events, world in conflict twitch, world in conflict youtube, wic community, wic tournaments, wic streams',
+      'world in conflict community, world in conflict events, world in conflict event calendar, world in conflict twitch, world in conflict youtube, world in conflict videos, wic community, wic events, wic calendar, wic streams, wic videos, wic discord events',
   },
   '/faq': {
     title: 'World in Conflict FAQ and Help | WICGATE',
