@@ -485,8 +485,8 @@
 
   @media (hover: hover) {
     .calendar-nav-btn:not(:disabled):hover {
-      @apply text-soviet border-soviet/50 -translate-y-0.5;
-      background: rgba(255, 102, 0, 0.1);
+      @apply text-gold border-gold/50 -translate-y-0.5;
+      background: rgba(255, 204, 0, 0.1);
     }
   }
 
@@ -554,13 +554,13 @@
     box-shadow: 0 0 12px rgba(255, 102, 0, 0.6);
   }
 
-  /* Day with events - hover state */
+  /* Day with events - hover state (excluded when selected) */
   @media (hover: hover) {
-    .calendar-day-event:hover {
+    .calendar-day-event:not(.calendar-day-selected):hover {
       @apply bg-soviet/10;
     }
 
-    .calendar-day-event:not(.calendar-day-today):hover .calendar-day-num {
+    .calendar-day-event:not(.calendar-day-today):not(.calendar-day-selected):hover .calendar-day-num {
       @apply bg-soviet/30 border-soviet;
     }
   }

@@ -168,7 +168,7 @@ function getDayClasses(day: CalendarDay) {
         <span class="calendar-events-date">{{ selectedDateFormatted }}</span>
         <button
           type="button"
-          class="ml-auto text-t-secondary hover:text-t transition-colors"
+          class="ml-auto overlay-close text-data"
           aria-label="Close events panel"
           @click="calendarStore.selectDate(null)"
         >
