@@ -133,6 +133,10 @@ function handleVideosClick() {
   emit('navigate', 'community#videos');
 }
 
+function handleEventsClick() {
+  emit('navigate', 'community#events');
+}
+
 // Mobile dropdown helpers
 const activeTabId = computed(() => (shouldShowEvent.value ? 'events' : 'videos'));
 
@@ -256,7 +260,7 @@ function openVideo(video: YouTubeVideo) {
                     <!-- Event with Cover Image -->
                     <div v-if="event.coverUrl" class="flex flex-col">
                       <div
-                        class="relative h-40 bg-cover bg-center"
+                        class="relative h-36 bg-cover bg-center"
                         :style="{ backgroundImage: `url(${event.coverUrl})` }"
                       >
                         <div
@@ -265,7 +269,7 @@ function openVideo(video: YouTubeVideo) {
                       </div>
                       <div class="p-4">
                         <p
-                          class="text-data text-t-secondary font-body m-0 mb-3 line-clamp-3 leading-relaxed"
+                          class="text-data text-t-secondary font-body m-0 line-clamp-2 leading-relaxed"
                         >
                           {{ event.description }}
                         </p>
@@ -274,7 +278,9 @@ function openVideo(video: YouTubeVideo) {
 
                     <!-- Event without Cover Image -->
                     <div v-else class="p-4">
-                      <p class="text-data text-t-secondary font-body m-0 leading-relaxed">
+                      <p
+                        class="text-data text-t-secondary font-body m-0 line-clamp-2 leading-relaxed"
+                      >
                         {{ event.description }}
                       </p>
                     </div>
@@ -283,6 +289,12 @@ function openVideo(video: YouTubeVideo) {
               </div>
             </div>
           </template>
+        </div>
+        <!-- Footer with link to calendar -->
+        <div class="px-5 pb-4">
+          <button class="dashboard-card-header-action" @click="handleEventsClick">
+            View Calendar →
+          </button>
         </div>
       </div>
 
