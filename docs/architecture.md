@@ -1019,15 +1019,13 @@ All tokens use CSS `clamp()` for smooth viewport-based scaling between 320px and
 **Breakpoint-based spacing** that scales smoothly across viewport sizes. Defined in `tailwind.css` `@layer utilities`:
 
 ```css
-.mb-responsive { @apply mb-12 sm:mb-14 md:mb-16 lg:mb-18 xl:mb-20; }
-.mt-responsive { @apply mt-12 sm:mt-14 md:mt-16 lg:mt-18 xl:mt-20; }
-.pt-responsive { @apply pt-12 sm:pt-14 md:pt-16 lg:pt-18 xl:pt-20; }
-.gap-responsive { @apply gap-12 sm:gap-14 md:gap-16 lg:gap-18 xl:gap-20; }
+.mb-responsive { @apply mb-10 sm:mb-12 lg:mb-14 xl:mb-16; }
+.mt-responsive { @apply mt-10 sm:mt-12 lg:mt-14 xl:mt-16; }
+.pt-responsive { @apply pt-10 sm:pt-12 lg:pt-14 xl:pt-16; }
+.gap-responsive { @apply gap-10 sm:gap-12 lg:gap-14 xl:gap-16; }
 ```
 
-**Scale:** 48px → 56px → 64px → 72px → 80px across breakpoints (xs → sm → md → lg → xl)
-
-**Note:** Tailwind's default spacing scale doesn't include `18` (72px). Added `'18': '4.5rem'` to `tailwind.config.ts` spacing to fill the gap between 16 (64px) and 20 (80px).
+**Scale:** 40px → 48px → 56px → 64px across breakpoints (xs → sm → lg → xl)
 
 **Usage:**
 - Section headers: `mb-responsive` (Statistics, Community, FAQ, Downloads)
