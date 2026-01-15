@@ -30,7 +30,9 @@ npm run build:og     # Regenerate OG images (social sharing)
 2. ✅ Universal design tokens → `tailwind.config.ts` (used in 5+ components)
    - ✅ Component-specific patterns → `tailwind.css` (@layer components, 1-2 uses)
    - When unsure: start in CSS, promote to config if widely used
-3. ❌ NEVER use hardcoded scroll offsets → ✅ ALWAYS use `pt-[var(--header-height)]`
+3. ❌ NEVER use hardcoded scroll offsets → ✅ Use `--content-offset` for scroll alignment, `--header-height` for element positioning
+   - Body/section padding: `var(--content-offset)` (responsive: 48px → 96px)
+   - Element positioning (mobile menu, toasts): `var(--header-height)` (actual navbar height)
 4. ❌ NEVER use browser APIs without SSR guards
 5. ✅ ALWAYS use Pinia for state management (stores in `src/stores/`)
 6. ❌ NEVER commit CRLF line endings (LF only)
@@ -85,4 +87,4 @@ npm run build:og     # Regenerate OG images (social sharing)
 
 **Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
 **Entry:** [src/main.ts](src/main.ts)
-**Updated:** January 9, 2026 (Fluid typography tokens)
+**Updated:** January 15, 2026 (Two-variable scroll system)

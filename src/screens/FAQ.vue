@@ -163,12 +163,12 @@ function scrollToQuestion(questionId: string) {
     const element = document.getElementById(questionId);
     if (!element) return;
 
-    const headerHeight =
+    const contentOffset =
       parseInt(
-        getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim()
-      ) || 80;
+        getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
+      ) || 48;
     const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-    const offsetPosition = elementPosition - headerHeight - 20; // Extra padding
+    const offsetPosition = elementPosition - contentOffset - 20; // Extra padding
 
     window.scrollTo({
       top: offsetPosition,

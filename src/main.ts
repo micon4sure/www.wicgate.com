@@ -108,7 +108,7 @@ export const createApp = ViteSSG(
             const headerHeight =
               parseInt(
                 getComputedStyle(document.documentElement)
-                  .getPropertyValue('--header-height')
+                  .getPropertyValue('--content-offset')
                   .trim()
               ) || 80;
 
@@ -163,7 +163,7 @@ export const createApp = ViteSSG(
             const headerHeight =
               parseInt(
                 getComputedStyle(document.documentElement)
-                  .getPropertyValue('--header-height')
+                  .getPropertyValue('--content-offset')
                   .trim()
               ) || 80;
 

@@ -17,6 +17,22 @@ export function useActiveSection(sectionIds: string[] = []) {
   let scrollTimeout: number | undefined;
   let hydrationTimeout: number | undefined;
 
+  // Cached content offset - updated on mount and resize only (not on scroll)
+  // Avoids getComputedStyle() reflow during scroll for better performance
+  let cachedContentOffset = 48;
+
+  /**
+   * Update cached content offset from CSS variable
+   * Called on mount and resize, NOT on scroll (performance optimization)
+   */
+  function updateContentOffset() {
+    if (typeof window === 'undefined') return;
+    cachedContentOffset =
+      parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
+      ) || 48;
+  }
+
   /**
    * Get the currently visible section based on scroll position
    * Returns the topmost section that's past the header
@@ -26,14 +42,8 @@ export function useActiveSection(sectionIds: string[] = []) {
     if (isProgrammaticScroll.value || isHydrating.value) return;
     if (typeof window === 'undefined') return;
 
-    // Get header height from CSS variable
-    const headerHeight =
-      parseInt(
-        getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim()
-      ) || 80;
-
-    // Find which section is currently at the top of viewport (accounting for header)
-    const scrollPosition = window.scrollY + headerHeight + 20; // +20px buffer
+    // Find which section is currently at the top of viewport (accounting for content offset)
+    const scrollPosition = window.scrollY + cachedContentOffset + 20; // +20px buffer
 
     // Check sections from bottom to top (so we get the topmost visible one)
     let foundSection: string | undefined;
@@ -85,11 +95,15 @@ export function useActiveSection(sectionIds: string[] = []) {
     }, 800) as unknown as number;
   }
 
-  // Set up scroll listener
+  // Set up scroll and resize listeners
   onMounted(() => {
     if (typeof window === 'undefined') return;
 
+    // Initialize cached content offset
+    updateContentOffset();
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', updateContentOffset, { passive: true });
 
     // Initial update
     updateScrollBasedSection();
@@ -107,6 +121,7 @@ export function useActiveSection(sectionIds: string[] = []) {
     if (typeof window === 'undefined') return;
 
     window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('resize', updateContentOffset);
     if (scrollTimeout) clearTimeout(scrollTimeout);
     if (programmaticScrollTimeout) clearTimeout(programmaticScrollTimeout);
     if (hydrationTimeout) clearTimeout(hydrationTimeout);

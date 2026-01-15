@@ -61,12 +61,12 @@ function handleHashNavigation() {
       // Scroll to element with header offset (same as FAQ)
       const element = document.getElementById(elementId);
       if (element) {
-        const headerHeight =
+        const contentOffset =
           parseInt(
-            getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim()
-          ) || 80;
+            getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
+          ) || 48;
         const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - headerHeight - 20;
+        const offsetPosition = elementPosition - contentOffset - 20;
 
         window.scrollTo({
           top: offsetPosition,

@@ -18,8 +18,25 @@
 /* Base layer - Essential resets and HTML elements */
 @layer base {
   :root {
-    /* CRITICAL: DO NOT REMOVE - Synced by JavaScript */
-    --header-height: 80px; /* Dynamic - synced by headerHeight.ts */
+    /* Header height - actual navbar height, synced by headerHeight.ts */
+    /* Used for positioning (mobile menu, toasts) */
+    --header-height: 80px;
+
+    /* Responsive content offset (single source of truth for scroll alignment) */
+    /* 48px → 64px → 80px → 96px - used for body padding and scroll calculations */
+    --content-offset: 48px;
+  }
+
+  @media screen(sm) {
+    :root { --content-offset: 64px; }
+  }
+
+  @media screen(lg) {
+    :root { --content-offset: 80px; }
+  }
+
+  @media screen(xl) {
+    :root { --content-offset: 96px; }
   }
 
   * {
@@ -30,7 +47,7 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: var(--header-height);
+    scroll-padding-top: var(--content-offset);
     overflow-x: hidden;
   }
 
@@ -41,13 +58,13 @@
   }
 
   body {
+    padding-top: var(--content-offset);
     background-color: rgb(30, 42, 34);
     color: #ffffff;
     overflow-x: hidden;
     font-family: system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    padding-top: var(--header-height); /* Prevent content from hiding under fixed header */
   }
 
   /* SVG background at 75% opacity */
@@ -192,14 +209,15 @@
   /* Section spacing */
   .section {
     @apply relative pb-20;
-    padding-top: var(--header-height);
   }
 
   /* Hash link scroll targets - extra breathing room from nav bar */
-  /* Fallback for native scroll; JS scroll in main.ts/components handles most cases */
+  /* Uses --content-offset for consistency with body/html scroll alignment */
+  .hero-section,
+  .section,
   .faq-question-item,
   .leaderboard-container {
-    scroll-margin-top: calc(var(--header-height) + 1rem);
+    scroll-margin-top: calc(var(--content-offset) + 1rem);
   }
 
   /* Military panel card */
@@ -1727,6 +1745,7 @@
   .hero-section {
     @apply bg-hero-section relative overflow-hidden;
     @apply min-h-screen flex flex-col;
+    padding-top: var(--content-offset);
   }
 
   /* Hero background removed - using global world map SVG */
@@ -3016,6 +3035,9 @@
 
   /* Responsive grid spacing (medium): 20px → 24px → 32px */
   .gap-responsive-md { @apply gap-5 sm:gap-6 xl:gap-8; }
+
+  /* Responsive body/header clearance - uses --content-offset variable */
+  .pt-responsive-lg { padding-top: var(--content-offset); }
 
   /* Text gradient for special headings */
   .text-gradient-soviet {

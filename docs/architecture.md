@@ -127,39 +127,60 @@ function switchTab(tab: Tab) {
 
 ### Implementation
 
-#### 1. Dynamic Header Height
+#### 1. Content Offset System (Two CSS Variables)
 
-**CSS Variable + JavaScript Sync:**
+The site uses two separate CSS variables for different purposes:
+
+**`--content-offset`** - Responsive content padding (single source of truth for scroll alignment):
 ```css
-/* reset.css */
+/* tailwind.css */
 :root {
-  --header-height: 80px;  /* Fallback */
+  --content-offset: 48px;  /* Base: 48px */
+}
+@media screen(sm) { :root { --content-offset: 64px; } }
+@media screen(lg) { :root { --content-offset: 80px; } }
+@media screen(xl) { :root { --content-offset: 96px; } }
+
+/* Used by: */
+body { padding-top: var(--content-offset); }
+html { scroll-padding-top: var(--content-offset); }
+.hero-section { padding-top: var(--content-offset); }
+.section, .hero-section { scroll-margin-top: calc(var(--content-offset) + 1rem); }
+```
+
+**`--header-height`** - Actual navbar height for element positioning:
+```css
+:root {
+  --header-height: 80px;  /* Synced by headerHeight.ts */
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: var(--header-height);
-}
+/* Used for positioning mobile menu, toasts, etc. */
+.mobile-menu { top: var(--header-height); }
+.toast { top: calc(var(--header-height) + 16px); }
 ```
 
 ```typescript
-// src/utils/headerHeight.ts
+// src/utils/headerHeight.ts - syncs actual header height
 export function syncHeaderHeight() {
-  const updateHeight = () => {
-    const header = document.querySelector('header');
-    const height = header?.getBoundingClientRect().height || 80;
-    document.documentElement.style.setProperty('--header-height', `${height}px`);
-  };
-
-  updateHeight(); // Initial sync
-  window.addEventListener('resize', () => requestAnimationFrame(updateHeight));
+  const header = document.querySelector('header');
+  const height = header?.getBoundingClientRect().height || 80;
+  document.documentElement.style.setProperty('--header-height', `${height}px`);
 }
 ```
 
+**JavaScript scroll calculations use `--content-offset`:**
+```typescript
+// All scroll calculations read --content-offset for consistency
+const contentOffset = parseInt(
+  getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
+) || 48;
+```
+
 **Benefits:**
-- Zero maintenance (header changes auto-update offset)
-- Pixel-perfect at all breakpoints
-- Uses `pt-[var(--header-height)]` in templates
+- Single source of truth for scroll alignment (`--content-offset`)
+- Responsive scaling: 48px → 64px → 80px → 96px
+- No scroll jumps when switching sections
+- `--header-height` separate for positioning elements relative to navbar
 
 #### 2. Native Scroll Restoration
 
@@ -191,10 +212,10 @@ scrollBehavior(to, from, savedPosition) {
           return;
         }
 
-        const headerHeight = parseInt(getComputedStyle(document.documentElement)
-          .getPropertyValue('--header-height').trim()) || 80;
+        const contentOffset = parseInt(getComputedStyle(document.documentElement)
+          .getPropertyValue('--content-offset').trim()) || 48;
         const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - headerHeight - 16; // Extra breathing room
+        const offsetPosition = elementPosition - contentOffset - 16; // Extra breathing room
 
         resolve({ top: offsetPosition, behavior: scrollBehavior });
       }, delay);
@@ -216,10 +237,10 @@ scrollBehavior(to, from, savedPosition) {
           return;
         }
 
-        const headerHeight = parseInt(getComputedStyle(document.documentElement)
-          .getPropertyValue('--header-height').trim()) || 80;
+        const contentOffset = parseInt(getComputedStyle(document.documentElement)
+          .getPropertyValue('--content-offset').trim()) || 48;
         const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - headerHeight;
+        const offsetPosition = elementPosition - contentOffset;
 
         resolve({ top: offsetPosition, behavior: scrollBehavior });
       }, delay);
@@ -240,6 +261,31 @@ scrollBehavior(to, from, savedPosition) {
 - **Click navigation:** Uses route immediately (instant highlight)
 - **Manual scrolling:** Uses scroll position tracking
 - **Programmatic scroll protection:** Disables tracking for 800ms during smooth scroll
+
+**Performance Optimization (January 2026):** Content offset is cached to avoid `getComputedStyle()` reflow during scroll:
+```typescript
+// Cached on mount and resize only (NOT on scroll)
+let cachedContentOffset = 48;
+
+function updateContentOffset() {
+  cachedContentOffset = parseInt(
+    getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
+  ) || 48;
+}
+
+onMounted(() => {
+  updateContentOffset();
+  window.addEventListener('resize', updateContentOffset, { passive: true });
+});
+
+// Scroll handler uses cached value - no reflow
+function updateScrollBasedSection() {
+  const scrollPosition = window.scrollY + cachedContentOffset + 20;
+  // ...
+}
+```
+
+**Why cache?** `getComputedStyle()` forces synchronous reflow. Calling it 20x/sec during scroll causes jank on low-end devices. Caching and updating only on resize ensures smooth 60fps.
 
 ```typescript
 const currentSection = computed(() => {
@@ -638,10 +684,9 @@ script: [
 **Migration (October 2025):** 80% code reduction (8,154 deletions vs 1,569 additions)
 
 **CSS Variable Elimination (October 2025):** 89% reduction (56 → 6 usages)
-- Eliminated all legacy CSS variables except `--header-height` (JS-synced for dynamic layout)
-- Migrated spacing, colors, RGB triplets, transitions, and gradients to Tailwind utilities
+- Eliminated all legacy CSS variables, migrated to Tailwind utilities
 - Fixed 8 critical bugs from undefined variables (--player-neutral, --spacing-*, --grad-card)
-- Only exception: `--header-height` in `tailwind.css:8-11` (dynamically updated by `headerHeight.ts`)
+- **Current CSS variables (January 2026):** `--content-offset` (responsive scroll alignment) and `--header-height` (navbar positioning) - see [Scroll & Navigation System](#scroll--navigation-system)
 
 ### Configuration
 
@@ -1059,12 +1104,19 @@ All tokens use CSS `clamp()` for smooth viewport-based scaling between 320px and
 
 ### Dynamic Header Integration
 
-Use CSS variable for spacing:
-```vue
-<section class="pt-[calc(var(--header-height)+40px)]">
-  <!-- Dynamic padding based on measured header height -->
-</section>
+**For scroll alignment (body/section padding):** Use `--content-offset` (responsive):
+```css
+body { padding-top: var(--content-offset); }
 ```
+
+**For element positioning (mobile menu, toasts):** Use `--header-height` (measured):
+```vue
+<div class="top-[var(--header-height)]">
+  <!-- Positioned relative to actual navbar height -->
+</div>
+```
+
+See [Scroll & Navigation System](#scroll--navigation-system) for full documentation.
 
 ---
 

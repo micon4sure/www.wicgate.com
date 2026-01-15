@@ -41,15 +41,20 @@
 
 ---
 
-### 2. Native Scroll System (NO HARDCODED VALUES)
+### 2. Native Scroll System (TWO CSS VARIABLES)
 
-❌ **NEVER:** `padding-top: 80px;` or `scroll-margin-top: 120px;`
-✅ **ALWAYS:** `padding-top: var(--header-height);`
+❌ **NEVER:** `padding-top: 80px;` or hardcoded scroll offsets
+✅ **Scroll alignment:** `var(--content-offset)` (responsive: 48px → 96px)
+✅ **Element positioning:** `var(--header-height)` (actual navbar height)
 
-**Browser handles scrolling natively.** CSS variable auto-synced by JavaScript.
+**Two variables, two purposes:**
+- `--content-offset`: Body/section padding, scroll calculations (responsive)
+- `--header-height`: Mobile menu, toasts, elements relative to navbar (dynamic)
+
+**Performance:** Cache `--content-offset` on mount/resize, not on scroll (avoids `getComputedStyle` reflow)
 
 📖 **Deep dive:** [docs/architecture.md#scroll--navigation-system](docs/architecture.md#scroll--navigation-system)
-📍 **Location:** [src/utils/headerHeight.ts](src/utils/headerHeight.ts)
+📍 **Location:** [src/assets/styles/tailwind.css](src/assets/styles/tailwind.css), [src/composables/useActiveSection.ts](src/composables/useActiveSection.ts)
 
 ---
 

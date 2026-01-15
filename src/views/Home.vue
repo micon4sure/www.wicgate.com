@@ -69,12 +69,12 @@ function scrollToSection(sectionId: string) {
   const element = document.getElementById(sectionId);
   if (!element) return;
 
-  const headerHeight =
+  const contentOffset =
     parseInt(
-      getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim()
-    ) || 80;
+      getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
+    ) || 48;
 
-  const top = element.getBoundingClientRect().top + window.scrollY - headerHeight;
+  const top = element.getBoundingClientRect().top + window.scrollY - contentOffset;
   window.scrollTo({ top, behavior: 'smooth' });
 }
 
