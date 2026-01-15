@@ -1036,6 +1036,18 @@ All tokens use CSS `clamp()` for smooth viewport-based scaling between 320px and
 - Tab content padding: `pt-responsive` (FAQ, Downloads)
 - Grid gaps: `gap-responsive` (Leaderboards)
 
+**Subtle variants** for smaller item gaps (16px → 20px → 24px):
+
+```css
+.gap-responsive-sm { @apply gap-4 sm:gap-5 md:gap-5 lg:gap-6 xl:gap-6; }
+.mb-responsive-sm { @apply mb-4 sm:mb-5 md:mb-5 lg:mb-6 xl:mb-6; }
+```
+
+**Usage:**
+- FAQ questions: `gap-responsive-sm` (between question cards)
+- Downloads steps: `gap-responsive-sm` (between step cards)
+- Warning banner: `mb-responsive-sm` (before step cards)
+
 ### Dynamic Header Integration
 
 Use CSS variable for spacing:

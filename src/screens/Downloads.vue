@@ -53,7 +53,7 @@ const tabs = [
             </div>
 
             <!-- Installation Steps -->
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-responsive-sm">
               <div v-for="s in steps" :key="s.n" class="step-card">
                 <div class="flex items-start gap-4">
                   <span class="step-number-badge step-number-badge-num">
@@ -111,7 +111,7 @@ const tabs = [
 
             <div class="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-8">
               <!-- Server Steps -->
-              <div class="flex flex-col gap-4">
+              <div class="flex flex-col gap-responsive-sm">
                 <div v-for="step in dedicatedServerSteps" :key="step.n" class="step-card">
                   <div class="flex items-start gap-4">
                     <span class="step-number-badge step-number-badge-num">
@@ -186,7 +186,7 @@ const tabs = [
 
             <!-- Warning Banner -->
             <div
-              class="bg-massgate-red/10 border-2 border-massgate-red/40 rounded-none p-4 flex gap-3 items-start mb-8"
+              class="bg-massgate-red/10 border-2 border-massgate-red/40 rounded-none p-4 flex gap-3 items-start mb-responsive-sm"
             >
               <div class="text-massgate-red text-xl flex-shrink-0 mt-0.5">
                 <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
@@ -206,7 +206,7 @@ const tabs = [
             </div>
 
             <!-- Manual Installation Steps -->
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-responsive-sm">
               <div v-for="step in manualInstallSteps" :key="step.n" class="step-card">
                 <div class="flex items-start gap-4">
                   <span class="step-number-badge step-number-badge-num">
