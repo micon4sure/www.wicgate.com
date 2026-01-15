@@ -1048,6 +1048,16 @@ All tokens use CSS `clamp()` for smooth viewport-based scaling between 320px and
 - Downloads steps: `gap-responsive-sm` (between step cards)
 - Warning banner: `mb-responsive-sm` (before step cards)
 
+**Medium variant** for 2x2 grid layouts (20px → 24px → 32px):
+
+```css
+.gap-responsive-md { @apply gap-5 sm:gap-6 xl:gap-8; }
+```
+
+**Usage:**
+- Hero widget grid: `gap-responsive-md` (MediaEventCard + DynamicInfoCard)
+- Leaderboard grids: `gap-responsive-md` (Statistics section dual containers)
+
 ### Dynamic Header Integration
 
 Use CSS variable for spacing:

@@ -1464,7 +1464,7 @@
 
   /* Dual leaderboard layout - side by side on wide screens */
   .leaderboard-dual-container {
-    @apply grid grid-cols-1 gap-6;
+    @apply grid grid-cols-1 gap-responsive-md;
   }
 
   @media screen(lg) {
@@ -1807,7 +1807,7 @@
   }
   /* Hero widget grid (media/event and info cards) */
   .hero-widget-grid {
-    @apply grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10 lg:mb-12 xl:mb-16;
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-responsive-md mb-10 lg:mb-12 xl:mb-16;
   }
 
   /* Hero atmospheric overlay (gradient backgrounds) */
@@ -3013,6 +3013,9 @@
   /* Responsive item spacing (subtle): 16px → 20px → 24px */
   .gap-responsive-sm { @apply gap-4 sm:gap-5 md:gap-5 lg:gap-6 xl:gap-6; }
   .mb-responsive-sm { @apply mb-4 sm:mb-5 md:mb-5 lg:mb-6 xl:mb-6; }
+
+  /* Responsive grid spacing (medium): 20px → 24px → 32px */
+  .gap-responsive-md { @apply gap-5 sm:gap-6 xl:gap-8; }
 
   /* Text gradient for special headings */
   .text-gradient-soviet {
