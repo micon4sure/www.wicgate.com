@@ -200,7 +200,7 @@
   }
   /* Section spacing */
   .section {
-    @apply relative pb-20;
+    @apply relative;
   }
 
   /* Hash link scroll targets - extra breathing room from nav bar */
@@ -250,13 +250,14 @@
 
   /* Section stacking with military-themed subtle variations */
   #screens > * {
-    padding-top: 50px;
+    padding-top: 60px;
+    padding-bottom: 40px;
     border-top: 2px solid rgba(31, 47, 59, 0.1);
   }
 
   /* Hero section needs less top padding since it's directly below navbar */
   #hero {
-    @apply pt-0;
+    padding-top: 80px;
     border-top: none;
   }
 
@@ -898,9 +899,14 @@
 
   /* Sub-tab container - lighter treatment */
   .tab-nav-sub {
-    @apply flex relative;
+    @apply flex relative mb-10 sm:mb-12 lg:mb-14 xl:mb-16;
     @apply border-t border-t-dark-navy-dark/60;
     @apply bg-nav-sub;
+  }
+
+  /* Dashboard cards have compact sub-tabs - no bottom margin */
+  .dashboard-card .tab-nav-sub {
+    @apply mb-0;
   }
 
   /* Sub-tab button - matches tab-btn-s design */
@@ -1737,7 +1743,6 @@
   .hero-section {
     @apply bg-hero-section relative overflow-hidden;
     @apply min-h-screen flex flex-col;
-    padding-top: var(--content-offset, 60px);
   }
 
   /* Hero background removed - using global world map SVG */
@@ -1761,10 +1766,6 @@
   /* Hero container */
   .hero-container {
     @apply container flex flex-col justify-center min-h-screen;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-    padding-top: 80px;
-    padding-bottom: 2rem;
   }
 
   /* Hero main card (title, description, CTA) */
@@ -1818,7 +1819,7 @@
   }
   /* Hero widget grid (media/event and info cards) */
   .hero-widget-grid {
-    @apply grid grid-cols-1 lg:grid-cols-2 gap-responsive-md mb-10 lg:mb-12 xl:mb-16;
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-responsive-md;
   }
 
   /* Hero atmospheric overlay (gradient backgrounds) */

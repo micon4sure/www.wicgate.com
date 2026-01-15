@@ -40,7 +40,7 @@ const tabs = [
       <TabContainer :tabs="tabs" aria-label="Download methods">
         <!-- Tab 1: Quick Install -->
         <template #quick-install>
-          <div class="pt-responsive pb-8 lg:pb-12">
+          <div>
             <div class="text-center mb-10">
               <h3
                 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
@@ -97,7 +97,7 @@ const tabs = [
 
         <!-- Tab 2: Dedicated Server -->
         <template #dedicated-server>
-          <div class="pt-responsive pb-8 lg:pb-12">
+          <div>
             <div class="text-center mb-10">
               <h3
                 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"
@@ -172,7 +172,7 @@ const tabs = [
 
         <!-- Tab 3: Manual Install -->
         <template #manual-install>
-          <div class="pt-responsive pb-8 lg:pb-12">
+          <div>
             <div class="text-center mb-10">
               <h3
                 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider mb-3"

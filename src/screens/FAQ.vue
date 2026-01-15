@@ -215,7 +215,7 @@ function scrollToQuestion(questionId: string) {
       >
         <!-- Tab for each FAQ category -->
         <template v-for="cat in faq" :key="cat.cat" #[getCategoryAnchor(cat.cat)]>
-          <div class="pt-responsive pb-8 lg:pb-10">
+          <div class="pb-8 lg:pb-10">
             <!-- Questions -->
             <div class="flex flex-col gap-responsive-sm">
               <div

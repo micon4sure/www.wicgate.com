@@ -133,7 +133,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
       </div>
 
       <!-- Latest Videos -->
-      <div id="videos" class="mb-responsive">
+      <div id="videos">
         <!-- Subsection Header -->
         <div class="text-center mb-8">
           <h3 class="text-2xl lg:text-3xl font-military font-bold text-t uppercase tracking-wider">
@@ -147,7 +147,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
         <TabContainer v-else :tabs="videoTabs" aria-label="Video categories">
           <!-- Tab: Latest Videos -->
           <template #videos-latest>
-            <div class="py-8 lg:py-10">
+            <div>
               <div v-if="ytVideosSorted.length === 0" class="text-t-tertiary text-center py-10">
                 No videos available
               </div>
@@ -189,7 +189,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
 
           <!-- Tabs: Content Creators -->
           <template v-for="ch in channelsList" :key="ch.channelId" #[`videos-${ch.channelId}`]>
-            <div class="py-8 lg:py-10">
+            <div>
               <!-- Creator Channel Link -->
               <div class="flex justify-center mb-6">
                 <a

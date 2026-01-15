@@ -18,7 +18,7 @@
     </noscript>
 
     <!-- Animated loading skeleton -->
-    <div class="grid grid-cols-1 gap-6 py-5" aria-label="Loading player statistics">
+    <div class="grid grid-cols-1 gap-6 pt-5" aria-label="Loading player statistics">
       <!-- First dual container: High Scores + Total Scores (with tabs) -->
       <div class="leaderboard-dual-container">
         <div v-for="n in 2" :key="'top-' + n" class="skeleton-card">

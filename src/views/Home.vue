@@ -442,6 +442,7 @@ function handleContinue() {
           <FAQ v-if="shouldRenderSection('faq')" />
         </template>
       </div>
+      <div class="h-[80px]"></div>
       <SiteFooter />
     </div>
   </div>

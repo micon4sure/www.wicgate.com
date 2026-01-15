@@ -39,7 +39,7 @@ const ladderData = computed<LeaderboardDataRecord>(() => ({
 defineExpose({ highScoresRef, totalScoresRef, playerLeaderboardRef });
 </script>
 <template>
-  <div class="grid grid-cols-1 gap-responsive mb-6">
+  <div class="grid grid-cols-1 gap-responsive">
     <!-- High Scores and Total Scores side by side on wide screens -->
     <div class="leaderboard-dual-container">
       <LeaderboardGroup
