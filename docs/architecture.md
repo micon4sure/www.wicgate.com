@@ -1057,6 +1057,7 @@ All tokens use CSS `clamp()` for smooth viewport-based scaling between 320px and
 **Usage:**
 - Hero widget grid: `gap-responsive-md` (MediaEventCard + DynamicInfoCard)
 - Leaderboard grids: `gap-responsive-md` (Statistics section dual containers)
+- Community grids: `gap-responsive-md` (Twitch streams, YouTube videos)
 
 ### Dynamic Header Integration
 

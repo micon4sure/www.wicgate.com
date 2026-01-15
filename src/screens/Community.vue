@@ -92,7 +92,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
           </h3>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-responsive-md">
           <div v-for="u in twitchUsernames" :key="u" class="card p-0 overflow-hidden group">
             <TwitchFacade
               :ref="(el) => (twitchRefs[u] = el as InstanceType<typeof TwitchFacade> | null)"
@@ -151,7 +151,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
               <div v-if="ytVideosSorted.length === 0" class="text-t-tertiary text-center py-10">
                 No videos available
               </div>
-              <div v-else class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+              <div v-else class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-responsive-md">
                 <div v-for="v in top6NYTVideos" :key="v.id || v.videoUrl" class="video-card">
                   <button
                     type="button"
@@ -204,7 +204,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
               </div>
 
               <!-- Creator Videos -->
-              <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+              <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-responsive-md">
                 <div v-for="v in ch.videos" :key="v.id" class="video-card">
                   <button
                     type="button"
