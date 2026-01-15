@@ -42,9 +42,9 @@ export const NAV_BREAKPOINT = BREAKPOINTS.LG;
 export const SUB_TAB_BREAKPOINT = BREAKPOINTS.SM;
 
 // Scroll Alignment
-// Base value for --content-offset CSS variable (mobile default)
-// Used as fallback when CSS hasn't loaded or getComputedStyle fails
-export const DEFAULT_CONTENT_OFFSET = 48;
+// Matches mobile navbar height (60px) - used as fallback when CSS hasn't loaded
+// Desktop navbar is 80px (handled by CSS media query at md breakpoint)
+export const DEFAULT_CONTENT_OFFSET = 60;
 
 // Storage Keys
 export const STORAGE_KEYS = {

@@ -44,14 +44,14 @@
 ### 2. Native Scroll System (TWO CSS VARIABLES)
 
 ❌ **NEVER:** `padding-top: 80px;` or hardcoded scroll offsets
-✅ **Scroll alignment:** `var(--content-offset)` (responsive: 48px → 96px)
+✅ **Scroll alignment:** `var(--content-offset)` (matches navbar: 60px mobile, 80px desktop)
 ✅ **Element positioning:** `var(--header-height)` (actual navbar height)
 
 **Two variables, two purposes:**
-- `--content-offset`: Body/section padding, scroll calculations (responsive)
+- `--content-offset`: Matches navbar height exactly for scroll alignment (60px mobile, 80px at md breakpoint)
 - `--header-height`: Mobile menu, toasts, elements relative to navbar (dynamic)
 
-**Fallback:** Use `DEFAULT_CONTENT_OFFSET` constant (48px) from `constants.ts` for JS fallbacks
+**Fallback:** Use `DEFAULT_CONTENT_OFFSET` constant (60px) from `constants.ts` for JS fallbacks
 **Performance:** Cache `--content-offset` on mount/resize, not on scroll (avoids `getComputedStyle` reflow)
 
 📖 **Deep dive:** [docs/architecture.md#scroll--navigation-system](docs/architecture.md#scroll--navigation-system)

@@ -131,24 +131,22 @@ function switchTab(tab: Tab) {
 
 The site uses two separate CSS variables for different purposes:
 
-**`--content-offset`** - Responsive content padding (single source of truth for scroll alignment):
+**`--content-offset`** - Matches navbar height exactly for proper scroll alignment:
 ```css
 /* tailwind.css */
 :root {
-  --content-offset: 48px;  /* Base: 48px (matches DEFAULT_CONTENT_OFFSET constant) */
+  --content-offset: 60px;  /* Mobile navbar height */
 }
-@media screen(sm) { :root { --content-offset: 64px; } }
-@media screen(lg) { :root { --content-offset: 80px; } }
-@media screen(xl) { :root { --content-offset: 96px; } }
+@media screen(md) { :root { --content-offset: 80px; } }  /* Desktop navbar height */
 
 /* Used by (with CSS fallbacks for graceful degradation): */
-body { padding-top: var(--content-offset, 48px); }
-html { scroll-padding-top: var(--content-offset, 48px); }
-.hero-section { padding-top: var(--content-offset, 48px); }
-.section, .hero-section { scroll-margin-top: calc(var(--content-offset, 48px) + 1rem); }
+body { padding-top: var(--content-offset, 60px); }
+html { scroll-padding-top: var(--content-offset, 60px); }
+.hero-section { padding-top: var(--content-offset, 60px); }
+.section, .hero-section { scroll-margin-top: calc(var(--content-offset, 60px) + 1rem); }
 ```
 
-**JS Fallback Constant:** `DEFAULT_CONTENT_OFFSET` in `src/constants.ts` (48px) - used when CSS hasn't loaded or `getComputedStyle()` fails.
+**JS Fallback Constant:** `DEFAULT_CONTENT_OFFSET` in `src/constants.ts` (60px) - matches mobile navbar height, used when CSS hasn't loaded.
 
 **`--header-height`** - Actual navbar height for element positioning:
 ```css
@@ -175,12 +173,12 @@ export function syncHeaderHeight() {
 // All scroll calculations read --content-offset for consistency
 const contentOffset = parseInt(
   getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
-) || 48;
+) || DEFAULT_CONTENT_OFFSET;  // 60px fallback from constants.ts
 ```
 
 **Benefits:**
 - Single source of truth for scroll alignment (`--content-offset`)
-- Responsive scaling: 48px → 64px → 80px → 96px
+- Matches navbar height exactly: 60px (mobile) → 80px (desktop at md)
 - No scroll jumps when switching sections
 - `--header-height` separate for positioning elements relative to navbar
 
@@ -215,7 +213,7 @@ scrollBehavior(to, from, savedPosition) {
         }
 
         const contentOffset = parseInt(getComputedStyle(document.documentElement)
-          .getPropertyValue('--content-offset').trim()) || 48;
+          .getPropertyValue('--content-offset').trim()) || 60;
         const elementPosition = element.getBoundingClientRect().top + window.scrollY;
         const offsetPosition = elementPosition - contentOffset - 16; // Extra breathing room
 
@@ -240,7 +238,7 @@ scrollBehavior(to, from, savedPosition) {
         }
 
         const contentOffset = parseInt(getComputedStyle(document.documentElement)
-          .getPropertyValue('--content-offset').trim()) || 48;
+          .getPropertyValue('--content-offset').trim()) || 60;
         const elementPosition = element.getBoundingClientRect().top + window.scrollY;
         const offsetPosition = elementPosition - contentOffset;
 
@@ -266,7 +264,7 @@ scrollBehavior(to, from, savedPosition) {
 
 **Performance Optimization (January 2026):** Content offset is cached to avoid `getComputedStyle()` reflow during scroll:
 ```typescript
-import { DEFAULT_CONTENT_OFFSET } from '../constants'; // 48px (mobile default)
+import { DEFAULT_CONTENT_OFFSET } from '../constants'; // 60px (mobile navbar height)
 
 // Cached on mount and resize only (NOT on scroll)
 let cachedContentOffset = DEFAULT_CONTENT_OFFSET;

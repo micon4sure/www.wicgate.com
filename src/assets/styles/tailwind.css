@@ -22,21 +22,13 @@
     /* Used for positioning (mobile menu, toasts) */
     --header-height: 80px;
 
-    /* Responsive content offset (single source of truth for scroll alignment) */
-    /* 48px → 64px → 80px → 96px - used for body padding and scroll calculations */
-    --content-offset: 48px;
+    /* Content offset - matches navbar height exactly for scroll alignment */
+    /* Mobile: 60px navbar, Desktop: 80px navbar */
+    --content-offset: 60px;
   }
 
-  @media screen(sm) {
-    :root { --content-offset: 64px; }
-  }
-
-  @media screen(lg) {
+  @media screen(md) {
     :root { --content-offset: 80px; }
-  }
-
-  @media screen(xl) {
-    :root { --content-offset: 96px; }
   }
 
   * {
@@ -47,7 +39,7 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: var(--content-offset, 48px);
+    scroll-padding-top: var(--content-offset, 60px);
     overflow-x: hidden;
   }
 
@@ -58,7 +50,7 @@
   }
 
   body {
-    padding-top: var(--content-offset, 48px);
+    padding-top: var(--content-offset, 60px);
     background-color: rgb(30, 42, 34);
     color: #ffffff;
     overflow-x: hidden;
@@ -217,7 +209,7 @@
   .section,
   .faq-question-item,
   .leaderboard-container {
-    scroll-margin-top: calc(var(--content-offset, 48px) + 1rem);
+    scroll-margin-top: calc(var(--content-offset, 60px) + 1rem);
   }
 
   /* Military panel card */
@@ -1745,7 +1737,7 @@
   .hero-section {
     @apply bg-hero-section relative overflow-hidden;
     @apply min-h-screen flex flex-col;
-    padding-top: var(--content-offset, 48px);
+    padding-top: var(--content-offset, 60px);
   }
 
   /* Hero background removed - using global world map SVG */
@@ -1771,7 +1763,7 @@
     @apply container flex flex-col justify-center min-h-screen;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-    padding-top: 60px;
+    padding-top: 80px;
     padding-bottom: 2rem;
   }
 
@@ -3037,7 +3029,7 @@
   .gap-responsive-md { @apply gap-5 sm:gap-6 xl:gap-8; }
 
   /* Responsive body/header clearance - uses --content-offset variable */
-  .pt-responsive-lg { padding-top: var(--content-offset, 48px); }
+  .pt-responsive-lg { padding-top: var(--content-offset, 60px); }
 
   /* Text gradient for special headings */
   .text-gradient-soviet {
