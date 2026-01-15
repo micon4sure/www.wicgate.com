@@ -41,6 +41,7 @@
     scroll-behavior: smooth;
     scroll-padding-top: var(--content-offset, 60px);
     overflow-x: hidden;
+    overscroll-behavior: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -51,7 +52,7 @@
 
   body {
     padding-top: var(--content-offset, 60px);
-    background-color: rgb(30, 42, 34);
+    background-color: rgb(25, 35, 40);
     color: #ffffff;
     overflow-x: hidden;
     font-family: system-ui, -apple-system, sans-serif;
@@ -71,7 +72,7 @@
     background-repeat: no-repeat;
     background-position: center top;
     background-size: cover;
-    opacity: 0.85;
+    opacity: 0.65;
     pointer-events: none;
     z-index: -2;
   }
@@ -259,16 +260,6 @@
   #hero {
     padding-top: 80px;
     border-top: none;
-  }
-
-  /* Even-indexed screens: subtle teal tint */
-  #screens > *:nth-child(even) {
-    background: linear-gradient(180deg, rgba(0, 40, 50, 0.04) 0%, rgba(10, 14, 18, 0.96) 100%);
-  }
-
-  /* Odd-indexed screens: subtle green-blue tint */
-  #screens > *:nth-child(odd) {
-    background: linear-gradient(180deg, rgba(0, 4, 255, 0.08) 0%, rgba(255, 0, 0, 0.08) 100%);
   }
 
   /* Military typography for hero content */
@@ -2338,25 +2329,21 @@
   /* Downloads Section - transparent, world map shows through */
   .bg-downloads-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(30, 42, 34, 0.3) 0%, rgba(30, 42, 34, 0.2) 50%, rgba(30, 42, 34, 0.3) 100%);
   }
 
   /* Statistics Section - transparent, world map shows through */
   .bg-statistics-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(30, 42, 34, 0.3) 0%, rgba(30, 42, 34, 0.2) 50%, rgba(30, 42, 34, 0.3) 100%);
   }
 
   /* Community Section - transparent, world map shows through */
   .bg-community-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(30, 42, 34, 0.3) 0%, rgba(30, 42, 34, 0.2) 50%, rgba(30, 42, 34, 0.3) 100%);
   }
 
   /* FAQ Section - transparent, world map shows through */
   .bg-faq-section {
     @apply relative overflow-hidden;
-    background: linear-gradient(180deg, rgba(30, 42, 34, 0.3) 0%, rgba(30, 42, 34, 0.2) 50%, rgba(30, 42, 34, 0.3) 100%);
   }
 
   /* ========== GLOBAL UTILITY PATTERNS ========== */
