@@ -31,8 +31,9 @@ npm run build:og     # Regenerate OG images (social sharing)
    - ✅ Component-specific patterns → `tailwind.css` (@layer components, 1-2 uses)
    - When unsure: start in CSS, promote to config if widely used
 3. ❌ NEVER use hardcoded scroll offsets → ✅ Use `--content-offset` for scroll alignment, `--header-height` for element positioning
-   - Body/section padding: `var(--content-offset)` (responsive: 48px → 96px)
+   - Body/section padding: `var(--content-offset, 48px)` (responsive: 48px → 96px)
    - Element positioning (mobile menu, toasts): `var(--header-height)` (actual navbar height)
+   - JS fallback: Use `DEFAULT_CONTENT_OFFSET` constant from `constants.ts` (not hardcoded 48)
 4. ❌ NEVER use browser APIs without SSR guards
 5. ✅ ALWAYS use Pinia for state management (stores in `src/stores/`)
 6. ❌ NEVER commit CRLF line endings (LF only)

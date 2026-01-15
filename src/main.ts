@@ -7,6 +7,7 @@ import './assets/styles/tailwind.css';
 import App from './App.vue';
 import { routes } from './router/routes';
 import { registerSW } from 'virtual:pwa-register';
+import { DEFAULT_CONTENT_OFFSET } from './constants';
 
 // Router base derived from Vite's BASE_URL. When base is './' (our config),
 // normalizing against the current URL yields the correct mount path in all environments:
@@ -105,15 +106,15 @@ export const createApp = ViteSSG(
               return;
             }
 
-            const headerHeight =
+            const contentOffset =
               parseInt(
                 getComputedStyle(document.documentElement)
                   .getPropertyValue('--content-offset')
                   .trim()
-              ) || 80;
+              ) || DEFAULT_CONTENT_OFFSET;
 
             const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-            const offsetPosition = elementPosition - headerHeight - 16; // Extra padding for breathing room
+            const offsetPosition = elementPosition - contentOffset - 16; // Extra padding for breathing room
 
             resolve({
               top: offsetPosition,
@@ -160,15 +161,15 @@ export const createApp = ViteSSG(
               return;
             }
 
-            const headerHeight =
+            const contentOffset =
               parseInt(
                 getComputedStyle(document.documentElement)
                   .getPropertyValue('--content-offset')
                   .trim()
-              ) || 80;
+              ) || DEFAULT_CONTENT_OFFSET;
 
             const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-            const offsetPosition = elementPosition - headerHeight;
+            const offsetPosition = elementPosition - contentOffset;
 
             resolve({
               top: offsetPosition,

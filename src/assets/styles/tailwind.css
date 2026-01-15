@@ -47,7 +47,7 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: var(--content-offset);
+    scroll-padding-top: var(--content-offset, 48px);
     overflow-x: hidden;
   }
 
@@ -58,7 +58,7 @@
   }
 
   body {
-    padding-top: var(--content-offset);
+    padding-top: var(--content-offset, 48px);
     background-color: rgb(30, 42, 34);
     color: #ffffff;
     overflow-x: hidden;
@@ -217,7 +217,7 @@
   .section,
   .faq-question-item,
   .leaderboard-container {
-    scroll-margin-top: calc(var(--content-offset) + 1rem);
+    scroll-margin-top: calc(var(--content-offset, 48px) + 1rem);
   }
 
   /* Military panel card */
@@ -1745,7 +1745,7 @@
   .hero-section {
     @apply bg-hero-section relative overflow-hidden;
     @apply min-h-screen flex flex-col;
-    padding-top: var(--content-offset);
+    padding-top: var(--content-offset, 48px);
   }
 
   /* Hero background removed - using global world map SVG */
@@ -3037,7 +3037,7 @@
   .gap-responsive-md { @apply gap-5 sm:gap-6 xl:gap-8; }
 
   /* Responsive body/header clearance - uses --content-offset variable */
-  .pt-responsive-lg { padding-top: var(--content-offset); }
+  .pt-responsive-lg { padding-top: var(--content-offset, 48px); }
 
   /* Text gradient for special headings */
   .text-gradient-soviet {

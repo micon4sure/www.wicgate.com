@@ -41,6 +41,11 @@ export const NAV_BREAKPOINT = BREAKPOINTS.LG;
 // Sub-tabs switch at this breakpoint (matches Tailwind sm)
 export const SUB_TAB_BREAKPOINT = BREAKPOINTS.SM;
 
+// Scroll Alignment
+// Base value for --content-offset CSS variable (mobile default)
+// Used as fallback when CSS hasn't loaded or getComputedStyle fails
+export const DEFAULT_CONTENT_OFFSET = 48;
+
 // Storage Keys
 export const STORAGE_KEYS = {
   FIRST_VISIT: 'wicgate_visited',

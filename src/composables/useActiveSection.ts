@@ -6,6 +6,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
 import { useViewportMode } from './useViewportMode';
+import { DEFAULT_CONTENT_OFFSET } from '../constants';
 
 export function useActiveSection(sectionIds: string[] = []) {
   const route = useRoute();
@@ -19,7 +20,7 @@ export function useActiveSection(sectionIds: string[] = []) {
 
   // Cached content offset - updated on mount and resize only (not on scroll)
   // Avoids getComputedStyle() reflow during scroll for better performance
-  let cachedContentOffset = 48;
+  let cachedContentOffset = DEFAULT_CONTENT_OFFSET;
 
   /**
    * Update cached content offset from CSS variable
@@ -30,7 +31,7 @@ export function useActiveSection(sectionIds: string[] = []) {
     cachedContentOffset =
       parseInt(
         getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
-      ) || 48;
+      ) || DEFAULT_CONTENT_OFFSET;
   }
 
   /**

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, watch, nextTick } from 'vue';
-import { ANCHOR_HIGHLIGHT_DELAY } from '../constants';
+import { ANCHOR_HIGHLIGHT_DELAY, DEFAULT_CONTENT_OFFSET } from '../constants';
 import Leaderboards from '../components/Leaderboards.vue';
 import LeaderboardSkeleton from '../components/skeletons/LeaderboardSkeleton.vue';
 import type { DataResponse, LeaderboardEntry, LadderEntry, ClanEntry } from '../api-types';
@@ -64,7 +64,7 @@ function handleHashNavigation() {
         const contentOffset =
           parseInt(
             getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
-          ) || 48;
+          ) || DEFAULT_CONTENT_OFFSET;
         const elementPosition = element.getBoundingClientRect().top + window.scrollY;
         const offsetPosition = elementPosition - contentOffset - 20;
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { faq } from '../content/content';
-import { ANCHOR_HIGHLIGHT_DELAY } from '../constants';
+import { ANCHOR_HIGHLIGHT_DELAY, DEFAULT_CONTENT_OFFSET } from '../constants';
 import { ref, computed, watch, nextTick, inject } from 'vue';
 import { useRoute } from 'vue-router';
 import { useHead } from '@unhead/vue';
@@ -166,7 +166,7 @@ function scrollToQuestion(questionId: string) {
     const contentOffset =
       parseInt(
         getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
-      ) || 48;
+      ) || DEFAULT_CONTENT_OFFSET;
     const elementPosition = element.getBoundingClientRect().top + window.scrollY;
     const offsetPosition = elementPosition - contentOffset - 20; // Extra padding
 

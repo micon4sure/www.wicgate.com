@@ -51,6 +51,7 @@
 - `--content-offset`: Body/section padding, scroll calculations (responsive)
 - `--header-height`: Mobile menu, toasts, elements relative to navbar (dynamic)
 
+**Fallback:** Use `DEFAULT_CONTENT_OFFSET` constant (48px) from `constants.ts` for JS fallbacks
 **Performance:** Cache `--content-offset` on mount/resize, not on scroll (avoids `getComputedStyle` reflow)
 
 📖 **Deep dive:** [docs/architecture.md#scroll--navigation-system](docs/architecture.md#scroll--navigation-system)

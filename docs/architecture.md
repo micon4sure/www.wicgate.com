@@ -135,18 +135,20 @@ The site uses two separate CSS variables for different purposes:
 ```css
 /* tailwind.css */
 :root {
-  --content-offset: 48px;  /* Base: 48px */
+  --content-offset: 48px;  /* Base: 48px (matches DEFAULT_CONTENT_OFFSET constant) */
 }
 @media screen(sm) { :root { --content-offset: 64px; } }
 @media screen(lg) { :root { --content-offset: 80px; } }
 @media screen(xl) { :root { --content-offset: 96px; } }
 
-/* Used by: */
-body { padding-top: var(--content-offset); }
-html { scroll-padding-top: var(--content-offset); }
-.hero-section { padding-top: var(--content-offset); }
-.section, .hero-section { scroll-margin-top: calc(var(--content-offset) + 1rem); }
+/* Used by (with CSS fallbacks for graceful degradation): */
+body { padding-top: var(--content-offset, 48px); }
+html { scroll-padding-top: var(--content-offset, 48px); }
+.hero-section { padding-top: var(--content-offset, 48px); }
+.section, .hero-section { scroll-margin-top: calc(var(--content-offset, 48px) + 1rem); }
 ```
+
+**JS Fallback Constant:** `DEFAULT_CONTENT_OFFSET` in `src/constants.ts` (48px) - used when CSS hasn't loaded or `getComputedStyle()` fails.
 
 **`--header-height`** - Actual navbar height for element positioning:
 ```css
@@ -264,13 +266,15 @@ scrollBehavior(to, from, savedPosition) {
 
 **Performance Optimization (January 2026):** Content offset is cached to avoid `getComputedStyle()` reflow during scroll:
 ```typescript
+import { DEFAULT_CONTENT_OFFSET } from '../constants'; // 48px (mobile default)
+
 // Cached on mount and resize only (NOT on scroll)
-let cachedContentOffset = 48;
+let cachedContentOffset = DEFAULT_CONTENT_OFFSET;
 
 function updateContentOffset() {
   cachedContentOffset = parseInt(
     getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
-  ) || 48;
+  ) || DEFAULT_CONTENT_OFFSET;
 }
 
 onMounted(() => {

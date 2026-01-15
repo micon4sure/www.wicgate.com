@@ -36,6 +36,7 @@ import {
 import { getAllValidIds } from '../types/navigation';
 import { syncHeaderHeight } from '../utils/headerHeight';
 import { DEFAULT_OG_IMAGE, DEFAULT_SITE_URL } from '../content/pageMeta';
+import { DEFAULT_CONTENT_OFFSET } from '../constants';
 
 const store = useAppDataStore();
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
@@ -72,7 +73,7 @@ function scrollToSection(sectionId: string) {
   const contentOffset =
     parseInt(
       getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
-    ) || 48;
+    ) || DEFAULT_CONTENT_OFFSET;
 
   const top = element.getBoundingClientRect().top + window.scrollY - contentOffset;
   window.scrollTo({ top, behavior: 'smooth' });
