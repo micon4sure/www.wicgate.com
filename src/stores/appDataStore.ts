@@ -90,7 +90,7 @@ export const useAppDataStore = defineStore('appData', () => {
 
   async function fetchData() {
     // Never fetch during SSG build
-    if (import.meta.env.SSR) return;
+    if (import.meta.server) return;
 
     // Prevent overlapping calls
     if (loadingInternal.value) return;
@@ -114,7 +114,7 @@ export const useAppDataStore = defineStore('appData', () => {
 
   function init() {
     // Never initialize during SSG build
-    if (import.meta.env.SSR) return;
+    if (import.meta.server) return;
     if (isInitialized.value) return;
 
     isInitialized.value = true;

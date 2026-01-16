@@ -3,7 +3,7 @@
  * Runs before all tests to configure global test environment
  */
 
-import { vi } from 'vitest';
+import { vi, beforeEach } from 'vitest';
 
 // Mock environment variables for SSR-safe testing
 vi.stubEnv('SSR', false);

@@ -9,7 +9,7 @@
 ## Commands
 
 ```bash
-npm run dev          # Dev server (localhost:5173)
+npm run dev          # Dev server (localhost:3000)
 npm test             # Fast tests (~0.7s, fake timers)
 npm run test:thorough # Thorough tests (~14s, real timers, for CI)
 npm run typecheck    # Type-check Vue + TS files
@@ -18,7 +18,7 @@ npm run build        # Production build (SSG + PWA)
 npm run build:og     # Regenerate OG images (social sharing)
 ```
 
-**Package Manager:** Use `bun run test` (NOT `bun test` - wrong runner)
+**Package Manager:** npm
 
 ---
 
@@ -37,7 +37,7 @@ npm run build:og     # Regenerate OG images (social sharing)
 4. ❌ NEVER use browser APIs without SSR guards
 5. ✅ ALWAYS use Pinia for state management (stores in `src/stores/`)
 6. ❌ NEVER commit CRLF line endings (LF only)
-7. ❌ NEVER use `bun test` → ✅ ALWAYS use `bun run test`
+7. ✅ Use npm as the package manager for consistency
 8. ❌ NEVER use `any` types → ✅ ALWAYS use typed errors from `types/errors.ts`
 9. ❌ NEVER duplicate logic → ✅ ALWAYS use composables (`useServerCapacity`, `usePlayerDisplay`, `useInternalLinks`, etc.)
 10. ⚠️ Security considerations → See [docs/security.md](docs/security.md) for XSS prevention, auth best practices
@@ -86,6 +86,6 @@ npm run build:og     # Regenerate OG images (social sharing)
 
 ---
 
-**Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
-**Entry:** [src/main.ts](src/main.ts)
-**Updated:** January 15, 2026 (Two-variable scroll system)
+**Stack:** Vue 3 + TypeScript, Nuxt 3, Tailwind CSS, Pinia, Vitest
+**Entry:** [nuxt.config.ts](nuxt.config.ts) (Nuxt app in `src/` directory)
+**Updated:** January 16, 2026 (Fixed #app-manifest error via experimental.appManifest: false)

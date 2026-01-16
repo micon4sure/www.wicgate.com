@@ -31,7 +31,7 @@ export const useAuthStore = defineStore('auth', () => {
    * Login as admin (username/password against admin API)
    */
   async function loginAdmin(credentials: LoginCredentials): Promise<void> {
-    if (import.meta.env.SSR) return;
+    if (import.meta.server) return;
 
     loading.value = true;
     error.value = null;
@@ -70,7 +70,7 @@ export const useAuthStore = defineStore('auth', () => {
    * Login as user (email/password against user API)
    */
   async function loginUser(credentials: LoginCredentials): Promise<void> {
-    if (import.meta.env.SSR) return;
+    if (import.meta.server) return;
 
     loading.value = true;
     error.value = null;
@@ -111,7 +111,7 @@ export const useAuthStore = defineStore('auth', () => {
    */
   function logout(): void {
     // Never run during SSR
-    if (import.meta.env.SSR) return;
+    if (import.meta.server) return;
 
     currentUser.value = null;
     authToken.value = null;
@@ -131,7 +131,7 @@ export const useAuthStore = defineStore('auth', () => {
    */
   async function checkAuth(): Promise<void> {
     // Never run during SSR
-    if (import.meta.env.SSR) return;
+    if (import.meta.server) return;
 
     // Already authenticated, no need to check
     if (isAuthenticated.value) return;

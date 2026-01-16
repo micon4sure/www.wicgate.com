@@ -1,7 +1,11 @@
 import type { Config } from 'tailwindcss';
 
 export default {
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  content: [
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+    './app/**/*.{vue,js,ts,jsx,tsx}',
+    './nuxt.config.ts',
+  ],
   theme: {
     extend: {
       // WiCGate Color Hierarchy: Graphite Base → Teal Accents → Orange CTAs → Red Alerts

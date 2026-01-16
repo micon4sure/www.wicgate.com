@@ -51,7 +51,7 @@ const { currentSection, startProgrammaticScroll } = useActiveSection(ALL_VALID_I
 const route = useRoute();
 
 // SSG conditional rendering
-const isSSR = import.meta.env.SSR;
+const isSSR = import.meta.server;
 const targetSection = computed(() => route.meta.section as string | undefined);
 
 // Disable scroll tracking during programmatic navigation (clicks)

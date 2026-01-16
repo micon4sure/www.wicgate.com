@@ -77,6 +77,16 @@ export default [
         ServiceWorker: 'readonly',
         ServiceWorkerRegistration: 'readonly',
 
+        // Nuxt auto-imports
+        defineNuxtPlugin: 'readonly',
+        defineNuxtRouteMiddleware: 'readonly',
+        definePageMeta: 'readonly',
+        navigateTo: 'readonly',
+        useHead: 'readonly',
+        useRoute: 'readonly',
+        useRouter: 'readonly',
+        clearError: 'readonly',
+
         // Node.js globals
         process: 'readonly',
         __dirname: 'readonly',

@@ -1,17 +1,8 @@
 // Centralized utility functions for the WiCGate application
 // This module consolidates common utilities to improve maintainability
 
-// Re-export player display utilities
-export {
-  displayName,
-  colorize,
-  groupPlayersByServer,
-  type PlayerProfile,
-  type PlayerGroup,
-} from './playerDisplay';
-
-// FontAwesome configuration is imported in main.ts
-// No need to re-export it from here
+// Note: Player display utilities are auto-imported by Nuxt from playerDisplay.ts
+// Do not re-export them here to avoid duplicate import warnings
 
 /**
  * Format date string to localized string

@@ -19,15 +19,9 @@
  * ```
  */
 
-import type { OnlineProfile, ServerEntry } from '../api-types';
-
-export type PlayerProfile = OnlineProfile;
-
-export interface PlayerGroup {
-  serverId: string;
-  serverName: string;
-  players: PlayerProfile[];
-}
+import type { ServerEntry } from '../api-types';
+// Types are exported from utils/playerDisplay.ts - import from there to avoid duplicates
+import type { PlayerProfile, PlayerGroup } from '../utils/playerDisplay';
 
 export interface ParsedPlayer {
   clanTag: string;

@@ -2,11 +2,11 @@
 
 ## Overview
 
-WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation for SEO with Single Page Application behavior for user experience.
+WiCGATE is a **Nuxt 3** application using hybrid rendering (SSR, SSG, and CSR per route) for optimal performance and SEO.
 
-**Stack:** Vue 3 + TypeScript, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
-**Entry:** [src/main.ts](../src/main.ts)
-**Routing:** 7 Vue Router routes, hash-based tab navigation within sections (see Routing System below)
+**Stack:** Vue 3 + TypeScript, Nuxt 3, Tailwind CSS, Pinia, Vitest
+**Entry:** [nuxt.config.ts](../nuxt.config.ts)
+**Routing:** File-based routing (`src/pages/`), 9 routes with hash-based tab navigation within sections (see Routing System below)
 
 ---
 
@@ -14,30 +14,47 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 
 ### Rendering Strategy
 
-**Build Time (SSG):**
-- ViteSSG pre-renders 6 unique HTML files (main sections only)
-- Each route serves focused content with unique meta tags
-- Tab content handled client-side via hash navigation
-- Conditional rendering: `shouldRenderSection()` renders only target section per route
+**Nuxt Hybrid Rendering:**
+Nuxt 3 uses `routeRules` in [nuxt.config.ts](../nuxt.config.ts) to configure per-route rendering:
+
+```typescript
+routeRules: {
+  '/': { ssr: true },              // SSR - dynamic content
+  '/downloads': { prerender: true }, // SSG - static content
+  '/statistics': { ssr: true },     // SSR - dynamic data
+  '/community': { ssr: true },      // SSR - dynamic data
+  '/faq': { prerender: true },      // SSG - static content
+  '/login': { ssr: false },         // CSR - auth pages
+  '/admin-login': { ssr: false },   // CSR - auth pages
+  '/admin': { ssr: false },         // CSR - protected pages
+  '/user': { ssr: false },          // CSR - protected pages
+}
+```
+
+- **SSR (Server-Side Rendering):** Rendered on each request - ideal for pages with dynamic API data
+- **SSG (Static Site Generation):** Pre-rendered at build time with `prerender: true` - ideal for static content
+- **CSR (Client-Side Rendering):** Rendered in browser with `ssr: false` - ideal for authenticated pages
 
 **Runtime (SPA):**
 - JavaScript hydrates after initial load
 - Tab navigation triggers route changes (except Community videos which use local state)
-- No page reloads during navigation (Vue Router SPA behavior)
+- No page reloads during navigation (Nuxt's Vue Router SPA behavior)
 - Hash fragments handle FAQ question deep-linking
 
 ### Routing System
 
 **Two Navigation Mechanisms:**
 
-1. **Vue Router Routes (7 total)** - Section navigation, triggers full route change:
-   - `/` - Home (hero section)
-   - `/downloads` - Downloads section
-   - `/statistics` - Statistics/leaderboards section
-   - `/community` - Community section
-   - `/faq` - FAQ section
-   - `/login` - User login page
-   - `/admin` - Admin panel
+1. **Nuxt File-Based Routes (9 total)** - Section navigation via `src/pages/*.vue`:
+   - `/` → `index.vue` - Home (hero section)
+   - `/downloads` → `downloads.vue` - Downloads section
+   - `/statistics` → `statistics.vue` - Statistics/leaderboards section
+   - `/community` → `community.vue` - Community section
+   - `/faq` → `faq.vue` - FAQ section
+   - `/login` → `login.vue` - User login page
+   - `/admin-login` → `admin-login.vue` - Admin login page
+   - `/admin` → `admin.vue` - Admin panel
+   - `/user` → `user.vue` - User dashboard
 
 2. **Hash-Based Tab Navigation** - Tab switching within sections, no route change:
    - Downloads tabs: `#quick-install` (default, no hash shown), `#dedicated-server`, `#manual-install`
@@ -48,21 +65,23 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 
 **Key distinction:** Clicking a navbar link triggers Vue Router navigation (section change). Clicking a tab within a section only updates the URL hash (no route change, content swaps instantly via TabContainer).
 
-### SSG Optimization Strategy
+### Rendering Optimization Strategy
 
-**Pre-rendering Philosophy:** Only pre-render pages with substantial unique content. Tab content is handled client-side.
+**Pre-rendering Philosophy:** Static content (Downloads, FAQ) uses `prerender: true`, dynamic content uses SSR, auth pages use CSR.
 
-**Current Strategy:**
-- **Pre-rendered Routes (6):** `/`, `/downloads`, `/statistics`, `/community`, `/faq`, `/login`
+**Current Strategy (via `routeRules`):**
+- **SSR Routes:** `/`, `/statistics`, `/community` - dynamic API data
+- **Pre-rendered Routes (SSG):** `/downloads`, `/faq` - static content
+- **CSR Routes:** `/login`, `/admin-login`, `/admin`, `/user` - authenticated pages
 - **Hash-based tabs:** Not separate routes - handled by TabContainer component
-- **Excluded from sitemap.xml:** noindex pages (/login, /admin)
+- **Excluded from sitemap.xml:** noindex pages (/login, /admin, /admin-login, /user)
 - **Sitemap URLs (5):** Main sections only with substantial content
 
 **Benefits:**
 - ✅ Consolidated SEO signals (one authoritative page per section)
 - ✅ No duplicate/thin content issues
 - ✅ Clean URL structure - default tabs don't clutter address bar
-- ✅ Faster builds (6 pages only)
+- ✅ Fast builds - only 2 routes pre-rendered, others server-rendered on demand
 - ✅ Better crawl budget usage (Google focuses on quality pages)
 - ✅ Browser back/forward works with hash history
 
@@ -113,8 +132,8 @@ function switchTab(tab: Tab) {
 - **Shared panels:** Tab panels are rendered once and shared between desktop tabs and MobileTabDropdown. The mobile dropdown only handles tab selection UI.
 
 **Files:**
-- [src/router/routes.ts](../src/router/routes.ts) - Route definitions (7 routes, no child routes)
-- [src/main.ts](../src/main.ts) - Router configuration
+- [src/pages/](../src/pages/) - File-based route definitions (9 pages)
+- [nuxt.config.ts](../nuxt.config.ts) - Route rules and rendering configuration
 - [src/components/TabContainer.vue](../src/components/TabContainer.vue) - Tab management with hash sync
 
 ---
@@ -185,7 +204,7 @@ const contentOffset = parseInt(
 #### 2. Native Scroll Restoration
 
 ```typescript
-// main.ts
+// In a client plugin or onMounted
 if (typeof window !== 'undefined' && 'scrollRestoration' in history) {
   history.scrollRestoration = 'auto'; // Browser handles scroll position
 }
@@ -312,7 +331,19 @@ const currentSection = computed(() => {
 
 ### Pinia Stores
 
-**Migration (October 2025):** Moved from composable modules to Pinia for authentication support and protected routes.
+**Nuxt Integration:** Uses `@pinia/nuxt` module for automatic setup and SSR support.
+
+```typescript
+// nuxt.config.ts
+modules: ['@pinia/nuxt'],
+pinia: {
+  storesDirs: ['./src/stores/**'],
+}
+```
+
+**Store Initialization:** Client-side plugin [init-stores.client.ts](../src/plugins/init-stores.client.ts) handles post-hydration setup:
+- Starts API polling (`appDataStore.init()`)
+- Checks auth status (`authStore.checkAuth()`)
 
 **Stores:**
 1. **[appDataStore.ts](../src/stores/appDataStore.ts)** - Game data (players, servers, leaderboards)
@@ -359,35 +390,30 @@ const { data, loading } = storeToRefs(useAppDataStore());
 **Required for:** Browser APIs (`window`, `document`, `localStorage`, `navigator`)
 
 **Critical Areas:**
-1. **Router scrollBehavior** - Runs during SSG build, needs guards for DOM APIs
-2. **Component script setup** - Top-level code executes during SSR
-3. **Lifecycle hooks** - Only `onMounted`/`onBeforeUnmount` are client-only
-4. **Event handlers** - Never need guards (@click, @keydown, etc. don't run during SSR)
+1. **Component script setup** - Top-level code executes during SSR
+2. **Lifecycle hooks** - Only `onMounted`/`onBeforeUnmount` are client-only
+3. **Event handlers** - Never need guards (@click, @keydown, etc. don't run during SSR)
 
-**Pattern:**
+**Nuxt Pattern (preferred):**
 ```typescript
-// Guard entire function
-if (import.meta.env.SSR) return;
+// Guard entire function (Nuxt convention)
+if (import.meta.server) return;
 
-// Or guard specific code
-if (!import.meta.env.SSR) {
+// Or guard specific code for client-only
+if (import.meta.client) {
   window.setInterval(fetchData, 90000);
 }
 
-// scrollBehavior guard (critical!)
-scrollBehavior(to, from, savedPosition) {
-  if (to.hash) {
-    return new Promise((resolve) => {
-      // SSR guard - scrollBehavior runs during SSG build
-      if (typeof window === 'undefined') {
-        resolve({ top: 0 });
-        return;
-      }
-      // DOM operations safe here
-    });
-  }
+// Alternative: typeof window check (still valid)
+if (typeof window !== 'undefined') {
+  // DOM operations safe here
 }
 ```
+
+**Nuxt SSR Helpers:**
+- `import.meta.server` - `true` on server, `false` on client (replaces `import.meta.env.SSR`)
+- `import.meta.client` - `true` on client, `false` on server
+- `<ClientOnly>` component - Renders children only on client
 
 **What DON'T Need Guards:**
 - Event handlers (`@click`, `@submit`, `@keydown`, etc.)
@@ -458,23 +484,17 @@ The mobile tab dropdown uses **CSS class visibility** instead of `v-if` to ensur
 
 ## Head Management & Meta Tags
 
-**Library:** @unhead/vue (official successor to deprecated @vueuse/head)
+**Library:** Nuxt's built-in `useHead()` (powered by @unhead/vue)
 
 **Integration:**
-- ViteSSG v28+ automatically sets up @unhead/vue (no manual `createHead()` needed)
-- Used in Home.vue for dynamic meta tags based on route
+- Nuxt provides `useHead()`, `useSeoMeta()`, and `useServerSeoMeta()` auto-imported
+- Used in page components for dynamic meta tags based on route
 - JSON-LD structured data for SEO (Organization + WebSite schemas)
-
-**Belt-and-Suspenders Approach:**
-
-1. **Runtime (Primary):** `useHead()` in components injects meta tags during SSG build
-2. **Build-time (Safety Net):** Post-build script ensures metadata in all pre-rendered HTML
+- Global head config in `nuxt.config.ts` `app.head` for defaults
 
 **Pattern:**
 ```typescript
-// Home.vue
-import { useHead } from '@unhead/vue';
-
+// In any page or component (auto-imported, no import needed)
 useHead({
   title: pageTitle,
   meta: [
@@ -488,6 +508,14 @@ useHead({
       textContent: JSON.stringify(generateOrganizationSchema()), // ⚠️ Use textContent, NOT children
     },
   ],
+});
+
+// Or use useSeoMeta for type-safe SEO meta tags
+useSeoMeta({
+  title: pageTitle,
+  description: pageDescription,
+  ogTitle: pageTitle,
+  ogDescription: pageDescription,
 });
 ```
 
@@ -525,23 +553,19 @@ onMounted(() => {
 Industry-standard pattern for content sharing, following GitHub/MDN/Stack Overflow documentation sites. Used in FAQ questions and Statistics leaderboard cards:
 
 ```typescript
-// FAQ.vue - Copy link with base path for GitHub Pages support
-const appBase = inject<string>('appBase', '/'); // From main.ts
-
+// FAQ.vue - Copy link (simplified in Nuxt - base path handled automatically)
 function copyQuestionLink(questionId: string) {
   if (typeof window === 'undefined' || !navigator.clipboard) return; // SSR guard
 
-  // Build URL with base path for GitHub Pages deployment
-  const url = `${window.location.origin}${appBase}faq#${questionId}`;
-
+  const url = `${window.location.origin}/faq#${questionId}`;
   navigator.clipboard.writeText(url); // Copy to clipboard
 }
 
 // LeaderboardGroup.vue / ClanLeaderboard.vue - Same pattern
-const url = `${window.location.origin}${appBase}statistics#${hash}`;
+const url = `${window.location.origin}/statistics#${hash}`;
 ```
 
-**Note:** The `appBase` injection handles deployment to subdirectories (GitHub Pages) automatically. See [deployment_guide.md](deployment_guide.md) for details.
+**Note:** Nuxt handles base paths automatically via `runtimeConfig`. See [deployment_guide.md](deployment_guide.md) for deployment details.
 
 **UX Features:**
 - Link icon (🔗) appears on hover (hidden by default)
@@ -668,16 +692,25 @@ script: [
 
 ## PWA Architecture
 
-**File:** [vite.config.ts](../vite.config.ts)
+**Module:** `@vite-pwa/nuxt` configured in [nuxt.config.ts](../nuxt.config.ts)
+
+```typescript
+// nuxt.config.ts
+modules: ['@vite-pwa/nuxt'],
+pwa: {
+  registerType: 'autoUpdate',
+  manifest: { /* app metadata */ },
+  workbox: { /* caching strategies */ },
+}
+```
 
 **Features:**
-- Service worker with precaching (~49 entries production)
-- CacheFirst for static assets
-- NetworkFirst for API calls (5-min fallback)
-- Auto-generated manifest from [public/favicon.svg](../public/favicon.svg)
-- 4 icon sizes: 64px, 192px, 512px, maskable
-
-**Build:** `npm run build:icons` generates all PWA icons
+- Service worker with Workbox runtime caching
+- CacheFirst for fonts and images (1 year / 30 days)
+- NetworkFirst for API calls (5-min cache, 10s timeout)
+- App manifest with 4 icon sizes: 64px, 192px, 512px, maskable
+- Auto-update registration (users get latest version automatically)
+- Disabled in development (`devOptions.enabled: false`)
 
 ---
 
@@ -1348,29 +1381,43 @@ CSS fallback rules (`.mobile-menu-open` class) mirror the `:has()` rules - mutua
 
 **Command:** `npm run build`
 
-**Steps:**
-1. Generate PWA icons from `public/favicon.svg` (4 sizes)
-2. Generate sitemap.xml (5 URLs - main sections only)
-3. ViteSSG build - Pre-render 6 routes (main sections + /login)
-4. Apply head meta - Inject route-specific titles/descriptions/structured data
-5. PWA service worker generation (~54 precached entries)
+**Nuxt Build Process:**
+1. Nuxt prepares app (analyzes pages, components, plugins)
+2. Nitro server engine compiles with Vercel preset
+3. Pre-renders routes with `prerender: true` (`/downloads`, `/faq`)
+4. SSR-ready routes compiled for server rendering
+5. PWA service worker generated via `@vite-pwa/nuxt`
 6. Asset optimization (code splitting, tree shaking, content hashing)
 
-**Output:** `dist/` with 14 unique HTML files + optimized assets
+**Output:** `.output/` directory with:
+- `public/` - Static assets and pre-rendered HTML
+- `server/` - Nitro server for SSR routes
 
 ### Configuration
 
-**[vite.config.ts](../vite.config.ts)** - Vite + ViteSSG + PWA plugins
+**[nuxt.config.ts](../nuxt.config.ts)** - Main config (modules, routeRules, PWA, Nitro)
 **[vitest.config.ts](../vitest.config.ts)** - Test config (hybrid timing)
 **[tailwind.config.ts](../tailwind.config.ts)** - Design tokens
 **[eslint.config.js](../eslint.config.js)** - ESLint + Prettier
 
+### Nitro Server Configuration
+
+```typescript
+// nuxt.config.ts
+nitro: {
+  preset: 'vercel',  // Deployment target
+  routeRules: {
+    '/api/**': { proxy: 'https://www.wicgate.com/api/**' },
+  },
+}
+```
+
 ### Bundle Optimization
 
-- **Code splitting:** Route-based chunks
+- **Code splitting:** Route-based chunks (automatic with Nuxt)
 - **Tree shaking:** Dead code elimination
 - **Content hashing:** Cache busting
-- **Chunk size limit:** 5MB max (currently ~4.1MB)
+- **Auto-imports:** Only used composables/utils bundled
 
 ---
 
@@ -1397,19 +1444,26 @@ CSS fallback rules (`.mobile-menu-open` class) mirror the `:has()` rules - mutua
 
 ### Alternative Platforms
 
-**Netlify/Vercel:**
+**Vercel (Primary Target):**
+- Build: `npm run build` (uses Nitro Vercel preset)
+- Output: `.output/` directory (auto-detected by Vercel)
+- SSR routes automatically deployed as serverless functions
+- No manual configuration needed - Nuxt auto-configures
+
+**Netlify:**
+- Change preset: `nitro: { preset: 'netlify' }` in nuxt.config.ts
 - Build: `npm run build`
-- Publish dir: `dist`
-- SPA routing: `public/_redirects` (fallback to `/index.html 200`)
+- Output: `.output/` directory
 
 ---
 
 ## Performance
 
-### SSG Benefits
-- Instant first paint (pre-rendered HTML)
-- Reduced JavaScript for initial render
-- SEO crawlability without JS execution
+### Hybrid Rendering Benefits
+- **Pre-rendered routes (SSG):** Instant first paint, CDN-cacheable, no server needed
+- **SSR routes:** Fresh data on each request, full SEO support
+- **CSR routes:** Fast client-side navigation for authenticated pages
+- SEO crawlability for all public routes
 
 ### PWA Benefits
 - Offline capability (cached assets)
@@ -1432,50 +1486,66 @@ CSS fallback rules (`.mobile-menu-open` class) mirror the `:has()` rules - mutua
 ## Project Structure
 
 ```
-src/
-├── main.ts                    # ViteSSG entry
-├── router/
-│   ├── index.ts               # Router config
-│   └── routes.ts              # Route definitions (7 routes, 5 pre-rendered)
+src/                            # Nuxt source directory (srcDir: 'src/')
+├── app.vue                     # App root component
+├── error.vue                   # Error page component
+├── pages/                      # File-based routing (9 routes)
+│   ├── index.vue               # / - Home
+│   ├── downloads.vue           # /downloads
+│   ├── statistics.vue          # /statistics
+│   ├── community.vue           # /community
+│   ├── faq.vue                 # /faq
+│   ├── login.vue               # /login
+│   ├── admin-login.vue         # /admin-login
+│   ├── admin.vue               # /admin
+│   └── user.vue                # /user
+├── layouts/
+│   └── default.vue             # Default layout with Navigation
+├── middleware/                 # Route middleware (auth guards)
+├── plugins/
+│   └── init-stores.client.ts   # Client-side store initialization
 ├── stores/
-│   ├── appDataStore.ts        # Game data
-│   └── auth.ts                # Authentication
+│   ├── appDataStore.ts         # Game data
+│   ├── auth.ts                 # Authentication
+│   ├── calendarStore.ts        # Events calendar
+│   └── youtubeStore.ts         # YouTube videos
 ├── components/
-│   ├── Navigation.vue         # Responsive nav
-│   ├── WidgetDashboard.vue    # Homepage hero
-│   ├── widgets/               # 6 widget components
-│   ├── skeletons/             # SEO-friendly loaders
+│   ├── Navigation.vue          # Responsive nav
+│   ├── WidgetDashboard.vue     # Homepage hero
+│   ├── widgets/                # Widget components
+│   ├── skeletons/              # SEO-friendly loaders
 │   └── ...
-├── screens/                   # Section components
-│   ├── Downloads.vue          # 3-tab installation guide
-│   ├── Statistics.vue         # Player leaderboards
-│   ├── Community.vue          # Streams, videos, links
-│   └── FAQ.vue                # FAQ (5 categories: About, Getting Started, Technical, Gameplay, Server & Community)
+├── screens/                    # Section components (used by pages)
+│   ├── Downloads.vue           # 3-tab installation guide
+│   ├── Statistics.vue          # Player leaderboards
+│   ├── Community.vue           # Streams, videos, links
+│   └── FAQ.vue                 # FAQ (4 categories)
 ├── views/
-│   └── Home.vue               # Main SPA
-├── composables/               # Composition functions
-├── utils/                     # Utilities
-├── types/                     # TypeScript types
+│   └── Home.vue                # Homepage content
+├── composables/                # Composition functions (auto-imported)
+├── utils/                      # Utilities (auto-imported)
+├── types/                      # TypeScript types
 ├── assets/styles/
-│   └── tailwind.css           # Tailwind imports + components
-└── content/
-    └── content.ts             # Static content
+│   └── tailwind.css            # Tailwind imports + components
+├── content/
+│   └── content.ts              # Static content
+└── public/                     # Static assets (favicon, images, etc.)
 
 docs/
-├── architecture.md            # This file
-├── api.md                     # API documentation
-├── deployment_guide.md        # Deployment configurations (env vars, asset paths)
-├── testing.md                 # Test strategies
-├── troubleshooting.md         # Common issues
-├── security.md                # Security guidelines (XSS, auth, deployment)
-└── changelog.md               # Feature history
+├── architecture.md             # This file
+├── api.md                      # API documentation
+├── deployment_guide.md         # Deployment configurations
+├── testing.md                  # Test strategies
+├── troubleshooting.md          # Common issues
+├── security.md                 # Security guidelines
+└── changelog.md                # Feature history
 
 Configuration:
-├── tailwind.config.ts         # Design tokens
-├── vite.config.ts             # Build config
-├── vitest.config.ts           # Test config
-├── tsconfig.json              # TypeScript strict mode
-└── eslint.config.js           # Linting config
+├── nuxt.config.ts              # Nuxt config (modules, routeRules, PWA, Nitro)
+├── tailwind.config.ts          # Design tokens
+├── vitest.config.ts            # Test config
+├── tsconfig.json               # TypeScript strict mode
+└── eslint.config.js            # Linting config
 ```
 
 ---

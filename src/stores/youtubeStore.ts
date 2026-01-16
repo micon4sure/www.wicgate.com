@@ -13,7 +13,7 @@ export const useYoutubeStore = defineStore('youtube', () => {
 
   // Fetch videos from API
   async function fetchVideos() {
-    if (import.meta.env.SSR) {
+    if (import.meta.server) {
       loading.value = false;
       return;
     }

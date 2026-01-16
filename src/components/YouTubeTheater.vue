@@ -37,7 +37,14 @@ const embedUrl = computed(() => {
       <iframe
         :src="embedUrl"
         class="absolute inset-0 w-full h-full"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow="
+          accelerometer;
+          autoplay;
+          clipboard-write;
+          encrypted-media;
+          gyroscope;
+          picture-in-picture;
+        "
         allowfullscreen
         :title="title"
       />

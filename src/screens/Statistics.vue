@@ -15,7 +15,7 @@ type LeaderboardRow = LeaderboardEntry | LadderEntry;
 type LeaderboardDataRecord = Record<string, LeaderboardRow[] | undefined>;
 
 // During SSG build or while loading, show placeholder
-const isSSR = import.meta.env.SSR;
+const isSSR = import.meta.server;
 const showPlaceholder = computed(() => isSSR || props.loading);
 
 const leaderboardData = computed<LeaderboardDataRecord>(() => ({

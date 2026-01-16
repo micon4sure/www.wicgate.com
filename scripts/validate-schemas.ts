@@ -14,7 +14,7 @@ interface ValidationIssue {
   severity: 'error' | 'warning';
 }
 
-const REQUIRED_SCHEMA_TYPES = {
+const REQUIRED_SCHEMA_TYPES: Record<string, string[]> = {
   // Homepage only shows hero section (desktop multi-page layout)
   '/index.html': ['Organization', 'WebSite', 'VideoGame', 'WebPage'],
   '/downloads.html': ['Organization', 'BreadcrumbList', 'SoftwareApplication', 'HowTo', 'WebPage'],
@@ -32,7 +32,7 @@ function extractSchemas(html: string): Array<{ type: string; data: any }> {
   let match;
   while ((match = scriptRegex.exec(html)) !== null) {
     try {
-      const jsonContent = match[1];
+      const jsonContent = match[1] ?? '';
       const data = JSON.parse(jsonContent);
       const type = data['@type'] || 'Unknown';
       schemas.push({ type, data });

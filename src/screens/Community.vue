@@ -10,7 +10,7 @@ import YouTubeTheater from '../components/YouTubeTheater.vue';
 import EventCalendar from '../components/EventCalendar.vue';
 
 // SSR detection
-const isSSR = import.meta.env.SSR;
+const isSSR = import.meta.server;
 
 // Get videos data from store (single source of truth)
 const youtubeStore = useYoutubeStore();

@@ -33,7 +33,7 @@ export const useCalendarStore = defineStore('calendar', () => {
 
   // Fetch events from API
   async function fetchEvents() {
-    if (import.meta.env.SSR) {
+    if (import.meta.server) {
       isLoading.value = false;
       return;
     }

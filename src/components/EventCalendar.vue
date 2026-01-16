@@ -6,7 +6,7 @@ import type { CalendarDay } from '../stores/calendarStore';
 import EventCalendarSkeleton from './skeletons/EventCalendarSkeleton.vue';
 
 // SSR detection
-const isSSR = import.meta.env.SSR;
+const isSSR = import.meta.server;
 
 // Base path for GitHub Pages deployment
 const appBase = inject<string>('appBase', '/');

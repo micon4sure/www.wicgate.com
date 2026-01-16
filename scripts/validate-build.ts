@@ -67,7 +67,7 @@ async function validateFile(filePath: string) {
       message: 'Missing canonical URL',
     });
   } else {
-    const canonicalUrl = canonicalMatch[1];
+    const canonicalUrl = canonicalMatch[1] ?? '';
     if (canonicalUrl.includes('?')) {
       errors.push({
         file: relativePath,
@@ -119,7 +119,7 @@ async function validateFile(filePath: string) {
 
   // 5. Check for title tag
   const titleMatch = html.match(/<title>([^<]+)<\/title>/);
-  if (!titleMatch || titleMatch[1].trim().length === 0) {
+  if (!titleMatch || (titleMatch[1] ?? '').trim().length === 0) {
     errors.push({
       file: relativePath,
       type: 'error',
@@ -139,20 +139,22 @@ async function validateFile(filePath: string) {
 
   // 7. Verify OG image and canonical URLs are absolute (not relative)
   const ogImageMatch = html.match(/<meta property="og:image" content="([^"]+)"/);
-  if (ogImageMatch && !ogImageMatch[1].startsWith('http')) {
+  const ogImageUrl = ogImageMatch?.[1] ?? '';
+  if (ogImageMatch && !ogImageUrl.startsWith('http')) {
     errors.push({
       file: relativePath,
       type: 'error',
-      message: `OG image URL is not absolute: ${ogImageMatch[1]}`,
+      message: `OG image URL is not absolute: ${ogImageUrl}`,
     });
   }
 
   const ogUrlMatch = html.match(/<meta property="og:url" content="([^"]+)"/);
-  if (ogUrlMatch && !ogUrlMatch[1].startsWith('http')) {
+  const ogUrl = ogUrlMatch?.[1] ?? '';
+  if (ogUrlMatch && !ogUrl.startsWith('http')) {
     errors.push({
       file: relativePath,
       type: 'error',
-      message: `OG URL is not absolute: ${ogUrlMatch[1]}`,
+      message: `OG URL is not absolute: ${ogUrl}`,
     });
   }
 }

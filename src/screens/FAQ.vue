@@ -3,7 +3,6 @@ import { faq } from '../content/content';
 import { ANCHOR_HIGHLIGHT_DELAY, DEFAULT_CONTENT_OFFSET, DISCORD_URL } from '../constants';
 import { ref, computed, watch, nextTick, inject } from 'vue';
 import { useRoute } from 'vue-router';
-import { useHead } from '@unhead/vue';
 import { generateFAQSchema } from '../utils/structuredData';
 import { useInternalLinks } from '../composables/useInternalLinks';
 import TabContainer from '../components/TabContainer.vue';

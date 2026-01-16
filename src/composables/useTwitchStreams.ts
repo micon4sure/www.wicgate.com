@@ -23,7 +23,7 @@ export function getThumbnailUrl(url: string, width = 440, height = 248): string 
  * Fetch stream status for given channels
  */
 async function fetchStreams(channels: string[]): Promise<void> {
-  if (import.meta.env.SSR || hasFetched) return;
+  if (import.meta.server || hasFetched) return;
 
   hasFetched = true;
   isLoading.value = true;

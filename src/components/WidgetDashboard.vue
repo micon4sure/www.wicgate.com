@@ -23,8 +23,8 @@ const youtubeStore = useYoutubeStore();
 const { isLoading: eventsLoading } = storeToRefs(calendarStore);
 const { videosSorted } = storeToRefs(youtubeStore);
 
-// SSR detection
-const isSSR = import.meta.env.SSR;
+// SSR detection - explicitly typed as boolean
+const isSSR: boolean = import.meta.server ?? false;
 
 // Template refs
 const heroVideo = ref<HTMLVideoElement | null>(null);
@@ -127,9 +127,9 @@ function goToSection(sectionOrSubsectionId: string) {
             muted
             loop
             playsinline
-            poster="/wic.png"
+            :poster="'/wic.png'"
           >
-            <source src="/seattle.mp4" type="video/mp4" />
+            <source :src="'/seattle.mp4'" type="video/mp4" />
           </video>
 
           <!-- Video pause/play toggle - bottom right -->
@@ -151,7 +151,7 @@ function goToSection(sectionOrSubsectionId: string) {
           </button>
 
           <!-- WIC Logo -->
-          <img src="/wic-logo.png" alt="World in Conflict" class="hero-wic-logo" />
+          <img :src="'/wic-logo.png'" alt="World in Conflict" class="hero-wic-logo" />
 
           <h1 class="hero-title">
             <span class="hero-subtitle text-white block">Multiplayer Reloaded</span>
