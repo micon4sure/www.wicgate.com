@@ -14,10 +14,6 @@ const props = defineProps<{
 type LeaderboardRow = LeaderboardEntry | LadderEntry;
 type LeaderboardDataRecord = Record<string, LeaderboardRow[] | undefined>;
 
-// During SSG build or while loading, show placeholder
-const isSSR = import.meta.server;
-const showPlaceholder = computed(() => isSSR || props.loading);
-
 const leaderboardData = computed<LeaderboardDataRecord>(() => ({
   lb_total: props.data.lb_total,
   lb_totinf: props.data.lb_totinf,
@@ -96,17 +92,20 @@ function handleHashNavigation() {
 
 // Handle hash on mount and when loading completes
 onMounted(() => {
-  if (!showPlaceholder.value) {
+  if (!props.loading) {
     handleHashNavigation();
   }
 });
 
-watch(showPlaceholder, (newVal, oldVal) => {
-  if (oldVal && !newVal) {
-    // Loading just finished
-    handleHashNavigation();
+watch(
+  () => props.loading,
+  (newVal, oldVal) => {
+    if (oldVal && !newVal) {
+      // Loading just finished
+      handleHashNavigation();
+    }
   }
-});
+);
 </script>
 
 <template>
@@ -126,16 +125,18 @@ watch(showPlaceholder, (newVal, oldVal) => {
 
       <!-- Leaderboards Section -->
       <div id="leaderboards">
-        <!-- SSG/Loading: Render skeleton placeholder -->
-        <LeaderboardSkeleton v-if="showPlaceholder" />
-
-        <!-- Runtime: Render live data -->
-        <Leaderboards
-          v-else
-          ref="leaderboardsRef"
-          :data="leaderboardData"
-          :clans="props.clans ?? []"
-        />
+        <ClientOnly>
+          <template #fallback>
+            <LeaderboardSkeleton />
+          </template>
+          <LeaderboardSkeleton v-if="props.loading" />
+          <Leaderboards
+            v-else
+            ref="leaderboardsRef"
+            :data="leaderboardData"
+            :clans="props.clans ?? []"
+          />
+        </ClientOnly>
       </div>
     </div>
   </section>
