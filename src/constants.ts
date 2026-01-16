@@ -57,3 +57,6 @@ export const WICLIVE_URL =
   'https://github.com/micon4sure/WICLIVE/releases/latest/download/wiclive_x64-setup.exe';
 export const GOG_URL = 'https://www.gog.com/game/world_in_conflict_complete_edition';
 export const DISCORD_URL = 'https://discord.gg/Udbv9UDBBb';
+export const YOUTUBE_URL = 'https://www.youtube.com/@WiCGateOfficial';
+export const TWITCH_URL = 'https://twitch.tv/directory/game/World%20in%20Conflict';
+export const X_URL = 'https://x.com/wicgate';

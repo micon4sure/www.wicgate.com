@@ -1,28 +1,30 @@
 <script setup lang="ts">
+import { DISCORD_URL, YOUTUBE_URL, TWITCH_URL, X_URL } from '../constants';
+
 const year = new Date().getFullYear();
 
 const socialLinks = [
   {
     name: 'Discord',
-    href: 'https://discord.gg/Udbv9UDBBb',
+    href: DISCORD_URL,
     icon: 'fab fa-discord',
     color: 'discord',
   },
   {
     name: 'YouTube',
-    href: 'https://www.youtube.com/@WiCGateOfficial',
+    href: YOUTUBE_URL,
     icon: 'fab fa-youtube',
     color: 'youtube',
   },
   {
     name: 'Twitch',
-    href: 'https://twitch.tv/directory/game/World%20in%20Conflict',
+    href: TWITCH_URL,
     icon: 'fab fa-twitch',
     color: 'twitch',
   },
   {
     name: 'X',
-    href: 'https://x.com/wicgate',
+    href: X_URL,
     icon: 'fab fa-x-twitter',
     color: 'x',
   },

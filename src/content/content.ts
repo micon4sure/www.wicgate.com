@@ -1,3 +1,6 @@
+import { DISCORD_URL, YOUTUBE_URL, TWITCH_URL } from '@/constants';
+import { createExternalLink, createInternalLink } from '@/utils/linkHelpers';
+
 // Static content extracted from original monolith for re-use across section components
 export const versions = [
   'Steam version',
@@ -41,7 +44,7 @@ export const communityCards: CommunityCard[] = [
     members: '287',
     online: '42',
     desc: 'Main community hub with voice channels, matchmaking, tournaments, and tech support.',
-    link: 'https://discord.gg/Udbv9UDBBb',
+    link: DISCORD_URL,
     action: 'Join Server',
     icon: 'fa-brands fa-discord',
     stat1: 'Members',
@@ -53,7 +56,7 @@ export const communityCards: CommunityCard[] = [
     members: '1.2K',
     online: '156',
     desc: 'Tutorials, tournament VODs, gameplay highlights, and strategy guides.',
-    link: 'https://youtube.com/@wicgate',
+    link: YOUTUBE_URL,
     action: 'Watch Videos',
     icon: 'fa-brands fa-youtube',
     stat1: 'Subscribers',
@@ -65,7 +68,7 @@ export const communityCards: CommunityCard[] = [
     members: '3',
     online: '89',
     desc: 'Watch live gameplay, tournaments, and community events.',
-    link: 'https://twitch.tv/directory/game/World%20in%20Conflict',
+    link: TWITCH_URL,
     action: 'View Streams',
     icon: 'fa-brands fa-twitch',
     stat1: 'Live Now',
@@ -93,7 +96,7 @@ export const dedicatedServerSteps: DedicatedServerStep[] = [
   {
     n: 1,
     t: 'Download Server Files',
-    c: 'Download the WICGATE Dedicated Server package. Choose <a href="#" target="_blank" class="download-link" title="Download Match Mode Server">Match Mode Server</a> for casual servers or <a href="#" target="_blank" class="download-link" title="Download Ranked Edition">Ranked Edition</a> for public ranked servers (requires CD key from <a href="https://discord.gg/Udbv9UDBBb" target="_blank" class="external-link" title="Join Discord for CD key (opens in new tab)">Discord</a>).',
+    c: `Download the WICGATE Dedicated Server package. Choose <a href="#" target="_blank" class="download-link" title="Download Match Mode Server">Match Mode Server</a> for casual servers or <a href="#" target="_blank" class="download-link" title="Download Ranked Edition">Ranked Edition</a> for public ranked servers (requires CD key from ${createExternalLink('Discord', DISCORD_URL)}).`,
   },
   {
     n: 2,
@@ -157,7 +160,7 @@ const basePath = import.meta.env.BASE_URL || '/';
 
 export const manualInstallWarning = {
   title: 'Important Notice',
-  message: `This installation method is unsupported and provided "as-is". For a streamlined experience, we recommend using the <a href="${basePath}downloads#quick-install" class="internal-link">WIC LIVE</a> installer.`,
+  message: `This installation method is unsupported and provided "as-is". For a streamlined experience, we recommend using the ${createInternalLink('WIC LIVE', `${basePath}downloads#quick-install`)} installer.`,
 };
 
 // SEO Metadata for sections (used for SSG meta tags)

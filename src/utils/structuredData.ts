@@ -3,6 +3,8 @@
  * Provides schema.org markup for better SEO
  */
 
+import { DISCORD_URL, YOUTUBE_URL } from '@/constants';
+
 export interface Video {
   id: string;
   title: string;
@@ -42,11 +44,7 @@ export function generateOrganizationSchema() {
     logo: 'https://wicgate.com/logo.png',
     description:
       'Community-driven initiative to preserve World in Conflict multiplayer using the official Massgate source code.',
-    sameAs: [
-      'https://discord.gg/Udbv9UDBBb',
-      'https://youtube.com/@wicgate',
-      'https://github.com/wicgate',
-    ],
+    sameAs: [DISCORD_URL, YOUTUBE_URL, 'https://github.com/wicgate'],
     foundingDate: '2024',
   };
 }
@@ -91,7 +89,7 @@ export function generateEventSchema(event: Event) {
     eventStatus: 'https://schema.org/EventScheduled',
     location: {
       '@type': 'VirtualLocation',
-      url: event.link || 'https://discord.gg/Udbv9UDBBb',
+      url: event.link || DISCORD_URL,
     },
     organizer: {
       '@type': 'Organization',

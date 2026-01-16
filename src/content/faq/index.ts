@@ -2,6 +2,7 @@
 // Each category imports from an HTML file for better markup
 
 import { GOG_URL, DISCORD_URL } from '@/constants';
+import { createInternalLink, createExternalLink } from '@/utils/linkHelpers';
 
 export interface FaqItem {
   id: string;
@@ -20,10 +21,10 @@ const currentYear = new Date().getFullYear();
 // Base path for internal links (handles GitHub Pages deployment)
 const basePath = import.meta.env.BASE_URL || '/';
 
-// Helper to create WIC LIVE link (points to downloads section)
-const wicLiveLink = `<a href="${basePath}downloads#quick-install" class="internal-link">WIC LIVE</a>`;
-const gogLink = `<a href="${GOG_URL}" target="_blank" rel="noopener noreferrer" class="external-link">GOG</a>`;
-const discordLink = `<a href="${DISCORD_URL}" target="_blank" rel="noopener noreferrer" class="external-link">Discord server</a>`;
+// Reusable link constants for FAQ content
+const wicLiveLink = createInternalLink('WIC LIVE', `${basePath}downloads#quick-install`);
+const gogLink = createExternalLink('GOG', GOG_URL);
+const discordLink = createExternalLink('Discord server', DISCORD_URL);
 
 export const faqCategories: FaqCategory[] = [
   {
@@ -78,7 +79,7 @@ export const faqCategories: FaqCategory[] = [
   <li>Verify your internet connection isn't blocking port <code>1066</code></li>
   <li>Try running the game as administrator</li>
 </ul>
-<p>If you still see no servers, join our <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="external-link">Discord</a> for live support.</p>`,
+<p>If you still see no servers, join our ${createExternalLink('Discord', DISCORD_URL)} for live support.</p>`,
       },
       {
         id: 'poor-performance',
@@ -145,7 +146,7 @@ export const faqCategories: FaqCategory[] = [
       {
         id: 'how-to-connect',
         q: 'How do I connect to WICGATE servers?',
-        a: `<p>Run the steps outlined in the <a href="${basePath}downloads#quick-install" class="internal-link">Downloads</a> section and you're good to go!</p>`,
+        a: `<p>Run the steps outlined in the ${createInternalLink('Downloads', `${basePath}downloads#quick-install`)} section and you're good to go!</p>`,
       },
       {
         id: 'campaign-only',
@@ -194,12 +195,12 @@ export const faqCategories: FaqCategory[] = [
       {
         id: 'who-maintains-wicgate',
         q: 'Who maintains WICGATE?',
-        a: '<p>WICGATE is maintained by a dedicated team of World in Conflict veterans. We host the server infrastructure from massgate itself to a set of stable dedicated game servers. Come talk to us on <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="external-link">Discord</a>!</p>',
+        a: `<p>WICGATE is maintained by a dedicated team of World in Conflict veterans. We host the server infrastructure from massgate itself to a set of stable dedicated game servers. Come talk to us on ${createExternalLink('Discord', DISCORD_URL)}!</p>`,
       },
       {
         id: 'host-own-server',
         q: 'Can I host my own server?',
-        a: '<p>Yes! You can host dedicated servers through the game interface just like in the original. We also provide dedicated server files for 24/7 hosting. Server requirements are minimal – any modern PC or VPS can handle it. Check our <a href="https://discord.gg/Udbv9UDBBb" target="_blank" rel="noopener noreferrer" class="external-link">Discord\'s</a> #support channel for setup guides and the community helps with configuration.</p>',
+        a: `<p>Yes! You can host dedicated servers through the game interface just like in the original. We also provide dedicated server files for 24/7 hosting. Server requirements are minimal – any modern PC or VPS can handle it. Check our ${createExternalLink("Discord's", DISCORD_URL)} #support channel for setup guides and the community helps with configuration.</p>`,
       },
     ],
   },

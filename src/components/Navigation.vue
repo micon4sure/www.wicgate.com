@@ -3,7 +3,7 @@ import { ref, toRef, onMounted, onUnmounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import { debounce } from '../utils/debounce';
-import { DEBOUNCE_RESIZE } from '../constants';
+import { DEBOUNCE_RESIZE, DISCORD_URL } from '../constants';
 import { NAVIGATION_STRUCTURE, getRoutePath } from '../types/navigation';
 
 const router = useRouter();
@@ -147,7 +147,7 @@ async function handleNavigation(sectionId: string) {
 
         <!-- Discord Social Button -->
         <a
-          href="https://discord.gg/Udbv9UDBBb"
+          :href="DISCORD_URL"
           target="_blank"
           rel="noopener noreferrer"
           class="auth-btn-discord"

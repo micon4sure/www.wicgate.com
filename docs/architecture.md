@@ -954,15 +954,60 @@ setTimeout(() => {
 | `.download-link` | File downloads (.exe, .zip) | Extends `.inline-link` + download icon |
 | `.external-link` | External services (Discord, GOG, YouTube) | Extends `.inline-link` + external arrow icon |
 
-**Usage in content strings:**
+**Link Helper Utility Functions:**
+
+**File:** [src/utils/linkHelpers.ts](../src/utils/linkHelpers.ts)
+
+Three helper functions generate HTML link strings with correct classes and attributes:
+
 ```typescript
-// content.ts - Use appropriate link class
-'Download <a href="..." class="download-link">WIC LIVE</a>'
-'Join our <a href="..." class="external-link">Discord</a>'
-'See <a href="/downloads#quick-install" class="internal-link">Quick Install</a>'
+import { createInternalLink, createExternalLink, createDownloadLink } from '@/utils/linkHelpers';
+
+// Internal SPA navigation (uses useInternalLinks composable for client-side routing)
+createInternalLink('WIC LIVE', '/downloads#quick-install')
+// → <a href="/downloads#quick-install" class="internal-link">WIC LIVE</a>
+
+// External links (opens new tab with security attributes)
+createExternalLink('Discord', 'https://discord.gg/...')
+// → <a href="https://discord.gg/..." class="external-link" target="_blank" rel="noopener noreferrer">Discord</a>
+
+// Download links (opens new tab with security attributes)
+createDownloadLink('WIC LIVE', 'https://github.com/.../wiclive.exe')
+// → <a href="https://github.com/.../wiclive.exe" class="download-link" target="_blank" rel="noopener noreferrer">WIC LIVE</a>
+```
+
+**Usage in content files:**
+```typescript
+// src/content/faq/index.ts
+import { createInternalLink, createExternalLink } from '@/utils/linkHelpers';
+
+const wicLiveLink = createInternalLink('WIC LIVE', `${basePath}downloads#quick-install`);
+const discordLink = createExternalLink('Discord', DISCORD_URL);
+
+// Use in template strings
+a: `Download ${wicLiveLink} to get started!`
 ```
 
 **Icons:** Font Awesome icons auto-appended via `::after` pseudo-element (download: `fa-download`, external: `fa-arrow-up-right-from-square`).
+
+**URL Constants** (defined in `src/constants.ts`):
+```typescript
+DISCORD_URL   // Discord invite link
+YOUTUBE_URL   // Official YouTube channel
+TWITCH_URL    // Twitch game directory
+X_URL         // X (Twitter) account
+GOG_URL       // GOG store page
+WICLIVE_URL   // WIC LIVE installer download
+```
+
+**Vue Template Links:** Use `:href` binding with constants, not hardcoded URLs:
+```vue
+<!-- ✅ Correct -->
+<a :href="DISCORD_URL" target="_blank" rel="noopener noreferrer" class="external-link">Discord</a>
+
+<!-- ❌ Wrong -->
+<a href="https://discord.gg/..." target="_blank" class="external-link">Discord</a>
+```
 
 ### Responsive Strategy
 

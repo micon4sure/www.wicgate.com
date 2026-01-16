@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onErrorCaptured } from 'vue';
+import { DISCORD_URL } from '../constants';
 
 const hasError = ref(false);
 const errorMessage = ref('');
@@ -47,12 +48,7 @@ function retry() {
           <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
           Reload Page
         </button>
-        <a
-          href="https://discord.gg/Udbv9UDBBb"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-d"
-        >
+        <a :href="DISCORD_URL" target="_blank" rel="noopener noreferrer" class="btn btn-d">
           <i class="fa-brands fa-discord" aria-hidden="true"></i>
           Get Help on Discord
         </a>
