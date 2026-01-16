@@ -1307,7 +1307,20 @@ The navigation works fully without JavaScript using:
 
 **Browser Support:**
 - `:has()` selector: ~95% support (Chrome 105+, Safari 15.4+, Firefox 121+, Edge 105+)
-- For browsers without `:has()`, JavaScript fallback still works
+- For ~5% legacy browsers without `:has()`, JavaScript class-toggle fallback activates
+
+**Legacy Browser Fallback (~5% of users):**
+```typescript
+// Navigation.vue - onMounted()
+const hasSupport = CSS.supports('selector(:has(*))');
+if (!hasSupport) {
+  checkbox.addEventListener('change', () => {
+    header.classList.toggle('mobile-menu-open', checkbox.checked);
+    document.body.classList.toggle('mobile-menu-open', checkbox.checked);
+  });
+}
+```
+CSS fallback rules (`.mobile-menu-open` class) mirror the `:has()` rules - mutually exclusive based on browser support.
 
 **Testing Requirement:**
 - **Dev server (`npm run dev`) does NOT support no-JS testing** - it's a pure SPA

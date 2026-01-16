@@ -100,6 +100,20 @@ onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
   document.addEventListener('keydown', handleEscapeKey);
   window.addEventListener('resize', debouncedResize);
+
+  // Legacy browser fallback: detect if :has() is not supported
+  // and manually toggle .mobile-menu-open class on checkbox change
+  const hasSupport = window.CSS?.supports?.('selector(:has(*))');
+  if (!hasSupport) {
+    const checkbox = getMobileCheckbox();
+    const header = document.querySelector('header');
+    if (checkbox && header) {
+      checkbox.addEventListener('change', () => {
+        header.classList.toggle('mobile-menu-open', checkbox.checked);
+        document.body.classList.toggle('mobile-menu-open', checkbox.checked);
+      });
+    }
+  }
 });
 
 onUnmounted(() => {

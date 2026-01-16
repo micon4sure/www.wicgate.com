@@ -786,6 +786,36 @@
     @apply overflow-hidden;
   }
 
+  /* Legacy fallback for browsers without :has() support (~5%)
+     These use .mobile-menu-open class toggled by JS in Navigation.vue */
+  header.mobile-menu-open .hamburger-line:first-child {
+    @apply translate-y-[7px] rotate-45 bg-t;
+  }
+  header.mobile-menu-open .hamburger-line:nth-child(2) {
+    @apply opacity-0 scale-0;
+  }
+  header.mobile-menu-open .hamburger-line:last-child {
+    @apply -translate-y-[7px] -rotate-45 bg-t;
+  }
+  header.mobile-menu-open .mobile-backdrop {
+    @apply opacity-100 pointer-events-auto;
+  }
+  header.mobile-menu-open .mobile-menu {
+    @apply translate-y-0 opacity-100 pointer-events-auto;
+  }
+  body.mobile-menu-open {
+    @apply overflow-hidden;
+  }
+
+  @media not all and screen(md) {
+    header.mobile-menu-open .hamburger-line:first-child {
+      @apply translate-y-1.5;
+    }
+    header.mobile-menu-open .hamburger-line:last-child {
+      @apply -translate-y-1.5;
+    }
+  }
+
   /* ========== TAB CONTAINER COMPONENTS ========== */
 
   /* Tab navigation container */
