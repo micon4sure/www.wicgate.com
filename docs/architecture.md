@@ -1487,6 +1487,7 @@ nitro: {
 ## Project Structure
 
 ```
+public -> src/public             # Symlink for Nuxt 4 (resolves from rootDir)
 src/                            # Nuxt source directory (srcDir: 'src/')
 ├── app.vue                     # App root component
 ├── error.vue                   # Error page component

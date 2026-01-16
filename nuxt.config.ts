@@ -32,7 +32,8 @@ export default defineNuxtConfig({
   // Source directory (keep existing structure)
   srcDir: 'src/',
 
-  // Directories configuration
+  // Directories configuration (relative to srcDir)
+  // Note: public/ symlink at root points to src/public/ for Nuxt 4 compatibility
   dir: {
     pages: 'pages',
     layouts: 'layouts',
