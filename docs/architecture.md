@@ -488,9 +488,10 @@ The mobile tab dropdown uses **CSS class visibility** instead of `v-if` to ensur
 
 **Integration:**
 - Nuxt provides `useHead()`, `useSeoMeta()`, and `useServerSeoMeta()` auto-imported
-- Used in page components for dynamic meta tags based on route
+- Base HTML attributes (`lang`, favicon) set in `app.vue` via `useHead()` (Nuxt DevTools expects this pattern)
+- Page components use `useHead()` for dynamic meta tags based on route
 - JSON-LD structured data for SEO (Organization + WebSite schemas)
-- Global head config in `nuxt.config.ts` `app.head` for defaults
+- Global head config in `nuxt.config.ts` `app.head` for charset, viewport, font preloads
 
 **Pattern:**
 ```typescript
