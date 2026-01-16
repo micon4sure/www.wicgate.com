@@ -1281,7 +1281,38 @@ See [Scroll & Navigation System](#scroll--navigation-system) for full documentat
 
 ### Other Components
 
-**[Navigation.vue](../src/components/Navigation.vue)** - Simplified navigation with main sections only (no dropdown menus), desktop left-aligned nav (gaming industry standard), mobile hamburger
+**[Navigation.vue](../src/components/Navigation.vue)** - Simplified navigation with main sections only (no dropdown menus), desktop left-aligned nav (gaming industry standard), mobile hamburger with CSS-only no-JS fallback
+
+### No-JavaScript Navigation Fallback (January 2026)
+
+The navigation works fully without JavaScript using:
+
+**Desktop Navigation:**
+- `<router-link>` renders as `<a href="...">` tags - native browser navigation works without JS
+- No `.prevent` modifier on click handlers - side effects only, doesn't block native behavior
+
+**Mobile Navigation (CSS Checkbox Hack):**
+- Hidden `<input type="checkbox" id="mobile-menu-toggle">` stores menu open/close state
+- `<label for="mobile-menu-toggle">` styled as hamburger button toggles checkbox on click
+- CSS `:has()` selectors control visibility based on checkbox state:
+  ```css
+  header:has(#mobile-menu-toggle:checked) .mobile-menu { /* show menu */ }
+  header:has(#mobile-menu-toggle:checked) .mobile-backdrop { /* show backdrop */ }
+  body:has(#mobile-menu-toggle:checked) { overflow: hidden; } /* scroll lock */
+  ```
+- Mobile nav links are `<a href="...">` tags with proper URLs
+
+**Noscript Banner:**
+- `index.html` includes `<noscript>` banner informing users JS is disabled but navigation works
+
+**Browser Support:**
+- `:has()` selector: ~95% support (Chrome 105+, Safari 15.4+, Firefox 121+, Edge 105+)
+- For browsers without `:has()`, JavaScript fallback still works
+
+**Testing Requirement:**
+- **Dev server (`npm run dev`) does NOT support no-JS testing** - it's a pure SPA
+- Must use `npm run build && npx serve dist` or deploy to GitHub Pages to test no-JS functionality
+
 **[MobileTabDropdown.vue](../src/components/MobileTabDropdown.vue)** - Reusable mobile dropdown for sub-tabs (< 640px): accepts tabs array (id, label, icon), activeTabId, optional formatLabel function, wrapperClass/triggerClass for layout customization; provides trigger-badge and option-badge slots for custom badges; defaults to `SUB_TAB_BREAKPOINT` - used by TabContainer, LeaderboardGroup, DynamicInfoCard, MediaEventCard
 **[WidgetDashboard.vue](../src/components/WidgetDashboard.vue)** - Homepage hero grid with 2 large interactive cards, background video with pause/play toggle (respects user choice across navigation), auto-pauses when overlays are active via `useOverlayState`
 **[BaseOverlay.vue](../src/components/BaseOverlay.vue)** - Reusable overlay wrapper handling scroll lock, Escape key, backdrop click (mobile only), Teleport, and ARIA accessibility

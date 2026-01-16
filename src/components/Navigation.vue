@@ -26,11 +26,20 @@ const isActive = (section: string) => activeSection.value === section;
 // Get navigation sections
 const navSections = computed(() => NAVIGATION_STRUCTURE);
 
-// Enhanced mobile menu functionality
-function toggleMobileMenu() {
-  mobileOpen.value = !mobileOpen.value;
-  // Prevent body scroll when menu is open (both for iOS compatibility)
-  if (mobileOpen.value) {
+// Get checkbox element (for programmatic control)
+function getMobileCheckbox(): HTMLInputElement | null {
+  if (typeof document === 'undefined') return null;
+  return document.getElementById('mobile-menu-toggle') as HTMLInputElement | null;
+}
+
+// Sync checkbox state with reactive state
+function syncCheckboxState(open: boolean) {
+  const checkbox = getMobileCheckbox();
+  if (checkbox) checkbox.checked = open;
+  mobileOpen.value = open;
+
+  // Update scroll lock
+  if (open) {
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
   } else {
@@ -39,16 +48,20 @@ function toggleMobileMenu() {
   }
 }
 
+// Handle checkbox change (from user clicking label)
+function handleCheckboxChange(event: Event) {
+  const checked = (event.target as HTMLInputElement).checked;
+  syncCheckboxState(checked);
+}
+
 function closeMobileMenu() {
-  mobileOpen.value = false;
-  document.documentElement.style.overflow = '';
-  document.body.style.overflow = '';
+  syncCheckboxState(false);
 }
 
 // Close menu when clicking outside
 function handleOutsideClick(event: Event) {
-  const nav = document.querySelector('nav');
-  const hamburger = document.querySelector('.mob-menu');
+  const nav = document.querySelector('.mobile-menu');
+  const hamburger = document.querySelector('.hamburger-label');
   const target = event.target as Node;
 
   if (
@@ -99,15 +112,26 @@ onUnmounted(() => {
   document.body.style.overflow = '';
 });
 
-async function handleNavigation(sectionId: string) {
+// Desktop nav click handler - performs side effects only, doesn't prevent default
+// Native <a> behavior works when JS is disabled; this adds SPA enhancements
+function handleNavClick(_sectionId: string, _event: MouseEvent) {
+  // Exit game mode if active
+  const exitEvent = new CustomEvent('exitGameMode');
+  window.dispatchEvent(exitEvent);
+
+  // Let vue-router handle the navigation via its click handler
+  // We only need to add our custom side effects here
+}
+
+// Mobile nav handler - uses router.push for SPA navigation
+async function handleMobileNavigation(sectionId: string) {
   closeMobileMenu();
 
   // Exit game mode if active
   const event = new CustomEvent('exitGameMode');
   window.dispatchEvent(event);
 
-  // Always update URL via router on both mobile and desktop
-  // Router's scrollBehavior (main.ts) handles scrolling to section automatically
+  // Use router for SPA navigation (scrollBehavior handles scroll)
   await router.push(getRoutePath(sectionId));
 }
 </script>
@@ -131,7 +155,7 @@ async function handleNavigation(sectionId: string) {
             'tab-btn-active': section.id === 'hero' ? !activeSection : isActive(section.id),
           }"
           class="tab-btn tab-btn-nav"
-          @click.prevent="handleNavigation(section.id)"
+          @click="handleNavClick(section.id, $event)"
         >
           {{ section.label }}
         </router-link>
@@ -164,65 +188,53 @@ async function handleNavigation(sectionId: string) {
       </div>
     </div>
 
-    <!-- Enhanced hamburger menu button (Mobile - Far Right) -->
-    <button
-      :class="{ active: mobileOpen }"
-      class="hamburger-btn lg:hidden ml-auto"
+    <!-- Hidden checkbox for CSS-only mobile menu toggle (no-JS fallback) -->
+    <input
+      id="mobile-menu-toggle"
+      type="checkbox"
+      class="sr-only peer"
+      :checked="mobileOpen"
+      @change="handleCheckboxChange"
+    />
+
+    <!-- Hamburger label (replaces button for CSS-only functionality) -->
+    <label
+      for="mobile-menu-toggle"
+      class="hamburger-label lg:hidden"
+      role="button"
       aria-label="Toggle mobile menu"
       :aria-expanded="mobileOpen"
-      @click="toggleMobileMenu"
     >
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
-    </button>
-  </div>
+    </label>
 
-  <!-- Mobile navigation (full-screen, outside container) -->
-  <Teleport to="body">
-    <!-- Mobile menu backdrop -->
-    <Transition name="backdrop">
-      <div
-        v-if="mobileOpen"
-        class="fixed top-0 left-0 w-screen h-screen bg-black/70 backdrop-blur-md z-[998]"
-        @click="closeMobileMenu"
-      ></div>
-    </Transition>
+    <!-- Mobile menu backdrop (CSS-controlled via :has selector) -->
+    <div class="mobile-backdrop lg:hidden" @click="closeMobileMenu"></div>
 
-    <!-- Mobile navigation menu -->
-    <Transition name="mobile-nav">
-      <nav
-        v-if="mobileOpen"
-        class="fixed top-0 left-0 w-screen h-screen z-[999] pointer-events-none"
-      >
-        <div
-          class="absolute top-[var(--header-height)] left-0 w-screen pointer-events-auto flex flex-col p-0 min-h-[calc(100vh-var(--header-height))] bg-dark-navy"
+    <!-- Mobile navigation menu (CSS-controlled via :has selector) -->
+    <nav class="mobile-menu lg:hidden">
+      <div class="mobile-menu-inner">
+        <a
+          v-for="section in navSections"
+          :key="section.id"
+          :href="getRoutePath(section.id)"
+          :class="{
+            active: section.id === 'hero' ? !activeSection : isActive(section.id),
+          }"
+          class="nav-mobile-link"
+          @click.prevent="handleMobileNavigation(section.id)"
         >
-          <button
-            v-for="section in navSections"
-            :key="section.id"
-            type="button"
-            :class="{
-              active: section.id === 'hero' ? !activeSection : isActive(section.id),
-            }"
-            class="nav-mobile-link"
-            @click="handleNavigation(section.id)"
-          >
-            {{ section.label }}
-          </button>
+          {{ section.label }}
+        </a>
 
-          <!-- Admin Link in Mobile Menu (if admin) -->
-          <router-link
-            v-if="isAdmin"
-            to="/admin"
-            class="mobile-auth-admin"
-            @click="closeMobileMenu"
-          >
-            <i class="fa-solid fa-crown w-5 h-5 flex-shrink-0"></i>
-            Admin Dashboard
-          </router-link>
-        </div>
-      </nav>
-    </Transition>
-  </Teleport>
+        <!-- Admin Link in Mobile Menu (if admin) -->
+        <router-link v-if="isAdmin" to="/admin" class="mobile-auth-admin" @click="closeMobileMenu">
+          <i class="fa-solid fa-crown w-5 h-5 flex-shrink-0"></i>
+          Admin Dashboard
+        </router-link>
+      </div>
+    </nav>
+  </div>
 </template>

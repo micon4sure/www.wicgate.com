@@ -701,24 +701,24 @@
     .logo-image { @apply h-8; }
   }
 
-  /* Hamburger menu button */
-  .hamburger-btn {
+  /* Hamburger menu label (uses checkbox hack for no-JS fallback) */
+  .hamburger-label {
     @apply flex bg-transparent;
     @apply rounded-none p-3 cursor-pointer;
     @apply transition-all duration-300 relative w-14 h-14;
     @apply justify-center items-center flex-col gap-1;
-    @apply z-[1001];
+    @apply z-[1001] ml-auto;
     -webkit-tap-highlight-color: transparent;
   }
 
   @media (hover: hover) {
-    .hamburger-btn:hover {
+    .hamburger-label:hover {
       @apply bg-transparent;
     }
   }
 
   @media not all and screen(md) {
-    .hamburger-btn {
+    .hamburger-label {
       @apply w-11 h-11 p-2;
     }
   }
@@ -733,25 +733,57 @@
     }
   }
 
-  .hamburger-btn.active .hamburger-line:first-child {
+  /* Hamburger animation when menu is open (CSS-only via :has selector) */
+  header:has(#mobile-menu-toggle:checked) .hamburger-line:first-child {
     @apply translate-y-[7px] rotate-45 bg-t;
   }
 
-  .hamburger-btn.active .hamburger-line:nth-child(2) {
+  header:has(#mobile-menu-toggle:checked) .hamburger-line:nth-child(2) {
     @apply opacity-0 scale-0;
   }
 
-  .hamburger-btn.active .hamburger-line:last-child {
+  header:has(#mobile-menu-toggle:checked) .hamburger-line:last-child {
     @apply -translate-y-[7px] -rotate-45 bg-t;
   }
 
   @media not all and screen(md) {
-    .hamburger-btn.active .hamburger-line:first-child {
+    header:has(#mobile-menu-toggle:checked) .hamburger-line:first-child {
       @apply translate-y-1.5;
     }
-    .hamburger-btn.active .hamburger-line:last-child {
+    header:has(#mobile-menu-toggle:checked) .hamburger-line:last-child {
       @apply -translate-y-1.5;
     }
+  }
+
+  /* Mobile menu backdrop (CSS-only via :has selector) */
+  .mobile-backdrop {
+    @apply fixed inset-0 bg-black/70 backdrop-blur-md z-[998];
+    @apply opacity-0 pointer-events-none;
+    @apply transition-all duration-300 ease-out;
+  }
+
+  header:has(#mobile-menu-toggle:checked) .mobile-backdrop {
+    @apply opacity-100 pointer-events-auto;
+  }
+
+  /* Mobile menu container (CSS-only via :has selector) */
+  .mobile-menu {
+    @apply fixed top-[var(--header-height)] left-0 w-screen z-[999];
+    @apply -translate-y-full opacity-0 pointer-events-none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  header:has(#mobile-menu-toggle:checked) .mobile-menu {
+    @apply translate-y-0 opacity-100 pointer-events-auto;
+  }
+
+  .mobile-menu-inner {
+    @apply flex flex-col p-0 min-h-[calc(100vh-var(--header-height))] bg-dark-navy;
+  }
+
+  /* Body scroll lock when mobile menu is open (CSS-only) */
+  body:has(#mobile-menu-toggle:checked) {
+    @apply overflow-hidden;
   }
 
   /* ========== TAB CONTAINER COMPONENTS ========== */
@@ -2542,36 +2574,6 @@
   }
 
   /* ========== VUE TRANSITIONS ========== */
-
-  /* Backdrop transition for mobile menu overlay */
-  .backdrop-enter-active,
-  .backdrop-leave-active {
-    transition: all 0.3s ease;
-  }
-
-  .backdrop-enter-from,
-  .backdrop-leave-to {
-    opacity: 0;
-    backdrop-filter: blur(0px);
-  }
-
-  /* Mobile nav transition for menu slide-up animation */
-  .mobile-nav-enter-active,
-  .mobile-nav-leave-active {
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
-
-  .mobile-nav-enter-from > div,
-  .mobile-nav-leave-to > div {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-
-  .mobile-nav-enter-to > div,
-  .mobile-nav-leave-from > div {
-    transform: translateY(0);
-    opacity: 1;
-  }
 
   /* Tab dropdown transition */
   .tab-dropdown-enter-active,
