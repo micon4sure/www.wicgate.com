@@ -1689,8 +1689,8 @@
     .col-insignia { width: 24px; min-width: 24px; }
   }
 
-  /* Standardized spacing for lg breakpoint (768-1023px) - matches xl+ values */
-  @media (min-width: 768px) and (max-width: 1023px) {
+  /* Standardized spacing for md breakpoint (768-1023px) - matches xl+ values */
+  @media screen(md) and not all and screen(lg) {
     .col-rank { width: 40px; min-width: 40px; }
     .col-avatar { width: 32px; min-width: 32px; }
     .col-insignia { width: 40px; min-width: 40px; }
@@ -3295,6 +3295,12 @@
   .cropper-fit .vue-advanced-cropper__background,
   .cropper-fit .vue-advanced-cropper__foreground {
     background: transparent;
+  }
+
+  /* ========== LAYOUT SPACERS ========== */
+  /* Footer spacer uses CSS variable for consistent header height */
+  .footer-spacer {
+    height: var(--header-height, 80px);
   }
 }
 

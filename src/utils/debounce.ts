@@ -19,13 +19,13 @@
  *   window.removeEventListener('resize', debouncedResize);
  * });
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   fn: T,
   delay: number
 ): ((...args: Parameters<T>) => void) & { cancel: () => void } {
   let timeoutId: number | undefined;
 
-  const debounced = function (this: any, ...args: Parameters<T>) {
+  const debounced = function (this: unknown, ...args: Parameters<T>) {
     if (timeoutId !== undefined) {
       clearTimeout(timeoutId);
     }

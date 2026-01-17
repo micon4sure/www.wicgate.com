@@ -5,6 +5,21 @@
 
 import { DISCORD_URL, YOUTUBE_URL } from '@/constants';
 
+/**
+ * JSON-LD value types - can be primitives, objects, or arrays
+ */
+type JsonLdValue = string | number | boolean | null | JsonLdObject | JsonLdValue[];
+
+/**
+ * JSON-LD object structure for schema.org types
+ */
+interface JsonLdObject {
+  '@context'?: string;
+  '@type'?: string;
+  '@id'?: string;
+  [key: string]: JsonLdValue | undefined;
+}
+
 export interface Video {
   id: string;
   title: string;
@@ -295,8 +310,8 @@ export function generateWebPageSchema(
   description: string,
   breadcrumbId?: string,
   ogImage?: string
-) {
-  const schema: any = {
+): JsonLdObject {
+  const schema: JsonLdObject = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     '@id': `https://wicgate.com${path}#webpage`,
@@ -333,6 +348,6 @@ export function generateWebPageSchema(
  * Converts schema object to JSON-LD script tag string
  * Safe for server-side rendering
  */
-export function toJsonLdScript(schema: Record<string, any>): string {
+export function toJsonLdScript(schema: JsonLdObject): string {
   return `<script type="application/ld+json">${JSON.stringify(schema)}</script>`;
 }

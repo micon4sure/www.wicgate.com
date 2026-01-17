@@ -46,6 +46,10 @@ export const SUB_TAB_BREAKPOINT = BREAKPOINTS.SM;
 // Desktop navbar is 80px (handled by CSS media query at md breakpoint)
 export const DEFAULT_CONTENT_OFFSET = 60;
 
+// Extra padding for scroll positioning
+// Adds visual breathing room between header and scrolled-to element
+export const SCROLL_EXTRA_PADDING = 20;
+
 // Storage Keys
 export const STORAGE_KEYS = {
   FIRST_VISIT: 'wicgate_visited',

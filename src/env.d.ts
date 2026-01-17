@@ -3,18 +3,26 @@
 /* Vue 3 + TypeScript module declarations */
 declare module '*.vue' {
   import type { DefineComponent } from 'vue';
-  const component: DefineComponent<{}, {}, any>;
+  // DefineComponent generic parameters are complex; using object types for basic declaration
+  const component: DefineComponent<object, object, unknown>;
   export default component;
 }
 
-/* Express types for API definitions (frontend doesn't actually use Express) */
+/*
+ * Express types for API endpoint type definitions.
+ * These are placeholder types used only for documenting the API contract.
+ * The frontend doesn't use Express directly.
+ */
 declare module 'express' {
+  /** Minimal request placeholder for API endpoint type definitions */
   export interface Request {
-    [key: string]: any;
+    params?: Record<string, string>;
+    query?: Record<string, string>;
+    body?: unknown;
   }
-  export interface Response<ResBody = any> {
+  /** Minimal response placeholder for API endpoint type definitions */
+  export interface Response<ResBody = unknown> {
     json(_body: ResBody): void;
-    [key: string]: any;
   }
 }
 

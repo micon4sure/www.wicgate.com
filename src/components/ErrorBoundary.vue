@@ -30,8 +30,10 @@ function retry() {
   hasError.value = false;
   errorMessage.value = '';
   errorStack.value = '';
-  // Force full page reload to reset all state
-  window.location.reload();
+  // Force full page reload to reset all state (SSR guard for consistency)
+  if (typeof window !== 'undefined') {
+    window.location.reload();
+  }
 }
 </script>
 

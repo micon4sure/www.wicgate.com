@@ -6,9 +6,9 @@ import FirstVisitOverlay from '~/components/FirstVisitOverlay.vue';
 import { useFirstVisit } from '~/composables/useFirstVisit';
 import { useActiveSection } from '~/composables/useActiveSection';
 import { useViewportMode } from '~/composables/useViewportMode';
+import { useScrollToElement } from '~/composables/useScrollToElement';
 import { getAllValidIds } from '~/types/navigation';
 import { syncHeaderHeight } from '~/utils/headerHeight';
-import { DEFAULT_CONTENT_OFFSET } from '~/constants';
 
 const route = useRoute();
 const { showFirstVisitOverlay, initFirstVisitCheck, dismissOverlay } = useFirstVisit();
@@ -19,6 +19,7 @@ const ALL_VALID_IDS = getAllValidIds();
 
 // Hybrid navigation highlighting: click-based (route) + scroll-based (manual)
 const { currentSection, startProgrammaticScroll } = useActiveSection(ALL_VALID_IDS);
+const { scrollToElement } = useScrollToElement();
 
 // SSG conditional rendering
 const isSSR = import.meta.server;
@@ -37,16 +38,10 @@ watch(
 
 // Helper to scroll to a section element
 function scrollToSection(sectionId: string) {
-  const element = document.getElementById(sectionId);
-  if (!element) return;
-
-  const contentOffset =
-    parseInt(
-      getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
-    ) || DEFAULT_CONTENT_OFFSET;
-
-  const top = element.getBoundingClientRect().top + window.scrollY - contentOffset;
-  window.scrollTo({ top, behavior: 'smooth' });
+  scrollToElement(sectionId, {
+    extraPadding: false, // Sections don't need extra padding, just content offset
+    behavior: 'smooth',
+  });
 }
 
 // When switching to mobile mode while on a section route, scroll to that section
@@ -99,7 +94,7 @@ function handleContinue() {
 
     <div class="main-content">
       <slot />
-      <div class="h-[80px]"></div>
+      <div class="footer-spacer"></div>
       <SiteFooter />
     </div>
   </div>

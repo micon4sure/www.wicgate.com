@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { faq } from '../content/content';
-import { ANCHOR_HIGHLIGHT_DELAY, DEFAULT_CONTENT_OFFSET, DISCORD_URL } from '../constants';
+import { ANCHOR_HIGHLIGHT_DELAY, DISCORD_URL } from '../constants';
 import { ref, computed, watch, nextTick, inject } from 'vue';
 import { useRoute } from 'vue-router';
 import { generateFAQSchema } from '../utils/structuredData';
 import { useInternalLinks } from '../composables/useInternalLinks';
+import { useScrollToElement } from '../composables/useScrollToElement';
 import TabContainer from '../components/TabContainer.vue';
 
 const route = useRoute();
 
 // Client-side navigation for internal links in FAQ answers
 const { handleContentClick } = useInternalLinks();
+const { scrollToElement } = useScrollToElement();
 
 const openQuestion = ref<string | null>(null);
 const showCopiedToast = ref(false);
@@ -157,20 +159,14 @@ useHead({
 function scrollToQuestion(questionId: string) {
   if (typeof window === 'undefined') return;
 
-  // Wait for DOM to update
+  // Wait for tab content to render
   setTimeout(() => {
     const element = document.getElementById(questionId);
     if (!element) return;
 
-    const contentOffset =
-      parseInt(
-        getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
-      ) || DEFAULT_CONTENT_OFFSET;
-    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-    const offsetPosition = elementPosition - contentOffset - 20; // Extra padding
-
-    window.scrollTo({
-      top: offsetPosition,
+    // Use shared scroll utility
+    scrollToElement(questionId, {
+      extraPadding: true,
       behavior: 'smooth',
     });
 
@@ -180,14 +176,14 @@ function scrollToQuestion(questionId: string) {
       openQuestion.value = questionText;
     }
 
-    // Add highlight effect AFTER Vue re-renders from expand (same pattern as Statistics)
+    // Add highlight effect AFTER Vue re-renders from expand
     setTimeout(() => {
       element.classList.add('anchor-highlight');
       setTimeout(() => {
         element.classList.remove('anchor-highlight');
       }, 2000);
-    }, ANCHOR_HIGHLIGHT_DELAY); // Wait for Vue to finish re-rendering after expand
-  }, 300); // Wait for tab content to render
+    }, ANCHOR_HIGHLIGHT_DELAY);
+  }, 300);
 }
 </script>
 

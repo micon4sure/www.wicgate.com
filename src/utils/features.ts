@@ -18,6 +18,7 @@
  * const enabled = getEnabledFeatures();
  * ```
  */
+/* global Window */
 
 // ============================================================================
 // Feature Flag Configuration
@@ -357,11 +358,20 @@ export function getFeatureDescription(feature: FeatureFlag): string {
  * logFeatureFlags(); // Logs table of all features to console
  * ```
  */
+/** Row structure for console.table output */
+interface FeatureTableRow {
+  Feature: string;
+  Enabled: string;
+  Override: string;
+  Environment: string;
+  Description: string;
+}
+
 export function logFeatureFlags(): void {
   if (!import.meta.env.DEV) return;
 
   const features = getAllFeatures();
-  const table: Record<string, any>[] = [];
+  const table: FeatureTableRow[] = [];
 
   for (const [name, config] of Object.entries(features)) {
     table.push({
@@ -376,6 +386,22 @@ export function logFeatureFlags(): void {
   console.group('🎛️  Feature Flags');
   console.table(table);
   console.groupEnd();
+}
+
+/** Dev tools API for browser console feature flag management */
+interface FeatureDevTools {
+  enable: (feature: FeatureFlag) => void;
+  disable: (feature: FeatureFlag) => void;
+  clear: (feature: FeatureFlag) => void;
+  clearAll: () => void;
+  list: () => void;
+  get: (feature: FeatureFlag) => boolean;
+  getAll: () => Record<FeatureFlag, FeatureConfig & { hasOverride: boolean }>;
+}
+
+/** Window augmentation for dev tools (development only) */
+interface WindowWithFeatures extends Window {
+  features?: FeatureDevTools;
 }
 
 /**
@@ -393,7 +419,7 @@ export function logFeatureFlags(): void {
 export function exposeToWindow(): void {
   if (!import.meta.env.DEV || typeof window === 'undefined') return;
 
-  (window as any).features = {
+  (window as WindowWithFeatures).features = {
     enable: (feature: FeatureFlag) => setFeatureOverride(feature, true),
     disable: (feature: FeatureFlag) => setFeatureOverride(feature, false),
     clear: (feature: FeatureFlag) => clearFeatureOverride(feature),

@@ -165,7 +165,9 @@ html { scroll-padding-top: var(--content-offset, 60px); }
 .section, .hero-section { scroll-margin-top: calc(var(--content-offset, 60px) + 1rem); }
 ```
 
-**JS Fallback Constant:** `DEFAULT_CONTENT_OFFSET` in `src/constants.ts` (60px) - matches mobile navbar height, used when CSS hasn't loaded.
+**JS Fallback Constants:** `src/constants.ts`
+- `DEFAULT_CONTENT_OFFSET` (60px) - matches mobile navbar height, used when CSS hasn't loaded
+- `SCROLL_EXTRA_PADDING` (20px) - extra breathing room between header and scroll target
 
 **`--header-height`** - Actual navbar height for element positioning:
 ```css
@@ -1282,6 +1284,7 @@ See [Scroll & Navigation System](#scroll--navigation-system) for full documentat
 **[useServerCapacity.ts](../src/composables/useServerCapacity.ts)** - Dynamic capacity colors (90% red, 50% orange, <50% green)
 **[usePlayerDisplay.ts](../src/composables/usePlayerDisplay.ts)** - Player name parsing/colorization with memoization
 **[useInternalLinks.ts](../src/composables/useInternalLinks.ts)** - Client-side navigation for internal links in v-html content (click interception pattern - industry standard used by Gatsby, Nuxt, Next.js); intercepts `.internal-link` clicks and routes through Vue Router for SPA transitions instead of full page reloads
+**[useScrollToElement.ts](../src/composables/useScrollToElement.ts)** - Consolidated scroll-to-element utility with SSR guards, used by FAQ, Statistics, and default layout for hash navigation; uses `SCROLL_EXTRA_PADDING` constant for consistent scroll positioning
 
 **Server-Side Data Fetching Composables (ISR):**
 These composables use Nuxt's `useFetch` for server-side data fetching with ISR caching. Data is fetched on the server and serialized into the HTML payload for crawlers/SEO.

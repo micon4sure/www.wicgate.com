@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, watch, nextTick } from 'vue';
-import { ANCHOR_HIGHLIGHT_DELAY, DEFAULT_CONTENT_OFFSET } from '../constants';
+import { ANCHOR_HIGHLIGHT_DELAY } from '../constants';
+import { useScrollToElement } from '../composables/useScrollToElement';
 import Leaderboards from '../components/Leaderboards.vue';
 import LeaderboardSkeleton from '../components/skeletons/LeaderboardSkeleton.vue';
 import type { DataResponse, LeaderboardEntry, LadderEntry, ClanEntry } from '../api-types';
@@ -30,6 +31,7 @@ const leaderboardData = computed<LeaderboardDataRecord>(() => ({
 
 // Ref to Leaderboards component for deep linking
 const leaderboardsRef = ref<InstanceType<typeof Leaderboards> | null>(null);
+const { scrollToElement } = useScrollToElement();
 
 // Hash patterns: #player-leaderboard, #clan-leaderboard, #high-scores, #high-scores-infantry, #total-scores-armor
 function handleHashNavigation() {
@@ -54,18 +56,11 @@ function handleHashNavigation() {
         elementId = parts.slice(0, -1).join('-');
       }
 
-      // Scroll to element with header offset (same as FAQ)
+      // Scroll to element with shared utility
       const element = document.getElementById(elementId);
       if (element) {
-        const contentOffset =
-          parseInt(
-            getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
-          ) || DEFAULT_CONTENT_OFFSET;
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - contentOffset - 20;
-
-        window.scrollTo({
-          top: offsetPosition,
+        scrollToElement(elementId, {
+          extraPadding: true,
           behavior: 'smooth',
         });
 

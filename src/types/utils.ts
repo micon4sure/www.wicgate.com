@@ -135,7 +135,7 @@ export interface ApiResponse<T> {
   meta?: {
     timestamp?: number;
     duration?: number;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
@@ -192,7 +192,9 @@ export type FetchResult<T> = { data: T; error: null } | { data: null; error: Err
  * type User = AsyncReturnType<typeof getUser>; // { id: number; name: string }
  * ```
  */
-export type AsyncReturnType<T extends (...args: any) => Promise<any>> = Awaited<ReturnType<T>>;
+export type AsyncReturnType<T extends (...args: unknown[]) => Promise<unknown>> = Awaited<
+  ReturnType<T>
+>;
 
 /**
  * Makes a function's parameters optional
@@ -202,7 +204,7 @@ export type AsyncReturnType<T extends (...args: any) => Promise<any>> = Awaited<
  * type OptionalFn = OptionalParameters<Fn>; // (a?: string, b?: number) => void
  * ```
  */
-export type OptionalParameters<T extends (...args: any[]) => any> = (
+export type OptionalParameters<T extends (...args: unknown[]) => unknown> = (
   ...args: Partial<Parameters<T>>
 ) => ReturnType<T>;
 

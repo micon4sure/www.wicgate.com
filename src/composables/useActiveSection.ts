@@ -6,7 +6,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
 import { useViewportMode } from './useViewportMode';
-import { DEFAULT_CONTENT_OFFSET } from '../constants';
+import { DEFAULT_CONTENT_OFFSET, SCROLL_EXTRA_PADDING } from '../constants';
 
 export function useActiveSection(sectionIds: string[] = []) {
   const route = useRoute();
@@ -44,7 +44,7 @@ export function useActiveSection(sectionIds: string[] = []) {
     if (typeof window === 'undefined') return;
 
     // Find which section is currently at the top of viewport (accounting for content offset)
-    const scrollPosition = window.scrollY + cachedContentOffset + 20; // +20px buffer
+    const scrollPosition = window.scrollY + cachedContentOffset + SCROLL_EXTRA_PADDING;
 
     // Check sections from bottom to top (so we get the topmost visible one)
     let foundSection: string | undefined;

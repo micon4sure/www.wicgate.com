@@ -89,11 +89,11 @@ export class MemoCache<T> {
  * );
  * ```
  */
-export function memoizeWithDeps<T, Args extends any[]>(
+export function memoizeWithDeps<T, Args extends unknown[]>(
   fn: (...args: Args) => T,
-  getDeps: (...args: Args) => any[]
+  getDeps: (...args: Args) => unknown[]
 ): (...args: Args) => T {
-  let lastDeps: any[] | undefined;
+  let lastDeps: unknown[] | undefined;
   let lastResult: T | undefined;
 
   return (...args: Args): T => {
@@ -111,7 +111,7 @@ export function memoizeWithDeps<T, Args extends any[]>(
 /**
  * Compare two dependency arrays for equality (shallow comparison)
  */
-function depsAreEqual(prevDeps: any[], nextDeps: any[]): boolean {
+function depsAreEqual(prevDeps: unknown[], nextDeps: unknown[]): boolean {
   if (prevDeps.length !== nextDeps.length) return false;
 
   for (let i = 0; i < prevDeps.length; i++) {
