@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Admin from '~/views/Admin.vue';
+import Admin from '~/screens/Admin.vue';
 import { usePageSeo } from '~/composables/usePageSeo';
 
 // Page meta for route - CSR only, requires admin auth

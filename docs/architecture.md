@@ -476,7 +476,7 @@ The mobile tab dropdown uses **CSS class visibility** instead of `v-if` to ensur
 4. **localStorage timing:** Read expanded state before first render
 
 **Files:**
-- [Home.vue](../src/views/Home.vue) - Conditional rendering + route watcher
+- [Home.vue](../src/screens/Home.vue) - Conditional rendering + route watcher
 - [Community.vue](../src/screens/Community.vue) - Async content example
 - Skeleton components with `<noscript>` fallbacks
 
@@ -677,7 +677,7 @@ script: [
 - ✅ Enhanced knowledge graph information
 
 **Files:**
-- [Home.vue](../src/views/Home.vue) - Dynamic head management with `useHead()`
+- [Home.vue](../src/screens/Home.vue) - Dynamic head management with `useHead()`
 - [pageMeta.ts](../src/content/pageMeta.ts) - Single source of truth for meta tags
 - [structuredData.ts](../src/utils/structuredData.ts) - JSON-LD schema generation
 - [scripts/apply-head-meta.ts](../scripts/apply-head-meta.ts) - Post-build meta injection
@@ -1549,6 +1549,8 @@ nitro: {
 ```
 public/                          # Static assets (standard Nuxt 4 location)
 src/                            # Nuxt source directory (srcDir: 'src/')
+├── app/
+│   └── router.options.ts       # Custom router scrollBehavior
 ├── app.vue                     # App root component
 ├── error.vue                   # Error page component
 ├── pages/                      # File-based routing (9 routes)
@@ -1577,13 +1579,14 @@ src/                            # Nuxt source directory (srcDir: 'src/')
 │   ├── widgets/                # Widget components
 │   ├── skeletons/              # SEO-friendly loaders
 │   └── ...
-├── screens/                    # Section components (used by pages)
+├── screens/                    # Section/page components (used by pages)
+│   ├── Home.vue                # Homepage content (hero section)
 │   ├── Downloads.vue           # 3-tab installation guide
 │   ├── Statistics.vue          # Player leaderboards
 │   ├── Community.vue           # Streams, videos, links
-│   └── FAQ.vue                 # FAQ (4 categories)
-├── views/
-│   └── Home.vue                # Homepage content
+│   ├── FAQ.vue                 # FAQ (4 categories)
+│   ├── Admin.vue               # Admin dashboard
+│   └── UserAdmin.vue           # User account panel
 ├── composables/                # Composition functions (auto-imported)
 ├── utils/                      # Utilities (auto-imported)
 ├── types/                      # TypeScript types

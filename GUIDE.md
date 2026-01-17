@@ -228,7 +228,7 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 | [tailwind.config.ts](tailwind.config.ts) | **Universal design tokens** (colors, fonts, spacing used project-wide) |
 | [src/assets/styles/tailwind.css](src/assets/styles/tailwind.css) | **Component-specific patterns** (@layer components, animations for 1-2 components) |
 | [src/utils/headerHeight.ts](src/utils/headerHeight.ts) | Header height sync for native scroll |
-| [src/views/Home.vue](src/views/Home.vue) | SSG conditional rendering |
+| [src/screens/Home.vue](src/screens/Home.vue) | Homepage content (hero section) |
 | [src/stores/appDataStore.ts](src/stores/appDataStore.ts) | API data fetching (Pinia store) |
 | [src/stores/auth.ts](src/stores/auth.ts) | Authentication (mock JWT, Pinia store) |
 | [vite.config.ts](vite.config.ts) | SSG + PWA config |

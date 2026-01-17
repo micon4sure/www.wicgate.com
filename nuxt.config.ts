@@ -34,6 +34,7 @@ export default defineNuxtConfig({
 
   // Directories configuration (relative to srcDir)
   dir: {
+    app: 'app',
     pages: 'pages',
     layouts: 'layouts',
     middleware: 'middleware',

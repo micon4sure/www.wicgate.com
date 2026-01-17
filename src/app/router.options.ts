@@ -1,5 +1,6 @@
+/* global ScrollBehavior */
 import type { RouterConfig } from '@nuxt/schema';
-import { DEFAULT_CONTENT_OFFSET } from '../src/constants';
+import { DEFAULT_CONTENT_OFFSET } from '../constants';
 
 // Custom scroll behavior for Nuxt router
 // Mirrors the scroll behavior from the original ViteSSG setup
@@ -49,9 +50,7 @@ export default <RouterConfig>{
 
           const contentOffset =
             parseInt(
-              getComputedStyle(document.documentElement)
-                .getPropertyValue('--content-offset')
-                .trim()
+              getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
             ) || DEFAULT_CONTENT_OFFSET;
 
           const elementPosition = element.getBoundingClientRect().top + window.scrollY;
@@ -101,9 +100,7 @@ export default <RouterConfig>{
 
           const contentOffset =
             parseInt(
-              getComputedStyle(document.documentElement)
-                .getPropertyValue('--content-offset')
-                .trim()
+              getComputedStyle(document.documentElement).getPropertyValue('--content-offset').trim()
             ) || DEFAULT_CONTENT_OFFSET;
 
           const elementPosition = element.getBoundingClientRect().top + window.scrollY;

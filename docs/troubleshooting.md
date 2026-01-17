@@ -602,7 +602,7 @@ beforeEach(() => {
 **Solution:** Ensure `checkAuth()` is called in app entry point:
 
 ```typescript
-// src/views/Home.vue or main.ts
+// src/pages/index.vue or a plugin
 import { useAuthStore } from '@/stores/auth';
 
 onMounted(() => {
