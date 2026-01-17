@@ -95,8 +95,21 @@ export const useCalendarStore = defineStore('calendar', () => {
     return getCountdownUtil(raw, now.value);
   }
 
-  // Auto-fetch on store creation
-  fetchEvents();
+  /**
+   * Initialize store with server-provided data.
+   * Used for hydration from server-side composables.
+   */
+  function initWithData(serverEvents: CommunityEvent[]) {
+    if (serverEvents && serverEvents.length > 0) {
+      // Sort by date ascending (same as fetchEvents)
+      events.value = [...serverEvents].sort((a, b) => {
+        const dateA = new Date(a.start).getTime();
+        const dateB = new Date(b.start).getTime();
+        return dateA - dateB;
+      });
+      isLoading.value = false;
+    }
+  }
 
   // Computed: Get events grouped by date
   const eventsByDate = computed(() => {
@@ -271,6 +284,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     goToPreviousMonth,
     selectDate,
     fetchEvents,
+    initWithData,
     // Helpers
     getCountdown,
     formatDate,

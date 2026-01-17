@@ -1,23 +1,39 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import type { DataResponse, ClanEntry } from '../api-types';
+import type { OnlineResponse, ServerEntry, OnlineProfile } from '../api-types';
 import { API_POLLING_INTERVAL, API_RETRY_DELAYS, MAX_API_RETRIES } from '../constants';
 import { getErrorMessage, apiErrorFromResponse } from '../types/errors';
 
 const API = import.meta.env.VITE_API_BASE || 'https://www.wicgate.com/api';
 
+/**
+ * App Data Store - Real-time online player data only.
+ *
+ * This store handles real-time data that needs frequent updates:
+ * - Online servers
+ * - Online player profiles
+ *
+ * For cacheable data (leaderboards, ladder, clans), use the server-side
+ * composables: useStatisticsData, useEventsData, useVideosData.
+ */
 export const useAppDataStore = defineStore('appData', () => {
-  const data = ref<Partial<DataResponse>>({});
-  const clans = ref<ClanEntry[]>([]);
+  // Real-time data: servers and online profiles
+  const servers = ref<ServerEntry[]>([]);
+  const profiles = ref<OnlineProfile[]>([]);
+
+  // Loading and error state
   const loadingInternal = ref(false);
   const isInitialLoad = ref(true);
   const loading = computed(() => loadingInternal.value && isInitialLoad.value);
   const error = ref<string | null>(null);
   const lastFetchedAt = ref<number | null>(null);
-  const playerCount = computed(() => data.value.profiles?.length || 0);
+
+  // Computed: player count and online status
+  const playerCount = computed(() => profiles.value.length);
   const playersOnline = computed(() => playerCount.value > 0);
   const isOnline = ref(true);
 
+  // Polling management
   let intervalId: number | undefined;
   const isInitialized = ref(false);
   let visibilityChangeHandler: (() => void) | undefined;
@@ -25,20 +41,24 @@ export const useAppDataStore = defineStore('appData', () => {
   let recoveryTimeoutId: number | undefined;
 
   /**
-   * Fetches data with retry logic and exponential backoff
+   * Fetches real-time online data with retry logic and exponential backoff
    */
   async function fetchDataWithRetry(retryCount = 0): Promise<void> {
     try {
-      const r = await fetch(`${API}/data`, { cache: 'no-store' });
+      const r = await fetch(`${API}/online`, { cache: 'no-store' });
       if (!r.ok) {
-        // Create typed API error with response context
-        throw await apiErrorFromResponse(r, '/api/data');
+        throw await apiErrorFromResponse(r, '/api/online');
       }
-      const json: DataResponse = await r.json();
-      data.value = json;
+      const json: OnlineResponse = await r.json();
+
+      // Update real-time data
+      servers.value = json.servers;
+      profiles.value = json.profiles;
+
       lastFetchedAt.value = Date.now();
-      error.value = null; // Clear any previous errors
+      error.value = null;
       isOnline.value = true;
+
       if (recoveryTimeoutId) {
         clearTimeout(recoveryTimeoutId);
         recoveryTimeoutId = undefined;
@@ -65,7 +85,6 @@ export const useAppDataStore = defineStore('appData', () => {
       }
 
       // All retries exhausted - stop polling until manually recovered
-      // Use typed error handling to extract user-friendly message
       error.value = getErrorMessage(e);
       isOnline.value = false;
 
@@ -97,19 +116,7 @@ export const useAppDataStore = defineStore('appData', () => {
 
     loadingInternal.value = true;
     await fetchDataWithRetry();
-    await fetchClans();
     loadingInternal.value = false;
-  }
-
-  async function fetchClans(): Promise<void> {
-    try {
-      const r = await fetch(`${API}/leaderboard/clans`, { cache: 'no-store' });
-      if (!r.ok) return;
-      const json = await r.json();
-      clans.value = json.clans || [];
-    } catch {
-      // Silently fail - clan data is supplementary
-    }
   }
 
   function init() {
@@ -178,14 +185,18 @@ export const useAppDataStore = defineStore('appData', () => {
   }
 
   return {
-    data,
-    clans,
+    // Real-time data
+    servers,
+    profiles,
+    // Loading/error state
     loading,
     error,
+    // Computed
     playerCount,
     playersOnline,
     lastFetchedAt,
     isOnline,
+    // Actions
     fetchData,
     init,
     stop,

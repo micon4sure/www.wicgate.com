@@ -86,6 +86,7 @@ export default [
         useRoute: 'readonly',
         useRouter: 'readonly',
         clearError: 'readonly',
+        $fetch: 'readonly',
 
         // Node.js globals
         process: 'readonly',

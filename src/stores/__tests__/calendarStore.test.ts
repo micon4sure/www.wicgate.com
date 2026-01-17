@@ -49,7 +49,6 @@ describe('calendarStore', () => {
 
   describe('initial state', () => {
     it('should have current year and month on initialization', () => {
-      mockSuccessfulFetch([]);
       const store = useCalendarStore();
 
       expect(store.currentYear).toBe(2025);
@@ -57,7 +56,6 @@ describe('calendarStore', () => {
     });
 
     it('should start with empty events and loading true', () => {
-      mockSuccessfulFetch([]);
       const store = useCalendarStore();
 
       expect(store.events).toEqual([]);
@@ -65,7 +63,6 @@ describe('calendarStore', () => {
     });
 
     it('should have no selected date initially', () => {
-      mockSuccessfulFetch([]);
       const store = useCalendarStore();
 
       expect(store.selectedDate).toBeNull();
@@ -79,6 +76,7 @@ describe('calendarStore', () => {
       mockSuccessfulFetch(unsortedEvents);
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       expect(store.events).toHaveLength(3);
@@ -94,6 +92,7 @@ describe('calendarStore', () => {
       const store = useCalendarStore();
 
       expect(store.isLoading).toBe(true);
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
       expect(store.isLoading).toBe(false);
     });
@@ -102,6 +101,7 @@ describe('calendarStore', () => {
       vi.mocked(global.fetch).mockRejectedValue(new Error('Network error'));
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       expect(store.events).toEqual([]);
@@ -115,6 +115,7 @@ describe('calendarStore', () => {
       } as Response);
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       expect(store.events).toEqual([]);
@@ -122,10 +123,35 @@ describe('calendarStore', () => {
     });
   });
 
+  describe('initWithData', () => {
+    it('should hydrate store with provided data', () => {
+      const store = useCalendarStore();
+
+      store.initWithData(mockEvents);
+
+      expect(store.isLoading).toBe(false);
+      expect(store.events).toHaveLength(3);
+      // Should be sorted by date ascending
+      expect(store.events[0]?.name).toBe('Past Event');
+      expect(store.events[1]?.name).toBe('Future Event');
+      expect(store.events[2]?.name).toBe('Far Future Event');
+    });
+
+    it('should not update state with empty data', () => {
+      const store = useCalendarStore();
+
+      store.initWithData([]);
+
+      expect(store.isLoading).toBe(true); // Should remain true
+      expect(store.events).toEqual([]);
+    });
+  });
+
   describe('eventsByDate', () => {
     it('should group events by their date', async () => {
       mockSuccessfulFetch();
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       const eventMap = store.eventsByDate;
@@ -145,6 +171,7 @@ describe('calendarStore', () => {
       mockSuccessfulFetch([pastEvent]);
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       const eventMap = store.eventsByDate;
@@ -166,6 +193,7 @@ describe('calendarStore', () => {
       mockSuccessfulFetch([todayEvent]);
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       const todayEvents = store.eventsByDate.get('2025-01-14');
@@ -177,6 +205,7 @@ describe('calendarStore', () => {
     it('should return empty array when no date selected', async () => {
       mockSuccessfulFetch();
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       expect(store.selectedDateEvents).toEqual([]);
@@ -192,6 +221,7 @@ describe('calendarStore', () => {
       mockSuccessfulFetch([event]);
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       store.selectDate('2025-01-20');
@@ -204,6 +234,7 @@ describe('calendarStore', () => {
     it('should return false when no events', async () => {
       mockSuccessfulFetch([]);
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       expect(store.canGoPrevious).toBe(false);
@@ -219,6 +250,7 @@ describe('calendarStore', () => {
       mockSuccessfulFetch([event]);
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       // Currently viewing January 2025, event is also in January
@@ -235,6 +267,7 @@ describe('calendarStore', () => {
       mockSuccessfulFetch([event]);
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       // Currently viewing January 2025, event is in December 2024
@@ -243,28 +276,22 @@ describe('calendarStore', () => {
   });
 
   describe('calendarDays', () => {
-    it('should generate 42 days (6 weeks)', async () => {
-      mockSuccessfulFetch([]);
+    it('should generate 42 days (6 weeks)', () => {
       const store = useCalendarStore();
-      await vi.advanceTimersByTimeAsync(0);
 
       expect(store.calendarDays).toHaveLength(42);
     });
 
-    it('should mark current month days correctly', async () => {
-      mockSuccessfulFetch([]);
+    it('should mark current month days correctly', () => {
       const store = useCalendarStore();
-      await vi.advanceTimersByTimeAsync(0);
 
       // January 2025 has 31 days
       const currentMonthDays = store.calendarDays.filter((d) => d.isCurrentMonth);
       expect(currentMonthDays).toHaveLength(31);
     });
 
-    it('should mark today correctly', async () => {
-      mockSuccessfulFetch([]);
+    it('should mark today correctly', () => {
       const store = useCalendarStore();
-      await vi.advanceTimersByTimeAsync(0);
 
       const todayDays = store.calendarDays.filter((d) => d.isToday);
       expect(todayDays).toHaveLength(1);
@@ -281,6 +308,7 @@ describe('calendarStore', () => {
       mockSuccessfulFetch([event]);
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       const day20 = store.calendarDays.find((d) => d.date === '2025-01-20');
@@ -289,8 +317,7 @@ describe('calendarStore', () => {
   });
 
   describe('monthDisplayName', () => {
-    it('should return formatted month name', async () => {
-      mockSuccessfulFetch([]);
+    it('should return formatted month name', () => {
       const store = useCalendarStore();
 
       expect(store.monthDisplayName).toBe('January 2025');
@@ -298,8 +325,7 @@ describe('calendarStore', () => {
   });
 
   describe('navigation', () => {
-    it('goToNextMonth should increment month', async () => {
-      mockSuccessfulFetch([]);
+    it('goToNextMonth should increment month', () => {
       const store = useCalendarStore();
 
       store.goToNextMonth();
@@ -308,8 +334,7 @@ describe('calendarStore', () => {
       expect(store.currentYear).toBe(2025);
     });
 
-    it('goToNextMonth should wrap to next year', async () => {
-      mockSuccessfulFetch([]);
+    it('goToNextMonth should wrap to next year', () => {
       const store = useCalendarStore();
       store.currentMonth = 11; // December
 
@@ -319,8 +344,7 @@ describe('calendarStore', () => {
       expect(store.currentYear).toBe(2026);
     });
 
-    it('goToNextMonth should clear selected date', async () => {
-      mockSuccessfulFetch([]);
+    it('goToNextMonth should clear selected date', () => {
       const store = useCalendarStore();
       store.selectedDate = '2025-01-14';
 
@@ -339,6 +363,7 @@ describe('calendarStore', () => {
       mockSuccessfulFetch([event]);
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       store.goToPreviousMonth();
@@ -351,6 +376,7 @@ describe('calendarStore', () => {
       mockSuccessfulFetch([]); // No events = canGoPrevious is false
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
 
       store.goToPreviousMonth();
@@ -369,6 +395,7 @@ describe('calendarStore', () => {
       mockSuccessfulFetch([event]);
 
       const store = useCalendarStore();
+      await store.fetchEvents();
       await vi.advanceTimersByTimeAsync(0);
       store.currentMonth = 0; // January
 
@@ -380,8 +407,7 @@ describe('calendarStore', () => {
   });
 
   describe('selectDate', () => {
-    it('should select a date', async () => {
-      mockSuccessfulFetch([]);
+    it('should select a date', () => {
       const store = useCalendarStore();
 
       store.selectDate('2025-01-20');
@@ -389,8 +415,7 @@ describe('calendarStore', () => {
       expect(store.selectedDate).toBe('2025-01-20');
     });
 
-    it('should toggle selection when clicking same date', async () => {
-      mockSuccessfulFetch([]);
+    it('should toggle selection when clicking same date', () => {
       const store = useCalendarStore();
 
       store.selectDate('2025-01-20');
@@ -400,8 +425,7 @@ describe('calendarStore', () => {
       expect(store.selectedDate).toBeNull();
     });
 
-    it('should change selection when clicking different date', async () => {
-      mockSuccessfulFetch([]);
+    it('should change selection when clicking different date', () => {
       const store = useCalendarStore();
 
       store.selectDate('2025-01-20');

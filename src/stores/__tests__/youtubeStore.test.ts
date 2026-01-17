@@ -73,7 +73,6 @@ describe('youtubeStore', () => {
 
   describe('initial state', () => {
     it('should have empty videos and loading true on initialization', () => {
-      mockSuccessfulFetch({});
       const store = useYoutubeStore();
 
       expect(store.videos).toEqual({});
@@ -86,6 +85,7 @@ describe('youtubeStore', () => {
       mockSuccessfulFetch({ channel1: mockYouTubeFeed });
 
       const store = useYoutubeStore();
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
 
       expect(store.loading).toBe(false);
@@ -99,6 +99,7 @@ describe('youtubeStore', () => {
       mockSuccessfulFetch({ channel1: mockYouTubeFeed });
 
       const store = useYoutubeStore();
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
 
       const videos = store.videos['channel1']?.videos;
@@ -120,6 +121,7 @@ describe('youtubeStore', () => {
       });
 
       const store = useYoutubeStore();
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
 
       expect(Object.keys(store.videos)).toHaveLength(2);
@@ -133,6 +135,7 @@ describe('youtubeStore', () => {
       const store = useYoutubeStore();
       expect(store.loading).toBe(true);
 
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
       expect(store.loading).toBe(false);
     });
@@ -141,6 +144,7 @@ describe('youtubeStore', () => {
       vi.mocked(global.fetch).mockRejectedValue(new Error('Network error'));
 
       const store = useYoutubeStore();
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
 
       expect(store.videos).toEqual({});
@@ -154,6 +158,7 @@ describe('youtubeStore', () => {
       } as Response);
 
       const store = useYoutubeStore();
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
 
       expect(store.videos).toEqual({});
@@ -167,6 +172,7 @@ describe('youtubeStore', () => {
       });
 
       const store = useYoutubeStore();
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
 
       // Should only have the valid channel
@@ -187,11 +193,48 @@ describe('youtubeStore', () => {
       });
 
       const store = useYoutubeStore();
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
 
       expect(Object.keys(store.videos)).toHaveLength(1);
       expect(store.videos['validChannel']).toBeDefined();
       expect(store.videos['emptyChannel']).toBeUndefined();
+    });
+  });
+
+  describe('initWithData', () => {
+    it('should hydrate store with provided data', () => {
+      const store = useYoutubeStore();
+
+      const serverData = {
+        channel1: {
+          channelTitle: 'Test Channel',
+          videos: [
+            {
+              id: 'video123',
+              title: 'Test Video',
+              publishedAt: '2025-01-10T18:00:00Z',
+              thumbnailUrl: 'https://example.com/thumb.jpg',
+              videoUrl: 'https://www.youtube.com/watch?v=video123',
+            },
+          ],
+        },
+      };
+
+      store.initWithData(serverData);
+
+      expect(store.loading).toBe(false);
+      expect(store.videos).toEqual(serverData);
+      expect(store.videosSorted).toHaveLength(1);
+    });
+
+    it('should not update state with empty data', () => {
+      const store = useYoutubeStore();
+
+      store.initWithData({});
+
+      expect(store.loading).toBe(true); // Should remain true
+      expect(store.videos).toEqual({});
     });
   });
 
@@ -203,6 +246,7 @@ describe('youtubeStore', () => {
       });
 
       const store = useYoutubeStore();
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
 
       const sorted = store.videosSorted;
@@ -219,11 +263,8 @@ describe('youtubeStore', () => {
       expect(sorted[2]?.id).toBe('video123');
     });
 
-    it('should return empty array when no videos', async () => {
-      mockSuccessfulFetch({});
-
+    it('should return empty array when no videos', () => {
       const store = useYoutubeStore();
-      await vi.advanceTimersByTimeAsync(0);
 
       expect(store.videosSorted).toEqual([]);
     });
@@ -246,6 +287,7 @@ describe('youtubeStore', () => {
       mockSuccessfulFetch({ minimal: minimalFeed });
 
       const store = useYoutubeStore();
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
 
       const video = store.videos['minimal']?.videos[0];
@@ -262,6 +304,7 @@ describe('youtubeStore', () => {
       mockSuccessfulFetch({ channel1: mockYouTubeFeed });
 
       const store = useYoutubeStore();
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
 
       // Should use author name "Test Author" instead of feed title "Test Channel"
@@ -284,6 +327,7 @@ describe('youtubeStore', () => {
       mockSuccessfulFetch({ fallback: fallbackIdFeed });
 
       const store = useYoutubeStore();
+      await store.fetchVideos();
       await vi.advanceTimersByTimeAsync(0);
 
       const video = store.videos['fallback']?.videos[0];

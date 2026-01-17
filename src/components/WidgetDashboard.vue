@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onActivated, onDeactivated, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, watch, onActivated, onDeactivated, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAppDataStore } from '../stores/appDataStore';
@@ -11,20 +11,43 @@ import { useOverlayState } from '../composables/useOverlayState';
 import MediaEventCard from './widgets/MediaEventCard.vue';
 import DynamicInfoCard from './widgets/DynamicInfoCard.vue';
 import { getRoutePath } from '../types/navigation';
+import type { DataResponse, LadderEntry } from '../api-types';
+
+// Props: ladder data passed from page (server-side cached)
+const props = defineProps<{
+  ladder?: LadderEntry[];
+  statsLoading?: boolean;
+}>();
 
 const router = useRouter();
+
+// Real-time data store (online players - polled every 90s)
 const store = useAppDataStore();
+
+// Stores for events and videos
 const calendarStore = useCalendarStore();
+const youtubeStore = useYoutubeStore();
+
 const { openPrimer } = useFirstVisit();
 const { isMobileMode } = useViewportMode();
 const { overlayActive } = useOverlayState();
 
-const youtubeStore = useYoutubeStore();
 const { isLoading: eventsLoading } = storeToRefs(calendarStore);
 const { videosSorted } = storeToRefs(youtubeStore);
 
 // SSR detection - explicitly typed as boolean
 const isSSR: boolean = import.meta.server ?? false;
+
+// Combine real-time and server-cached data for DynamicInfoCard
+// DynamicInfoCard needs: servers, profiles (real-time), ladder (cached from props)
+const combinedData = computed<Partial<DataResponse>>(() => ({
+  servers: store.servers,
+  profiles: store.profiles,
+  ladder: props.ladder ?? [],
+}));
+
+// Combined loading state: real-time data OR stats loading (for initial render)
+const combinedLoading = computed(() => store.loading || (props.statsLoading ?? false));
 
 // Template refs
 const heroVideo = ref<HTMLVideoElement | null>(null);
@@ -53,8 +76,16 @@ function toggleVideo() {
   }
 }
 
-// Resume video playback when component reactivates from KeepAlive cache (desktop)
+// Resume video playback when component reactivates from KeepAlive cache
 onActivated(() => {
+  // On mobile with IntersectionObserver, let the observer handle video state
+  // The observer will fire after activation and set correct visibility based on scroll position
+  if (isMobileMode.value && videoObserver) {
+    // Don't auto-play - IntersectionObserver will resume if hero is visible
+    return;
+  }
+
+  // Desktop: KeepAlive handles navigation, resume video immediately
   isHeroVisible.value = true;
   if (!userPausedVideo.value) {
     heroVideo.value?.play();
@@ -64,6 +95,9 @@ onActivated(() => {
 
 onDeactivated(() => {
   isHeroVisible.value = false;
+  // Pause video when component is cached to save resources
+  heroVideo.value?.pause();
+  isVideoPlaying.value = false;
 });
 
 // Pause video when overlay is active, resume only if hero is visible and user hasn't paused
@@ -183,9 +217,9 @@ function goToSection(sectionOrSubsectionId: string) {
       <!-- Streamlined Widget Cards -->
       <div class="hero-widget-grid">
         <DynamicInfoCard
-          :data="store.data"
+          :data="combinedData"
           :player-count="store.playerCount"
-          :loading="store.loading"
+          :loading="combinedLoading"
           :is-s-s-r="isSSR"
           @navigate="goToSection"
         />
@@ -193,7 +227,7 @@ function goToSection(sectionOrSubsectionId: string) {
         <MediaEventCard
           :videos="videosSorted"
           :is-s-s-r="isSSR"
-          :loading="store.loading || eventsLoading"
+          :loading="combinedLoading || eventsLoading"
           @navigate="goToSection"
         />
       </div>

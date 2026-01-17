@@ -1,56 +1,22 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { useAppDataStore } from '../appDataStore';
-import type { DataResponse, ClanEntry } from '../../api-types';
+import type { OnlineResponse } from '../../api-types';
 
-// Mock data
-const mockDataResponse: DataResponse = {
+// Mock data for /api/online endpoint
+const mockOnlineResponse: OnlineResponse = {
   servers: [{ serverId: 1, serverName: 'EU Server #1' }],
   profiles: [
     { profileId: 1, serverId: 1, profileName: 'Player1', shortName: null, tagFormat: null },
   ],
-  ladder: [],
-  lb_total: [],
-  lb_totinf: [],
-  lb_totarm: [],
-  lb_totair: [],
-  lb_totsup: [],
-  lb_high: [],
-  lb_highinf: [],
-  lb_higharm: [],
-  lb_highair: [],
-  lb_highsup: [],
 };
 
-const mockClansResponse = {
-  clans: [
-    {
-      position: 1,
-      clanId: 1,
-      fullName: 'Test Clan',
-      shortName: 'TC',
-      tagFormat: '[C]P',
-      score: 1000,
-      rating: 1500,
-      deviation: 50,
-      gracePeriodEnd: 0,
-    },
-  ] as ClanEntry[],
-};
-
-// Helper to mock successful responses for both endpoints
+// Helper to mock successful responses
 function mockSuccessfulFetch() {
-  vi.mocked(global.fetch).mockImplementation((url) => {
-    const urlStr = url.toString();
-    if (urlStr.includes('/leaderboard/clans')) {
-      return Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(mockClansResponse),
-      } as Response);
-    }
+  vi.mocked(global.fetch).mockImplementation(() => {
     return Promise.resolve({
       ok: true,
-      json: () => Promise.resolve(mockDataResponse),
+      json: () => Promise.resolve(mockOnlineResponse),
     } as Response);
   });
 }
@@ -72,8 +38,8 @@ describe('appDataStore', () => {
     it('should have empty data on initialization', () => {
       const store = useAppDataStore();
 
-      expect(store.data).toEqual({});
-      expect(store.clans).toEqual([]);
+      expect(store.servers).toEqual([]);
+      expect(store.profiles).toEqual([]);
       expect(store.loading).toBe(false);
       expect(store.error).toBeNull();
       expect(store.isOnline).toBe(true);
@@ -95,7 +61,8 @@ describe('appDataStore', () => {
 
       await store.fetchData();
 
-      expect(store.data).toEqual(mockDataResponse);
+      expect(store.servers).toEqual(mockOnlineResponse.servers);
+      expect(store.profiles).toEqual(mockOnlineResponse.profiles);
       expect(store.error).toBeNull();
       expect(store.isOnline).toBe(true);
     });
@@ -124,19 +91,18 @@ describe('appDataStore', () => {
       expect(store.loading).toBe(false);
     });
 
-    it('should call both data and clans endpoints', async () => {
+    it('should call only the /online endpoint', async () => {
       const store = useAppDataStore();
       mockSuccessfulFetch();
 
       await store.fetchData();
 
-      // Should have called fetch twice: once for /data, once for /leaderboard/clans
-      expect(global.fetch).toHaveBeenCalledTimes(2);
+      // Should have called fetch once for /online
+      expect(global.fetch).toHaveBeenCalledTimes(1);
 
-      // Check the URLs
+      // Check the URL
       const calls = vi.mocked(global.fetch).mock.calls;
-      expect(calls[0]?.[0]).toContain('/data');
-      expect(calls[1]?.[0]).toContain('/leaderboard/clans');
+      expect(calls[0]?.[0]).toContain('/online');
     });
 
     it('should prevent overlapping fetch calls', async () => {
@@ -151,7 +117,7 @@ describe('appDataStore', () => {
         await firstFetchPromise;
         return {
           ok: true,
-          json: () => Promise.resolve(mockDataResponse),
+          json: () => Promise.resolve(mockOnlineResponse),
         } as Response;
       });
 
@@ -168,45 +134,9 @@ describe('appDataStore', () => {
       resolveFirst!();
       await promise1;
 
-      // Only one data fetch + one clans fetch should have been made
+      // Only one fetch should have been made
       // (second fetchData call was a no-op due to loading guard)
-      expect(global.fetch).toHaveBeenCalledTimes(2);
-    });
-  });
-
-  describe('fetchClans', () => {
-    it('should fetch clans successfully', async () => {
-      const store = useAppDataStore();
-      mockSuccessfulFetch();
-
-      await store.fetchData();
-
-      expect(store.clans).toHaveLength(1);
-      expect(store.clans[0]?.fullName).toBe('Test Clan');
-    });
-
-    it('should silently fail on clans fetch error', async () => {
-      const store = useAppDataStore();
-
-      vi.mocked(global.fetch).mockImplementation((url) => {
-        const urlStr = url.toString();
-        if (urlStr.includes('/leaderboard/clans')) {
-          return Promise.reject(new Error('Clans error'));
-        }
-        return Promise.resolve({
-          ok: true,
-          json: () => Promise.resolve(mockDataResponse),
-        } as Response);
-      });
-
-      await store.fetchData();
-
-      // Main data should still be set
-      expect(store.data).toEqual(mockDataResponse);
-      // Clans should remain empty (silent failure)
-      expect(store.clans).toEqual([]);
-      // No error should be set (clans are supplementary)
-      expect(store.error).toBeNull();
+      expect(global.fetch).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -255,8 +185,8 @@ describe('appDataStore', () => {
       // Advance time by polling interval (90 seconds)
       await vi.advanceTimersByTimeAsync(90000);
 
-      // Should have fetched again (2 more calls: data + clans)
-      expect(vi.mocked(global.fetch).mock.calls.length).toBe(callsAfterInit + 2);
+      // Should have fetched again (1 more call for /online)
+      expect(vi.mocked(global.fetch).mock.calls.length).toBe(callsAfterInit + 1);
     });
   });
 

@@ -69,14 +69,25 @@ export const useYoutubeStore = defineStore('youtube', () => {
   // Videos from all channels sorted by publishedAt desc
   const videosSorted = computed(() => sortVideos(videos.value));
 
-  // Auto-fetch on store creation
-  fetchVideos();
+  /**
+   * Initialize store with server-provided data.
+   * Used for hydration from server-side composables.
+   */
+  function initWithData(
+    serverVideos: Record<string, { channelTitle: string; videos: YouTubeVideo[] }>
+  ) {
+    if (serverVideos && Object.keys(serverVideos).length > 0) {
+      videos.value = serverVideos;
+      loading.value = false;
+    }
+  }
 
   return {
     videos,
     videosSorted,
     loading,
     fetchVideos,
+    initWithData,
     formatDate,
   };
 });

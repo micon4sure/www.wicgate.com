@@ -5,7 +5,7 @@ import Downloads from '~/screens/Downloads.vue';
 import Statistics from '~/screens/Statistics.vue';
 import Community from '~/screens/Community.vue';
 import FAQ from '~/screens/FAQ.vue';
-import { useAppDataStore } from '~/stores/appDataStore';
+import { useStatisticsData } from '~/composables/useStatisticsData';
 import { useViewportMode } from '~/composables/useViewportMode';
 import { usePageSeo } from '~/composables/usePageSeo';
 import { PAGE_META } from '~/content/pageMeta';
@@ -26,8 +26,11 @@ usePageSeo({
   section: 'statistics',
 });
 
-// Store and viewport
-const store = useAppDataStore();
+// Server-side data fetching with ISR caching
+// Note: composable returns useAsyncData directly, no await needed
+const { statisticsData, clansData, loading } = useStatisticsData();
+
+// Viewport mode
 const { isMobileMode } = useViewportMode();
 
 // SSR detection
@@ -42,16 +45,16 @@ const showAllSections = computed(() => !isSSR && isMobileMode.value);
   <div id="screens">
     <!-- Mobile: render all sections -->
     <template v-if="showAllSections">
-      <WidgetDashboard />
+      <WidgetDashboard :ladder="statisticsData?.ladder ?? []" :stats-loading="loading" />
       <Community />
-      <Statistics :data="store.data" :loading="store.loading" :clans="store.clans" />
+      <Statistics :data="statisticsData" :loading="loading" :clans="clansData" />
       <Downloads />
       <FAQ />
     </template>
 
     <!-- Desktop: render only statistics -->
     <template v-else>
-      <Statistics :data="store.data" :loading="store.loading" :clans="store.clans" />
+      <Statistics :data="statisticsData" :loading="loading" :clans="clansData" />
     </template>
   </div>
 </template>

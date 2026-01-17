@@ -1421,7 +1421,7 @@ CSS fallback rules (`.mobile-menu-open` class) mirror the `:has()` rules - mutua
 - Must use `npm run build && npx serve dist` or deploy to GitHub Pages to test no-JS functionality
 
 **[MobileTabDropdown.vue](../src/components/MobileTabDropdown.vue)** - Reusable mobile dropdown for sub-tabs (< 640px): accepts tabs array (id, label, icon), activeTabId, optional formatLabel function, wrapperClass/triggerClass for layout customization; provides trigger-badge and option-badge slots for custom badges; defaults to `SUB_TAB_BREAKPOINT` - used by TabContainer, LeaderboardGroup, DynamicInfoCard, MediaEventCard
-**[WidgetDashboard.vue](../src/components/WidgetDashboard.vue)** - Homepage hero grid with 2 large interactive cards, background video with pause/play toggle (respects user choice across navigation), auto-pauses when overlays are active via `useOverlayState`
+**[WidgetDashboard.vue](../src/components/WidgetDashboard.vue)** - Homepage hero grid with 2 large interactive cards, background video with pause/play toggle (respects user choice across navigation), video state preserved via KeepAlive (`onActivated`/`onDeactivated` hooks), mobile uses IntersectionObserver for scroll-based pause/resume, auto-pauses when overlays are active via `useOverlayState`
 **[BaseOverlay.vue](../src/components/BaseOverlay.vue)** - Reusable overlay wrapper handling scroll lock, Escape key, backdrop click (mobile only), Teleport, and ARIA accessibility
 **[YouTubeTheater.vue](../src/components/YouTubeTheater.vue)** - YouTube video theater using BaseOverlay (youtube-nocookie.com embed)
 **[FirstVisitOverlay.vue](../src/components/FirstVisitOverlay.vue)** - Welcome primer using BaseOverlay with quick start guide

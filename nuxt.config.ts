@@ -16,12 +16,13 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
   ],
 
-  // Hybrid rendering - SSG for static pages, SSR for dynamic, CSR for auth
+  // Hybrid rendering - ISR for dynamic pages, SSG for static, CSR for auth
+  // ISR TTL is in seconds: 1800 = 30 minutes
   routeRules: {
-    '/': { ssr: true },
+    '/': { isr: 1800 },              // Home with stats - ISR 30 min
+    '/statistics': { isr: 1800 },    // Leaderboards - ISR 30 min
+    '/community': { isr: 1800 },     // Events/videos - ISR 30 min
     '/downloads': { prerender: true },
-    '/statistics': { ssr: true },
-    '/community': { ssr: true },
     '/faq': { prerender: true },
     '/login': { ssr: false },
     '/admin-login': { ssr: false },
