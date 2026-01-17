@@ -4,9 +4,9 @@
 
 WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation for SEO with Single Page Application behavior for user experience.
 
-**Stack:** Vue 3 + TypeScript, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
-**Entry:** [src/main.ts](../src/main.ts)
-**Routing:** 7 Vue Router routes, hash-based tab navigation within sections (see Routing System below)
+**Stack:** Vue 3 + TypeScript, Vike (SSR/SSG framework), @unhead/vue, Tailwind CSS, Pinia, Vitest
+**Entry:** [src/pages/](../src/pages/) (file-based routing)
+**Routing:** Vike file-based routes + hash-based tab navigation within sections (see Routing System below)
 
 ---
 
@@ -14,30 +14,53 @@ WiCGATE is a **hybrid SSG/SPA** application that combines Static Site Generation
 
 ### Rendering Strategy
 
-**Build Time (SSG):**
-- ViteSSG pre-renders 6 unique HTML files (main sections only)
-- Each route serves focused content with unique meta tags
+**Build Time (SSG via Vike):**
+- Vike pre-renders HTML files using file-based routing (`src/pages/`)
+- Each route has its own `+Page.vue` and `+config.ts`
 - Tab content handled client-side via hash navigation
-- Conditional rendering: `shouldRenderSection()` renders only target section per route
+- `+Layout.vue` provides shared layout across all pages
 
 **Runtime (SPA):**
 - JavaScript hydrates after initial load
+- `+onHydrationEnd.ts` initializes client-side stores
 - Tab navigation triggers route changes (except Community videos which use local state)
-- No page reloads during navigation (Vue Router SPA behavior)
+- No page reloads during navigation (client-side routing)
 - Hash fragments handle FAQ question deep-linking
 
 ### Routing System
 
+**Vike File-Based Routing:**
+
+Routes are defined by the folder structure in `src/pages/`:
+
+```
+src/pages/
+├── +config.ts           # Global Vike config
+├── +Layout.vue          # Shared layout (nav, footer)
+├── +onCreateApp.ts      # App initialization (Pinia, head)
+├── +onHydrationEnd.ts   # Client-side store init
+├── +onPageTransitionEnd.ts  # Page transition handling
+├── index/+Page.vue      # / (homepage)
+├── downloads/+Page.vue  # /downloads
+├── statistics/+Page.vue # /statistics
+├── community/+Page.vue  # /community
+├── faq/+Page.vue        # /faq
+├── login/+Page.vue      # /login
+├── admin-login/+Page.vue # /admin-login
+├── admin/+Page.vue      # /admin (protected)
+└── user/+Page.vue       # /user (protected)
+```
+
 **Two Navigation Mechanisms:**
 
-1. **Vue Router Routes (7 total)** - Section navigation, triggers full route change:
+1. **Vike Routes** - Section navigation via file-based routing:
    - `/` - Home (hero section)
    - `/downloads` - Downloads section
    - `/statistics` - Statistics/leaderboards section
    - `/community` - Community section
    - `/faq` - FAQ section
    - `/login` - User login page
-   - `/admin` - Admin panel
+   - `/admin` - Admin panel (protected via `+guard.ts`)
 
 2. **Hash-Based Tab Navigation** - Tab switching within sections, no route change:
    - Downloads tabs: `#quick-install` (default, no hash shown), `#dedicated-server`, `#manual-install`
@@ -336,6 +359,12 @@ const currentSection = computed(() => {
    - Selected date tracking for accordion behavior
    - `eventsByDate` computed for quick date lookup
    - `calendarDays` computed for full month grid with padding
+   - **Auto-fetches on creation** (line 99) - no explicit fetch call needed
+
+4. **[youtubeStore.ts](../src/stores/youtubeStore.ts)** - YouTube video data
+   - Fetches from `/videos` API, parses YouTube Atom feeds
+   - `videos`, `videosSorted`, `loading` state
+   - **Auto-fetches on creation** (line 73) - no explicit fetch call needed
 
 **Key Pattern:**
 ```typescript
@@ -413,6 +442,31 @@ onMounted(() => {
 - **Use `v-show`:** Expandable sections (prevents layout shifts, SEO-friendly)
 - **Use `v-if`:** Content that's never needed again
 
+### Store Initialization During Hydration
+
+**File:** [src/pages/+onHydrationEnd.ts](../src/pages/+onHydrationEnd.ts)
+
+Vike's `onHydrationEnd` hook runs after client-side hydration completes. Only stores with initialization guards need explicit calls:
+
+```typescript
+// +onHydrationEnd.ts
+async function onHydrationEnd(): Promise<void> {
+  // Only appDataStore needs explicit init (has isInitialized guard)
+  const { useAppDataStore } = await import('../stores/appDataStore');
+  const appDataStore = useAppDataStore();
+  appDataStore.init();
+
+  // Calendar and YouTube stores auto-fetch on first access
+  // DO NOT call fetchEvents() or fetchVideos() - causes double API calls
+}
+```
+
+**Why this pattern:**
+- `appDataStore` has an `isInitialized` guard preventing double-init
+- `calendarStore` and `youtubeStore` auto-fetch when first accessed (component mount)
+- Calling explicit fetch in `onHydrationEnd` causes double API requests and extra re-renders
+- This reduces skeleton→content flash on page reload
+
 ### FirstVisitOverlay SSG Safety
 
 The first visit overlay uses **client-side only rendering** to avoid Google's "Intrusive Interstitial" SEO penalty:
@@ -461,8 +515,8 @@ The mobile tab dropdown uses **CSS class visibility** instead of `v-if` to ensur
 **Library:** @unhead/vue (official successor to deprecated @vueuse/head)
 
 **Integration:**
-- ViteSSG v28+ automatically sets up @unhead/vue (no manual `createHead()` needed)
-- Used in Home.vue for dynamic meta tags based on route
+- `createHead()` initialized in `+onCreateApp.ts` for Vike compatibility
+- Used in page components for dynamic meta tags
 - JSON-LD structured data for SEO (Organization + WebSite schemas)
 
 **Belt-and-Suspenders Approach:**
@@ -1351,7 +1405,7 @@ CSS fallback rules (`.mobile-menu-open` class) mirror the `:has()` rules - mutua
 **Steps:**
 1. Generate PWA icons from `public/favicon.svg` (4 sizes)
 2. Generate sitemap.xml (5 URLs - main sections only)
-3. ViteSSG build - Pre-render 6 routes (main sections + /login)
+3. Vike build - Pre-render routes from `src/pages/` structure
 4. Apply head meta - Inject route-specific titles/descriptions/structured data
 5. PWA service worker generation (~54 precached entries)
 6. Asset optimization (code splitting, tree shaking, content hashing)
@@ -1360,7 +1414,8 @@ CSS fallback rules (`.mobile-menu-open` class) mirror the `:has()` rules - mutua
 
 ### Configuration
 
-**[vite.config.ts](../vite.config.ts)** - Vite + ViteSSG + PWA plugins
+**[vite.config.ts](../vite.config.ts)** - Vite + Vike + PWA plugins
+**[src/pages/+config.ts](../src/pages/+config.ts)** - Vike global settings (prerender, extensions)
 **[vitest.config.ts](../vitest.config.ts)** - Test config (hybrid timing)
 **[tailwind.config.ts](../tailwind.config.ts)** - Design tokens
 **[eslint.config.js](../eslint.config.js)** - ESLint + Prettier
@@ -1433,10 +1488,23 @@ CSS fallback rules (`.mobile-menu-open` class) mirror the `:has()` rules - mutua
 
 ```
 src/
-├── main.ts                    # ViteSSG entry
-├── router/
-│   ├── index.ts               # Router config
-│   └── routes.ts              # Route definitions (7 routes, 5 pre-rendered)
+├── pages/                     # Vike file-based routing
+│   ├── +config.ts             # Global Vike config
+│   ├── +Layout.vue            # Shared layout
+│   ├── +onCreateApp.ts        # App init (Pinia, head)
+│   ├── +onHydrationEnd.ts     # Client-side store init
+│   ├── index/+Page.vue        # Homepage
+│   ├── downloads/+Page.vue    # Downloads section
+│   ├── statistics/+Page.vue   # Statistics section
+│   ├── community/+Page.vue    # Community section
+│   ├── faq/+Page.vue          # FAQ section
+│   ├── login/+Page.vue        # Login page
+│   ├── admin/                 # Protected admin routes
+│   │   ├── +Page.vue
+│   │   └── +guard.ts          # Auth guard
+│   └── user/                  # Protected user routes
+│       ├── +Page.vue
+│       └── +guard.ts          # Auth guard
 ├── stores/
 │   ├── appDataStore.ts        # Game data
 │   └── auth.ts                # Authentication

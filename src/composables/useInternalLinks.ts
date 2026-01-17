@@ -1,18 +1,16 @@
 /**
  * Composable for handling internal link clicks in dynamic HTML content.
  *
- * When content is rendered via v-html, anchor tags don't use Vue Router.
+ * When content is rendered via v-html, anchor tags don't use Vike's router.
  * This composable intercepts clicks on .internal-link elements and routes
- * them through Vue Router for instant client-side navigation.
+ * them through Vike for instant client-side navigation.
  *
  * Industry standard pattern used by Gatsby (catch-links), Nuxt, Next.js
  * for handling internal links in CMS/markdown/dynamic HTML content.
  */
-import { useRouter } from 'vue-router';
+import { navigate } from 'vike/client/router';
 
 export function useInternalLinks() {
-  const router = useRouter();
-
   /**
    * Click handler for containers with v-html content containing internal links.
    * Attach to parent element: @click="handleContentClick"
@@ -30,15 +28,15 @@ export function useInternalLinks() {
     event.preventDefault();
 
     // Strip the router's base path from href if present
-    // Links include the base for non-JS fallback, but Vue Router expects relative paths
+    // Links include the base for non-JS fallback, but Vike expects relative paths
     const base = import.meta.env.BASE_URL || '/';
     let routerPath = href;
     if (base !== '/' && href.startsWith(base)) {
       routerPath = href.slice(base.length - 1); // Remove base, keep leading slash
     }
 
-    // Use Vue Router for client-side navigation
-    router.push(routerPath);
+    // Use Vike navigate for client-side navigation
+    navigate(routerPath);
   }
 
   return { handleContentClick };

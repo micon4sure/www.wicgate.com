@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { navigate } from 'vike/client/router';
 import { useAuthStore } from '../stores/auth';
 import type { LoginCredentials } from '../types/auth';
 
@@ -12,8 +12,6 @@ const props = withDefaults(
     mode: 'user',
   }
 );
-
-const router = useRouter();
 const authStore = useAuthStore();
 
 const username = ref('');
@@ -44,10 +42,10 @@ async function handleLogin() {
   try {
     if (isAdminMode.value) {
       await authStore.loginAdmin(credentials);
-      router.push('/admin');
+      await navigate('/admin');
     } else {
       await authStore.loginUser(credentials);
-      router.push('/user');
+      await navigate('/user');
     }
   } catch (e) {
     console.error('Login failed:', e);
@@ -159,13 +157,13 @@ function handleKeyPress(event: KeyboardEvent) {
 
       <!-- Back to Home -->
       <div class="mt-6 text-center">
-        <router-link
-          to="/"
+        <a
+          href="/"
           class="text-sm text-teal hover:text-teal transition-colors duration-300 font-body uppercase tracking-wide"
         >
           <i class="fa-solid fa-arrow-left mr-2"></i>
           Back to Home
-        </router-link>
+        </a>
       </div>
     </div>
   </div>

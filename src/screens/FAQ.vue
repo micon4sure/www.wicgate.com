@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { faq } from '../content/content';
 import { ANCHOR_HIGHLIGHT_DELAY, DEFAULT_CONTENT_OFFSET, DISCORD_URL } from '../constants';
-import { ref, computed, watch, nextTick, inject } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, computed, watch, nextTick, inject, onMounted, onBeforeUnmount } from 'vue';
 import { useHead } from '@unhead/vue';
 import { generateFAQSchema } from '../utils/structuredData';
 import { useInternalLinks } from '../composables/useInternalLinks';
 import TabContainer from '../components/TabContainer.vue';
 
-const route = useRoute();
+// Track current hash (updated via hashchange event)
+const currentHash = ref(typeof window !== 'undefined' ? window.location.hash : '');
 
 // Client-side navigation for internal links in FAQ answers
 const { handleContentClick } = useInternalLinks();
@@ -114,9 +114,15 @@ const questionToTabId = computed(() => {
 // External tab control for question deep links
 const externalActiveTabId = ref<string | null>(null);
 
-// Watch route hash for question deep links
+// Handle hash changes
+function handleHashChange() {
+  if (typeof window === 'undefined') return;
+  currentHash.value = window.location.hash;
+}
+
+// Watch hash for question deep links
 watch(
-  () => route.hash,
+  currentHash,
   (newHash) => {
     const hash = newHash?.slice(1) || '';
     if (!hash) {
@@ -135,6 +141,19 @@ watch(
   },
   { immediate: true }
 );
+
+// Set up hashchange listener
+onMounted(() => {
+  if (typeof window === 'undefined') return;
+  window.addEventListener('hashchange', handleHashChange);
+  // Initialize hash on mount
+  handleHashChange();
+});
+
+onBeforeUnmount(() => {
+  if (typeof window === 'undefined') return;
+  window.removeEventListener('hashchange', handleHashChange);
+});
 
 // Flatten all FAQ items for structured data
 const allFaqItems = computed(() => {

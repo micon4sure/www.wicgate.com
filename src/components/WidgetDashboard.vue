@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onActivated, onDeactivated, onMounted, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
+import { navigate } from 'vike/client/router';
 import { storeToRefs } from 'pinia';
 import { useAppDataStore } from '../stores/appDataStore';
 import { useCalendarStore } from '../stores/calendarStore';
@@ -11,8 +11,6 @@ import { useOverlayState } from '../composables/useOverlayState';
 import MediaEventCard from './widgets/MediaEventCard.vue';
 import DynamicInfoCard from './widgets/DynamicInfoCard.vue';
 import { getRoutePath } from '../types/navigation';
-
-const router = useRouter();
 const store = useAppDataStore();
 const calendarStore = useCalendarStore();
 const { openPrimer } = useFirstVisit();
@@ -106,9 +104,9 @@ onBeforeUnmount(() => {
   videoObserver?.disconnect();
 });
 
-// Navigation function - uses proper nested routes
+// Navigation function - uses Vike navigate
 function goToSection(sectionOrSubsectionId: string) {
-  router.push(getRoutePath(sectionOrSubsectionId));
+  navigate(getRoutePath(sectionOrSubsectionId));
 }
 </script>
 

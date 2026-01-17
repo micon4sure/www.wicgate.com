@@ -324,9 +324,9 @@ function selectTab(tabId: string) {
         </div>
         <!-- Footer with link -->
         <div class="px-5 pb-4">
-          <router-link to="/statistics#player-leaderboard" class="dashboard-card-header-action">
+          <a href="/statistics#player-leaderboard" class="dashboard-card-header-action">
             Leaderboards →
-          </router-link>
+          </a>
         </div>
       </div>
     </div>

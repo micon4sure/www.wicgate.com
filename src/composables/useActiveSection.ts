@@ -4,12 +4,12 @@
  */
 
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { useRoute } from 'vue-router';
+import { usePageContext } from 'vike-vue/usePageContext';
 import { useViewportMode } from './useViewportMode';
 import { DEFAULT_CONTENT_OFFSET } from '../constants';
 
 export function useActiveSection(sectionIds: string[] = []) {
-  const route = useRoute();
+  const pageContext = usePageContext();
   const { isDesktopMode } = useViewportMode();
   const scrollBasedSection = ref<string | undefined>();
   const isProgrammaticScroll = ref(false);
@@ -128,11 +128,20 @@ export function useActiveSection(sectionIds: string[] = []) {
     if (hydrationTimeout) clearTimeout(hydrationTimeout);
   });
 
+  // Get section from URL path (e.g., '/statistics' -> 'statistics', '/' -> undefined)
+  function getSectionFromPath(): string | undefined {
+    const path = pageContext.urlPathname;
+    if (path === '/') return undefined;
+    // Extract first segment, remove leading slash
+    const section = path.slice(1).split('/')[0];
+    return section || undefined;
+  }
+
   // Current active section - viewport-aware highlighting
   // Desktop: always use route-based section
   // Mobile: use scroll-based tracking for manual scrolling
   const currentSection = computed(() => {
-    const routeSection = route.meta.section as string | undefined;
+    const routeSection = getSectionFromPath();
 
     // Desktop: always use route-based section
     if (isDesktopMode.value) {

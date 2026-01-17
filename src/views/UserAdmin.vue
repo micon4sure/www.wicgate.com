@@ -1,13 +1,12 @@
 <script setup lang="ts">
 /* global File, FileReader, Blob */
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { navigate } from 'vike/client/router';
 import { useAuthStore, USER_API_URL } from '../stores/auth';
 import axios from 'axios';
 import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 
-const router = useRouter();
 const authStore = useAuthStore();
 
 interface Profile {
@@ -62,7 +61,7 @@ async function fetchAccountData() {
 
 function handleLogout() {
   authStore.logout();
-  router.push('/');
+  navigate('/');
 }
 
 function formatDate(dateStr: string | null): string {
@@ -161,13 +160,13 @@ onMounted(() => {
           <p class="font-body text-sm text-battlefield-mist mt-1">{{ authStore.userName }}</p>
         </div>
         <div class="flex gap-4">
-          <router-link
-            to="/"
+          <a
+            href="/"
             class="text-sm text-teal hover:text-teal transition-colors duration-300 font-body uppercase tracking-wide"
           >
             <i class="fa-solid fa-home mr-2"></i>
             Home
-          </router-link>
+          </a>
           <button
             class="text-sm text-massgate-red-bright hover:text-massgate-red transition-colors duration-300 font-body uppercase tracking-wide"
             @click="handleLogout"

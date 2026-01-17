@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { computed, onMounted, ref, watch, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
+import { navigate } from 'vike/client/router';
 import { useAuthStore, SERVER_URL } from '../stores/auth';
 
 interface Server {
@@ -23,7 +23,6 @@ interface LogLine {
   content: string;
 }
 
-const router = useRouter();
 const authStore = useAuthStore();
 
 const token = computed(() => authStore.authToken);
@@ -292,7 +291,7 @@ async function sync() {
 
 function handleLogout() {
   authStore.logout();
-  router.push('/');
+  navigate('/');
 }
 
 // Watchers
@@ -332,7 +331,7 @@ onBeforeUnmount(() => {
     <!-- Header -->
     <header class="admin-header">
       <div class="admin-header-inner">
-        <router-link to="/" class="admin-logo">WICGATE</router-link>
+        <a href="/" class="admin-logo">WICGATE</a>
         <div class="admin-user">
           <span class="admin-username">{{ currentUser?.username }}</span>
 

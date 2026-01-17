@@ -86,6 +86,6 @@ npm run build:og     # Regenerate OG images (social sharing)
 
 ---
 
-**Stack:** Vue 3 + TypeScript, Vite, ViteSSG, @unhead/vue, Tailwind CSS, Pinia, Vitest
-**Entry:** [src/main.ts](src/main.ts)
-**Updated:** January 15, 2026 (Two-variable scroll system)
+**Stack:** Vue 3 + TypeScript, Vite, Vike (SSR/SSG), @unhead/vue, Tailwind CSS, Pinia, Vitest
+**Entry:** [src/pages/](src/pages/) (Vike file-based routing)
+**Updated:** January 17, 2026 (Vike migration)

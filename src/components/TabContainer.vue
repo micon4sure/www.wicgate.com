@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import MobileTabDropdown from './MobileTabDropdown.vue';
 import { useMobileTabs } from '../composables/useMobileTabs';
 
@@ -24,10 +23,12 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const { isMobile } = useMobileTabs();
-const route = useRoute();
 
 // Local active tab state
 const localActiveTabId = ref<string>(props.tabs[0]?.id || '');
+
+// Track current hash (updated via hashchange event)
+const currentHash = ref(typeof window !== 'undefined' ? window.location.hash : '');
 
 // Active tab - uses local state
 const activeTabId = computed(() => localActiveTabId.value);
@@ -65,9 +66,15 @@ function getAnchor(tabId: string): string {
   return tabId;
 }
 
-// Watch route hash changes - handles client-side navigation, back/forward, and initial load
+// Handle hash changes
+function handleHashChange() {
+  if (typeof window === 'undefined') return;
+  currentHash.value = window.location.hash;
+}
+
+// Watch hash changes - handles client-side navigation, back/forward, and initial load
 watch(
-  () => route.hash,
+  currentHash,
   (newHash) => {
     const hash = newHash?.slice(1) || ''; // Remove # prefix
 
@@ -83,6 +90,19 @@ watch(
   },
   { immediate: true }
 );
+
+// Set up hashchange listener
+onMounted(() => {
+  if (typeof window === 'undefined') return;
+  window.addEventListener('hashchange', handleHashChange);
+  // Initialize hash on mount
+  handleHashChange();
+});
+
+onBeforeUnmount(() => {
+  if (typeof window === 'undefined') return;
+  window.removeEventListener('hashchange', handleHashChange);
+});
 
 // Handle tab click - update hash and local state
 function switchTab(tab: Tab) {

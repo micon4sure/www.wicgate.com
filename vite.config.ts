@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import vike from 'vike/plugin';
 import VueDevTools from 'vite-plugin-vue-devtools';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import { resolve } from 'path';
@@ -15,6 +16,10 @@ export default defineConfig(({ mode }) => ({
   base: DEPLOY_BASE,
   plugins: [
     vue(),
+    // Vike - file-based routing with SSR/SSG support
+    vike({
+      prerender: true, // Enable prerendering for SSG pages
+    }),
     // Vue DevTools - only in development
     mode === 'development' && VueDevTools(),
     // Local HTTPS with self-signed cert
@@ -163,19 +168,6 @@ export default defineConfig(({ mode }) => ({
         changeOrigin: true,
         secure: false,
       },
-    },
-  },
-  ssgOptions: {
-    script: 'async',
-    formatting: 'minify',
-    crittersOptions: {
-      reduceInlineStyles: false,
-    },
-    // Pre-render only main routes (not subsections) to avoid thin content pages
-    // Subsections are client-side tab navigation within main pages
-    includedRoutes(paths) {
-      const mainRoutes = ['/', '/downloads', '/statistics', '/community', '/faq', '/login'];
-      return paths.filter((path) => mainRoutes.includes(path));
     },
   },
   css: {

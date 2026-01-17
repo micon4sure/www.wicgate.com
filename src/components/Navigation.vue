@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { ref, toRef, onMounted, onUnmounted, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { navigate } from 'vike/client/router';
 import { useAuthStore } from '../stores/auth';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_RESIZE, DISCORD_URL } from '../constants';
 import { NAVIGATION_STRUCTURE, getRoutePath } from '../types/navigation';
-
-const router = useRouter();
 const authStore = useAuthStore();
 
 const mobileOpen = ref(false);
@@ -133,11 +131,11 @@ function handleNavClick(_sectionId: string, _event: MouseEvent) {
   const exitEvent = new CustomEvent('exitGameMode');
   window.dispatchEvent(exitEvent);
 
-  // Let vue-router handle the navigation via its click handler
+  // Vike handles navigation automatically via anchor tags
   // We only need to add our custom side effects here
 }
 
-// Mobile nav handler - uses router.push for SPA navigation
+// Mobile nav handler - uses Vike navigate for SPA navigation
 async function handleMobileNavigation(sectionId: string) {
   closeMobileMenu();
 
@@ -145,8 +143,8 @@ async function handleMobileNavigation(sectionId: string) {
   const event = new CustomEvent('exitGameMode');
   window.dispatchEvent(event);
 
-  // Use router for SPA navigation (scrollBehavior handles scroll)
-  await router.push(getRoutePath(sectionId));
+  // Use Vike navigate for SPA navigation
+  await navigate(getRoutePath(sectionId));
 }
 </script>
 <template>
@@ -161,10 +159,10 @@ async function handleMobileNavigation(sectionId: string) {
 
       <!-- Desktop navigation (left-aligned) -->
       <nav class="hidden lg:flex gap-0 xl:gap-2 items-center h-full ml-4 xl:ml-5 flex-1">
-        <router-link
+        <a
           v-for="section in navSections"
           :key="section.id"
-          :to="getRoutePath(section.id)"
+          :href="getRoutePath(section.id)"
           :class="{
             'tab-btn-active': section.id === 'hero' ? !activeSection : isActive(section.id),
           }"
@@ -172,16 +170,16 @@ async function handleMobileNavigation(sectionId: string) {
           @click="handleNavClick(section.id, $event)"
         >
           {{ section.label }}
-        </router-link>
+        </a>
       </nav>
 
       <!-- Auth & Social Buttons (Desktop) -->
       <div class="hidden lg:flex items-center gap-2 xl:gap-3">
         <!-- Admin Link (if admin) -->
-        <router-link v-if="isAdmin" to="/admin" class="auth-btn-admin">
+        <a v-if="isAdmin" href="/admin" class="auth-btn-admin">
           <i class="fa-solid fa-crown"></i>
           Admin
-        </router-link>
+        </a>
 
         <!-- Discord Social Button -->
         <a
@@ -244,10 +242,10 @@ async function handleMobileNavigation(sectionId: string) {
         </a>
 
         <!-- Admin Link in Mobile Menu (if admin) -->
-        <router-link v-if="isAdmin" to="/admin" class="mobile-auth-admin" @click="closeMobileMenu">
+        <a v-if="isAdmin" href="/admin" class="mobile-auth-admin" @click="closeMobileMenu">
           <i class="fa-solid fa-crown w-5 h-5 flex-shrink-0"></i>
           Admin Dashboard
-        </router-link>
+        </a>
       </div>
     </nav>
   </div>
