@@ -9,7 +9,7 @@ import YouTubeTheater from '../YouTubeTheater.vue';
 
 // Calendar store (single source of truth for events)
 const calendarStore = useCalendarStore();
-const { events } = storeToRefs(calendarStore);
+const { events, now } = storeToRefs(calendarStore);
 
 // Track which event is expanded (by index)
 const expandedEventIndex = ref(0);
@@ -232,7 +232,7 @@ function openVideo(video: YouTubeVideo) {
                   <div
                     class="countdown-badge"
                     :class="
-                      new Date(event.start).getTime() <= Date.now()
+                      new Date(event.start).getTime() <= now.getTime()
                         ? 'countdown-badge-live'
                         : 'countdown-badge-upcoming'
                     "

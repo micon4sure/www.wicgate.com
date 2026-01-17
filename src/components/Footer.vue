@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { DISCORD_URL, YOUTUBE_URL, TWITCH_URL, X_URL } from '../constants';
 
-const year = new Date().getFullYear();
+// Use computed to avoid hydration mismatch (year evaluated at render time, not module load)
+const year = computed(() => new Date().getFullYear());
 
 const socialLinks = [
   {

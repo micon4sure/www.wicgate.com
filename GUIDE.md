@@ -249,4 +249,4 @@ bun test      # ❌ WRONG - Uses Bun's native test runner
 
 ---
 
-*Last Updated: January 8, 2026 (Unified anchor highlights)*
+*Last Updated: January 17, 2026 (Bug Hunt Round 2)*

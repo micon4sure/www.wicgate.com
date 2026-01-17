@@ -35,6 +35,9 @@ const uploadingProfileId = ref<number | null>(null);
 const uploadError = ref<string | null>(null);
 const uploadSuccess = ref<string | null>(null);
 
+// Cache-busting timestamp (set on mount to avoid hydration mismatch)
+const cacheBuster = ref<number>(0);
+
 // Cropper state
 const showCropModal = ref(false);
 const cropImageSrc = ref<string | null>(null);
@@ -128,6 +131,8 @@ async function confirmCrop() {
       },
     });
     uploadSuccess.value = `Profile picture updated for profile ${cropProfileId.value}`;
+    // Update cache-buster to force image reload
+    cacheBuster.value = Date.now();
     closeCropModal();
   } catch (e: unknown) {
     const axiosError = e as { response?: { data?: { error?: string } }; message?: string };
@@ -139,6 +144,8 @@ async function confirmCrop() {
 }
 
 onMounted(() => {
+  // Set cache-buster timestamp on mount (client-side only, avoids hydration mismatch)
+  cacheBuster.value = Date.now();
   fetchAccountData();
 });
 </script>
@@ -259,7 +266,7 @@ onMounted(() => {
             >
               <div class="flex items-center gap-4">
                 <img
-                  :src="`https://www.wicgate.com/pcc/${profile.profileId}.webp?t=${Date.now()}`"
+                  :src="`https://www.wicgate.com/pcc/${profile.profileId}.webp?t=${cacheBuster}`"
                   :alt="profile.profileName"
                   class="w-12 h-12 object-cover bg-texture-dark border border-massgate-red/30"
                   @error="($event.target as HTMLImageElement).style.display = 'none'"

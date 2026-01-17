@@ -273,6 +273,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     selectedDate,
     events,
     isLoading,
+    now, // Reactive timestamp for hydration-safe comparisons
     // Computed
     eventsByDate,
     selectedDateEvents,

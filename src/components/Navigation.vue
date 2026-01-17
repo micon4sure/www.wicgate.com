@@ -98,6 +98,10 @@ function handleWindowResize() {
 // Debounce resize handler to improve performance
 const debouncedResize = debounce(handleWindowResize, DEBOUNCE_RESIZE);
 
+// Store legacy checkbox listener for cleanup
+let legacyCheckboxListener: (() => void) | null = null;
+let legacyCheckboxElement: HTMLInputElement | null = null;
+
 onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
   document.addEventListener('keydown', handleEscapeKey);
@@ -110,10 +114,12 @@ onMounted(() => {
     const checkbox = getMobileCheckbox();
     const header = document.querySelector('header');
     if (checkbox && header) {
-      checkbox.addEventListener('change', () => {
+      legacyCheckboxElement = checkbox;
+      legacyCheckboxListener = () => {
         header.classList.toggle('mobile-menu-open', checkbox.checked);
         document.body.classList.toggle('mobile-menu-open', checkbox.checked);
-      });
+      };
+      checkbox.addEventListener('change', legacyCheckboxListener);
     }
   }
 });
@@ -123,6 +129,12 @@ onUnmounted(() => {
   document.removeEventListener('keydown', handleEscapeKey);
   debouncedResize.cancel();
   window.removeEventListener('resize', debouncedResize);
+  // Clean up legacy checkbox listener
+  if (legacyCheckboxElement && legacyCheckboxListener) {
+    legacyCheckboxElement.removeEventListener('change', legacyCheckboxListener);
+    legacyCheckboxListener = null;
+    legacyCheckboxElement = null;
+  }
   // Clean up scroll lock
   document.documentElement.style.overflow = '';
   document.body.style.overflow = '';

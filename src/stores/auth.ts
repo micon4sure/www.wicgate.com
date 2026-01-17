@@ -7,6 +7,37 @@ const AUTH_TOKEN_KEY = 'wicgate_auth_token';
 const AUTH_USERNAME_KEY = 'wicgate_username';
 const AUTH_TYPE_KEY = 'wicgate_auth_type';
 
+/**
+ * Check if a JWT token is expired
+ * @param token JWT token string
+ * @returns true if token is expired, false if valid or non-JWT format
+ */
+function isTokenExpired(token: string): boolean {
+  try {
+    // JWT format: header.payload.signature
+    const parts = token.split('.');
+    // Non-JWT tokens (opaque tokens) are assumed valid for backwards compatibility
+    if (parts.length !== 3) return false;
+
+    // Decode payload (base64url to JSON)
+    const payload = parts[1];
+    if (!payload) return false;
+
+    // Base64url decode: replace - with +, _ with /, add padding
+    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
+    const decoded = globalThis.atob(padded);
+    const data = JSON.parse(decoded) as { exp?: number };
+
+    // Check expiration (exp is in seconds, Date.now() is in milliseconds)
+    if (!data.exp) return false; // No expiration claim = never expires
+    return data.exp * 1000 < Date.now();
+  } catch {
+    // Parsing error on non-JWT format - assume valid for backwards compatibility
+    return false;
+  }
+}
+
 // Server URLs - always use production server for admin API (no local admin server)
 export const ADMIN_API_URL = 'https://www.wicgate.com:8080';
 export const USER_API_URL = 'https://www.wicgate.com';
@@ -151,7 +182,17 @@ export const useAuthStore = defineStore('auth', () => {
         return;
       }
 
-      // Restore session from localStorage (token validity checked on API calls)
+      // Check if token is expired before restoring session
+      if (isTokenExpired(token)) {
+        // Clear expired token from localStorage
+        localStorage.removeItem(AUTH_TOKEN_KEY);
+        localStorage.removeItem(AUTH_USERNAME_KEY);
+        localStorage.removeItem(AUTH_TYPE_KEY);
+        loading.value = false;
+        return;
+      }
+
+      // Restore session from localStorage (token is valid)
       currentUser.value = {
         username,
         role: storedAuthType === 'admin' ? 'admin' : 'user',

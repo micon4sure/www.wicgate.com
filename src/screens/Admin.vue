@@ -46,6 +46,7 @@ const players = ref<Player[]>([]);
 const remoteAdminOutput = ref<string[]>([]);
 
 let remoteAdminWs: WebSocket | null = null;
+let remoteAdminConnecting = false; // Prevent race condition on rapid reconnect
 let syncInterval: ReturnType<typeof setInterval>;
 
 // Computed log with levels
@@ -300,12 +301,17 @@ async function postRemoteAdminCommand(command: string) {
 }
 
 function connectRemoteAdmin() {
+  // Prevent race condition on rapid reconnect
+  if (remoteAdminConnecting) return;
+
   remoteAdminOutput.value = [];
   if (remoteAdminWs) {
     remoteAdminWs.close();
     remoteAdminWs = null;
   }
   if (!activeServer.value) return;
+
+  remoteAdminConnecting = true;
 
   let wsUrl: string;
   if (import.meta.env.DEV) {
@@ -320,6 +326,7 @@ function connectRemoteAdmin() {
 
   remoteAdminWs = new WebSocket(wsUrl);
   remoteAdminWs.onopen = async () => {
+    remoteAdminConnecting = false;
     console.log('Connected to remote admin WebSocket');
     try {
       await axios.post(
@@ -341,10 +348,12 @@ function connectRemoteAdmin() {
     }
   };
   remoteAdminWs.onerror = () => {
+    remoteAdminConnecting = false;
     console.error('Remote admin WebSocket error');
     message.value = datePrefix() + 'WebSocket connection error';
   };
   remoteAdminWs.onclose = () => {
+    remoteAdminConnecting = false;
     console.log('Remote admin WebSocket closed');
     remoteAdminWs = null;
   };

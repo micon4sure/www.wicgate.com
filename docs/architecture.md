@@ -361,6 +361,7 @@ pinia: {
    - Route guards for protected pages (`/admin`)
    - Role-based access control
    - `setError()` action for safe store mutation (avoid direct `store.error = x`)
+   - JWT expiration checking via `isTokenExpired()` - validates token before session restore
 
 3. **[calendarStore.ts](../src/stores/calendarStore.ts)** - Event calendar state & data
    - Single source of truth for events (fetches from `/events` API)
@@ -371,6 +372,7 @@ pinia: {
    - Selected date tracking for accordion behavior
    - `eventsByDate` computed for quick date lookup
    - `calendarDays` computed for full month grid with padding
+   - `now` ref exported for hydration-safe time comparisons (use instead of `Date.now()` in templates)
 
 **Key Pattern:**
 ```typescript
@@ -471,6 +473,40 @@ authStore.setError('Error message');
 // ❌ WRONG - Direct property mutation bypasses reactivity tracking
 authStore.error = 'Error message';
 ```
+
+### Timeout Cleanup Pattern
+
+**Problem:** Nested `setTimeout` chains can fire after component unmount, causing errors or memory leaks.
+
+**Solution:** Track timeout IDs and clear them in `onBeforeUnmount`:
+
+```typescript
+// Track active timeouts for cleanup
+const activeTimeouts = new Set<ReturnType<typeof setTimeout>>();
+
+function trackTimeout(fn: () => void, delay: number): ReturnType<typeof setTimeout> {
+  const id = setTimeout(() => {
+    activeTimeouts.delete(id);
+    fn();
+  }, delay);
+  activeTimeouts.add(id);
+  return id;
+}
+
+// Clean up on unmount
+onBeforeUnmount(() => {
+  activeTimeouts.forEach((id) => clearTimeout(id));
+  activeTimeouts.clear();
+});
+
+// Usage - replaces setTimeout()
+trackTimeout(() => {
+  showToast.value = false;
+}, 2000);
+```
+
+**Files using this pattern:**
+- `FAQ.vue` - Toast auto-hide and scroll-to-question delays
 
 ### Hydration Best Practices
 

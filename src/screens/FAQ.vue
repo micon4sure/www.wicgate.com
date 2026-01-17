@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { faq } from '../content/content';
 import { ANCHOR_HIGHLIGHT_DELAY, DISCORD_URL } from '../constants';
-import { ref, computed, watch, nextTick, inject } from 'vue';
+import { ref, computed, watch, nextTick, inject, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
 import { generateFAQSchema } from '../utils/structuredData';
 import { useInternalLinks } from '../composables/useInternalLinks';
@@ -17,6 +17,24 @@ const { scrollToElement } = useScrollToElement();
 const openQuestion = ref<string | null>(null);
 const showCopiedToast = ref(false);
 const copiedQuestionId = ref<string | null>(null);
+
+// Track active timeouts for cleanup
+const activeTimeouts = new Set<ReturnType<typeof setTimeout>>();
+
+function trackTimeout(fn: () => void, delay: number): ReturnType<typeof setTimeout> {
+  const id = setTimeout(() => {
+    activeTimeouts.delete(id);
+    fn();
+  }, delay);
+  activeTimeouts.add(id);
+  return id;
+}
+
+// Clean up timeouts on unmount
+onBeforeUnmount(() => {
+  activeTimeouts.forEach((id) => clearTimeout(id));
+  activeTimeouts.clear();
+});
 
 // Base path for GitHub Pages deployment (see main.ts)
 const appBase = inject<string>('appBase', '/');
@@ -39,10 +57,10 @@ function copyQuestionLink(questionId: string) {
       copiedQuestionId.value = questionId;
       showCopiedToast.value = true;
 
-      // Auto-hide toast after 2 seconds
-      setTimeout(() => {
+      // Auto-hide toast after 2 seconds (tracked for cleanup)
+      trackTimeout(() => {
         showCopiedToast.value = false;
-        setTimeout(() => {
+        trackTimeout(() => {
           copiedQuestionId.value = null;
         }, 300); // Wait for fade-out transition
       }, 2000);
@@ -55,9 +73,9 @@ function copyQuestionLink(questionId: string) {
       copiedQuestionId.value = questionId;
       showCopiedToast.value = true;
 
-      setTimeout(() => {
+      trackTimeout(() => {
         showCopiedToast.value = false;
-        setTimeout(() => {
+        trackTimeout(() => {
           copiedQuestionId.value = null;
         }, 300);
       }, 2000);
@@ -159,8 +177,8 @@ useHead({
 function scrollToQuestion(questionId: string) {
   if (typeof window === 'undefined') return;
 
-  // Wait for tab content to render
-  setTimeout(() => {
+  // Wait for tab content to render (tracked for cleanup)
+  trackTimeout(() => {
     const element = document.getElementById(questionId);
     if (!element) return;
 
@@ -177,9 +195,9 @@ function scrollToQuestion(questionId: string) {
     }
 
     // Add highlight effect AFTER Vue re-renders from expand
-    setTimeout(() => {
+    trackTimeout(() => {
       element.classList.add('anchor-highlight');
-      setTimeout(() => {
+      trackTimeout(() => {
         element.classList.remove('anchor-highlight');
       }, 2000);
     }, ANCHOR_HIGHLIGHT_DELAY);

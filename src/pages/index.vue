@@ -45,16 +45,20 @@ onMounted(() => {
   if (events.value && events.value.length > 0) {
     calendarStore.initWithData(events.value);
   } else {
-    // Fallback: fetch if no server data
-    calendarStore.fetchEvents();
+    // Fallback: fetch if no server data (fire-and-forget with error handling)
+    calendarStore.fetchEvents().catch(() => {
+      // Errors already logged in store
+    });
   }
 
   // Hydrate youtube store with server-provided videos
   if (videos.value && Object.keys(videos.value).length > 0) {
     youtubeStore.initWithData(videos.value);
   } else {
-    // Fallback: fetch if no server data
-    youtubeStore.fetchVideos();
+    // Fallback: fetch if no server data (fire-and-forget with error handling)
+    youtubeStore.fetchVideos().catch(() => {
+      // Errors already logged in store
+    });
   }
 });
 
