@@ -73,9 +73,13 @@ export default [
         ResizeObserver: 'readonly',
         MutationObserver: 'readonly',
         DOMParser: 'readonly',
+        DOMException: 'readonly',
         getComputedStyle: 'readonly',
         ServiceWorker: 'readonly',
         ServiceWorkerRegistration: 'readonly',
+        AbortController: 'readonly',
+        AbortSignal: 'readonly',
+        RequestInit: 'readonly',
 
         // Nuxt auto-imports
         defineNuxtPlugin: 'readonly',

@@ -94,17 +94,19 @@ export function memoizeWithDeps<T, Args extends unknown[]>(
   getDeps: (...args: Args) => unknown[]
 ): (...args: Args) => T {
   let lastDeps: unknown[] | undefined;
-  let lastResult: T | undefined;
+  let lastResult: T;
+  let hasResult = false;
 
   return (...args: Args): T => {
     const currentDeps = getDeps(...args);
 
-    if (lastDeps === undefined || !depsAreEqual(lastDeps, currentDeps)) {
+    if (!hasResult || lastDeps === undefined || !depsAreEqual(lastDeps, currentDeps)) {
       lastResult = fn(...args);
       lastDeps = currentDeps;
+      hasResult = true;
     }
 
-    return lastResult!;
+    return lastResult;
   };
 }
 
@@ -140,8 +142,13 @@ export function memoize<T, R>(fn: (arg: T) => R): (arg: T) => R {
   const cache = new Map<T, R>();
 
   return (arg: T): R => {
+    const cached = cache.get(arg);
+    if (cached !== undefined) {
+      return cached;
+    }
+    // Handle the edge case where the cached value might be undefined
     if (cache.has(arg)) {
-      return cache.get(arg)!;
+      return cached as R;
     }
 
     const result = fn(arg);
@@ -169,8 +176,13 @@ export function memoizeJson<T extends object, R>(fn: (arg: T) => R): (arg: T) =>
   return (arg: T): R => {
     const key = JSON.stringify(arg);
 
+    const cached = cache.get(key);
+    if (cached !== undefined) {
+      return cached;
+    }
+    // Handle the edge case where the cached value might be undefined
     if (cache.has(key)) {
-      return cache.get(key)!;
+      return cached as R;
     }
 
     const result = fn(arg);

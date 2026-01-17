@@ -29,7 +29,7 @@ const errorMessage = computed(() => authStore.error);
 
 async function handleLogin() {
   if (!username.value || !password.value) {
-    authStore.error = 'Please enter both email and password';
+    authStore.setError('Please enter both email and password');
     return;
   }
 

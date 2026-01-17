@@ -18,17 +18,25 @@ function copyLink() {
 
   const url = `${window.location.origin}${appBase}community#events`;
 
-  navigator.clipboard.writeText(url).then(() => {
-    copied.value = true;
-    showCopiedToast.value = true;
+  navigator.clipboard
+    .writeText(url)
+    .then(() => {
+      copied.value = true;
+      showCopiedToast.value = true;
 
-    setTimeout(() => {
-      showCopiedToast.value = false;
       setTimeout(() => {
-        copied.value = false;
-      }, 300);
-    }, 2000);
-  });
+        showCopiedToast.value = false;
+        setTimeout(() => {
+          copied.value = false;
+        }, 300);
+      }, 2000);
+    })
+    .catch((err) => {
+      // Clipboard permission denied or other error - fail silently
+      if (import.meta.env.DEV) {
+        console.warn('Failed to copy link to clipboard:', err);
+      }
+    });
 }
 
 // Calendar store (single source of truth for events)

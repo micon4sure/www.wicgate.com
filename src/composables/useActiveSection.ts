@@ -14,9 +14,9 @@ export function useActiveSection(sectionIds: string[] = []) {
   const scrollBasedSection = ref<string | undefined>();
   const isProgrammaticScroll = ref(false);
   const isHydrating = ref(true); // Track SSR → CSR hydration state
-  let programmaticScrollTimeout: number | undefined;
-  let scrollTimeout: number | undefined;
-  let hydrationTimeout: number | undefined;
+  let programmaticScrollTimeout: ReturnType<typeof setTimeout> | undefined;
+  let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+  let hydrationTimeout: ReturnType<typeof setTimeout> | undefined;
 
   // Cached content offset - updated on mount and resize only (not on scroll)
   // Avoids getComputedStyle() reflow during scroll for better performance
@@ -76,7 +76,7 @@ export function useActiveSection(sectionIds: string[] = []) {
    */
   function handleScroll() {
     if (scrollTimeout) clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(updateScrollBasedSection, 50) as unknown as number;
+    scrollTimeout = setTimeout(updateScrollBasedSection, 50);
   }
 
   /**
@@ -93,7 +93,7 @@ export function useActiveSection(sectionIds: string[] = []) {
       isProgrammaticScroll.value = false;
       // Update immediately after programmatic scroll finishes
       updateScrollBasedSection();
-    }, 800) as unknown as number;
+    }, 800);
   }
 
   // Set up scroll and resize listeners
@@ -115,7 +115,7 @@ export function useActiveSection(sectionIds: string[] = []) {
       isHydrating.value = false;
       // Update once after hydration completes
       updateScrollBasedSection();
-    }, 500) as unknown as number;
+    }, 500);
   });
 
   onBeforeUnmount(() => {

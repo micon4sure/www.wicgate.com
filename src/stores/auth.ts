@@ -163,6 +163,13 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  /**
+   * Set error message (for validation errors in components)
+   */
+  function setError(message: string | null): void {
+    error.value = message;
+  }
+
   return {
     // State
     currentUser,
@@ -180,5 +187,6 @@ export const useAuthStore = defineStore('auth', () => {
     loginUser,
     logout,
     checkAuth,
+    setError,
   };
 });

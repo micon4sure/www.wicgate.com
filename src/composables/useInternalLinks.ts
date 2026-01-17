@@ -19,7 +19,9 @@ export function useInternalLinks() {
    */
   function handleContentClick(event: MouseEvent) {
     // Find closest .internal-link anchor (handles clicks on nested elements)
-    const link = (event.target as HTMLElement).closest('a.internal-link');
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const link = target.closest('a.internal-link');
     if (!link) return;
 
     const href = link.getAttribute('href');

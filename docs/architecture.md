@@ -353,12 +353,14 @@ pinia: {
    - 90s polling interval
    - Page Visibility API integration
    - SSR guards
+   - AbortController for request cancellation (prevents overlapping API calls)
 
 2. **[auth.ts](../src/stores/auth.ts)** - Authentication & session management
    - Mock JWT API (admin/admin123, user/user123)
    - localStorage persistence (key: `wicgate_auth_token`)
    - Route guards for protected pages (`/admin`)
    - Role-based access control
+   - `setError()` action for safe store mutation (avoid direct `store.error = x`)
 
 3. **[calendarStore.ts](../src/stores/calendarStore.ts)** - Event calendar state & data
    - Single source of truth for events (fetches from `/events` API)
@@ -421,6 +423,54 @@ if (typeof window !== 'undefined') {
 - Event handlers (`@click`, `@submit`, `@keydown`, etc.)
 - `onMounted()` lifecycle hook content
 - `onBeforeUnmount()` lifecycle hook content
+
+### TypeScript Patterns
+
+**Window Interface Augmentation (for global development utilities):**
+```typescript
+// src/env.d.ts - ambient declaration file
+interface Window {
+  /** Development-only: Reset first visit state */
+  resetFirstVisit?: () => void;
+}
+
+// Usage (no type assertion needed):
+if (typeof window !== 'undefined' && !import.meta.env.PROD) {
+  window.resetFirstVisit = () => { /* ... */ };
+}
+```
+
+**setTimeout Type Patterns:**
+```typescript
+// ✅ CORRECT - Use ReturnType for timer types
+let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+scrollTimeout = setTimeout(handler, 50);
+
+// ❌ WRONG - Unnecessary double assertion
+scrollTimeout = setTimeout(...) as unknown as number;
+```
+
+**Event Target Type Checking:**
+```typescript
+// ✅ CORRECT - instanceof check before property access
+function handleChange(event: Event) {
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement)) return;
+  const checked = target.checked;  // Safe access
+}
+
+// ❌ WRONG - Unsafe type assertion
+const checked = (event.target as HTMLInputElement).checked;
+```
+
+**Pinia Store Mutations:**
+```typescript
+// ✅ CORRECT - Use store action
+authStore.setError('Error message');
+
+// ❌ WRONG - Direct property mutation bypasses reactivity tracking
+authStore.error = 'Error message';
+```
 
 ### Hydration Best Practices
 

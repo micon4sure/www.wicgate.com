@@ -32,6 +32,11 @@ onMounted(() => {
 
 // Force iframe recreation when component reactivates from KeepAlive cache
 onActivated(() => {
+  // If user returns to a cached component, show content immediately
+  // (they've already navigated here once, so no need for lazy loading)
+  if (!isVisible.value) {
+    isVisible.value = true;
+  }
   isLoaded.value = false;
   iframeKey.value++;
 });

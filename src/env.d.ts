@@ -35,3 +35,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+// Window augmentation for development debug utilities
+// In ambient declaration files, top-level interface declarations merge with global
+interface Window {
+  /** Development-only: Reset first visit state and trigger overlay */
+  resetFirstVisit?: () => void;
+}

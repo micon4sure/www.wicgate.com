@@ -12,6 +12,10 @@ const emit = defineEmits<{
 }>();
 
 const embedUrl = computed(() => {
+  // Return empty string if videoId is invalid
+  if (!props.videoId || props.videoId.trim() === '') {
+    return '';
+  }
   const params = new URLSearchParams({
     autoplay: '1',
     rel: '0',
@@ -35,6 +39,7 @@ const embedUrl = computed(() => {
 
     <div class="relative w-full pb-[56.25%]">
       <iframe
+        v-if="embedUrl"
         :src="embedUrl"
         class="absolute inset-0 w-full h-full"
         allow="
@@ -48,6 +53,9 @@ const embedUrl = computed(() => {
         allowfullscreen
         :title="title"
       />
+      <div v-else class="absolute inset-0 flex items-center justify-center bg-black text-white/60">
+        Video unavailable
+      </div>
     </div>
   </BaseOverlay>
 </template>

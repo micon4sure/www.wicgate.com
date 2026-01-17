@@ -50,8 +50,9 @@ function syncCheckboxState(open: boolean) {
 
 // Handle checkbox change (from user clicking label)
 function handleCheckboxChange(event: Event) {
-  const checked = (event.target as HTMLInputElement).checked;
-  syncCheckboxState(checked);
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement)) return;
+  syncCheckboxState(target.checked);
 }
 
 function closeMobileMenu() {
@@ -62,12 +63,13 @@ function closeMobileMenu() {
 function handleOutsideClick(event: Event) {
   const nav = document.querySelector('.mobile-menu');
   const hamburger = document.querySelector('.hamburger-label');
-  const target = event.target as Node;
+  const target = event.target;
 
   if (
     mobileOpen.value &&
     nav &&
     hamburger &&
+    target instanceof Node &&
     !nav.contains(target) &&
     !hamburger.contains(target)
   ) {

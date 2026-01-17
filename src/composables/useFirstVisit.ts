@@ -58,7 +58,7 @@ export function useFirstVisit() {
 
 // Expose global reset function for non-production environments
 if (typeof window !== 'undefined' && !import.meta.env.PROD) {
-  (window as unknown as { resetFirstVisit: () => void }).resetFirstVisit = () => {
+  window.resetFirstVisit = () => {
     removeItem(FIRST_VISIT_KEY);
     if (triggerOverlay) {
       triggerOverlay();

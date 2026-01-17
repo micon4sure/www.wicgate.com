@@ -39,13 +39,18 @@ export const useAppDataStore = defineStore('appData', () => {
   let visibilityChangeHandler: (() => void) | undefined;
   let onlineHandler: (() => void) | undefined;
   let recoveryTimeoutId: number | undefined;
+  let currentAbortController: AbortController | undefined;
 
   /**
    * Fetches real-time online data with retry logic and exponential backoff
    */
-  async function fetchDataWithRetry(retryCount = 0): Promise<void> {
+  async function fetchDataWithRetry(retryCount = 0, signal?: AbortSignal): Promise<void> {
     try {
-      const r = await fetch(`${API}/online`, { cache: 'no-store' });
+      const fetchOptions: RequestInit = { cache: 'no-store' };
+      if (signal) {
+        fetchOptions.signal = signal;
+      }
+      const r = await fetch(`${API}/online`, fetchOptions);
       if (!r.ok) {
         throw await apiErrorFromResponse(r, '/api/online');
       }
@@ -74,6 +79,11 @@ export const useAppDataStore = defineStore('appData', () => {
         intervalId = window.setInterval(fetchData, API_POLLING_INTERVAL);
       }
     } catch (e: unknown) {
+      // If request was aborted, don't retry
+      if (e instanceof DOMException && e.name === 'AbortError') {
+        return;
+      }
+
       // If we haven't exhausted retries, try again
       if (retryCount < MAX_API_RETRIES) {
         const delay = API_RETRY_DELAYS[retryCount] || 4000;
@@ -81,7 +91,7 @@ export const useAppDataStore = defineStore('appData', () => {
           console.log(`[API] Retry ${retryCount + 1}/${MAX_API_RETRIES} after ${delay}ms`);
         }
         await new Promise((resolve) => setTimeout(resolve, delay));
-        return fetchDataWithRetry(retryCount + 1);
+        return fetchDataWithRetry(retryCount + 1, signal);
       }
 
       // All retries exhausted - stop polling until manually recovered
@@ -114,8 +124,14 @@ export const useAppDataStore = defineStore('appData', () => {
     // Prevent overlapping calls
     if (loadingInternal.value) return;
 
+    // Cancel any previous in-flight request
+    if (currentAbortController) {
+      currentAbortController.abort();
+    }
+    currentAbortController = new AbortController();
+
     loadingInternal.value = true;
-    await fetchDataWithRetry();
+    await fetchDataWithRetry(0, currentAbortController.signal);
     loadingInternal.value = false;
   }
 
@@ -180,6 +196,10 @@ export const useAppDataStore = defineStore('appData', () => {
     if (recoveryTimeoutId) {
       clearTimeout(recoveryTimeoutId);
       recoveryTimeoutId = undefined;
+    }
+    if (currentAbortController) {
+      currentAbortController.abort();
+      currentAbortController = undefined;
     }
     isInitialized.value = false;
   }

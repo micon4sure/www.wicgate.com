@@ -78,10 +78,11 @@ function formatDate(dateStr: string | null): string {
 }
 
 function openCropModal(profileId: number, event: Event) {
-  const input = event.target as HTMLInputElement;
-  if (!input.files || input.files.length === 0) return;
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement)) return;
+  if (!target.files || target.files.length === 0) return;
 
-  const file = input.files[0]!;
+  const file = target.files[0]!;
   originalFile.value = file;
   cropProfileId.value = profileId;
 
@@ -91,7 +92,7 @@ function openCropModal(profileId: number, event: Event) {
     showCropModal.value = true;
   };
   reader.readAsDataURL(file);
-  input.value = '';
+  target.value = '';
 }
 
 function closeCropModal() {
