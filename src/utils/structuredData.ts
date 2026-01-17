@@ -39,7 +39,7 @@ export function generateOrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'WICGATE',
-    alternateName: 'World in Conflict Community Gateway',
+    alternateName: 'World in Conflict Online Multiplayer Reloaded',
     url: 'https://wicgate.com',
     logo: 'https://wicgate.com/logo.png',
     description:
