@@ -21,7 +21,7 @@ export default <RouterConfig>{
         }
 
         // Detect direct navigation (page reload/bookmark) vs SPA navigation
-        const isDirectNavigation = !from.name;
+        const isDirectNavigation = !from?.name;
 
         // Determine scroll behavior and delay based on navigation type
         const scrollBehavior = isDirectNavigation ? 'auto' : 'smooth';
@@ -67,9 +67,9 @@ export default <RouterConfig>{
     // 3. Section route - scroll to section element
     const targetSection = to.meta.section;
     if (targetSection && typeof targetSection === 'string') {
-      const sourceSection = from.meta.section;
+      const sourceSection = from?.meta?.section;
       const targetSubsection = to.meta.subsection;
-      const isDirectNavigation = !from.name;
+      const isDirectNavigation = !from?.name;
 
       // Only preserve scroll when navigating TO a subsection within same section
       const isSubsectionNavigation =
