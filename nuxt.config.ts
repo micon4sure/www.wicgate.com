@@ -235,6 +235,20 @@ export default defineNuxtConfig({
       meta: [
         { name: 'theme-color', content: '#1a1a1a' },
       ],
+      style: [
+        {
+          // Critical inline styles to prevent FOUC (Flash of Unstyled Content)
+          // These render immediately before external CSS loads
+          children: `
+            html { background-color: rgb(25, 35, 40); }
+            body {
+              background-color: rgb(25, 35, 40);
+              color: #ffffff;
+              margin: 0;
+            }
+          `,
+        },
+      ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },

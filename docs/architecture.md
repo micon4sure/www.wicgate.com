@@ -492,6 +492,7 @@ The mobile tab dropdown uses **CSS class visibility** instead of `v-if` to ensur
 - Page components use `useHead()` for dynamic meta tags based on route
 - JSON-LD structured data for SEO (Organization + WebSite schemas)
 - Global head config in `nuxt.config.ts` `app.head` for charset, viewport, font preloads
+- **Inline critical CSS** in `app.head.style` prevents Flash of Unstyled Content (FOUC) - dark background renders immediately before external CSS loads
 
 **Pattern:**
 ```typescript
