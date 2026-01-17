@@ -1,6 +1,25 @@
 /**
  * Consolidated scroll-to-element utility
  * Replaces duplicated scroll logic across FAQ, Statistics, default layout, and router
+ *
+ * IMPORTANT: When using the `highlight` option, the composable creates internal setTimeout
+ * calls for the highlight animation. If the component might unmount before the highlight
+ * animation completes, consumers should wrap the call with `trackTimeout` from `useTimeoutTracker`
+ * to ensure proper cleanup. This prevents timeouts firing on stale DOM references.
+ *
+ * Example with trackTimeout:
+ * ```typescript
+ * const { trackTimeout, clearAllTimeouts } = useTimeoutTracker();
+ *
+ * // Wrap the scroll call to track internal timeouts
+ * trackTimeout(() => {
+ *   scrollToElement('my-element', { highlight: true });
+ * }, 0);
+ *
+ * onBeforeUnmount(() => {
+ *   clearAllTimeouts();
+ * });
+ * ```
  */
 /* global ScrollBehavior */
 

@@ -376,8 +376,8 @@ function kick(slot: number) {
 async function sync() {
   if (!token.value) return;
   await fetchServers();
-  if (activeTab.value === 'main-log') fetchMainLog();
-  else if (activeTab.value === 'server-log') fetchServerLog();
+  if (activeTab.value === 'main-log') await fetchMainLog();
+  else if (activeTab.value === 'server-log') await fetchServerLog();
 }
 
 function handleLogout() {
@@ -405,7 +405,7 @@ watch(activeTab, (newTab) => {
 
 onMounted(() => {
   sync();
-  syncInterval = setInterval(sync, 1000);
+  syncInterval = setInterval(sync, 5000);
 });
 
 onBeforeUnmount(() => {

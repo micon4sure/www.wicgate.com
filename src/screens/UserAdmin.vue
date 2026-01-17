@@ -3,7 +3,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore, USER_API_URL } from '../stores/auth';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 
@@ -55,9 +55,13 @@ async function fetchAccountData() {
     });
     accountData.value = response.data;
   } catch (e: unknown) {
-    const axiosError = e as { response?: { data?: { error?: string } }; message?: string };
-    error.value =
-      axiosError.response?.data?.error || axiosError.message || 'Failed to load account';
+    if (e instanceof AxiosError) {
+      error.value = e.response?.data?.error || e.message || 'Failed to load account';
+    } else if (e instanceof Error) {
+      error.value = e.message;
+    } else {
+      error.value = 'Failed to load account';
+    }
   } finally {
     loading.value = false;
   }
@@ -115,9 +119,20 @@ async function confirmCrop() {
   uploadError.value = null;
   uploadSuccess.value = null;
 
-  // Convert canvas to blob
-  const blob = await new Promise<Blob>((resolve) => {
-    canvas.toBlob((b: Blob | null) => resolve(b!), 'image/png');
+  // Convert canvas to blob with timeout and null handling
+  const blob = await new Promise<Blob>((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      reject(new Error('Image processing timeout'));
+    }, 10000);
+
+    canvas.toBlob((b: Blob | null) => {
+      clearTimeout(timeout);
+      if (b) {
+        resolve(b);
+      } else {
+        reject(new Error('Failed to create image blob'));
+      }
+    }, 'image/png');
   });
 
   const formData = new FormData();
@@ -135,9 +150,13 @@ async function confirmCrop() {
     cacheBuster.value = Date.now();
     closeCropModal();
   } catch (e: unknown) {
-    const axiosError = e as { response?: { data?: { error?: string } }; message?: string };
-    uploadError.value =
-      axiosError.response?.data?.error || axiosError.message || 'Failed to upload';
+    if (e instanceof AxiosError) {
+      uploadError.value = e.response?.data?.error || e.message || 'Failed to upload';
+    } else if (e instanceof Error) {
+      uploadError.value = e.message;
+    } else {
+      uploadError.value = 'Failed to upload';
+    }
   } finally {
     uploadingProfileId.value = null;
   }
