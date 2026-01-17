@@ -1547,7 +1547,7 @@ nitro: {
 ## Project Structure
 
 ```
-public -> src/public             # Symlink for Nuxt 4 (resolves from rootDir)
+public/                          # Static assets (standard Nuxt 4 location)
 src/                            # Nuxt source directory (srcDir: 'src/')
 ├── app.vue                     # App root component
 ├── error.vue                   # Error page component
@@ -1589,9 +1589,8 @@ src/                            # Nuxt source directory (srcDir: 'src/')
 ├── types/                      # TypeScript types
 ├── assets/styles/
 │   └── tailwind.css            # Tailwind imports + components
-├── content/
-│   └── content.ts              # Static content
-└── public/                     # Static assets (favicon, images, etc.)
+└── content/
+    └── content.ts              # Static content
 
 docs/
 ├── architecture.md             # This file

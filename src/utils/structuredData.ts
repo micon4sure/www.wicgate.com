@@ -41,7 +41,7 @@ export function generateOrganizationSchema() {
     name: 'WICGATE',
     alternateName: 'World in Conflict Online Multiplayer Reloaded',
     url: 'https://wicgate.com',
-    logo: 'https://wicgate.com/logo.png',
+    logo: 'https://wicgate.com/wicgate-logo.png',
     description:
       'Community-driven initiative to preserve World in Conflict multiplayer using the official Massgate source code.',
     sameAs: [DISCORD_URL, YOUTUBE_URL, 'https://github.com/wicgate'],
