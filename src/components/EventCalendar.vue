@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, inject } from 'vue';
+import { computed, ref, inject, onBeforeUnmount } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCalendarStore } from '../stores/calendarStore';
 import type { CalendarDay } from '../stores/calendarStore';
@@ -7,6 +7,24 @@ import EventCalendarSkeleton from './skeletons/EventCalendarSkeleton.vue';
 
 // Base path for GitHub Pages deployment
 const appBase = inject<string>('appBase', '/');
+
+// Track active timeouts for cleanup
+const activeTimeouts = new Set<ReturnType<typeof setTimeout>>();
+
+function trackTimeout(fn: () => void, delay: number): ReturnType<typeof setTimeout> {
+  const id = setTimeout(() => {
+    activeTimeouts.delete(id);
+    fn();
+  }, delay);
+  activeTimeouts.add(id);
+  return id;
+}
+
+// Clean up on unmount
+onBeforeUnmount(() => {
+  activeTimeouts.forEach((id) => clearTimeout(id));
+  activeTimeouts.clear();
+});
 
 // Copy link state
 const copied = ref(false);
@@ -24,14 +42,14 @@ function copyLink() {
       copied.value = true;
       showCopiedToast.value = true;
 
-      setTimeout(() => {
+      trackTimeout(() => {
         showCopiedToast.value = false;
-        setTimeout(() => {
+        trackTimeout(() => {
           copied.value = false;
         }, 300);
       }, 2000);
     })
-    .catch((err) => {
+    .catch((err: unknown) => {
       // Clipboard permission denied or other error - fail silently
       if (import.meta.env.DEV) {
         console.warn('Failed to copy link to clipboard:', err);

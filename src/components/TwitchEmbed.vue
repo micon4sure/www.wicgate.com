@@ -6,13 +6,16 @@ const props = defineProps<{ channel: string; muted?: boolean }>();
 const isVisible = ref(false); // IntersectionObserver triggered
 const isLoaded = ref(false); // iframe onload fired
 const iframeKey = ref(0); // Increment to force iframe recreation on KeepAlive reactivation
-const host = typeof window !== 'undefined' ? window.location.hostname : 'wicgate.com';
+const host = ref('wicgate.com'); // Default for SSR, updated on mount to avoid hydration mismatch
 
 let observer: IntersectionObserver | null = null;
 const embedContainer = ref<HTMLElement | null>(null);
 
 onMounted(() => {
   if (typeof window === 'undefined' || !embedContainer.value) return;
+
+  // Set actual hostname on mount to avoid SSR hydration mismatch
+  host.value = window.location.hostname;
 
   // Use Intersection Observer to only load when in viewport
   observer = new IntersectionObserver(

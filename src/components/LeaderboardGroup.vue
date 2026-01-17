@@ -1,11 +1,29 @@
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, onUnmounted, inject } from 'vue';
+import { ref, watch, computed, onMounted, onUnmounted, onBeforeUnmount, inject } from 'vue';
 import type { LeaderboardEntry, LadderEntry } from '../api-types';
 import RankInsignia from './RankInsignia.vue';
 import MobileTabDropdown from './MobileTabDropdown.vue';
 import { useMobileTabs } from '../composables/useMobileTabs';
 import { debounce } from '../utils/debounce';
 import { DEBOUNCE_RESIZE, BREAKPOINTS } from '../constants';
+
+// Track active timeouts for cleanup
+const activeTimeouts = new Set<ReturnType<typeof setTimeout>>();
+
+function trackTimeout(fn: () => void, delay: number): ReturnType<typeof setTimeout> {
+  const id = setTimeout(() => {
+    activeTimeouts.delete(id);
+    fn();
+  }, delay);
+  activeTimeouts.add(id);
+  return id;
+}
+
+// Clean up on unmount
+onBeforeUnmount(() => {
+  activeTimeouts.forEach((id) => clearTimeout(id));
+  activeTimeouts.clear();
+});
 
 // Copy link state
 const showCopiedToast = ref(false);
@@ -50,17 +68,24 @@ function copyLeaderboardLink() {
 
   const url = `${window.location.origin}${appBase}statistics#${hash}`;
 
-  navigator.clipboard.writeText(url).then(() => {
-    copied.value = true;
-    showCopiedToast.value = true;
+  navigator.clipboard
+    .writeText(url)
+    .then(() => {
+      copied.value = true;
+      showCopiedToast.value = true;
 
-    setTimeout(() => {
-      showCopiedToast.value = false;
-      setTimeout(() => {
-        copied.value = false;
-      }, 200);
-    }, 2000);
-  });
+      trackTimeout(() => {
+        showCopiedToast.value = false;
+        trackTimeout(() => {
+          copied.value = false;
+        }, 200);
+      }, 2000);
+    })
+    .catch((err: unknown) => {
+      if (import.meta.env.DEV) {
+        console.warn('Failed to copy link to clipboard:', err);
+      }
+    });
 }
 
 type LeaderboardRow = LeaderboardEntry | LadderEntry;

@@ -162,16 +162,16 @@ function mapEntryToVideo(entry: Element): YouTubeVideo | null {
   const publishedAt = text('published') || text('updated') || '';
   const updatedAt = text('updated') || undefined;
 
-  let thumbnailUrl = entry.getElementsByTagName('media:thumbnail')[0]?.getAttribute('url') || '';
+  let thumbnailUrl = entry.getElementsByTagName('media:thumbnail')[0]?.getAttribute?.('url') || '';
   if (!thumbnailUrl) {
     thumbnailUrl = entry.getElementsByTagName('thumbnail')[0]?.getAttribute?.('url') || '';
   }
 
   // video URL
   const links = Array.from(entry.getElementsByTagName('link'));
-  const alt = links.find((l) => l.getAttribute('rel') === 'alternate');
+  const alt = links.find((l) => l.getAttribute?.('rel') === 'alternate');
   const videoUrl =
-    alt?.getAttribute('href') || (ytId ? `https://www.youtube.com/watch?v=${ytId}` : '');
+    alt?.getAttribute?.('href') || (ytId ? `https://www.youtube.com/watch?v=${ytId}` : '');
 
   // author/channel name
   const author =

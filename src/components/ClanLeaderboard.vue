@@ -1,8 +1,26 @@
 <script setup lang="ts">
-import { ref, inject } from 'vue';
+import { ref, inject, onBeforeUnmount } from 'vue';
 import type { ClanEntry } from '../api-types';
 
 const props = defineProps<{ clans: ClanEntry[]; id?: string }>();
+
+// Track active timeouts for cleanup
+const activeTimeouts = new Set<ReturnType<typeof setTimeout>>();
+
+function trackTimeout(fn: () => void, delay: number): ReturnType<typeof setTimeout> {
+  const id = setTimeout(() => {
+    activeTimeouts.delete(id);
+    fn();
+  }, delay);
+  activeTimeouts.add(id);
+  return id;
+}
+
+// Clean up on unmount
+onBeforeUnmount(() => {
+  activeTimeouts.forEach((id) => clearTimeout(id));
+  activeTimeouts.clear();
+});
 
 // Base path for GitHub Pages deployment (see main.ts)
 const appBase = inject<string>('appBase', '/');
@@ -19,17 +37,24 @@ function copyLeaderboardLink() {
 
   const url = `${window.location.origin}${appBase}statistics#${props.id}`;
 
-  navigator.clipboard.writeText(url).then(() => {
-    copied.value = true;
-    showCopiedToast.value = true;
+  navigator.clipboard
+    .writeText(url)
+    .then(() => {
+      copied.value = true;
+      showCopiedToast.value = true;
 
-    setTimeout(() => {
-      showCopiedToast.value = false;
-      setTimeout(() => {
-        copied.value = false;
-      }, 200);
-    }, 2000);
-  });
+      trackTimeout(() => {
+        showCopiedToast.value = false;
+        trackTimeout(() => {
+          copied.value = false;
+        }, 200);
+      }, 2000);
+    })
+    .catch((err: unknown) => {
+      if (import.meta.env.DEV) {
+        console.warn('Failed to copy link to clipboard:', err);
+      }
+    });
 }
 </script>
 

@@ -507,6 +507,10 @@ trackTimeout(() => {
 
 **Files using this pattern:**
 - `FAQ.vue` - Toast auto-hide and scroll-to-question delays
+- `LeaderboardGroup.vue` - Toast auto-hide for copy link feedback
+- `ClanLeaderboard.vue` - Toast auto-hide for copy link feedback
+- `EventCalendar.vue` - Toast auto-hide for copy link feedback
+- `Statistics.vue` - Hash navigation highlight animation delays
 
 ### Hydration Best Practices
 

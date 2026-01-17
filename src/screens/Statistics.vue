@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, watch, nextTick } from 'vue';
+import { computed, ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import { ANCHOR_HIGHLIGHT_DELAY } from '../constants';
 import { useScrollToElement } from '../composables/useScrollToElement';
 import Leaderboards from '../components/Leaderboards.vue';
@@ -29,6 +29,24 @@ const leaderboardData = computed<LeaderboardDataRecord>(() => ({
   ladder: props.data.ladder,
 }));
 
+// Track active timeouts for cleanup
+const activeTimeouts = new Set<ReturnType<typeof setTimeout>>();
+
+function trackTimeout(fn: () => void, delay: number): ReturnType<typeof setTimeout> {
+  const id = setTimeout(() => {
+    activeTimeouts.delete(id);
+    fn();
+  }, delay);
+  activeTimeouts.add(id);
+  return id;
+}
+
+// Clean up on unmount
+onBeforeUnmount(() => {
+  activeTimeouts.forEach((id) => clearTimeout(id));
+  activeTimeouts.clear();
+});
+
 // Ref to Leaderboards component for deep linking
 const leaderboardsRef = ref<InstanceType<typeof Leaderboards> | null>(null);
 const { scrollToElement } = useScrollToElement();
@@ -42,7 +60,7 @@ function handleHashNavigation() {
 
   // Wait for component to render
   nextTick(() => {
-    setTimeout(() => {
+    trackTimeout(() => {
       // Parse hash: could be "high-scores-infantry" -> scroll to "high-scores", set tab to "infantry"
       const parts = hash.split('-');
       let elementId = hash;
@@ -65,9 +83,9 @@ function handleHashNavigation() {
         });
 
         // Add highlight effect to draw attention (delay for consistency with FAQ)
-        setTimeout(() => {
+        trackTimeout(() => {
           element.classList.add('anchor-highlight');
-          setTimeout(() => {
+          trackTimeout(() => {
             element.classList.remove('anchor-highlight');
           }, 2000);
         }, ANCHOR_HIGHLIGHT_DELAY);
