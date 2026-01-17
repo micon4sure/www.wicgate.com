@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { isr: 1800 },              // Home with stats - ISR 30 min
     '/statistics': { isr: 1800 },    // Leaderboards - ISR 30 min
-    '/community': { isr: 1800 },     // Events/videos - ISR 30 min
+    '/community': { isr: 1800 },     // Events/videos/twitch - ISR 30 min
     '/downloads': { prerender: true },
     '/faq': { prerender: true },
     '/login': { ssr: false },

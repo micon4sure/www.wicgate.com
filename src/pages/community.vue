@@ -8,6 +8,7 @@ import FAQ from '~/screens/FAQ.vue';
 import { useStatisticsData } from '~/composables/useStatisticsData';
 import { useEventsData } from '~/composables/useEventsData';
 import { useVideosData } from '~/composables/useVideosData';
+import { useTwitchData } from '~/composables/useTwitchData';
 import { useCalendarStore } from '~/stores/calendarStore';
 import { useYoutubeStore } from '~/stores/youtubeStore';
 import { useViewportMode } from '~/composables/useViewportMode';
@@ -34,6 +35,7 @@ usePageSeo({
 const { statisticsData, clansData, loading: statsLoading } = useStatisticsData();
 const { events } = useEventsData();
 const { videos } = useVideosData();
+const { streams: twitchStreams } = useTwitchData();
 
 // Hydrate stores with server data (client-side only)
 const calendarStore = useCalendarStore();
@@ -73,7 +75,7 @@ const showAllSections = computed(() => !isSSR && isMobileMode.value);
     <!-- Mobile: render all sections -->
     <template v-if="showAllSections">
       <WidgetDashboard :ladder="statisticsData?.ladder ?? []" :stats-loading="statsLoading" />
-      <Community />
+      <Community :twitch-streams="twitchStreams" />
       <Statistics :data="statisticsData" :loading="statsLoading" :clans="clansData" />
       <Downloads />
       <FAQ />
@@ -81,7 +83,7 @@ const showAllSections = computed(() => !isSSR && isMobileMode.value);
 
     <!-- Desktop: render only community -->
     <template v-else>
-      <Community />
+      <Community :twitch-streams="twitchStreams" />
     </template>
   </div>
 </template>

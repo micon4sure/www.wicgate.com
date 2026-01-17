@@ -1283,6 +1283,13 @@ See [Scroll & Navigation System](#scroll--navigation-system) for full documentat
 **[usePlayerDisplay.ts](../src/composables/usePlayerDisplay.ts)** - Player name parsing/colorization with memoization
 **[useInternalLinks.ts](../src/composables/useInternalLinks.ts)** - Client-side navigation for internal links in v-html content (click interception pattern - industry standard used by Gatsby, Nuxt, Next.js); intercepts `.internal-link` clicks and routes through Vue Router for SPA transitions instead of full page reloads
 
+**Server-Side Data Fetching Composables (ISR):**
+These composables use Nuxt's `useFetch` for server-side data fetching with ISR caching. Data is fetched on the server and serialized into the HTML payload for crawlers/SEO.
+**[useStatisticsData.ts](../src/composables/useStatisticsData.ts)** - Leaderboard and ladder data
+**[useEventsData.ts](../src/composables/useEventsData.ts)** - Community events from Discord
+**[useVideosData.ts](../src/composables/useVideosData.ts)** - YouTube video feeds (XML parsing)
+**[useTwitchData.ts](../src/composables/useTwitchData.ts)** - Twitch stream status for crawlers (transforms API response to `TwitchStreamsMap`)
+
 **When to use `useInternalLinks` vs `<router-link>`:**
 - **Vue templates:** Use `<router-link to="/path">` directly - Vue Router handles it natively
 - **v-html content:** Use `useInternalLinks` composable - Vue can't process `<router-link>` in raw HTML strings

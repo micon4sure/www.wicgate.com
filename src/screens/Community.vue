@@ -3,11 +3,17 @@ import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useYoutubeStore } from '../stores/youtubeStore';
 import type { YouTubeVideo } from '../api-types';
+import type { TwitchStreamsMap } from '../composables/useTwitchData';
 import TwitchFacade from '../components/TwitchFacade.vue';
 import VideosSkeleton from '../components/skeletons/VideosSkeleton.vue';
 import TabContainer from '../components/TabContainer.vue';
 import YouTubeTheater from '../components/YouTubeTheater.vue';
 import EventCalendar from '../components/EventCalendar.vue';
+
+// Props - server-provided Twitch data for SSR
+const props = defineProps<{
+  twitchStreams?: TwitchStreamsMap;
+}>();
 
 // SSR detection
 const isSSR = import.meta.server;
@@ -97,6 +103,7 @@ const twitchRefs = ref<Record<string, InstanceType<typeof TwitchFacade> | null>>
             <TwitchFacade
               :ref="(el) => (twitchRefs[u] = el as InstanceType<typeof TwitchFacade> | null)"
               :channel="u"
+              :server-stream="props.twitchStreams?.[u.toLowerCase()]"
               muted
             />
             <div

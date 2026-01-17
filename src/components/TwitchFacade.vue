@@ -2,8 +2,13 @@
 import { ref, computed, onActivated } from 'vue';
 import TwitchEmbed from './TwitchEmbed.vue';
 import { useTwitchStreams, getThumbnailUrl } from '../composables/useTwitchStreams';
+import type { TwitchStream } from '../api-types';
 
-const props = defineProps<{ channel: string; muted?: boolean }>();
+const props = defineProps<{
+  channel: string;
+  muted?: boolean;
+  serverStream?: TwitchStream | undefined; // Pre-fetched stream data from server
+}>();
 
 // Get stream status from composable (shared state, fetches all channels once)
 const { getStream, isLoading } = useTwitchStreams();
@@ -11,8 +16,8 @@ const { getStream, isLoading } = useTwitchStreams();
 // User clicked to load iframe
 const isActivated = ref(false);
 
-// Stream data for this channel
-const stream = computed(() => getStream(props.channel));
+// Stream data for this channel - use server data if provided, otherwise fall back to client fetch
+const stream = computed(() => props.serverStream || getStream(props.channel));
 const isLive = computed(() => stream.value !== null);
 
 // Thumbnail with proper dimensions (16:9 aspect ratio)
