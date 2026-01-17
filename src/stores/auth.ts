@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import type { User, LoginCredentials, AuthError } from '../types/auth';
 
 const AUTH_TOKEN_KEY = 'wicgate_auth_token';
@@ -56,11 +56,11 @@ export const useAuthStore = defineStore('auth', () => {
         localStorage.setItem(AUTH_USERNAME_KEY, credentials.username);
         localStorage.setItem(AUTH_TYPE_KEY, 'admin');
       }
-    } catch (e: unknown) {
-      const axiosError = e as { response?: { data?: { error?: string } }; message?: string };
-      const message = axiosError.response?.data?.error || axiosError.message || 'Login failed';
-      error.value = message;
-      throw { message, code: 'LOGIN_FAILED' } as AuthError;
+    } catch (e) {
+      const axiosError = e as AxiosError<{ error?: string }>;
+      const errorMessage = axiosError.response?.data?.error || axiosError.message || 'Login failed';
+      error.value = errorMessage;
+      throw { message: errorMessage, code: 'LOGIN_FAILED' } as AuthError;
     } finally {
       loading.value = false;
     }
@@ -96,11 +96,11 @@ export const useAuthStore = defineStore('auth', () => {
         localStorage.setItem(AUTH_USERNAME_KEY, email);
         localStorage.setItem(AUTH_TYPE_KEY, 'user');
       }
-    } catch (e: unknown) {
-      const axiosError = e as { response?: { data?: { error?: string } }; message?: string };
-      const message = axiosError.response?.data?.error || axiosError.message || 'Login failed';
-      error.value = message;
-      throw { message, code: 'LOGIN_FAILED' } as AuthError;
+    } catch (e) {
+      const axiosError = e as AxiosError<{ error?: string }>;
+      const errorMessage = axiosError.response?.data?.error || axiosError.message || 'Login failed';
+      error.value = errorMessage;
+      throw { message: errorMessage, code: 'LOGIN_FAILED' } as AuthError;
     } finally {
       loading.value = false;
     }

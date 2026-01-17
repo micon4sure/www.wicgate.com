@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import type { LeaderboardEntry, LadderEntry, ClanEntry } from '../api-types';
-import { computed } from 'vue';
 import LeaderboardGroup from './LeaderboardGroup.vue';
 import ClanLeaderboard from './ClanLeaderboard.vue';
 

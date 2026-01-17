@@ -39,13 +39,15 @@ const manualView = ref<'auto' | 'videos' | 'events'>('auto');
 const seenVideoIds = ref<Set<string>>(new Set());
 
 onMounted(() => {
-  // Load seen videos from localStorage
-  const stored = localStorage.getItem('seenVideoIds');
-  if (stored) {
-    try {
-      seenVideoIds.value = new Set(JSON.parse(stored));
-    } catch {
-      seenVideoIds.value = new Set();
+  // Load seen videos from localStorage (SSR guard)
+  if (typeof window !== 'undefined') {
+    const stored = localStorage.getItem('seenVideoIds');
+    if (stored) {
+      try {
+        seenVideoIds.value = new Set(JSON.parse(stored));
+      } catch {
+        seenVideoIds.value = new Set();
+      }
     }
   }
 });
@@ -57,7 +59,9 @@ watch(
     if (videos.length > 0 && manualView.value !== 'events') {
       const ids = videos.slice(0, 3).map((v) => v.id);
       ids.forEach((id) => seenVideoIds.value.add(id));
-      localStorage.setItem('seenVideoIds', JSON.stringify([...seenVideoIds.value]));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('seenVideoIds', JSON.stringify([...seenVideoIds.value]));
+      }
     }
   },
   { immediate: true }
@@ -98,7 +102,9 @@ function showVideos() {
   manualView.value = 'videos';
   // Mark current videos as seen
   latestVideos.value.forEach((v) => seenVideoIds.value.add(v.id));
-  localStorage.setItem('seenVideoIds', JSON.stringify([...seenVideoIds.value]));
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('seenVideoIds', JSON.stringify([...seenVideoIds.value]));
+  }
 }
 
 // Switch to events view

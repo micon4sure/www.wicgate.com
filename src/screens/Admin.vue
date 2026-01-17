@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { computed, onMounted, ref, watch, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore, SERVER_URL } from '../stores/auth';
@@ -100,110 +100,187 @@ function parseRemoteAdminResponse(input: string): Player | null {
 // API Functions
 async function fetchMainLog() {
   if (!token.value) return;
-  const response = await axios.get(SERVER_URL + '/log', {
-    headers: { Authorization: `Bearer ${token.value}` },
-  });
-  log.value = response.data.reverse();
+  try {
+    const response = await axios.get(SERVER_URL + '/log', {
+      headers: { Authorization: `Bearer ${token.value}` },
+    });
+    log.value = response.data.reverse();
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Failed to fetch main log');
+  }
 }
 
 async function fetchServers() {
   if (!token.value) return;
-  const response = await axios.get(SERVER_URL + '/servers', {
-    headers: { Authorization: `Bearer ${token.value}` },
-  });
-  servers.value = response.data;
+  try {
+    const response = await axios.get(SERVER_URL + '/servers', {
+      headers: { Authorization: `Bearer ${token.value}` },
+    });
+    servers.value = response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Failed to fetch servers');
+  }
 }
 
 async function fetchServerLog() {
   if (!activeServer.value || !token.value) return;
-  const response = await axios.get(SERVER_URL + '/server-log/' + activeServer.value.id, {
-    headers: { Authorization: `Bearer ${token.value}` },
-  });
-  serverLog.value = response.data.split('\n').reverse();
+  try {
+    const response = await axios.get(SERVER_URL + '/server-log/' + activeServer.value.id, {
+      headers: { Authorization: `Bearer ${token.value}` },
+    });
+    serverLog.value = response.data.split('\n').reverse();
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Failed to fetch server log');
+  }
 }
 
 async function fetchServerIni() {
   if (!activeServer.value || !token.value) return;
-  const response = await axios.get(SERVER_URL + '/server-ini/' + activeServer.value.id, {
-    headers: { Authorization: `Bearer ${token.value}` },
-  });
-  serverIni.value = response.data.content;
+  try {
+    const response = await axios.get(SERVER_URL + '/server-ini/' + activeServer.value.id, {
+      headers: { Authorization: `Bearer ${token.value}` },
+    });
+    serverIni.value = response.data.content;
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Failed to fetch server ini');
+  }
 }
 
 async function fetchServerCycle() {
   if (!activeServer.value || !token.value) return;
-  const response = await axios.get(SERVER_URL + '/server-cycle/' + activeServer.value.id, {
-    headers: { Authorization: `Bearer ${token.value}` },
-  });
-  serverCycle.value = response.data.content;
+  try {
+    const response = await axios.get(SERVER_URL + '/server-cycle/' + activeServer.value.id, {
+      headers: { Authorization: `Bearer ${token.value}` },
+    });
+    serverCycle.value = response.data.content;
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Failed to fetch server cycle');
+  }
 }
 
 async function saveIni() {
   if (!activeServer.value || !token.value) return;
-  const response = await axios.post(
-    SERVER_URL + '/server-ini/' + activeServer.value.id,
-    { content: serverIni.value },
-    { headers: { Authorization: `Bearer ${token.value}` } }
-  );
-  message.value = datePrefix() + response.data.message;
+  try {
+    const response = await axios.post(
+      SERVER_URL + '/server-ini/' + activeServer.value.id,
+      { content: serverIni.value },
+      { headers: { Authorization: `Bearer ${token.value}` } }
+    );
+    message.value = datePrefix() + response.data.message;
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Failed to save ini');
+  }
 }
 
 async function saveCycle() {
   if (!activeServer.value || !token.value) return;
-  const response = await axios.post(
-    SERVER_URL + '/server-cycle/' + activeServer.value.id,
-    { content: serverCycle.value },
-    { headers: { Authorization: `Bearer ${token.value}` } }
-  );
-  message.value = datePrefix() + response.data.message;
+  try {
+    const response = await axios.post(
+      SERVER_URL + '/server-cycle/' + activeServer.value.id,
+      { content: serverCycle.value },
+      { headers: { Authorization: `Bearer ${token.value}` } }
+    );
+    message.value = datePrefix() + response.data.message;
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Failed to save cycle');
+  }
 }
 
 async function restartServer(serverId: string) {
   if (!token.value) return;
-  await axios.post(
-    SERVER_URL + '/server-restart/' + serverId,
-    {},
-    {
-      headers: { Authorization: `Bearer ${token.value}` },
-    }
-  );
-  sync();
+  try {
+    await axios.post(
+      SERVER_URL + '/server-restart/' + serverId,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token.value}` },
+      }
+    );
+    sync();
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Failed to restart server');
+  }
 }
 
 async function stopServer(serverId: string) {
   if (!token.value) return;
-  await axios.post(
-    SERVER_URL + '/server-stop/' + serverId,
-    {},
-    {
-      headers: { Authorization: `Bearer ${token.value}` },
-    }
-  );
-  sync();
+  try {
+    await axios.post(
+      SERVER_URL + '/server-stop/' + serverId,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token.value}` },
+      }
+    );
+    sync();
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Failed to stop server');
+  }
 }
 
 async function startServer(serverId: string) {
   if (!token.value) return;
-  await axios.post(
-    SERVER_URL + '/server-start/' + serverId,
-    {},
-    {
-      headers: { Authorization: `Bearer ${token.value}` },
-    }
-  );
-  sync();
+  try {
+    await axios.post(
+      SERVER_URL + '/server-start/' + serverId,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token.value}` },
+      }
+    );
+    sync();
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Failed to start server');
+  }
 }
 
 async function refreshServers() {
   if (!token.value) return;
-  await axios.post(
-    SERVER_URL + '/refresh',
-    {},
-    {
-      headers: { Authorization: `Bearer ${token.value}` },
-    }
-  );
-  sync();
+  try {
+    await axios.post(
+      SERVER_URL + '/refresh',
+      {},
+      {
+        headers: { Authorization: `Bearer ${token.value}` },
+      }
+    );
+    sync();
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Failed to refresh servers');
+  }
 }
 
 async function postRemoteAdminCommand(command: string) {
@@ -214,9 +291,11 @@ async function postRemoteAdminCommand(command: string) {
       { serverId: activeServer.value.id, command },
       { headers: { Authorization: `Bearer ${token.value}` } }
     );
-  } catch (error: unknown) {
-    const axiosError = error as { message?: string };
-    message.value = datePrefix() + axiosError.message;
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    message.value =
+      datePrefix() +
+      (axiosError.response?.data?.error || axiosError.message || 'Remote admin command failed');
   }
 }
 
@@ -248,9 +327,10 @@ function connectRemoteAdmin() {
         { serverId: activeServer.value!.id, command: '/listplayerslots' },
         { headers: { Authorization: `Bearer ${token.value}` } }
       );
-    } catch (error: unknown) {
-      const axiosError = error as { response?: { data?: { error?: string } } };
-      message.value = datePrefix() + (axiosError.response?.data?.error || 'Error');
+    } catch (error) {
+      const axiosError = error as AxiosError<{ error?: string }>;
+      message.value =
+        datePrefix() + (axiosError.response?.data?.error || axiosError.message || 'Error');
     }
   };
   remoteAdminWs.onmessage = (event) => {
@@ -260,8 +340,9 @@ function connectRemoteAdmin() {
       players.value.push(player);
     }
   };
-  remoteAdminWs.onerror = (error) => {
-    console.error('Remote admin WebSocket error', error);
+  remoteAdminWs.onerror = () => {
+    console.error('Remote admin WebSocket error');
+    message.value = datePrefix() + 'WebSocket connection error';
   };
   remoteAdminWs.onclose = () => {
     console.log('Remote admin WebSocket closed');
