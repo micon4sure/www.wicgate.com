@@ -156,7 +156,7 @@ async function handleMobileNavigation(sectionId: string) {
     <div class="header-inner">
       <!-- WICGATE Logo -->
       <div class="logo-wrapper">
-        <img :src="'/wicgate-white.png'" alt="WICGATE" class="logo-image" />
+        <img :src="'/wicgate-logo.png'" alt="WICGATE" class="logo-image" />
       </div>
 
       <!-- Desktop navigation (left-aligned) -->

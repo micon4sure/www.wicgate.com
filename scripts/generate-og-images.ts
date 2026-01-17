@@ -47,7 +47,7 @@ function createOverlaySvg(): Buffer {
 
 async function generateOgImage(filename: string): Promise<void> {
   const heroPath = resolve(PUBLIC_DIR, 'wasteland.jpg');
-  const wicgateLogoPath = resolve(PUBLIC_DIR, 'wicgate-white.png');
+  const wicgateLogoPath = resolve(PUBLIC_DIR, 'wicgate-logo.png');
   const wicLogoPath = resolve(PUBLIC_DIR, 'wic-logo.png');
   const outputPath = resolve(PUBLIC_DIR, filename);
 
