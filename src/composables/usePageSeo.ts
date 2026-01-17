@@ -193,6 +193,26 @@ export function usePageSeo(options: PageSeoOptions) {
         property: 'og:image',
         content: pageOgImage,
       },
+      {
+        property: 'og:site_name',
+        content: 'WICGATE',
+      },
+      {
+        property: 'og:locale',
+        content: 'en_US',
+      },
+      {
+        property: 'og:image:width',
+        content: '1200',
+      },
+      {
+        property: 'og:image:height',
+        content: '630',
+      },
+      {
+        property: 'og:image:type',
+        content: 'image/jpeg',
+      },
       // Twitter Card
       {
         key: 'twitter:card',
@@ -213,6 +233,10 @@ export function usePageSeo(options: PageSeoOptions) {
         key: 'twitter:image',
         name: 'twitter:image',
         content: pageOgImage,
+      },
+      {
+        name: 'twitter:site',
+        content: '@WicGate',
       },
     ],
     link: [

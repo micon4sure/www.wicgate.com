@@ -687,7 +687,66 @@ script: [
 - Twitter Card tags
 - Canonical URLs
 - JSON-LD structured data (Organization schema on all pages, WebSite schema on homepage)
-- Noindex meta tags for login/admin pages
+- Noindex meta tags for login/admin pages (`/login`, `/admin`, `/admin-login`, `/user`)
+
+### OpenGraph & Twitter Card Tags (January 2026)
+
+**Comprehensive social sharing meta tags** configured in `usePageSeo.ts`:
+
+**OpenGraph Tags:**
+| Tag | Value | Purpose |
+|-----|-------|---------|
+| `og:title` | Page title | Social share title |
+| `og:description` | Page description | Social share description |
+| `og:type` | "website" | Content type |
+| `og:url` | Canonical URL | Share URL |
+| `og:image` | `/og-default.jpg` | 1200x630 preview image |
+| `og:site_name` | "WICGATE" | Site identity |
+| `og:locale` | "en_US" | Language/region |
+| `og:image:width` | "1200" | Image dimensions for proper rendering |
+| `og:image:height` | "630" | Image dimensions for proper rendering |
+| `og:image:type` | "image/jpeg" | Image MIME type |
+
+**Twitter Card Tags:**
+| Tag | Value | Purpose |
+|-----|-------|---------|
+| `twitter:card` | "summary_large_image" | Large image card format |
+| `twitter:title` | Page title | Card title |
+| `twitter:description` | Page description | Card description |
+| `twitter:image` | OG image URL | Card preview image |
+| `twitter:site` | "@WicGate" | Site's Twitter handle |
+
+**Global Head Tags (nuxt.config.ts):**
+- `theme-color`: `#1a1a1a` (matches PWA manifest, affects browser chrome on mobile)
+- `apple-touch-icon`: `/pwa-192x192.png` (iOS home screen icon, set in `app.vue`)
+
+### JSON-LD Language Attribution (January 2026)
+
+All major JSON-LD schemas include `inLanguage: 'en'` for proper language identification:
+
+**Schemas with `inLanguage`:**
+- `generateOrganizationSchema()` - Organization info
+- `generateWebSiteSchema()` - Site-wide search action
+- `generateWebPageSchema()` - Individual page structure
+- `generateVideoGameSchema()` - World in Conflict game info
+
+```typescript
+// Example: structuredData.ts
+export function generateOrganizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'WICGATE',
+    // ... other properties
+    inLanguage: 'en',  // Language attribution
+  };
+}
+```
+
+**Benefits:**
+- Helps search engines understand content language
+- Improves accuracy of language-based search results
+- Better support for international SEO
 
 ---
 

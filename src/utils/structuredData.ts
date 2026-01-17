@@ -39,13 +39,14 @@ export function generateOrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'WICGATE',
-    alternateName: 'World in Conflict Community Gateway',
+    alternateName: 'World in Conflict Online Multiplayer Reloaded',
     url: 'https://wicgate.com',
     logo: 'https://wicgate.com/logo.png',
     description:
       'Community-driven initiative to preserve World in Conflict multiplayer using the official Massgate source code.',
     sameAs: [DISCORD_URL, YOUTUBE_URL, 'https://github.com/wicgate'],
     foundingDate: '2024',
+    inLanguage: 'en',
   };
 }
 
@@ -144,6 +145,7 @@ export function generateWebSiteSchema() {
     name: 'WICGATE',
     url: 'https://wicgate.com',
     description: 'World in Conflict multiplayer revival - Join our community servers',
+    inLanguage: 'en',
     potentialAction: {
       '@type': 'SearchAction',
       target: 'https://wicgate.com/?s={search_term_string}',
@@ -164,6 +166,7 @@ export function generateVideoGameSchema() {
     description: 'Real-time strategy game set in an alternate 1989 where World War III breaks out',
     gamePlatform: 'PC',
     genre: ['Real-time strategy', 'Military'],
+    inLanguage: 'en',
     publisher: {
       '@type': 'Organization',
       name: 'Ubisoft',
@@ -300,6 +303,7 @@ export function generateWebPageSchema(
     url: `https://wicgate.com${path}`,
     name,
     description,
+    inLanguage: 'en',
     isPartOf: {
       '@type': 'WebSite',
       '@id': 'https://wicgate.com/#website',

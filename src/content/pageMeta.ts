@@ -90,6 +90,18 @@ export const PAGE_META: Record<string, PageMetaDefinition> = {
     keywords: '',
     robots: 'noindex, nofollow',
   },
+  '/admin-login': {
+    title: 'WICGATE | Admin Login',
+    description: 'WICGATE admin login',
+    keywords: '',
+    robots: 'noindex, nofollow',
+  },
+  '/user': {
+    title: 'WICGATE | User Profile',
+    description: 'WICGATE user profile',
+    keywords: '',
+    robots: 'noindex, nofollow',
+  },
 };
 
 // Validate all descriptions for SEO optimal length (150-160 chars)
